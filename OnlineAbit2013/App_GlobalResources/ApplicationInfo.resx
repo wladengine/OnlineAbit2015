@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicationCanceled" xml:space="preserve">
+    <value>Вы отозвали это заявление. Файл с заявлением об отказе был приложен в раздел "Общие документы".</value>
+  </data>
+  <data name="ApplicationChange" xml:space="preserve">
+    <value>Редактировать заявление</value>
+  </data>
+  <data name="ApplicationDelete" xml:space="preserve">
+    <value>Удалить заявление целиком</value>
+  </data>
+  <data name="ApplicationInfoHeader" xml:space="preserve">
+    <value>Основные сведения</value>
+  </data>
+  <data name="ApplicationPriorityChange" xml:space="preserve">
+    <value>Изменить приоритеты</value>
+  </data>
+  <data name="AppStatus" xml:space="preserve">
+    <value>Статус заявления:</value>
+  </data>
+  <data name="btnCancelApplication" xml:space="preserve">
+    <value>Отозвать заявление</value>
+  </data>
+  <data name="btnSaveChanges" xml:space="preserve">
+    <value>Сохранить изменения</value>
+  </data>
+  <data name="btnSubmit" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="btnViewMotivationalMail" xml:space="preserve">
+    <value>Просмотреть письмо</value>
+  </data>
+  <data name="CancelAppMessage" xml:space="preserve">
+    <value>&lt;h5&gt;Внимание!&lt;/h5&gt;
+    &lt;p&gt;Отзывая данное заявление, вы отказываетесь от участия в конкурсе на указанную образовательную программу.Восстановить данное заявление будет уже невозможно.&lt;/p&gt;
+    &lt;h4&gt;Вы хотите отказаться от участия в конкурсе?&lt;/h4&gt;</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Скачать заявление</value>
+  </data>
+  <data name="HeaderAddFile" xml:space="preserve">
+    <value>Добавить файл</value>
+  </data>
+  <data name="HeaderBaseInfo" xml:space="preserve">
+    <value>Основная информация</value>
+  </data>
+  <data name="HeaderDelete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="HeaderFileComments" xml:space="preserve">
+    <value>Комментарии</value>
+  </data>
+  <data name="HeaderFilename" xml:space="preserve">
+    <value>Имя файла</value>
+  </data>
+  <data name="HeaderFilesize" xml:space="preserve">
+    <value>Размер</value>
+  </data>
+  <data name="HeaderMotivationalMail" xml:space="preserve">
+    <value>Мотивационное письмо</value>
+  </data>
+  <data name="HeaderNoFiles" xml:space="preserve">
+    <value>В портфолио нет файлов</value>
+  </data>
+  <data name="HeaderPortfolio" xml:space="preserve">
+    <value>Портфолио</value>
+  </data>
+  <data name="MotivationalMailInformation" xml:space="preserve">
+    <value>&lt;/span&gt;&lt;b&gt;В мотивационном письме должны содержаться:&lt;/b&gt; 
+    &lt;ul&gt;
+        &lt;li&gt;необходимые сведения об опыте профессиональной подготовки/деятельности;&lt;/li&gt;
+        &lt;li&gt;сведения, подтверждающие необходимость получения знаний/навыков, освоение/приобретение которых возможно в период обучения на выбранной программе;&lt;/li&gt;
+        &lt;li&gt;перспективы/планы реализации полученных знаний/навыков в будущей профессиональной деятельности.&lt;/li&gt; 
+&lt;li&gt; Файл не должен содержать информацию, способствующую установлению авторства работы&lt;/li&gt;
+    &lt;/ul&gt;&lt;span&gt;</value>
+  </data>
+  <data name="ObrazProgram" xml:space="preserve">
+    <value>Образовательная программа</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>&lt;abbr title="Наивысший приоритет равен 1"&gt;Приоритет&lt;/abbr&gt;</value>
+  </data>
+  <data name="Profession" xml:space="preserve">
+    <value>Направление</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Профиль</value>
+  </data>
+  <data name="StatusActive" xml:space="preserve">
+    <value>Подано</value>
+  </data>
+  <data name="StatusCancelled" xml:space="preserve">
+    <value>Отозвано</value>
+  </data>
+  <data name="StudyForm" xml:space="preserve">
+    <value>Форма обучения</value>
+  </data>
+  <data name="Subheader" xml:space="preserve">
+    <value>Информация о заявлении</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Просмотр заявления</value>
+  </data>
+  <data name="FilesWarning1" xml:space="preserve">
+    <value>Пожалуйста, прикрепляйте общие для каждого заявления файлы (сканы паспорта / документа об образовании и т.п.) в раздел</value>
+  </data>
+  <data name="FilesWarning2" xml:space="preserve">
+    <value>В данный раздел прикрепляйте подписанный бланк заявления</value>
+  </data>
+  <data name="ViewAddFiles" xml:space="preserve">
+    <value>Просмотр/Добавить файлы</value>
+  </data>
+  <data name="AppInnerProirity" xml:space="preserve">
+    <value>Для данного конкурса Вы можете указать приоритетность образовательных программ</value>
+  </data>
+  <data name="AppDetails" xml:space="preserve">
+    <value>Просмотр условий поступления</value>
+  </data>
+  <data name="ExamsName" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="ExamsStage" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="HeaderEssay" xml:space="preserve">
+    <value>Эссе</value>
+  </data>
+  <data name="HeaderExams" xml:space="preserve">
+    <value>Экзамены</value>
+  </data>
+  <data name="LinkMainMenu" xml:space="preserve">
+    <value>Главное меню</value>
+  </data>
+  <data name="MotiveLetter" xml:space="preserve">
+    <value>Мотивационное письмо</value>
+  </data>
+  <data name="MotiveLetterDetails" xml:space="preserve">
+    <value>Подробно для иностранных граждан (на русском )</value>
+  </data>
+  <data name="PrintFormWarning1" xml:space="preserve">
+    <value>Вам следует</value>
+  </data>
+  <data name="PrintFormWarning2" xml:space="preserve">
+    <value>распечатать заявление&lt;/a&gt; и прийти с ним в приёмную комиссию</value>
+  </data>
+  <data name="AppInnerProirityProfile" xml:space="preserve">
+    <value>Для данного конкурса Вам необходимо указать приоритетность профилей</value>
+  </data>
+  <data name="DeleteApp_Warning1" xml:space="preserve">
+    <value>Внимание!</value>
+  </data>
+  <data name="DeleteApp_Warning2" xml:space="preserve">
+    <value>Вы собираетесь удалить данное заявление. Данное действие нельзя будет отменить. После удаления этого заявления, заявление об отказе от участия в конкурсе будет сформировано и сохранено в папку "Общие документы". </value>
+  </data>
+  <data name="DeleteApp_Warning3" xml:space="preserve">
+    <value>Вы действительно хотите удалить заявление?</value>
+  </data>
+  <data name="MotiveLetter_Link" xml:space="preserve">
+    <value>&lt;a href ='http://abiturient.spbu.ru/index.php/russkij/informatsiya-dlya-inostrannykh-grazhdan/protsedura-podachi-dokumentov/kriterii-otsenivaniya-dokumentov'&gt;</value>
+  </data>
+  <data name="MotiveLetterDetails2" xml:space="preserve">
+    <value>Перечень программ и вступительные испытания (на русском )</value>
+  </data>
+  <data name="MotiveLetter_Link2" xml:space="preserve">
+    <value>&lt;a href ='http://abiturient.spbu.ru/index.php/priem/magistratura/perechen-programm-i-vstupitelnye-ispytaniya-2'&gt;</value>
+  </data>
+  <data name="AppLastChanges" xml:space="preserve">
+    <value>Последние изменения были внесены:</value>
+  </data>
+  <data name="AppNoLastChanges" xml:space="preserve">
+    <value>Нет информации о версии заявления. Настоятельно рекомендуем зайти в раздел &lt;b&gt;"Приоритеты"&lt;/b&gt; и сохранить выбранную последовательность приоритетов путем нажатия кнопки &lt;b&gt;"Сохранить"&lt;/b&gt;.</value>
+  </data>
+  <data name="PrintApplicationWarning" xml:space="preserve">
+    <value>Вы собираетесь закончить формирование заявления и распечатать его.&lt;/br&gt;&lt;/br&gt;Обращаем Ваше внимание!&lt;/br&gt;&lt;/br&gt;После окончательного формирования Заявления внести изменения в список программ и изменить их приоритетность можно будет только путем  удаления данного заявления и формирования нового. Внести изменения в приоритетность профилей можно будет только путем личного обращения в Комиссию по приему документов.&lt;/br&gt;&lt;/br&gt;Вы желаете закончить формирование заявления и распечатать его?</value>
+  </data>
+  <data name="DeleteApp_Warning4" xml:space="preserve">
+    <value>Внимание!&lt;/br&gt; Вы не можете удалить заявление, поскольку в нем существует конкурс, прием на который уже закрыт. Для вас доступна функция редактирования заявления и изменения приоритетов. </value>
+  </data>
+</root>
