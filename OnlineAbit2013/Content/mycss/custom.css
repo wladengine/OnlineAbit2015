@@ -68,6 +68,15 @@ span.link
 {
     cursor: pointer;
 }
+span.alink
+{
+    color: #2B587A;
+    cursor: pointer;
+    text-decoration: none;
+    border-bottom: 1px dashed #A7B7C9;
+    margin-left:5px;
+    margin-right:15px;
+}
 table.timetable
 {
     margin: 10px 0px 10px 0px;

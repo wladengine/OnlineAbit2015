@@ -1740,6 +1740,24 @@ WHERE PersonId=@PersonId ";
                     .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
                     .ToList();
         }
+        public static List<SelectListItem> GetStudyFormBaseList()
+        {
+            bool isEng = GetCurrentThreadLanguageIsEng();
+
+            string query = "SELECT DISTINCT Id, Name, NameEng FROM StudyForm ORDER BY 1";
+            DataTable tbl = Util.AbitDB.GetDataTable(query, null);
+            return
+                (from DataRow rw in tbl.Rows
+                 select new
+                 {
+                     Value = rw.Field<int>("Id"),
+                     Text = isEng ?
+                     (string.IsNullOrEmpty(rw.Field<string>("NameEng")) ? rw.Field<string>("Name") : rw.Field<string>("NameEng"))
+                     : rw.Field<string>("Name")
+                 }).AsEnumerable()
+                    .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
+                    .ToList();
+        }
 
         public static List<SelectListItem> GetSemestrList()
         {
@@ -1878,6 +1896,8 @@ WHERE PersonId=@PersonId ";
             constant.AddInfo = 4000;
             constant.Parents = 4000;
 
+            constant.EducationDocumentsMaxCount = 4;
+
             return constant;
         }
 
@@ -1988,6 +2008,22 @@ WHERE PersonId=@PersonId ";
                 }
                 context.SaveChanges();
             }
+        }
+
+        public static List<SelectListItem> SetValue(this List<SelectListItem> lst, string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                for (int i = 0; i < lst.Count; i++)
+                {
+                    if (lst[i].Value.Equals(value, StringComparison.OrdinalIgnoreCase))
+                        lst[i].Selected = true;
+                    else
+                        lst[i].Selected = false;
+                }
+            }
+
+            return lst;
         }
     }
 }

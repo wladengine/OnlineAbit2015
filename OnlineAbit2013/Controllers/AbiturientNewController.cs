@@ -14,6 +14,7 @@ using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Net.Mail;
+using System.Data.Objects;
 
 namespace OnlineAbit2013.Controllers
 {
@@ -240,35 +241,22 @@ namespace OnlineAbit2013.Controllers
                 else if (model.Stage == 4)
                 {
                     string temp_str;
+                    model.Messages = new List<PersonalMessage>();
                     if (!isEng)
                     {
                         temp_str = "<li>Для <b>перевода в СПбГУ</b> выберите 'ВУЗ' в поле 'Тип образовательного учреждения' и 'Перевод в СПбГУ' в поле 'Тип поступления'<br>"
                                         + "<br><li>Для <b>восстановления в СПбГУ</b> выберите 'ВУЗ' в поле 'Тип образовательного учреждения' и 'Восстановление в СПбГУ' в поле 'Тип поступления'<br>"
                                          + "<br><li>Для <b>смены образовательной программы, формы и основы обучения</b> выберите 'ВУЗ' в поле 'Тип образовательного учреждения' и 'Перевод внутри СПбГУ' в поле 'Тип поступления'<br>"
                                          + "<br>В остальных случаях выбирайте  'тип образовательного учреждения' в соответствии с имеющимся у вас образованием.";
-                        model.Messages = new List<PersonalMessage>();
                         model.Messages.Add(new PersonalMessage() { Id = "0", Type = MessageType.TipMessage, Text = temp_str });
                     }
+
                     model.EducationInfo = new EducationPerson();
-                    var PersonEducationDocument = Person.PersonEducationDocument.FirstOrDefault();
-                    var PersonHighEducationInfo = Person.PersonHighEducationInfo;
-                    var PersonAddInfo = Person.PersonAddInfo;
-
-                    //if (PersonEducationDocument == null)
-                    //    PersonEducationDocument = new OnlineAbit2013.PersonEducationDocument();
-                    if (PersonHighEducationInfo == null)
-                        PersonHighEducationInfo = new OnlineAbit2013.PersonHighEducationInfo();
-
                     model.EducationInfo.QualificationList = Util.GetQualificationList(isEng);
-                    model.EducationInfo.SchoolTypeList = Util.SchoolTypesAll.Select(x => new SelectListItem() { Value = x.Key.ToString(), Text = x.Value }).ToList();
-                    model.EducationInfo.StudyFormList = Util.GetStudyFormList();
-                    model.EducationInfo.StudyBasisList = Util.GetStudyBasisList();
-                    model.EducationInfo.LanguageList = Util.GetLanguageList();
-                    model.EducationInfo.CountryList = Util.GetCountryList();
-
+                    
                     query = "SELECT Id, Name, NameEng FROM SchoolTypeAll";
                     DataTable _tblT = Util.AbitDB.GetDataTable(query, null);
-                    model.EducationInfo.SchoolTypeList =
+                    var SchoolTypeList =
                         (from DataRow rw in _tblT.Rows
                          select new SelectListItem()
                          {
@@ -278,76 +266,125 @@ namespace OnlineAbit2013.Controllers
                                         : rw.Field<string>("Name"))
                          }).ToList();
 
-                    model.EducationInfo.SchoolName = Server.HtmlDecode(PersonEducationDocument.SchoolName);
-                    model.EducationInfo.SchoolNumber = Server.HtmlDecode(PersonEducationDocument.SchoolNum);
-                    model.EducationInfo.SchoolExitYear = Server.HtmlDecode(PersonEducationDocument.SchoolExitYear);
-                    model.EducationInfo.SchoolCity = Server.HtmlDecode(PersonEducationDocument.SchoolCity);
-
-                    model.EducationInfo.AvgMark = PersonEducationDocument.AvgMark.HasValue ? PersonEducationDocument.AvgMark.Value.ToString() : "";
-                    model.EducationInfo.IsExcellent = PersonEducationDocument.IsExcellent;
-                    model.EducationInfo.StartEnglish = PersonAddInfo.StartEnglish;
-                    model.EducationInfo.EnglishMark = PersonAddInfo.EnglishMark.ToString();
-
-                    model.EducationInfo.HasTRKI = PersonAddInfo.HasTRKI;
-                    model.EducationInfo.TRKICertificateNumber = PersonAddInfo.TRKICertificateNumber;
-                    model.EducationInfo.IsEqual = PersonEducationDocument.IsEqual;
-                    model.EducationInfo.EqualityDocumentNumber = PersonEducationDocument.EqualDocumentNumber;
-                    // добавить сортировку по Name
+                    model.EducationInfo.RegionList = Util.RegionsAll
+                        .Select(x => new SelectListItem() { Value = x.Key.ToString(), Text = x.Value }).ToList();
+                    model.EducationInfo.SchoolTypeList = SchoolTypeList;
                     model.EducationInfo.SchoolExitClassList = context.SchoolExitClass.OrderBy(x => x.IntValue)
-                        .Select(x => new { x.Id, x.Name }).ToList()
-                        .Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
+                            .Select(x => new { x.Id, x.Name }).ToList()
+                            .Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name })
+                            .ToList();
+                    model.EducationInfo.VuzAdditionalTypeList = context.VuzAdditionalType
+                            .Select(x => new { x.Id, Name = isEng ? x.NameEng : x.Name }).ToList()
+                            .Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() })
+                            .ToList();
+                    model.EducationInfo.StudyFormList = Util.GetStudyFormBaseList();
+                    model.EducationInfo.CountryList = Util.GetCountryList();
 
-                    model.EducationInfo.VuzAdditionalTypeList = isEng? context.VuzAdditionalType.Select(x => new { x.Id, x.NameEng }).ToList()
-                        .Select(x => new SelectListItem() { Text = x.NameEng, Value = x.Id.ToString() }).ToList(): 
-                    context.VuzAdditionalType.Select(x => new { x.Id, x.Name }).ToList()
-                        .Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
 
-                    model.EducationInfo.RegionList = Util.RegionsAll.Select(x => new SelectListItem() { Value = x.Key.ToString(), Text = x.Value }).ToList();
-                    model.EducationInfo.RegionEducId = Server.HtmlDecode(PersonEducationDocument.RegionEducId.ToString());
+                    //-----------------EducationDocuments-------------------------
+                    model.EducationInfo.EducationDocumentsMaxCount = Util.getConstInfo().EducationDocumentsMaxCount ?? 5;
 
-                    model.EducationInfo.SchoolExitClassId = Server.HtmlDecode(PersonEducationDocument.SchoolExitClassId.ToString());
-                    model.EducationInfo.VuzAdditionalTypeId = Server.HtmlDecode(PersonEducationDocument.VuzAdditionalTypeId.ToString());
+                    var PersonEducationDocumentList = Person.PersonEducationDocument.ToList();
+                    model.EducationInfo.EducationDocuments = new List<EducationDocumentPerson>();
+                    foreach (var PersonEducationDocument in PersonEducationDocumentList)
+                    {
+                        var EPD = new EducationDocumentPerson();
 
-                    model.EducationInfo.HEExitYear = Server.HtmlDecode(PersonHighEducationInfo.ExitYear.ToString());
-                    model.EducationInfo.HEEntryYear = Server.HtmlDecode(PersonHighEducationInfo.EntryYear.ToString());
+                        EPD.sId = PersonEducationDocument.Id.ToString();
+                        EPD.SchoolTypeList = SchoolTypeList.SetValue(PersonEducationDocument.SchoolTypeId.ToString());
+                        EPD.SchoolTypeId = PersonEducationDocument.SchoolTypeId.ToString();
 
-                    model.EducationInfo.DiplomSeries = Server.HtmlDecode(PersonEducationDocument.Series);
-                    model.EducationInfo.DiplomNumber = Server.HtmlDecode(PersonEducationDocument.Number);
-                    model.EducationInfo.ProgramName = Server.HtmlDecode(PersonHighEducationInfo.ProgramName);
-                    model.EducationInfo.DiplomTheme = Server.HtmlDecode(PersonHighEducationInfo.DiplomaTheme);
+                        EPD.SchoolName = Server.HtmlDecode(PersonEducationDocument.SchoolName);
+                        EPD.SchoolNumber = Server.HtmlDecode(PersonEducationDocument.SchoolNum);
+                        EPD.SchoolExitYear = Server.HtmlDecode(PersonEducationDocument.SchoolExitYear);
+                        EPD.SchoolCity = Server.HtmlDecode(PersonEducationDocument.SchoolCity);
+                        EPD.AvgMark = PersonEducationDocument.AvgMark.HasValue ? PersonEducationDocument.AvgMark.Value.ToString() : "";
+                        EPD.IsExcellent = PersonEducationDocument.IsExcellent;
+                        EPD.IsEqual = PersonEducationDocument.IsEqual;
+                        EPD.EqualityDocumentNumber = PersonEducationDocument.EqualDocumentNumber;
+
+                        EPD.RegionList = Util.RegionsAll
+                            .Select(x => new SelectListItem() { Value = x.Key.ToString(), Text = x.Value })
+                            .ToList().SetValue(PersonEducationDocument.RegionEducId.ToString());
+                        EPD.RegionEducId = Server.HtmlDecode(PersonEducationDocument.RegionEducId.ToString());
+
+                        // добавить сортировку по Name
+                        EPD.SchoolExitClassList = context.SchoolExitClass.OrderBy(x => x.IntValue)
+                            .Select(x => new { x.Id, x.Name }).ToList()
+                            .Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name })
+                            .ToList().SetValue(PersonEducationDocument.SchoolExitClassId.ToString());
+                        EPD.SchoolExitClassId = Server.HtmlDecode(PersonEducationDocument.SchoolExitClassId.ToString());
+
+                        EPD.VuzAdditionalTypeList = context.VuzAdditionalType
+                            .Select(x => new { x.Id, Name = isEng ? x.NameEng : x.Name }).ToList()
+                            .Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() })
+                            .ToList().SetValue(PersonEducationDocument.VuzAdditionalTypeId.ToString());
+                        EPD.VuzAdditionalTypeId = Server.HtmlDecode(PersonEducationDocument.VuzAdditionalTypeId.ToString());
+
+                        var PersonHighEducationInfo = PersonEducationDocument.PersonHighEducationInfo;
+                        if (PersonHighEducationInfo == null)
+                            PersonHighEducationInfo = new OnlineAbit2013.PersonHighEducationInfo();
+
+                        EPD.HEExitYear = Server.HtmlDecode(PersonHighEducationInfo.ExitYear.ToString());
+                        EPD.HEEntryYear = Server.HtmlDecode(PersonHighEducationInfo.EntryYear.ToString());
+                        EPD.Series = Server.HtmlDecode(PersonEducationDocument.Series);
+                        EPD.Number = Server.HtmlDecode(PersonEducationDocument.Number);
+                        EPD.ProgramName = Server.HtmlDecode(PersonHighEducationInfo.ProgramName);
+                        EPD.DiplomTheme = Server.HtmlDecode(PersonHighEducationInfo.DiplomaTheme);
+                        
+                        EPD.StudyFormId = PersonHighEducationInfo.StudyFormId.ToString();
+                        EPD.StudyFormList = Util.GetStudyFormBaseList().SetValue(PersonHighEducationInfo.StudyFormId.ToString());
+
+                        EPD.QualificationList = Util.GetQualificationList(isEng).SetValue(PersonHighEducationInfo.QualificationId.ToString());
+                        EPD.PersonQualification = PersonHighEducationInfo.QualificationId.ToString();
+
+                        EPD.CountryList = Util.GetCountryList().SetValue(PersonEducationDocument.CountryEducId.ToString());
+                        EPD.CountryEducId = PersonEducationDocument.CountryEducId.ToString();
+
+                        model.EducationInfo.EducationDocuments.Add(EPD);
+                    }
+                    //------END--------EducationDocuments------------END----------
+
                     
-                    model.EducationInfo.SchoolTypeId = PersonEducationDocument.SchoolTypeId.ToString();
-                    model.EducationInfo.PersonStudyForm = PersonHighEducationInfo.StudyFormId.ToString();
-                    model.EducationInfo.PersonQualification = PersonHighEducationInfo.QualificationId.ToString();
-                    model.EducationInfo.LanguageId = (PersonAddInfo.LanguageId ?? 1).ToString();
-                    model.EducationInfo.CountryEducId = PersonEducationDocument.CountryEducId.ToString();
+                    return View("PersonalOffice_Page4", model);
+                }
+                else if (model.Stage == 5)
+                {
+                    if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                        return RedirectToAction("LogOn", "Account");
 
-                    string qEgeMarks = "SELECT EgeMark.Id, EgeCertificate.Number, EgeExam.Name, EgeMark.Value, EgeMark.IsSecondWave, EgeMark.IsInUniversity FROM Person " +
-                        " INNER JOIN EgeCertificate ON EgeCertificate.PersonId = Person.Id INNER JOIN EgeMark ON EgeMark.EgeCertificateId=EgeCertificate.Id " +
-                        " INNER JOIN EgeExam ON EgeExam.Id=EgeMark.EgeExamId WHERE Person.Id=@Id";
-                    DataTable tblEge = Util.AbitDB.GetDataTable(qEgeMarks, new SortedList<string, object>() { { "@Id", PersonId } });
+                    var AddInfo = Person.PersonAddInfo;
+                    if (AddInfo == null)
+                        AddInfo = new PersonAddInfo();
 
-                    model.EducationInfo.EgeMarks = new List<EgeMarkModel>();
-                    model.EducationInfo.EgeMarks =
-                        (from DataRow rw in tblEge.Rows
-                         select new EgeMarkModel()
-                         {
-                             Id = rw.Field<Guid>("Id"),
-                             CertificateNum = rw.Field<string>("Number"),
-                             ExamName = rw.Field<string>("Name"),
-                             Value = rw.Field<bool>("IsSecondWave") ? ("Сдаю во второй волне") : (rw.Field<bool>("IsInUniversity") ? "Сдаю в СПбГУ" : rw.Field<int?>("Value").ToString())
-                         }).ToList();
+                    var AddEducInfo = new AdditionalEducationInfoPerson();
+
+                    AddEducInfo.StartEnglish = AddInfo.StartEnglish;
+                    AddEducInfo.EnglishMark = AddInfo.EnglishMark.ToString();
+                    AddEducInfo.HasTRKI = AddInfo.HasTRKI;
+                    AddEducInfo.TRKICertificateNumber = AddInfo.TRKICertificateNumber;
+                    AddEducInfo.LanguageId = (AddInfo.LanguageId ?? 1).ToString();
+                    AddEducInfo.LanguageList = Util.GetLanguageList();
+
+                    model.AddEducationInfo = AddEducInfo;
+
+                    model.EducationInfo = new EducationPerson();
+                    model.EducationInfo.StudyFormList = Util.GetStudyFormList();
+                    model.EducationInfo.StudyBasisList = Util.GetStudyBasisList();
+
                     ////////////////////////////////////////////////
                     model.CurrentEducation = new CurrentEducation();
                     PersonCurrentEducation CurrentEducation = Person.PersonCurrentEducation;
                     if (CurrentEducation == null)
                         CurrentEducation = new PersonCurrentEducation();
-                    model.CurrentEducation.EducationTypeList = model.EducationInfo.SchoolTypeList;
 
-                    model.CurrentEducation.SemesterList = Util.GetSemestrList() ;
+                    model.CurrentEducation.EducationTypeList = Util.SchoolTypesAll
+                            .Select(x => new SelectListItem() { Value = x.Key.ToString(), Text = x.Value })
+                            .ToList();
+                    model.CurrentEducation.SemesterList = Util.GetSemestrList();
 
                     query = "SELECT Id, Name FROM SP_StudyLevel";
-                    _tblT = Util.AbitDB.GetDataTable(query, null);
+                    DataTable _tblT = Util.AbitDB.GetDataTable(query, null);
                     model.CurrentEducation.StudyLevelList =
                         (from DataRow rw in _tblT.Rows
                          select new SelectListItem()
@@ -377,6 +414,7 @@ namespace OnlineAbit2013.Controllers
                         ChangeStudyFormReason = new PersonChangeStudyFormReason();
                     model.ChangeStudyFormReason.Reason = ChangeStudyFormReason.Reason;
                     /////////////////////////////////////////////////
+                    
                     model.DisorderInfo = new DisorderedSPBUEducation();
                     if (Person.PersonDisorderInfo != null)
                     {
@@ -391,9 +429,26 @@ namespace OnlineAbit2013.Controllers
                         model.DisorderInfo.IsForIGA = false;
                     }
                     /////////////////////////////////////////////////
-                    return View("PersonalOffice_Page4", model);
+
+                    string qEgeMarks = "SELECT EgeMark.Id, EgeCertificate.Number, EgeExam.Name, EgeMark.Value, EgeMark.IsSecondWave, EgeMark.IsInUniversity FROM Person " +
+                        " INNER JOIN EgeCertificate ON EgeCertificate.PersonId = Person.Id INNER JOIN EgeMark ON EgeMark.EgeCertificateId=EgeCertificate.Id " +
+                        " INNER JOIN EgeExam ON EgeExam.Id=EgeMark.EgeExamId WHERE Person.Id=@Id";
+                    DataTable tblEge = Util.AbitDB.GetDataTable(qEgeMarks, new SortedList<string, object>() { { "@Id", PersonId } });
+
+                    model.EducationInfo.EgeMarks = new List<EgeMarkModel>();
+                    model.EducationInfo.EgeMarks =
+                        (from DataRow rw in tblEge.Rows
+                         select new EgeMarkModel()
+                         {
+                             Id = rw.Field<Guid>("Id"),
+                             CertificateNum = rw.Field<string>("Number"),
+                             ExamName = rw.Field<string>("Name"),
+                             Value = rw.Field<bool>("IsSecondWave") ? ("Сдаю во второй волне") : (rw.Field<bool>("IsInUniversity") ? "Сдаю в СПбГУ" : rw.Field<int?>("Value").ToString())
+                         }).ToList();
+
+                    return View("PersonalOffice_Page5", model);
                 }
-                else if (model.Stage == 5)
+                else if (model.Stage == 6)
                 {
                     model.WorkInfo = new WorkPerson();
 
@@ -418,7 +473,7 @@ namespace OnlineAbit2013.Controllers
                          select new ScienceWorkInformation()
                          {
                              Id = rw.Field<Guid>("Id"),
-                             ScienceWorkType = rw.Field<string>(isEng? "NameEng":"Name"),
+                             ScienceWorkType = rw.Field<string>(isEng ? "NameEng" : "Name"),
                              ScienceWorkInfo = rw.Field<string>("WorkInfo")
                          }).ToList();
 
@@ -466,9 +521,9 @@ namespace OnlineAbit2013.Controllers
                         (from DataRow rw in _tbl.Rows
                          select new SelectListItem()
                          {
-                             Value = rw.Field<int>("Id").ToString(), 
-                             Text =  (isEng ?
-                                        (string.IsNullOrEmpty(rw.Field<string>("NameEng")) ? rw.Field<string>("Name") : rw.Field<string>("NameEng")) 
+                             Value = rw.Field<int>("Id").ToString(),
+                             Text = (isEng ?
+                                        (string.IsNullOrEmpty(rw.Field<string>("NameEng")) ? rw.Field<string>("Name") : rw.Field<string>("NameEng"))
                                         : rw.Field<string>("Name"))
                          }).ToList();
 
@@ -517,9 +572,9 @@ namespace OnlineAbit2013.Controllers
                         model.PrivelegeInfo.SportQualificationLevel = PersonSportQualification.SportQualificationLevel ?? "";
                         model.PrivelegeInfo.OtherSportQualification = PersonSportQualification.OtherSportQualification ?? "";
                     }
-                    return View("PersonalOffice_Page5", model);
+                    return View("PersonalOffice_Page6", model);
                 }
-                else //if (model.Stage == 6)
+                else //if (model.Stage == 7)
                 {
                     if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                         return RedirectToAction("LogOn", "Account");
@@ -536,10 +591,11 @@ namespace OnlineAbit2013.Controllers
                         HostelAbit = AddInfo.HostelAbit ?? false,
                         HostelEduc = AddInfo.HostelEduc,
                         ContactPerson = Server.HtmlDecode(AddInfo.Parents),
+
                         ReturnDocumentTypeId = Server.HtmlDecode((AddInfo.ReturnDocumentTypeId ?? 1).ToString()),
-                        ReturnDocumentTypeList = isEng ? 
-                            context.ReturnDocumentType.Select(x => new { x.Id, x.NameEng }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.NameEng }).ToList() : 
-                            context.ReturnDocumentType.Select(x => new { x.Id, x.Name }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList() 
+                        ReturnDocumentTypeList = isEng ?
+                            context.ReturnDocumentType.Select(x => new { x.Id, x.NameEng }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.NameEng }).ToList() :
+                            context.ReturnDocumentType.Select(x => new { x.Id, x.Name }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList()
                     };
                     return View("PersonalOffice_Page6", model);
                 }
@@ -746,145 +802,224 @@ namespace OnlineAbit2013.Controllers
                 }
                 else if (model.Stage == 4)//образование
                 {
-                    int iSchoolTypeId;
-                    if (!int.TryParse(model.EducationInfo.SchoolTypeId, out iSchoolTypeId))
-                        iSchoolTypeId = 1;
+                    //проходим по POST-переменным по очереди
 
-                    int SchoolExitYear;
-                    if (!int.TryParse(model.EducationInfo.SchoolExitYear, out SchoolExitYear))
-                        SchoolExitYear = DateTime.Now.Year;
-
-                    int iCountryEducId;
-                    if (!int.TryParse(model.EducationInfo.CountryEducId, out iCountryEducId))
-                        iCountryEducId = 1;
-
-                    int iRegionEducId;
-                    int iRegionEducId_tmp;
-                    if (!int.TryParse(model.EducationInfo.RegionEducId, out iRegionEducId_tmp))
-                        iRegionEducId = 1;
-                    iRegionEducId = iRegionEducId_tmp;
-
-                    int iLanguageId;
-                    if (!int.TryParse(model.EducationInfo.LanguageId, out iLanguageId))
-                        iLanguageId = 1;
-
-                    int iVuzAddTypeId;
-                    if (!int.TryParse(model.EducationInfo.VuzAdditionalTypeId, out iVuzAddTypeId))
-                        iVuzAddTypeId = 1;
-
-                    int iSchoolExitClassId;
-                    if (!int.TryParse(model.EducationInfo.SchoolExitClassId, out iSchoolExitClassId))
-                        iSchoolExitClassId = 1;
-
-                    double avgBall;
-                    if (!double.TryParse(model.EducationInfo.AvgMark, out avgBall))
-                        avgBall = 0.0;
-
-                    double EnglishMark;
-                    if (!double.TryParse(model.EducationInfo.EnglishMark, out EnglishMark))
-                        EnglishMark = 0.0;
-
-                    int sform = 0;
-                    if (!int.TryParse(model.EducationInfo.PersonStudyForm, out sform))
-                        sform = 0;
-                    int qualId = 0;
-                    if (!int.TryParse(model.EducationInfo.PersonQualification, out qualId))
-                        qualId = 0;
-
-                    var PersonEducationDocument = Person.PersonEducationDocument.FirstOrDefault();
-                    var PersonHighEducationInfo = Person.PersonHighEducationInfo;
-                    var PersonAddInfo = Person.PersonAddInfo;
-
-                    //-----------------PersonEducationDocument---------------------
-                    bool bIns = false;
-                    if (PersonEducationDocument == null)
+                    for (int i = 0; i < Util.getConstInfo().EducationDocumentsMaxCount; i++)
                     {
-                        PersonEducationDocument = new OnlineAbit2013.PersonEducationDocument();
-                        PersonEducationDocument.PersonId = PersonId;
-                        bIns = true;
+                        //-----------------------------
+                        string sId = Request.Form["_sId_" + i];
+                        int iId;
+                        int.TryParse(sId, out iId);
+
+                        //-----------------------------
+                        string sIsEnabled = Request.Form["_isEnabled_" + i];
+                        bool bIsEnabled = false;
+                        if ("1".Equals(sIsEnabled, StringComparison.OrdinalIgnoreCase))
+                            bIsEnabled = true;
+                        else
+                            bIsEnabled = false;
+
+                        //если помечено к удалению и есть iId, то это синоним удаления
+                        if (!bIsEnabled && iId != 0)
+                        {
+                            context.PersonEducationDocument_delete(PersonId, iId);
+                            continue;
+                        }
+                        //если помечено к удалению и нет iId, то это синоним не открытого листа
+                        else if (!bIsEnabled)
+                            continue;
+
+                        //-----------------------------
+                        string sSchoolTypeId = Request.Form["SchoolTypeId_" + i];
+                        int iSchoolTypeId;
+                        if (!int.TryParse(sSchoolTypeId, out iSchoolTypeId))
+                            iSchoolTypeId = 1;
+
+                        //-----------------------------
+                        string sSchoolExitYear = Request.Form["SchoolExitYear_" + i];
+                        int SchoolExitYear;
+                        if (!int.TryParse(sSchoolExitYear, out SchoolExitYear))
+                            SchoolExitYear = DateTime.Now.Year;
+
+                        //-----------------------------
+                        string sCountryEducId = Request.Form["CountryEducId_" + i];
+                        int iCountryEducId;
+                        if (!int.TryParse(sCountryEducId, out iCountryEducId))
+                            iCountryEducId = 1;
+
+                        //-----------------------------
+                        string sRegionEducId = Request.Form["RegionEducId_" + i];
+                        int iRegionEducId;
+                        if (!int.TryParse(sRegionEducId, out iRegionEducId))
+                            iRegionEducId = 1;
+
+                        //-----------------------------
+                        string sVuzAdditionalTypeId = Request.Form["VuzAdditionalTypeId_" + i];
+                        int iVuzAddTypeId;
+                        if (!int.TryParse(sVuzAdditionalTypeId, out iVuzAddTypeId))
+                            iVuzAddTypeId = 1;
+
+                        //-----------------------------
+                        string sSchoolExitClassId = Request.Form["SchoolExitClassId_" + i];
+                        int iSchoolExitClassId;
+                        if (!int.TryParse(sSchoolExitClassId, out iSchoolExitClassId))
+                            iSchoolExitClassId = 1;
+
+                        //-----------------------------
+                        string sAvgMark = Request.Form["AvgMark_" + i];
+                        double avgBall;
+                        double.TryParse(sAvgMark, out avgBall);
+
+                        //----------------------------
+                        string sPersonStudyForm = Request.Form["PersonStudyForm_" + i];
+                        int sform = 0;
+                        int.TryParse(sPersonStudyForm, out sform);
+
+                        //----------------------------
+                        string sPersonQualification = Request.Form["PersonQualification_" + i];
+                        int qualId = 0;
+                        int.TryParse(sPersonQualification, out qualId);
+
+                        //----------------------------
+                        string SchoolName = Request.Form["SchoolName_" + i];
+                        string SchoolNumber = Request.Form["SchoolNumber_" + i];
+                        string SchoolCity = Request.Form["SchoolCity_" + i];
+
+                        //----------------------------
+                        string sIsExcellent = Request.Form["IsExcellent_" + i].Split(',').First();
+                        string sIsEqual = Request.Form["IsEqual_" + i].Split(',').First();
+
+                        bool bIsExcellent = false;
+                        bool bIsEqual = false;
+
+                        bool.TryParse(sIsExcellent, out bIsExcellent);
+                        bool.TryParse(sIsEqual, out bIsEqual);
+                        //----------------------------
+
+                        string EqualityDocumentNumber = Request.Form["EqualityDocumentNumber_" + i];
+                        string Series = Request.Form["Series_" + i];
+                        string Number = Request.Form["Number_" + i];
+                        string sHEEntryYear = Request.Form["HEEntryYear_" + i];
+                        string DiplomTheme = Request.Form["DiplomTheme_" + i];
+                        string ProgramName = Request.Form["ProgramName_" + i];
+
+
+                        //-----------------PersonEducationDocument---------------------
+                        bool bIns = false;
+                        if (context.PersonEducationDocument.Where(x => x.Id == iId && x.PersonId == PersonId).Count() == 0)
+                            bIns = true;
+                        
+                        if (iCountryEducId != 193)
+                            iRegionEducId = context.Country.Where(x => x.Id == iCountryEducId).Select(x => x.RegionId).FirstOrDefault();
+
+                        if (bIns)
+                        {
+                            ObjectParameter idParam = new ObjectParameter("id", typeof(int));
+                            context.PersonEducationDocument_insert(PersonId, iSchoolTypeId, iCountryEducId, iRegionEducId, iSchoolTypeId == 4 ? (int?)iVuzAddTypeId : null,
+                                SchoolCity, SchoolName, SchoolNumber, SchoolExitYear.ToString(),
+                                iSchoolTypeId == 1 ? (int?)iSchoolExitClassId : null, Series, Number, bIsEqual, EqualityDocumentNumber, avgBall, bIsExcellent, idParam);
+                            bIns = false;
+                            iId = (int)idParam.Value;
+                        }
+                        else
+                        {
+                            context.PersonEducationDocument_update(PersonId, iSchoolTypeId, iCountryEducId, iRegionEducId, iSchoolTypeId == 4 ? (int?)iVuzAddTypeId : null,
+                                SchoolCity, SchoolName, SchoolNumber, SchoolExitYear.ToString(),
+                                iSchoolTypeId == 1 ? (int?)iSchoolExitClassId : null, Series, Number, bIsEqual, EqualityDocumentNumber, avgBall, bIsExcellent, iId);
+                        }
+
+                        //-----------------PersonHighEducationInfo---------------------
+                        if (iSchoolTypeId == 4)
+                        {
+                            var PersonHighEducationInfo = context.PersonHighEducationInfo.Where(x => x.EducationDocumentId == iId).FirstOrDefault();
+                            if (PersonHighEducationInfo == null)
+                            {
+                                PersonHighEducationInfo = new PersonHighEducationInfo();
+                                PersonHighEducationInfo.EducationDocumentId = iId;
+                                bIns = true;
+                            }
+
+                            int iHEEntryYear;
+                            int.TryParse(sHEEntryYear, out iHEEntryYear);
+
+                            PersonHighEducationInfo.DiplomaTheme = DiplomTheme;
+                            PersonHighEducationInfo.ProgramName = ProgramName;
+                            PersonHighEducationInfo.EntryYear = (iHEEntryYear == 0 ? null : (int?)iHEEntryYear);
+                            if (sform != 0)
+                                PersonHighEducationInfo.StudyFormId = sform;
+                            if (qualId != 0)
+                                PersonHighEducationInfo.QualificationId = qualId;
+
+                            if (iSchoolTypeId == 4)
+                            {
+                                int iEntryYear;
+                                int.TryParse(sHEEntryYear, out iEntryYear);
+                                PersonHighEducationInfo.EntryYear = iEntryYear != 0 ? (int?)iEntryYear : null;
+                                PersonHighEducationInfo.ExitYear = SchoolExitYear != 0 ? SchoolExitYear : DateTime.Now.Year;
+                            }
+
+                            if (bIns)
+                            {
+                                context.PersonHighEducationInfo.AddObject(PersonHighEducationInfo);
+                                bIns = false;
+                            }
+                        }
                     }
 
-                    bool bInsAddInfo = false;
+                    //--------------------------------------
+                    Person.RegistrationStage = iRegStage < 5 ? 5 : iRegStage;
+                    context.SaveChanges();
+                }
+                else if (model.Stage == 5)
+                {
+                    bool bIns = false;
+                    var PersonAddInfo = Person.PersonAddInfo;
                     if (PersonAddInfo == null)
                     {
-                        PersonAddInfo = new OnlineAbit2013.PersonAddInfo();
+                        PersonAddInfo = new PersonAddInfo();
                         PersonAddInfo.PersonId = PersonId;
-                        bInsAddInfo = true;
-                    }
-
-                    PersonEducationDocument.SchoolTypeId = iSchoolTypeId;
-                    PersonEducationDocument.SchoolName = model.EducationInfo.SchoolName;
-                    PersonEducationDocument.SchoolNum = model.EducationInfo.SchoolNumber;
-                    PersonEducationDocument.SchoolCity = model.EducationInfo.SchoolCity;
-                    PersonEducationDocument.AvgMark = (avgBall == 0.0 ? null : (double?)avgBall);
-                    PersonEducationDocument.SchoolExitYear = model.EducationInfo.SchoolExitYear;
-                    PersonEducationDocument.CountryEducId = ((iVuzAddTypeId == 2) || (iVuzAddTypeId ==3)) ? 193 : iCountryEducId;
-                    PersonAddInfo.LanguageId = iLanguageId;
-                    PersonEducationDocument.IsExcellent = model.EducationInfo.IsExcellent;
-                    PersonAddInfo.EnglishMark = EnglishMark;
-                    PersonAddInfo.StartEnglish = model.EducationInfo.StartEnglish;
-
-                    PersonAddInfo.HasTRKI = model.EducationInfo.HasTRKI;
-                    PersonAddInfo.TRKICertificateNumber = model.EducationInfo.TRKICertificateNumber;
-                    PersonEducationDocument.IsEqual = model.EducationInfo.IsEqual;
-                    PersonEducationDocument.EqualDocumentNumber = model.EducationInfo.EqualityDocumentNumber;
-
-                    if (iCountryEducId != 193)
-                        iRegionEducId = context.Country.Where(x => x.Id == iCountryEducId).Select(x => x.RegionId).FirstOrDefault();
-
-                    PersonEducationDocument.RegionEducId = ((iVuzAddTypeId == 2) || (iVuzAddTypeId == 3)) ? 1 : iRegionEducId;
-                    PersonEducationDocument.VuzAdditionalTypeId = iVuzAddTypeId;
-                    PersonEducationDocument.SchoolExitClassId = iSchoolExitClassId;
-                    
-                    PersonEducationDocument.Series = model.EducationInfo.DiplomSeries;
-                    PersonEducationDocument.Number = model.EducationInfo.DiplomNumber;
-
-                    if (bIns)
-                    {
-                        context.PersonEducationDocument.AddObject(PersonEducationDocument);
-                        bIns = false;
-                    }
-
-                    //-----------------PersonHighEducationInfo---------------------
-                    if (PersonHighEducationInfo == null)
-                    {
-                        PersonHighEducationInfo = new PersonHighEducationInfo();
-                        PersonHighEducationInfo.PersonId = PersonId;
                         bIns = true;
                     }
 
-                    int HEEntryYear;
-                    if (!int.TryParse(model.EducationInfo.HEEntryYear, out HEEntryYear))
-                        HEEntryYear = 0;
+                    int iLanguageId;
+                    if (!int.TryParse(model.AddEducationInfo.LanguageId, out iLanguageId))
+                        iLanguageId = 1;
 
-                    PersonHighEducationInfo.DiplomaTheme = model.EducationInfo.DiplomTheme;
-                    PersonHighEducationInfo.ProgramName = model.EducationInfo.ProgramName;
-                    PersonHighEducationInfo.EntryYear = (HEEntryYear == 0 ? null : (int?)HEEntryYear);
-                    if (sform != 0) 
-                        PersonHighEducationInfo.StudyFormId = sform;
-                    if (qualId != 0)
-                        PersonHighEducationInfo.QualificationId = qualId;
+                    double EnglishMark;
+                    if (!double.TryParse(model.AddEducationInfo.EnglishMark, out EnglishMark))
+                        EnglishMark = 0.0;
 
-                    if (iSchoolTypeId == 4)
-                    {
-                        int iEntryYear;
-                        int.TryParse(model.EducationInfo.HEEntryYear, out iEntryYear);
-                        PersonHighEducationInfo.EntryYear = iEntryYear != 0 ? (int?)iEntryYear : null;
-                        PersonHighEducationInfo.ExitYear = SchoolExitYear != 0 ? SchoolExitYear : DateTime.Now.Year;
-                    }
+                    PersonAddInfo.LanguageId = iLanguageId;
+                    PersonAddInfo.EnglishMark = EnglishMark;
+                    PersonAddInfo.StartEnglish = model.AddEducationInfo.StartEnglish;
+                    PersonAddInfo.HasTRKI = model.AddEducationInfo.HasTRKI;
+                    PersonAddInfo.TRKICertificateNumber = model.AddEducationInfo.TRKICertificateNumber;
+
                     if (bIns)
-                    {
-                        context.PersonHighEducationInfo.AddObject(PersonHighEducationInfo);
-                        bIns = false;
-                    }
-                    if (bInsAddInfo)
-                    {
                         context.PersonAddInfo.AddObject(PersonAddInfo);
-                        bInsAddInfo = false;
-                    }
 
+                    bIns = false;
+                    PersonDisorderInfo PersonDisorderEducation = Person.PersonDisorderInfo;
+                    if (PersonDisorderEducation == null)
+                    {
+                        PersonDisorderEducation = new PersonDisorderInfo();
+                        PersonDisorderEducation.PersonId = PersonId;
+                        bIns = true;
+                    }
+                    PersonDisorderEducation.IsForIGA = model.DisorderInfo.IsForIGA;
+                    PersonDisorderEducation.YearOfDisorder = model.DisorderInfo.YearOfDisorder;
+                    PersonDisorderEducation.EducationProgramName = model.DisorderInfo.EducationProgramName;
+
+                    if (iRegStage < 7)
+                        Person.RegistrationStage = 7;
+
+                    if (bIns)
+                        context.PersonDisorderInfo.AddObject(PersonDisorderEducation);
+
+
+                    bool bHasCurrentEducation = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId != 1).Count() > 0;
                     //-----------------PersonCurrentEducation---------------------
-                    if (iVuzAddTypeId != 1)
+                    if (bHasCurrentEducation)
                     {
                         bIns = false;
                         PersonCurrentEducation PersonCurrentEducation = Person.PersonCurrentEducation;
@@ -931,7 +1066,10 @@ namespace OnlineAbit2013.Controllers
                         PersonCurrentEducation.LicenseProgramId = iLicenseProgramId;
                         PersonCurrentEducation.ObrazProgramId = iObrazProgramId;
 
-                        PersonCurrentEducation.CountryId = ((iVuzAddTypeId == 2) || (iVuzAddTypeId == 3)) ? 193 : iCountryEducId;
+                        bool bHas = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2 || x.VuzAdditionalTypeId == 3)).Count() > 0;
+                        int iCountryEducId = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4).Select(x => x.CountryEducId).DefaultIfEmpty(193).First();
+
+                        PersonCurrentEducation.CountryId = bHas ? 193 : iCountryEducId;
                         PersonCurrentEducation.ProfileName = model.CurrentEducation.ProfileName;
 
 
@@ -940,8 +1078,9 @@ namespace OnlineAbit2013.Controllers
                             context.PersonCurrentEducation.AddObject(PersonCurrentEducation);
                             bIns = false;
                         }
-                        
-                        if (iVuzAddTypeId == 2)
+
+                        bool bHasChangeStudyForm = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId == 2).Count() > 0;
+                        if (bHasChangeStudyForm)
                         {
                             bIns = false;
                             PersonChangeStudyFormReason ChangeStudyFormReason = Person.PersonChangeStudyFormReason;
@@ -958,32 +1097,12 @@ namespace OnlineAbit2013.Controllers
                                 context.PersonChangeStudyFormReason.AddObject(ChangeStudyFormReason);
                                 bIns = false;
                             }
-                        } 
-                    }
-                    //-----------------PersonDisorderInfo---------------------
-                    if (iVuzAddTypeId == 3)
-                    {
-                        bIns = false;
-                        PersonDisorderInfo PersonDisorderEducation = Person.PersonDisorderInfo;
-                        if (PersonDisorderEducation == null)
-                        {
-                            PersonDisorderEducation = new PersonDisorderInfo();
-                            PersonDisorderEducation.PersonId = PersonId;
-                            bIns = true;
-                        }
-                        PersonDisorderEducation.IsForIGA = model.DisorderInfo.IsForIGA;
-                        PersonDisorderEducation.YearOfDisorder = model.DisorderInfo.YearOfDisorder;
-                        PersonDisorderEducation.EducationProgramName = model.DisorderInfo.EducationProgramName;
-                        if (bIns)
-                        {
-                            context.PersonDisorderInfo.AddObject(PersonDisorderEducation);
                         }
                     }
-                    //--------------------------------------
-                    Person.RegistrationStage = iRegStage < 5 ? 5 : iRegStage;
+
                     context.SaveChanges();
                 }
-                else if (model.Stage == 5)
+                else if (model.Stage == 6)
                 {
                     bool bIns = false;
                     var PersonSportQualification = Person.PersonSportQualification;
@@ -1006,10 +1125,10 @@ namespace OnlineAbit2013.Controllers
 
                     if (iRegStage < 6)
                         Person.RegistrationStage = 6;
-                    
+
                     context.SaveChanges();
                 }
-                else if (model.Stage == 6)
+                else if (model.Stage == 7)
                 {
                     if (!model.AddInfo.FZ_152Agree)
                     {
@@ -1036,7 +1155,7 @@ namespace OnlineAbit2013.Controllers
                     PersonAddInfo.HostelEduc = model.AddInfo.HostelEduc;
                     PersonAddInfo.ReturnDocumentTypeId = iReturnDocumentTypeId;
 
-                    if (Person.RegistrationStage <= 6)
+                    if (Person.RegistrationStage <= 7)
                         Person.RegistrationStage = 100;
 
                     if (bIns)
@@ -1045,7 +1164,7 @@ namespace OnlineAbit2013.Controllers
                     context.SaveChanges();
                 }
 
-                if (model.Stage < 6)
+                if (model.Stage < 7)
                 {
                     model.Stage++;
                     return RedirectToAction("Index", "AbiturientNew", new RouteValueDictionary() { { "step", model.Stage } });

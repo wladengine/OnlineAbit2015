@@ -237,6 +237,14 @@ span.link
     cursor: pointer;
 }
 
+span.alink
+{
+    color: #2B587A;
+    cursor: pointer;
+    text-decoration: none;
+    border-bottom: 1px dashed #A7B7C9;
+}
+
 footer, 
 #footer {
     background-color: #fff;

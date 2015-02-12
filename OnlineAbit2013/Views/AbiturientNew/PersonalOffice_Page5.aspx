@@ -14,321 +14,311 @@
     <script type="text/javascript" src="../../Scripts/jquery-1.5.1-vsdoc.js"></script>
     <script type="text/javascript" src="../../Scripts/jquery.validate-vsdoc.js"></script>
 <% } %>
-    <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
-    <script type="text/javascript" src="../../Scripts/jquery.ui.datepicker-ru.js"></script>
-    <script type="text/javascript">
-        $(function () {
+    <script type="text/javascript"> 
 
-            $('#WorkPlace').keyup(function () {
-                var str = $('#WorkPlace').val();
-                if (str != "") {
-                    $('#WorkPlace').removeClass('input-validation-error');
-                    $('#validationMsgPersonWorksPlace').hide(); ;
-                }
-                else {
-                    $('#WorkPlace').addClass('input-validation-error');
-                    $('#validationMsgPersonWorksPlace').show();
-                }
-            });
-            $('#WorkProf').keyup(function () {
-                var str = $('#WorkProf').val();
-                if (str != "") {
-                    $('#WorkProf').removeClass('input-validation-error');
-                    $('#validationMsgPersonWorksLevel').hide(); ;
-                }
-                else {
-                    $('#WorkProf').addClass('input-validation-error');
-                    $('#validationMsgPersonWorksLevel').show() ;
-                }
-            });
-            $('#WorkSpec').keyup(function () {
-                var str = $('#WorkSpec').val();
-                if (str != "") {
-                    $('#WorkSpec').removeClass('input-validation-error');
-                    $('#validationMsgPersonWorksDuties').hide();
-                }
-                else {
-                    $('#WorkSpec').addClass('input-validation-error');
-                    $('#validationMsgPersonWorksDuties').show();
-                }
-            });
+        <% if (!String.IsNullOrEmpty(Model.CurrentEducation.HiddenObrazProgramId)) { %>
+        $(function () { setTimeout(GetObrazPrograms) });
+        <% } %>
+
+        $(function () { setTimeout(GetProfessions) });
+        $(function () {
+            $('#CurrentEducation_StudyLevelId').change(function () { setTimeout(GetProfessions) });
+            $('#CurrentEducation_StudyFormId').change(function () { setTimeout(GetProfessions) });
+            $('#CurrentEducation_StudyBasisId').change(function () { setTimeout(GetProfessions) });
+            $('#CurrentEducation_SemesterId').change(function () { setTimeout(GetProfessions) });
+            $('#CurrentEducation_LicenseProgramId').change(function () { setTimeout(Myfun) });
+            $('#CurrentEducation_ObrazProgramId').change(function () { setTimeout(Myfun) });
+
+            $('#DisorderInfo_YearOfDisorder').change(function () { setTimeout(CheckDisorderInfoYear) });
         });
-        function UpdScWorks() {
-            if ($('#ScWorkInfo').val() == '') {
-                $('#ScWorkInfo').addClass('input-validation-error');
-                $('#ScWorkInfo_Message').show();
-                return false;
+
+        function Myfun() {
+            var profId = $('#CurrentEducation_LicenseProgramId').val();
+            $('#CurrentEducation_HiddenLicenseProgramId').val(profId);
+            var obrzId = $('#CurrentEducation_ObrazProgramId').val();
+            $('#CurrentEducation_HiddenObrazProgramId').val(obrzId);
+        }
+
+        function CheckDisorderInfoYear() {
+            var ret = true;
+            if ($('#DisorderInfo_YearOfDisorder').val() == '') {
+                ret = false;
+                $('#DisorderInfo_YearOfDisorder').addClass('input-validation-error');
+                $('#DisorderInfo_Year_Message').show();
+                $('#DisorderInfo_Year_MessageFormat').hide();
             }
             else {
-                $('#ScWorkInfo').removeClass('input-validation-error');
-                $('#ScWorkInfo_Message').hide();
-            }
-            var params = new Object();
-            params['ScWorkInfo'] = $('#ScWorkInfo').val();
-            params['ScWorkType'] = $('#WorkInfo_ScWorkId').val();
-            $.post('AbiturientNew/UpdateScienceWorks', params, function (res) {
-                if (res.IsOk) {
-                    $('#ScWorks').show();
-                    var output = '';
-                    output += '<tr id=\'' + res.Data.Id + '\'><td>';
-                    output += res.Data.Type + '</td>';
-                    output += '<td>' + res.Data.Info + '</td>';
-                    output += '<td><span class="link" onclick="DeleteScWork(\'' + res.Data.Id + '\')" ><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить оценку" /><span></td>';
-                    output += '</tr>';
-                    $('#ScWorks tbody').append(output);
+                $('#DisorderInfo_YearOfDisorder').removeClass('input-validation-error');
+                $('#DisorderInfo_Year_Message').hide();
+                var regex = /^\d{4}$/i;
+                var val = $('#DisorderInfo_YearOfDisorder').val();
+                if (!regex.test(val)) {
+                    $('#DisorderInfo_YearOfDisorder').addClass('input-validation-error');
+                    $('#DisorderInfo_Year_MessageFormat').show();
+                    ret = false;
                 }
                 else {
-                    alert(res.ErrorMsg);
+                    $('#EducationInfo_SchoolExitYear').removeClass('input-validation-error');
+                    $('#DisorderInfo_Year_MessageFormat').hide();
                 }
-            }, 'json');
+            }
+            return ret;
         }
-        function DeleteScWork(id) {
-            var param = new Object();
-            param['id'] = id;
-            $.post('AbiturientNew/DeleteScienceWorks', param, function (res) {
-                if (res.IsOk) {
-                    $("#" + id).hide(250).html(""); 
-                    if (res.Count == 0) {
-                        $('#ScWorks').hide();
-                    }
-                }
-                else {
-                    alert(res.ErrorMessage);
-                }
-            }, 'json');
-        }
-        function AddWorkPlace() {
-            var params = new Object();
-            params['WorkStag'] = $('#WorkStag').val();
-            params['WorkPlace'] = $('#WorkPlace').val();
-            params['WorkProf'] = $('#WorkProf').val();
-            params['WorkSpec'] = $('#WorkSpec').val();
-            var Ok = CheckRegExp();
-             
-            if (params['WorkPlace'] == "") {
-                $('#WorkPlace').addClass('input-validation-error');
-                $('#validationMsgPersonWorksPlace').show();
-                Ok = false;
-            }
-            if (params['WorkProf'] == "") {
-                $('#WorkProf').addClass('input-validation-error');
-                $('#validationMsgPersonWorksLevel').show() ;
-                Ok = false;
-            }
-            if (params['WorkSpec'] == "") {
-                $('#WorkSpec').addClass('input-validation-error');
-                $('#validationMsgPersonWorksDuties').show();
-                Ok = false;
-            }
-            if (Ok) {
-                $.post('AbiturientNew/AddWorkPlace', params, function (res) {
-                    if (res.IsOk) {
-                        $('#BlockPersonWorks').show();
-                        var info = '<tr id="' + res.Data.Id + '">';
-                        info += '<td>' + res.Data.Place + '</td>';
-                        info += '<td>' + res.Data.Stag + '</td>';
-                        info += '<td>' + res.Data.Level + '</td>';
-                        info += '<td>' + res.Data.Duties + '</td>';
-                        info += '<td><span class="link" onclick="DeleteWorkPlace(\'' + res.Data.Id + '\')"><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить" /></span></td>';
-                        $('#PersonWorks tbody').append(info);
+
+        function GetProfessions() {
+            if ($('#EducationInfo_VuzAdditionalTypeId').val() == 2) {
+                var CurLevelId = $('#CurrentEducation_StudyLevelId').val();
+                var CurrlObrazProgram = '#CurrentEducation_ObrazProgramId';
+                var CurrlProfession = '#CurrentEducation_LicenseProgramId';
+                var sfId = $('#CurrentEducation_StudyFormId').val();
+
+                var curSemester = $('#CurrentEducation_SemesterId').val();
+
+                $.post('/AbiturientNew/GetProfs', {
+                    studyform: sfId, studybasis: $('#CurrentEducation_StudyBasisId').val(),
+                    entry: CurLevelId,
+                    semesterId: curSemester
+                }, function (json_data) {
+                    var options = '';
+                    if (json_data.NoFree) {
+                        $('#CurrentEducation_LicenseProgramId').html('');
+                        $('#CurrentEducation_ObrazProgramId').html('');
                     }
                     else {
-                        alert(res.ErrorMessage);
+                        for (var i = 0; i < json_data.length; i++) {
+                            options += '<option value="' + json_data[i].Id + '"';
+                            if (json_data[i].Id == $('#CurrentEducation_HiddenLicenseProgramId').val())
+                                options += ' selected="true" ';
+                            options += ' >' + json_data[i].Name + '</option>';
+                        }
+                        $('#CurrentEducation_LicenseProgramId').html(options);
+                        $('#CurrentEducation_ObrazProgramId').html('');
                     }
                 }, 'json');
             }
         }
-        function DeleteWorkPlace(id) {
-            var parm = new Object();
-            parm["wrkId"] = id;
-            $.post('AbiturientNew/DeleteWorkPlace', parm, function (res) {
-                if (res.IsOk) {
-                    $('#' + id).hide(250).html('');
-                    if (res.Count == 0) {
-                        $('#BlockPersonWorks').hide();
-                    }
+        function GetObrazPrograms() {
+            var CurrlObrazProgram = '#CurrentEducation_ObrazProgramId';
+            var profId = $('#CurrentEducation_LicenseProgramId').val();
+            var sfId = $('#CurrentEducation_StudyFormId').val();
+            if (profId == null) {
+                profId = $('#CurrentEducation_HiddenLicenseProgramId').val();
+            }
+            $('#_ObrazProg').show();
+            var CurLevelId = $('#CurrentEducation_StudyLevelId').val();
+            var curSemester = $('#CurrentEducation_SemesterId').val();
+            $.post('/Transfer/GetObrazPrograms', {
+                prof: profId, studyform: sfId, studybasis: $('#CurrentEducation_StudyBasisId').val(),
+                entry: CurLevelId, semesterId: curSemester
+            }, function (json_data) {
+                var options = '';
+                if (json_data.NoFree) {
+                    $('#CurrentEducation_ObrazProgramId').html('');
                 }
                 else {
-                    alert(res.ErrorMessage);
+                    for (var i = 0; i < json_data.List.length; i++) {
+                        options += '<option value="' + json_data.List[i].Id + '"';
+                        if (json_data.List[i].Id == $('#CurrentEducation_HiddenObrazProgramId').val())
+                            options += ' selected="true" ';
+                        options += ' >' + json_data.List[i].Name + '</option>';
+                    }
+                    $('#CurrentEducation_ObrazProgramId').html(options).show();
                 }
             }, 'json');
         }
-        function CheckRegExp() {
-            var val = $('#WorkStag').val();
-            var regex = /^([0-9])+$/i;
-            if (val != '') {
-                if (!regex.test(val)) {
-                    $('#WorkStag').addClass('input-validation-error');
-                    $('#validationMsgPersonWorksExperience').show();
-                    return false;
-                }
-                else {
-                    $('#WorkStag').removeClass('input-validation-error');
-                    $('#validationMsgPersonWorksExperience').hide();
-                }
-            }
-            return true;
-        }
     </script>
     <script type="text/javascript">
-        $(function () {
-            $('#OlDate').datepicker({
-                changeMonth: true,
-                changeYear: true,
-                showOn: "focus"
-            });
-            $('#OlympType').change(function () { setTimeout(UpdateAfterOlympType); });
-            $('#OlympName').change(function () { setTimeout(UpdateAfterOlympName); });
-            $('#OlympSubject').change(function () { setTimeout(UpdateAfterOlympSubject); });
-            $('#OlympValue').change(function () { setTimeout(UpdateAfterOlympValue) });
-        });
+        function updateIs2014() {
+            if ($("#Is2014").is(':checked')) {
+                $('#EgeCert').attr('disabled', 'disabled');
+            }
+            else {
+                $('#EgeCert').removeAttr('disabled');
+            }
+        }
+        function updateIsSecondWave() {
+            if (($("#IsInUniversity").is(':checked')) || ($("#IsSecondWave").is(':checked'))) {
+                $('#EgeCert').attr('disabled', 'disabled');
+                $('#_EgeMark').hide();
+            }
+            else {
+                if ($("#Is2014").is(':checked')) {
+                    $('#EgeCert').attr('disabled', 'disabled');
+                }
+                else {
+                    $('#EgeCert').removeAttr('disabled');
+                }
+                $('#_EgeMark').show();
+            }
+        }
+        function updateIsInUniversity() {
+            if (($("#IsInUniversity").is(':checked')) || ($("#IsSecondWave").is(':checked'))) {
+                $('#EgeCert').attr('disabled', 'disabled');
+                $('#_EgeMark').hide();
+            }
+            else {
+                if ($("#Is2014").is(':checked')) {
+                    $('#EgeCert').attr('disabled', 'disabled');
+                }
+                else {
+                    $('#EgeCert').removeAttr('disabled');
+                }
+                $('#_EgeMark').show();
+            }
+        }
 
-        $.datepicker.regional["ru"];
-        function UpdateAfterOlympType() {
-            $('#btnAddOlympiad').hide();
-            $('#_OlympSubject').hide();
-            $('#_OlympValue').hide();
-            var param = new Object();
-            param['OlympTypeId'] = $('#OlympType').val();
-            $.post('AbiturientNew/GetOlympNameList', param, function (json_data) {
-                if (json_data.IsOk) {
-                    var output = '';
-                    for (var i = 0; i < json_data.List.length; i++) {
-                        output += '<option value="' + json_data.List[i].Id + '">' + json_data.List[i].Name + '</option>';
-                    }
-                    $('#OlympName').html(output);
-                    $('#_OlympName').show();
+        function fStartTwo() {
+            $("#dialog:ui-dialog").dialog("destroy");
+            $('form').submit(function () {
+                return CheckForm();
+            });
+
+                <% if (!Model.Enabled)
+                   { %>
+                $('input').attr('readonly', 'readonly');
+                $('select').attr('disabled', 'disabled');
+                <% } %>
+
+                <% if (Model.Enabled)
+                 { %>
+                $("#CurrentEducation_AccreditationDate").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "focus",
+                    yearRange: '1920:2014',
+                    defaultDate: '-1y',
+                });
+                $.datepicker.regional["ru"];
+                <% } %>
+
+                function loadFormValues() {
+                    var existingCerts = '';
+                    var exams_html = '';
+                    $.getJSON("AbiturientNew/GetAbitCertsAndExams", null, function (res) {
+                        existingCerts = res.Certs;
+                        for (var i = 0; i < res.Exams.length; i++) {
+                            exams_html += '<option value="' + res.Exams[i].Key + '">' + res.Exams[i].Value + '</option>';
+                        }
+                        $("#EgeExam").html(exams_html);
+                        $("#EgeCert").autocomplete({
+                            source: existingCerts
+                        });
+                    });
                 }
-            }, 'json');
-        }
-        function UpdateAfterOlympName() {
-            $('#btnAddOlympiad').hide();
-            $('#_OlympValue').hide();
-            var param = new Object();
-            param['OlympTypeId'] = $('#OlympType').val();
-            param['OlympNameId'] = $('#OlympName').val();
-            $.post('AbiturientNew/GetOlympSubjectList', param, function (json_data) {
-                if (json_data.IsOk) {
-                    var output = '';
-                    for (var i = 0; i < json_data.List.length; i++) {
-                        output += '<option value="' + json_data.List[i].Id + '">' + json_data.List[i].Name + '</option>';
-                    }
-                    $('#OlympSubject').html(output);
-                    $('#_OlympSubject').show();
+
+                var certificateNumber = $("#EgeCert"),
+			    examName = $("#EgeExam"),
+			    examMark = $("#EgeMark"),
+                Is2014 = $("#Is2014"),
+                IsSecondWave = $("#IsSecondWave"),
+                IsInUniversity = $("#IsInUniversity"),
+
+			    allFields = $([]).add(certificateNumber).add(examName).add(examMark),
+			    tips = $(".validateTips");
+
+                function updateTips(t) {
+                    tips.text(t).addClass("ui-state-highlight");
+                    setTimeout(function () {
+                        tips.removeClass("ui-state-highlight", 1500);
+                    }, 500);
                 }
-            }, 'json');
-        }
-        function UpdateAfterOlympSubject() {
-            $('#btnAddOlympiad').hide();
-            $('#OlympValue').val('0');
-            $('#_OlympValue').show();
-        }
-        function UpdateAfterOlympValue() {
-            $('#btnAddOlympiad').show();
-        }
-        
-        function CheckOlSeries() {
-            if ($('#OlSeries').val() == '') {
-                $('#OlSeries_Message').show();
-                $('#OlSeries').addClass('input-validation-error');
-                return false;
-            }
-            else {
-                $('#OlSeries_Message').hide();
-                $('#OlSeries').removeClass('input-validation-error');
-                return true;
-            }
-        }
-        function CheckOlNumber() {
-            if ($('#OlNumber').val() == '') {
-                $('#OlNumber_Message').show();
-                $('#OlNumber').addClass('input-validation-error');
-                return false;
-            }
-            else {
-                $('#OlNumber_Message').hide();
-                $('#OlNumber').removeClass('input-validation-error');
-                return true;
-            }
-        }
-        function CheckOlDate() {
-            if ($('#OlDate').val() == '') {
-                $('#OlDate_Message').show();
-                $('#OlDate').addClass('input-validation-error');
-                return false;
-            }
-            else {
-                $('#OlDate_Message').hide();
-                $('#OlDate').removeClass('input-validation-error');
-                return true;
-            }
-        }
-        function AddOlympiad() {
-            var ret = true;
-            if (!CheckOlSeries()) { ret = false; }
-            if (!CheckOlNumber()) { ret = false; }
-            //if (!CheckOlDate()) { ret = false; }
-            if (!ret)
-                return false;
-            var param = new Object();
-            param['OlympTypeId'] = $('#OlympType').val();
-            param['OlympNameId'] = $('#OlympName').val();
-            param['OlympSubjectId'] = $('#OlympSubject').val();
-            param['OlympValueId'] = $('#OlympValue').val();
-            param['Series'] = $('#OlSeries').val();
-            param['Number'] = $('#OlNumber').val();
-            param['Date'] = $('#OlDate').val();
-            $.post('AbiturientNew/AddOlympiad', param, function (res) {
-                if (res.IsOk) {
-                    $('#OlympBlock').show();
-                    var output = '';
-                    output += '<tr id=\'' + res.Id + '\'><td style="vertical-align: middle;">';
-                    output += res.Type + '</td>';
-                    output += '<td style="vertical-align: middle;">' + res.Name + '</td>';
-                    output += '<td style="vertical-align: middle;">' + res.Subject + '</td>';
-                    output += '<td style="vertical-align: middle;">' + res.Value + '</td>';
-                    output += '<td style="width:35%; vertical-align: middle;">' + res.Doc + '</td>';
-                    output += '<td style="width:10%; vertical-align: middle;"><span class="link" onclick="DeleteOlympiad(\'' + res.Id + '\')" ><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить оценку" /><span></td>';
-                    output += '</tr>';
-                    $('#tblOlympiads tbody').append(output);
-                }
-                else {
-                    alert(res.ErrorMessage);
-                }
-            }, 'json');
-        }
-        function DeleteOlympiad(id) {
-            var param = new Object();
-            param['id'] = id;
-            $.post('AbiturientNew/DeleteOlympiad', param, function (res) {
-                if (res.IsOk) {
-                    $('#' + id).hide();
-                    if (res.Count == 0) {
-                        $('#OlympBlock').hide();
+                function checkLength() {
+                    if ((certificateNumber.val().length > 15 || certificateNumber.val().length < 15) && (!$("#Is2014").is(':checked'))) {
+                        certificateNumber.addClass("ui-state-error");
+                        updateTips("Номер сертификата должен быть 15-значным в формате РР-ХХХХХХХХ-ГГ");
+                        return false;
+                    } else {
+                        return true;
                     }
                 }
-                else {
-                    alert(res.ErrorMessage);
+                function checkVal() {
+                    var val = examMark.val();
+                    if ((val < 1 || val > 100) && (!$("#IsSecondWave").is(':checked')) && (!$("#IsInUniversity").is(':checked'))) {
+                        updateTips("Экзаменационный балл должен быть от 1 до 100");
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
                 }
-            }, 'json');
-        }
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            $('#PrivelegeInfo_SportQualificationId').change(function () { setTimeout(fChangeSportQualification); });
-        });
-        function fChangeSportQualification() {
-            var val = $('#PrivelegeInfo_SportQualificationId').val();
-            if (val == 44) {
-                $('#dSportQualificationLevel').hide();
-                $('#dOtherSport').show();
+                function checkRegexp(o, regexp, n) {
+                    if (!(regexp.test(o.val()))) {
+                        o.addClass("ui-state-error");
+                        updateTips(n);
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+
+                $("#dialog-form").dialog({
+                    autoOpen: false,
+                    height: 430,
+                    width: 350,
+                    modal: true,
+                    buttons: {
+                        "Добавить": function () {
+                            var bValid = true;
+                            allFields.removeClass("ui-state-error");
+
+                            bValid = bValid && checkLength();
+                            bValid = bValid && checkVal();
+
+                            if (bValid) {
+                                //add to DB
+                                var parm = new Object();
+                                parm["certNumber"] = certificateNumber.val();
+                                parm["examName"] = examName.val();
+                                parm["examValue"] = examMark.val();
+                                parm["Is2014"] = $("#Is2014").is(':checked');
+                                parm["IsInUniversity"] = $("#IsInUniversity").is(':checked');
+                                parm["IsSecondWave"] = $("#IsSecondWave").is(':checked');
+
+                                $.post("AbiturientNew/AddMark", parm, function (res) {
+                                    //add to table if ok
+                                    if (res.IsOk) {
+                                        $("#tblEGEData tbody").append('<tr id="' + res.Data.Id + '">' +
+							            '<td>' + res.Data.CertificateNumber + '</td>' +
+							            '<td>' + res.Data.ExamName + '</td>' +
+							            '<td>' + res.Data.ExamMark + '</td>' +
+                                        '<td><span class="link" onclick="DeleteMrk(\'' + res.Data.Id + '\')"><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить оценку" /></span></td>' +
+						                '</tr>');
+                                        $("#noMarks").html("").hide();
+                                        $("#dialog-form").dialog("close");
+                                    }
+                                    else {
+                                        updateTips(res.ErrorMessage);
+                                    }
+                                }, "json");
+                            }
+                        },
+                        "Отменить": function () {
+                            $(this).dialog("close");
+                        }
+                    },
+                    close: function () {
+                        allFields.val("").removeClass("ui-state-error");
+                    }
+                });
+
+                $("#create-ege").button().click(function () {
+                    loadFormValues();
+                    $("#dialog-form").dialog("open");
+                });
             }
-            else {
-                $('#dSportQualificationLevel').show();
-                $('#dOtherSport').hide();
+            function DeleteMrk(id) {
+                var data = new Object();
+                data['mId'] = id;
+                $.post("AbiturientNew/DeleteEgeMark", data, function r(res) {
+                    if (res.IsOk) {
+                        $("#" + id.toString()).html('').hide();
+                    }
+                    else {
+                        alert("Ошибка при удалении оценки:\n" + res.ErrorMsg);
+                    }
+                }, 'json');
             }
-        }
-        </script>
+	</script>
     <div class="grid">
         <div class="wrapper">
             <div class="grid_4 first">
@@ -337,216 +327,196 @@
                 <div id="Message" class="message warning">
                     <span class="ui-icon ui-icon-alert"></span><%= GetGlobalResourceObject("PersonInfo", "WarningMessagePersonLocked").ToString()%>
                 </div>
-            <% } %> 
-                <div class="form panel">
-                <h3><%= GetGlobalResourceObject("PersonalOffice_Step5", "ResearchWorkHeader").ToString()%></h3>
-                <hr />
-                <asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step5, ResearchWorkMessage %>"></asp:Literal>
-                    <div class="clearfix">
-                        <%= Html.DropDownListFor(x => x.WorkInfo.ScWorkId, Model.WorkInfo.ScWorks)%>
+            <% } %>
+                <form class="panel form" action="AbiturientNew/NextStep" method="post">
+                    <%= Html.ValidationSummary() %>
+                    <%= Html.HiddenFor(x => x.Stage) %>
+                    <div id="EnglishMark" class="clearfix">
+                        <%= Html.LabelFor(x => x.AddEducationInfo.EnglishMark, GetGlobalResourceObject("PersonalOffice_Step4", "EnglishMark").ToString())%>
+                        <%= Html.TextBoxFor(x => x.AddEducationInfo.EnglishMark) %>
                     </div>
                     <div class="clearfix">
-                        <textarea class="noresize" id="ScWorkInfo" rows="5" cols="80"></textarea>
+                        <%= Html.LabelFor(x => x.AddEducationInfo.StartEnglish, GetGlobalResourceObject("PersonalOffice_Step4", "EnglishNull").ToString())%>
+                        <%= Html.CheckBoxFor(x => x.AddEducationInfo.StartEnglish)%>
                     </div>
-                    <div class = "clearfix">
-                        <span id="ScWorkInfo_Message" style="display:none; color:Red;"><asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step5, ScWork_Message %>"></asp:Literal></span>
+                    <div id="_ForeignCountryEduc" class="clearfix" style="display:none">
+                        <div class="clearfix">
+                            <%= Html.LabelFor(x => x.AddEducationInfo.HasTRKI, GetGlobalResourceObject("PersonalOffice_Step4", "HasTRKI").ToString())%>
+                            <%= Html.CheckBoxFor(x => x.AddEducationInfo.HasTRKI)%>
+                        </div>
+                        <div id="TRKI" class="clearfix" >
+                            <%= Html.LabelFor(x => x.AddEducationInfo.TRKICertificateNumber, GetGlobalResourceObject("PersonalOffice_Step4", "TRKICertificateNumber").ToString())%>
+                            <%= Html.TextBoxFor(x => x.AddEducationInfo.TRKICertificateNumber) %>
+                        </div>
                     </div>
-                    <br />
                     <div class="clearfix">
-                        <button id="btnAddScWork" onclick="UpdScWorks()" class="button button-blue"><%= GetGlobalResourceObject("PersonalOffice_Step5", "btnAdd").ToString()%></button>
+                        <%= Html.LabelFor(x => x.AddEducationInfo.LanguageId, GetGlobalResourceObject("PersonalOffice_Step4", "LanguageId").ToString())%>
+                        <%= Html.DropDownListFor(x => x.AddEducationInfo.LanguageId, Model.AddEducationInfo.LanguageList) %>
                     </div>
-                    <br /><br />
-                    <% if (Model.WorkInfo.pScWorks.Count == 0)
-                       { %> <table id="ScWorks" class="paginate" style="display: none; width:100%; text-align: center;"> <%   }
-                       else
-                       {%>  <table id="ScWorks" class="paginate" style="width:100%; text-align: center;">  <%} %>
-                        <thead>
-                            <tr>
-                                <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "ScWorksType").ToString()%></th>
-                                <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "ScWorksText").ToString()%></th>
-                                <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "btnDelete").ToString()%></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <% foreach (var scWork in Model.WorkInfo.pScWorks)
+                    <% if (Model.AddEducationInfo.HasTransfer) { %>
+                    <div id="_TransferData" class="clearfix">
+                        <div id = "_AccreditationInfo">
+                            <div class="clearfix">
+                                <%= Html.LabelFor(x => x.CurrentEducation.HasAccreditation, GetGlobalResourceObject("PersonalOffice_Step4", "HasAccreditation").ToString())%>
+                                <%= Html.CheckBoxFor(x => x.CurrentEducation.HasAccreditation)%>
+                            </div>
+                            <div class="clearfix">
+                                <%= Html.LabelFor(x => x.CurrentEducation.AccreditationNumber,  GetGlobalResourceObject("PersonalOffice_Step4", "AccreditationNumber").ToString())%>
+                                <%= Html.TextBoxFor(x => x.CurrentEducation.AccreditationNumber)%>
+                            </div>
+                            <div class="clearfix">
+                                <%= Html.LabelFor(x => x.CurrentEducation.AccreditationDate,  GetGlobalResourceObject("PersonalOffice_Step4", "AccreditationDate").ToString()) %>
+                                <%= Html.TextBoxFor(x => x.CurrentEducation.AccreditationDate)%> 
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <%= Html.LabelFor(x => x.CurrentEducation.StudyLevelId,  GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudyLevel").ToString())%>
+                            <%= Html.DropDownListFor(x => x.CurrentEducation.StudyLevelId, Model.CurrentEducation.StudyLevelList, new SortedList<string, object>() { })%>
+                        </div>  
+                        <div class="clearfix">
+                            <%= Html.LabelFor(x => x.CurrentEducation.SemesterId,  GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudySemester").ToString())%>
+                            <%= Html.DropDownListFor(x => x.CurrentEducation.SemesterId, Model.CurrentEducation.SemesterList, new SortedList<string, object>() {  })%>
+                        </div>
+                        <div id="_TransferSPBUAddInfo" class="clearfix" >
+                            <div class="clearfix">
+                                <%= Html.LabelFor(x => x.CurrentEducation.StudyFormId,GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudyForm").ToString())%>
+                                <%= Html.DropDownListFor(x => x.CurrentEducation.StudyFormId, Model.EducationInfo.StudyFormList, new SortedList<string, object>() {  })%>
+                            </div>
+                            <div class="clearfix">
+                                <%= Html.LabelFor(x => x.CurrentEducation.StudyBasisId,GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudyBasis").ToString() ) %>
+                                <%= Html.DropDownListFor(x => x.CurrentEducation.StudyBasisId, Model.EducationInfo.StudyBasisList, new SortedList<string, object>() { })%>
+                            </div>
+                            <div class="clearfix">
+                                <%= Html.LabelFor(x => x.CurrentEducation.LicenseProgramId, GetGlobalResourceObject("PersonalOffice_Step4", "CurrentLicenceProgram").ToString()) %>
+                                <%= Html.HiddenFor(x=> x.CurrentEducation.HiddenLicenseProgramId) %>
+                                <select id="CurrentEducation_LicenseProgramId" size="12" name="lProfession" style="width:459px;" onchange="GetObrazPrograms()"></select> 
+                            </div>
+                            <div class="clearfix" id="_ObrazProg" <% if (String.IsNullOrEmpty(Model.CurrentEducation.HiddenObrazProgramId)) { %>style="display:none;"<% } %>>
+                                <%= Html.LabelFor(x => x.CurrentEducation.ObrazProgramId, GetGlobalResourceObject("PersonalOffice_Step4", "CurrentObrazProgram").ToString())%>
+                                <%= Html.HiddenFor(x => x.CurrentEducation.HiddenObrazProgramId)%>
+                                <select id="CurrentEducation_ObrazProgramId"  <%if (!Model.Enabled){ %> disabled="disabled" <% } %> size="5" name="CurObrazProgram" style="width:459px;"></select>
+                            </div>
+                            <div class="clearfix">
+                                <%= Html.LabelFor(x => x.CurrentEducation.ProfileName,GetGlobalResourceObject("PersonalOffice_Step4", "CurrentProfile").ToString())%>
+                                <%= Html.TextBoxFor(x => x.CurrentEducation.ProfileName)%>
+                            </div>
+                        </div>
+                        <div id="_Reason"> 
+                            <%= Html.LabelFor(x => x.ChangeStudyFormReason.Reason, GetGlobalResourceObject("PersonalOffice_Step4", "ChangeStudyFormReason").ToString())%>
+                            <%= Html.TextAreaFor(x => x.ChangeStudyFormReason.Reason, 5, 85, new SortedList<string, object>() { { "class", "noresize" } })%>
+                        </div>
+                        <div id="_TransferHasScholarship">
+                            <div class="clearfix">
+                                <%= Html.LabelFor(x => x.CurrentEducation.HasScholarship, GetGlobalResourceObject("PersonalOffice_Step4", "HasScholarship").ToString()) %>
+                                <%= Html.CheckBoxFor(x => x.CurrentEducation.HasScholarship)%>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% if (Model.AddEducationInfo.HasRecover) { %>
+                    <div id = "_DisorderInfo">
+                        <h3><%=GetGlobalResourceObject("PersonalOffice_Step4", "DisorderInfo").ToString()%></h3>
+                        <hr /> 
+                        <fieldset><br />
+                        <div class="clearfix">
+                            <%= Html.LabelFor(x => x.DisorderInfo.YearOfDisorder, GetGlobalResourceObject("PersonalOffice_Step4", "DisorderYear").ToString() )%>
+                            <%= Html.TextBoxFor(x => x.DisorderInfo.YearOfDisorder)%>
+                            <br /><p></p>
+                            <span id="DisorderInfo_Year_Message" class="Red" style="display:none; border-collapse:collapse;"><%=GetGlobalResourceObject("PersonalOffice_Step4", "SchoolExitYear_Message").ToString()%></span>
+                            <span id="DisorderInfo_Year_MessageFormat" class="Red" style="display:none; border-collapse:collapse;"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EducationInfo_SchoolExitYear_MessageFormat").ToString()%></span>
+                        </div>
+                        <div class="clearfix">
+                            <%= Html.LabelFor(x => x.DisorderInfo.EducationProgramName, GetGlobalResourceObject("PersonalOffice_Step4", "ObrazProgramName").ToString())%>
+                            <%= Html.TextBoxFor(x => x.DisorderInfo.EducationProgramName)%>
+                            <br /> 
+                        </div>
+                        <div class="clearfix">
+                            <%= Html.LabelFor(x => x.DisorderInfo.IsForIGA, GetGlobalResourceObject("PersonalOffice_Step4", "RecoverForIGA").ToString())%>
+                            <%= Html.CheckBoxFor(x => x.DisorderInfo.IsForIGA)%>
+                            <br /> 
+                        </div>
+                        </fieldset>
+                    </div>
+
+                    <div id="EGEData" class="clearfix">
+                        <h6><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEmarks").ToString()%></h6>
+                        <% if (Model.EducationInfo.EgeMarks.Count == 0)
+                            { 
+                        %>
+                            <h6 id="noMarks"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEnomarks").ToString()%></h6>
+                        <%
+                            }
+                            else
                             {
                         %>
-                            <tr>
-                            <%= Html.Raw(string.Format(@"<tr id=""{0}"">", scWork.Id)) %>
-                                <td ><%= Html.Encode(scWork.ScienceWorkType) %></td>
-                                <td><%= Html.Encode(scWork.ScienceWorkInfo) %></td>
-                                <td><%= Html.Raw("<span class=\"link\" onclick=\"DeleteScWork('" + scWork.Id.ToString() + "')\" ><img src=\"../../Content/themes/base/images/delete-icon.png\" alt=\"Удалить\" /></span>") %></td>
-                            </tr>
-                        <% } %>
-                        </tbody>
-                    </table>
-                </div>
-                <br /><br /> 
-
-                <div class="form panel">
-                <h3><%= GetGlobalResourceObject("PersonalOffice_Step5", "WorkExperienceHeader").ToString()%></h3>
-                <hr /> 
-                    <div class="clearfix">
-                        <label for="WorkStag"><%= GetGlobalResourceObject("PersonalOffice_Step5", "JobExperience").ToString()%></label>
-                        <input id="WorkStag" onkeyup="CheckRegExp()" type="text"/>
-                        <br /><p></p><span id="validationMsgPersonWorksExperience" style="display:none; color:Red;"><%= GetGlobalResourceObject("PersonalOffice_Step5", "validationMsgPersonWorksExperience").ToString()%></span>
-                    </div>
-                    <div class="clearfix">
-                        <label for="WorkPlace"><%= GetGlobalResourceObject("PersonalOffice_Step5", "JobLocation").ToString()%></label>
-                        <input id="WorkPlace" type="text" /><br /><p></p><span id="validationMsgPersonWorksPlace" class="Red"  style="display:none;"><%= GetGlobalResourceObject("PersonalOffice_Step5", "validationMsgPersonWorksPlace").ToString()%></span>
-                    </div>
-                    <div class="clearfix">
-                        <label for="WorkProf"><%= GetGlobalResourceObject("PersonalOffice_Step5", "JobPosition").ToString()%></label>
-                        <input id="WorkProf" type="text" /><br /><p></p><span id="validationMsgPersonWorksLevel" class="Red" style="display:none;"><%= GetGlobalResourceObject("PersonalOffice_Step5", "validationMsgPersonWorksLevel").ToString()%></span>
-                    </div>
-                    <div class="clearfix">
-                        <label for="WorkSpec"><%= GetGlobalResourceObject("PersonalOffice_Step5", "JobFunctions").ToString()%></label>
-                        <textarea id="WorkSpec" cols="80" rows="4" ></textarea>
-                    </div>
-                    <div>
-                        <span id="validationMsgPersonWorksDuties" class="Red" style="display:none;"><%= GetGlobalResourceObject("PersonalOffice_Step5", "validationMsgPersonWorksDuties").ToString()%></span>
-                    </div> 
-                    <div class="clearfix">
-                        <button id="btnAddProfs" onclick="AddWorkPlace()" class="button button-blue"><%= GetGlobalResourceObject("PersonalOffice_Step5", "btnAdd").ToString()%></button>
-                    </div>
-                <br /><br />
-                <% if (Model.WorkInfo.pWorks.Count == 0)
-                   { %>  <div id = "BlockPersonWorks" style="width: 464px; overflow-x: scroll; display: none;"> <% }
-                   else
-                   { %> <div id = "BlockPersonWorks" style="width: 464px; overflow-x: scroll; "> <%} %>
-                        <table id="PersonWorks" class="paginate" style="width:100%; text-align: center; vertical-align:middle; " >
+                        <table id="tblEGEData" class="paginate" style="width:400px">
                             <thead>
-                                <tr>
-                                    <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "JobLocation").ToString()%></th>
-                                    <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "JobExperience").ToString()%></th>
-                                    <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "JobPosition").ToString()%></th>
-                                    <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "JobFunctions").ToString()%></th>
-                                    <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "btnDelete").ToString()%></th>
-                                </tr>
+                            <tr>
+                                <th><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsert").ToString()%></th>
+                                <th><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsubject").ToString()%></th>
+                                <th><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEball").ToString()%></th>
+                                <th></th>
+                            </tr>
                             </thead>
                             <tbody>
-                            <% foreach (var wrk in Model.WorkInfo.pWorks)
+                        <%
+                                foreach (var mark in Model.EducationInfo.EgeMarks)
                                 {
-                            %>
-                                <tr>
-                                <%= Html.Raw(string.Format(@"<tr id=""{0}"">", wrk.Id.ToString())) %>
-                                    <td><%= Html.Encode(wrk.Place) %></td>
-                                    <td><%= Html.Encode(wrk.Stag) %></td>
-                                    <td><%= Html.Encode(wrk.Level) %></td>
-                                    <td><%= Html.Encode(wrk.Duties) %></td>
-                                    <td><%= Html.Raw(string.Format(@"<span class=""link"" onclick=""DeleteWorkPlace('{0}')""><img src=""../../Content/themes/base/images/delete-icon.png"" alt=""Удалить"" /></span>", wrk.Id.ToString()))%></td>
-                                </tr>
-                            <% } %>
+                        %>
+                            <tr id="<%= mark.Id.ToString() %>">
+                                <td><span><%= mark.CertificateNum%></span></td>
+                                <td><span><%= mark.ExamName%></span></td>
+                                <td><span><%= mark.Value%></span></td>
+                                <td><%= Html.Raw("<span class=\"link\" onclick=\"DeleteMrk('" + mark.Id.ToString() + "')\"><img src=\"../../Content/themes/base/images/delete-icon.png\" alt=\"Удалить оценку\" /></span>")%></td>
+                            </tr>
+                        <%
+                                }
+                        %>
                             </tbody>
-                        </table> 
-                    </div>
-                </div>
-                <br /> 
-                
-                <div class="form panel">
-                <h3><%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsHeader").ToString()%></h3>
-                    <div class="clearfix">
-                        <%= Html.DropDownList("OlympType", Model.PrivelegeInfo.OlympTypeList, 
-                        new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "4"} }) %>
-                    </div>
-                    <div class="clearfix" id="_OlympName" style="display:none">
-                        <%= Html.DropDownList("OlympName", Model.PrivelegeInfo.OlympNameList, 
-                        new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "6"} }) %>
-                    </div>
-                    <div class="clearfix" id="_OlympSubject" style="display:none">
-                        <%= Html.DropDownList("OlympSubject", Model.PrivelegeInfo.OlympSubjectList, 
-                        new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "6"} }) %>
-                    </div>
-                    <div class="clearfix" id="_OlympValue" style="display:none">
-                        <%= Html.DropDownList("OlympValue", Model.PrivelegeInfo.OlympValueList,
-                        new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "4"} }) %>
-                    </div>
-                    <div>
-                        <h4><%= GetGlobalResourceObject("PersonalOffice_Step5", "DocumentHeader").ToString()%></h4>
-                        <hr />
-                        <div class="clearfix">
-                            <label for="OlSeries"><%= GetGlobalResourceObject("PersonalOffice_Step5", "DocumentSeries").ToString()%></label>
-                            <input id="OlSeries" type="text" /><br/><p></p>
-                            <span id="OlSeries_Message" style="display:none; color:Red;"><%= GetGlobalResourceObject("PersonalOffice_Step5", "DocumentSeriesMessage").ToString()%></span>
-                        </div>
-                        <div class="clearfix">
-                            <label for="OlNumber"><%= GetGlobalResourceObject("PersonalOffice_Step5", "DocumentNumber").ToString()%></label>
-                            <input id="OlNumber" type="text" /><br/><p></p>
-                            <span id="OlNumber_Message" style="display:none; color:Red;"><%= GetGlobalResourceObject("PersonalOffice_Step5", "DocumentNumberMessage").ToString()%></span>
-                        </div>
-                        <div class="clearfix">
-                            <label for="OlDate"><%= GetGlobalResourceObject("PersonalOffice_Step5", "DocumentDate").ToString()%></label>
-                            <input id="OlDate" type="text" /><br/><p></p>
-                            <span id="OlDate_Message" style="display:none; color:Red;"><%= GetGlobalResourceObject("PersonalOffice_Step5", "DocumentDateMessage").ToString()%></span>
-                        </div>
-                        <hr />
-                        <div class="message info">
-                            <%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsMessage").ToString()%>
-                        </div>
-                        <div class="clearfix" id="btnAddOlympiad" >
-                            <button onclick="AddOlympiad()" class="button button-blue"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "btnAdd").ToString()%></button>
-                        </div>
+                        </table>
+                        <% } %>
                         <br />
-                       
-                            <% if (Model.PrivelegeInfo.pOlympiads.Count==0) { %> 
-                            <div id = "OlympBlock" style="width: 464px; overflow-x: scroll; display: none;"><% } else { %> 
-                            <div id = "OlympBlock" style="width: 464px; overflow-x: scroll; "><% } %>
-                            <h4 > <%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsAdded").ToString()%></h4>
-                            <table id="tblOlympiads" class="paginate" style="width:100%; text-align: center; vertical-align:middle; ">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsType").ToString()%></th>
-                                        <th style="text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsName").ToString()%></th>
-                                        <th style="text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsSubject").ToString()%></th>
-                                        <th style="text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsStatus").ToString()%></th>
-                                        <th style="width:35%;text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "DocumentHeader").ToString()%></th>
-                                        <th style="width:10%;text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "btnDelete").ToString()%></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <% foreach (var olympiad in Model.PrivelegeInfo.pOlympiads)
-                                    {
-                                %>
-                                    <tr id='<%= olympiad.Id.ToString("N") %>'>
-                                        <td style="vertical-align: middle;"><%= Html.Encode(olympiad.OlympType) %></td>
-                                        <td style="vertical-align: middle;"><%= Html.Encode(olympiad.OlympName) %></td>
-                                        <td style="vertical-align: middle;"><%= Html.Encode(olympiad.OlympSubject) %></td>
-                                        <td style="vertical-align: middle;"><%= Html.Encode(olympiad.OlympValue) %></td>
-                                        <td style="width:35%; vertical-align: middle;">
-                                            <%= Html.Encode(olympiad.DocumentSeries + " " + olympiad.DocumentNumber + " от " + olympiad.DocumentDate.ToShortDateString())%>
-                                        </td>
-                                        <td style="width:10%; vertical-align: middle;"><%= Html.Raw("<span class=\"link\" onclick=\"DeleteOlympiad('" + olympiad.Id.ToString("N") + "')\" ><img src=\"../../Content/themes/base/images/delete-icon.png\" alt=\"Удалить\" /></span>")%></td>
-                                    </tr>
-                                <% } %>
-                                </tbody>
-                            </table>
+                        <button type="button" id="create-ege" class="button button-blue"><%=GetGlobalResourceObject("PersonalOffice_Step4", "AddMark").ToString()%></button>
+                        <div id="dialog-form">
+                            <p id="validation_info">Все поля обязательны для заполнения</p>
+	                        <hr />
+                            <fieldset>
+                                <div id="_CertNum" class="clearfix">
+                                    <label for="EgeCert"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsert").ToString()%></label><br />
+		                            <input type="text" id="EgeCert" disabled="disabled"/><br />
+                                </div>
+                                <div class="clearfix">
+                                    <label for="Is2014"><%=GetGlobalResourceObject("PersonalOffice_Step4", "CurrentYear").ToString()%></label><br />
+		                            <input type="checkbox" id="Is2014" checked="checked" onchange="updateIs2014()" /><br />
+                                </div>
+                                <div class="clearfix">
+                                    <label for="EgeExam"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsubject").ToString()%></label><br />
+		                            <select id="EgeExam" ></select><br />
+                                </div>
+                                <div id="_EgeMark" class="clearfix" >
+                                    <label for="EgeMark"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEball").ToString()%></label><br />
+		                            <input type="text" id="EgeMark" value="" /><br />
+                                </div>
+                                <div id="_IsSecondWave" class="clearfix" >
+                                    <label for="IsSecondWave"><%=GetGlobalResourceObject("PersonalOffice_Step4", "SecondWave").ToString()%></label><br />
+		                            <input type="checkbox" id="IsSecondWave" onchange="updateIsSecondWave()" /><br />
+                                </div>
+                                <br />
+                                <div id="_IsInUniversity" class="clearfix">
+                                    <label for="IsInUniversity"><%=GetGlobalResourceObject("PersonalOffice_Step4", "PassInSPbSU").ToString()%></label><br />
+		                            <input type="checkbox" id="IsInUniversity" onchange="updateIsInUniversity()" /><br />
+                                </div>
+	                        </fieldset>
                         </div>
                     </div>
-                </div> 
-                <hr style="color:#A6C9E2;" />
+                        
 
-                <% using (Html.BeginForm("NextStep", "AbiturientNew", FormMethod.Post))
-                   {
-                %>
-                    <h3><%= GetGlobalResourceObject("PersonalOffice_Step5", "SportValue").ToString()%></h3>
+                    <% } %>
                     <hr />
-                    <div class="form">
-                        <div class="clearfix">
-                            <%= Html.LabelFor(x => x.PrivelegeInfo.SportQualificationId, GetGlobalResourceObject("PersonalOffice_Step5", "SportQualification").ToString())%>
-                            <%= Html.DropDownListFor(x => x.PrivelegeInfo.SportQualificationId, Model.PrivelegeInfo.SportQualificationList) %>
-                        </div>
-                        <div id="dSportQualificationLevel" class="clearfix">
-                            <%= Html.LabelFor(x => x.PrivelegeInfo.SportQualificationLevel, GetGlobalResourceObject("PersonalOffice_Step5", "SportCategory").ToString()) %>
-                            <%= Html.TextBoxFor(x => x.PrivelegeInfo.SportQualificationLevel) %>
-                        </div>
-                        <div id="dOtherSport" class="clearfix" style=" display:none; border-collapse:collapse;">
-                            <%= Html.LabelFor(x => x.PrivelegeInfo.OtherSportQualification, GetGlobalResourceObject("PersonalOffice_Step5", "SportQualificationCategory").ToString())%>
-                            <%= Html.TextBoxFor(x => x.PrivelegeInfo.OtherSportQualification) %>
-                        </div>
+                    <div class="clearfix">
+                        <input id="Submit5" class="button button-green" type="submit" value="<%= GetGlobalResourceObject("PersonInfo", "ButtonSubmitText").ToString()%>" />
                     </div>
-                    <input name="Stage" type="hidden" value="<%= Model.Stage %>" />
-                    <input id="Submit4" class="button button-green" type="submit" value="<%= GetGlobalResourceObject("PersonInfo", "ButtonSubmitText").ToString()%>" />
-                <% } %>
+                </form>
             </div>
             <div class="grid_2">
                 <ol>
@@ -556,11 +526,11 @@
                     <li><a href="../../AbiturientNew?step=4"><%= GetGlobalResourceObject("PersonInfo", "Step4")%></a></li>
                     <li><a href="../../AbiturientNew?step=5"><%= GetGlobalResourceObject("PersonInfo", "Step5")%></a></li>
                     <li><a href="../../AbiturientNew?step=6"><%= GetGlobalResourceObject("PersonInfo", "Step6")%></a></li>
+                    <li><a href="../../AbiturientNew?step=7"><%= GetGlobalResourceObject("PersonInfo", "Step7")%></a></li>
                 </ol>
             </div>
         </div>
     </div>
-
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderScriptsContent" runat="server">

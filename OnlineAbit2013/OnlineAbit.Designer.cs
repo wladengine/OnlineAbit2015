@@ -30,7 +30,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonContacts_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonContacts", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonContacts), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonCurrentEducation", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonDisorderInfo_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonDisorderInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonDisorderInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonHighEducationInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonHighEducationInfo), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonVisaInfo_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonVisaInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonVisaInfo), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_Semester", "Semester", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Semester), "PersonCurrentEducation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_Qualification", "Qualification", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Qualification), "PersonHighEducationInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonHighEducationInfo), true)]
@@ -106,6 +105,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_SchoolExitClass", "SchoolExitClass", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.SchoolExitClass), "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_VuzAdditionalType", "VuzAdditionalType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.VuzAdditionalType), "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonAddInfo_Language", "Language", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Language), "PersonAddInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonAddInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_PersonEducationDocument", "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.PersonEducationDocument), "PersonHighEducationInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonHighEducationInfo), true)]
 
 #endregion
 
@@ -2028,6 +2028,231 @@ namespace OnlineAbit2013
             }
     
             return base.ExecuteFunction("PersonEducationDocument_insert", personIdParameter, schoolTypeIdParameter, countryEducIdParameter, regionEducIdParameter, vuzAdditionalTypeIdParameter, schoolCityParameter, schoolNameParameter, schoolNumParameter, schoolExitYearParameter, schoolExitClassIdParameter, seriesParameter, numberParameter, isEqualParameter, equalDocumentNumberParameter, avgMarkParameter, isExcellentParameter, id);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="personId">No Metadata Documentation available.</param>
+        /// <param name="schoolTypeId">No Metadata Documentation available.</param>
+        /// <param name="countryEducId">No Metadata Documentation available.</param>
+        /// <param name="regionEducId">No Metadata Documentation available.</param>
+        /// <param name="vuzAdditionalTypeId">No Metadata Documentation available.</param>
+        /// <param name="schoolCity">No Metadata Documentation available.</param>
+        /// <param name="schoolName">No Metadata Documentation available.</param>
+        /// <param name="schoolNum">No Metadata Documentation available.</param>
+        /// <param name="schoolExitYear">No Metadata Documentation available.</param>
+        /// <param name="schoolExitClassId">No Metadata Documentation available.</param>
+        /// <param name="series">No Metadata Documentation available.</param>
+        /// <param name="number">No Metadata Documentation available.</param>
+        /// <param name="isEqual">No Metadata Documentation available.</param>
+        /// <param name="equalDocumentNumber">No Metadata Documentation available.</param>
+        /// <param name="avgMark">No Metadata Documentation available.</param>
+        /// <param name="isExcellent">No Metadata Documentation available.</param>
+        /// <param name="id">No Metadata Documentation available.</param>
+        public int PersonEducationDocument_update(Nullable<global::System.Guid> personId, Nullable<global::System.Int32> schoolTypeId, Nullable<global::System.Int32> countryEducId, Nullable<global::System.Int32> regionEducId, Nullable<global::System.Int32> vuzAdditionalTypeId, global::System.String schoolCity, global::System.String schoolName, global::System.String schoolNum, global::System.String schoolExitYear, Nullable<global::System.Int32> schoolExitClassId, global::System.String series, global::System.String number, Nullable<global::System.Boolean> isEqual, global::System.String equalDocumentNumber, Nullable<global::System.Double> avgMark, Nullable<global::System.Boolean> isExcellent, Nullable<global::System.Int32> id)
+        {
+            ObjectParameter personIdParameter;
+            if (personId.HasValue)
+            {
+                personIdParameter = new ObjectParameter("PersonId", personId);
+            }
+            else
+            {
+                personIdParameter = new ObjectParameter("PersonId", typeof(global::System.Guid));
+            }
+    
+            ObjectParameter schoolTypeIdParameter;
+            if (schoolTypeId.HasValue)
+            {
+                schoolTypeIdParameter = new ObjectParameter("SchoolTypeId", schoolTypeId);
+            }
+            else
+            {
+                schoolTypeIdParameter = new ObjectParameter("SchoolTypeId", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter countryEducIdParameter;
+            if (countryEducId.HasValue)
+            {
+                countryEducIdParameter = new ObjectParameter("CountryEducId", countryEducId);
+            }
+            else
+            {
+                countryEducIdParameter = new ObjectParameter("CountryEducId", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter regionEducIdParameter;
+            if (regionEducId.HasValue)
+            {
+                regionEducIdParameter = new ObjectParameter("RegionEducId", regionEducId);
+            }
+            else
+            {
+                regionEducIdParameter = new ObjectParameter("RegionEducId", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter vuzAdditionalTypeIdParameter;
+            if (vuzAdditionalTypeId.HasValue)
+            {
+                vuzAdditionalTypeIdParameter = new ObjectParameter("VuzAdditionalTypeId", vuzAdditionalTypeId);
+            }
+            else
+            {
+                vuzAdditionalTypeIdParameter = new ObjectParameter("VuzAdditionalTypeId", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter schoolCityParameter;
+            if (schoolCity != null)
+            {
+                schoolCityParameter = new ObjectParameter("SchoolCity", schoolCity);
+            }
+            else
+            {
+                schoolCityParameter = new ObjectParameter("SchoolCity", typeof(global::System.String));
+            }
+    
+            ObjectParameter schoolNameParameter;
+            if (schoolName != null)
+            {
+                schoolNameParameter = new ObjectParameter("SchoolName", schoolName);
+            }
+            else
+            {
+                schoolNameParameter = new ObjectParameter("SchoolName", typeof(global::System.String));
+            }
+    
+            ObjectParameter schoolNumParameter;
+            if (schoolNum != null)
+            {
+                schoolNumParameter = new ObjectParameter("SchoolNum", schoolNum);
+            }
+            else
+            {
+                schoolNumParameter = new ObjectParameter("SchoolNum", typeof(global::System.String));
+            }
+    
+            ObjectParameter schoolExitYearParameter;
+            if (schoolExitYear != null)
+            {
+                schoolExitYearParameter = new ObjectParameter("SchoolExitYear", schoolExitYear);
+            }
+            else
+            {
+                schoolExitYearParameter = new ObjectParameter("SchoolExitYear", typeof(global::System.String));
+            }
+    
+            ObjectParameter schoolExitClassIdParameter;
+            if (schoolExitClassId.HasValue)
+            {
+                schoolExitClassIdParameter = new ObjectParameter("SchoolExitClassId", schoolExitClassId);
+            }
+            else
+            {
+                schoolExitClassIdParameter = new ObjectParameter("SchoolExitClassId", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter seriesParameter;
+            if (series != null)
+            {
+                seriesParameter = new ObjectParameter("Series", series);
+            }
+            else
+            {
+                seriesParameter = new ObjectParameter("Series", typeof(global::System.String));
+            }
+    
+            ObjectParameter numberParameter;
+            if (number != null)
+            {
+                numberParameter = new ObjectParameter("Number", number);
+            }
+            else
+            {
+                numberParameter = new ObjectParameter("Number", typeof(global::System.String));
+            }
+    
+            ObjectParameter isEqualParameter;
+            if (isEqual.HasValue)
+            {
+                isEqualParameter = new ObjectParameter("IsEqual", isEqual);
+            }
+            else
+            {
+                isEqualParameter = new ObjectParameter("IsEqual", typeof(global::System.Boolean));
+            }
+    
+            ObjectParameter equalDocumentNumberParameter;
+            if (equalDocumentNumber != null)
+            {
+                equalDocumentNumberParameter = new ObjectParameter("EqualDocumentNumber", equalDocumentNumber);
+            }
+            else
+            {
+                equalDocumentNumberParameter = new ObjectParameter("EqualDocumentNumber", typeof(global::System.String));
+            }
+    
+            ObjectParameter avgMarkParameter;
+            if (avgMark.HasValue)
+            {
+                avgMarkParameter = new ObjectParameter("AvgMark", avgMark);
+            }
+            else
+            {
+                avgMarkParameter = new ObjectParameter("AvgMark", typeof(global::System.Double));
+            }
+    
+            ObjectParameter isExcellentParameter;
+            if (isExcellent.HasValue)
+            {
+                isExcellentParameter = new ObjectParameter("IsExcellent", isExcellent);
+            }
+            else
+            {
+                isExcellentParameter = new ObjectParameter("IsExcellent", typeof(global::System.Boolean));
+            }
+    
+            ObjectParameter idParameter;
+            if (id.HasValue)
+            {
+                idParameter = new ObjectParameter("id", id);
+            }
+            else
+            {
+                idParameter = new ObjectParameter("id", typeof(global::System.Int32));
+            }
+    
+            return base.ExecuteFunction("PersonEducationDocument_update", personIdParameter, schoolTypeIdParameter, countryEducIdParameter, regionEducIdParameter, vuzAdditionalTypeIdParameter, schoolCityParameter, schoolNameParameter, schoolNumParameter, schoolExitYearParameter, schoolExitClassIdParameter, seriesParameter, numberParameter, isEqualParameter, equalDocumentNumberParameter, avgMarkParameter, isExcellentParameter, idParameter);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="personId">No Metadata Documentation available.</param>
+        /// <param name="id">No Metadata Documentation available.</param>
+        public int PersonEducationDocument_delete(Nullable<global::System.Guid> personId, Nullable<global::System.Int32> id)
+        {
+            ObjectParameter personIdParameter;
+            if (personId.HasValue)
+            {
+                personIdParameter = new ObjectParameter("PersonId", personId);
+            }
+            else
+            {
+                personIdParameter = new ObjectParameter("PersonId", typeof(global::System.Guid));
+            }
+    
+            ObjectParameter idParameter;
+            if (id.HasValue)
+            {
+                idParameter = new ObjectParameter("id", id);
+            }
+            else
+            {
+                idParameter = new ObjectParameter("id", typeof(global::System.Int32));
+            }
+    
+            return base.ExecuteFunction("PersonEducationDocument_delete", personIdParameter, idParameter);
         }
 
         #endregion
@@ -15479,44 +15704,6 @@ namespace OnlineAbit2013
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_Person", "PersonHighEducationInfo")]
-        public PersonHighEducationInfo PersonHighEducationInfo
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonHighEducationInfo>("OnlinePriem2012Model.FK_PersonHighEducationInfo_Person", "PersonHighEducationInfo").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonHighEducationInfo>("OnlinePriem2012Model.FK_PersonHighEducationInfo_Person", "PersonHighEducationInfo").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<PersonHighEducationInfo> PersonHighEducationInfoReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonHighEducationInfo>("OnlinePriem2012Model.FK_PersonHighEducationInfo_Person", "PersonHighEducationInfo");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<PersonHighEducationInfo>("OnlinePriem2012Model.FK_PersonHighEducationInfo_Person", "PersonHighEducationInfo", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_PersonVisaInfo_Person", "PersonVisaInfo")]
         public PersonVisaInfo PersonVisaInfo
         {
@@ -18712,6 +18899,44 @@ namespace OnlineAbit2013
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_PersonEducationDocument", "PersonHighEducationInfo")]
+        public PersonHighEducationInfo PersonHighEducationInfo
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonHighEducationInfo>("OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument", "PersonHighEducationInfo").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonHighEducationInfo>("OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument", "PersonHighEducationInfo").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<PersonHighEducationInfo> PersonHighEducationInfoReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonHighEducationInfo>("OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument", "PersonHighEducationInfo");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<PersonHighEducationInfo>("OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument", "PersonHighEducationInfo", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -19262,50 +19487,23 @@ namespace OnlineAbit2013
         /// <summary>
         /// Create a new PersonHighEducationInfo object.
         /// </summary>
-        /// <param name="personId">Initial value of the PersonId property.</param>
         /// <param name="exitYear">Initial value of the ExitYear property.</param>
         /// <param name="qualificationId">Initial value of the QualificationId property.</param>
         /// <param name="studyFormId">Initial value of the StudyFormId property.</param>
-        public static PersonHighEducationInfo CreatePersonHighEducationInfo(global::System.Guid personId, global::System.Int32 exitYear, global::System.Int32 qualificationId, global::System.Int32 studyFormId)
+        /// <param name="educationDocumentId">Initial value of the EducationDocumentId property.</param>
+        public static PersonHighEducationInfo CreatePersonHighEducationInfo(global::System.Int32 exitYear, global::System.Int32 qualificationId, global::System.Int32 studyFormId, global::System.Int32 educationDocumentId)
         {
             PersonHighEducationInfo personHighEducationInfo = new PersonHighEducationInfo();
-            personHighEducationInfo.PersonId = personId;
             personHighEducationInfo.ExitYear = exitYear;
             personHighEducationInfo.QualificationId = qualificationId;
             personHighEducationInfo.StudyFormId = studyFormId;
+            personHighEducationInfo.EducationDocumentId = educationDocumentId;
             return personHighEducationInfo;
         }
 
         #endregion
 
         #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid PersonId
-        {
-            get
-            {
-                return _PersonId;
-            }
-            set
-            {
-                if (_PersonId != value)
-                {
-                    OnPersonIdChanging(value);
-                    ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("PersonId");
-                    OnPersonIdChanged();
-                }
-            }
-        }
-        private global::System.Guid _PersonId;
-        partial void OnPersonIdChanging(global::System.Guid value);
-        partial void OnPersonIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -19450,49 +19648,38 @@ namespace OnlineAbit2013
         private global::System.String _ProgramName;
         partial void OnProgramNameChanging(global::System.String value);
         partial void OnProgramNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 EducationDocumentId
+        {
+            get
+            {
+                return _EducationDocumentId;
+            }
+            set
+            {
+                if (_EducationDocumentId != value)
+                {
+                    OnEducationDocumentIdChanging(value);
+                    ReportPropertyChanging("EducationDocumentId");
+                    _EducationDocumentId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("EducationDocumentId");
+                    OnEducationDocumentIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _EducationDocumentId;
+        partial void OnEducationDocumentIdChanging(global::System.Int32 value);
+        partial void OnEducationDocumentIdChanged();
 
         #endregion
 
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_Person", "Person")]
-        public Person Person
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Person>("OnlinePriem2012Model.FK_PersonHighEducationInfo_Person", "Person").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Person>("OnlinePriem2012Model.FK_PersonHighEducationInfo_Person", "Person").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Person> PersonReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Person>("OnlinePriem2012Model.FK_PersonHighEducationInfo_Person", "Person");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Person>("OnlinePriem2012Model.FK_PersonHighEducationInfo_Person", "Person", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -19528,6 +19715,44 @@ namespace OnlineAbit2013
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Qualification>("OnlinePriem2012Model.FK_PersonHighEducationInfo_Qualification", "Qualification", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_PersonEducationDocument", "PersonEducationDocument")]
+        public PersonEducationDocument PersonEducationDocument
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonEducationDocument>("OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument", "PersonEducationDocument").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonEducationDocument>("OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument", "PersonEducationDocument").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<PersonEducationDocument> PersonEducationDocumentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonEducationDocument>("OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument", "PersonEducationDocument");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<PersonEducationDocument>("OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument", "PersonEducationDocument", value);
                 }
             }
         }

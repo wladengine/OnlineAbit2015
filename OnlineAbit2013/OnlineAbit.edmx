@@ -483,8 +483,8 @@
             <End Role="PersonFileType" EntitySet="PersonFileType" />
             <End Role="PersonFile" EntitySet="PersonFile" />
           </AssociationSet>
-          <AssociationSet Name="FK_PersonHighEducationInfo_Person" Association="OnlinePriem2012Model.Store.FK_PersonHighEducationInfo_Person">
-            <End Role="Person" EntitySet="Person" />
+          <AssociationSet Name="FK_PersonHighEducationInfo_PersonEducationDocument" Association="OnlinePriem2012Model.Store.FK_PersonHighEducationInfo_PersonEducationDocument">
+            <End Role="PersonEducationDocument" EntitySet="PersonEducationDocument" />
             <End Role="PersonHighEducationInfo" EntitySet="PersonHighEducationInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_PersonHighEducationInfo_Qualification" Association="OnlinePriem2012Model.Store.FK_PersonHighEducationInfo_Qualification">
@@ -1107,9 +1107,9 @@
         </EntityType>
         <EntityType Name="PersonHighEducationInfo">
           <Key>
-            <PropertyRef Name="PersonId" />
+            <PropertyRef Name="EducationDocumentId" />
           </Key>
-          <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EducationDocumentId" Type="int" Nullable="false" />
           <Property Name="EntryYear" Type="int" />
           <Property Name="ExitYear" Type="int" Nullable="false" />
           <Property Name="DiplomaTheme" Type="nvarchar" MaxLength="1000" />
@@ -2367,17 +2367,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PersonHighEducationInfo_Person">
-          <End Role="Person" Type="OnlinePriem2012Model.Store.Person" Multiplicity="1">
+        <Association Name="FK_PersonHighEducationInfo_PersonEducationDocument">
+          <End Role="PersonEducationDocument" Type="OnlinePriem2012Model.Store.PersonEducationDocument" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="PersonHighEducationInfo" Type="OnlinePriem2012Model.Store.PersonHighEducationInfo" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Person">
+            <Principal Role="PersonEducationDocument">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="PersonHighEducationInfo">
-              <PropertyRef Name="PersonId" />
+              <PropertyRef Name="EducationDocumentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2573,6 +2573,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="PersonEducationDocument_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PersonId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
         <Function Name="PersonEducationDocument_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PersonId" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="SchoolTypeId" Type="int" Mode="In" />
@@ -2591,6 +2595,25 @@
           <Parameter Name="AvgMark" Type="float" Mode="In" />
           <Parameter Name="IsExcellent" Type="bit" Mode="In" />
           <Parameter Name="id" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="PersonEducationDocument_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PersonId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="SchoolTypeId" Type="int" Mode="In" />
+          <Parameter Name="CountryEducId" Type="int" Mode="In" />
+          <Parameter Name="RegionEducId" Type="int" Mode="In" />
+          <Parameter Name="VuzAdditionalTypeId" Type="int" Mode="In" />
+          <Parameter Name="SchoolCity" Type="nvarchar" Mode="In" />
+          <Parameter Name="SchoolName" Type="nvarchar" Mode="In" />
+          <Parameter Name="SchoolNum" Type="nvarchar" Mode="In" />
+          <Parameter Name="SchoolExitYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="SchoolExitClassId" Type="int" Mode="In" />
+          <Parameter Name="Series" Type="nvarchar" Mode="In" />
+          <Parameter Name="Number" Type="nvarchar" Mode="In" />
+          <Parameter Name="IsEqual" Type="bit" Mode="In" />
+          <Parameter Name="EqualDocumentNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="AvgMark" Type="float" Mode="In" />
+          <Parameter Name="IsExcellent" Type="bit" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="In" />
         </Function>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -2659,10 +2682,6 @@
           <AssociationSet Name="FK_PersonDisorderInfo_Person" Association="OnlinePriem2012Model.FK_PersonDisorderInfo_Person">
             <End Role="Person" EntitySet="Person" />
             <End Role="PersonDisorderInfo" EntitySet="PersonDisorderInfo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PersonHighEducationInfo_Person" Association="OnlinePriem2012Model.FK_PersonHighEducationInfo_Person">
-            <End Role="Person" EntitySet="Person" />
-            <End Role="PersonHighEducationInfo" EntitySet="PersonHighEducationInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_PersonVisaInfo_Person" Association="OnlinePriem2012Model.FK_PersonVisaInfo_Person">
             <End Role="Person" EntitySet="Person" />
@@ -3034,6 +3053,33 @@
             <Parameter Name="IsExcellent" Mode="In" Type="Boolean" />
             <Parameter Name="id" Mode="InOut" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_PersonHighEducationInfo_PersonEducationDocument" Association="OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument">
+            <End Role="PersonEducationDocument" EntitySet="PersonEducationDocument" />
+            <End Role="PersonHighEducationInfo" EntitySet="PersonHighEducationInfo" />
+          </AssociationSet>
+          <FunctionImport Name="PersonEducationDocument_update">
+            <Parameter Name="PersonId" Mode="In" Type="Guid" />
+            <Parameter Name="SchoolTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="CountryEducId" Mode="In" Type="Int32" />
+            <Parameter Name="RegionEducId" Mode="In" Type="Int32" />
+            <Parameter Name="VuzAdditionalTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="SchoolCity" Mode="In" Type="String" />
+            <Parameter Name="SchoolName" Mode="In" Type="String" />
+            <Parameter Name="SchoolNum" Mode="In" Type="String" />
+            <Parameter Name="SchoolExitYear" Mode="In" Type="String" />
+            <Parameter Name="SchoolExitClassId" Mode="In" Type="Int32" />
+            <Parameter Name="Series" Mode="In" Type="String" />
+            <Parameter Name="Number" Mode="In" Type="String" />
+            <Parameter Name="IsEqual" Mode="In" Type="Boolean" />
+            <Parameter Name="EqualDocumentNumber" Mode="In" Type="String" />
+            <Parameter Name="AvgMark" Mode="In" Type="Double" />
+            <Parameter Name="IsExcellent" Mode="In" Type="Boolean" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PersonEducationDocument_delete">
+            <Parameter Name="PersonId" Mode="In" Type="Guid" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="PassportType">
           <Key>
@@ -3287,17 +3333,17 @@
         </Association>
         <EntityType Name="PersonHighEducationInfo">
           <Key>
-            <PropertyRef Name="PersonId" />
+            <PropertyRef Name="EducationDocumentId" />
           </Key>
-          <Property Type="Guid" Name="PersonId" Nullable="false" />
           <Property Type="Int32" Name="EntryYear" />
           <Property Type="Int32" Name="ExitYear" Nullable="false" />
           <Property Type="String" Name="DiplomaTheme" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="QualificationId" Nullable="false" />
           <Property Type="Int32" Name="StudyFormId" Nullable="false" />
           <Property Type="String" Name="ProgramName" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Person" Relationship="OnlinePriem2012Model.FK_PersonHighEducationInfo_Person" FromRole="PersonHighEducationInfo" ToRole="Person" />
           <NavigationProperty Name="Qualification" Relationship="OnlinePriem2012Model.FK_PersonHighEducationInfo_Qualification" FromRole="PersonHighEducationInfo" ToRole="Qualification" />
+          <Property Type="Int32" Name="EducationDocumentId" Nullable="false" />
+          <NavigationProperty Name="PersonEducationDocument" Relationship="OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument" FromRole="PersonHighEducationInfo" ToRole="PersonEducationDocument" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -3385,7 +3431,6 @@
           <NavigationProperty Name="PersonContacts" Relationship="OnlinePriem2012Model.FK_PersonContacts_Person" FromRole="Person" ToRole="PersonContacts" />
           <NavigationProperty Name="PersonCurrentEducation" Relationship="OnlinePriem2012Model.FK_PersonCurrentEducation_Person" FromRole="Person" ToRole="PersonCurrentEducation" />
           <NavigationProperty Name="PersonDisorderInfo" Relationship="OnlinePriem2012Model.FK_PersonDisorderInfo_Person" FromRole="Person" ToRole="PersonDisorderInfo" />
-          <NavigationProperty Name="PersonHighEducationInfo" Relationship="OnlinePriem2012Model.FK_PersonHighEducationInfo_Person" FromRole="Person" ToRole="PersonHighEducationInfo" />
           <NavigationProperty Name="PersonVisaInfo" Relationship="OnlinePriem2012Model.FK_PersonVisaInfo_Person" FromRole="Person" ToRole="PersonVisaInfo" />
           <Property Type="Boolean" Name="IsImported" Nullable="false" />
           <Property Type="DateTime" Name="DateReviewDocs" Precision="3" />
@@ -3509,18 +3554,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="PersonDisorderInfo">
-              <PropertyRef Name="PersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PersonHighEducationInfo_Person">
-          <End Type="OnlinePriem2012Model.Person" Role="Person" Multiplicity="1" />
-          <End Type="OnlinePriem2012Model.PersonHighEducationInfo" Role="PersonHighEducationInfo" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PersonHighEducationInfo">
               <PropertyRef Name="PersonId" />
             </Dependent>
           </ReferentialConstraint>
@@ -5179,6 +5212,7 @@
           <NavigationProperty Name="Region" Relationship="OnlinePriem2012Model.FK_PersonEducationDocument_Region" FromRole="PersonEducationDocument" ToRole="Region" />
           <NavigationProperty Name="SchoolExitClass" Relationship="OnlinePriem2012Model.FK_PersonEducationDocument_SchoolExitClass" FromRole="PersonEducationDocument" ToRole="SchoolExitClass" />
           <NavigationProperty Name="VuzAdditionalType" Relationship="OnlinePriem2012Model.FK_PersonEducationDocument_VuzAdditionalType" FromRole="PersonEducationDocument" ToRole="VuzAdditionalType" />
+          <NavigationProperty Name="PersonHighEducationInfo" Relationship="OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument" FromRole="PersonEducationDocument" ToRole="PersonHighEducationInfo" />
         </EntityType>
         <Association Name="FK_PersonEducationDocument_Country">
           <End Type="OnlinePriem2012Model.Country" Role="Country" Multiplicity="1" />
@@ -5251,6 +5285,18 @@
             </Principal>
             <Dependent Role="PersonAddInfo">
               <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonHighEducationInfo_PersonEducationDocument">
+          <End Type="OnlinePriem2012Model.PersonEducationDocument" Role="PersonEducationDocument" Multiplicity="1" />
+          <End Type="OnlinePriem2012Model.PersonHighEducationInfo" Role="PersonHighEducationInfo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PersonEducationDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonHighEducationInfo">
+              <PropertyRef Name="EducationDocumentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5475,13 +5521,13 @@
           <EntitySetMapping Name="PersonHighEducationInfo">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.PersonHighEducationInfo">
               <MappingFragment StoreEntitySet="PersonHighEducationInfo">
+                <ScalarProperty Name="EducationDocumentId" ColumnName="EducationDocumentId" />
                 <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
                 <ScalarProperty Name="StudyFormId" ColumnName="StudyFormId" />
                 <ScalarProperty Name="QualificationId" ColumnName="QualificationId" />
                 <ScalarProperty Name="DiplomaTheme" ColumnName="DiplomaTheme" />
                 <ScalarProperty Name="ExitYear" ColumnName="ExitYear" />
                 <ScalarProperty Name="EntryYear" ColumnName="EntryYear" />
-                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6277,6 +6323,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="PersonEducationDocument_insert" FunctionName="OnlinePriem2012Model.Store.PersonEducationDocument_insert" />
+          <FunctionImportMapping FunctionImportName="PersonEducationDocument_update" FunctionName="OnlinePriem2012Model.Store.PersonEducationDocument_update" />
+          <FunctionImportMapping FunctionImportName="PersonEducationDocument_delete" FunctionName="OnlinePriem2012Model.Store.PersonEducationDocument_delete" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -6418,14 +6466,6 @@
           <ConnectorPoint PointX="10.958333333333334" PointY="29.421153157552084" />
           <ConnectorPoint PointX="10.791666666666666" PointY="29.421153157552084" />
           <ConnectorPoint PointX="6.75" PointY="29.421153157552084" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonHighEducationInfo_Person" >
-          <ConnectorPoint PointX="11.273075923076924" PointY="21.469462890625003" />
-          <ConnectorPoint PointX="11.0625" PointY="21.680038813701927" />
-          <ConnectorPoint PointX="11.0625" PointY="34.332021484375005" />
-          <ConnectorPoint PointX="10.958333333333334" PointY="34.332021484375005" />
-          <ConnectorPoint PointX="10.791666666666666" PointY="34.332021484375005" />
-          <ConnectorPoint PointX="6.75" PointY="34.332021484375005" />
         </AssociationConnector>
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonVisaInfo_Person" >
           <ConnectorPoint PointX="11.297306692307693" PointY="21.469462890625003" />
@@ -6741,6 +6781,7 @@
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_SchoolExitClass" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_VuzAdditionalType" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonAddInfo_Language" />
+        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument" />
         </Diagram>
     </Diagrams>
   </Designer>

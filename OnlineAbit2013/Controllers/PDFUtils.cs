@@ -249,7 +249,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PassportDate,
                                   x.PersonContacts.City,
                                   Region = x.PersonContacts.Region.Name,
-                                  x.PersonHighEducationInfo.ProgramName,
+                                  //x.PersonHighEducationInfo.ProgramName,
                                   x.PersonContacts.Code,
                                   x.PersonContacts.Street,
                                   x.PersonContacts.House,
@@ -264,7 +264,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PersonAddInfo.HostelEduc,
                                   x.PersonContacts.Country.IsRussia,
                                   x.HasRussianNationality,
-                                  Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
+                                  //Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
                                   x.PersonAddInfo.StartEnglish,
                                   x.PersonAddInfo.EnglishMark,
                                   Language = x.PersonAddInfo.Language.Name,
@@ -468,8 +468,12 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("School" + i, splitStr[i - 1]);
 
                 //только у магистров
-                acrFlds.SetField("HEProfession", person.ProgramName ?? "");
-                acrFlds.SetField("Qualification", person.Qualification ?? "");
+                var HEInfo = context.PersonEducationDocument
+                    .Where(x => x.PersonId == PersonId && x.PersonHighEducationInfo != null)
+                    .Select(x => new { x.PersonHighEducationInfo.ProgramName, Qualification = x.PersonHighEducationInfo.Qualification.Name }).FirstOrDefault();
+
+                acrFlds.SetField("HEProfession", HEInfo.ProgramName ?? "");
+                acrFlds.SetField("Qualification", HEInfo.Qualification ?? "");
 
                 acrFlds.SetField("Original", "0");
                 acrFlds.SetField("Copy", "0");
@@ -505,7 +509,7 @@ namespace OnlineAbit2013.Controllers
                 acrFlds.SetField("ReturnDocumentType" + person.ReturnDocumentTypeId, "1");
                 // имею ли образование этого уровня:
                 // если закончил школу, спо, нпо и прочее (кроме ВУЗа) + (если выбран ВУЗ + Квалификация 
-                if ((personEducation.SchoolTypeId != 4) || (isMag && personEducation.SchoolTypeId == 4 && (person.Qualification).ToLower().IndexOf("магист") < 0))
+                if ((personEducation.SchoolTypeId != 4) || (isMag && personEducation.SchoolTypeId == 4 && (HEInfo.Qualification).ToLower().IndexOf("магист") < 0))
                     acrFlds.SetField("NoEduc", "1");
                 else
                 {
@@ -864,7 +868,7 @@ namespace OnlineAbit2013.Controllers
                                       Language = Language,
                                       AddInfo = x.PersonAddInfo.AddInfo,
                                       Parents = x.PersonAddInfo.Parents,
-                                      Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
+                                      //Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
                                   }).FirstOrDefault();
 
                     var personEducation = context.PersonEducationDocument.Where(x => x.PersonId == PersonId)
@@ -1069,7 +1073,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PassportDate,
                                   x.PersonContacts.City,
                                   Region = x.PersonContacts.Region.Name,
-                                  x.PersonHighEducationInfo.ProgramName,
+                                  //x.PersonHighEducationInfo.ProgramName,
                                   x.PersonContacts.Code,
                                   x.PersonContacts.Street,
                                   x.PersonContacts.House,
@@ -1272,7 +1276,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PassportDate,
                                   x.PersonContacts.City,
                                   Region = x.PersonContacts.Region.Name,
-                                  x.PersonHighEducationInfo.ProgramName,
+                                  //x.PersonHighEducationInfo.ProgramName,
                                   x.PersonContacts.Code,
                                   x.PersonContacts.Street,
                                   x.PersonContacts.House,
@@ -1504,7 +1508,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PassportDate,
                                   x.PersonContacts.City,
                                   Region = x.PersonContacts.Region.Name,
-                                  x.PersonHighEducationInfo.ProgramName,
+                                  //x.PersonHighEducationInfo.ProgramName,
                                   x.PersonContacts.Code,
                                   x.PersonContacts.Street,
                                   x.PersonContacts.House,
@@ -1512,7 +1516,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PersonContacts.Flat,
                                   x.PersonContacts.Phone,
                                   x.PersonContacts.Mobiles,
-                                  Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
+                                  //Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
                                   x.PersonAddInfo.HostelEduc,
                                   x.PersonContacts.Country.IsRussia,
                                   x.PersonDisorderInfo.YearOfDisorder,
@@ -1679,7 +1683,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PassportDate,
                                   x.PersonContacts.City,
                                   Region = x.PersonContacts.Region.Name,
-                                  x.PersonHighEducationInfo.ProgramName,
+                                  //x.PersonHighEducationInfo.ProgramName,
                                   x.PersonContacts.Code,
                                   x.PersonContacts.Street,
                                   x.PersonContacts.House,
@@ -1840,7 +1844,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PassportDate,
                                   x.PersonContacts.City,
                                   Region = x.PersonContacts.Region.Name,
-                                  x.PersonHighEducationInfo.ProgramName,
+                                  //x.PersonHighEducationInfo.ProgramName,
                                   x.PersonContacts.Code,
                                   x.PersonContacts.Street,
                                   x.PersonContacts.House,
@@ -2128,7 +2132,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PassportDate,
                                   x.PersonContacts.City,
                                   Region = x.PersonContacts.Region.Name,
-                                  x.PersonHighEducationInfo.ProgramName,
+                                  //x.PersonHighEducationInfo.ProgramName,
                                   x.PersonContacts.Code,
                                   x.PersonContacts.Street,
                                   x.PersonContacts.House,
@@ -2138,7 +2142,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PersonContacts.Mobiles,
                                   AddInfo = x.PersonAddInfo.AddInfo,
                                   Parents = x.PersonAddInfo.Parents,
-                                  Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
+                                  //Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
                                   HasPrivileges = x.PersonAddInfo.HasPrivileges ?? false,
                                   x.PersonAddInfo.ReturnDocumentTypeId,
                                   SportQualificationName = x.PersonSportQualification.SportQualification1.Name,
@@ -2247,8 +2251,12 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("School" + i, splitStr[i - 1]);
 
                 //только у магистров
-                acrFlds.SetField("HEProfession", person.ProgramName ?? "");
-                acrFlds.SetField("Qualification", person.Qualification ?? "");
+                var HEInfo = context.PersonEducationDocument
+                    .Where(x => x.PersonId == PersonId && x.PersonHighEducationInfo != null)
+                    .Select(x => new { x.PersonHighEducationInfo.ProgramName, Qualification = x.PersonHighEducationInfo.Qualification.Name }).FirstOrDefault();
+
+                acrFlds.SetField("HEProfession", HEInfo.ProgramName ?? "");
+                acrFlds.SetField("Qualification", HEInfo.Qualification ?? "");
 
                 acrFlds.SetField("Original", "0");
                 acrFlds.SetField("Copy", "0");
@@ -2434,7 +2442,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PassportDate,
                                   x.PersonContacts.City,
                                   Region = x.PersonContacts.Region.Name,
-                                  x.PersonHighEducationInfo.ProgramName,
+                                  //x.PersonHighEducationInfo.ProgramName,
                                   x.PersonContacts.Code,
                                   x.PersonContacts.Street,
                                   x.PersonContacts.House,
@@ -2444,7 +2452,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PersonContacts.Mobiles,
                                   AddInfo = x.PersonAddInfo.AddInfo,
                                   Parents = x.PersonAddInfo.Parents,
-                                  Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
+                                  //Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
                                   HasPrivileges = x.PersonAddInfo.HasPrivileges ?? false,
                                   x.PersonAddInfo.ReturnDocumentTypeId,
                                   SportQualificationName = x.PersonSportQualification.SportQualification1.Name,
@@ -2551,8 +2559,11 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("School" + i, splitStr[i - 1]);
 
                 //только у магистров
-                acrFlds.SetField("HEProfession", person.ProgramName ?? "");
-                acrFlds.SetField("Qualification", person.Qualification ?? "");
+                var HEInfo = context.PersonEducationDocument
+                    .Where(x => x.PersonId == PersonId && x.PersonHighEducationInfo != null)
+                    .Select(x => new { x.PersonHighEducationInfo.ProgramName, Qualification = x.PersonHighEducationInfo.Qualification.Name }).FirstOrDefault();
+                acrFlds.SetField("HEProfession", HEInfo.ProgramName ?? "");
+                acrFlds.SetField("Qualification", HEInfo.Qualification ?? "");
 
                 acrFlds.SetField("Original", "0");
                 acrFlds.SetField("Copy", "0");

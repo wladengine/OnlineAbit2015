@@ -46,7 +46,6 @@ namespace OnlineAbit2013.Models
 
     //-------------------------------------------
     //PERSONAL INFO CLASS
-
     public class PersonalOffice
     {
         public string Lang { get; set; }
@@ -60,11 +59,13 @@ namespace OnlineAbit2013.Models
         public VisaInfo VisaInfo { get; set; }
         public ContactsPerson ContactsInfo { get; set; }
         public EducationPerson EducationInfo { get; set; }
+        
         // для восстановления:
         public DisorderedSPBUEducation DisorderInfo { get; set; }
         // для перевода:
         public CurrentEducation CurrentEducation { get; set; }
         public AdditionalInfoPerson AddInfo { get; set; }
+        public AdditionalEducationInfoPerson AddEducationInfo { get; set; }
         public WorkPerson WorkInfo { get; set; }
         // список файлов, типов, и тип файла
         public List<SelectListItem> FileTypes { get; set; }
@@ -73,90 +74,7 @@ namespace OnlineAbit2013.Models
         public Constants ConstInfo { get; set; }
         public PersonChangeStudyFormReason ChangeStudyFormReason { get; set; }
         public List<PersonalMessage> Messages { get; set; }
-    }
-
-    public class PersonalOfficeRecover
-    {
-        public string Lang { get; set; }
-        public int Stage { get; set; }
-        public int MaxStage { get; set; }
-        public bool Enabled { get; set; }
-        public InfoPerson PersonInfo { get; set; }
-        public PassportPerson PassportInfo { get; set; }
-        public ContactsPerson ContactsInfo { get; set; }
-        public DisorderedSPBUEducation DisorderInfo { get; set; }
-        public AdditionalInfoPerson AddInfo { get; set; }
-    }
-
-    public class PersonalOfficeChanging
-    {
-        public string Lang { get; set; }
-        public int Stage { get; set; }
-        public int MaxStage { get; set; }
-        public bool Enabled { get; set; }
-        public InfoPerson PersonInfo { get; set; }
-        public PassportPerson PassportInfo { get; set; }
-        public ContactsPerson ContactsInfo { get; set; }
-        public CurrentSPBUEducation CurrentEducation { get; set; }
-        public AdditionalInfoPerson AddInfo { get; set; }
-        public ChangingAddInfo ChangingAddInfo { get; set; }
-    }
-
-    public class PersonalOfficeTransfer
-    {
-        public string Lang { get; set; }
-        public int Stage { get; set; }
-        public int MaxStage { get; set; }
-        public bool Enabled { get; set; }
-        public InfoPerson PersonInfo { get; set; }
-        public PassportPerson PassportInfo { get; set; }
-        public ContactsPerson ContactsInfo { get; set; }
-        public AdditionalInfoPerson AddInfo { get; set; }
-        public EducationPerson EducationInfo { get; set; }
-        public CurrentEducation CurrentEducation { get; set; }
-    }
-
-    public class PersonalOfficeForeign
-    {
-        public string Lang { get; set; }
-        public int Stage { get; set; }
-        public int MaxStage { get; set; }
-        public bool Enabled { get; set; }
-        public InfoPerson PersonInfo { get; set; }
-        public PassportPerson PassportInfo { get; set; }
-        public VisaInfo VisaInfo { get; set; }
-        public ContactsForeignPerson ContactsInfo { get; set; }
-        public EducationPerson EducationInfo { get; set; }
-        public AdditionalInfoPerson AddInfo { get; set; }
-        public WorkPerson WorkInfo { get; set; }
-    }
-
-    public class PersonalOfficeAG
-    {
-        public string Lang { get; set; }
-        public int Stage { get; set; }
-        public int MaxStage { get; set; }
-        public bool Enabled { get; set; }
-        public InfoPerson PersonInfo { get; set; }
-        public PassportPerson PassportInfo { get; set; }
-        public ContactsPerson ContactsInfo { get; set; }
-        public PersonSchoolInfo PersonSchoolInfo { get; set; }
-        public AdditionalInfoPerson AddInfo { get; set; }
-        public PersonPrivileges PrivelegeInfo { get; set; }
-    }
-
-    public class PersonalOffice_SPO
-    {
-        public string Lang { get; set; }
-        public int Stage { get; set; }
-        public int MaxStage { get; set; }
-        public bool Enabled { get; set; }
-        public InfoPerson PersonInfo { get; set; }
-        public PassportPerson PassportInfo { get; set; }
-        public ContactsPerson ContactsInfo { get; set; }
-        public EducationPerson EducationInfo { get; set; }
-        public AdditionalInfoPerson AddInfo { get; set; }
-        public SPO_PersonPrivileges PrivelegeInfo { get; set; }
+        public int PersonRegistrationStage { get; set; }
     }
 
     /// <summary>
@@ -228,97 +146,73 @@ namespace OnlineAbit2013.Models
     }
 
     /// <summary>
-    /// Контактная информация
-    /// </summary>
-    public class ContactsForeignPerson
-    {
-        public string MainPhone { get; set; }
-        public string SecondPhone { get; set; }
-
-        public string CountryId { get; set; }
-        public List<SelectListItem> CountryList { get; set; }
-
-        public string PostIndex { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
-        public string House { get; set; }
-        public string Korpus { get; set; }
-        public string Flat { get; set; }
-
-        public string AddressData { get; set; }
-    }
-
-    /// <summary>
     /// Данные документа об образовании
     /// </summary>
     public class EducationPerson
     {
-        public string SchoolTypeId { get; set; }
         public string Barcode { get; set; }
-        public List<SelectListItem> SchoolTypeList { get; set; }
-        [Required]
-        public string SchoolName { get; set; }
 
-        public string AttestatRegion { get; set; }
-        public string AttestatSeries { get; set; }
-        public string AttestatNumber { get; set; }
-        [Required]
-        public string DiplomSeries { get; set; }
-        [Required]
-        public string DiplomNumber { get; set; }
+        public List<EducationDocumentPerson> EducationDocuments { get; set; }
+        public int EducationDocumentsMaxCount { get; set; }
 
-        public string SchoolNumber { get; set; }
-        public string SchoolCity { get; set; }
-
-        public string SchoolExitYear { get; set; }
-        public bool IsExcellent { get; set; }
-
-        public bool IsEqual { get; set; }
-        public string EqualityDocumentNumber { get; set; }
-
-        public string HEEntryYear { get; set; }
-        public string HEExitYear { get; set; }
-        
-        public string CountryEducId { get; set; }
-        public string LanguageId { get; set; }
-
-        public string ProgramName { get; set; }
-        public string PersonQualification { get; set; }
-        public string PersonStudyForm { get; set; }
-
-        /// <summary>
-        /// Хочу изучать анг. язык "с нуля"
-        /// </summary>
-        public bool StartEnglish { get; set; }
-        /// <summary>
-        /// Оценка по англ (если изучался)
-        /// </summary>
-        public string EnglishMark { get; set; }
-
-        public List<SelectListItem> StudyFormList { get; set; }
         public List<SelectListItem> StudyBasisList { get; set; }
+        public List<SelectListItem> StudyFormList { get; set; }
         public List<SelectListItem> QualificationList { get; set; }
         public List<SelectListItem> CountryList { get; set; }
-        public List<SelectListItem> LanguageList { get; set; }
-        public List<SelectListItem> LanguageLevelList { get; set; }
+        public List<SelectListItem> SchoolTypeList { get; set; }
+        public List<SelectListItem> SchoolExitClassList { get; set; }
+        public List<SelectListItem> RegionList { get; set; }
+        public List<SelectListItem> VuzAdditionalTypeList { get; set; }
+
+        public List<EgeMarkModel> EgeMarks { get; set; }
+    }
+    /// <summary>
+    /// Данные документа об образовании
+    /// </summary>
+    public class EducationDocumentPerson
+    {
+        public string sId { get; set; }
+
+        public string SchoolTypeId { get; set; }
+        public List<SelectListItem> SchoolTypeList { get; set; }
+
+        public string SchoolName { get; set; }
+        public string Series { get; set; }
+        public string Number { get; set; }
+        public string SchoolNumber { get; set; }
+        public string SchoolCity { get; set; }
+        public string SchoolExitYear { get; set; }
+        public bool IsExcellent { get; set; }
+        public bool IsEqual { get; set; }
+        public string EqualityDocumentNumber { get; set; }
+        public string HEEntryYear { get; set; }
+        public string HEExitYear { get; set; }
+
+        public string StudyFormId { get; set; }
+        public List<SelectListItem> StudyFormList { get; set; }
+
+        public string CountryEducId { get; set; }
+        public List<SelectListItem> CountryList { get; set; }
+
+        public string ProgramName { get; set; }
+
+        public string PersonQualification { get; set; }
+        public List<SelectListItem> QualificationList { get; set; }
+
+        //public string PersonStudyForm { get; set; }
+        
 
         public string AvgMark { get; set; }
         public string DiplomTheme { get; set; }
 
-        public List<EgeMarkModel> EgeMarks { get; set; }
-        //public List<ForeignLanguage> Languages { get; set; }
-
-        public bool HasTRKI { get; set; }
-        public string TRKICertificateNumber { get; set; }
-
         public string SchoolExitClassId { get; set; }
         public List<SelectListItem> SchoolExitClassList { get; set; }
-
-        public List<SelectListItem> RegionList { get; set; }
+        
         public string RegionEducId { get; set; }
+        public List<SelectListItem> RegionList { get; set; }
 
-        public List<SelectListItem> VuzAdditionalTypeList { get; set; }
         public string VuzAdditionalTypeId { get; set; }
+        public List<SelectListItem> VuzAdditionalTypeList { get; set; }
     }
 
     /// <summary>
@@ -481,20 +375,32 @@ namespace OnlineAbit2013.Models
         public string SocialStatus { get; set; }
         public string MaritalStatus { get; set; }
 
-        
-
-        public List<SelectListItem> ReturnDocumentTypeList { get; set; }
         public string ReturnDocumentTypeId { get; set; }
+        public List<SelectListItem> ReturnDocumentTypeList { get; set; }
 
         [Required]
         public bool FZ_152Agree { get; set; }
     }
 
-    public class ForeignLanguageInfo
+    public class AdditionalEducationInfoPerson
     {
-        public Guid Id { get; set; }
-        public string Language { get; set; }
-        public string Level { get; set; }
+        /// <summary>
+        /// Хочу изучать анг. язык "с нуля"
+        /// </summary>
+        public bool StartEnglish { get; set; }
+        /// <summary>
+        /// Оценка по англ (если изучался)
+        /// </summary>
+        public string EnglishMark { get; set; }
+
+        public string LanguageId { get; set; }
+        public List<SelectListItem> LanguageList { get; set; }
+
+        public bool HasTRKI { get; set; }
+        public string TRKICertificateNumber { get; set; }
+
+        public bool HasTransfer { get; set; }
+        public bool HasRecover { get; set; }
     }
 
     public class VisaInfo
@@ -955,7 +861,11 @@ namespace OnlineAbit2013.Models
         public int? BirthPlace { get; set; } 
         public int? PassportAuthor { get; set; }
         public int? Parents { get; set; }
-        public int? AddInfo { get; set; } 
+        public int? AddInfo { get; set; }
+        /// <summary>
+        /// максимальное число прикреплённых документов об образовании
+        /// </summary>
+        public int? EducationDocumentsMaxCount { get; set; }
     }
 
     public class StandartObrazProgramInEntryRow
