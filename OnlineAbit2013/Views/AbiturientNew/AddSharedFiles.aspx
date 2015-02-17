@@ -98,6 +98,13 @@
     function SetTitle() {
         var txt = $("#FileTypeId option:selected").text();
         $('#FileTypeId').attr("title", txt);
+        $('#filehint').hide();
+        if (txt.indexOf("Эссе") > -1) {
+            $('#filehint').show();
+        }
+        else if (txt.indexOf("Мотивационное") > -1) {
+            $('#filehint').show();
+        }
     }
 </script>
 <%= Html.ValidationSummary() %>
@@ -113,9 +120,12 @@
         <br/> 
         <div class="clearfix">
         <label for="FileTypeId"><%=GetGlobalResourceObject("AddSharedFiles", "FileType").ToString()%></label> 
-        <div style="width:200px; height:30px; overflow: hidden;">
-         <%= Html.DropDownList("FileTypeId", Model.FileTypes )%>
+        <div style="width:300px; height:30px; overflow: hidden;">
+         <%= Html.DropDownList("FileTypeId", Model.FileTypes)%>
         </div>
+        </div>
+        <div>
+        <span id="filehint" style="display: none;" class="Red" >Предупреждение: данный файл должен быть загружен в обезличенном виде!</span>
         </div>
         <div class="clearfix">
             <label for="fileComment"><%= GetGlobalResourceObject("AddSharedFiles", "Comment") %></label>
