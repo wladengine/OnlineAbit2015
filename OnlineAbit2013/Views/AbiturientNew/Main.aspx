@@ -13,7 +13,7 @@
     function DeleteMsg(id) {
         var p = new Object();
         p["id"] = id;
-        $.post('/Abiturient/DeleteMsg', p, function (res) {
+        $.post('/AbiturientNew/DeleteMsg', p, function (res) {
             if (res.IsOk) {
                 $('#' + id).hide(250).html("");
             }

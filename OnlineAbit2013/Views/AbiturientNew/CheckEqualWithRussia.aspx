@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
 <h2>Для подтверждения Вашего желания участия в равном конкурсе с гражданами РФ, введите ваш пароль от Личного Кабинета:</h2>
-    <% using (Html.BeginForm("SetEqualWithRussia", "Abiturient", FormMethod.Post))
+    <% using (Html.BeginForm("SetEqualWithRussia", "AbiturientNew", FormMethod.Post))
        { %>
        <% if (!string.IsNullOrEmpty(Model.Errors))
           { %>

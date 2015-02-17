@@ -20,7 +20,7 @@
        }
     %>
     
-    <form action="../../Abiturient/NewAppRectorScholarship">
+    <form action="../../AbiturientNew/NewAppRectorScholarship">
         <input id="Submit" type="submit" value="Подать заявление" class="button button-green"/>
     </form>
     <br />
@@ -88,7 +88,7 @@
     <div class="panel">
 <h4>Добавить файл</h4>
 <hr />
-<form action="/Abiturient/NewApplicationRectorScholarshipAddFile" method="post" enctype="multipart/form-data" class="form">
+<form action="/AbiturientNew/NewApplicationRectorScholarshipAddFile" method="post" enctype="multipart/form-data" class="form">
     <div class="clearfix">
         <input id="fileAttachment" type="file" name="File" />
     </div><br />

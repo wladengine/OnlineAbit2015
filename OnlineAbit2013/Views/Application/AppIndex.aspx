@@ -255,7 +255,7 @@
     <h4 onclick="HidePortfolio()" style="cursor:pointer;"><%= GetGlobalResourceObject("ApplicationInfo", "HeaderPortfolio")%> </h4>
     <div class="message info">
         <b><%= GetGlobalResourceObject("ApplicationInfo", "FilesWarning1")%> </b> 
-        <a href="../../Abiturient/AddSharedFiles" style="font-weight:bold"><%= GetGlobalResourceObject("AddSharedFiles", "Header") %></a>
+        <a href="../../AbiturientNew/AddSharedFiles" style="font-weight:bold"><%= GetGlobalResourceObject("AddSharedFiles", "Header") %></a>
     </div>
     <div id="dPortfolio">
     <hr />
@@ -320,7 +320,7 @@
     <% } %>
     </tbody>
     </table><br />
-    <a class="button button-blue" href="../../Abiturient/FilesList?id=<%= Model.Id.ToString("N") %>" target="_blank"><%=GetGlobalResourceObject("AddSharedFiles", "FileList")%></a><br />
+    <a class="button button-blue" href="../../AbiturientNew/FilesList?id=<%= Model.Id.ToString("N") %>" target="_blank"><%=GetGlobalResourceObject("AddSharedFiles", "FileList")%></a><br />
     <% if (Model.Enabled)
        { %>
     <br />

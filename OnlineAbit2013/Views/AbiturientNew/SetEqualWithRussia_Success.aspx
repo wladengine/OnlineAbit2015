@@ -8,7 +8,7 @@
 
 <h2>Теперь Вы участвуете в общем конкурсе наравне с гражданами РФ</h2>
 <br />
-<a href="../../Abiturient/Main">Вернуться в Личный Кабинет</a>
+<a href="../../AbiturientNew/Main">Вернуться в Личный Кабинет</a>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderScriptsContent" runat="server">

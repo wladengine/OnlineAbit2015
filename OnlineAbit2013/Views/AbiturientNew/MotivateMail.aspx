@@ -25,7 +25,7 @@
         if (text == '') {
             alert('Вы должны указать текст мотивационного письма!')
         }
-        $.post('/Abiturient/SendMotivationMail', { "info": text, "appId": curId }, function (res) {
+        $.post('/AbiturientNew/SendMotivationMail', { "info": text, "appId": curId }, function (res) {
             if (res.IsOk) {
                 $('#saveStatus').text("Сохранено").addClass("Green").show();
                 setTimeout(function () { $('#saveStatus').removeClass("Green").hide(200); $('#btnGetFile').show(200); }, 5000);
@@ -39,11 +39,11 @@
     }
     function GetMail(applicationId) {
         curId = applicationId;
-        $.post('/Abiturient/GetMotivationMail', { "appId": applicationId }, function (res) {
+        $.post('/AbiturientNew/GetMotivationMail', { "appId": applicationId }, function (res) {
             $('#saveStatus').hide();
             if (res.IsOk) {
                 $('#MailInfo').val(res.Text);
-                $('#btnGetFile').html('<a href="../Abiturient/GetMotivationMailPDF/' + res.Id + '" class="ui-button-text" target="_blank">Просмотреть письмо</a>').show();
+                $('#btnGetFile').html('<a href="../AbiturientNew/GetMotivationMailPDF/' + res.Id + '" class="ui-button-text" target="_blank">Просмотреть письмо</a>').show();
             }
             else {
                 $('#MailInfo').val('');

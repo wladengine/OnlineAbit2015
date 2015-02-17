@@ -4443,7 +4443,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                 return RedirectToAction("LogOn", "Account");
 
-            string query = "SELECT Id, FileName, FileSize, Comment FROM PersonFile WHERE PersonId=@PersonId";
+            string query = "SELECT Id, FileName, FileSize, Comment FROM PersonFile WHERE PersonId=@PersonId order by LoadDate desc";
             DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", PersonId } });
 
             List<AppendedFile> lst =
@@ -4451,7 +4451,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                  select new AppendedFile() { Id = rw.Field<Guid>("Id"), FileName = rw.Field<string>("FileName"), FileSize = rw.Field<int>("FileSize"), Comment = rw.Field<string>("Comment") })
                 .ToList();
 
-            AppendFilesModel model = new AppendFilesModel() { Files = lst };
+            AppendFilesModel model = new AppendFilesModel() { Files = lst, FileTypes = Util.GetPersonFileTypeList() };
             return View(model);
         }
 
@@ -4504,6 +4504,10 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             int PersonFileTypeId = Convert.ToInt32(Request.Form["FileTypeId"]);
 
             string fileComment = Request.Form["Comment"];
+            if (!String.IsNullOrEmpty(fileComment))
+                fileComment += " ";
+            fileComment += "(исходное название файла- " + fileName + ")";
+
             int fileSize = Convert.ToInt32(Request.Files["File"].InputStream.Length);
             byte[] fileData = new byte[fileSize];
             //читаем данные из ПОСТа
@@ -4517,30 +4521,14 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             {
                 fileext = "";
             }
-            //////////////////////////////////////////////// 
-            /*  if (Util.GetMimeFromExtention(fileext).StartsWith("image"))
-              {
 
-                  try
-                  {
-                      System.Drawing.Image image;
-                      using (MemoryStream inStream = new MemoryStream())
-                      {
-                          inStream.Write(fileData, 0, fileSize);
-                          image = System.Drawing.Bitmap.FromStream(inStream);
-                      }
-                      int lg = image.Size.Width;
-                      int hg = image.Size.Height;
-                      if ((lg < 600) || (hg < 600))
-                          return Json(Resources.ServerMessages.SizeFileError);
-                  }
-                  catch
-                  { 
-                  } 
-              }
-              */
 
-            ////////////////////////////////////////////////
+            int Count = (int)Util.AbitDB.GetValue("select count(Id) from dbo.PersonFile where PersonId = '" + PersonId + "' and PersonFileTypeId=" + PersonFileTypeId);
+            string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id=" + PersonFileTypeId);
+
+            if (!String.IsNullOrEmpty(FileNameTemplate))
+                fileName = FileNameTemplate + (Count +1).ToString() + fileext;
+
             try
             {
                 string query = "INSERT INTO PersonFile (Id, PersonId, FileName, FileData, FileSize, FileExtention, LoadDate, Comment, MimeType, PersonFileTypeId) " +
@@ -4585,7 +4573,17 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             lastSlashPos = fileName.LastIndexOfAny(new char[] { '\\', '/' });
             if (lastSlashPos > 0)
                 fileName = fileName.Substring(lastSlashPos);
+
             string fileComment = Request.Form["Comment"];
+            if (!String.IsNullOrEmpty(fileComment))
+                fileComment += " ";
+            fileComment += "(исходное название файла- " + fileName + ")";
+
+            int PersonFileTypeId = int.Parse(Request.Form["FileTypeId"]);
+
+            int Count = (int)Util.AbitDB.GetValue("select count(Id) from dbo.PersonFile where PersonId = '" + PersonId + "' and PersonFileTypeId=" + PersonFileTypeId);
+            string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id="+PersonFileTypeId);
+
             int fileSize = Convert.ToInt32(Request.Files["File"].InputStream.Length);
             byte[] fileData = new byte[fileSize];
             //читаем данные из ПОСТа
@@ -4600,10 +4598,14 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 fileext = "";
             }
 
+
+            if (!String.IsNullOrEmpty(FileNameTemplate))
+                fileName = FileNameTemplate + (Count +1).ToString()+ fileext;
+
             try
             {
-                string query = "INSERT INTO PersonFile (Id, PersonId, FileName, FileData, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType) " +
-                    " VALUES (@Id, @PersonId, @FileName, @FileData, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType)";
+                string query = "INSERT INTO PersonFile (Id, PersonId, FileName, FileData, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, PersonFileTypeId) " +
+                    " VALUES (@Id, @PersonId, @FileName, @FileData, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, @PersonFileTypeId)";
                 SortedList<string, object> dic = new SortedList<string, object>();
                 dic.Add("@Id", Guid.NewGuid());
                 dic.Add("@PersonId", PersonId);
@@ -4615,6 +4617,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 dic.Add("@LoadDate", DateTime.Now);
                 dic.Add("@Comment", fileComment);
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
+                dic.Add("@PersonFileTypeId", PersonFileTypeId);
 
                 Util.AbitDB.ExecuteQuery(query, dic);
             }

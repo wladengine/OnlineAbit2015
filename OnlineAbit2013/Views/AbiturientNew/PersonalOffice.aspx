@@ -168,7 +168,7 @@
                     <span class="ui-icon ui-icon-alert"></span><%= GetGlobalResourceObject("PersonInfo", "WarningMessagePersonLocked").ToString()%>
                 </div>
             <% } %>
-            <form id="form" class="form panel" action="Abiturient/NextStep" method="post" onsubmit="return CheckForm();">
+            <form id="form" class="form panel" action="AbiturientNew/NextStep" method="post" onsubmit="return CheckForm();">
                 <h4><%= GetGlobalResourceObject("PersonInfo", "HeaderPersonalInfo").ToString()%></h4>
                 <hr />
                 <%= Html.ValidationSummary(GetGlobalResourceObject("PersonInfo", "ValidationSummaryHeader").ToString())%>
@@ -399,7 +399,7 @@
                             <span class="ui-icon ui-icon-alert"></span><%= GetGlobalResourceObject("PersonInfo", "WarningMessagePersonLocked").ToString()%>
                         </div>
                     <% } %>
-                    <form id="form" class="form panel" action="Abiturient/NextStep" method="post" onsubmit="return CheckForm();">
+                    <form id="form" class="form panel" action="AbiturientNew/NextStep" method="post" onsubmit="return CheckForm();">
                         <h4><%= GetGlobalResourceObject("PassportInfo", "HeaderPassport").ToString()%></h4>
                         <hr />
                         <%= Html.ValidationSummary(GetGlobalResourceObject("PersonInfo", "ValidationSummaryHeader").ToString())%>
@@ -593,7 +593,7 @@
                         <span class="ui-icon ui-icon-alert"></span><%= GetGlobalResourceObject("PersonInfo", "WarningMessagePersonLocked").ToString()%>
                     </div>
                 <% } %>
-                    <form id="form" class="form panel" action="Abiturient/NextStep" method="post" onsubmit="return CheckForm();">
+                    <form id="form" class="form panel" action="AbiturientNew/NextStep" method="post" onsubmit="return CheckForm();">
                         <input name="Stage" type="hidden" value="<%= Model.Stage %>" />
                         <h3>Контактные телефоны:</h3>
                         <hr />
@@ -850,7 +850,7 @@
                     var vals = new Object();
                     vals["schoolType"] = 4//$('#EducationInfo_SchoolTypeId').val();
                     if (!cachedVuzNames) {
-                        $.post('/Abiturient/LoadVuzNames', vals, function (res) {
+                        $.post('/AbiturientNew/LoadVuzNames', vals, function (res) {
                             if (res.IsOk) {
                                 VuzNamesCache = res.Values;
                                 cachedVuzNames = true;
@@ -905,7 +905,7 @@
                 function loadFormValues() {
                     var existingCerts = '';
                     var exams_html = '';
-                    $.getJSON("Abiturient/GetAbitCertsAndExams", null, function (res) {
+                    $.getJSON("AbiturientNew/GetAbitCertsAndExams", null, function (res) {
                         existingCerts = res.Certs;
                         for (var i = 0; i < res.Exams.length; i++) {
                             exams_html += '<option value="' + res.Exams[i].Key + '">' + res.Exams[i].Value + '</option>';
@@ -983,7 +983,7 @@
                                 parm["certNumber"] = certificateNumber.val();
                                 parm["examName"] = examName.val();
                                 parm["examValue"] = examMark.val();
-                                $.post("Abiturient/AddMark", parm, function (res) {
+                                $.post("AbiturientNew/AddMark", parm, function (res) {
                                     //add to table if ok
                                     if (res.IsOk) {
                                         $("#tblEGEData tbody").append('<tr id="' + res.Data.Id + '">' +
@@ -1018,7 +1018,7 @@
 			    function DeleteMrk(id) {
 			        var data = new Object();
 			        data['mId'] = id;
-			        $.post("Abiturient/DeleteEgeMark", data, function r(res) {
+			        $.post("AbiturientNew/DeleteEgeMark", data, function r(res) {
 			            if (res.IsOk) {
 			                $("#" + id.toString()).html('').hide();
 			            }
@@ -1037,7 +1037,7 @@
                             <span class="ui-icon ui-icon-alert"></span><%= GetGlobalResourceObject("PersonInfo", "WarningMessagePersonLocked").ToString()%>
                         </div>
                     <% } %>
-                    <form id="form" class="form panel" action="Abiturient/NextStep" method="post" onsubmit="return CheckForm();">
+                    <form id="form" class="form panel" action="AbiturientNew/NextStep" method="post" onsubmit="return CheckForm();">
                         <h3>Данные об образовании</h3>
                         <hr />
                         <input name="Stage" type="hidden" value="<%= Model.Stage %>" />
@@ -1263,7 +1263,7 @@
                 var params = new Object();
                 params['ScWorkInfo'] = $('#ScWorkInfo').val();
                 params['ScWorkType'] = $('#WorkInfo_ScWorkId').val();
-                $.post('Abiturient/UpdateScienceWorks', params, function (res) {
+                $.post('AbiturientNew/UpdateScienceWorks', params, function (res) {
                     if (res.IsOk) {
                         var output = '';
                         output += '<tr id=\'' + res.Data.Id + '\'><td>';
@@ -1281,7 +1281,7 @@
             function DeleteScWork(id) {
                 var param = new Object();
                 param['id'] = id;
-                $.post('Abiturient/DeleteScienceWorks', param, function (res) {
+                $.post('AbiturientNew/DeleteScienceWorks', param, function (res) {
                     if (res.IsOk) {
                         $("#" + id).hide(250).html("");
                     }
@@ -1310,7 +1310,7 @@
                     Ok = false;
                 }
                 if (Ok) {
-                    $.post('Abiturient/AddWorkPlace', params, function (res) {
+                    $.post('AbiturientNew/AddWorkPlace', params, function (res) {
                         if (res.IsOk) {
                             $('#NoWorks').hide();
                             var info = '<tr id="' + res.Data.Id + '">';
@@ -1330,7 +1330,7 @@
             function DeleteWorkPlace(id) {
                 var parm = new Object();
                 parm["wrkId"] = id;
-                $.post('Abiturient/DeleteWorkPlace', parm, function (res) {
+                $.post('AbiturientNew/DeleteWorkPlace', parm, function (res) {
                     if (res.IsOk) {
                         $('#' + id).hide(250).html('');
                     }
@@ -1510,7 +1510,7 @@
                     <span class="ui-icon ui-icon-alert"></span><%= GetGlobalResourceObject("PersonInfo", "WarningMessagePersonLocked").ToString()%>
                 </div>
             <% } %>
-                <form class="panel form" action="Abiturient/NextStep" method="post">
+                <form class="panel form" action="AbiturientNew/NextStep" method="post">
                     <%= Html.ValidationSummary() %>
                     <%= Html.HiddenFor(x => x.Stage) %>
                     <div class="clearfix">

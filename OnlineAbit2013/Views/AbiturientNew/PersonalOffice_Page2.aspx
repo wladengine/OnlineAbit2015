@@ -216,7 +216,7 @@
         function DeleteFile(id) {
             var p = new Object();
             p["id"] = id;
-            $.post('/Abiturient/DeleteSharedFile', p, function (res) {
+            $.post('/AbiturientNew/DeleteSharedFile', p, function (res) {
                 if (res.IsOk) {
                     $('#' + id).hide(250).html("");
                 }
@@ -228,7 +228,7 @@
             }, 'json');
         }
         function GetList() {
-            $.post('/Abiturient/GetFileList', null, function (res) {
+            $.post('/AbiturientNew/GetFileList', null, function (res) {
                 if (res.IsOk) {
                     var tbody = '';
                     for (var i = 0; i < res.Data.length; i++) {
@@ -523,7 +523,7 @@
                     <% foreach (var file in Model.Files)
                        { %>
                             <tr id="<%= file.Id.ToString() %>">
-                                <td style="vertical-align:middle; text-align:center;"><a href="<%= "../../Abiturient/GetFile?id=" + file.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a></td>
+                                <td style="vertical-align:middle; text-align:center;"><a href="<%= "../../AbiturientNew/GetFile?id=" + file.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a></td>
                                 <td style="vertical-align:middle; text-align:center;"><%= Html.Encode(file.FileName)%></td>
                                 <td style="vertical-align:middle; text-align:center;"><%= Html.Encode(file.LoadDate)%></td>
                                 <td style="vertical-align:middle; text-align:center;"><%= Html.Encode(file.Comment)%></td>

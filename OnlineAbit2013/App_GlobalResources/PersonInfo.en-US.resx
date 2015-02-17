@@ -138,7 +138,7 @@
   <data name="IsEqualWithRussian" xml:space="preserve">
     <value>I wish to participate in equal competition with the citizens of the Russian Federation</value>
   </data>
-  <data name="LatinSymbols" xml:space="preserve">
+  <data name="MessageLatinSymbols" xml:space="preserve">
     <value>No symbols except Latin and Cyrilic letters are allowed </value>
   </data>
   <data name="MessageMaxLength" xml:space="preserve">

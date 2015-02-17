@@ -57,7 +57,7 @@
 </script>
 <h2><%= GetGlobalResourceObject("PersonStartPage", "Header") %></h2>
 <hr /><br />
-<form id="form" method="post" action="/Abiturient/OpenPersonalAccount">
+<form id="form" method="post" action="/AbiturientNew/OpenPersonalAccount">
     <input name="val_h" id="val_h" type="hidden" value="1" />
     <input type="button" class="button button-blue" name="Val" onclick="Submit1()" style="width:45em;" value="<%= GetGlobalResourceObject("PersonStartPage", "AbiturientType1") %>" /><br /><br />
     <input type="button" class="button button-blue" name="Val" onclick="Submit2()" style="width:45em;" value="<%= GetGlobalResourceObject("PersonStartPage", "AbiturientType2") %>" /><br /><br />
@@ -78,6 +78,6 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="NavigationList" runat="server">
     <ul class="clearfix">
-        <li class="active"><a href="../../Abiturient/Main"><%= GetGlobalResourceObject("Common", "StartPageNav").ToString()%></a></li>
+        <li class="active"><a href="../../AbiturientNew/Main"><%= GetGlobalResourceObject("Common", "StartPageNav").ToString()%></a></li>
     </ul>
 </asp:Content>

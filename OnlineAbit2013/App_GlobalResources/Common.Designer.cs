@@ -79,6 +79,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, такую же, как Удалить.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, такую же, как для иностранных граждан.
         /// </summary>
         internal static string ForeignAbiturient_PageHeaderAppendix {
@@ -129,6 +138,33 @@ namespace Resources {
         internal static string LogOff {
             get {
                 return ResourceManager.GetString("LogOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, такую же, как Электронная регистрация на поселение.
+        /// </summary>
+        internal static string MainNavDorms {
+            get {
+                return ResourceManager.GetString("MainNavDorms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, такую же, как Вход для зарегистрированых.
+        /// </summary>
+        internal static string MainNavLogon {
+            get {
+                return ResourceManager.GetString("MainNavLogon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, такую же, как Регистрация.
+        /// </summary>
+        internal static string MainNavRegister {
+            get {
+                return ResourceManager.GetString("MainNavRegister", resourceCulture);
             }
         }
         
@@ -291,6 +327,15 @@ namespace Resources {
         internal static string txtShowHeader {
             get {
                 return ResourceManager.GetString("txtShowHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, такую же, как en.
+        /// </summary>
+        internal static string UILangSetCookie {
+            get {
+                return ResourceManager.GetString("UILangSetCookie", resourceCulture);
             }
         }
     }

@@ -33,7 +33,7 @@
     function DeleteFile(id) {
         var p = new Object();
         p["id"] = id;
-        $.post('/Abiturient/DeleteFile', p, function (res) {
+        $.post('/AbiturientNew/DeleteFile', p, function (res) {
             if (res.IsOk) {
                 $('#' + id).hide(250).html("");
             }
@@ -45,7 +45,7 @@
         }, 'json');
     }
     function GetList() {
-        $.post('/Abiturient/GetFileList', null, function (res) {
+        $.post('/AbiturientNew/GetFileList', null, function (res) {
             if (res.IsOk) {
                 var tbody = '';
                 for (var i = 0; i < res.Data.length; i++) {
@@ -64,11 +64,19 @@
 <%= Html.ValidationSummary() %>
 <h2>Добавление файлов</h2>
 
-<form action="/Abiturient/AddFile" method="post" enctype="multipart/form-data">
+<form action="/AbiturientNew/AddFile" method="post" enctype="multipart/form-data">
     <table>
         <tr>
             <td>Файл</td>
             <td><input id="fileAttachment" type="file" name="File" /></td>
+        </tr>
+        <tr>
+            <td>Тип файла</td>
+            <td>
+                <div style="width:200px; height:30px; overflow: hidden;">
+                 <%= Html.DropDownList("FileTypeId", Model.FileTypes )%>
+                </div>
+            </td>
         </tr>
         <tr>
             <td>Комментарий</td>
@@ -99,7 +107,7 @@
 <% foreach (var file in Model.Files)
    { %>
     <tr id="<%= file.Id.ToString() %>">
-        <td align="center" valign="middle"><a href="<%= "../../Abiturient/GetFile?id=" + file.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a></td>
+        <td align="center" valign="middle"><a href="<%= "../../AbiturientNew/GetFile?id=" + file.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a></td>
         <td><%= Html.Encode(file.FileName) %></td>
         <td><%= Html.Encode(file.Comment) %></td>
         <td><%= file.FileSize > (2 * 1024 * 1024) ?

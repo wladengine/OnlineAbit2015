@@ -43,7 +43,7 @@
     function DeleteFile(id) {
         var p = new Object();
         p["id"] = id;
-        $.post('/Abiturient/DeleteSharedFile', p, function (res) {
+        $.post('/AbiturientNew/DeleteSharedFile', p, function (res) {
             if (res.IsOk) {
                 $('#' + id).hide(250).html("");
             }

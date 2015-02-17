@@ -195,4 +195,19 @@
   <data name="txtShowHeader" xml:space="preserve">
     <value>Просмотр заявления</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="MainNavDorms" xml:space="preserve">
+    <value>Электронная регистрация на поселение</value>
+  </data>
+  <data name="MainNavLogon" xml:space="preserve">
+    <value>Вход для зарегистрированых</value>
+  </data>
+  <data name="MainNavRegister" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="UILangSetCookie" xml:space="preserve">
+    <value>en</value>
+  </data>
 </root>
