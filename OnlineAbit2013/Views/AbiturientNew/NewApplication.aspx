@@ -104,8 +104,7 @@
        { %>
         <div class="message info">
         
-        <%= GetGlobalResourceObject("NewApplication", "Educ_Mes1")%><%= Model.SchoolType %> <%= (Model.SchoolType.ToLower() == "школа")? Model.ExitClassId + " классов" : ""%><%= (Model.SchoolType.ToLower() == "school")? Model.ExitClassId + "th form" : ""%>
-        <br /><%= GetGlobalResourceObject("NewApplication", "Educ_Mes2")%>
+         <%= GetGlobalResourceObject("NewApplication", "Educ_Mes2")%> 
         </div>
        <% if (Model.ExitClassId < 9) //7-8
           { %>
@@ -146,8 +145,7 @@
             <%= GetGlobalResourceObject("PersonalOffice_Step4", "CurrentObrazProgram")%>: <%= Model.ObrazProgramName %> <br />
             <hr />
         <%} %>
-        <%= GetGlobalResourceObject("NewApplication", "Educ_Mes1")%><%= Model.SchoolType %>
-        <br /><%= GetGlobalResourceObject("NewApplication", "Educ_Mes2")%>
+        <%= GetGlobalResourceObject("NewApplication", "Educ_Mes2")%> 
         </div>
        <% if (Model.VuzAddType == 1) // поступление
           { %>

@@ -2455,50 +2455,78 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
                 ApplicationModel model = new ApplicationModel();
                 model.IsForeign = Util.GetRess(PersonId) == 4;
-                int? iScTypeId = (int?)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
-                if (iScTypeId.HasValue)
+
+
+                var iScTypeIdList = (from sctype in context.PersonEducationDocument
+                                     join highEduc in context.PersonHighEducationInfo on sctype.Id equals highEduc.EducationDocumentId into highEduc
+                                     from hEduc in highEduc.DefaultIfEmpty()
+                                     where sctype.PersonId == PersonId
+                                     select new
+                                     {
+                                         sctype.SchoolTypeId,
+                                         sctype.VuzAdditionalTypeId,
+                                         sctype.SchoolExitClassId,
+                                         qualification = (hEduc == null)? -1: hEduc.QualificationId
+                                     }).ToList();
+
+                //List<int?> iScTypeIdList = (List<int?>)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                if (iScTypeIdList.Count>0)
                 {
-                    string ScTypeName = Util.AbitDB.GetStringValue("SELECT Name FROM SchoolTypeAll WHERE Id=@Id", new SortedList<string, object>() { { "@Id", iScTypeId ?? 1 } });
-                    string ScTypeNameEng = Util.AbitDB.GetStringValue("SELECT NameEng FROM SchoolTypeAll WHERE Id=@Id", new SortedList<string, object>() { { "@Id", iScTypeId ?? 1 } });
-                     
-                    model.SchoolType = bisEng? (String.IsNullOrEmpty(ScTypeNameEng)?ScTypeName:ScTypeNameEng): ScTypeName;
-                    if (iScTypeId.Value != 4)
+                    bool HasVuzAddType = false;
+                    foreach (var iScTypeId in iScTypeIdList)
                     {
-                        model.EntryType = 1;//1 курс бак-спец, АГ, СПО
-                        if (iScTypeId.Value != 1)
+                        if (iScTypeId.VuzAdditionalTypeId.HasValue)
                         {
-                            model.ExitClassId = 11;
-                        }
-                        else
-                        {
-                            int? iScExClassId = (int?)Util.AbitDB.GetValue("SELECT SchoolExitClass.IntValue FROM PersonEducationDocument INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
-                            if (iScExClassId.HasValue)
+                            if (iScTypeId.VuzAdditionalTypeId.Value != 1)
                             {
-                                model.ExitClassId = (int)iScExClassId;
+                                model.EntryType = 2;
+                                model.VuzAddType = iScTypeId.VuzAdditionalTypeId.Value;
+                                model.ExitClassId = iScTypeId.qualification;
+                                HasVuzAddType = true;
+                                break;
                             }
                         }
                     }
-                    else
+                    bool HasSchoolTypeEducEqual4 = false;
+                    if (!HasVuzAddType)
                     {
-                        model.EntryType = 2;
-                        int? iScExClassId = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
-                        if (iScExClassId.HasValue)
+                        foreach (var iScTypeId in iScTypeIdList)
                         {
-                            model.VuzAddType = (int)iScExClassId;
+                            if (iScTypeId.SchoolTypeId == 4)
+                            {
+                                model.EntryType = 2;
+                                model.VuzAddType = iScTypeId.VuzAdditionalTypeId.Value;
+                                model.ExitClassId = iScTypeId.qualification;
+                                HasSchoolTypeEducEqual4 = true;
+                                break;
+                            }
                         }
-                        else
-                            return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
-                        int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT QualificationId FROM PersonHighEducationInfo WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
-                        if (iQualificationId.HasValue)
+                        if (!HasSchoolTypeEducEqual4)
                         {
-                            model.ExitClassId = (int)iQualificationId;
+                            model.EntryType = 1;
+                            model.VuzAddType = 1;
+
+                            foreach (var iScTypeId in iScTypeIdList)
+                            {
+                                //string ScTypeName = Util.AbitDB.GetStringValue("SELECT Name FROM SchoolTypeAll WHERE Id=@Id", new SortedList<string, object>() { { "@Id", iScTypeId } });
+                                //string ScTypeNameEng = Util.AbitDB.GetStringValue("SELECT NameEng FROM SchoolTypeAll WHERE Id=@Id", new SortedList<string, object>() { { "@Id", iScTypeId } });
+
+                                //model.SchoolType = bisEng ? (String.IsNullOrEmpty(ScTypeNameEng) ? ScTypeName : ScTypeNameEng) : ScTypeName;
+
+                                int? iScExClassId = (int?)Util.AbitDB.GetValue("SELECT MAX (SchoolExitClass.IntValue) FROM PersonEducationDocument INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                                if (iScExClassId.HasValue)
+                                {
+                                    model.ExitClassId = (int)iScExClassId;
+                                }
+                                else
+                                    return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
+                            }
                         }
-                        else
-                            return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
                     }
                 }
                 else
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
+
                 model.StudyForms = Util.GetStudyFormList(); 
                 model.StudyBasises = Util.GetStudyBasisList();
                 bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
