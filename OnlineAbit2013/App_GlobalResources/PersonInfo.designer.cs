@@ -268,7 +268,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Опыт работы.
+        ///   Looks up a localized string similar to Дополнительные сведения.
         /// </summary>
         internal static string Step5 {
             get {
@@ -277,7 +277,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дополнительные сведения.
+        ///   Looks up a localized string similar to Опыт работы.
         /// </summary>
         internal static string Step6 {
             get {

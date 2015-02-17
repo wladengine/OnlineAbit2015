@@ -344,7 +344,6 @@ namespace OnlineAbit2013.Controllers
                         model.EducationInfo.EducationDocuments.Add(EPD);
                     }
                     //------END--------EducationDocuments------------END----------
-
                     
                     return View("PersonalOffice_Page4", model);
                 }
@@ -372,79 +371,96 @@ namespace OnlineAbit2013.Controllers
                     model.EducationInfo.StudyFormList = Util.GetStudyFormList();
                     model.EducationInfo.StudyBasisList = Util.GetStudyBasisList();
 
-                    ////////////////////////////////////////////////
-                    model.CurrentEducation = new CurrentEducation();
-                    PersonCurrentEducation CurrentEducation = Person.PersonCurrentEducation;
-                    if (CurrentEducation == null)
-                        CurrentEducation = new PersonCurrentEducation();
-
-                    model.CurrentEducation.EducationTypeList = Util.SchoolTypesAll
-                            .Select(x => new SelectListItem() { Value = x.Key.ToString(), Text = x.Value })
-                            .ToList();
-                    model.CurrentEducation.SemesterList = Util.GetSemestrList();
-
-                    query = "SELECT Id, Name FROM SP_StudyLevel";
-                    DataTable _tblT = Util.AbitDB.GetDataTable(query, null);
-                    model.CurrentEducation.StudyLevelList =
-                        (from DataRow rw in _tblT.Rows
-                         select new SelectListItem()
-                         {
-                             Value = rw.Field<int>("Id").ToString(),
-                             Text = rw.Field<string>("Name")
-                         }).ToList();
-
-                    model.CurrentEducation.StudyLevelId = CurrentEducation.StudyLevelId.ToString();
-                    model.CurrentEducation.StudyFormId = CurrentEducation.StudyFormId ?? 1;
-                    model.CurrentEducation.SemesterId = CurrentEducation.SemesterId.ToString();
-                    model.CurrentEducation.StudyBasisId = CurrentEducation.StudyBasisId ?? 1;
-                    model.CurrentEducation.HiddenLicenseProgramId = CurrentEducation.LicenseProgramId.ToString();
-                    model.CurrentEducation.HiddenObrazProgramId = CurrentEducation.ObrazProgramId.ToString();
-                    model.CurrentEducation.ProfileName = CurrentEducation.ProfileName;
-
-                    model.CurrentEducation.HasAccreditation = CurrentEducation.HasAccreditation;
-                    model.CurrentEducation.AccreditationDate = CurrentEducation.AccreditationDate.HasValue ? CurrentEducation.AccreditationDate.Value.ToShortDateString() : "";
-                    model.CurrentEducation.AccreditationNumber = CurrentEducation.AccreditationNumber;
-                    model.CurrentEducation.EducationTypeId = CurrentEducation.EducTypeId.ToString();
-                    model.CurrentEducation.EducationName = CurrentEducation.EducName;
-                    model.CurrentEducation.HasScholarship = CurrentEducation.HasScholarship;
-                    /////
-                    model.ChangeStudyFormReason = new PersonChangeStudyFormReason();
-                    PersonChangeStudyFormReason ChangeStudyFormReason = Person.PersonChangeStudyFormReason;
-                    if (ChangeStudyFormReason == null)
-                        ChangeStudyFormReason = new PersonChangeStudyFormReason();
-                    model.ChangeStudyFormReason.Reason = ChangeStudyFormReason.Reason;
                     /////////////////////////////////////////////////
-                    
-                    model.DisorderInfo = new DisorderedSPBUEducation();
-                    if (Person.PersonDisorderInfo != null)
+                    if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2 || x.VuzAdditionalTypeId == 4)).Count() > 0)
                     {
-                        model.DisorderInfo.YearOfDisorder = Person.PersonDisorderInfo.YearOfDisorder;
-                        model.DisorderInfo.EducationProgramName = Person.PersonDisorderInfo.EducationProgramName;
-                        model.DisorderInfo.IsForIGA = Person.PersonDisorderInfo.IsForIGA;
+                        model.AddEducationInfo.HasTransfer = true;
+                        model.CurrentEducation = new CurrentEducation();
+                        PersonCurrentEducation CurrentEducation = Person.PersonCurrentEducation;
+                        if (CurrentEducation == null)
+                            CurrentEducation = new PersonCurrentEducation();
+
+                        model.CurrentEducation.EducationTypeList = Util.SchoolTypesAll
+                                .Select(x => new SelectListItem() { Value = x.Key.ToString(), Text = x.Value })
+                                .ToList();
+                        model.CurrentEducation.SemesterList = Util.GetSemestrList();
+
+                        query = "SELECT Id, Name FROM SP_StudyLevel";
+                        DataTable _tblT = Util.AbitDB.GetDataTable(query, null);
+                        model.CurrentEducation.StudyLevelList =
+                            (from DataRow rw in _tblT.Rows
+                             select new SelectListItem()
+                             {
+                                 Value = rw.Field<int>("Id").ToString(),
+                                 Text = rw.Field<string>("Name")
+                             }).ToList();
+
+                        model.CurrentEducation.StudyLevelId = CurrentEducation.StudyLevelId.ToString();
+                        model.CurrentEducation.StudyFormId = CurrentEducation.StudyFormId ?? 1;
+                        model.CurrentEducation.SemesterId = CurrentEducation.SemesterId.ToString();
+                        model.CurrentEducation.StudyBasisId = CurrentEducation.StudyBasisId ?? 1;
+                        model.CurrentEducation.HiddenLicenseProgramId = CurrentEducation.LicenseProgramId.ToString();
+                        model.CurrentEducation.HiddenObrazProgramId = CurrentEducation.ObrazProgramId.ToString();
+                        model.CurrentEducation.ProfileName = CurrentEducation.ProfileName;
+
+                        model.CurrentEducation.HasAccreditation = CurrentEducation.HasAccreditation;
+                        model.CurrentEducation.AccreditationDate = CurrentEducation.AccreditationDate.HasValue ? CurrentEducation.AccreditationDate.Value.ToShortDateString() : "";
+                        model.CurrentEducation.AccreditationNumber = CurrentEducation.AccreditationNumber;
+                        model.CurrentEducation.EducationTypeId = CurrentEducation.EducTypeId.ToString();
+                        model.CurrentEducation.EducationName = CurrentEducation.EducName;
+                        model.CurrentEducation.HasScholarship = CurrentEducation.HasScholarship;
                     }
-                    else
-                    {
-                        model.DisorderInfo.YearOfDisorder = "";
-                        model.DisorderInfo.EducationProgramName = "";
-                        model.DisorderInfo.IsForIGA = false;
-                    }
+
                     /////////////////////////////////////////////////
+                    if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2)).Count() > 0)
+                    {
+                        model.AddEducationInfo.HasTransfer = true;
+                        model.ChangeStudyFormReason = new PersonChangeStudyFormReason();
+                        PersonChangeStudyFormReason ChangeStudyFormReason = Person.PersonChangeStudyFormReason;
+                        if (ChangeStudyFormReason == null)
+                            ChangeStudyFormReason = new PersonChangeStudyFormReason();
+                        model.ChangeStudyFormReason.Reason = ChangeStudyFormReason.Reason;
+                    }
 
-                    string qEgeMarks = "SELECT EgeMark.Id, EgeCertificate.Number, EgeExam.Name, EgeMark.Value, EgeMark.IsSecondWave, EgeMark.IsInUniversity FROM Person " +
-                        " INNER JOIN EgeCertificate ON EgeCertificate.PersonId = Person.Id INNER JOIN EgeMark ON EgeMark.EgeCertificateId=EgeCertificate.Id " +
-                        " INNER JOIN EgeExam ON EgeExam.Id=EgeMark.EgeExamId WHERE Person.Id=@Id";
-                    DataTable tblEge = Util.AbitDB.GetDataTable(qEgeMarks, new SortedList<string, object>() { { "@Id", PersonId } });
+                    /////////////////////////////////////////////////
+                    if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 3)).Count() > 0)
+                    {
+                        model.AddEducationInfo.HasRecover = true;
+                        model.DisorderInfo = new DisorderedSPBUEducation();
+                        if (Person.PersonDisorderInfo != null)
+                        {
+                            model.DisorderInfo.YearOfDisorder = Person.PersonDisorderInfo.YearOfDisorder;
+                            model.DisorderInfo.EducationProgramName = Person.PersonDisorderInfo.EducationProgramName;
+                            model.DisorderInfo.IsForIGA = Person.PersonDisorderInfo.IsForIGA;
+                        }
+                        else
+                        {
+                            model.DisorderInfo.YearOfDisorder = "";
+                            model.DisorderInfo.EducationProgramName = "";
+                            model.DisorderInfo.IsForIGA = false;
+                        }
+                    }
 
-                    model.EducationInfo.EgeMarks = new List<EgeMarkModel>();
-                    model.EducationInfo.EgeMarks =
-                        (from DataRow rw in tblEge.Rows
-                         select new EgeMarkModel()
-                         {
-                             Id = rw.Field<Guid>("Id"),
-                             CertificateNum = rw.Field<string>("Number"),
-                             ExamName = rw.Field<string>("Name"),
-                             Value = rw.Field<bool>("IsSecondWave") ? ("Сдаю во второй волне") : (rw.Field<bool>("IsInUniversity") ? "Сдаю в СПбГУ" : rw.Field<int?>("Value").ToString())
-                         }).ToList();
+                    /////////////////////////////////////////////////
+                    if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 1).Count() > 0)
+                    {
+                        model.AddEducationInfo.HasEGE = true;
+                        string qEgeMarks = "SELECT EgeMark.Id, EgeCertificate.Number, EgeExam.Name, EgeMark.Value, EgeMark.IsSecondWave, EgeMark.IsInUniversity FROM Person " +
+                            " INNER JOIN EgeCertificate ON EgeCertificate.PersonId = Person.Id INNER JOIN EgeMark ON EgeMark.EgeCertificateId=EgeCertificate.Id " +
+                            " INNER JOIN EgeExam ON EgeExam.Id=EgeMark.EgeExamId WHERE Person.Id=@Id";
+                        DataTable tblEge = Util.AbitDB.GetDataTable(qEgeMarks, new SortedList<string, object>() { { "@Id", PersonId } });
+
+                        model.EducationInfo.EgeMarks = new List<EgeMarkModel>();
+                        model.EducationInfo.EgeMarks =
+                            (from DataRow rw in tblEge.Rows
+                             select new EgeMarkModel()
+                             {
+                                 Id = rw.Field<Guid>("Id"),
+                                 CertificateNum = rw.Field<string>("Number"),
+                                 ExamName = rw.Field<string>("Name"),
+                                 Value = rw.Field<bool>("IsSecondWave") ? ("Сдаю во второй волне") : (rw.Field<bool>("IsInUniversity") ? "Сдаю в СПбГУ" : rw.Field<int?>("Value").ToString())
+                             }).ToList();
+                    }
 
                     return View("PersonalOffice_Page5", model);
                 }
@@ -597,7 +613,7 @@ namespace OnlineAbit2013.Controllers
                             context.ReturnDocumentType.Select(x => new { x.Id, x.NameEng }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.NameEng }).ToList() :
                             context.ReturnDocumentType.Select(x => new { x.Id, x.Name }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList()
                     };
-                    return View("PersonalOffice_Page6", model);
+                    return View("PersonalOffice_Page7", model);
                 }
                 //return View("PersonalOffice_Page", model);
             }
@@ -803,7 +819,6 @@ namespace OnlineAbit2013.Controllers
                 else if (model.Stage == 4)//образование
                 {
                     //проходим по POST-переменным по очереди
-
                     for (int i = 0; i < Util.getConstInfo().EducationDocumentsMaxCount; i++)
                     {
                         //-----------------------------
@@ -836,7 +851,15 @@ namespace OnlineAbit2013.Controllers
                             iSchoolTypeId = 1;
 
                         //-----------------------------
+                        string SchoolName = Request.Form["SchoolName_" + i];
+                        if (string.IsNullOrEmpty(SchoolName))
+                            continue;
+
+                        //-----------------------------
                         string sSchoolExitYear = Request.Form["SchoolExitYear_" + i];
+                        if (string.IsNullOrEmpty(sSchoolExitYear))
+                            continue;
+
                         int SchoolExitYear;
                         if (!int.TryParse(sSchoolExitYear, out SchoolExitYear))
                             SchoolExitYear = DateTime.Now.Year;
@@ -872,16 +895,16 @@ namespace OnlineAbit2013.Controllers
 
                         //----------------------------
                         string sPersonStudyForm = Request.Form["PersonStudyForm_" + i];
-                        int sform = 0;
-                        int.TryParse(sPersonStudyForm, out sform);
+                        int iPersonStudyForm = 0;
+                        int.TryParse(sPersonStudyForm, out iPersonStudyForm);
 
                         //----------------------------
                         string sPersonQualification = Request.Form["PersonQualification_" + i];
-                        int qualId = 0;
-                        int.TryParse(sPersonQualification, out qualId);
+                        int iPersonQualification = 0;
+                        int.TryParse(sPersonQualification, out iPersonQualification);
 
                         //----------------------------
-                        string SchoolName = Request.Form["SchoolName_" + i];
+                        
                         string SchoolNumber = Request.Form["SchoolNumber_" + i];
                         string SchoolCity = Request.Form["SchoolCity_" + i];
 
@@ -945,10 +968,10 @@ namespace OnlineAbit2013.Controllers
                             PersonHighEducationInfo.DiplomaTheme = DiplomTheme;
                             PersonHighEducationInfo.ProgramName = ProgramName;
                             PersonHighEducationInfo.EntryYear = (iHEEntryYear == 0 ? null : (int?)iHEEntryYear);
-                            if (sform != 0)
-                                PersonHighEducationInfo.StudyFormId = sform;
-                            if (qualId != 0)
-                                PersonHighEducationInfo.QualificationId = qualId;
+                            if (iPersonStudyForm != 0)
+                                PersonHighEducationInfo.StudyFormId = iPersonStudyForm;
+                            if (iPersonQualification != 0)
+                                PersonHighEducationInfo.QualificationId = iPersonQualification;
 
                             if (iSchoolTypeId == 4)
                             {
@@ -998,24 +1021,26 @@ namespace OnlineAbit2013.Controllers
                     if (bIns)
                         context.PersonAddInfo.AddObject(PersonAddInfo);
 
-                    bIns = false;
-                    PersonDisorderInfo PersonDisorderEducation = Person.PersonDisorderInfo;
-                    if (PersonDisorderEducation == null)
+                    
+                    if (model.AddEducationInfo.HasRecover && model.DisorderInfo != null)
                     {
-                        PersonDisorderEducation = new PersonDisorderInfo();
-                        PersonDisorderEducation.PersonId = PersonId;
-                        bIns = true;
+                        bIns = false;
+
+                        PersonDisorderInfo PersonDisorderEducation = Person.PersonDisorderInfo;
+                        if (PersonDisorderEducation == null)
+                        {
+                            PersonDisorderEducation = new PersonDisorderInfo();
+                            PersonDisorderEducation.PersonId = PersonId;
+                            bIns = true;
+                        }
+                        PersonDisorderEducation.IsForIGA = model.DisorderInfo.IsForIGA;
+                        PersonDisorderEducation.YearOfDisorder = model.DisorderInfo.YearOfDisorder;
+                        PersonDisorderEducation.EducationProgramName = model.DisorderInfo.EducationProgramName;
+
+                        if (bIns)
+                            context.PersonDisorderInfo.AddObject(PersonDisorderEducation);
                     }
-                    PersonDisorderEducation.IsForIGA = model.DisorderInfo.IsForIGA;
-                    PersonDisorderEducation.YearOfDisorder = model.DisorderInfo.YearOfDisorder;
-                    PersonDisorderEducation.EducationProgramName = model.DisorderInfo.EducationProgramName;
-
-                    if (iRegStage < 7)
-                        Person.RegistrationStage = 7;
-
-                    if (bIns)
-                        context.PersonDisorderInfo.AddObject(PersonDisorderEducation);
-
+                    
 
                     bool bHasCurrentEducation = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId != 1).Count() > 0;
                     //-----------------PersonCurrentEducation---------------------
@@ -1099,6 +1124,9 @@ namespace OnlineAbit2013.Controllers
                             }
                         }
                     }
+
+                    if (iRegStage < 7)
+                        Person.RegistrationStage = 7;
 
                     context.SaveChanges();
                 }
@@ -6722,6 +6750,9 @@ Order by cnt desc";
                 string PassportTypeName = context.PassportType.Where(x => x.Id == iPassportTypeId)
                     .Select(x => UILang == "en" ? x.NameEng : x.Name).FirstOrDefault();
 
+                if (string.IsNullOrEmpty(PassportSurname))
+                    PassportSurname = context.Person.Where(x => x.Id == PersonId).Select(x => x.Surname).FirstOrDefault();
+
                 PersonOtherPassport ins = new PersonOtherPassport();
                 ins.PassportTypeId = iPassportTypeId;
                 ins.PersonId = PersonId;
@@ -6788,13 +6819,17 @@ Order by cnt desc";
             {
                 using (OnlinePriemEntities context = new OnlinePriemEntities())
                 {
-                    var ent = context.PersonOtherPassport.Where(x => x.Id == iId).FirstOrDefault();
+                    var ent = context.PersonOtherPassport.Where(x => x.Id == iId && x.PersonId == PersonId).FirstOrDefault();
                     if (ent != null)
+                    {
                         context.PersonOtherPassport.DeleteObject(ent);
-
-                    context.SaveChanges();
-
-                    cnt = context.PersonOtherPassport.Where(x => x.PersonId == PersonId).Count();
+                        context.SaveChanges();
+                        cnt = context.PersonOtherPassport.Where(x => x.PersonId == PersonId).Count();
+                    }
+                    else
+                    {
+                        return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
+                    }
                 }
             }
             catch

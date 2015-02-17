@@ -172,10 +172,13 @@
     <value>Образование</value>
   </data>
   <data name="Step5" xml:space="preserve">
-    <value>Опыт работы</value>
+    <value>Дополнительные сведения</value>
   </data>
   <data name="Step6" xml:space="preserve">
-    <value>Дополнительные сведения</value>
+    <value>Опыт работы</value>
+  </data>
+  <data name="Step7" xml:space="preserve">
+    <value>Родители и льготы</value>
   </data>
   <data name="Surname" xml:space="preserve">
     <value>Фамилия</value>

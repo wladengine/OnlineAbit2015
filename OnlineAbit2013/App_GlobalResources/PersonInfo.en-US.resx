@@ -184,10 +184,13 @@
     <value>Education</value>
   </data>
   <data name="Step5" xml:space="preserve">
-    <value>Work experience</value>
+    <value>Additional Comments</value>
   </data>
   <data name="Step6" xml:space="preserve">
-    <value>Additional Comments</value>
+    <value>Work experience</value>
+  </data>
+  <data name="Step7" xml:space="preserve">
+    <value>Parents and priveleges</value>
   </data>
   <data name="Surname" xml:space="preserve">
     <value>Surname</value>

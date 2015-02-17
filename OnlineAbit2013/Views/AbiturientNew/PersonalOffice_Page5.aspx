@@ -14,9 +14,10 @@
     <script type="text/javascript" src="../../Scripts/jquery-1.5.1-vsdoc.js"></script>
     <script type="text/javascript" src="../../Scripts/jquery.validate-vsdoc.js"></script>
 <% } %>
+    <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
     <script type="text/javascript"> 
 
-        <% if (!String.IsNullOrEmpty(Model.CurrentEducation.HiddenObrazProgramId)) { %>
+        <% if (Model.CurrentEducation != null && !String.IsNullOrEmpty(Model.CurrentEducation.HiddenObrazProgramId)) { %>
         $(function () { setTimeout(GetObrazPrograms) });
         <% } %>
 
@@ -28,8 +29,9 @@
             $('#CurrentEducation_SemesterId').change(function () { setTimeout(GetProfessions) });
             $('#CurrentEducation_LicenseProgramId').change(function () { setTimeout(Myfun) });
             $('#CurrentEducation_ObrazProgramId').change(function () { setTimeout(Myfun) });
-
             $('#DisorderInfo_YearOfDisorder').change(function () { setTimeout(CheckDisorderInfoYear) });
+
+            fStart();
         });
 
         function Myfun() {
@@ -38,7 +40,6 @@
             var obrzId = $('#CurrentEducation_ObrazProgramId').val();
             $('#CurrentEducation_HiddenObrazProgramId').val(obrzId);
         }
-
         function CheckDisorderInfoYear() {
             var ret = true;
             if ($('#DisorderInfo_YearOfDisorder').val() == '') {
@@ -64,7 +65,6 @@
             }
             return ret;
         }
-
         function GetProfessions() {
             if ($('#EducationInfo_VuzAdditionalTypeId').val() == 2) {
                 var CurLevelId = $('#CurrentEducation_StudyLevelId').val();
@@ -166,13 +166,25 @@
                 $('#_EgeMark').show();
             }
         }
+        function loadFormValues() {
+            var existingCerts = '';
+            var exams_html = '';
+            $.getJSON("AbiturientNew/GetAbitCertsAndExams", null, function (res) {
+                existingCerts = res.Certs;
+                for (var i = 0; i < res.Exams.length; i++) {
+                    exams_html += '<option value="' + res.Exams[i].Key + '">' + res.Exams[i].Value + '</option>';
+                }
+                $("#EgeExam").html(exams_html);
+                $("#EgeCert").autocomplete({
+                    source: existingCerts
+                });
+            });
+        }
 
-        function fStartTwo() {
-            $("#dialog:ui-dialog").dialog("destroy");
+        function fStart() {
             $('form').submit(function () {
                 return CheckForm();
             });
-
                 <% if (!Model.Enabled)
                    { %>
                 $('input').attr('readonly', 'readonly');
@@ -185,139 +197,125 @@
                     changeMonth: true,
                     changeYear: true,
                     showOn: "focus",
-                    yearRange: '1920:2014',
+                    yearRange: '1990:2015',
                     defaultDate: '-1y',
                 });
                 $.datepicker.regional["ru"];
                 <% } %>
 
-                function loadFormValues() {
-                    var existingCerts = '';
-                    var exams_html = '';
-                    $.getJSON("AbiturientNew/GetAbitCertsAndExams", null, function (res) {
-                        existingCerts = res.Certs;
-                        for (var i = 0; i < res.Exams.length; i++) {
-                            exams_html += '<option value="' + res.Exams[i].Key + '">' + res.Exams[i].Value + '</option>';
-                        }
-                        $("#EgeExam").html(exams_html);
-                        $("#EgeCert").autocomplete({
-                            source: existingCerts
-                        });
-                    });
+            var certificateNumber = $("#EgeCert"),
+			examName = $("#EgeExam"),
+			examMark = $("#EgeMark"),
+            Is2014 = $("#Is2014"),
+            IsSecondWave = $("#IsSecondWave"),
+            IsInUniversity = $("#IsInUniversity"),
+
+			allFields = $([]).add(certificateNumber).add(examName).add(examMark),
+			tips = $(".validateTips");
+
+            function updateTips(t) {
+                tips.text(t).addClass("ui-state-highlight");
+                setTimeout(function () {
+                    tips.removeClass("ui-state-highlight", 1500);
+                }, 500);
+            }
+            function checkLength() {
+                if ((certificateNumber.val().length > 15 || certificateNumber.val().length < 15) && (!$("#Is2014").is(':checked'))) {
+                    certificateNumber.addClass("ui-state-error");
+                    updateTips("Номер сертификата должен быть 15-значным в формате РР-ХХХХХХХХ-ГГ");
+                    return false;
+                } else {
+                    return true;
                 }
-
-                var certificateNumber = $("#EgeCert"),
-			    examName = $("#EgeExam"),
-			    examMark = $("#EgeMark"),
-                Is2014 = $("#Is2014"),
-                IsSecondWave = $("#IsSecondWave"),
-                IsInUniversity = $("#IsInUniversity"),
-
-			    allFields = $([]).add(certificateNumber).add(examName).add(examMark),
-			    tips = $(".validateTips");
-
-                function updateTips(t) {
-                    tips.text(t).addClass("ui-state-highlight");
-                    setTimeout(function () {
-                        tips.removeClass("ui-state-highlight", 1500);
-                    }, 500);
+            }
+            function checkVal() {
+                var val = examMark.val();
+                if ((val < 1 || val > 100) && (!$("#IsSecondWave").is(':checked')) && (!$("#IsInUniversity").is(':checked'))) {
+                    updateTips("Экзаменационный балл должен быть от 1 до 100");
+                    return false;
                 }
-                function checkLength() {
-                    if ((certificateNumber.val().length > 15 || certificateNumber.val().length < 15) && (!$("#Is2014").is(':checked'))) {
-                        certificateNumber.addClass("ui-state-error");
-                        updateTips("Номер сертификата должен быть 15-значным в формате РР-ХХХХХХХХ-ГГ");
-                        return false;
-                    } else {
-                        return true;
-                    }
+                else {
+                    return true;
                 }
-                function checkVal() {
-                    var val = examMark.val();
-                    if ((val < 1 || val > 100) && (!$("#IsSecondWave").is(':checked')) && (!$("#IsInUniversity").is(':checked'))) {
-                        updateTips("Экзаменационный балл должен быть от 1 до 100");
-                        return false;
-                    }
-                    else {
-                        return true;
-                    }
+            }
+            function checkRegexp(o, regexp, n) {
+                if (!(regexp.test(o.val()))) {
+                    o.addClass("ui-state-error");
+                    updateTips(n);
+                    return false;
+                } else {
+                    return true;
                 }
-                function checkRegexp(o, regexp, n) {
-                    if (!(regexp.test(o.val()))) {
-                        o.addClass("ui-state-error");
-                        updateTips(n);
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
+            }
 
-                $("#dialog-form").dialog({
-                    autoOpen: false,
-                    height: 430,
-                    width: 350,
-                    modal: true,
-                    buttons: {
-                        "Добавить": function () {
-                            var bValid = true;
-                            allFields.removeClass("ui-state-error");
+            $("#dialog-form").dialog({
+                autoOpen: false,
+                height: 430,
+                width: 350,
+                modal: true,
+                buttons: {
+                    "Добавить": function () {
+                        var bValid = true;
+                        allFields.removeClass("ui-state-error");
 
-                            bValid = bValid && checkLength();
-                            bValid = bValid && checkVal();
+                        bValid = bValid && checkLength();
+                        bValid = bValid && checkVal();
 
-                            if (bValid) {
-                                //add to DB
-                                var parm = new Object();
-                                parm["certNumber"] = certificateNumber.val();
-                                parm["examName"] = examName.val();
-                                parm["examValue"] = examMark.val();
-                                parm["Is2014"] = $("#Is2014").is(':checked');
-                                parm["IsInUniversity"] = $("#IsInUniversity").is(':checked');
-                                parm["IsSecondWave"] = $("#IsSecondWave").is(':checked');
+                        if (bValid) {
+                            //add to DB
+                            var parm = new Object();
+                            parm["certNumber"] = certificateNumber.val();
+                            parm["examName"] = examName.val();
+                            parm["examValue"] = examMark.val();
+                            parm["Is2014"] = $("#Is2014").is(':checked');
+                            parm["IsInUniversity"] = $("#IsInUniversity").is(':checked');
+                            parm["IsSecondWave"] = $("#IsSecondWave").is(':checked');
 
-                                $.post("AbiturientNew/AddMark", parm, function (res) {
-                                    //add to table if ok
-                                    if (res.IsOk) {
-                                        $("#tblEGEData tbody").append('<tr id="' + res.Data.Id + '">' +
-							            '<td>' + res.Data.CertificateNumber + '</td>' +
-							            '<td>' + res.Data.ExamName + '</td>' +
-							            '<td>' + res.Data.ExamMark + '</td>' +
-                                        '<td><span class="link" onclick="DeleteMrk(\'' + res.Data.Id + '\')"><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить оценку" /></span></td>' +
-						                '</tr>');
-                                        $("#noMarks").html("").hide();
-                                        $("#dialog-form").dialog("close");
-                                    }
-                                    else {
-                                        updateTips(res.ErrorMessage);
-                                    }
-                                }, "json");
-                            }
-                        },
-                        "Отменить": function () {
-                            $(this).dialog("close");
+                            $.post("AbiturientNew/AddMark", parm, function (res) {
+                                //add to table if ok
+                                if (res.IsOk) {
+                                    $("#tblEGEData tbody").append('<tr id="' + res.Data.Id + '">' +
+							        '<td>' + res.Data.CertificateNumber + '</td>' +
+							        '<td>' + res.Data.ExamName + '</td>' +
+							        '<td>' + res.Data.ExamMark + '</td>' +
+                                    '<td><span class="link" onclick="DeleteMrk(\'' + res.Data.Id + '\')"><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить оценку" /></span></td>' +
+						            '</tr>');
+                                    $("#noMarks").html("").hide();
+                                    $("#dialog-form").dialog("close");
+                                }
+                                else {
+                                    updateTips(res.ErrorMessage);
+                                }
+                            }, "json");
                         }
                     },
-                    close: function () {
-                        allFields.val("").removeClass("ui-state-error");
+                    "Отменить": function () {
+                        $(this).dialog("close");
                     }
-                });
+                },
+                close: function () {
+                    allFields.val("").removeClass("ui-state-error");
+                }
+            });
 
-                $("#create-ege").button().click(function () {
-                    loadFormValues();
-                    $("#dialog-form").dialog("open");
-                });
-            }
-            function DeleteMrk(id) {
-                var data = new Object();
-                data['mId'] = id;
-                $.post("AbiturientNew/DeleteEgeMark", data, function r(res) {
-                    if (res.IsOk) {
-                        $("#" + id.toString()).html('').hide();
-                    }
-                    else {
-                        alert("Ошибка при удалении оценки:\n" + res.ErrorMsg);
-                    }
-                }, 'json');
-            }
+            $("#dialog:ui-dialog").dialog("destroy");
+            $("#create-ege").button().click(function () {
+                loadFormValues();
+                $("#dialog-form").dialog("open");
+            });
+        }
+        function DeleteMrk(id) {
+            var data = new Object();
+            data['mId'] = id;
+            $.post("AbiturientNew/DeleteEgeMark", data, function r(res) {
+                if (res.IsOk) {
+                    $("#" + id.toString()).html('').hide();
+                }
+                else {
+                    alert("Ошибка при удалении оценки:\n" + res.ErrorMsg);
+                }
+            }, 'json');
+        }
 	</script>
     <div class="grid">
         <div class="wrapper">
@@ -331,6 +329,10 @@
                 <form class="panel form" action="AbiturientNew/NextStep" method="post">
                     <%= Html.ValidationSummary() %>
                     <%= Html.HiddenFor(x => x.Stage) %>
+                    <div class="clearfix">
+                        <%= Html.LabelFor(x => x.AddEducationInfo.LanguageId, GetGlobalResourceObject("PersonalOffice_Step4", "LanguageId").ToString())%>
+                        <%= Html.DropDownListFor(x => x.AddEducationInfo.LanguageId, Model.AddEducationInfo.LanguageList) %>
+                    </div>
                     <div id="EnglishMark" class="clearfix">
                         <%= Html.LabelFor(x => x.AddEducationInfo.EnglishMark, GetGlobalResourceObject("PersonalOffice_Step4", "EnglishMark").ToString())%>
                         <%= Html.TextBoxFor(x => x.AddEducationInfo.EnglishMark) %>
@@ -339,7 +341,8 @@
                         <%= Html.LabelFor(x => x.AddEducationInfo.StartEnglish, GetGlobalResourceObject("PersonalOffice_Step4", "EnglishNull").ToString())%>
                         <%= Html.CheckBoxFor(x => x.AddEducationInfo.StartEnglish)%>
                     </div>
-                    <div id="_ForeignCountryEduc" class="clearfix" style="display:none">
+                    <% if (Model.AddEducationInfo.HasForeignCountryEduc) { %>
+                    <div id="_ForeignCountryEduc" class="clearfix">
                         <div class="clearfix">
                             <%= Html.LabelFor(x => x.AddEducationInfo.HasTRKI, GetGlobalResourceObject("PersonalOffice_Step4", "HasTRKI").ToString())%>
                             <%= Html.CheckBoxFor(x => x.AddEducationInfo.HasTRKI)%>
@@ -349,10 +352,8 @@
                             <%= Html.TextBoxFor(x => x.AddEducationInfo.TRKICertificateNumber) %>
                         </div>
                     </div>
-                    <div class="clearfix">
-                        <%= Html.LabelFor(x => x.AddEducationInfo.LanguageId, GetGlobalResourceObject("PersonalOffice_Step4", "LanguageId").ToString())%>
-                        <%= Html.DropDownListFor(x => x.AddEducationInfo.LanguageId, Model.AddEducationInfo.LanguageList) %>
-                    </div>
+                    <% } %>
+                    
                     <% if (Model.AddEducationInfo.HasTransfer) { %>
                     <div id="_TransferData" class="clearfix">
                         <div id = "_AccreditationInfo">
@@ -372,7 +373,7 @@
                         <div class="clearfix">
                             <%= Html.LabelFor(x => x.CurrentEducation.StudyLevelId,  GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudyLevel").ToString())%>
                             <%= Html.DropDownListFor(x => x.CurrentEducation.StudyLevelId, Model.CurrentEducation.StudyLevelList, new SortedList<string, object>() { })%>
-                        </div>  
+                        </div>
                         <div class="clearfix">
                             <%= Html.LabelFor(x => x.CurrentEducation.SemesterId,  GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudySemester").ToString())%>
                             <%= Html.DropDownListFor(x => x.CurrentEducation.SemesterId, Model.CurrentEducation.SemesterList, new SortedList<string, object>() {  })%>
@@ -437,7 +438,9 @@
                         </div>
                         </fieldset>
                     </div>
-
+                    <% } %>
+                    <% if (Model.AddEducationInfo.HasEGE) { %>
+                    <br />
                     <div id="EGEData" class="clearfix">
                         <h6><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEmarks").ToString()%></h6>
                         <% if (Model.EducationInfo.EgeMarks.Count == 0)
@@ -509,8 +512,6 @@
 	                        </fieldset>
                         </div>
                     </div>
-                        
-
                     <% } %>
                     <hr />
                     <div class="clearfix">

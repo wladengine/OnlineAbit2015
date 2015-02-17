@@ -249,12 +249,15 @@
             var sSeries = $('#_frmPassportSeries').val();
             var sNumber = $('#_frmPassportNumber').val();
             var sSurname = $('#_frmSurname').val();
+            if (sNumber == '')
+                return;
+            
             var iType = $('#_frmPassportType').val();
             var params = new Object();
             params['PassportType'] = iType;
             params['PassportSeries'] = sSeries;
             params['PassportNumber'] = sNumber;
-            params['PassportSurname'] = sNumber;
+            params['PassportSurname'] = sSurname;
             $.post('/AbiturientNew/AddOtherPassport', params, function(data) {
                 if (data.IsOk) {
                     var str = $('#tblPassportData').html();
@@ -432,46 +435,46 @@
                             <asp:Literal ID="Literal15" runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal> - <asp:Literal ID="Literal16" runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>  
                         </div>
                         <div class="clearfix">
-                            <input id="Submit2" name = "SubmitSave" class="button button-green" type="submit" value="<%= GetGlobalResourceObject("PersonInfo", "ButtonSaveText").ToString()%>" />
+                            <input id="Submit2" name = "SubmitSave" class="button button-green" type="submit" style="margin-right: 20px;" value="<%= GetGlobalResourceObject("PersonInfo", "ButtonSaveText").ToString()%>" />
                             <span> </span>
                             <input id="Submit1" class="button button-green" type="submit" value="<%= GetGlobalResourceObject("PersonInfo", "ButtonSubmitText").ToString()%>" />
                         </div>
                         <hr />
-                        <div class="form">
-                            <h5>Прочие паспорта</h5>
-                            <div>
-                                <label>Тип</label>
-                                <%= Html.DropDownList("_frmPassportType", Model.PassportInfo.PassportTypeList, new Dictionary<string, object>() { { "id", "_frmPassportType" } })%>
-                                <div class="clearfix">
-                                    <label>Серия</label>
-                                    <input id="_frmPassportSeries" type="text" />
-                                </div><br />
-                                <div class="clearfix">
-                                    <label>Номер</label>
-                                    <input id="_frmPassportNumber" type="text" />
-                                </div><br />
-                                <div class="clearfix">
-                                    <label>Фамилия (если отличалась)</label>
-                                    <input id="_frmSurname" type="text" />
-                                </div>
-                                <br />
-                                <button onclick="SaveOtherPassport()" class="button button-blue">Сохранить</button>
+                    </form>
+                    <div class="form panel">
+                        <h5>Прочие паспорта</h5>
+                        <div>
+                            <label>Тип</label>
+                            <%= Html.DropDownList("_frmPassportType", Model.PassportInfo.PassportTypeList, new Dictionary<string, object>() { { "id", "_frmPassportType" } })%>
+                            <div class="clearfix">
+                                <label>Серия</label>
+                                <input id="_frmPassportSeries" type="text" />
+                            </div><br />
+                            <div class="clearfix">
+                                <label>Номер</label>
+                                <input id="_frmPassportNumber" type="text" />
+                            </div><br />
+                            <div class="clearfix">
+                                <label>Фамилия (если отличалась)</label>
+                                <input id="_frmSurname" type="text" />
                             </div>
                             <br />
-                            <table id="tblOtherPassports" class="paginate" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>Тип паспорта</th>
-                                        <th>Серия</th>
-                                        <th>Номер</th>
-                                        <th style="width:50%">Фамилия</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblPassportData">
-                                </tbody>
-                            </table>
-                        </div> 
-                    </form>
+                            <button onclick="SaveOtherPassport()" class="button button-blue">Сохранить</button>
+                        </div>
+                        <br />
+                        <table id="tblOtherPassports" class="paginate" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Тип паспорта</th>
+                                    <th>Серия</th>
+                                    <th>Номер</th>
+                                    <th style="width:50%">Фамилия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblPassportData">
+                            </tbody>
+                        </table>
+                    </div>
  <!-- /////////////////////////////////////////////////////////////////// -->
                     <p class="message info">
                      <asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:AddSharedFiles, PersonalOffice_Passport %>"></asp:Literal>
