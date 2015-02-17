@@ -4504,9 +4504,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             int PersonFileTypeId = Convert.ToInt32(Request.Form["FileTypeId"]);
 
             string fileComment = Request.Form["Comment"];
-            if (!String.IsNullOrEmpty(fileComment))
-                fileComment += " ";
-            fileComment += "(исходное название файла- " + fileName + ")";
+           
 
             int fileSize = Convert.ToInt32(Request.Files["File"].InputStream.Length);
             byte[] fileData = new byte[fileSize];
@@ -4522,12 +4520,41 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 fileext = "";
             }
 
-
-            int Count = (int)Util.AbitDB.GetValue("select count(Id) from dbo.PersonFile where PersonId = '" + PersonId + "' and PersonFileTypeId=" + PersonFileTypeId);
             string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id=" + PersonFileTypeId);
 
             if (!String.IsNullOrEmpty(FileNameTemplate))
-                fileName = FileNameTemplate + (Count +1).ToString() + fileext;
+            {
+                if (!String.IsNullOrEmpty(fileComment))
+                    fileComment += " ";
+                fileComment += "(исходное название файла- " + fileName + ")";
+
+                int Count = 1;
+                using (OnlinePriemEntities context = new OnlinePriemEntities())
+                {
+                    var FileNameList = (from pf in context.PersonFile
+                                        where pf.PersonId == PersonId && pf.PersonFileTypeId == PersonFileTypeId
+                                        select pf.FileName).ToList();
+
+                    foreach (string name in FileNameList)
+                    {
+                        int tmp;
+                        if (name.Contains('.'))
+                        {
+                            if (int.TryParse(name.Substring(0, name.IndexOf('.')).Replace(FileNameTemplate, ""), out tmp))
+                            {
+                                if (Count < tmp)
+                                    Count = tmp;
+                            }
+                        }
+                        else if (int.TryParse(name.Replace(FileNameTemplate, ""), out tmp))
+                        {
+                            if (Count < tmp)
+                                Count = tmp;
+                        }
+                    }
+                }
+                fileName = FileNameTemplate + (Count + 1).ToString() + fileext;
+            }
 
             try
             {
@@ -4575,14 +4602,8 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 fileName = fileName.Substring(lastSlashPos);
 
             string fileComment = Request.Form["Comment"];
-            if (!String.IsNullOrEmpty(fileComment))
-                fileComment += " ";
-            fileComment += "(исходное название файла- " + fileName + ")";
 
             int PersonFileTypeId = int.Parse(Request.Form["FileTypeId"]);
-
-            int Count = (int)Util.AbitDB.GetValue("select count(Id) from dbo.PersonFile where PersonId = '" + PersonId + "' and PersonFileTypeId=" + PersonFileTypeId);
-            string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id="+PersonFileTypeId);
 
             int fileSize = Convert.ToInt32(Request.Files["File"].InputStream.Length);
             byte[] fileData = new byte[fileSize];
@@ -4598,9 +4619,42 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 fileext = "";
             }
 
+            string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id=" + PersonFileTypeId);
 
             if (!String.IsNullOrEmpty(FileNameTemplate))
-                fileName = FileNameTemplate + (Count +1).ToString()+ fileext;
+            {
+                if (!String.IsNullOrEmpty(fileComment))
+                    fileComment += " ";
+                fileComment += "(исходное название файла- " + fileName + ")";
+
+                int Count = 1;
+                using (OnlinePriemEntities context = new OnlinePriemEntities())
+                {
+                    var FileNameList = (from pf in context.PersonFile
+                                        where pf.PersonId == PersonId && pf.PersonFileTypeId == PersonFileTypeId
+                                        select pf.FileName).ToList();
+
+                    foreach (string name in FileNameList)
+                    {
+                        int tmp;
+                        if (name.Contains('.'))
+                        {
+                            if (int.TryParse(name.Substring(0, name.IndexOf('.')).Replace(FileNameTemplate, ""), out tmp))
+                            {
+                                if (Count < tmp)
+                                    Count = tmp;
+                            }
+                        }
+                        else if (int.TryParse(name.Replace(FileNameTemplate, ""), out tmp))
+                        {
+                            if (Count < tmp)
+                                Count = tmp;
+                        }
+                    }
+                }
+
+                fileName = FileNameTemplate + (Count + 1).ToString() + fileext;
+            }
 
             try
             {
