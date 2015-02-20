@@ -799,7 +799,7 @@ namespace OnlineAbit2013.Models
         public string ProfessionName { get; set; }
         public int ObrazProgramId { get; set; }
         public string ObrazProgramName { get; set; }
-        public Guid SpecializationId { get; set; }
+        public int SpecializationId { get; set; }
         public string SpecializationName { get; set; }
         public List<SelectListItem> ProfessionList { get; set; }
         public List<SelectListItem> ObrazProgramList { get; set; }

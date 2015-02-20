@@ -988,7 +988,6 @@ namespace OnlineAbit2013.Controllers
                             }
                         }
                     }
-
                     //--------------------------------------
                     Person.RegistrationStage = iRegStage < 5 ? 5 : iRegStage;
                     context.SaveChanges();
@@ -1324,7 +1323,7 @@ namespace OnlineAbit2013.Controllers
                 if (c != 100)
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", (c ?? 6).ToString() } });
                   
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                    new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 1)
                 {
@@ -1334,8 +1333,8 @@ namespace OnlineAbit2013.Controllers
                 }
                 else
                 {
-                    DataTable tbl = Util.AbitDB.GetDataTable(@"SELECT SchoolExitClass.IntValue AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
-INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    DataTable tbl = Util.AbitDB.GetDataTable(@"SELECT MAX(SchoolExitClass.IntValue) AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
+INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id and SchoolTypeId=@SchoolTypeId group by SchoolExitClassId", new SortedList<string, object>() { { "@Id", PersonId }, { "@SchoolTypeId", iAG_SchoolTypeId } });
                     if (tbl.Rows.Count == 0)
                     {
                         model.Enabled = false;
@@ -1405,7 +1404,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.CommitId = Guid.NewGuid().ToString("N");
  
                 model.Enabled = true;
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                    new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -1422,7 +1421,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     // остается 4 - закончил вуз (где проверка на то, что действительно закончил?) 
                     model.MaxBlocks = maxBlockMag;
 
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 1)
@@ -1482,13 +1481,13 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
                  DataTable tbl;
                  model.Enabled = true;
-                 int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                 int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                    new SortedList<string, object>() { { "@Id", PersonId } });
                  if (iAG_SchoolTypeId == 1)
                  {
                      // ссылка на объект  и пр., когда SchoolExitClassId = null
-                     tbl = Util.AbitDB.GetDataTable(@"SELECT SchoolExitClass.IntValue AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
-                        INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                     tbl = Util.AbitDB.GetDataTable(@"SELECT MAX(SchoolExitClass.IntValue) AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
+                        INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id and SchoolTypeId=@ScTypeId group by SchoolExitClassId", new SortedList<string, object>() { { "@Id", PersonId }, { "@ScTypeId", iAG_SchoolTypeId } });
                      if (tbl.Rows.Count == 0)
                      {
                          model.Enabled = false;
@@ -1520,7 +1519,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                  }
                  else 
                  {
-                     int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                     int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id ", new SortedList<string, object>() { { "@Id", PersonId } });
                      if (VuzAddType.HasValue)
                      {
                          if ((int)VuzAddType != 1)
@@ -1578,13 +1577,14 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
                 DataTable tbl;
                 model.Enabled = true;
-                int iSchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iSchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                   new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iSchoolTypeId == 1)
                 {
                     // ссылка на объект и пр., когда SchoolExitClassId = null
-                    tbl = Util.AbitDB.GetDataTable(@"SELECT SchoolExitClass.IntValue AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
-                        INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    tbl = Util.AbitDB.GetDataTable(@"SELECT MAX(SchoolExitClass.IntValue) AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
+                        INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id and SchoolTypeId=@ScTypeId group by SchoolExitClassId",
+                        new SortedList<string, object>() { { "@Id", PersonId }, { "@ScTypeId", iSchoolTypeId } });
                     if (tbl.Rows.Count == 0)
                     {
                         model.Enabled = false;
@@ -1612,7 +1612,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else 
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId)  FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 1)
@@ -1690,7 +1690,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.CommitId = Guid.NewGuid().ToString("N");
 
                 model.Enabled = true;
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                    new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -1704,13 +1704,13 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT QualificationId FROM PersonHighEducationInfo WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT MAX(QualificationId) FROM PersonHighEducationInfo WHERE PersonId=@Id and SchoolTypeId=@SchoolTypeId", new SortedList<string, object>() { { "@Id", PersonId }, { "@ScTypeId", iAG_SchoolTypeId } });
                     if (iQualificationId.HasValue)
                     {
                         if ((int)iQualificationId != 1)
                         {
                             model.MaxBlocks = maxBlockAspirant;
-                            int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                            int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                             if (VuzAddType.HasValue)
                             {
                                 if ((int)VuzAddType != 1)
@@ -1718,7 +1718,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                                     model.Enabled = false;
                                     model.HasError = true;
                                     if (!bIsEng)
-                                        model.ErrorMessage = "Невозможно подать заявление в СПО (смените тип поступления в Анкете)";
+                                        model.ErrorMessage = "Невозможно подать заявление в аспирантуру (смените тип поступления в Анкете)";
                                     else
                                         model.ErrorMessage = "Change your Entry Type in Questionnaire Data";
                                 }
@@ -1728,7 +1728,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                                 model.Enabled = false;
                                 model.HasError = true;
                                 if (!bIsEng)
-                                    model.ErrorMessage = "Невозможно подать заявление в СПО (смените тип поступления в Анкете)";
+                                    model.ErrorMessage = "Невозможно подать заявление в аспирантуру (смените тип поступления в Анкете)";
                                 else
                                     model.ErrorMessage = "Change your Entry Type in Questionnaire Data";
                             }
@@ -1788,7 +1788,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.CommitId = Guid.NewGuid().ToString("N");
 
                 model.Enabled = true;
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                    new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -1797,7 +1797,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType == 3)
@@ -1845,7 +1845,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.CommitId = Guid.NewGuid().ToString("N");
 
                 model.Enabled = true;
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT  MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                    new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -1854,7 +1854,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType == 4)
@@ -1902,7 +1902,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.CommitId = Guid.NewGuid().ToString("N");
 
                 model.Enabled = true;
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                    new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -1911,7 +1911,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType == 2)
@@ -1959,7 +1959,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.CommitId = Guid.NewGuid().ToString("N");
 
                 model.Enabled = true;
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                    new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -1968,7 +1968,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType == 2)
@@ -2024,7 +2024,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
 
                 model.Enabled = true;
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                    new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -2033,7 +2033,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType == 2)
@@ -2136,7 +2136,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         model.Applications = new List<Mag_ApplicationSipleEntity>();
                         model.CommitId = Id;
                         model.Enabled = true;
-                        int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                        int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT max(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                            new SortedList<string, object>() { { "@Id", PersonId } });
                         if (iAG_SchoolTypeId != 4)
                         {
@@ -2144,7 +2144,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         }
                         else
                         {
-                            int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                            int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT max(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                             if (VuzAddType.HasValue)
                             {
                                 if ((int)VuzAddType == 2)
@@ -2180,7 +2180,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         model.Applications = new List<Mag_ApplicationSipleEntity>();
                         model.CommitId = Id;
                         model.Enabled = true;
-                        int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                        int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT max(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                            new SortedList<string, object>() { { "@Id", PersonId } });
                         if (iAG_SchoolTypeId != 4)
                         {
@@ -2189,7 +2189,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         }
                         else
                         {
-                            int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                            int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT max(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                             if (VuzAddType.HasValue)
                             {
                                 if ((int)VuzAddType == 3)
@@ -2223,7 +2223,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     
                     DataTable tbl;
                     model.Enabled = true;
-                    int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                    int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT max(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                         new SortedList<string, object>() { { "@Id", PersonId } });
                     if (c == 2)
                     {
@@ -2235,9 +2235,9 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     else if (c == 1)
                     {
                         if (iAG_SchoolTypeId == 1)
-                        { 
-                            tbl = Util.AbitDB.GetDataTable(@"SELECT SchoolExitClass.IntValue AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
-                             INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                        {
+                            tbl = Util.AbitDB.GetDataTable(@"SELECT MAX(SchoolExitClass.IntValue) AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
+                             INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id and SchoolTypeId=@ScTypeId group by SchoolExitClassId", new SortedList<string, object>() { { "@Id", PersonId }, { "@ScTypeId", iAG_SchoolTypeId } });
                             if (tbl.Rows.Count == 0)
                             {
                                 model.Enabled = false;
@@ -2258,7 +2258,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     {
                         if (iAG_SchoolTypeId == 4)
                         {
-                            int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT QualificationId FROM PersonHighEducationInfo WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                            int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT max(QualificationId) FROM PersonHighEducationInfo WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                             if (iQualificationId.HasValue)
                             {
                                 if ((int)iQualificationId == 1)
@@ -2324,7 +2324,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         /*int iAG_EntryClassId = (int)Util.AbitDB.GetValue("SELECT SchoolExitClassId FROM PersonSchoolInfo WHERE PersonId=@Id",
                             new SortedList<string, object>() { { "@Id", PersonId } });*/
 
-                        int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                        int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT max(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                            new SortedList<string, object>() { { "@Id", PersonId } });
                         if (iAG_SchoolTypeId == 4)
                         {
@@ -2333,8 +2333,8 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         else
                         {
                             // ссылка на объект  и пр., когда SchoolExitClassId = null
-                            DataTable tbl = Util.AbitDB.GetDataTable(@"SELECT SchoolExitClass.IntValue AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
-INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                            DataTable tbl = Util.AbitDB.GetDataTable(@"SELECT MAX(SchoolExitClass.IntValue) AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
+INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id and SchoolTypeId=@ScTypeId group by SchoolExitClassId", new SortedList<string, object>() { { "@Id", PersonId }, { "@ScTypeId", iAG_SchoolTypeId } });
                             if (tbl.Rows.Count == 0)
                             {
                                 model.Enabled = false;
@@ -2797,14 +2797,14 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
                 int type = 0;
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                    new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 1)
                     type = 1;                
                 else
                 {
-                    DataTable tbl = Util.AbitDB.GetDataTable(@"SELECT SchoolExitClass.IntValue AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
-INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    DataTable tbl = Util.AbitDB.GetDataTable(@"SELECT MAX(SchoolExitClass.IntValue) AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
+INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id and SchoolTypeId=@ScTypeId group by SchoolExitClassId", new SortedList<string, object>() { { "@Id", PersonId }, { "@ScTypeId", iAG_SchoolTypeId } });
                     if (tbl.Rows.Count == 0)
                         type = 1;  
                     else
@@ -2894,7 +2894,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                        new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -2909,7 +2909,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 1)
@@ -3004,7 +3004,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                        new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -3019,7 +3019,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT QualificationId FROM PersonHighEducationInfo WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT max(QualificationId) FROM PersonHighEducationInfo WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (iQualificationId.HasValue)
                     {
                         if ((int)iQualificationId == 1)
@@ -3033,7 +3033,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                             return View("NewApplication_Aspirant", model);
                         } 
                     }
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 1)
@@ -3133,11 +3133,11 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId == 1)
                 {
-                    DataTable tbl = Util.AbitDB.GetDataTable(@"SELECT SchoolExitClass.IntValue AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
-                        INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    DataTable tbl = Util.AbitDB.GetDataTable(@"SELECT MAX(SchoolExitClass.IntValue) AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
+                        INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id and SchoolTypeId=@ScTypeId group by SchoolExitClassId", new SortedList<string, object>() { { "@Id", PersonId }, { "@ScTypeId", iAG_SchoolTypeId } });
                     if (tbl.Rows.Count == 0)
                     {
                         model.Enabled = false;
@@ -3166,7 +3166,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 1)
@@ -3264,13 +3264,13 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iSchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iSchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                  new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iSchoolTypeId == 1)
                 {
                     // ссылка на объект и пр., когда SchoolExitClassId = null
-                    DataTable tbl = Util.AbitDB.GetDataTable(@"SELECT SchoolExitClass.IntValue AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
-                        INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    DataTable tbl = Util.AbitDB.GetDataTable(@"SELECT MAX(SchoolExitClass.IntValue) AS SchoolExitClassValue, PersonEducationDocument.SchoolExitClassId FROM PersonEducationDocument 
+                        INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id and SchoolTypeId=@ScTypeId group by SchoolExitClassId", new SortedList<string, object>() { { "@Id", PersonId }, { "@ScTypeId", iSchoolTypeId } });
                     if (tbl.Rows.Count == 0)
                     {
                         model.Enabled = false;
@@ -3300,7 +3300,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 1)
@@ -3393,7 +3393,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAG(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                        new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -3408,7 +3408,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 3)
@@ -3489,7 +3489,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT max(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                        new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -3505,7 +3505,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT max(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 4)
@@ -3587,7 +3587,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                        new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -3602,7 +3602,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 2)
@@ -3682,7 +3682,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                        new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -3697,7 +3697,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 2)
@@ -3777,7 +3777,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                        new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
@@ -3792,7 +3792,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT VuzAdditionalTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
                     {
                         if ((int)VuzAddType != 2)
@@ -5282,7 +5282,7 @@ SELECT [User].Email
             bool bIsParallel = isParallel == "1" ? true : false;
             //bool bIsGosLine = isgosline == "1" ? true : false;
 
-            string query = "SELECT DISTINCT ProfileId, ProfileName FROM Entry WHERE StudyFormId=@StudyFormId " +
+            string query = "SELECT DISTINCT ProfileId, (case when (ProfileName is null) then '(нет)' else ProfileName end) as 'ProfileName' FROM Entry WHERE StudyFormId=@StudyFormId " +
                 "AND StudyBasisId=@StudyBasisId AND LicenseProgramId=@LicenseProgramId AND ObrazProgramId=@ObrazProgramId AND StudyLevelGroupId=@StudyLevelGroupId " +
                 //"AND Entry.Id NOT IN (SELECT EntryId FROM [Application] WHERE PersonId=@PersonId AND IsCommited='True' AND EntryId IS NOT NULL and CommitId=@CommitId and IsDeleted=0 and IsGosLine<>@IsGosLine) " +
                 "AND IsParallel=@IsParallel AND IsReduced=@IsReduced "+ 
@@ -5310,7 +5310,7 @@ SELECT [User].Email
             DataTable tblSpecs = Util.AbitDB.GetDataTable(query, dic);
             var Specs =
                 from DataRow rw in tblSpecs.Rows
-                select new { SpecId = rw.Field<Guid?>("ProfileId"), SpecName = rw.Field<string>("ProfileName") };
+                select new { SpecId = rw.Field<int?>("ProfileId"), SpecName = rw.Field<string>("ProfileName") };
 
             var ret = new
             {
@@ -5318,8 +5318,7 @@ SELECT [User].Email
                 List = Specs.Select(x => new { Id = x.SpecId, Name = x.SpecName }).ToList()
             };
 
-            int GosLine = Util.IsGosLine(PersonId);
-
+            int GosLine = Util.IsGosLine(PersonId); 
             return Json(new { ret, GosLine });
         } 
 
@@ -6476,9 +6475,9 @@ Order by cnt desc";
                 bool bIsSecond = iSecond == 1;
                 bool bIsGosLine = iGosLine == 1;
                 
-                Guid gSpecialization = Guid.Empty;
+                int gSpecialization = 0;
                 if ((specialization != null) && (specialization != "") && (specialization != "null"))
-                    gSpecialization = Guid.Parse(specialization);
+                    gSpecialization = int.Parse(specialization);
 
                 bool bisEng = Util.GetCurrentThreadLanguageIsEng();
 
@@ -6496,7 +6495,7 @@ Order by cnt desc";
                             Ent.IsParallel == bIsParallel &&
                             Ent.IsReduced == bIsReduced &&
                             Ent.IsSecond == bIsSecond &&
-                           (gSpecialization == Guid.Empty ? true : Ent.ProfileId == gSpecialization) &&
+                           (gSpecialization == 0 ? true : Ent.ProfileId == gSpecialization) &&
                             Ent.SemesterId == iSemesterId
                       select new
                       {
@@ -6708,9 +6707,9 @@ Order by cnt desc";
                 bool bIsReduced = iReduced == 1;
                 bool bIsSecond = iSecond == 1; 
 
-                Guid gSpecialization = Guid.Empty;
+                int gSpecialization = 0;
                 if ((specialization != null) && (specialization != "") && (specialization != "null"))
-                    gSpecialization = Guid.Parse(specialization);
+                    gSpecialization = int.Parse(specialization);
 
                 //------------------Проверка на дублирование заявлений---------------------------------------------------------------------
                 var EntryList =
@@ -6725,7 +6724,7 @@ Order by cnt desc";
                              Ent.IsParallel == bIsParallel &&
                              Ent.IsReduced == bIsReduced &&
                              Ent.IsSecond == bIsSecond &&
-                            (gSpecialization == Guid.Empty ? true : Ent.ProfileId == gSpecialization) &&
+                            (gSpecialization == 0 ? true : Ent.ProfileId == gSpecialization) &&
                              Ent.SemesterId == iSemesterId
                        select new
                        {
@@ -6767,7 +6766,7 @@ Order by cnt desc";
                 if (Person.PersonEducationDocument == null)
                     return Json(new { IsOk = false, ErrorMessage = "Нет сведений об образовании!" });
 
-                PersonEducationDocument PersonEducationDocument = Person.PersonEducationDocument.FirstOrDefault();
+                PersonEducationDocument PersonEducationDocument = Person.PersonEducationDocument.OrderByDescending(x=>x.SchoolTypeId).FirstOrDefault();
                 if (PersonEducationDocument.SchoolTypeId == 1)
                 {
                     if (PersonEducationDocument.SchoolExitClassId != 0)
