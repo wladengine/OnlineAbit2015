@@ -17,10 +17,9 @@ namespace OnlineAbit2013.Controllers
         public Guid ApplicationId { get; set; }
         public int? CurrVersion { get; set; }
         public DateTime? CurrDate { get; set; }
-        public int ObrazProgramInEntryPriority { get; set; }
         public string ObrazProgramName { get; set; }
-        public int? ProfileInObrazProgramInEntryPriority { get; set; }
         public string ProfileName { get; set; }
+        public int InnerEntryInEntryPriority { get; set; }
     }
     public class ShortAppcation
     {
@@ -219,9 +218,8 @@ namespace OnlineAbit2013.Controllers
                                            ApplicationId = x.Id,
                                            CurrVersion = Ad.CurrVersion,
                                            CurrDate = Ad.CurrDate,
-                                           ObrazProgramInEntryPriority = Ad.ObrazProgramInEntryPriority,
+                                           InnerEntryInEntryPriority = Ad.InnerEntryInEntryPriority,
                                            ObrazProgramName = ((Ad.ObrazProgramCrypt + " ") ?? "") + Ad.ObrazProgramName,
-                                           ProfileInObrazProgramInEntryPriority = Ad.ProfileInObrazProgramInEntryPriority,
                                            ProfileName = Ad.ProfileName
                                        }).ToList();
 
@@ -645,8 +643,6 @@ namespace OnlineAbit2013.Controllers
             acrFlds.SetField("LicenseProgram", LicenseProgramName);
             acrFlds.SetField("ObrazProgram", lst.First().ObrazProgramName);
             int rwind = 1;
-            foreach (var p in lst.OrderBy(x => x.ProfileInObrazProgramInEntryPriority))
-                acrFlds.SetField("Profile" + rwind++, p.ProfileName);
 
             pdfStm.FormFlattening = true;
             pdfStm.Close();
@@ -675,7 +671,7 @@ namespace OnlineAbit2013.Controllers
 
             acrFlds.SetField("LicenseProgram", LicenseProgramName);
             int rwind = 1;
-            foreach (var p in lst.Select(x => new { x.ObrazProgramName, x.ObrazProgramInEntryPriority }).Distinct().OrderBy(x => x.ObrazProgramInEntryPriority))
+            foreach (var p in lst.Select(x => new { x.ObrazProgramName, ObrazProgramInEntryPriority = x.InnerEntryInEntryPriority }).Distinct().OrderBy(x => x.ObrazProgramInEntryPriority))
             {
                 acrFlds.SetField("ObrazProgram" + rwind++, p.ObrazProgramName);
             }
@@ -708,8 +704,8 @@ namespace OnlineAbit2013.Controllers
             acrFlds.SetField("LicenseProgram", LicenseProgramName);
             acrFlds.SetField("ObrazProgram", lst.First().ObrazProgramName);
             int rwind = 1;
-            foreach (var p in lst.OrderBy(x => x.ProfileInObrazProgramInEntryPriority))
-                acrFlds.SetField("Profile" + rwind++, p.ProfileName);
+            //foreach (var p in lst.OrderBy(x => x.ProfileInObrazProgramInEntryPriority))
+            //    acrFlds.SetField("Profile" + rwind++, p.ProfileName);
 
             pdfStm.FormFlattening = true;
             pdfStm.Close();

@@ -1830,34 +1830,29 @@ WHERE PersonId=@PersonId ";
                 var AppDetails_exists = context.extApplicationDetails.Where(x => x.ApplicationId == AppId).Select(x => new
                     {
                         EntryId = App.EntryId,
-                        ObrazProgramInEntryId = x.ObrazProgramInEntryId,
-                        ProfileInObrazProgramInEntryId = x.ProfileInObrazProgramInEntryId
+                        x.InnerEntryInEntryId,
                     }).ToList();
                 var AppDetails_clearFullList = context.extDefaultEntryDetails.Where(x => x.EntryId == App.EntryId).Select(x => new
                 {
-                    EntryId = App.EntryId,
-                    ObrazProgramInEntryId = x.ObrazProgramInEntryId,
-                    ProfileInObrazProgramInEntryId = x.ProfileInObrazProgramInEntryId,
-                    x.DefaultPriorityValue,
-                    x.ProfileInObrazProgramInEntryDefaultPriorityValue
-                }).ToList();
+                    x.InnerEntryInEntryId,
+                    x.ObrazProgramName,
+                    x.ProfileName
+                }).ToList().OrderBy(x => x.ObrazProgramName).ThenBy(x => x.ProfileName);
+
+                int prior = 1;
+
                 foreach (var Details in AppDetails_clearFullList)
                 {
-                    var lstI = AppDetails_exists.Where(x => x.ObrazProgramInEntryId == Details.ObrazProgramInEntryId);
-                    if (Details.ProfileInObrazProgramInEntryId.HasValue)
-                        lstI = lstI.Where(x => x.ProfileInObrazProgramInEntryId == Details.ProfileInObrazProgramInEntryId);
-                    else
-                        lstI = lstI.Where(x => x.ProfileInObrazProgramInEntryId == null);
+                    var lstI = AppDetails_exists.Where(x => x.InnerEntryInEntryId == Details.InnerEntryInEntryId);
+                    
                     if (lstI.Count() == 0)
                     {
                         context.ApplicationDetails.AddObject(new ApplicationDetails()
                         {
                             Id = Guid.NewGuid(),
                             ApplicationId = AppId,
-                            ObrazProgramInEntryId = Details.ObrazProgramInEntryId,
-                            ObrazProgramInEntryPriority = Details.DefaultPriorityValue,
-                            ProfileInObrazProgramInEntryId = Details.ProfileInObrazProgramInEntryId,
-                            ProfileInObrazProgramInEntryPriority = Details.ProfileInObrazProgramInEntryDefaultPriorityValue
+                            InnerEntryInEntryId = Details.InnerEntryInEntryId,
+                            InnerEntryInEntryPriority = prior++,
                         });
                     }
                 }
@@ -1958,10 +1953,8 @@ WHERE PersonId=@PersonId ";
                         select new
                             {
                                 appDet.ApplicationId,
-                                appDet.ObrazProgramInEntryId,
-                                appDet.ObrazProgramInEntryPriority,
-                                appDet.ProfileInObrazProgramInEntryId,
-                                appDet.ProfileInObrazProgramInEntryPriority
+                                appDet.InnerEntryInEntryId,
+                                appDet.InnerEntryInEntryPriority,
                             }).ToList();
 
                     foreach (var inner in innerPriorList)
@@ -1970,10 +1963,8 @@ WHERE PersonId=@PersonId ";
                         {
                             Id = Guid.NewGuid(),
                             ApplicationId = appId,
-                            ObrazProgramInEntryId = inner.ObrazProgramInEntryId,
-                            ObrazProgramInEntryPriority = inner.ObrazProgramInEntryPriority,
-                            ProfileInObrazProgramInEntryId = inner.ProfileInObrazProgramInEntryId,
-                            ProfileInObrazProgramInEntryPriority = inner.ProfileInObrazProgramInEntryPriority,
+                            InnerEntryInEntryId = inner.InnerEntryInEntryId,
+                            InnerEntryInEntryPriority = inner.InnerEntryInEntryPriority,
                         });
                     }
 

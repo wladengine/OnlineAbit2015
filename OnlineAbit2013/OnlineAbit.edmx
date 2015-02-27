@@ -31,8 +31,8 @@
           <EntitySet Name="EgeCertificate" EntityType="OnlinePriem2012Model.Store.EgeCertificate" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EgeExam" EntityType="OnlinePriem2012Model.Store.EgeExam" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EgeMark" EntityType="OnlinePriem2012Model.Store.EgeMark" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="InnerEntryInEntry" EntityType="OnlinePriem2012Model.Store.InnerEntryInEntry" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Language" EntityType="OnlinePriem2012Model.Store.Language" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ObrazProgramInEntry" EntityType="OnlinePriem2012Model.Store.ObrazProgramInEntry" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OlympBook" EntityType="OnlinePriem2012Model.Store.OlympBook" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Olympiads" EntityType="OnlinePriem2012Model.Store.Olympiads" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OlympLevel" EntityType="OnlinePriem2012Model.Store.OlympLevel" store:Type="Tables" Schema="dbo" />
@@ -57,7 +57,6 @@
           <EntitySet Name="PersonSportQualification" EntityType="OnlinePriem2012Model.Store.PersonSportQualification" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PersonVisaInfo" EntityType="OnlinePriem2012Model.Store.PersonVisaInfo" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PersonWork" EntityType="OnlinePriem2012Model.Store.PersonWork" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ProfileInObrazProgramInEntry" EntityType="OnlinePriem2012Model.Store.ProfileInObrazProgramInEntry" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Qualification" EntityType="OnlinePriem2012Model.Store.Qualification" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Region" EntityType="OnlinePriem2012Model.Store.Region" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ReturnDocumentType" EntityType="OnlinePriem2012Model.Store.ReturnDocumentType" store:Type="Tables" Schema="dbo" />
@@ -187,24 +186,23 @@
             <DefiningQuery>SELECT 
       [extApplicationDetails].[Id] AS [Id], 
       [extApplicationDetails].[ApplicationId] AS [ApplicationId], 
-      [extApplicationDetails].[ObrazProgramInEntryId] AS [ObrazProgramInEntryId], 
       [extApplicationDetails].[ObrazProgramName] AS [ObrazProgramName], 
-      [extApplicationDetails].[ObrazProgramInEntryPriority] AS [ObrazProgramInEntryPriority], 
-      [extApplicationDetails].[ProfileInObrazProgramInEntryId] AS [ProfileInObrazProgramInEntryId], 
       [extApplicationDetails].[ProfileName] AS [ProfileName], 
-      [extApplicationDetails].[ProfileInObrazProgramInEntryPriority] AS [ProfileInObrazProgramInEntryPriority], 
       [extApplicationDetails].[CurrVersion] AS [CurrVersion], 
       [extApplicationDetails].[CurrDate] AS [CurrDate], 
-      [extApplicationDetails].[ObrazProgramCrypt] AS [ObrazProgramCrypt]
+      [extApplicationDetails].[ObrazProgramCrypt] AS [ObrazProgramCrypt], 
+      [extApplicationDetails].[InnerEntryInEntryId] AS [InnerEntryInEntryId], 
+      [extApplicationDetails].[InnerEntryInEntryPriority] AS [InnerEntryInEntryPriority]
       FROM [dbo].[extApplicationDetails] AS [extApplicationDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="extDefaultEntryDetails" EntityType="OnlinePriem2012Model.Store.extDefaultEntryDetails" store:Type="Views" store:Schema="dbo" store:Name="extDefaultEntryDetails">
             <DefiningQuery>SELECT 
       [extDefaultEntryDetails].[EntryId] AS [EntryId], 
-      [extDefaultEntryDetails].[ObrazProgramInEntryId] AS [ObrazProgramInEntryId], 
+      [extDefaultEntryDetails].[InnerEntryInEntryId] AS [InnerEntryInEntryId], 
+      [extDefaultEntryDetails].[ProfileId] AS [ProfileId], 
       [extDefaultEntryDetails].[DefaultPriorityValue] AS [DefaultPriorityValue], 
-      [extDefaultEntryDetails].[ProfileInObrazProgramInEntryId] AS [ProfileInObrazProgramInEntryId], 
-      [extDefaultEntryDetails].[ProfileInObrazProgramInEntryDefaultPriorityValue] AS [ProfileInObrazProgramInEntryDefaultPriorityValue]
+      [extDefaultEntryDetails].[ObrazProgramName] AS [ObrazProgramName], 
+      [extDefaultEntryDetails].[ProfileName] AS [ProfileName]
       FROM [dbo].[extDefaultEntryDetails] AS [extDefaultEntryDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="qAbitFiles_OnlyEssayMotivLetter" EntityType="OnlinePriem2012Model.Store.qAbitFiles_OnlyEssayMotivLetter" store:Type="Views" store:Schema="dbo" store:Name="qAbitFiles_OnlyEssayMotivLetter">
@@ -295,11 +293,7 @@
             <End Role="ApplicationCommitVersion" EntitySet="ApplicationCommitVersion" />
           </AssociationSet>
           <AssociationSet Name="FK_ApplicationDetails_ObrazProgramInEntry" Association="OnlinePriem2012Model.Store.FK_ApplicationDetails_ObrazProgramInEntry">
-            <End Role="ObrazProgramInEntry" EntitySet="ObrazProgramInEntry" />
-            <End Role="ApplicationDetails" EntitySet="ApplicationDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ApplicationDetails_ProfileInObrazProgramInEntry" Association="OnlinePriem2012Model.Store.FK_ApplicationDetails_ProfileInObrazProgramInEntry">
-            <End Role="ProfileInObrazProgramInEntry" EntitySet="ProfileInObrazProgramInEntry" />
+            <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
             <End Role="ApplicationDetails" EntitySet="ApplicationDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_ApplicationFile_Application" Association="OnlinePriem2012Model.Store.FK_ApplicationFile_Application">
@@ -326,13 +320,17 @@
             <End Role="EgeExam" EntitySet="EgeExam" />
             <End Role="EgeMark" EntitySet="EgeMark" />
           </AssociationSet>
+          <AssociationSet Name="FK_InnerEntryInEntry_SP_Profile" Association="OnlinePriem2012Model.Store.FK_InnerEntryInEntry_SP_Profile">
+            <End Role="SP_Profile" EntitySet="SP_Profile" />
+            <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
+          </AssociationSet>
           <AssociationSet Name="FK_ObrazProgramInEntry__Entry" Association="OnlinePriem2012Model.Store.FK_ObrazProgramInEntry__Entry">
             <End Role="_Entry" EntitySet="_Entry" />
-            <End Role="ObrazProgramInEntry" EntitySet="ObrazProgramInEntry" />
+            <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
           </AssociationSet>
           <AssociationSet Name="FK_ObrazProgramInEntry_SP_ObrazProgram" Association="OnlinePriem2012Model.Store.FK_ObrazProgramInEntry_SP_ObrazProgram">
             <End Role="SP_ObrazProgram" EntitySet="SP_ObrazProgram" />
-            <End Role="ObrazProgramInEntry" EntitySet="ObrazProgramInEntry" />
+            <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
           </AssociationSet>
           <AssociationSet Name="FK_OlympBook_OlympLevel" Association="OnlinePriem2012Model.Store.FK_OlympBook_OlympLevel">
             <End Role="OlympLevel" EntitySet="OlympLevel" />
@@ -517,14 +515,6 @@
           <AssociationSet Name="FK_PersonWork_Person" Association="OnlinePriem2012Model.Store.FK_PersonWork_Person">
             <End Role="Person" EntitySet="Person" />
             <End Role="PersonWork" EntitySet="PersonWork" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProfileInObrazProgramInEntry_ObrazProgramInEntry" Association="OnlinePriem2012Model.Store.FK_ProfileInObrazProgramInEntry_ObrazProgramInEntry">
-            <End Role="ObrazProgramInEntry" EntitySet="ObrazProgramInEntry" />
-            <End Role="ProfileInObrazProgramInEntry" EntitySet="ProfileInObrazProgramInEntry" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProfileInObrazProgramInEntry_SP_Profile" Association="OnlinePriem2012Model.Store.FK_ProfileInObrazProgramInEntry_SP_Profile">
-            <End Role="SP_Profile" EntitySet="SP_Profile" />
-            <End Role="ProfileInObrazProgramInEntry" EntitySet="ProfileInObrazProgramInEntry" />
           </AssociationSet>
           <AssociationSet Name="FK_SP_LicenseProgram_SP_StudyLevel" Association="OnlinePriem2012Model.Store.FK_SP_LicenseProgram_SP_StudyLevel">
             <End Role="SP_StudyLevel" EntitySet="SP_StudyLevel" />
@@ -733,10 +723,8 @@
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ObrazProgramInEntryId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ObrazProgramInEntryPriority" Type="int" Nullable="false" />
-          <Property Name="ProfileInObrazProgramInEntryId" Type="uniqueidentifier" />
-          <Property Name="ProfileInObrazProgramInEntryPriority" Type="int" />
+          <Property Name="InnerEntryInEntryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InnerEntryInEntryPriority" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationFile">
           <Key>
@@ -772,10 +760,8 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ApplicationVersionId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ObrazProgramInEntryId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ObrazProgramInEntryPriority" Type="int" Nullable="false" />
-          <Property Name="ProfileInObrazProgramInEntryId" Type="uniqueidentifier" />
-          <Property Name="ProfileInObrazProgramInEntryPriority" Type="int" />
+          <Property Name="InnerEntryInEntryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InnerEntryInEntryPriority" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Comission">
           <Key>
@@ -828,6 +814,16 @@
           <Property Name="IsInUniversity" Type="bit" Nullable="false" />
           <Property Name="IsSecondWave" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="InnerEntryInEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ObrazProgramId" Type="int" Nullable="false" />
+          <Property Name="ProfileId" Type="int" Nullable="false" />
+          <Property Name="DefaultPriorityValue" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Language">
           <Key>
             <PropertyRef Name="Id" />
@@ -836,15 +832,6 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="NameDat" Type="nvarchar" MaxLength="50" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="ObrazProgramInEntry">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="EntryId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ObrazProgramId" Type="int" Nullable="false" />
-          <Property Name="DefaultPriorityValue" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OlympBook">
           <Key>
@@ -1155,16 +1142,6 @@
           <Property Name="WorkPlace" Type="nvarchar" MaxLength="500" />
           <Property Name="WorkProfession" Type="nvarchar" MaxLength="500" />
           <Property Name="WorkSpecifications" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="ProfileInObrazProgramInEntry">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ObrazProgramInEntryId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ProfileId" Type="int" Nullable="false" />
-          <Property Name="KCP" Type="int" />
-          <Property Name="DefaultPriorityValue" Type="int" />
         </EntityType>
         <EntityType Name="Qualification">
           <Key>
@@ -1494,22 +1471,20 @@
           <Key>
             <PropertyRef Name="Id" />
             <PropertyRef Name="ApplicationId" />
-            <PropertyRef Name="ObrazProgramInEntryId" />
             <PropertyRef Name="ObrazProgramName" />
-            <PropertyRef Name="ObrazProgramInEntryPriority" />
+            <PropertyRef Name="InnerEntryInEntryId" />
+            <PropertyRef Name="InnerEntryInEntryPriority" />
             <PropertyRef Name="ObrazProgramCrypt" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ObrazProgramInEntryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ObrazProgramName" Type="nvarchar" Nullable="false" MaxLength="1000" />
-          <Property Name="ObrazProgramInEntryPriority" Type="int" Nullable="false" />
-          <Property Name="ProfileInObrazProgramInEntryId" Type="uniqueidentifier" />
           <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" />
-          <Property Name="ProfileInObrazProgramInEntryPriority" Type="int" />
           <Property Name="CurrVersion" Type="int" />
           <Property Name="CurrDate" Type="datetime" />
-          <Property Name="ObrazProgramCrypt" Type="nvarchar" Nullable="false" MaxLength="53" />
+          <Property Name="ObrazProgramCrypt" Type="nvarchar" MaxLength="84" Nullable="false" />
+          <Property Name="InnerEntryInEntryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InnerEntryInEntryPriority" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'OnlinePriem2015.dbo.extDefaultEntryDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -1517,14 +1492,17 @@
         <EntityType Name="extDefaultEntryDetails">
           <Key>
             <PropertyRef Name="EntryId" />
-            <PropertyRef Name="ObrazProgramInEntryId" />
+            <PropertyRef Name="InnerEntryInEntryId" />
+            <PropertyRef Name="ProfileId" />
             <PropertyRef Name="DefaultPriorityValue" />
+            <PropertyRef Name="ObrazProgramName" />
           </Key>
           <Property Name="EntryId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ObrazProgramInEntryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InnerEntryInEntryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProfileId" Type="int" Nullable="false" />
           <Property Name="DefaultPriorityValue" Type="int" Nullable="false" />
-          <Property Name="ProfileInObrazProgramInEntryId" Type="uniqueidentifier" />
-          <Property Name="ProfileInObrazProgramInEntryDefaultPriorityValue" Type="int" />
+          <Property Name="ObrazProgramName" Type="nvarchar" Nullable="false" MaxLength="1000" />
+          <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLetter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -1767,26 +1745,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ApplicationDetails_ObrazProgramInEntry">
-          <End Role="ObrazProgramInEntry" Type="OnlinePriem2012Model.Store.ObrazProgramInEntry" Multiplicity="1" />
+          <End Role="InnerEntryInEntry" Type="OnlinePriem2012Model.Store.InnerEntryInEntry" Multiplicity="1" />
           <End Role="ApplicationDetails" Type="OnlinePriem2012Model.Store.ApplicationDetails" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ObrazProgramInEntry">
+            <Principal Role="InnerEntryInEntry">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ApplicationDetails">
-              <PropertyRef Name="ObrazProgramInEntryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ApplicationDetails_ProfileInObrazProgramInEntry">
-          <End Role="ProfileInObrazProgramInEntry" Type="OnlinePriem2012Model.Store.ProfileInObrazProgramInEntry" Multiplicity="0..1" />
-          <End Role="ApplicationDetails" Type="OnlinePriem2012Model.Store.ApplicationDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProfileInObrazProgramInEntry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ApplicationDetails">
-              <PropertyRef Name="ProfileInObrazProgramInEntryId" />
+              <PropertyRef Name="InnerEntryInEntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1862,26 +1828,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_InnerEntryInEntry_SP_Profile">
+          <End Role="SP_Profile" Type="OnlinePriem2012Model.Store.SP_Profile" Multiplicity="1" />
+          <End Role="InnerEntryInEntry" Type="OnlinePriem2012Model.Store.InnerEntryInEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SP_Profile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InnerEntryInEntry">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ObrazProgramInEntry__Entry">
           <End Role="_Entry" Type="OnlinePriem2012Model.Store._Entry" Multiplicity="1" />
-          <End Role="ObrazProgramInEntry" Type="OnlinePriem2012Model.Store.ObrazProgramInEntry" Multiplicity="*" />
+          <End Role="InnerEntryInEntry" Type="OnlinePriem2012Model.Store.InnerEntryInEntry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="_Entry">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ObrazProgramInEntry">
+            <Dependent Role="InnerEntryInEntry">
               <PropertyRef Name="EntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ObrazProgramInEntry_SP_ObrazProgram">
           <End Role="SP_ObrazProgram" Type="OnlinePriem2012Model.Store.SP_ObrazProgram" Multiplicity="1" />
-          <End Role="ObrazProgramInEntry" Type="OnlinePriem2012Model.Store.ObrazProgramInEntry" Multiplicity="*" />
+          <End Role="InnerEntryInEntry" Type="OnlinePriem2012Model.Store.InnerEntryInEntry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SP_ObrazProgram">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ObrazProgramInEntry">
+            <Dependent Role="InnerEntryInEntry">
               <PropertyRef Name="ObrazProgramId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2468,30 +2446,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProfileInObrazProgramInEntry_ObrazProgramInEntry">
-          <End Role="ObrazProgramInEntry" Type="OnlinePriem2012Model.Store.ObrazProgramInEntry" Multiplicity="1" />
-          <End Role="ProfileInObrazProgramInEntry" Type="OnlinePriem2012Model.Store.ProfileInObrazProgramInEntry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ObrazProgramInEntry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProfileInObrazProgramInEntry">
-              <PropertyRef Name="ObrazProgramInEntryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProfileInObrazProgramInEntry_SP_Profile">
-          <End Role="SP_Profile" Type="OnlinePriem2012Model.Store.SP_Profile" Multiplicity="1" />
-          <End Role="ProfileInObrazProgramInEntry" Type="OnlinePriem2012Model.Store.ProfileInObrazProgramInEntry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SP_Profile">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProfileInObrazProgramInEntry">
-              <PropertyRef Name="ProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SP_LicenseProgram_SP_StudyLevel">
           <End Role="SP_StudyLevel" Type="OnlinePriem2012Model.Store.SP_StudyLevel" Multiplicity="1" />
           <End Role="SP_LicenseProgram" Type="OnlinePriem2012Model.Store.SP_LicenseProgram" Multiplicity="*" />
@@ -2773,8 +2727,6 @@
           <EntitySet Name="PersonFileType" EntityType="OnlinePriem2012Model.PersonFileType" />
           <EntitySet Name="Comission" EntityType="OnlinePriem2012Model.Comission" />
           <EntitySet Name="ApplicationFile" EntityType="OnlinePriem2012Model.ApplicationFile" />
-          <EntitySet Name="ObrazProgramInEntry" EntityType="OnlinePriem2012Model.ObrazProgramInEntry" />
-          <EntitySet Name="ProfileInObrazProgramInEntry" EntityType="OnlinePriem2012Model.ProfileInObrazProgramInEntry" />
           <EntitySet Name="ApplicationCommit" EntityType="OnlinePriem2012Model.ApplicationCommit" />
           <EntitySet Name="ApplicationCommitVersion" EntityType="OnlinePriem2012Model.ApplicationCommitVersion" />
           <EntitySet Name="ApplicationCommitVersonDetails" EntityType="OnlinePriem2012Model.ApplicationCommitVersonDetails" />
@@ -2782,43 +2734,15 @@
           <EntitySet Name="SP_LicenseProgram" EntityType="OnlinePriem2012Model.SP_LicenseProgram" />
           <EntitySet Name="SP_ObrazProgram" EntityType="OnlinePriem2012Model.SP_ObrazProgram" />
           <EntitySet Name="SP_Profile" EntityType="OnlinePriem2012Model.SP_Profile" />
-          <AssociationSet Name="FK_ObrazProgramInEntry_SP_ObrazProgram" Association="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram">
-            <End Role="SP_ObrazProgram" EntitySet="SP_ObrazProgram" />
-            <End Role="ObrazProgramInEntry" EntitySet="ObrazProgramInEntry" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProfileInObrazProgramInEntry_Profile" Association="OnlinePriem2012Model.FK_ProfileInObrazProgramInEntry_Profile">
-            <End Role="SP_Profile" EntitySet="SP_Profile" />
-            <End Role="ProfileInObrazProgramInEntry" EntitySet="ProfileInObrazProgramInEntry" />
-          </AssociationSet>
           <EntitySet Name="ApplicationDetails" EntityType="OnlinePriem2012Model.ApplicationDetails" />
           <AssociationSet Name="FK_ApplicationDetails_Application" Association="OnlinePriem2012Model.FK_ApplicationDetails_Application">
             <End Role="Application" EntitySet="Application" />
             <End Role="ApplicationDetails" EntitySet="ApplicationDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_ApplicationDetails_ObrazProgramInEntry" Association="OnlinePriem2012Model.FK_ApplicationDetails_ObrazProgramInEntry">
-            <End Role="ObrazProgramInEntry" EntitySet="ObrazProgramInEntry" />
-            <End Role="ApplicationDetails" EntitySet="ApplicationDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ApplicationDetails_ProfileInObrazProgramInEntry" Association="OnlinePriem2012Model.FK_ApplicationDetails_ProfileInObrazProgramInEntry">
-            <End Role="ProfileInObrazProgramInEntry" EntitySet="ProfileInObrazProgramInEntry" />
-            <End Role="ApplicationDetails" EntitySet="ApplicationDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProfileInObrazProgramInEntry_ObrazProgramInEntry" Association="OnlinePriem2012Model.FK_ProfileInObrazProgramInEntry_ObrazProgramInEntry">
-            <End Role="ObrazProgramInEntry" EntitySet="ObrazProgramInEntry" />
-            <End Role="ProfileInObrazProgramInEntry" EntitySet="ProfileInObrazProgramInEntry" />
-          </AssociationSet>
           <EntitySet Name="ApplicationVersion" EntityType="OnlinePriem2012Model.ApplicationVersion" />
           <EntitySet Name="ApplicationVersionDetails" EntityType="OnlinePriem2012Model.ApplicationVersionDetails" />
           <AssociationSet Name="FK_ApplicationVersionDetails_ApplicationVersion" Association="OnlinePriem2012Model.FK_ApplicationVersionDetails_ApplicationVersion">
             <End Role="ApplicationVersion" EntitySet="ApplicationVersion" />
-            <End Role="ApplicationVersionDetails" EntitySet="ApplicationVersionDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ApplicationVersionDetails_ObrazProgramInEntry" Association="OnlinePriem2012Model.FK_ApplicationVersionDetails_ObrazProgramInEntry">
-            <End Role="ObrazProgramInEntry" EntitySet="ObrazProgramInEntry" />
-            <End Role="ApplicationVersionDetails" EntitySet="ApplicationVersionDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ApplicationVersionDetails_ProfileInObrazProgramInEntry" Association="OnlinePriem2012Model.FK_ApplicationVersionDetails_ProfileInObrazProgramInEntry">
-            <End Role="ProfileInObrazProgramInEntry" EntitySet="ProfileInObrazProgramInEntry" />
             <End Role="ApplicationVersionDetails" EntitySet="ApplicationVersionDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Person_AbiturientType" Association="OnlinePriem2012Model.FK_Person_AbiturientType">
@@ -3014,11 +2938,24 @@
             <End Role="C_Entry" EntitySet="C_Entry" />
             <End Role="Application" EntitySet="Application" />
           </AssociationSet>
+          <EntitySet Name="Entry" EntityType="OnlinePriem2012Model.Entry" />
+          <EntitySet Name="InnerEntryInEntry" EntityType="OnlinePriem2012Model.InnerEntryInEntry" />
           <AssociationSet Name="FK_ObrazProgramInEntry__Entry" Association="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry">
             <End Role="C_Entry" EntitySet="C_Entry" />
-            <End Role="ObrazProgramInEntry" EntitySet="ObrazProgramInEntry" />
+            <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
           </AssociationSet>
-          <EntitySet Name="Entry" EntityType="OnlinePriem2012Model.Entry" />
+          <AssociationSet Name="FK_ApplicationDetails_ObrazProgramInEntry" Association="OnlinePriem2012Model.FK_ApplicationDetails_ObrazProgramInEntry">
+            <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
+            <End Role="ApplicationDetails" EntitySet="ApplicationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ObrazProgramInEntry_SP_ObrazProgram" Association="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram">
+            <End Role="SP_ObrazProgram" EntitySet="SP_ObrazProgram" />
+            <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InnerEntryInEntry_SP_Profile" Association="OnlinePriem2012Model.FK_InnerEntryInEntry_SP_Profile">
+            <End Role="SP_Profile" EntitySet="SP_Profile" />
+            <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="PassportType">
           <Key>
@@ -4203,34 +4140,6 @@
           <NavigationProperty Name="Application" Relationship="OnlinePriem2012Model.FK_ApplicationFile_Application" FromRole="ApplicationFile" ToRole="Application" />
           <NavigationProperty Name="ApplicationCommit" Relationship="OnlinePriem2012Model.FK_ApplicationFile_ApplicationCommit" FromRole="ApplicationFile" ToRole="ApplicationCommit" />
         </EntityType>
-        <EntityType Name="ObrazProgramInEntry">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Guid" Name="EntryId" Nullable="false" />
-          <Property Type="Int32" Name="ObrazProgramId" Nullable="false" />
-          <NavigationProperty Name="SP_ObrazProgram" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram" FromRole="ObrazProgramInEntry" ToRole="SP_ObrazProgram" />
-          <Property Type="Int32" Name="DefaultPriorityValue" Nullable="false" />
-          <NavigationProperty Name="ApplicationDetails" Relationship="OnlinePriem2012Model.FK_ApplicationDetails_ObrazProgramInEntry" FromRole="ObrazProgramInEntry" ToRole="ApplicationDetails" />
-          <NavigationProperty Name="ProfileInObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ProfileInObrazProgramInEntry_ObrazProgramInEntry" FromRole="ObrazProgramInEntry" ToRole="ProfileInObrazProgramInEntry" />
-          <NavigationProperty Name="ApplicationVersionDetails" Relationship="OnlinePriem2012Model.FK_ApplicationVersionDetails_ObrazProgramInEntry" FromRole="ObrazProgramInEntry" ToRole="ApplicationVersionDetails" />
-          <NavigationProperty Name="C_Entry" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" FromRole="ObrazProgramInEntry" ToRole="C_Entry" />
-        </EntityType>
-        <EntityType Name="ProfileInObrazProgramInEntry">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Guid" Name="ObrazProgramInEntryId" Nullable="false" />
-          <Property Type="Int32" Name="ProfileId" Nullable="false" />
-          <Property Type="Int32" Name="KCP" />
-          <Property Type="Int32" Name="DefaultPriorityValue" />
-          <NavigationProperty Name="SP_Profile" Relationship="OnlinePriem2012Model.FK_ProfileInObrazProgramInEntry_Profile" FromRole="ProfileInObrazProgramInEntry" ToRole="SP_Profile" />
-          <NavigationProperty Name="ApplicationDetails" Relationship="OnlinePriem2012Model.FK_ApplicationDetails_ProfileInObrazProgramInEntry" FromRole="ProfileInObrazProgramInEntry" ToRole="ApplicationDetails" />
-          <NavigationProperty Name="ObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ProfileInObrazProgramInEntry_ObrazProgramInEntry" FromRole="ProfileInObrazProgramInEntry" ToRole="ObrazProgramInEntry" />
-          <NavigationProperty Name="ApplicationVersionDetails" Relationship="OnlinePriem2012Model.FK_ApplicationVersionDetails_ProfileInObrazProgramInEntry" FromRole="ProfileInObrazProgramInEntry" ToRole="ApplicationVersionDetails" />
-        </EntityType>
         <EntityType Name="ApplicationCommit">
           <Key>
             <PropertyRef Name="Id" />
@@ -4312,10 +4221,10 @@
           <Property Type="Boolean" Name="IsExpress" Nullable="false" />
           <Property Type="Boolean" Name="IsOpen" Nullable="false" />
           <Property Type="String" Name="Holder" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram" FromRole="SP_ObrazProgram" ToRole="ObrazProgramInEntry" />
           <NavigationProperty Name="PersonCurrentEducation" Relationship="OnlinePriem2012Model.FK_PersonCurrentEducation_SP_ObrazProgram" FromRole="SP_ObrazProgram" ToRole="PersonCurrentEducation" />
           <NavigationProperty Name="SP_LicenseProgram" Relationship="OnlinePriem2012Model.FK_SP_ObrazProgram_SP_LicenseProgram" FromRole="SP_ObrazProgram" ToRole="SP_LicenseProgram" />
           <NavigationProperty Name="C_Entry" Relationship="OnlinePriem2012Model.FK__Entry_SP_ObrazProgram" FromRole="SP_ObrazProgram" ToRole="C_Entry" />
+          <NavigationProperty Name="InnerEntryInEntry" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram" FromRole="SP_ObrazProgram" ToRole="InnerEntryInEntry" />
         </EntityType>
         <EntityType Name="SP_Profile">
           <Key>
@@ -4328,45 +4237,18 @@
           <Property Type="String" Name="AcronymEng" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="IsOpen" Nullable="false" />
           <Property Type="String" Name="Holder" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ProfileInObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ProfileInObrazProgramInEntry_Profile" FromRole="SP_Profile" ToRole="ProfileInObrazProgramInEntry" />
+          <NavigationProperty Name="InnerEntryInEntry" Relationship="OnlinePriem2012Model.FK_InnerEntryInEntry_SP_Profile" FromRole="SP_Profile" ToRole="InnerEntryInEntry" />
         </EntityType>
-        <Association Name="FK_ObrazProgramInEntry_SP_ObrazProgram">
-          <End Type="OnlinePriem2012Model.SP_ObrazProgram" Role="SP_ObrazProgram" Multiplicity="1" />
-          <End Type="OnlinePriem2012Model.ObrazProgramInEntry" Role="ObrazProgramInEntry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SP_ObrazProgram">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ObrazProgramInEntry">
-              <PropertyRef Name="ObrazProgramId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProfileInObrazProgramInEntry_Profile">
-          <End Type="OnlinePriem2012Model.SP_Profile" Role="SP_Profile" Multiplicity="1" />
-          <End Type="OnlinePriem2012Model.ProfileInObrazProgramInEntry" Role="ProfileInObrazProgramInEntry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SP_Profile">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProfileInObrazProgramInEntry">
-              <PropertyRef Name="ProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ApplicationDetails">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="ApplicationId" Nullable="false" />
-          <Property Type="Guid" Name="ObrazProgramInEntryId" Nullable="false" />
-          <Property Type="Int32" Name="ObrazProgramInEntryPriority" Nullable="false" />
-          <Property Type="Guid" Name="ProfileInObrazProgramInEntryId" />
-          <Property Type="Int32" Name="ProfileInObrazProgramInEntryPriority" />
           <NavigationProperty Name="Application" Relationship="OnlinePriem2012Model.FK_ApplicationDetails_Application" FromRole="ApplicationDetails" ToRole="Application" />
-          <NavigationProperty Name="ObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ApplicationDetails_ObrazProgramInEntry" FromRole="ApplicationDetails" ToRole="ObrazProgramInEntry" />
-          <NavigationProperty Name="ProfileInObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ApplicationDetails_ProfileInObrazProgramInEntry" FromRole="ApplicationDetails" ToRole="ProfileInObrazProgramInEntry" />
+          <Property Type="Guid" Name="InnerEntryInEntryId" Nullable="false" />
+          <Property Type="Int32" Name="InnerEntryInEntryPriority" Nullable="false" />
+          <NavigationProperty Name="InnerEntryInEntry" Relationship="OnlinePriem2012Model.FK_ApplicationDetails_ObrazProgramInEntry" FromRole="ApplicationDetails" ToRole="InnerEntryInEntry" />
         </EntityType>
         <Association Name="FK_ApplicationDetails_Application">
           <End Type="OnlinePriem2012Model.Application" Role="Application" Multiplicity="1" />
@@ -4377,42 +4259,6 @@
             </Principal>
             <Dependent Role="ApplicationDetails">
               <PropertyRef Name="ApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ApplicationDetails_ObrazProgramInEntry">
-          <End Type="OnlinePriem2012Model.ObrazProgramInEntry" Role="ObrazProgramInEntry" Multiplicity="1" />
-          <End Type="OnlinePriem2012Model.ApplicationDetails" Role="ApplicationDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ObrazProgramInEntry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ApplicationDetails">
-              <PropertyRef Name="ObrazProgramInEntryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ApplicationDetails_ProfileInObrazProgramInEntry">
-          <End Type="OnlinePriem2012Model.ProfileInObrazProgramInEntry" Role="ProfileInObrazProgramInEntry" Multiplicity="0..1" />
-          <End Type="OnlinePriem2012Model.ApplicationDetails" Role="ApplicationDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProfileInObrazProgramInEntry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ApplicationDetails">
-              <PropertyRef Name="ProfileInObrazProgramInEntryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProfileInObrazProgramInEntry_ObrazProgramInEntry">
-          <End Type="OnlinePriem2012Model.ObrazProgramInEntry" Role="ObrazProgramInEntry" Multiplicity="1" />
-          <End Type="OnlinePriem2012Model.ProfileInObrazProgramInEntry" Role="ProfileInObrazProgramInEntry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ObrazProgramInEntry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProfileInObrazProgramInEntry">
-              <PropertyRef Name="ObrazProgramInEntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4432,13 +4278,9 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Guid" Name="ApplicationVersionId" Nullable="false" />
-          <Property Type="Guid" Name="ObrazProgramInEntryId" Nullable="false" />
-          <Property Type="Int32" Name="ObrazProgramInEntryPriority" Nullable="false" />
-          <Property Type="Guid" Name="ProfileInObrazProgramInEntryId" />
-          <Property Type="Int32" Name="ProfileInObrazProgramInEntryPriority" />
           <NavigationProperty Name="ApplicationVersion" Relationship="OnlinePriem2012Model.FK_ApplicationVersionDetails_ApplicationVersion" FromRole="ApplicationVersionDetails" ToRole="ApplicationVersion" />
-          <NavigationProperty Name="ObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ApplicationVersionDetails_ObrazProgramInEntry" FromRole="ApplicationVersionDetails" ToRole="ObrazProgramInEntry" />
-          <NavigationProperty Name="ProfileInObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ApplicationVersionDetails_ProfileInObrazProgramInEntry" FromRole="ApplicationVersionDetails" ToRole="ProfileInObrazProgramInEntry" />
+          <Property Type="Guid" Name="InnerEntryInEntryId" Nullable="false" />
+          <Property Type="Int32" Name="InnerEntryInEntryPriority" Nullable="false" />
         </EntityType>
         <Association Name="FK_ApplicationVersionDetails_ApplicationVersion">
           <End Type="OnlinePriem2012Model.ApplicationVersion" Role="ApplicationVersion" Multiplicity="1" />
@@ -4449,30 +4291,6 @@
             </Principal>
             <Dependent Role="ApplicationVersionDetails">
               <PropertyRef Name="ApplicationVersionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ApplicationVersionDetails_ObrazProgramInEntry">
-          <End Type="OnlinePriem2012Model.ObrazProgramInEntry" Role="ObrazProgramInEntry" Multiplicity="1" />
-          <End Type="OnlinePriem2012Model.ApplicationVersionDetails" Role="ApplicationVersionDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ObrazProgramInEntry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ApplicationVersionDetails">
-              <PropertyRef Name="ObrazProgramInEntryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ApplicationVersionDetails_ProfileInObrazProgramInEntry">
-          <End Type="OnlinePriem2012Model.ProfileInObrazProgramInEntry" Role="ProfileInObrazProgramInEntry" Multiplicity="0..1" />
-          <End Type="OnlinePriem2012Model.ApplicationVersionDetails" Role="ApplicationVersionDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProfileInObrazProgramInEntry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ApplicationVersionDetails">
-              <PropertyRef Name="ProfileInObrazProgramInEntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4818,34 +4636,35 @@
           <Key>
             <PropertyRef Name="Id" />
             <PropertyRef Name="ApplicationId" />
-            <PropertyRef Name="ObrazProgramInEntryId" />
             <PropertyRef Name="ObrazProgramName" />
-            <PropertyRef Name="ObrazProgramInEntryPriority" />
             <PropertyRef Name="ObrazProgramCrypt" />
+            <PropertyRef Name="InnerEntryInEntryId" />
+            <PropertyRef Name="InnerEntryInEntryPriority" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="ApplicationId" Nullable="false" />
-          <Property Type="Guid" Name="ObrazProgramInEntryId" Nullable="false" />
           <Property Type="String" Name="ObrazProgramName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ObrazProgramInEntryPriority" Nullable="false" />
-          <Property Type="Guid" Name="ProfileInObrazProgramInEntryId" />
           <Property Type="String" Name="ProfileName" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ProfileInObrazProgramInEntryPriority" />
           <Property Type="Int32" Name="CurrVersion" />
           <Property Type="DateTime" Name="CurrDate" Precision="3" />
-          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="53" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="84" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="InnerEntryInEntryId" Nullable="false" />
+          <Property Type="Int32" Name="InnerEntryInEntryPriority" Nullable="false" />
         </EntityType>
         <EntityType Name="extDefaultEntryDetails">
           <Key>
             <PropertyRef Name="EntryId" />
-            <PropertyRef Name="ObrazProgramInEntryId" />
             <PropertyRef Name="DefaultPriorityValue" />
+            <PropertyRef Name="InnerEntryInEntryId" />
+            <PropertyRef Name="ProfileId" />
+            <PropertyRef Name="ObrazProgramName" />
           </Key>
           <Property Type="Guid" Name="EntryId" Nullable="false" />
-          <Property Type="Guid" Name="ObrazProgramInEntryId" Nullable="false" />
           <Property Type="Int32" Name="DefaultPriorityValue" Nullable="false" />
-          <Property Type="Guid" Name="ProfileInObrazProgramInEntryId" />
-          <Property Type="Int32" Name="ProfileInObrazProgramInEntryDefaultPriorityValue" />
+          <Property Type="Guid" Name="InnerEntryInEntryId" Nullable="false" />
+          <Property Type="Int32" Name="ProfileId" Nullable="false" />
+          <Property Type="String" Name="ObrazProgramName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProfileName" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="qAbitFiles_OnlyEssayMotivLetter">
           <Key>
@@ -5062,7 +4881,7 @@
           <NavigationProperty Name="SP_ObrazProgram" Relationship="OnlinePriem2012Model.FK__Entry_SP_ObrazProgram" FromRole="C_Entry" ToRole="SP_ObrazProgram" />
           <NavigationProperty Name="SP_StudyLevel" Relationship="OnlinePriem2012Model.FK__Entry_SP_StudyLevel" FromRole="C_Entry" ToRole="SP_StudyLevel" />
           <NavigationProperty Name="Application" Relationship="OnlinePriem2012Model.FK_Application__Entry" FromRole="C_Entry" ToRole="Application" />
-          <NavigationProperty Name="ObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" FromRole="C_Entry" ToRole="ObrazProgramInEntry" />
+          <NavigationProperty Name="InnerEntryInEntry" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" FromRole="C_Entry" ToRole="InnerEntryInEntry" />
         </EntityType>
         <Association Name="FK__Entry_Comission">
           <End Type="OnlinePriem2012Model.Comission" Role="Comission" Multiplicity="0..1" />
@@ -5148,18 +4967,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ObrazProgramInEntry__Entry">
-          <End Type="OnlinePriem2012Model.C_Entry" Role="C_Entry" Multiplicity="1" />
-          <End Type="OnlinePriem2012Model.ObrazProgramInEntry" Role="ObrazProgramInEntry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="C_Entry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ObrazProgramInEntry">
-              <PropertyRef Name="EntryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Entry">
           <Key>
             <PropertyRef Name="Id" />
@@ -5232,6 +5039,68 @@
           <Property Type="String" Name="Address" MaxLength="350" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LicenseProgramNewCode" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="InnerEntryInEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="Guid" Name="EntryId" Nullable="false" />
+          <Property Type="Int32" Name="ObrazProgramId" Nullable="false" />
+          <Property Type="Int32" Name="ProfileId" Nullable="false" />
+          <Property Type="Int32" Name="DefaultPriorityValue" Nullable="false" />
+          <NavigationProperty Name="C_Entry" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" FromRole="InnerEntryInEntry" ToRole="C_Entry" />
+          <NavigationProperty Name="ApplicationDetails" Relationship="OnlinePriem2012Model.FK_ApplicationDetails_ObrazProgramInEntry" FromRole="InnerEntryInEntry" ToRole="ApplicationDetails" />
+          <NavigationProperty Name="SP_ObrazProgram" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram" FromRole="InnerEntryInEntry" ToRole="SP_ObrazProgram" />
+          <NavigationProperty Name="SP_Profile" Relationship="OnlinePriem2012Model.FK_InnerEntryInEntry_SP_Profile" FromRole="InnerEntryInEntry" ToRole="SP_Profile" />
+        </EntityType>
+        <Association Name="FK_ObrazProgramInEntry__Entry">
+          <End Type="OnlinePriem2012Model.C_Entry" Role="C_Entry" Multiplicity="1" />
+          <End Type="OnlinePriem2012Model.InnerEntryInEntry" Role="InnerEntryInEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Entry">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InnerEntryInEntry">
+              <PropertyRef Name="EntryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicationDetails_ObrazProgramInEntry">
+          <End Type="OnlinePriem2012Model.InnerEntryInEntry" Role="InnerEntryInEntry" Multiplicity="1" />
+          <End Type="OnlinePriem2012Model.ApplicationDetails" Role="ApplicationDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InnerEntryInEntry">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationDetails">
+              <PropertyRef Name="InnerEntryInEntryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ObrazProgramInEntry_SP_ObrazProgram">
+          <End Type="OnlinePriem2012Model.SP_ObrazProgram" Role="SP_ObrazProgram" Multiplicity="1" />
+          <End Type="OnlinePriem2012Model.InnerEntryInEntry" Role="InnerEntryInEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SP_ObrazProgram">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InnerEntryInEntry">
+              <PropertyRef Name="ObrazProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InnerEntryInEntry_SP_Profile">
+          <End Type="OnlinePriem2012Model.SP_Profile" Role="SP_Profile" Multiplicity="1" />
+          <End Type="OnlinePriem2012Model.InnerEntryInEntry" Role="InnerEntryInEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SP_Profile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InnerEntryInEntry">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5866,27 +5735,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ObrazProgramInEntry">
-            <EntityTypeMapping TypeName="OnlinePriem2012Model.ObrazProgramInEntry">
-              <MappingFragment StoreEntitySet="ObrazProgramInEntry">
-                <ScalarProperty Name="DefaultPriorityValue" ColumnName="DefaultPriorityValue" />
-                <ScalarProperty Name="ObrazProgramId" ColumnName="ObrazProgramId" />
-                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProfileInObrazProgramInEntry">
-            <EntityTypeMapping TypeName="OnlinePriem2012Model.ProfileInObrazProgramInEntry">
-              <MappingFragment StoreEntitySet="ProfileInObrazProgramInEntry">
-                <ScalarProperty Name="DefaultPriorityValue" ColumnName="DefaultPriorityValue" />
-                <ScalarProperty Name="KCP" ColumnName="KCP" />
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-                <ScalarProperty Name="ObrazProgramInEntryId" ColumnName="ObrazProgramInEntryId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ApplicationCommit">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.ApplicationCommit">
               <MappingFragment StoreEntitySet="ApplicationCommit">
@@ -5981,10 +5829,8 @@
           <EntitySetMapping Name="ApplicationDetails">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.ApplicationDetails">
               <MappingFragment StoreEntitySet="ApplicationDetails">
-                <ScalarProperty Name="ProfileInObrazProgramInEntryPriority" ColumnName="ProfileInObrazProgramInEntryPriority" />
-                <ScalarProperty Name="ProfileInObrazProgramInEntryId" ColumnName="ProfileInObrazProgramInEntryId" />
-                <ScalarProperty Name="ObrazProgramInEntryPriority" ColumnName="ObrazProgramInEntryPriority" />
-                <ScalarProperty Name="ObrazProgramInEntryId" ColumnName="ObrazProgramInEntryId" />
+                <ScalarProperty Name="InnerEntryInEntryPriority" ColumnName="InnerEntryInEntryPriority" />
+                <ScalarProperty Name="InnerEntryInEntryId" ColumnName="InnerEntryInEntryId" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -6003,10 +5849,8 @@
           <EntitySetMapping Name="ApplicationVersionDetails">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.ApplicationVersionDetails">
               <MappingFragment StoreEntitySet="ApplicationVersionDetails">
-                <ScalarProperty Name="ProfileInObrazProgramInEntryPriority" ColumnName="ProfileInObrazProgramInEntryPriority" />
-                <ScalarProperty Name="ProfileInObrazProgramInEntryId" ColumnName="ProfileInObrazProgramInEntryId" />
-                <ScalarProperty Name="ObrazProgramInEntryPriority" ColumnName="ObrazProgramInEntryPriority" />
-                <ScalarProperty Name="ObrazProgramInEntryId" ColumnName="ObrazProgramInEntryId" />
+                <ScalarProperty Name="InnerEntryInEntryPriority" ColumnName="InnerEntryInEntryPriority" />
+                <ScalarProperty Name="InnerEntryInEntryId" ColumnName="InnerEntryInEntryId" />
                 <ScalarProperty Name="ApplicationVersionId" ColumnName="ApplicationVersionId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -6078,15 +5922,13 @@
           <EntitySetMapping Name="extApplicationDetails">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.extApplicationDetails">
               <MappingFragment StoreEntitySet="extApplicationDetails">
+                <ScalarProperty Name="InnerEntryInEntryPriority" ColumnName="InnerEntryInEntryPriority" />
+                <ScalarProperty Name="InnerEntryInEntryId" ColumnName="InnerEntryInEntryId" />
                 <ScalarProperty Name="ObrazProgramCrypt" ColumnName="ObrazProgramCrypt" />
                 <ScalarProperty Name="CurrDate" ColumnName="CurrDate" />
                 <ScalarProperty Name="CurrVersion" ColumnName="CurrVersion" />
-                <ScalarProperty Name="ProfileInObrazProgramInEntryPriority" ColumnName="ProfileInObrazProgramInEntryPriority" />
                 <ScalarProperty Name="ProfileName" ColumnName="ProfileName" />
-                <ScalarProperty Name="ProfileInObrazProgramInEntryId" ColumnName="ProfileInObrazProgramInEntryId" />
-                <ScalarProperty Name="ObrazProgramInEntryPriority" ColumnName="ObrazProgramInEntryPriority" />
                 <ScalarProperty Name="ObrazProgramName" ColumnName="ObrazProgramName" />
-                <ScalarProperty Name="ObrazProgramInEntryId" ColumnName="ObrazProgramInEntryId" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -6095,10 +5937,11 @@
           <EntitySetMapping Name="extDefaultEntryDetails">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.extDefaultEntryDetails">
               <MappingFragment StoreEntitySet="extDefaultEntryDetails">
-                <ScalarProperty Name="ProfileInObrazProgramInEntryDefaultPriorityValue" ColumnName="ProfileInObrazProgramInEntryDefaultPriorityValue" />
-                <ScalarProperty Name="ProfileInObrazProgramInEntryId" ColumnName="ProfileInObrazProgramInEntryId" />
+                <ScalarProperty Name="ProfileName" ColumnName="ProfileName" />
+                <ScalarProperty Name="ObrazProgramName" ColumnName="ObrazProgramName" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="InnerEntryInEntryId" ColumnName="InnerEntryInEntryId" />
                 <ScalarProperty Name="DefaultPriorityValue" ColumnName="DefaultPriorityValue" />
-                <ScalarProperty Name="ObrazProgramInEntryId" ColumnName="ObrazProgramInEntryId" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -6243,6 +6086,17 @@
                 <ScalarProperty Name="StudyPlanNumber" ColumnName="StudyPlanNumber" />
                 <ScalarProperty Name="StudyPlanId" ColumnName="StudyPlanId" />
                 <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InnerEntryInEntry">
+            <EntityTypeMapping TypeName="OnlinePriem2012Model.InnerEntryInEntry">
+              <MappingFragment StoreEntitySet="InnerEntryInEntry">
+                <ScalarProperty Name="DefaultPriorityValue" ColumnName="DefaultPriorityValue" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="ObrazProgramId" ColumnName="ObrazProgramId" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -6708,8 +6562,6 @@
         <EntityTypeShape EntityType="OnlinePriem2012Model.PersonFileType" Width="1.5" PointX="0.75" PointY="1.875" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.Comission" Width="1.5" PointX="6" PointY="58.5" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationFile" Width="1.5" PointX="15.75" PointY="50" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ObrazProgramInEntry" Width="1.5" PointX="16.5" PointY="58.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ProfileInObrazProgramInEntry" Width="1.5" PointX="16.5" PointY="55" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommit" Width="1.5" PointX="8.25" PointY="50.25" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommitVersion" Width="1.5" PointX="10.5" PointY="17.75" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommitVersonDetails" Width="1.5" PointX="2.75" PointY="5.75" />
@@ -6717,36 +6569,7 @@
         <EntityTypeShape EntityType="OnlinePriem2012Model.SP_LicenseProgram" Width="1.5" PointX="11.25" PointY="26.875" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.SP_ObrazProgram" Width="1.5" PointX="11.25" PointY="58" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.SP_Profile" Width="1.5" PointX="14.25" PointY="55.125" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram" >
-          <ConnectorPoint PointX="8.54980553125" PointY="40.335999348958332" />
-          <ConnectorPoint PointX="8.54980553125" PointY="51.625" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="51.625" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="51.625" />
-          <ConnectorPoint PointX="9.5260441666666669" PointY="51.625" />
-          <ConnectorPoint PointX="9.6927108333333347" PointY="51.625" />
-          <ConnectorPoint PointX="10" PointY="51.625" />
-          <ConnectorPoint PointX="10" PointY="64.875" />
-          <ConnectorPoint PointX="11" PointY="64.875" />
-          <ConnectorPoint PointX="11" PointY="68.25" />
-          <ConnectorPoint PointX="12.822916666666666" PointY="68.25" />
-          <ConnectorPoint PointX="12.989583333333334" PointY="68.25" />
-          <ConnectorPoint PointX="13.166666666666666" PointY="68.25" />
-          <ConnectorPoint PointX="13.333333333333334" PointY="68.25" />
-          <ConnectorPoint PointX="13.916666666666666" PointY="68.25" />
-          <ConnectorPoint PointX="14.083333333333334" PointY="68.25" />
-          <ConnectorPoint PointX="16.125" PointY="68.25" />
-          <ConnectorPoint PointX="16.125" PointY="69.374746093749991" />
-          <ConnectorPoint PointX="16.166666666666668" PointY="69.374746093749991" />
-          <ConnectorPoint PointX="16.333333333333332" PointY="69.374746093749991" />
-          <ConnectorPoint PointX="16.5" PointY="69.374746093749991" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ProfileInObrazProgramInEntry_Profile" >
-          <ConnectorPoint PointX="15.75" PointY="65.903595377604177" />
-          <ConnectorPoint PointX="15.979166666666666" PointY="65.903595377604177" />
-          <ConnectorPoint PointX="16.333333333333332" PointY="65.903595377604177" />
-          <ConnectorPoint PointX="16.5" PointY="65.903595377604177" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationDetails" Width="1.5" PointX="18.75" PointY="48.75" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationDetails" Width="3" PointX="18.75" PointY="48.75" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationDetails_Application" >
           <ConnectorPoint PointX="15" PointY="58.32031375" />
           <ConnectorPoint PointX="15.416666666666666" PointY="58.32031375" />
@@ -6757,27 +6580,8 @@
           <ConnectorPoint PointX="18.333333333333332" PointY="58.32031375" />
           <ConnectorPoint PointX="18.75" PointY="58.32031375" />
         </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationDetails_ObrazProgramInEntry" >
-          <ConnectorPoint PointX="18" PointY="68" />
-          <ConnectorPoint PointX="18.191074434901122" PointY="67.808925565098875" />
-          <ConnectorPoint PointX="18.308925565098878" PointY="67.691074434901125" />
-          <ConnectorPoint PointX="18.375" PointY="67.625" />
-          <ConnectorPoint PointX="18.375" PointY="59.78881184375" />
-          <ConnectorPoint PointX="18.75" PointY="59.78881184375" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationDetails_ProfileInObrazProgramInEntry" >
-          <ConnectorPoint PointX="17.75" PointY="64.5" />
-          <ConnectorPoint PointX="17.75" PointY="58.515627499999994" />
-          <ConnectorPoint PointX="18.166666666666668" PointY="58.515627499999994" />
-          <ConnectorPoint PointX="18.333333333333332" PointY="58.515627499999994" />
-          <ConnectorPoint PointX="18.75" PointY="58.515627499999994" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ProfileInObrazProgramInEntry_ObrazProgramInEntry" >
-          <ConnectorPoint PointX="17.2187475" PointY="68" />
-          <ConnectorPoint PointX="17.2187475" PointY="67.2494921875" />
-        </AssociationConnector>
         <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersion" Width="1.5" PointX="16.5" PointY="62.125" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersionDetails" Width="1.5" PointX="18.75" PointY="56.75" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersionDetails" Width="2.375" PointX="18.75" PointY="56.75" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationVersionDetails_ApplicationVersion" >
           <ConnectorPoint PointX="10.875" PointY="22.990143229166669" />
           <ConnectorPoint PointX="10.683" PointY="22.990143229166669" />
@@ -6785,18 +6589,6 @@
           <ConnectorPoint PointX="13.442" PointY="27.873520833333338" />
           <ConnectorPoint PointX="13.442" PointY="26.12474609375" />
           <ConnectorPoint PointX="13.25" PointY="26.12474609375" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationVersionDetails_ObrazProgramInEntry" >
-          <ConnectorPoint PointX="18" PointY="68.530998593749985" />
-          <ConnectorPoint PointX="18.166666666666668" PointY="68.530998593749985" />
-          <ConnectorPoint PointX="18.333333333333332" PointY="68.530998593749985" />
-          <ConnectorPoint PointX="18.75" PointY="68.530998593749985" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationVersionDetails_ProfileInObrazProgramInEntry" >
-          <ConnectorPoint PointX="18" PointY="66.749746093749991" />
-          <ConnectorPoint PointX="18.166666666666668" PointY="66.749746093749991" />
-          <ConnectorPoint PointX="18.458333333333332" PointY="66.749746093749991" />
-          <ConnectorPoint PointX="18.75" PointY="66.749746093749991" />
         </AssociationConnector>
         <AssociationConnector Association="OnlinePriem2012Model.FK_Person_AbiturientType" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_AG_Application_Person" >
@@ -6982,8 +6774,8 @@
           <ConnectorPoint PointX="9.7500000000000018" PointY="36.625" />
         </AssociationConnector>
         <EntityTypeShape EntityType="OnlinePriem2012Model.Abiturient" Width="1.5" PointX="5.75" PointY="3.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.extApplicationDetails" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.extDefaultEntryDetails" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.extApplicationDetails" Width="2.875" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.extDefaultEntryDetails" Width="2.5" PointX="7.75" PointY="4.5" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.qAbitFiles_OnlyEssayMotivLetter" Width="1.5" PointX="7.75" PointY="7.75" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.PersonOtherPassport" Width="1.5" PointX="16.5" PointY="42.625" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonOtherPassport_PassportType" />
@@ -7120,16 +6912,12 @@
           <ConnectorPoint PointX="15.354166666666666" PointY="57.655099036458338" />
           <ConnectorPoint PointX="15" PointY="57.655099036458338" />
         </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" >
-          <ConnectorPoint PointX="17.078125" PointY="53.383932291666667" />
-          <ConnectorPoint PointX="17.078125" PointY="54.375" />
-          <ConnectorPoint PointX="17.322916666666668" PointY="54.375" />
-          <ConnectorPoint PointX="17.708333333333332" PointY="54.375" />
-          <ConnectorPoint PointX="18.25" PointY="54.375" />
-          <ConnectorPoint PointX="18.25" PointY="69.671497390624978" />
-          <ConnectorPoint PointX="18" PointY="69.671497390624978" />
-        </AssociationConnector>
         <EntityTypeShape EntityType="OnlinePriem2012Model.Entry" Width="1.5" PointX="0.75" PointY="8.75" Height="10.056946614583325" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.InnerEntryInEntry" Width="1.5" PointX="15.25" PointY="4.25" />
+        <AssociationConnector Association="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" />
+        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationDetails_ObrazProgramInEntry" />
+        <AssociationConnector Association="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram" />
+        <AssociationConnector Association="OnlinePriem2012Model.FK_InnerEntryInEntry_SP_Profile" />
         </Diagram>
     </Diagrams>
   </Designer>

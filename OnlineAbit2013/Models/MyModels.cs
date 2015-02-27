@@ -491,7 +491,7 @@ namespace OnlineAbit2013.Models
         public string StudyLevelGroupName { get; set; }
         public bool HasSeparateObrazPrograms { get; set; }
         public DateTime? dateofClose { get; set; }
-        public Guid? ObrazProgramInEntryId { get; set; }
+        public Guid? InnerEntryInEntryId { get; set; }
         public List<string> InnerProfiles { get; set; }
     }
     public class SimpleApplicationPackage
