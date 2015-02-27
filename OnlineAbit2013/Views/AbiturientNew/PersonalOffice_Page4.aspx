@@ -449,7 +449,7 @@
                                     <asp:Literal ID="Literal19" runat="server" Text="<%$Resources:PersonalOffice_Step4, SchoolExitYear %>"></asp:Literal>
                                     <asp:Literal ID="Literal20" runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
                                 </label>
-                                <%= Html.TextBox("EducationInfo_SchoolExitYear_" + i, Doc.SchoolExitYear, new Dictionary<string, object> { { "id", "SchoolExitYear_" + i }, { "onchange", "CheckSchoolExitYear(" + i + ")" }, { "onkeyup", "CheckSchoolExitYear(" + i + ")" }, { "onblur", "CheckSchoolExitYear(" + i + ")" } })%>
+                                <%= Html.TextBox("SchoolExitYear_" + i, Doc.SchoolExitYear, new Dictionary<string, object> { { "id", "SchoolExitYear_" + i }, { "onchange", "CheckSchoolExitYear(" + i + ")" }, { "onkeyup", "CheckSchoolExitYear(" + i + ")" }, { "onblur", "CheckSchoolExitYear(" + i + ")" } })%>
                                 <br /><p></p>
                                 <span id="SchoolExitYear_Message_<%= i %>" class="Red" style="display:none; border-collapse:collapse;">
                                     <%=GetGlobalResourceObject("PersonalOffice_Step4", "SchoolExitYear_Message").ToString()%>
