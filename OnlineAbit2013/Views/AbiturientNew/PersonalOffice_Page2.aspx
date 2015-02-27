@@ -562,6 +562,7 @@
                         <li><a href="../../AbiturientNew?step=4"><%= GetGlobalResourceObject("PersonInfo", "Step4")%></a></li>
                         <li><a href="../../AbiturientNew?step=5"><%= GetGlobalResourceObject("PersonInfo", "Step5")%></a></li>
                         <li><a href="../../AbiturientNew?step=6"><%= GetGlobalResourceObject("PersonInfo", "Step6")%></a></li>
+                        <li><a href="../../AbiturientNew?step=7"><%= GetGlobalResourceObject("PersonInfo", "Step7")%></a></li>
                     </ol>
                 </div>
             </div>

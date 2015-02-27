@@ -644,6 +644,7 @@ namespace OnlineAbit2013.Controllers
 
                 if (model.Stage == 1)
                 {
+                    #region Stage1
                     DateTime bdate;
                     if (!DateTime.TryParse(model.PersonInfo.BirthDate, CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat, DateTimeStyles.None, out bdate))
                         bdate = DateTime.Now.Date;
@@ -688,10 +689,11 @@ namespace OnlineAbit2013.Controllers
                     if (bIns)
                         context.PersonContacts.AddObject(PersonContacts);
                     context.SaveChanges();
+                    #endregion
                 }
-
                 else if (model.Stage == 2)
                 {
+                    #region Stage2
                     int iPassportType = 1;
                     if (!int.TryParse(model.PassportInfo.PassportType, out iPassportType))
                         iPassportType = 1;
@@ -753,9 +755,11 @@ namespace OnlineAbit2013.Controllers
                     {
                         return RedirectToAction("Index", "AbiturientNew", new RouteValueDictionary() { { "step", model.Stage } });
                     }
+                    #endregion
                 }
                 else if (model.Stage == 3)
                 {
+                    #region Stage3
                     int iCountryId = 0;
                     if (!int.TryParse(model.ContactsInfo.CountryId, out iCountryId))
                         iCountryId = 193;//Russia
@@ -814,12 +818,15 @@ namespace OnlineAbit2013.Controllers
                     Person.RegistrationStage = iRegStage < 4 ? 4 : iRegStage;
 
                     context.SaveChanges();
+                    #endregion
                 }
                 else if (model.Stage == 4)//образование
                 {
+                    #region Stage4
                     //проходим по POST-переменным по очереди
                     for (int i = 0; i < Util.getConstInfo().EducationDocumentsMaxCount; i++)
                     {
+                        #region InitVariables
                         //-----------------------------
                         string sId = Request.Form["_sId_" + i];
                         int iId;
@@ -925,8 +932,9 @@ namespace OnlineAbit2013.Controllers
                         string DiplomTheme = Request.Form["DiplomTheme_" + i];
                         string ProgramName = Request.Form["ProgramName_" + i];
 
-
+                        #endregion
                         //-----------------PersonEducationDocument---------------------
+                        #region PersonEducationDocument
                         bool bIns = false;
                         if (context.PersonEducationDocument.Where(x => x.Id == iId && x.PersonId == PersonId).Count() == 0)
                             bIns = true;
@@ -949,8 +957,9 @@ namespace OnlineAbit2013.Controllers
                                 SchoolCity, SchoolName, SchoolNumber, SchoolExitYear.ToString(),
                                 iSchoolTypeId == 1 ? (int?)iSchoolExitClassId : null, Series, Number, bIsEqual, EqualityDocumentNumber, avgBall, bIsExcellent, iId);
                         }
-
+                        #endregion
                         //-----------------PersonHighEducationInfo---------------------
+                        #region PersonHighEducationInfo
                         if (iSchoolTypeId == 4)
                         {
                             var PersonHighEducationInfo = context.PersonHighEducationInfo.Where(x => x.EducationDocumentId == iId).FirstOrDefault();
@@ -986,13 +995,16 @@ namespace OnlineAbit2013.Controllers
                                 bIns = false;
                             }
                         }
+                        #endregion
                     }
                     //--------------------------------------
                     Person.RegistrationStage = iRegStage < 5 ? 5 : iRegStage;
                     context.SaveChanges();
+                    #endregion
                 }
                 else if (model.Stage == 5)
                 {
+                    #region Stage5
                     bool bIns = false;
                     var PersonAddInfo = Person.PersonAddInfo;
                     if (PersonAddInfo == null)
@@ -1018,8 +1030,7 @@ namespace OnlineAbit2013.Controllers
 
                     if (bIns)
                         context.PersonAddInfo.AddObject(PersonAddInfo);
-
-                    
+                    #region PersonDisorderInfo
                     if (model.AddEducationInfo.HasRecover && model.DisorderInfo != null)
                     {
                         bIns = false;
@@ -1038,10 +1049,10 @@ namespace OnlineAbit2013.Controllers
                         if (bIns)
                             context.PersonDisorderInfo.AddObject(PersonDisorderEducation);
                     }
-                    
-
+                    #endregion
                     bool bHasCurrentEducation = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId != 1).Count() > 0;
                     //-----------------PersonCurrentEducation---------------------
+                    #region PersonCurrentEducation
                     if (bHasCurrentEducation)
                     {
                         bIns = false;
@@ -1122,14 +1133,17 @@ namespace OnlineAbit2013.Controllers
                             }
                         }
                     }
+                    #endregion
 
-                    if (iRegStage < 7)
-                        Person.RegistrationStage = 7;
+                    if (iRegStage < 6)
+                        Person.RegistrationStage = 6;
 
                     context.SaveChanges();
+                    #endregion
                 }
                 else if (model.Stage == 6)
                 {
+                    #region Stage6
                     bool bIns = false;
                     var PersonSportQualification = Person.PersonSportQualification;
                     if (PersonSportQualification == null)
@@ -1149,13 +1163,15 @@ namespace OnlineAbit2013.Controllers
                     if (bIns)
                         context.PersonSportQualification.AddObject(PersonSportQualification);
 
-                    if (iRegStage < 6)
-                        Person.RegistrationStage = 6;
+                    if (iRegStage < 7)
+                        Person.RegistrationStage = 7;
 
                     context.SaveChanges();
+                    #endregion
                 }
                 else if (model.Stage == 7)
                 {
+                    #region Stage7
                     if (!model.AddInfo.FZ_152Agree)
                     {
                         ModelState.AddModelError("AddInfo_FZ_152Agree", "Вы должны принять условия");
@@ -1188,6 +1204,7 @@ namespace OnlineAbit2013.Controllers
                         context.PersonAddInfo.AddObject(PersonAddInfo);
 
                     context.SaveChanges();
+                    #endregion
                 }
 
                 if (model.Stage < 7)
@@ -4041,7 +4058,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     CommitId = appl.CommitId,
                     CommitName = appl.CommitName,
                     lstInnerEntries = RetVal.OrderBy(x => x.Value.Priority).ThenBy(x => x.Value.ObrazProgramName).ThenBy(x => x.Value.ProfileName).Distinct().ToList(),
-                    //ApplicationVersionId = gVersionId
+                    ApplicationVersionId = gVersionId
                 };
                 return View(mdl);
 

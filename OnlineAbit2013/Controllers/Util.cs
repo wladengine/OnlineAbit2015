@@ -1827,17 +1827,19 @@ WHERE PersonId=@PersonId ";
                     continue;
 
                 App.IsCommited = true;
-                var AppDetails_exists = context.extApplicationDetails.Where(x => x.ApplicationId == AppId).Select(x => new
+                var AppDetails_exists = context.extApplicationDetails.Where(x => x.ApplicationId == AppId)
+                    .Select(x => new
                     {
                         EntryId = App.EntryId,
                         x.InnerEntryInEntryId,
                     }).ToList();
-                var AppDetails_clearFullList = context.extDefaultEntryDetails.Where(x => x.EntryId == App.EntryId).Select(x => new
-                {
-                    x.InnerEntryInEntryId,
-                    x.ObrazProgramName,
-                    x.ProfileName
-                }).ToList().OrderBy(x => x.ObrazProgramName).ThenBy(x => x.ProfileName);
+                var AppDetails_clearFullList = context.extDefaultEntryDetails.Where(x => x.EntryId == App.EntryId)
+                    .Select(x => new
+                    {
+                        x.InnerEntryInEntryId,
+                        x.ObrazProgramName,
+                        x.ProfileName
+                    }).ToList().OrderBy(x => x.ObrazProgramName).ThenBy(x => x.ProfileName);
 
                 int prior = 1;
 

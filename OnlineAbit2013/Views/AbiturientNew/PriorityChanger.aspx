@@ -73,7 +73,8 @@
 </script>
 <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
 <form action="/AbiturientNew/ChangePriority" method="post">
-    <%= Html.HiddenFor(x => x.CommitId)%>
+    <%= Html.HiddenFor(x => x.CommitId) %>
+    <%= Html.HiddenFor(x => x.VersionId) %>
     <% if (!String.IsNullOrEmpty(Model.OldCommitId)){ %><%= Html.HiddenFor(x => x.OldCommitId)%><%} %>
     <ul id ="sortable" >
     <% bool flag = true; int i = 0; List<int> MaxElement = new List<int>();
