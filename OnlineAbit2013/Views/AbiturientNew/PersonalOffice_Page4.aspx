@@ -47,7 +47,7 @@
         }
         function CheckSchoolName(i) {
             var ret = true;
-            if ($('#SchoolName_' + i).val() == '') {
+            if ($('#SchoolName_' + i).val() == "") {
                 ret = false;
                 $('#SchoolName_' + i).addClass('input-validation-error');
                 $('#SchoolName_Message_' + i).show();
@@ -74,25 +74,25 @@
         }
         function CheckSchoolExitYear(i) {
             var ret = true; 
-            if ($('#EducationInfo_SchoolExitYear').val() == '') {
+            if ($('#SchoolExitYear_'+i).val() == '') {
                 ret = false;
-                $('#EducationInfo_SchoolExitYear').addClass('input-validation-error');
-                $('#EducationInfo_SchoolExitYear_Message').show();
-                $('#EducationInfo_SchoolExitYear_MessageFormat').hide();
+                $('#SchoolExitYear_' + i).addClass('input-validation-error');
+                $('#SchoolExitYear_Message_'+i).show();
+                $('#SchoolExitYear_MessageFormat_'+i).hide();
             }
             else {
-                $('#EducationInfo_SchoolExitYear').removeClass('input-validation-error');
-                $('#EducationInfo_SchoolExitYear_Message').hide(); 
+                $('#SchoolExitYear_'+i).removeClass('input-validation-error');
+                $('#SchoolExitYear_Message_'+i).hide(); 
                 var regex = /^\d{4}$/i;
-                var val = $('#EducationInfo_SchoolExitYear').val();
+                var val = $('#SchoolExitYear_'+i).val();
                 if (!regex.test(val)) {
-                    $('#EducationInfo_SchoolExitYear').addClass('input-validation-error');
-                    $('#EducationInfo_SchoolExitYear_MessageFormat').show();
+                    $('#SchoolExitYear_'+i).addClass('input-validation-error');
+                    $('#SchoolExitYear_MessageFormat_'+i).show();
                     ret = false;
                 }
                 else {
-                    $('#EducationInfo_SchoolExitYear').removeClass('input-validation-error');
-                    $('#EducationInfo_SchoolExitYear_MessageFormat').hide();
+                    $('#SchoolExitYear_'+i).removeClass('input-validation-error');
+                    $('#SchoolExitYear_MessageFormat_'+i).hide();
                 }
             }
             return ret;
@@ -271,11 +271,11 @@
         function CheckForm() {
             var ret = true;
             for (var i = 0; i < <%= Model.EducationInfo.EducationDocumentsMaxCount %>; i++)
-            {
-                if ($('_isEnabled_' + i).val() == '1' && !CheckSchoolName(i)) { ret = false; }
-                if ($('_isEnabled_' + i).val() == '1' && !CheckSchoolExitYear(i)) { ret = false; }
+            { 
+                if ($('#_isEnabled_' + i).val() == '1' && !CheckSchoolName(i)) { return false; }
+                if ($('#_isEnabled_' + i).val() == '1' && !CheckSchoolExitYear(i)) { return false; }
             }
-            return ret;
+            return true;
         }
 
         $(function () {
@@ -449,7 +449,7 @@
                                     <asp:Literal ID="Literal19" runat="server" Text="<%$Resources:PersonalOffice_Step4, SchoolExitYear %>"></asp:Literal>
                                     <asp:Literal ID="Literal20" runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
                                 </label>
-                                <%= Html.TextBox("SchoolExitYear_" + i, Doc.SchoolExitYear, new Dictionary<string, object> { { "id", "SchoolExitYear_" + i }, { "onchange", "CheckSchoolExitYear(" + i + ")" }, { "onkeyup", "CheckSchoolExitYear(" + i + ")" }, { "onblur", "CheckSchoolExitYear(" + i + ")" } })%>
+                                <%= Html.TextBox("EducationInfo_SchoolExitYear_" + i, Doc.SchoolExitYear, new Dictionary<string, object> { { "id", "SchoolExitYear_" + i }, { "onchange", "CheckSchoolExitYear(" + i + ")" }, { "onkeyup", "CheckSchoolExitYear(" + i + ")" }, { "onblur", "CheckSchoolExitYear(" + i + ")" } })%>
                                 <br /><p></p>
                                 <span id="SchoolExitYear_Message_<%= i %>" class="Red" style="display:none; border-collapse:collapse;">
                                     <%=GetGlobalResourceObject("PersonalOffice_Step4", "SchoolExitYear_Message").ToString()%>
