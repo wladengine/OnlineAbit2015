@@ -32,18 +32,15 @@
         <%= Html.HiddenFor(x => x.CommitId) %>
         <%= Html.HiddenFor(x => x.CommitName) %>
         <ul id="sortable">
-        <% for (int i = 0; i < Model.lstObrazPrograms.Count; i++) { %>
+        <% for (int i = 0; i < Model.lstInnerEntries.Count; i++) { %>
             <li class="message success">
-                <table style="font-size:0.75em;" class="nopadding" cellspacing="0" cellpadding="0">
+                <table style="font-size:0.75em;" class="nopadding" cellspacing="5" cellpadding="5">
                     <tr>
-                        <td style="width:12em"><%= GetGlobalResourceObject("PriorityChangerForeign", "ObrazProgram").ToString()%></td>
-                        <td><%= Model.lstObrazPrograms[i].Value.Name %></td>
+                        <td style="width: 20em;"><%= GetGlobalResourceObject("PriorityChangerForeign", "ObrazProgram").ToString()%>: <%= Model.lstInnerEntries[i].Value.ObrazProgramName %></td>
+                        <td><%= GetGlobalResourceObject("PriorityChangerForeign", "Profile").ToString()%>: <%= Model.lstInnerEntries[i].Value.ProfileName %></td>
                     </tr>
                 </table>
-                <input type="hidden" name="<%= Model.lstObrazPrograms[i].Key.ToString("N") %>" />
-                <% if (Model.lstObrazPrograms[i].Value.HasProfileInObrazProgramInEntry) { %>
-                <a style="text-decoration:underline" href="../AbiturientNew/PriorityChangerProfile?AppId=<%= Model.ApplicationId.ToString("N") %>&OPIE=<%= Model.lstObrazPrograms[i].Key.ToString("N") %>&V=<%= Model.ApplicationVersionId.ToString("N") %>">Для данной программы Вы можете указать приоритетность профилей</a>
-                <% } %>
+                <input type="hidden" name="<%= Model.lstInnerEntries[i].Key.ToString("N") %>" />
             </li>
         <% } %>
         </ul>

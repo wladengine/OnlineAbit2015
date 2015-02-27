@@ -30,6 +30,7 @@ namespace OnlineAbit2013.Controllers
             Request.Cookies.SetThreadCultureByCookies();
             return View("PersonStartPage");
         }
+
         [HttpPost]
         public ActionResult OpenPersonalAccount(OpenPersonalAccountModel model)
         {
@@ -82,8 +83,6 @@ namespace OnlineAbit2013.Controllers
             return RedirectToAction("Index");
         }
 
-        //
-        // GET: /Abiturient/
         public ActionResult Index(string step)
         {
             Guid PersonId;
@@ -1297,6 +1296,8 @@ namespace OnlineAbit2013.Controllers
         }
 
         #region NewApplication
+
+        #region NewApplication - MENU By Types 
         [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult NewApplication_AG(params string[] errors)
         {
@@ -2100,6 +2101,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 return RedirectToAction("Index", "Application", new RouteValueDictionary() { { "id", gComm } });
             }
         }
+        #endregion
 
         [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult ChangeApplication(string Id)
@@ -2431,7 +2433,6 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 return RedirectToAction("Index");
             }
         }
-
         public ActionResult NewApplication(params string[] errors)
         {
             if (errors != null && errors.Length > 0)
@@ -2605,7 +2606,6 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 return View("NewApplication", model);
             }
         }
-     
         [HttpPost]
         public ActionResult NewApplicationSelect()
         { 
@@ -2627,6 +2627,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             }  
         }
 
+        #region NewApplication - POST By Types
         [HttpPost]
         public ActionResult NewApp()
         {
@@ -2771,7 +2772,6 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             //}
             return RedirectToAction("Index", "Application", new RouteValueDictionary() { { "id", appId.ToString("N") } });
         }
-
         [HttpPost]
         public ActionResult NewApp_AG()
         {
@@ -2888,7 +2888,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             {
                 if (!Guid.TryParse(sOldCommitId, out OldCommitId))
                     return Json(Resources.ServerMessages.IncorrectGUID);
-            } 
+            }
 
             bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
 
@@ -2949,6 +2949,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     // печать заявления об отзыве (проверить isDeleted и возможно переставить код выше)
                     Util.CommitApplication(CommitId, PersonId, context);
                 }
+
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.C_Entry.StudyLevelId == 17).Count() > 0)
                 {
                     model.StudyFormList = Util.GetStudyFormList();
@@ -3373,7 +3374,6 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             }
             return RedirectToAction("PriorityChanger", new RouteValueDictionary() { { "ComId", CommitId.ToString() } });
         }
-
         [HttpPost]
         public ActionResult NewApp_Recover(Mag_ApplicationModel model)
         {
@@ -3469,7 +3469,6 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             }
             return RedirectToAction("PriorityChanger", new RouteValueDictionary() { { "ComId", CommitId.ToString() } });
         }
-
         [HttpPost]
         public ActionResult NewApp_Transfer(Mag_ApplicationModel model)
         {
@@ -3721,23 +3720,8 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                             model.ErrorMessage = "Change your Entry Type in Questionnaire Data";
                         return View("NewApplication_ChangeObrazProgram", model);
                     }
-                }/*
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.SecondTypeId == 6).Count() > 0)
-                {
-                    model.SemestrList = Util.GetSemestrList();
-                    model.StudyFormList = Util.GetStudyFormList();
-                    model.StudyBasisList = Util.GetStudyBasisList();
-                    model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
-                    model.Applications = new List<Mag_ApplicationSipleEntity>();
-                    model.Applications = Util.GetApplicationListInCommit(CommitId, PersonId);
-                    model.MaxBlocks = maxBlockRecover;
-                    model.HasError = true;
-                    if (!bIsEng)
-                        model.ErrorMessage = "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные.";
-                    else
-                        model.ErrorMessage = "To submit new application you should cancel your active application.";
-                    return View("NewApplication_ChangeObrazProgram", model);
-                }*/
+                }
+
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => x.Id).Count() == 0)
                 {
                     model.SemestrList = Util.GetSemestrList();
@@ -3853,7 +3837,9 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             }
             return RedirectToAction("PriorityChanger", new RouteValueDictionary() { { "ComId", CommitId.ToString() } });
         }
-        
+        #endregion
+
+        #region Priorities&InnerPriorities
         public ActionResult PriorityChanger(string ComId)
         {
             Guid PersonId;
@@ -3995,7 +3981,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                                  {
                                      AppDetails.InnerEntryInEntryId,
                                      AppDetails.InnerEntryInEntryPriority,
-                                 }).ToList();
+                                 }).Distinct().ToList();
 
                 var InnerEnts =
                     (from InnerEnInEntry in context.InnerEntryInEntry
@@ -4008,6 +3994,8 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                          DefaultPriority = InnerEnInEntry.DefaultPriorityValue
                      }).ToList();
 
+                var InnerEntryBase = context.InnerEntryInEntry.Where(x => x.EntryId == appl.EntryId)
+                    .Select(x => new { x.Id, ObrazProgram = x.SP_ObrazProgram.Name, Profile = x.SP_Profile.Name }).ToList();
 
                 int ind = 0;
                 foreach (var InEnt in InnerEnts)
@@ -4017,13 +4005,43 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     ind++;
                 }
 
+                var RetVal = new List<KeyValuePair<Guid, InnerEntryInEntrySmallEntity>>();
+                foreach (var zz in appPriors)
+                {
+                    RetVal.Add(new KeyValuePair<Guid, InnerEntryInEntrySmallEntity>(
+                        zz.InnerEntryInEntryId, 
+                        new InnerEntryInEntrySmallEntity()
+                        { 
+                            ObrazProgramName = InnerEntryBase.Where(x => x.Id == zz.InnerEntryInEntryId).Select(x => x.ObrazProgram).First(),
+                            ProfileName = InnerEntryBase.Where(x => x.Id == zz.InnerEntryInEntryId).Select(x => x.Profile).First(),
+                            Priority = zz.InnerEntryInEntryPriority
+                        })
+                    );
+                }
+
+                foreach (var xxx in InnerEntryBase)
+                {
+                    if (RetVal.Where(x => x.Key == xxx.Id).Count() == 0)
+                    {
+                        RetVal.Add(new KeyValuePair<Guid, InnerEntryInEntrySmallEntity>(
+                            xxx.Id,
+                            new InnerEntryInEntrySmallEntity()
+                            {
+                                ObrazProgramName = xxx.ObrazProgram,
+                                ProfileName = xxx.Profile,
+                                Priority = 1000
+                            })
+                        );
+                    }
+                }
+
                 PriorityChangerApplicationModel mdl = new PriorityChangerApplicationModel()
                 {
                     ApplicationId = gAppId,
                     CommitId = appl.CommitId,
                     CommitName = appl.CommitName,
-                    //lstObrazPrograms = RetVal,
-                    ApplicationVersionId = gVersionId
+                    lstInnerEntries = RetVal.OrderBy(x => x.Value.Priority).ThenBy(x => x.Value.ObrazProgramName).ThenBy(x => x.Value.ProfileName).Distinct().ToList(),
+                    //ApplicationVersionId = gVersionId
                 };
                 return View(mdl);
 
@@ -4128,8 +4146,14 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 var s = context.ApplicationDetails.Where(x => x.ApplicationId == model.ApplicationId).Select(x => new { x.Id, x.InnerEntryInEntryId }).ToList();
                 Guid EntryId = context.Application.Where(x => x.Id == model.ApplicationId).Select(x => x.EntryId).First();
                 var defaults = context.InnerEntryInEntry.Where(x => x.EntryId == EntryId)
-                    .Select(x => new { x.Id, x.ObrazProgramId, ObrazProgramName = x.SP_ObrazProgram.Name, x.ProfileId, ProfileName = x.SP_Profile.Name })
-                    .ToList().OrderBy(x => x.ObrazProgramName).ThenBy(x => x.ProfileName);
+                    .Select(x => new 
+                    { 
+                        InnerEntryInEntryId = x.Id, 
+                        x.ObrazProgramId, 
+                        ObrazProgramName = x.SP_ObrazProgram.Name, 
+                        x.ProfileId, 
+                        ProfileName = x.SP_Profile.Name 
+                    }).ToList().OrderBy(x => x.ObrazProgramName).ThenBy(x => x.ProfileName);
 
                 foreach (string key in allKeys)
                 {
@@ -4140,80 +4164,52 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     prior++;
 
                     var versDetails = s.Where(x => x.InnerEntryInEntryId == InnerEntryInEntryId).ToList();
-
                     if (versDetails.Count == 0) //ещё ничего не создано
                     {
-                        int z = 1;
-                        foreach (var p in defaults)
+                        context.ApplicationDetails.AddObject(new ApplicationDetails()
+                        {
+                            Id = Guid.NewGuid(),
+                            ApplicationId = model.ApplicationId,
+                            InnerEntryInEntryId = InnerEntryInEntryId,
+                            InnerEntryInEntryPriority = prior,
+                        });
+                        //вставляем в логи
+                        if (context.ApplicationVersionDetails
+                            .Where(x => x.ApplicationVersionId == model.ApplicationVersionId && x.InnerEntryInEntryId == InnerEntryInEntryId && x.InnerEntryInEntryPriority == prior).Count() == 0)
+                        {
+                            context.ApplicationVersionDetails.AddObject(new ApplicationVersionDetails()
+                            {
+                                ApplicationVersionId = model.ApplicationVersionId,
+                                InnerEntryInEntryId = InnerEntryInEntryId,
+                                InnerEntryInEntryPriority = prior,
+                            });
+                        }
+                    }
+                    else //уже что-то есть - нужно лишь обновить и дополнить, если требуется
+                    {
+                        var avd = context.ApplicationDetails
+                            .Where(x => x.InnerEntryInEntryId == InnerEntryInEntryId && x.ApplicationId == model.ApplicationId)
+                            .FirstOrDefault();
+                        if (avd == null)
                         {
                             context.ApplicationDetails.AddObject(new ApplicationDetails()
                             {
                                 Id = Guid.NewGuid(),
                                 ApplicationId = model.ApplicationId,
-                                InnerEntryInEntryId = p.Id,
-                                InnerEntryInEntryPriority = z++,
+                                InnerEntryInEntryId = InnerEntryInEntryId,
+                                InnerEntryInEntryPriority = prior
                             });
                             //вставляем в логи
-                            if (context.ApplicationVersionDetails.Where(x => x.ApplicationVersionId == model.ApplicationVersionId && x.InnerEntryInEntryId == InnerEntryInEntryId && x.InnerEntryInEntryPriority == prior).Count() == 0)
+                            context.ApplicationVersionDetails.AddObject(new ApplicationVersionDetails()
                             {
-                                context.ApplicationVersionDetails.AddObject(new ApplicationVersionDetails()
-                                {
-                                    ApplicationVersionId = model.ApplicationVersionId,
-                                    InnerEntryInEntryId = p.Id,
-                                    InnerEntryInEntryPriority = z,
-                                });
-                            }
+                                ApplicationVersionId = model.ApplicationVersionId,
+                                InnerEntryInEntryId = InnerEntryInEntryId,
+                                InnerEntryInEntryPriority = prior
+                            });
                         }
-                    }
-                    else //уже что-то есть - нужно лишь обновить и дополнить, если требуется
-                    {
-
-                        foreach (var p in defaults) //пробегаем по всем профилям
+                        else // если есть - обновить только приоритет
                         {
-                            if (versDetails.Where(x => x.InnerEntryInEntryId == p.Id).Count() == 0) //если нет для профиля записи - создать
-                            {
-                                context.ApplicationDetails.AddObject(new ApplicationDetails()
-                                {
-                                    Id = Guid.NewGuid(),
-                                    ApplicationId = model.ApplicationId,
-                                    InnerEntryInEntryId = p.Id,
-                                    InnerEntryInEntryPriority = prior
-                                });
-                                //вставляем в логи
-                                context.ApplicationVersionDetails.AddObject(new ApplicationVersionDetails()
-                                {
-                                    ApplicationVersionId = model.ApplicationVersionId,
-                                    InnerEntryInEntryId = p.Id,
-                                    InnerEntryInEntryPriority = prior
-                                });
-                            }
-                            else
-                            {
-                                var avd = context.ApplicationDetails
-                                    .Where(x => x.InnerEntryInEntryId == p.Id && x.ApplicationId == model.ApplicationId)
-                                    .FirstOrDefault();
-                                if (avd == null)
-                                {
-                                    context.ApplicationDetails.AddObject(new ApplicationDetails()
-                                    {
-                                        Id = Guid.NewGuid(),
-                                        ApplicationId = model.ApplicationId,
-                                        InnerEntryInEntryId = p.Id,
-                                        InnerEntryInEntryPriority = prior
-                                    });
-                                    //вставляем в логи
-                                    context.ApplicationVersionDetails.AddObject(new ApplicationVersionDetails()
-                                    {
-                                        ApplicationVersionId = model.ApplicationVersionId,
-                                        InnerEntryInEntryId = p.Id,
-                                        InnerEntryInEntryPriority = prior
-                                    });
-                                }
-                                else // если есть - обновить только приоритет
-                                {
-                                    avd.InnerEntryInEntryPriority = prior;
-                                }
-                            }
+                            avd.InnerEntryInEntryPriority = prior;
                         }
                     }
 
@@ -4222,7 +4218,8 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             }
             return RedirectToAction("PriorityChangerApplication", new RouteValueDictionary() { { "AppId", model.ApplicationId.ToString("N") }, { "V", model.ApplicationVersionId.ToString("N") } });
         }
-        
+        #endregion
+
         #endregion
 
         #region Files
@@ -4714,7 +4711,6 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
         {
             return View("CheckEqualWithRussia", model);
         }
-
         [HttpPost]
         public ActionResult SetEqualWithRussia(EqualWithRussiaModel model)
         {
@@ -5803,6 +5799,7 @@ Order by cnt desc";
         }
         #endregion
 
+        #region Olympiads_AJAX
         public JsonResult GetOlympNameList(string OlympTypeId)
         {
             Guid PersonId;
@@ -5933,7 +5930,9 @@ Order by cnt desc";
             DataTable tbl = Util.AbitDB.GetDataTable("SELECT count(Id) as cnt FROM Olympiads WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
             return Json(new { IsOk = true, Count = tbl.Rows[0].Field<int>("cnt")});
         }
+        #endregion
 
+        #region AG_Applications
         [HttpPost]
         public JsonResult CheckApplication_AG(string profession, string Entryclass, string profileid, string manualExam, string NeedHostel, string CommitId)
         {
@@ -6021,7 +6020,6 @@ Order by cnt desc";
                 return Json(new { IsOk = true, FreeEntries = true });
             }
         }
-
         [HttpPost]
         public JsonResult AddApplication_AG(string Entryclass, string profession, string profileid, string manualExam, string NeedHostel, string CommitId)
         {
@@ -6142,7 +6140,6 @@ Order by cnt desc";
                 return Json(new { IsOk = true, Profession = Profession, Specialization = Specialization, ManualExam = ManualExamName, Id = appId.ToString("N") });
             }
         }
-
         [HttpPost]
         public JsonResult DeleteApplication_AG(string id, string CommitId)
         {
@@ -6183,7 +6180,9 @@ Order by cnt desc";
                 return Json(new { IsOk = true });
             }
         }
+        #endregion
 
+        #region Mag_Applications
         [HttpPost]
         public JsonResult AddApplication_Mag(string priority, string studyform, string studybasis, string entry, string isSecond, string isReduced, string isParallel, string profession, string obrazprogram, string specialization, string NeedHostel, string IsGosLine, string CommitId, string semesterId="1", string secondtype="1", string reason="")
         {
@@ -6384,7 +6383,6 @@ Order by cnt desc";
                 return Json(new { IsOk = true, StudyLevelGroupName = LevelGroupName, StudyFormName = StudyFormName, StudyBasisName = StudyBasisName, Profession = Profession, Specialization = Specialization, ObrazProgram = ObrazProgram, Id = appId.ToString("N"), Faculty = faculty, isgosline = IsGosLine, semesterId = SemesterName, Reason = reason });
             }
         }
-
         [HttpPost]
         public JsonResult DeleteApplication_Mag(string id, string CommitId)
         {
@@ -6425,7 +6423,6 @@ Order by cnt desc";
                 return Json(new { IsOk = true });
             }
         }
-
         [HttpPost]
         public JsonResult CheckApplication_Mag(string studyform, string studybasis, string entry, string isSecond, string isReduced, string isParallel, string profession, string obrazprogram, string specialization, string NeedHostel, string CommitId, string semesterId="1")
         {
@@ -6511,6 +6508,7 @@ Order by cnt desc";
                 return Json(new { IsOk = true, FreeEntries = true });
             }
         }
+        #endregion
 
         public JsonResult GetStudyLevels_SPO()
         {

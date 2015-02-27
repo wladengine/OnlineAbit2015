@@ -12,7 +12,7 @@ using OnlineAbit2013.Models;
 
 namespace OnlineAbit2013.Controllers
 {
-    public class ShortAppcationDetails
+    public class ShortApplicationDetails
     {
         public Guid ApplicationId { get; set; }
         public int? CurrVersion { get; set; }
@@ -213,7 +213,7 @@ namespace OnlineAbit2013.Controllers
                 var abitProfileList = (from x in context.Application
                                        join Ad in context.extApplicationDetails on x.Id equals Ad.ApplicationId
                                        where x.CommitId == appId
-                                       select new ShortAppcationDetails()
+                                       select new ShortApplicationDetails()
                                        {
                                            ApplicationId = x.Id,
                                            CurrVersion = Ad.CurrVersion,
@@ -336,7 +336,9 @@ namespace OnlineAbit2013.Controllers
 
                         if (isMag) //для магов всё просто
                         {
-                            lstAppendixes.Add(GetApplicationPDF_ProfileAppendix_Mag(abitProfileList.Where(x => x.ApplicationId == lstApps[u].ApplicationId).ToList(), lstApps[u].LicenseProgramName, FIO, dirPath, incrmtr));
+                            List<ShortApplicationDetails> lstAppDetails = 
+                                abitProfileList.Where(x => x.ApplicationId == lstApps[u].ApplicationId).ToList();
+                            lstAppendixes.Add(GetApplicationPDF_ProfileAppendix_Mag(lstAppDetails, lstApps[u].LicenseProgramName, FIO, dirPath, incrmtr));
                             incrmtr++;
                         }
                         else //для перваков всё запутаннее
@@ -620,7 +622,7 @@ namespace OnlineAbit2013.Controllers
             }
         }
 
-        public static byte[] GetApplicationPDF_ProfileAppendix_Mag(List<ShortAppcationDetails> lst, string LicenseProgramName, string FIO, string dirPath, int Num)
+        public static byte[] GetApplicationPDF_ProfileAppendix_Mag(List<ShortApplicationDetails> lst, string LicenseProgramName, string FIO, string dirPath, int Num)
         {
             MemoryStream ms = new MemoryStream();
             string dotName = "PriorityProfiles_Mag2014.pdf";
@@ -643,6 +645,11 @@ namespace OnlineAbit2013.Controllers
             acrFlds.SetField("LicenseProgram", LicenseProgramName);
             acrFlds.SetField("ObrazProgram", lst.First().ObrazProgramName);
             int rwind = 1;
+            foreach (var xxxx in lst.Where(x => x.ObrazProgramName == lst.First().ObrazProgramName).OrderBy(x => x.InnerEntryInEntryPriority))
+            {
+                acrFlds.SetField("Profile" + rwind, xxxx.ProfileName);
+                rwind++;
+            }
 
             pdfStm.FormFlattening = true;
             pdfStm.Close();
@@ -650,7 +657,7 @@ namespace OnlineAbit2013.Controllers
 
             return ms.ToArray();
         }
-        public static byte[] GetApplicationPDF_OPAppendix_1kurs(List<ShortAppcationDetails> lst, string LicenseProgramName, string FIO, string dirPath, int Num)
+        public static byte[] GetApplicationPDF_OPAppendix_1kurs(List<ShortApplicationDetails> lst, string LicenseProgramName, string FIO, string dirPath, int Num)
         {
             MemoryStream ms = new MemoryStream();
             string dotName = "PriorityOP2014.pdf";
@@ -681,7 +688,7 @@ namespace OnlineAbit2013.Controllers
 
             return ms.ToArray();
         }
-        public static byte[] GetApplicationPDF_ProfileAppendix_1kurs(List<ShortAppcationDetails> lst, string LicenseProgramName, string FIO, string dirPath, int Num)
+        public static byte[] GetApplicationPDF_ProfileAppendix_1kurs(List<ShortApplicationDetails> lst, string LicenseProgramName, string FIO, string dirPath, int Num)
         {
             MemoryStream ms = new MemoryStream();
             string dotName = "PriorityProfiles2014.pdf";

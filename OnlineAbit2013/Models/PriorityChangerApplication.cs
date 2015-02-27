@@ -5,10 +5,11 @@ using System.Web;
 
 namespace OnlineAbit2013.Models
 {
-    public class ObrazProgramInEntrySmallEntity
+    public class InnerEntryInEntrySmallEntity
     {
-        public string Name { get; set; }
-        public bool HasProfileInObrazProgramInEntry { get; set; }
+        public string ObrazProgramName { get; set; }
+        public string ProfileName { get; set; }
+        public int? Priority { get; set; }
     }
 
     public class PriorityChangerApplicationModel
@@ -17,6 +18,6 @@ namespace OnlineAbit2013.Models
         public Guid ApplicationId { get; set; }
         public Guid CommitId { get; set; }
         public string CommitName { get; set; }
-        public List<KeyValuePair<Guid, ObrazProgramInEntrySmallEntity>> lstObrazPrograms { get; set; }
+        public List<KeyValuePair<Guid, InnerEntryInEntrySmallEntity>> lstInnerEntries { get; set; }
     }
 }
