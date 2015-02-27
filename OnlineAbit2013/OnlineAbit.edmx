@@ -287,10 +287,6 @@
             <End Role="_Entry" EntitySet="_Entry" />
             <End Role="Application" EntitySet="Application" />
           </AssociationSet>
-          <AssociationSet Name="FK_Application_ApplicationCommit" Association="OnlinePriem2012Model.Store.FK_Application_ApplicationCommit">
-            <End Role="ApplicationCommit" EntitySet="ApplicationCommit" />
-            <End Role="Application" EntitySet="Application" />
-          </AssociationSet>
           <AssociationSet Name="FK_Application_Person" Association="OnlinePriem2012Model.Store.FK_Application_Person">
             <End Role="Person" EntitySet="Person" />
             <End Role="Application" EntitySet="Application" />
@@ -559,9 +555,7 @@
           <Property Name="FacultyId" Type="int" />
           <Property Name="LicenseProgramId" Type="int" Nullable="false" />
           <Property Name="ObrazProgramId" Type="int" Nullable="false" />
-          <Property Name="ProfileId" Type="uniqueidentifier" />
-          <Property Name="ProfileName" Type="nvarchar" Nullable="false" MaxLength="150" />
-          <Property Name="ProfileNameEng" Type="nvarchar" MaxLength="250" />
+          <Property Name="ProfileId" Type="int" Nullable="false" />
           <Property Name="StudyBasisId" Type="int" Nullable="false" />
           <Property Name="StudyFormId" Type="int" Nullable="false" />
           <Property Name="StudyLevelId" Type="int" Nullable="false" />
@@ -1104,6 +1098,7 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="500" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="500" />
+          <Property Name="FileNameTemplate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PersonHighEducationInfo">
           <Key>
@@ -1442,10 +1437,10 @@
             <PropertyRef Name="SemesterId" />
             <PropertyRef Name="LicenseProgramId" />
             <PropertyRef Name="ObrazProgramId" />
-            <PropertyRef Name="ProfileName" />
             <PropertyRef Name="StudyBasisId" />
             <PropertyRef Name="StudyFormId" />
             <PropertyRef Name="StudyLevelId" />
+            
             <PropertyRef Name="IsSecond" />
             <PropertyRef Name="IsReduced" />
             <PropertyRef Name="IsParallel" />
@@ -1457,8 +1452,9 @@
             <PropertyRef Name="ObrazProgramName" />
             <PropertyRef Name="Number" />
             <PropertyRef Name="LicenseProgramName" />
-            <PropertyRef Name="ObrazProgramCrypt" />
             <PropertyRef Name="StudyLevelGroupId" />
+            <PropertyRef Name="ProfileName" />
+            <PropertyRef Name="ObrazProgramCrypt" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SemesterId" Type="int" Nullable="false" />
@@ -1467,12 +1463,12 @@
           <Property Name="FacultyId" Type="int" />
           <Property Name="LicenseProgramId" Type="int" Nullable="false" />
           <Property Name="ObrazProgramId" Type="int" Nullable="false" />
-          <Property Name="ProfileName" Type="nvarchar" Nullable="false" MaxLength="150" />
-          <Property Name="ProfileNameEng" Type="nvarchar" MaxLength="250" />
+          <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="ProfileNameEng" Type="nvarchar" MaxLength="1000" />
           <Property Name="StudyBasisId" Type="int" Nullable="false" />
           <Property Name="StudyFormId" Type="int" Nullable="false" />
           <Property Name="StudyLevelId" Type="int" Nullable="false" />
-          <Property Name="ProfileId" Type="uniqueidentifier" />
+          <Property Name="ProfileId" Type="int" Nullable="false" />
           <Property Name="IsSecond" Type="bit" Nullable="false" />
           <Property Name="IsReduced" Type="bit" Nullable="false" />
           <Property Name="IsParallel" Type="bit" Nullable="false" />
@@ -1497,7 +1493,7 @@
           <Property Name="LicenseProgramCode" Type="nvarchar" MaxLength="10" />
           <Property Name="StudyFormName" Type="nvarchar" MaxLength="50" />
           <Property Name="StudyBasisName" Type="nvarchar" MaxLength="50" />
-          <Property Name="ObrazProgramCrypt" Type="nvarchar" Nullable="false" MaxLength="53" />
+          <Property Name="ObrazProgramCrypt" Type="nvarchar" MaxLength="84" Nullable="false" />
           <Property Name="StudyBasisNameEng" Type="nvarchar" MaxLength="50" />
           <Property Name="StudyFormNameEng" Type="nvarchar" MaxLength="50" />
           <Property Name="StudyLevelGroupId" Type="int" Nullable="false" />
@@ -1760,18 +1756,6 @@
             </Principal>
             <Dependent Role="Application">
               <PropertyRef Name="EntryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Application_ApplicationCommit">
-          <End Role="ApplicationCommit" Type="OnlinePriem2012Model.Store.ApplicationCommit" Multiplicity="1" />
-          <End Role="Application" Type="OnlinePriem2012Model.Store.Application" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ApplicationCommit">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Application">
-              <PropertyRef Name="CommitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4232,6 +4216,7 @@
           <Property Type="String" Name="Name" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="NameEng" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PersonFile" Relationship="OnlinePriem2012Model.FK_PersonFile_PersonFileType" FromRole="PersonFileType" ToRole="PersonFile" />
+          <Property Type="String" Name="FileNameTemplate" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Comission">
           <Key>
@@ -4275,12 +4260,10 @@
           <Property Type="Int32" Name="FacultyId" />
           <Property Type="Int32" Name="LicenseProgramId" Nullable="false" />
           <Property Type="Int32" Name="ObrazProgramId" Nullable="false" />
-          <Property Type="String" Name="ProfileName" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Type="String" Name="ProfileNameEng" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="StudyBasisId" Nullable="false" />
           <Property Type="Int32" Name="StudyFormId" Nullable="false" />
           <Property Type="Int32" Name="StudyLevelId" Nullable="false" />
-          <Property Type="Guid" Name="ProfileId" />
+          <Property Type="Int32" Name="ProfileId" Nullable="false" />
           <Property Type="Boolean" Name="IsSecond" Nullable="false" />
           <Property Type="Boolean" Name="IsReduced" Nullable="false" />
           <Property Type="Boolean" Name="IsParallel" Nullable="false" />
@@ -5050,12 +5033,12 @@
           <Property Type="Int32" Name="FacultyId" />
           <Property Type="Int32" Name="LicenseProgramId" Nullable="false" />
           <Property Type="Int32" Name="ObrazProgramId" Nullable="false" />
-          <Property Type="String" Name="ProfileName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ProfileNameEng" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProfileName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProfileNameEng" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="StudyBasisId" Nullable="false" />
           <Property Type="Int32" Name="StudyFormId" Nullable="false" />
           <Property Type="Int32" Name="StudyLevelId" Nullable="false" />
-          <Property Type="Guid" Name="ProfileId" />
+          <Property Type="Int32" Name="ProfileId" Nullable="false" />
           <Property Type="Boolean" Name="IsSecond" Nullable="false" />
           <Property Type="Boolean" Name="IsReduced" Nullable="false" />
           <Property Type="Boolean" Name="IsParallel" Nullable="false" />
@@ -5080,7 +5063,7 @@
           <Property Type="String" Name="LicenseProgramCode" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyFormName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyBasisName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="53" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="84" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyBasisNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyFormNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="StudyLevelGroupId" Nullable="false" />
@@ -5898,6 +5881,7 @@
           <EntitySetMapping Name="PersonFileType">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.PersonFileType">
               <MappingFragment StoreEntitySet="PersonFileType">
+                <ScalarProperty Name="FileNameTemplate" ColumnName="FileNameTemplate" />
                 <ScalarProperty Name="NameEng" ColumnName="NameEng" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -5957,8 +5941,6 @@
                 <ScalarProperty Name="StudyLevelId" ColumnName="StudyLevelId" />
                 <ScalarProperty Name="StudyFormId" ColumnName="StudyFormId" />
                 <ScalarProperty Name="StudyBasisId" ColumnName="StudyBasisId" />
-                <ScalarProperty Name="ProfileNameEng" ColumnName="ProfileNameEng" />
-                <ScalarProperty Name="ProfileName" ColumnName="ProfileName" />
                 <ScalarProperty Name="ObrazProgramId" ColumnName="ObrazProgramId" />
                 <ScalarProperty Name="LicenseProgramId" ColumnName="LicenseProgramId" />
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />

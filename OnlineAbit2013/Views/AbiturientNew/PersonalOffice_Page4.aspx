@@ -74,25 +74,25 @@
         }
         function CheckSchoolExitYear(i) {
             var ret = true; 
-            if ($('#EducationInfo_SchoolExitYear').val() == '') {
+            if ($('#SchoolExitYear_' + i).val() == '') {
                 ret = false;
-                $('#EducationInfo_SchoolExitYear').addClass('input-validation-error');
-                $('#EducationInfo_SchoolExitYear_Message').show();
-                $('#EducationInfo_SchoolExitYear_MessageFormat').hide();
+                $('#SchoolExitYear_' + i).addClass('input-validation-error');
+                $('#SchoolExitYear_Message_' + i).show();
+                $('#SchoolExitYear_MessageFormat_' + i).hide();
             }
             else {
-                $('#EducationInfo_SchoolExitYear').removeClass('input-validation-error');
-                $('#EducationInfo_SchoolExitYear_Message').hide(); 
+                $('#SchoolExitYear_' + i).removeClass('input-validation-error');
+                $('#SchoolExitYear_Message_' + i).hide(); 
                 var regex = /^\d{4}$/i;
-                var val = $('#EducationInfo_SchoolExitYear').val();
+                var val = $('#SchoolExitYear_' + i).val();
                 if (!regex.test(val)) {
-                    $('#EducationInfo_SchoolExitYear').addClass('input-validation-error');
-                    $('#EducationInfo_SchoolExitYear_MessageFormat').show();
+                    $('#SchoolExitYear_' + i).addClass('input-validation-error');
+                    $('#SchoolExitYear_MessageFormat_' + i).show();
                     ret = false;
                 }
                 else {
-                    $('#EducationInfo_SchoolExitYear').removeClass('input-validation-error');
-                    $('#EducationInfo_SchoolExitYear_MessageFormat').hide();
+                    $('#SchoolExitYear_' + i).removeClass('input-validation-error');
+                    $('#SchoolExitYear_MessageFormat_' + i).hide();
                 }
             }
             return ret;
@@ -272,8 +272,8 @@
             var ret = true;
             for (var i = 0; i < <%= Model.EducationInfo.EducationDocumentsMaxCount %>; i++)
             {
-                if ($('_isEnabled_' + i).val() == '1' && !CheckSchoolName(i)) { ret = false; }
-                if ($('_isEnabled_' + i).val() == '1' && !CheckSchoolExitYear(i)) { ret = false; }
+                if ($('#_isEnabled_' + i).val() == '1' && !CheckSchoolName(i)) { ret = false; }
+                if ($('#_isEnabled_' + i).val() == '1' && !CheckSchoolExitYear(i)) { ret = false; }
             }
             return ret;
         }

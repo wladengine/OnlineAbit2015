@@ -1634,7 +1634,7 @@ WHERE PersonId=@PersonId ";
                         ProfessionName = bisEng ? (String.IsNullOrEmpty(App.LicenseProgramNameEng) ? App.LicenseProgramName : App.LicenseProgramNameEng) : App.LicenseProgramName,
                         ObrazProgramId = App.ObrazProgramId,
                         ObrazProgramName = bisEng ? (String.IsNullOrEmpty(App.ObrazProgramNameEng) ? App.ObrazProgramName : App.ObrazProgramNameEng) : App.ObrazProgramName,
-                        SpecializationId = (App.ProfileId == null ? Guid.Empty : App.ProfileId.Value),
+                        SpecializationId = App.ProfileId,
                         SpecializationName = bisEng ? (String.IsNullOrEmpty(App.ProfileNameEng) ? App.ProfileName : App.ProfileNameEng) : App.ProfileName,
                         Hostel = App.HostelEduc,
                         SemestrName = App.SemestrName,

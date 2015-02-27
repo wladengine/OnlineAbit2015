@@ -5211,7 +5211,7 @@ SELECT [User].Email
             bool bIsReduced = isReduced == "1" ? true : false;
             bool bIsParallel = isParallel == "1" ? true : false;
 
-            string query = "SELECT DISTINCT ObrazProgramId, ObrazProgramName, ObrazProgramNameEng FROM Entry " +
+            string query = "SELECT DISTINCT ObrazProgramId, ObrazProgramName, ObrazProgramNameEng, ObrazProgramCrypt FROM Entry " +
                 "WHERE StudyFormId=@StudyFormId AND StudyBasisId=@StudyBasisId AND LicenseProgramId=@LicenseProgramId " +
                 "AND StudyLevelGroupId=@StudyLevelGroupId AND IsParallel=@IsParallel AND IsReduced=@IsReduced " +
                 "AND CampaignYear=@Year AND SemesterId=@SemesterId";
@@ -5237,9 +5237,10 @@ SELECT [User].Email
                       select new
                       {
                           Id = rw.Field<int>("ObrazProgramId"),
-                          Name = isEng ?
+                          Name = ((rw.Field<string>("ObrazProgramCrypt") + " ") ?? "") + 
+                          (isEng ?
                             (string.IsNullOrEmpty(rw.Field<string>("ObrazProgramNameEng")) ? rw.Field<string>("ObrazProgramName") : rw.Field<string>("ObrazProgramNameEng"))
-                            : rw.Field<string>("ObrazProgramName")
+                            : rw.Field<string>("ObrazProgramName"))
                       };
 
             return Json(new { NoFree = OPs.Count() > 0 ? false : true, List = OPs });
@@ -5310,7 +5311,7 @@ SELECT [User].Email
             DataTable tblSpecs = Util.AbitDB.GetDataTable(query, dic);
             var Specs =
                 from DataRow rw in tblSpecs.Rows
-                select new { SpecId = rw.Field<Guid?>("ProfileId"), SpecName = rw.Field<string>("ProfileName") };
+                select new { SpecId = rw.Field<int?>("ProfileId"), SpecName = rw.Field<string>("ProfileName") };
 
             var ret = new
             {
@@ -6476,9 +6477,9 @@ Order by cnt desc";
                 bool bIsSecond = iSecond == 1;
                 bool bIsGosLine = iGosLine == 1;
                 
-                Guid gSpecialization = Guid.Empty;
+                int iSpecialization = 0;
                 if ((specialization != null) && (specialization != "") && (specialization != "null"))
-                    gSpecialization = Guid.Parse(specialization);
+                    iSpecialization = int.Parse(specialization);
 
                 bool bisEng = Util.GetCurrentThreadLanguageIsEng();
 
@@ -6496,7 +6497,7 @@ Order by cnt desc";
                             Ent.IsParallel == bIsParallel &&
                             Ent.IsReduced == bIsReduced &&
                             Ent.IsSecond == bIsSecond &&
-                           (gSpecialization == Guid.Empty ? true : Ent.ProfileId == gSpecialization) &&
+                           (iSpecialization == 0 ? true : Ent.ProfileId == iSpecialization) &&
                             Ent.SemesterId == iSemesterId
                       select new
                       {
@@ -6708,9 +6709,9 @@ Order by cnt desc";
                 bool bIsReduced = iReduced == 1;
                 bool bIsSecond = iSecond == 1; 
 
-                Guid gSpecialization = Guid.Empty;
+                int iSpecialization = 0;
                 if ((specialization != null) && (specialization != "") && (specialization != "null"))
-                    gSpecialization = Guid.Parse(specialization);
+                    iSpecialization = int.Parse(specialization);
 
                 //------------------Проверка на дублирование заявлений---------------------------------------------------------------------
                 var EntryList =
@@ -6725,7 +6726,7 @@ Order by cnt desc";
                              Ent.IsParallel == bIsParallel &&
                              Ent.IsReduced == bIsReduced &&
                              Ent.IsSecond == bIsSecond &&
-                            (gSpecialization == Guid.Empty ? true : Ent.ProfileId == gSpecialization) &&
+                            (iSpecialization == 0 ? true : Ent.ProfileId == iSpecialization) &&
                              Ent.SemesterId == iSemesterId
                        select new
                        {

@@ -8546,10 +8546,10 @@ namespace OnlineAbit2013
         /// <param name="semesterId">Initial value of the SemesterId property.</param>
         /// <param name="licenseProgramId">Initial value of the LicenseProgramId property.</param>
         /// <param name="obrazProgramId">Initial value of the ObrazProgramId property.</param>
-        /// <param name="profileName">Initial value of the ProfileName property.</param>
         /// <param name="studyBasisId">Initial value of the StudyBasisId property.</param>
         /// <param name="studyFormId">Initial value of the StudyFormId property.</param>
         /// <param name="studyLevelId">Initial value of the StudyLevelId property.</param>
+        /// <param name="profileId">Initial value of the ProfileId property.</param>
         /// <param name="isSecond">Initial value of the IsSecond property.</param>
         /// <param name="isReduced">Initial value of the IsReduced property.</param>
         /// <param name="isParallel">Initial value of the IsParallel property.</param>
@@ -8558,17 +8558,17 @@ namespace OnlineAbit2013
         /// <param name="isDistance">Initial value of the IsDistance property.</param>
         /// <param name="campaignYear">Initial value of the CampaignYear property.</param>
         /// <param name="isUsedForPriem">Initial value of the IsUsedForPriem property.</param>
-        public static C_Entry CreateC_Entry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.String profileName, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem)
+        public static C_Entry CreateC_Entry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Int32 profileId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem)
         {
             C_Entry c_Entry = new C_Entry();
             c_Entry.Id = id;
             c_Entry.SemesterId = semesterId;
             c_Entry.LicenseProgramId = licenseProgramId;
             c_Entry.ObrazProgramId = obrazProgramId;
-            c_Entry.ProfileName = profileName;
             c_Entry.StudyBasisId = studyBasisId;
             c_Entry.StudyFormId = studyFormId;
             c_Entry.StudyLevelId = studyLevelId;
+            c_Entry.ProfileId = profileId;
             c_Entry.IsSecond = isSecond;
             c_Entry.IsReduced = isReduced;
             c_Entry.IsParallel = isParallel;
@@ -8760,54 +8760,6 @@ namespace OnlineAbit2013
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String ProfileName
-        {
-            get
-            {
-                return _ProfileName;
-            }
-            set
-            {
-                OnProfileNameChanging(value);
-                ReportPropertyChanging("ProfileName");
-                _ProfileName = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("ProfileName");
-                OnProfileNameChanged();
-            }
-        }
-        private global::System.String _ProfileName;
-        partial void OnProfileNameChanging(global::System.String value);
-        partial void OnProfileNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String ProfileNameEng
-        {
-            get
-            {
-                return _ProfileNameEng;
-            }
-            set
-            {
-                OnProfileNameEngChanging(value);
-                ReportPropertyChanging("ProfileNameEng");
-                _ProfileNameEng = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("ProfileNameEng");
-                OnProfileNameEngChanged();
-            }
-        }
-        private global::System.String _ProfileNameEng;
-        partial void OnProfileNameEngChanging(global::System.String value);
-        partial void OnProfileNameEngChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
         public global::System.Int32 StudyBasisId
         {
             get
@@ -8878,9 +8830,9 @@ namespace OnlineAbit2013
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Guid> ProfileId
+        public global::System.Int32 ProfileId
         {
             get
             {
@@ -8895,8 +8847,8 @@ namespace OnlineAbit2013
                 OnProfileIdChanged();
             }
         }
-        private Nullable<global::System.Guid> _ProfileId;
-        partial void OnProfileIdChanging(Nullable<global::System.Guid> value);
+        private global::System.Int32 _ProfileId;
+        partial void OnProfileIdChanging(global::System.Int32 value);
         partial void OnProfileIdChanged();
     
         /// <summary>
@@ -10814,6 +10766,7 @@ namespace OnlineAbit2013
         /// <param name="studyBasisId">Initial value of the StudyBasisId property.</param>
         /// <param name="studyFormId">Initial value of the StudyFormId property.</param>
         /// <param name="studyLevelId">Initial value of the StudyLevelId property.</param>
+        /// <param name="profileId">Initial value of the ProfileId property.</param>
         /// <param name="isSecond">Initial value of the IsSecond property.</param>
         /// <param name="isReduced">Initial value of the IsReduced property.</param>
         /// <param name="isParallel">Initial value of the IsParallel property.</param>
@@ -10827,7 +10780,7 @@ namespace OnlineAbit2013
         /// <param name="licenseProgramName">Initial value of the LicenseProgramName property.</param>
         /// <param name="obrazProgramCrypt">Initial value of the ObrazProgramCrypt property.</param>
         /// <param name="studyLevelGroupId">Initial value of the StudyLevelGroupId property.</param>
-        public static Entry CreateEntry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.String profileName, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.String obrazProgramName, global::System.String number, global::System.String licenseProgramName, global::System.String obrazProgramCrypt, global::System.Int32 studyLevelGroupId)
+        public static Entry CreateEntry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.String profileName, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Int32 profileId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.String obrazProgramName, global::System.String number, global::System.String licenseProgramName, global::System.String obrazProgramCrypt, global::System.Int32 studyLevelGroupId)
         {
             Entry entry = new Entry();
             entry.Id = id;
@@ -10838,6 +10791,7 @@ namespace OnlineAbit2013
             entry.StudyBasisId = studyBasisId;
             entry.StudyFormId = studyFormId;
             entry.StudyLevelId = studyLevelId;
+            entry.ProfileId = profileId;
             entry.IsSecond = isSecond;
             entry.IsReduced = isReduced;
             entry.IsParallel = isParallel;
@@ -11173,9 +11127,9 @@ namespace OnlineAbit2013
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Guid> ProfileId
+        public global::System.Int32 ProfileId
         {
             get
             {
@@ -11190,8 +11144,8 @@ namespace OnlineAbit2013
                 OnProfileIdChanged();
             }
         }
-        private Nullable<global::System.Guid> _ProfileId;
-        partial void OnProfileIdChanging(Nullable<global::System.Guid> value);
+        private global::System.Int32 _ProfileId;
+        partial void OnProfileIdChanging(global::System.Int32 value);
         partial void OnProfileIdChanged();
     
         /// <summary>
@@ -19442,6 +19396,30 @@ namespace OnlineAbit2013
         private global::System.String _NameEng;
         partial void OnNameEngChanging(global::System.String value);
         partial void OnNameEngChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FileNameTemplate
+        {
+            get
+            {
+                return _FileNameTemplate;
+            }
+            set
+            {
+                OnFileNameTemplateChanging(value);
+                ReportPropertyChanging("FileNameTemplate");
+                _FileNameTemplate = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FileNameTemplate");
+                OnFileNameTemplateChanged();
+            }
+        }
+        private global::System.String _FileNameTemplate;
+        partial void OnFileNameTemplateChanging(global::System.String value);
+        partial void OnFileNameTemplateChanged();
 
         #endregion
 
