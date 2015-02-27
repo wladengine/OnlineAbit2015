@@ -59,10 +59,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Entry_AG_Profile", "AG_Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Profile), "AG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Entry), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Application_AG_Entry", "AG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Entry), "AG_Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Application), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Application_AG_ManualExam", "AG_ManualExam", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.AG_ManualExam), "AG_Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Application), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Application_Entry", "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.C_Entry), "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Application), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Entry_Semester", "Semester", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Semester), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "ComissionInEntry", "Comission", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Comission), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry))]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry__Entry", "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.C_Entry), "ObrazProgramInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ObrazProgramInEntry), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry_SP_ObrazProgram", "SP_ObrazProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_ObrazProgram), "ObrazProgramInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ObrazProgramInEntry), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ProfileInObrazProgramInEntry_Profile", "SP_Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_Profile), "ProfileInObrazProgramInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ProfileInObrazProgramInEntry), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationDetails_Application", "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Application), "ApplicationDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationDetails), true)]
@@ -72,11 +68,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationVersionDetails_ApplicationVersion", "ApplicationVersion", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ApplicationVersion), "ApplicationVersionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationVersionDetails), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationVersionDetails_ObrazProgramInEntry", "ObrazProgramInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ObrazProgramInEntry), "ApplicationVersionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationVersionDetails), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationVersionDetails_ProfileInObrazProgramInEntry", "ProfileInObrazProgramInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.ProfileInObrazProgramInEntry), "ApplicationVersionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationVersionDetails), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_Comission", "Comission", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Comission), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_Faculty", "SP_Faculty", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.SP_Faculty), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_LicenseProgram", "SP_LicenseProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_LicenseProgram), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_ObrazProgram", "SP_ObrazProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_ObrazProgram), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_StudyLevel", "SP_StudyLevel", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_StudyLevel), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_AbiturientType", "AbiturientType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AbiturientType), "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Person), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Application_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "AG_Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Application), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_ManualExamInAG_Entry_AG_Entry", "AG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Entry), "AG_ManualExamInAG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_ManualExamInAG_Entry), true)]
@@ -106,6 +97,14 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_VuzAdditionalType", "VuzAdditionalType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.VuzAdditionalType), "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonAddInfo_Language", "Language", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Language), "PersonAddInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonAddInfo), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_PersonEducationDocument", "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.PersonEducationDocument), "PersonHighEducationInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonHighEducationInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_Comission", "Comission", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Comission), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_Semester", "Semester", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Semester), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_Faculty", "SP_Faculty", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.SP_Faculty), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_LicenseProgram", "SP_LicenseProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_LicenseProgram), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_ObrazProgram", "SP_ObrazProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_ObrazProgram), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_StudyLevel", "SP_StudyLevel", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_StudyLevel), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Application__Entry", "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.C_Entry), "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Application), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry__Entry", "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.C_Entry), "ObrazProgramInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ObrazProgramInEntry), true)]
 
 #endregion
 
@@ -960,22 +959,6 @@ namespace OnlineAbit2013
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<C_Entry> C_Entry
-        {
-            get
-            {
-                if ((_C_Entry == null))
-                {
-                    _C_Entry = base.CreateObjectSet<C_Entry>("C_Entry");
-                }
-                return _C_Entry;
-            }
-        }
-        private ObjectSet<C_Entry> _C_Entry;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<ObrazProgramInEntry> ObrazProgramInEntry
         {
             get
@@ -1184,22 +1167,6 @@ namespace OnlineAbit2013
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Entry> Entry
-        {
-            get
-            {
-                if ((_Entry == null))
-                {
-                    _Entry = base.CreateObjectSet<Entry>("Entry");
-                }
-                return _Entry;
-            }
-        }
-        private ObjectSet<Entry> _Entry;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<extApplicationDetails> extApplicationDetails
         {
             get
@@ -1276,6 +1243,38 @@ namespace OnlineAbit2013
             }
         }
         private ObjectSet<PersonEducationDocument> _PersonEducationDocument;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<C_Entry> C_Entry
+        {
+            get
+            {
+                if ((_C_Entry == null))
+                {
+                    _C_Entry = base.CreateObjectSet<C_Entry>("C_Entry");
+                }
+                return _C_Entry;
+            }
+        }
+        private ObjectSet<C_Entry> _C_Entry;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Entry> Entry
+        {
+            get
+            {
+                if ((_Entry == null))
+                {
+                    _Entry = base.CreateObjectSet<Entry>("Entry");
+                }
+                return _Entry;
+            }
+        }
+        private ObjectSet<Entry> _Entry;
 
         #endregion
 
@@ -1682,14 +1681,6 @@ namespace OnlineAbit2013
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the C_Entry EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToC_Entry(C_Entry c_Entry)
-        {
-            base.AddObject("C_Entry", c_Entry);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the ObrazProgramInEntry EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToObrazProgramInEntry(ObrazProgramInEntry obrazProgramInEntry)
@@ -1794,14 +1785,6 @@ namespace OnlineAbit2013
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Entry EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToEntry(Entry entry)
-        {
-            base.AddObject("Entry", entry);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the extApplicationDetails EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToextApplicationDetails(extApplicationDetails extApplicationDetails)
@@ -1839,6 +1822,22 @@ namespace OnlineAbit2013
         public void AddToPersonEducationDocument(PersonEducationDocument personEducationDocument)
         {
             base.AddObject("PersonEducationDocument", personEducationDocument);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the C_Entry EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToC_Entry(C_Entry c_Entry)
+        {
+            base.AddObject("C_Entry", c_Entry);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Entry EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToEntry(Entry entry)
+        {
+            base.AddObject("Entry", entry);
         }
 
         #endregion
@@ -6634,44 +6633,6 @@ namespace OnlineAbit2013
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_Application_Entry", "C_Entry")]
-        public C_Entry C_Entry
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_Application_Entry", "C_Entry").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_Application_Entry", "C_Entry").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<C_Entry> C_EntryReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_Application_Entry", "C_Entry");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<C_Entry>("OnlinePriem2012Model.FK_Application_Entry", "C_Entry", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_ApplicationDetails_Application", "ApplicationDetails")]
         public EntityCollection<ApplicationDetails> ApplicationDetails
         {
@@ -6766,6 +6727,44 @@ namespace OnlineAbit2013
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PersonChangeStudyFormReason>("OnlinePriem2012Model.FK_PersonChangeStudyFormReason_Application", "PersonChangeStudyFormReason", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_Application__Entry", "C_Entry")]
+        public C_Entry C_Entry
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_Application__Entry", "C_Entry").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_Application__Entry", "C_Entry").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<C_Entry> C_EntryReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_Application__Entry", "C_Entry");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<C_Entry>("OnlinePriem2012Model.FK_Application__Entry", "C_Entry", value);
                 }
             }
         }
@@ -8546,10 +8545,10 @@ namespace OnlineAbit2013
         /// <param name="semesterId">Initial value of the SemesterId property.</param>
         /// <param name="licenseProgramId">Initial value of the LicenseProgramId property.</param>
         /// <param name="obrazProgramId">Initial value of the ObrazProgramId property.</param>
+        /// <param name="profileId">Initial value of the ProfileId property.</param>
         /// <param name="studyBasisId">Initial value of the StudyBasisId property.</param>
         /// <param name="studyFormId">Initial value of the StudyFormId property.</param>
         /// <param name="studyLevelId">Initial value of the StudyLevelId property.</param>
-        /// <param name="profileId">Initial value of the ProfileId property.</param>
         /// <param name="isSecond">Initial value of the IsSecond property.</param>
         /// <param name="isReduced">Initial value of the IsReduced property.</param>
         /// <param name="isParallel">Initial value of the IsParallel property.</param>
@@ -8558,17 +8557,17 @@ namespace OnlineAbit2013
         /// <param name="isDistance">Initial value of the IsDistance property.</param>
         /// <param name="campaignYear">Initial value of the CampaignYear property.</param>
         /// <param name="isUsedForPriem">Initial value of the IsUsedForPriem property.</param>
-        public static C_Entry CreateC_Entry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Int32 profileId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem)
+        public static C_Entry CreateC_Entry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 profileId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem)
         {
             C_Entry c_Entry = new C_Entry();
             c_Entry.Id = id;
             c_Entry.SemesterId = semesterId;
             c_Entry.LicenseProgramId = licenseProgramId;
             c_Entry.ObrazProgramId = obrazProgramId;
+            c_Entry.ProfileId = profileId;
             c_Entry.StudyBasisId = studyBasisId;
             c_Entry.StudyFormId = studyFormId;
             c_Entry.StudyLevelId = studyLevelId;
-            c_Entry.ProfileId = profileId;
             c_Entry.IsSecond = isSecond;
             c_Entry.IsReduced = isReduced;
             c_Entry.IsParallel = isParallel;
@@ -8760,6 +8759,30 @@ namespace OnlineAbit2013
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
+        public global::System.Int32 ProfileId
+        {
+            get
+            {
+                return _ProfileId;
+            }
+            set
+            {
+                OnProfileIdChanging(value);
+                ReportPropertyChanging("ProfileId");
+                _ProfileId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ProfileId");
+                OnProfileIdChanged();
+            }
+        }
+        private global::System.Int32 _ProfileId;
+        partial void OnProfileIdChanging(global::System.Int32 value);
+        partial void OnProfileIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
         public global::System.Int32 StudyBasisId
         {
             get
@@ -8826,30 +8849,6 @@ namespace OnlineAbit2013
         private global::System.Int32 _StudyLevelId;
         partial void OnStudyLevelIdChanging(global::System.Int32 value);
         partial void OnStudyLevelIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ProfileId
-        {
-            get
-            {
-                return _ProfileId;
-            }
-            set
-            {
-                OnProfileIdChanging(value);
-                ReportPropertyChanging("ProfileId");
-                _ProfileId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ProfileId");
-                OnProfileIdChanged();
-            }
-        }
-        private global::System.Int32 _ProfileId;
-        partial void OnProfileIdChanging(global::System.Int32 value);
-        partial void OnProfileIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -9270,128 +9269,8 @@ namespace OnlineAbit2013
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_Application_Entry", "Application")]
-        public EntityCollection<Application> Application
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Application>("OnlinePriem2012Model.FK_Application_Entry", "Application");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Application>("OnlinePriem2012Model.FK_Application_Entry", "Application", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_Entry_Semester", "Semester")]
-        public Semester Semester
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Semester>("OnlinePriem2012Model.FK_Entry_Semester", "Semester").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Semester>("OnlinePriem2012Model.FK_Entry_Semester", "Semester").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Semester> SemesterReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Semester>("OnlinePriem2012Model.FK_Entry_Semester", "Semester");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Semester>("OnlinePriem2012Model.FK_Entry_Semester", "Semester", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "ComissionInEntry", "Comission")]
-        public Comission Comission
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Comission>("OnlinePriem2012Model.ComissionInEntry", "Comission").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Comission>("OnlinePriem2012Model.ComissionInEntry", "Comission").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Comission> ComissionReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Comission>("OnlinePriem2012Model.ComissionInEntry", "Comission");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Comission>("OnlinePriem2012Model.ComissionInEntry", "Comission", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry__Entry", "ObrazProgramInEntry")]
-        public EntityCollection<ObrazProgramInEntry> ObrazProgramInEntry
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ObrazProgramInEntry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "ObrazProgramInEntry");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ObrazProgramInEntry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "ObrazProgramInEntry", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_Comission", "Comission")]
-        public Comission Comission1
+        public Comission Comission
         {
             get
             {
@@ -9407,7 +9286,7 @@ namespace OnlineAbit2013
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<Comission> Comission1Reference
+        public EntityReference<Comission> ComissionReference
         {
             get
             {
@@ -9418,6 +9297,44 @@ namespace OnlineAbit2013
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Comission>("OnlinePriem2012Model.FK__Entry_Comission", "Comission", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_Semester", "Semester")]
+        public Semester Semester
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Semester>("OnlinePriem2012Model.FK__Entry_Semester", "Semester").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Semester>("OnlinePriem2012Model.FK__Entry_Semester", "Semester").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Semester> SemesterReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Semester>("OnlinePriem2012Model.FK__Entry_Semester", "Semester");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Semester>("OnlinePriem2012Model.FK__Entry_Semester", "Semester", value);
                 }
             }
         }
@@ -9573,6 +9490,50 @@ namespace OnlineAbit2013
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_Application__Entry", "Application")]
+        public EntityCollection<Application> Application
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Application>("OnlinePriem2012Model.FK_Application__Entry", "Application");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Application>("OnlinePriem2012Model.FK_Application__Entry", "Application", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry__Entry", "ObrazProgramInEntry")]
+        public EntityCollection<ObrazProgramInEntry> ObrazProgramInEntry
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ObrazProgramInEntry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "ObrazProgramInEntry");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ObrazProgramInEntry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "ObrazProgramInEntry", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -9693,30 +9654,8 @@ namespace OnlineAbit2013
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "ComissionInEntry", "C_Entry")]
-        public EntityCollection<C_Entry> C_Entry
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<C_Entry>("OnlinePriem2012Model.ComissionInEntry", "C_Entry");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<C_Entry>("OnlinePriem2012Model.ComissionInEntry", "C_Entry", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_Comission", "C_Entry")]
-        public EntityCollection<C_Entry> C_Entry1
+        public EntityCollection<C_Entry> C_Entry
         {
             get
             {
@@ -10762,7 +10701,6 @@ namespace OnlineAbit2013
         /// <param name="semesterId">Initial value of the SemesterId property.</param>
         /// <param name="licenseProgramId">Initial value of the LicenseProgramId property.</param>
         /// <param name="obrazProgramId">Initial value of the ObrazProgramId property.</param>
-        /// <param name="profileName">Initial value of the ProfileName property.</param>
         /// <param name="studyBasisId">Initial value of the StudyBasisId property.</param>
         /// <param name="studyFormId">Initial value of the StudyFormId property.</param>
         /// <param name="studyLevelId">Initial value of the StudyLevelId property.</param>
@@ -10780,14 +10718,13 @@ namespace OnlineAbit2013
         /// <param name="licenseProgramName">Initial value of the LicenseProgramName property.</param>
         /// <param name="obrazProgramCrypt">Initial value of the ObrazProgramCrypt property.</param>
         /// <param name="studyLevelGroupId">Initial value of the StudyLevelGroupId property.</param>
-        public static Entry CreateEntry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.String profileName, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Int32 profileId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.String obrazProgramName, global::System.String number, global::System.String licenseProgramName, global::System.String obrazProgramCrypt, global::System.Int32 studyLevelGroupId)
+        public static Entry CreateEntry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Int32 profileId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.String obrazProgramName, global::System.String number, global::System.String licenseProgramName, global::System.String obrazProgramCrypt, global::System.Int32 studyLevelGroupId)
         {
             Entry entry = new Entry();
             entry.Id = id;
             entry.SemesterId = semesterId;
             entry.LicenseProgramId = licenseProgramId;
             entry.ObrazProgramId = obrazProgramId;
-            entry.ProfileName = profileName;
             entry.StudyBasisId = studyBasisId;
             entry.StudyFormId = studyFormId;
             entry.StudyLevelId = studyLevelId;
@@ -10995,7 +10932,7 @@ namespace OnlineAbit2013
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String ProfileName
         {
@@ -11005,14 +10942,11 @@ namespace OnlineAbit2013
             }
             set
             {
-                if (_ProfileName != value)
-                {
-                    OnProfileNameChanging(value);
-                    ReportPropertyChanging("ProfileName");
-                    _ProfileName = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("ProfileName");
-                    OnProfileNameChanged();
-                }
+                OnProfileNameChanging(value);
+                ReportPropertyChanging("ProfileName");
+                _ProfileName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ProfileName");
+                OnProfileNameChanged();
             }
         }
         private global::System.String _ProfileName;
@@ -11127,7 +11061,7 @@ namespace OnlineAbit2013
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 ProfileId
         {
@@ -11137,11 +11071,14 @@ namespace OnlineAbit2013
             }
             set
             {
-                OnProfileIdChanging(value);
-                ReportPropertyChanging("ProfileId");
-                _ProfileId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ProfileId");
-                OnProfileIdChanged();
+                if (_ProfileId != value)
+                {
+                    OnProfileIdChanging(value);
+                    ReportPropertyChanging("ProfileId");
+                    _ProfileId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ProfileId");
+                    OnProfileIdChanged();
+                }
             }
         }
         private global::System.Int32 _ProfileId;
@@ -12789,44 +12726,6 @@ namespace OnlineAbit2013
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry__Entry", "C_Entry")]
-        public C_Entry C_Entry
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "C_Entry").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "C_Entry").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<C_Entry> C_EntryReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "C_Entry");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<C_Entry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "C_Entry", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry_SP_ObrazProgram", "SP_ObrazProgram")]
         public SP_ObrazProgram SP_ObrazProgram
         {
@@ -12921,6 +12820,44 @@ namespace OnlineAbit2013
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ApplicationVersionDetails>("OnlinePriem2012Model.FK_ApplicationVersionDetails_ObrazProgramInEntry", "ApplicationVersionDetails", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry__Entry", "C_Entry")]
+        public C_Entry C_Entry
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "C_Entry").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "C_Entry").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<C_Entry> C_EntryReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<C_Entry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "C_Entry");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<C_Entry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "C_Entry", value);
                 }
             }
         }
@@ -22633,18 +22570,18 @@ namespace OnlineAbit2013
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_Entry_Semester", "C_Entry")]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_Semester", "C_Entry")]
         public EntityCollection<C_Entry> C_Entry
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<C_Entry>("OnlinePriem2012Model.FK_Entry_Semester", "C_Entry");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_Semester", "C_Entry");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<C_Entry>("OnlinePriem2012Model.FK_Entry_Semester", "C_Entry", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_Semester", "C_Entry", value);
                 }
             }
         }
@@ -23241,28 +23178,6 @@ namespace OnlineAbit2013
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_SP_LicenseProgram", "C_Entry")]
-        public EntityCollection<C_Entry> C_Entry
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_LicenseProgram", "C_Entry");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_LicenseProgram", "C_Entry", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_SP_LicenseProgram", "PersonCurrentEducation")]
         public EntityCollection<PersonCurrentEducation> PersonCurrentEducation
         {
@@ -23335,6 +23250,28 @@ namespace OnlineAbit2013
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SP_ObrazProgram>("OnlinePriem2012Model.FK_SP_ObrazProgram_SP_LicenseProgram", "SP_ObrazProgram", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_SP_LicenseProgram", "C_Entry")]
+        public EntityCollection<C_Entry> C_Entry
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_LicenseProgram", "C_Entry");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_LicenseProgram", "C_Entry", value);
                 }
             }
         }
@@ -23658,28 +23595,6 @@ namespace OnlineAbit2013
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_SP_ObrazProgram", "C_Entry")]
-        public EntityCollection<C_Entry> C_Entry
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_ObrazProgram", "C_Entry");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_ObrazProgram", "C_Entry", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_SP_ObrazProgram", "PersonCurrentEducation")]
         public EntityCollection<PersonCurrentEducation> PersonCurrentEducation
         {
@@ -23730,6 +23645,28 @@ namespace OnlineAbit2013
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<SP_LicenseProgram>("OnlinePriem2012Model.FK_SP_ObrazProgram_SP_LicenseProgram", "SP_LicenseProgram", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_SP_ObrazProgram", "C_Entry")]
+        public EntityCollection<C_Entry> C_Entry
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_ObrazProgram", "C_Entry");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_ObrazProgram", "C_Entry", value);
                 }
             }
         }
@@ -24130,28 +24067,6 @@ namespace OnlineAbit2013
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_SP_StudyLevel", "C_Entry")]
-        public EntityCollection<C_Entry> C_Entry
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_StudyLevel", "C_Entry");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_StudyLevel", "C_Entry", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_SP_StudyLevel", "PersonCurrentEducation")]
         public EntityCollection<PersonCurrentEducation> PersonCurrentEducation
         {
@@ -24186,6 +24101,28 @@ namespace OnlineAbit2013
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SP_LicenseProgram>("OnlinePriem2012Model.FK_SP_LicenseProgram_SP_StudyLevel", "SP_LicenseProgram", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_SP_StudyLevel", "C_Entry")]
+        public EntityCollection<C_Entry> C_Entry
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_StudyLevel", "C_Entry");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_StudyLevel", "C_Entry", value);
                 }
             }
         }

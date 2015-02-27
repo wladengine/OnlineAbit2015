@@ -27,7 +27,6 @@
           <EntitySet Name="ApplicationVersion" EntityType="OnlinePriem2012Model.Store.ApplicationVersion" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ApplicationVersionDetails" EntityType="OnlinePriem2012Model.Store.ApplicationVersionDetails" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Comission" EntityType="OnlinePriem2012Model.Store.Comission" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ComissionInEntry" EntityType="OnlinePriem2012Model.Store.ComissionInEntry" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Country" EntityType="OnlinePriem2012Model.Store.Country" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EgeCertificate" EntityType="OnlinePriem2012Model.Store.EgeCertificate" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EgeExam" EntityType="OnlinePriem2012Model.Store.EgeExam" store:Type="Tables" Schema="dbo" />
@@ -310,14 +309,6 @@
           <AssociationSet Name="FK_ApplicationFile_ApplicationCommit" Association="OnlinePriem2012Model.Store.FK_ApplicationFile_ApplicationCommit">
             <End Role="ApplicationCommit" EntitySet="ApplicationCommit" />
             <End Role="ApplicationFile" EntitySet="ApplicationFile" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ComissionInEntry__Entry" Association="OnlinePriem2012Model.Store.FK_ComissionInEntry__Entry">
-            <End Role="_Entry" EntitySet="_Entry" />
-            <End Role="ComissionInEntry" EntitySet="ComissionInEntry" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ComissionInEntry_Comission" Association="OnlinePriem2012Model.Store.FK_ComissionInEntry_Comission">
-            <End Role="Comission" EntitySet="Comission" />
-            <End Role="ComissionInEntry" EntitySet="ComissionInEntry" />
           </AssociationSet>
           <AssociationSet Name="FK_Country_Region" Association="OnlinePriem2012Model.Store.FK_Country_Region">
             <End Role="Region" EntitySet="Region" />
@@ -645,7 +636,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="AG_ManualExamInAG_Entry">
@@ -779,7 +770,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ApplicationVersionId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ObrazProgramInEntryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ObrazProgramInEntryPriority" Type="int" Nullable="false" />
@@ -794,18 +785,11 @@
           <Property Name="Address" Type="nvarchar" Nullable="false" MaxLength="350" />
           <Property Name="YaMapCoord" Type="nvarchar" Nullable="false" MaxLength="150" />
         </EntityType>
-        <EntityType Name="ComissionInEntry">
-          <Key>
-            <PropertyRef Name="EntryId" />
-          </Key>
-          <Property Name="EntryId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ComissionId" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="100" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
           <Property Name="RegionId" Type="int" Nullable="false" />
@@ -897,7 +881,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" />
           <Property Name="Number" Type="int" />
           <Property Name="IsOpen" Type="bit" Nullable="false" />
@@ -907,7 +891,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="100" />
         </EntityType>
@@ -1216,7 +1200,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IntValue" Type="int" Nullable="false" />
         </EntityType>
@@ -1331,8 +1315,8 @@
           <Property Name="FullName" Type="nvarchar" MaxLength="150" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-      предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.Abiturient" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Abiturient">
           <Key>
@@ -1428,8 +1412,8 @@
           <Property Name="IsCommonRussianCompetition" Type="bit" Nullable="false" />
           <Property Name="IsPrinted" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-      предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.Entry" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'OnlinePriem2015.dbo.Entry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Entry">
           <Key>
@@ -1440,11 +1424,7 @@
             <PropertyRef Name="StudyBasisId" />
             <PropertyRef Name="StudyFormId" />
             <PropertyRef Name="StudyLevelId" />
-<<<<<<< HEAD
-            
-=======
             <PropertyRef Name="ProfileId" />
->>>>>>> origin/master
             <PropertyRef Name="IsSecond" />
             <PropertyRef Name="IsReduced" />
             <PropertyRef Name="IsParallel" />
@@ -1457,7 +1437,6 @@
             <PropertyRef Name="Number" />
             <PropertyRef Name="LicenseProgramName" />
             <PropertyRef Name="StudyLevelGroupId" />
-            <PropertyRef Name="ProfileName" />
             <PropertyRef Name="ObrazProgramCrypt" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
@@ -1467,11 +1446,7 @@
           <Property Name="FacultyId" Type="int" />
           <Property Name="LicenseProgramId" Type="int" Nullable="false" />
           <Property Name="ObrazProgramId" Type="int" Nullable="false" />
-<<<<<<< HEAD
-          <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" Nullable="false" />
-=======
           <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" />
->>>>>>> origin/master
           <Property Name="ProfileNameEng" Type="nvarchar" MaxLength="1000" />
           <Property Name="StudyBasisId" Type="int" Nullable="false" />
           <Property Name="StudyFormId" Type="int" Nullable="false" />
@@ -1512,8 +1487,8 @@
           <Property Name="Address" Type="nvarchar" MaxLength="350" />
           <Property Name="LicenseProgramNewCode" Type="nvarchar" MaxLength="10" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-      предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.extApplicationDetails" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'OnlinePriem2015.dbo.extApplicationDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="extApplicationDetails">
           <Key>
@@ -1536,8 +1511,8 @@
           <Property Name="CurrDate" Type="datetime" />
           <Property Name="ObrazProgramCrypt" Type="nvarchar" Nullable="false" MaxLength="53" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-      предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.extDefaultEntryDetails" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'OnlinePriem2015.dbo.extDefaultEntryDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="extDefaultEntryDetails">
           <Key>
@@ -1551,8 +1526,8 @@
           <Property Name="ProfileInObrazProgramInEntryId" Type="uniqueidentifier" />
           <Property Name="ProfileInObrazProgramInEntryDefaultPriorityValue" Type="int" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-      предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLetter" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLetter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="qAbitFiles_OnlyEssayMotivLetter">
           <Key>
@@ -1836,30 +1811,6 @@
             </Principal>
             <Dependent Role="ApplicationFile">
               <PropertyRef Name="CommitId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ComissionInEntry__Entry">
-          <End Role="_Entry" Type="OnlinePriem2012Model.Store._Entry" Multiplicity="1" />
-          <End Role="ComissionInEntry" Type="OnlinePriem2012Model.Store.ComissionInEntry" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="_Entry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ComissionInEntry">
-              <PropertyRef Name="EntryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ComissionInEntry_Comission">
-          <End Role="Comission" Type="OnlinePriem2012Model.Store.Comission" Multiplicity="1" />
-          <End Role="ComissionInEntry" Type="OnlinePriem2012Model.Store.ComissionInEntry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Comission">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ComissionInEntry">
-              <PropertyRef Name="ComissionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3067,10 +3018,6 @@
             <End Role="C_Entry" EntitySet="C_Entry" />
             <End Role="ObrazProgramInEntry" EntitySet="ObrazProgramInEntry" />
           </AssociationSet>
-          <AssociationSet Name="ComissionInEntry" Association="OnlinePriem2012Model.ComissionInEntry">
-            <End Role="C_Entry" EntitySet="C_Entry" />
-            <End Role="Comission" EntitySet="Comission" />
-          </AssociationSet>
           <EntitySet Name="Entry" EntityType="OnlinePriem2012Model.Entry" />
           </EntityContainer>
         <EntityType Name="PassportType">
@@ -4234,7 +4181,6 @@
           <Property Type="String" Name="Address" MaxLength="350" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Type="String" Name="YaMapCoord" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="C_Entry" Relationship="OnlinePriem2012Model.FK__Entry_Comission" FromRole="Comission" ToRole="C_Entry" />
-          <NavigationProperty Name="C_Entry1" Relationship="OnlinePriem2012Model.ComissionInEntry" FromRole="Comission" ToRole="C_Entry" />
           </EntityType>
         <EntityType Name="ApplicationFile">
           <Key>
@@ -4257,79 +4203,6 @@
           <NavigationProperty Name="Application" Relationship="OnlinePriem2012Model.FK_ApplicationFile_Application" FromRole="ApplicationFile" ToRole="Application" />
           <NavigationProperty Name="ApplicationCommit" Relationship="OnlinePriem2012Model.FK_ApplicationFile_ApplicationCommit" FromRole="ApplicationFile" ToRole="ApplicationCommit" />
         </EntityType>
-<<<<<<< HEAD
-        <EntityType Name="C_Entry">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="SemesterId" Nullable="false" />
-          <Property Type="Guid" Name="StudyPlanId" />
-          <Property Type="String" Name="StudyPlanNumber" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="FacultyId" />
-          <Property Type="Int32" Name="LicenseProgramId" Nullable="false" />
-          <Property Type="Int32" Name="ObrazProgramId" Nullable="false" />
-          <Property Type="Int32" Name="StudyBasisId" Nullable="false" />
-          <Property Type="Int32" Name="StudyFormId" Nullable="false" />
-          <Property Type="Int32" Name="StudyLevelId" Nullable="false" />
-          <Property Type="Int32" Name="ProfileId" Nullable="false" />
-          <Property Type="Boolean" Name="IsSecond" Nullable="false" />
-          <Property Type="Boolean" Name="IsReduced" Nullable="false" />
-          <Property Type="Boolean" Name="IsParallel" Nullable="false" />
-          <Property Type="Boolean" Name="IsExpress" Nullable="false" />
-          <Property Type="Boolean" Name="IsElectronic" Nullable="false" />
-          <Property Type="Boolean" Name="IsDistance" Nullable="false" />
-          <Property Type="Int32" Name="CampaignYear" Nullable="false" />
-          <Property Type="Int32" Name="QualificationId" />
-          <Property Type="Int32" Name="ProgramModeId" />
-          <Property Type="DateTime" Name="DateOfClose" Precision="3" />
-          <Property Type="DateTime" Name="DateOfStart" Precision="3" />
-          <Property Type="DateTime" Name="DateOfClose_Foreign" Precision="3" />
-          <Property Type="DateTime" Name="DateOfStart_Foreign" Precision="3" />
-          <Property Type="DateTime" Name="DateOfClose_GosLine" Precision="3" />
-          <Property Type="DateTime" Name="DateOfStart_GosLine" Precision="3" />
-          <Property Type="Boolean" Name="IsUsedForPriem" Nullable="false" />
-          <NavigationProperty Name="Application" Relationship="OnlinePriem2012Model.FK_Application_Entry" FromRole="C_Entry" ToRole="Application" />
-          <NavigationProperty Name="Semester" Relationship="OnlinePriem2012Model.FK_Entry_Semester" FromRole="C_Entry" ToRole="Semester" />
-          <NavigationProperty Name="Comission" Relationship="OnlinePriem2012Model.ComissionInEntry" FromRole="C_Entry" ToRole="Comission" />
-          <Property Type="Int32" Name="ComissionId" />
-          <NavigationProperty Name="ObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" FromRole="C_Entry" ToRole="ObrazProgramInEntry" />
-          <NavigationProperty Name="Comission1" Relationship="OnlinePriem2012Model.FK__Entry_Comission" FromRole="C_Entry" ToRole="Comission" />
-          <NavigationProperty Name="SP_Faculty" Relationship="OnlinePriem2012Model.FK__Entry_SP_Faculty" FromRole="C_Entry" ToRole="SP_Faculty" />
-          <NavigationProperty Name="SP_LicenseProgram" Relationship="OnlinePriem2012Model.FK__Entry_SP_LicenseProgram" FromRole="C_Entry" ToRole="SP_LicenseProgram" />
-          <NavigationProperty Name="SP_ObrazProgram" Relationship="OnlinePriem2012Model.FK__Entry_SP_ObrazProgram" FromRole="C_Entry" ToRole="SP_ObrazProgram" />
-          <NavigationProperty Name="SP_StudyLevel" Relationship="OnlinePriem2012Model.FK__Entry_SP_StudyLevel" FromRole="C_Entry" ToRole="SP_StudyLevel" />
-        </EntityType>
-        <Association Name="FK_Application_Entry">
-          <End Type="OnlinePriem2012Model.C_Entry" Role="C_Entry" Multiplicity="1" />
-          <End Type="OnlinePriem2012Model.Application" Role="Application" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="C_Entry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Application">
-              <PropertyRef Name="EntryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Entry_Semester">
-          <End Type="OnlinePriem2012Model.Semester" Role="Semester" Multiplicity="1" />
-          <End Type="OnlinePriem2012Model.C_Entry" Role="C_Entry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Semester">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="C_Entry">
-              <PropertyRef Name="SemesterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ComissionInEntry">
-          <End Type="OnlinePriem2012Model.Comission" Role="Comission" Multiplicity="0..1" />
-          <End Type="OnlinePriem2012Model.C_Entry" Role="C_Entry" Multiplicity="*" />
-        </Association>
-=======
->>>>>>> origin/master
         <EntityType Name="ObrazProgramInEntry">
           <Key>
             <PropertyRef Name="Id" />
@@ -4944,81 +4817,6 @@
         <EntityType Name="extApplicationDetails">
           <Key>
             <PropertyRef Name="Id" />
-<<<<<<< HEAD
-            <PropertyRef Name="SemesterId" />
-            <PropertyRef Name="LicenseProgramId" />
-            <PropertyRef Name="ObrazProgramId" />
-            <PropertyRef Name="ProfileName" />
-            <PropertyRef Name="StudyBasisId" />
-            <PropertyRef Name="StudyFormId" />
-            <PropertyRef Name="StudyLevelId" />
-            <PropertyRef Name="IsSecond" />
-            <PropertyRef Name="IsReduced" />
-            <PropertyRef Name="IsParallel" />
-            <PropertyRef Name="IsExpress" />
-            <PropertyRef Name="IsElectronic" />
-            <PropertyRef Name="IsDistance" />
-            <PropertyRef Name="CampaignYear" />
-            <PropertyRef Name="IsUsedForPriem" />
-            <PropertyRef Name="ObrazProgramName" />
-            <PropertyRef Name="Number" />
-            <PropertyRef Name="LicenseProgramName" />
-            <PropertyRef Name="ObrazProgramCrypt" />
-            <PropertyRef Name="StudyLevelGroupId" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="SemesterId" Nullable="false" />
-          <Property Type="Guid" Name="StudyPlanId" />
-          <Property Type="String" Name="StudyPlanNumber" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="FacultyId" />
-          <Property Type="Int32" Name="LicenseProgramId" Nullable="false" />
-          <Property Type="Int32" Name="ObrazProgramId" Nullable="false" />
-          <Property Type="String" Name="ProfileName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ProfileNameEng" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="StudyBasisId" Nullable="false" />
-          <Property Type="Int32" Name="StudyFormId" Nullable="false" />
-          <Property Type="Int32" Name="StudyLevelId" Nullable="false" />
-          <Property Type="Int32" Name="ProfileId" Nullable="false" />
-          <Property Type="Boolean" Name="IsSecond" Nullable="false" />
-          <Property Type="Boolean" Name="IsReduced" Nullable="false" />
-          <Property Type="Boolean" Name="IsParallel" Nullable="false" />
-          <Property Type="Boolean" Name="IsExpress" Nullable="false" />
-          <Property Type="Boolean" Name="IsElectronic" Nullable="false" />
-          <Property Type="Boolean" Name="IsDistance" Nullable="false" />
-          <Property Type="Int32" Name="CampaignYear" Nullable="false" />
-          <Property Type="DateTime" Name="DateOfClose" Precision="3" />
-          <Property Type="DateTime" Name="DateOfStart" Precision="3" />
-          <Property Type="DateTime" Name="DateOfClose_Foreign" Precision="3" />
-          <Property Type="DateTime" Name="DateOfStart_Foreign" Precision="3" />
-          <Property Type="DateTime" Name="DateOfClose_GosLine" Precision="3" />
-          <Property Type="DateTime" Name="DateOfStart_GosLine" Precision="3" />
-          <Property Type="Boolean" Name="IsUsedForPriem" Nullable="false" />
-          <Property Type="String" Name="ObrazProgramName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ObrazProgramNameEng" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="StudyLevelName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="FacultyName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LicenseProgramName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LicenseProgramNameEng" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LicenseProgramCode" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="StudyFormName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="StudyBasisName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="84" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="StudyBasisNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="StudyFormNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="StudyLevelGroupId" Nullable="false" />
-          <Property Type="String" Name="StudyLevelGroupNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="StudyLevelGroupNameRus" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="StudyLevelNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ComissionId" />
-          <Property Type="String" Name="Address" MaxLength="350" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LicenseProgramNewCode" MaxLength="10" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="extApplicationDetails">
-          <Key>
-            <PropertyRef Name="Id" />
-=======
->>>>>>> origin/master
             <PropertyRef Name="ApplicationId" />
             <PropertyRef Name="ObrazProgramInEntryId" />
             <PropertyRef Name="ObrazProgramName" />
@@ -5249,12 +5047,12 @@
           <Property Type="Int32" Name="CampaignYear" Nullable="false" />
           <Property Type="Int32" Name="QualificationId" />
           <Property Type="Int32" Name="ProgramModeId" />
-          <Property Type="DateTime" Name="DateOfClose" />
-          <Property Type="DateTime" Name="DateOfStart" />
-          <Property Type="DateTime" Name="DateOfClose_Foreign" />
-          <Property Type="DateTime" Name="DateOfStart_Foreign" />
-          <Property Type="DateTime" Name="DateOfClose_GosLine" />
-          <Property Type="DateTime" Name="DateOfStart_GosLine" />
+          <Property Type="DateTime" Name="DateOfClose" Precision="3" />
+          <Property Type="DateTime" Name="DateOfStart" Precision="3" />
+          <Property Type="DateTime" Name="DateOfClose_Foreign" Precision="3" />
+          <Property Type="DateTime" Name="DateOfStart_Foreign" Precision="3" />
+          <Property Type="DateTime" Name="DateOfClose_GosLine" Precision="3" />
+          <Property Type="DateTime" Name="DateOfStart_GosLine" Precision="3" />
           <Property Type="Boolean" Name="IsUsedForPriem" Nullable="false" />
           <Property Type="Int32" Name="ComissionId" />
           <NavigationProperty Name="Comission" Relationship="OnlinePriem2012Model.FK__Entry_Comission" FromRole="C_Entry" ToRole="Comission" />
@@ -5265,7 +5063,6 @@
           <NavigationProperty Name="SP_StudyLevel" Relationship="OnlinePriem2012Model.FK__Entry_SP_StudyLevel" FromRole="C_Entry" ToRole="SP_StudyLevel" />
           <NavigationProperty Name="Application" Relationship="OnlinePriem2012Model.FK_Application__Entry" FromRole="C_Entry" ToRole="Application" />
           <NavigationProperty Name="ObrazProgramInEntry" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" FromRole="C_Entry" ToRole="ObrazProgramInEntry" />
-          <NavigationProperty Name="Comission1" Relationship="OnlinePriem2012Model.ComissionInEntry" FromRole="C_Entry" ToRole="Comission" />
         </EntityType>
         <Association Name="FK__Entry_Comission">
           <End Type="OnlinePriem2012Model.Comission" Role="Comission" Multiplicity="0..1" />
@@ -5363,10 +5160,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="ComissionInEntry">
-          <End Type="OnlinePriem2012Model.C_Entry" Role="C_Entry" Multiplicity="*" />
-          <End Type="OnlinePriem2012Model.Comission" Role="Comission" Multiplicity="0..1" />
-        </Association>
         <EntityType Name="Entry">
           <Key>
             <PropertyRef Name="Id" />
@@ -5411,12 +5204,12 @@
           <Property Type="Boolean" Name="IsElectronic" Nullable="false" />
           <Property Type="Boolean" Name="IsDistance" Nullable="false" />
           <Property Type="Int32" Name="CampaignYear" Nullable="false" />
-          <Property Type="DateTime" Name="DateOfClose" />
-          <Property Type="DateTime" Name="DateOfStart" />
-          <Property Type="DateTime" Name="DateOfClose_Foreign" />
-          <Property Type="DateTime" Name="DateOfStart_Foreign" />
-          <Property Type="DateTime" Name="DateOfClose_GosLine" />
-          <Property Type="DateTime" Name="DateOfStart_GosLine" />
+          <Property Type="DateTime" Name="DateOfClose" Precision="3" />
+          <Property Type="DateTime" Name="DateOfStart" Precision="3" />
+          <Property Type="DateTime" Name="DateOfClose_Foreign" Precision="3" />
+          <Property Type="DateTime" Name="DateOfStart_Foreign" Precision="3" />
+          <Property Type="DateTime" Name="DateOfClose_GosLine" Precision="3" />
+          <Property Type="DateTime" Name="DateOfStart_GosLine" Precision="3" />
           <Property Type="Boolean" Name="IsUsedForPriem" Nullable="false" />
           <Property Type="String" Name="ObrazProgramName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ObrazProgramNameEng" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -5428,7 +5221,7 @@
           <Property Type="String" Name="LicenseProgramCode" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyFormName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyBasisName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="53" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="84" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyBasisNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyFormNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="StudyLevelGroupId" Nullable="false" />
@@ -6073,52 +5866,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-<<<<<<< HEAD
-          <EntitySetMapping Name="C_Entry">
-            <EntityTypeMapping TypeName="OnlinePriem2012Model.C_Entry">
-              <MappingFragment StoreEntitySet="_Entry">
-                <ScalarProperty Name="ComissionId" ColumnName="ComissionId" />
-                <ScalarProperty Name="IsUsedForPriem" ColumnName="IsUsedForPriem" />
-                <ScalarProperty Name="DateOfStart_GosLine" ColumnName="DateOfStart_GosLine" />
-                <ScalarProperty Name="DateOfClose_GosLine" ColumnName="DateOfClose_GosLine" />
-                <ScalarProperty Name="DateOfStart_Foreign" ColumnName="DateOfStart_Foreign" />
-                <ScalarProperty Name="DateOfClose_Foreign" ColumnName="DateOfClose_Foreign" />
-                <ScalarProperty Name="DateOfStart" ColumnName="DateOfStart" />
-                <ScalarProperty Name="DateOfClose" ColumnName="DateOfClose" />
-                <ScalarProperty Name="ProgramModeId" ColumnName="ProgramModeId" />
-                <ScalarProperty Name="QualificationId" ColumnName="QualificationId" />
-                <ScalarProperty Name="CampaignYear" ColumnName="CampaignYear" />
-                <ScalarProperty Name="IsDistance" ColumnName="IsDistance" />
-                <ScalarProperty Name="IsElectronic" ColumnName="IsElectronic" />
-                <ScalarProperty Name="IsExpress" ColumnName="IsExpress" />
-                <ScalarProperty Name="IsParallel" ColumnName="IsParallel" />
-                <ScalarProperty Name="IsReduced" ColumnName="IsReduced" />
-                <ScalarProperty Name="IsSecond" ColumnName="IsSecond" />
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-                <ScalarProperty Name="StudyLevelId" ColumnName="StudyLevelId" />
-                <ScalarProperty Name="StudyFormId" ColumnName="StudyFormId" />
-                <ScalarProperty Name="StudyBasisId" ColumnName="StudyBasisId" />
-                <ScalarProperty Name="ObrazProgramId" ColumnName="ObrazProgramId" />
-                <ScalarProperty Name="LicenseProgramId" ColumnName="LicenseProgramId" />
-                <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
-                <ScalarProperty Name="StudyPlanNumber" ColumnName="StudyPlanNumber" />
-                <ScalarProperty Name="StudyPlanId" ColumnName="StudyPlanId" />
-                <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="ComissionInEntry" TypeName="OnlinePriem2012Model.ComissionInEntry" StoreEntitySet="ComissionInEntry">
-            <EndProperty Name="C_Entry">
-              <ScalarProperty Name="Id" ColumnName="EntryId" />
-            </EndProperty>
-            <EndProperty Name="Comission">
-              <ScalarProperty Name="Id" ColumnName="ComissionId" />
-            </EndProperty>
-            <Condition ColumnName="ComissionId" IsNull="false" />
-          </AssociationSetMapping>
-=======
->>>>>>> origin/master
           <EntitySetMapping Name="ObrazProgramInEntry">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.ObrazProgramInEntry">
               <MappingFragment StoreEntitySet="ObrazProgramInEntry">
@@ -6447,15 +6194,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="ComissionInEntry" TypeName="OnlinePriem2012Model.ComissionInEntry" StoreEntitySet="ComissionInEntry">
-            <EndProperty Name="Comission">
-              <ScalarProperty Name="Id" ColumnName="ComissionId" />
-            </EndProperty>
-            <EndProperty Name="C_Entry">
-              <ScalarProperty Name="Id" ColumnName="EntryId" />
-            </EndProperty>
-            <Condition ColumnName="ComissionId" IsNull="false" />
-          </AssociationSetMapping>
           <EntitySetMapping Name="Entry">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.Entry">
               <MappingFragment StoreEntitySet="Entry">
@@ -6530,20 +6268,20 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="OnlineAbit" ZoomLevel="62" >
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PassportType" Width="1.5" PointX="3" PointY="54.75" Height="1.7566536458333317" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonAddInfo" Width="1.5" PointX="7.5" PointY="52.125" Height="2.2496956380208317" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonCurrentEducation" Width="1.5" PointX="10.5" PointY="43.875" Height="3.0714322916666674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonScienceWork" Width="1.5" PointX="7.5" PointY="90.25" Height="1.5923063151041674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonWork" Width="1.5" PointX="7.5" PointY="93" Height="1.9210009765624996" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PassportType" Width="1.5" PointX="6" PointY="45" Height="1.7566536458333317" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonAddInfo" Width="1.5" PointX="16.5" PointY="37" Height="2.2496956380208317" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonCurrentEducation" Width="1.5" PointX="13.5" PointY="39.125" Height="3.0714322916666674" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonScienceWork" Width="1.5" PointX="10.5" PointY="88.25" Height="1.5923063151041674" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonWork" Width="1.5" PointX="10.5" PointY="91" Height="1.9210009765624996" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.Region" Width="1.5" PointX="0.75" PointY="36.5" Height="2.2496956380208317" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.User" Width="1.5" PointX="3" PointY="57.375" Height="2.7427376302083317" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AbiturientType" Width="1.5" PointX="3" PointY="47" Height="1.2636116536458317" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Application" Width="1.5" PointX="13.5" PointY="56.375" Height="3.5644742838541674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Semester" Width="1.5" PointX="8.25" PointY="62.125" Height="1.5923063151041674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_StudyLevel" Width="1.5" PointX="6" PointY="28.5" Height="1.4279589843750031" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonDisorderInfo" Width="1.5" PointX="7.5" PointY="96.125" Height="1.5923063151041674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonChangeStudyFormReason" Width="1.5" PointX="15.75" PointY="54.625" Height="1.4279589843749996" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonContacts" Width="1.5" PointX="5.25" PointY="42.375" Height="4.3862109375000031" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.User" Width="1.5" PointX="6" PointY="48" Height="2.7427376302083317" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.AbiturientType" Width="1.5" PointX="6" PointY="35.375" Height="1.2636116536458317" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.Application" Width="1.5" PointX="10.5" PointY="46.75" Height="3.5644742838541674" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.Semester" Width="1.5" PointX="11.25" PointY="54.875" Height="1.5923063151041674" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_StudyLevel" Width="1.5" PointX="9" PointY="27.75" Height="1.4279589843750031" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonDisorderInfo" Width="1.5" PointX="10.5" PointY="94.125" Height="1.5923063151041674" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonChangeStudyFormReason" Width="1.5" PointX="18.75" PointY="45" Height="1.4279589843749996" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonContacts" Width="1.5" PointX="5.25" PointY="38.625" Height="4.3862109375000031" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonContacts_Region" >
           <ConnectorPoint PointX="2.25" PointY="27.189392903645835" />
           <ConnectorPoint PointX="2.4479166666666665" PointY="27.189392903645835" />
@@ -6553,17 +6291,17 @@
           <ConnectorPoint PointX="3.625" PointY="27.189392903645835" />
           <ConnectorPoint PointX="3.625" PointY="27.875" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonHighEducationInfo" Width="1.5" PointX="13.5" PointY="52.25" Height="2.2496956380208388" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Country" Width="1.5" PointX="3" PointY="49.75" Height="2.2496956380208317" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonHighEducationInfo" Width="1.5" PointX="15.75" PointY="33.375" Height="2.2496956380208388" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.Country" Width="1.5" PointX="3" PointY="42.125" Height="2.2496956380208317" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonContacts_Country" >
           <ConnectorPoint PointX="7.5" PointY="11.78904296875" />
           <ConnectorPoint PointX="7.875" PointY="12.16404296875" />
           <ConnectorPoint PointX="7.875" PointY="20.44310546875" />
           <ConnectorPoint PointX="8.25" PointY="20.44310546875" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonVisaInfo" Width="1.5" PointX="10.5" PointY="55.5" Height="1.7566536458333388" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Language" Width="1.5" PointX="6" PointY="32.75" Height="1.427958984374996" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Person" Width="1.5" PointX="5.25" PointY="48.625" Height="6.1940315755208246" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonVisaInfo" Width="1.5" PointX="10.5" PointY="43" Height="1.7566536458333388" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.Language" Width="1.5" PointX="14.25" PointY="26.375" Height="1.427958984374996" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.Person" Width="1.5" PointX="8.25" PointY="39.125" Height="6.1940315755208246" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_Application_Person" >
           <ConnectorPoint PointX="6.1493740000000034" PointY="58.681946614583332" />
           <ConnectorPoint PointX="6.1493740000000034" PointY="59.5" />
@@ -6708,7 +6446,7 @@
           <ConnectorPoint PointX="10.270833333333334" PointY="46.06856952473958" />
           <ConnectorPoint PointX="10.5" PointY="46.06856952473958" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Qualification" Width="1.5" PointX="11.25" PointY="40.625" Height="1.5923063151041674" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.Qualification" Width="1.5" PointX="13.5" PointY="32.75" Height="1.5923063151041674" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonHighEducationInfo_Qualification" >
           <ConnectorPoint PointX="12.40625" PointY="42.605286458333332" />
           <ConnectorPoint PointX="12.40625" PointY="54.86729003906251" />
@@ -6718,8 +6456,8 @@
           <ConnectorPoint PointX="13.333333333333334" PointY="54.86729003906251" />
           <ConnectorPoint PointX="13.5" PointY="54.86729003906251" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonSchoolInfo" Width="1.5" PointX="10.5" PointY="52.5" Height="2.0853483072916674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SchoolExitClass" Width="1.5" PointX="6" PointY="39.25" Height="1.427958984374996" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonSchoolInfo" Width="1.5" PointX="16.5" PointY="47" Height="2.0853483072916674" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.SchoolExitClass" Width="1.5" PointX="8.25" PointY="32.125" Height="1.427958984374996" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonSchoolInfo_Person" >
           <ConnectorPoint PointX="6.75" PointY="52.845876464843748" />
           <ConnectorPoint PointX="7.25" PointY="52.845876464843748" />
@@ -6760,8 +6498,8 @@
           <ConnectorPoint PointX="7.40625" PointY="94.182444661458334" />
           <ConnectorPoint PointX="7.5" PointY="94.182444661458334" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonSportQualification" Width="1.5" PointX="10.5" PointY="58.5" Height="1.9210009765624996" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SportQualification" Width="1.5" PointX="8.25" PointY="33.625" Height="1.5923063151041674" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonSportQualification" Width="1.5" PointX="13.5" PointY="36" Height="1.9210009765624996" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.SportQualification" Width="1.5" PointX="11.25" PointY="33.125" Height="1.5923063151041674" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonSportQualification_Person" >
           <ConnectorPoint PointX="5.593748" PointY="58.681946614583332" />
           <ConnectorPoint PointX="5.593748" PointY="59.336293945312505" />
@@ -6803,13 +6541,13 @@
           <ConnectorPoint PointX="7.5" PointY="91.240143229166677" />
         </AssociationConnector>
         <AssociationConnector Association="OnlinePriem2012Model.FK_User_User" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.EgeCertificate" Width="1.5" PointX="7.5" PointY="87.125" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.EgeExam" Width="1.5" PointX="7.5" PointY="84.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.EgeMark" Width="1.5" PointX="9.75" PointY="87.125" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.EgeCertificate" Width="1.5" PointX="10.5" PointY="85.125" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.EgeExam" Width="1.5" PointX="10.5" PointY="82.5" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.EgeMark" Width="1.5" PointX="12.75" PointY="85.125" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_EgeMark_EgeCertificate" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_EgeMark_EgeExam" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.VuzAdditionalType" Width="1.5" PointX="6" PointY="36" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ReturnDocumentType" Width="1.5" PointX="5.25" PointY="59.75" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.VuzAdditionalType" Width="1.5" PointX="8.25" PointY="35.375" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ReturnDocumentType" Width="1.5" PointX="14.25" PointY="29.875" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonAddInfo_ReturnDocumentType" >
           <ConnectorPoint PointX="6.75" PointY="59.812306692307693" />
           <ConnectorPoint PointX="6.9410744349011209" PointY="59.621232257406568" />
@@ -6818,13 +6556,13 @@
           <ConnectorPoint PointX="7.1875" PointY="55.372179734374996" />
           <ConnectorPoint PointX="7.5" PointY="55.372179734374996" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympBook" Width="1.5" PointX="11.5" PointY="65" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Olympiads" Width="1.5" PointX="7.5" PointY="56.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympName" Width="1.5" PointX="5.25" PointY="68" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympSubject" Width="1.5" PointX="5.25" PointY="65.25" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympType" Width="1.5" PointX="5.25" PointY="62.375" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympValue" Width="1.5" PointX="5.25" PointY="71.125" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympLevel" Width="1.5" PointX="9.25" PointY="99.625" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympBook" Width="1.5" PointX="19.5" PointY="41.5" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.Olympiads" Width="1.5" PointX="13.5" PointY="45.25" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympName" Width="1.5" PointX="11.25" PointY="65.5" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympSubject" Width="1.5" PointX="11.25" PointY="23.875" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympType" Width="1.5" PointX="11.25" PointY="62.5" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympValue" Width="1.5" PointX="11.25" PointY="68.625" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympLevel" Width="1.5" PointX="17.25" PointY="31" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_OlympBook_OlympLevel" >
           <ConnectorPoint PointX="10.75" PointY="100.42284179687499" />
           <ConnectorPoint PointX="12.90625" PointY="100.42284179687499" />
@@ -6919,16 +6657,16 @@
           <ConnectorPoint PointX="7.458333333333333" PointY="57.37500025" />
           <ConnectorPoint PointX="7.5" PointY="57.37500025" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Application" Width="1.5" PointX="13.5" PointY="46.625" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Entry" Width="1.5" PointX="11.25" PointY="68.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_EntryClass" Width="1.5" PointX="9" PointY="65.375" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Application" Width="1.5" PointX="13.5" PointY="50" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Entry" Width="1.5" PointX="11.25" PointY="74.5" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_EntryClass" Width="1.5" PointX="9" PointY="71.375" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.AG_EntryGroup" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.AG_EntryInEntryGroup" Width="1.5" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_ManualExam" Width="1.5" PointX="11.25" PointY="62.125" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_ManualExamInAG_Entry" Width="1.5" PointX="13.5" PointY="69.125" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_ObrazProgram" Width="1.5" PointX="9" PointY="68.25" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Profile" Width="1.5" PointX="9" PointY="71" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Program" Width="1.5" PointX="9" PointY="73.625" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_ManualExam" Width="1.5" PointX="11.25" PointY="20.875" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_ManualExamInAG_Entry" Width="1.5" PointX="19.5" PointY="52.5" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_ObrazProgram" Width="1.5" PointX="9" PointY="74.25" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Profile" Width="1.5" PointX="9" PointY="77" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Program" Width="1.5" PointX="9" PointY="79.625" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_AG_Entry_AG_EntryClass" >
           <ConnectorPoint PointX="10.5" PointY="67.546433044471129" />
           <ConnectorPoint PointX="10.875" PointY="67.921433044471129" />
@@ -6967,18 +6705,18 @@
           <ConnectorPoint PointX="13.5" PointY="50.049907226562496" />
         </AssociationConnector>
         <EntityTypeShape EntityType="OnlinePriem2012Model.PersonFile" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonFileType" Width="1.5" PointX="0.75" PointY="2" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Comission" Width="1.5" PointX="8.75" PointY="81" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationFile" Width="1.5" PointX="15.75" PointY="58.625" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ObrazProgramInEntry" Width="1.5" PointX="16.5" PointY="68" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ProfileInObrazProgramInEntry" Width="1.5" PointX="16.5" PointY="64.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommit" Width="1.5" PointX="11.25" PointY="36.625" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommitVersion" Width="1.5" PointX="13.5" PointY="37.125" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonFileType" Width="1.5" PointX="0.75" PointY="1.875" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.Comission" Width="1.5" PointX="6" PointY="58.5" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationFile" Width="1.5" PointX="15.75" PointY="50" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ObrazProgramInEntry" Width="1.5" PointX="16.5" PointY="58.5" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ProfileInObrazProgramInEntry" Width="1.5" PointX="16.5" PointY="55" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommit" Width="1.5" PointX="8.25" PointY="50.25" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommitVersion" Width="1.5" PointX="10.5" PointY="17.75" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommitVersonDetails" Width="1.5" PointX="2.75" PointY="5.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_Faculty" Width="2" PointX="8.25" PointY="77.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_LicenseProgram" Width="1.5" PointX="8.25" PointY="27.625" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_ObrazProgram" Width="1.5" PointX="8.25" PointY="36.625" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_Profile" Width="1.5" PointX="14.25" PointY="64.625" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_Faculty" Width="2" PointX="5.5" PointY="55.25" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_LicenseProgram" Width="1.5" PointX="11.25" PointY="26.875" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_ObrazProgram" Width="1.5" PointX="11.25" PointY="58" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_Profile" Width="1.5" PointX="14.25" PointY="55.125" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram" >
           <ConnectorPoint PointX="8.54980553125" PointY="40.335999348958332" />
           <ConnectorPoint PointX="8.54980553125" PointY="51.625" />
@@ -7008,7 +6746,7 @@
           <ConnectorPoint PointX="16.333333333333332" PointY="65.903595377604177" />
           <ConnectorPoint PointX="16.5" PointY="65.903595377604177" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationDetails" Width="1.5" PointX="18.75" PointY="58.25" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationDetails" Width="1.5" PointX="18.75" PointY="48.75" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationDetails_Application" >
           <ConnectorPoint PointX="15" PointY="58.32031375" />
           <ConnectorPoint PointX="15.416666666666666" PointY="58.32031375" />
@@ -7038,8 +6776,8 @@
           <ConnectorPoint PointX="17.2187475" PointY="68" />
           <ConnectorPoint PointX="17.2187475" PointY="67.2494921875" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersion" Width="1.5" PointX="16.5" PointY="71.625" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersionDetails" Width="1.5" PointX="18.75" PointY="66.25" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersion" Width="1.5" PointX="16.5" PointY="62.125" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersionDetails" Width="1.5" PointX="18.75" PointY="56.75" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationVersionDetails_ApplicationVersion" >
           <ConnectorPoint PointX="10.875" PointY="22.990143229166669" />
           <ConnectorPoint PointX="10.683" PointY="22.990143229166669" />
@@ -7244,13 +6982,13 @@
           <ConnectorPoint PointX="9.7500000000000018" PointY="36.625" />
         </AssociationConnector>
         <EntityTypeShape EntityType="OnlinePriem2012Model.Abiturient" Width="1.5" PointX="5.75" PointY="3.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.extApplicationDetails" Width="1.5" PointX="0.75" PointY="8.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.extDefaultEntryDetails" Width="1.5" PointX="2.75" PointY="8.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.qAbitFiles_OnlyEssayMotivLetter" Width="1.5" PointX="9.75" PointY="0.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonOtherPassport" Width="1.5" PointX="4.5736488236923" PointY="4.9643353246917643" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.extApplicationDetails" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.extDefaultEntryDetails" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.qAbitFiles_OnlyEssayMotivLetter" Width="1.5" PointX="7.75" PointY="7.75" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonOtherPassport" Width="1.5" PointX="16.5" PointY="42.625" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonOtherPassport_PassportType" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonOtherPassport_Person" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonEducationDocument" Width="1.5" PointX="5.8389495955030206" PointY="21.862426499772084" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonEducationDocument" Width="1.5" PointX="10.5" PointY="36.125" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_Country" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_Person" />
         <AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_Region" />
@@ -7280,7 +7018,7 @@
           <ConnectorPoint PointX="14.25" PointY="51.875" />
           <ConnectorPoint PointX="14.25" PointY="52.25" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.C_Entry" Width="1.5" PointX="16" PointY="45.25" Height="8.1339322916666674" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.C_Entry" Width="1.5" PointX="2.125" PointY="54" Height="8.1339322916666674" />
         <AssociationConnector Association="OnlinePriem2012Model.FK__Entry_Comission" >
           <ConnectorPoint PointX="10.25" PointY="81.990143229166662" />
           <ConnectorPoint PointX="12.822916666666666" PointY="81.990143229166662" />
@@ -7391,20 +7129,7 @@
           <ConnectorPoint PointX="18.25" PointY="69.671497390624978" />
           <ConnectorPoint PointX="18" PointY="69.671497390624978" />
         </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.ComissionInEntry" >
-          <ConnectorPoint PointX="16.140622" PointY="53.383932291666667" />
-          <ConnectorPoint PointX="16.140622" PointY="54.375" />
-          <ConnectorPoint PointX="15.927083333333334" PointY="54.375" />
-          <ConnectorPoint PointX="15.760416666666666" PointY="54.375" />
-          <ConnectorPoint PointX="15.5" PointY="54.375" />
-          <ConnectorPoint PointX="15.5" PointY="64.25" />
-          <ConnectorPoint PointX="16.0625" PointY="64.25" />
-          <ConnectorPoint PointX="16.0625" PointY="81.463819614583329" />
-          <ConnectorPoint PointX="12.989583333333334" PointY="81.463819614583329" />
-          <ConnectorPoint PointX="12.822916666666666" PointY="81.463819614583329" />
-          <ConnectorPoint PointX="10.25" PointY="81.463819614583329" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Entry" Width="1.5" PointX="8" PointY="2.75" Height="10.056946614583325" />
+        <EntityTypeShape EntityType="OnlinePriem2012Model.Entry" Width="1.5" PointX="0.75" PointY="8.75" Height="10.056946614583325" />
         </Diagram>
     </Diagrams>
   </Designer>
