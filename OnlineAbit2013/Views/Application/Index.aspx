@@ -411,6 +411,9 @@
                 <div class="clearfix">
                     <input id="fileAttachment" type="file" name="File" />
                 </div><br />
+                <div style="width:300px; height:30px; overflow: hidden;">
+                    <%= Html.DropDownList("FileTypeId", Model.FileType)%>
+                </div>
                 <div class="clearfix">
                     <textarea id="fileComment" class="noresize" name="Comment" maxlength="1000" cols="80" rows="5"></textarea>
                 </div><br />

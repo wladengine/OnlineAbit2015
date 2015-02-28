@@ -616,7 +616,7 @@ namespace OnlineAbit2013.Models
         public string ComissionAddress { get; set; }
         public string ComissionYaCoord { get; set; }
 
-        public List<KeyValuePair<int, string>> FileType { get; set; }
+        public List<SelectListItem> FileType { get; set; }
     }
 
     public class ExtApplicationCommitModel : BaseModel
@@ -639,7 +639,8 @@ namespace OnlineAbit2013.Models
         public bool IsApproved { get; set; }
         public bool NotEnabled { get; set; }
 
-        public List<KeyValuePair<int, string>> FileType { get; set; }
+        public List<SelectListItem> FileType { get; set; }
+
     }
 
     //-------------------------------------------

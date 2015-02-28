@@ -325,13 +325,16 @@
        { %>
     <br />
     <div class="panel">
-    <h4><%=GetGlobalResourceObject("AddSharedFiles", "LoadedFiles")%></h4>
+    <h4><%=GetGlobalResourceObject("ApplicationInfo", "HeaderAddFile")%></h4>
     <hr />
     <form action="/Application/AddFile" method="post" enctype="multipart/form-data" class="form">
         <input type="hidden" name="id" value="<%= Model.Id.ToString("N") %>" />
         <div class="clearfix">
             <input id="fileAttachment" type="file" name="File" />
         </div><br />
+        <div style="width:300px; height:30px; overflow: hidden;">
+            <%= Html.DropDownList("FileTypeId", Model.FileType)%>
+        </div>
         <div class="clearfix">
             <textarea id="fileComment" class="noresize" name="Comment" maxlength="1000" cols="80" rows="5"></textarea>
         </div><br />

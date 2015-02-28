@@ -4324,20 +4324,32 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             }
 
             string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id=" + PersonFileTypeId);
+            string FileTypeName = Util.AbitDB.GetStringValue("select Name from dbo.PersonFileType where Id=" + PersonFileTypeId);
 
             if (!String.IsNullOrEmpty(FileNameTemplate))
             {
                 if (!String.IsNullOrEmpty(fileComment))
                     fileComment += " ";
                 fileComment += "(исходное название файла- " + fileName + ")";
-
-                int Count = 1;
+                if (FileTypeName.StartsWith("Эссе"))
+                    FileTypeName = "Эссе";
+                int Count = 0;
                 using (OnlinePriemEntities context = new OnlinePriemEntities())
                 {
                     var FileNameList = (from pf in context.PersonFile
                                         where pf.PersonId == PersonId && pf.PersonFileTypeId == PersonFileTypeId
-                                        select pf.FileName).ToList();
-
+                                        select pf.FileName)
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                           join app in context.Application on apf.ApplicationId equals app.Id
+                                           where app.PersonId == PersonId && apf.Comment.StartsWith(FileTypeName)
+                                           select apf.FileName))
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                       join app in context.Application on apf.CommitId equals app.CommitId
+                                       where app.PersonId == PersonId && apf.Comment.StartsWith(FileTypeName)
+                                       select apf.FileName)).ToList();
+                   
                     foreach (string name in FileNameList)
                     {
                         int tmp;
@@ -4423,19 +4435,31 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             }
 
             string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id=" + PersonFileTypeId);
+            string FileTypeName = Util.AbitDB.GetStringValue("select Name from dbo.PersonFileType where Id=" + PersonFileTypeId);
 
             if (!String.IsNullOrEmpty(FileNameTemplate))
             {
                 if (!String.IsNullOrEmpty(fileComment))
                     fileComment += " ";
                 fileComment += "(исходное название файла- " + fileName + ")";
-
-                int Count = 1;
+                if (FileTypeName.StartsWith("Эссе"))
+                    FileTypeName = "Эссе";
+                int Count = 0;
                 using (OnlinePriemEntities context = new OnlinePriemEntities())
                 {
                     var FileNameList = (from pf in context.PersonFile
                                         where pf.PersonId == PersonId && pf.PersonFileTypeId == PersonFileTypeId
-                                        select pf.FileName).ToList();
+                                        select pf.FileName)
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                           join app in context.Application on apf.ApplicationId equals app.Id
+                                           where app.PersonId == PersonId && apf.Comment.StartsWith(FileTypeName)
+                                           select apf.FileName))
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                       join app in context.Application on apf.CommitId equals app.CommitId
+                                       where app.PersonId == PersonId && apf.Comment.StartsWith(FileTypeName)
+                                       select apf.FileName)).ToList();
 
                     foreach (string name in FileNameList)
                     {

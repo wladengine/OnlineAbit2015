@@ -149,6 +149,7 @@ namespace OnlineAbit2013.Controllers
                     model.HasVersion = true;
                     model.VersionDate = AppVers.ToString();
                 }
+                model.FileType = Util.GetPersonFileTypeList();
                 return View(model);
             }
         }
@@ -313,7 +314,8 @@ namespace OnlineAbit2013.Controllers
                     Specialization = ApplicationEntity.Specialization,
                     StudyBasis = ApplicationEntity.StudyBasis,
                     StudyForm = ApplicationEntity.StudyForm,
-                    UILanguage = Util.GetCurrentThreadLanguage()
+                    UILanguage = Util.GetCurrentThreadLanguage(),
+                    FileType = Util.GetPersonFileTypeList()
                 };
 
                 return View(model);
@@ -337,6 +339,9 @@ namespace OnlineAbit2013.Controllers
 
             string fileName = Request.Files["File"].FileName;
             string fileComment = Request.Form["Comment"];
+
+            int PersonFileTypeId = Convert.ToInt32(Request.Form["FileTypeId"]);
+
             int fileSize = Convert.ToInt32(Request.Files["File"].InputStream.Length);
             byte[] fileData = new byte[fileSize];
             //читаем данные из ПОСТа
@@ -349,6 +354,51 @@ namespace OnlineAbit2013.Controllers
             catch
             {
                 fileext = "";
+            }
+            string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id=" + PersonFileTypeId);
+            string FileTypeName = Util.AbitDB.GetStringValue("select Name from dbo.PersonFileType where Id=" + PersonFileTypeId);
+
+            if (!String.IsNullOrEmpty(FileNameTemplate))
+            {
+                fileComment = FileTypeName + ": " + fileComment ;
+                fileComment += "(исходное название файла- " + fileName + ")";
+                if (FileTypeName.StartsWith("Эссе"))
+                    FileTypeName = "Эссе";
+                int Count = 0;
+                using (OnlinePriemEntities context = new OnlinePriemEntities())
+                {
+                    var FileNameList = (from pf in context.PersonFile
+                                        where pf.PersonId == PersonId && pf.PersonFileTypeId == PersonFileTypeId
+                                        select pf.FileName)
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                           join app in context.Application on apf.ApplicationId equals app.Id
+                                           where app.PersonId == PersonId && apf.Comment.StartsWith(FileTypeName)
+                                           select apf.FileName))
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                       join app in context.Application on apf.CommitId equals app.CommitId
+                                       where app.PersonId == PersonId && apf.Comment.StartsWith(FileTypeName)
+                                       select apf.FileName)).ToList();
+                    foreach (string name in FileNameList)
+                    {
+                        int tmp;
+                        if (name.Contains('.'))
+                        {
+                            if (int.TryParse(name.Substring(0, name.IndexOf('.')).Replace(FileNameTemplate, ""), out tmp))
+                            {
+                                if (Count < tmp)
+                                    Count = tmp;
+                            }
+                        }
+                        else if (int.TryParse(name.Replace(FileNameTemplate, ""), out tmp))
+                        {
+                            if (Count < tmp)
+                                Count = tmp;
+                        }
+                    }
+                }
+                fileName = FileNameTemplate + (Count + 1).ToString() + fileext;
             }
 
             try
@@ -394,6 +444,7 @@ namespace OnlineAbit2013.Controllers
 
             string fileName = Request.Files["File"].FileName;
             string fileComment = Request.Form["Comment"];
+            int PersonFileTypeId = Convert.ToInt32(Request.Form["FileTypeId"]);
             int fileSize = Convert.ToInt32(Request.Files["File"].InputStream.Length);
             byte[] fileData = new byte[fileSize];
             //читаем данные из ПОСТа
@@ -406,6 +457,54 @@ namespace OnlineAbit2013.Controllers
             catch
             {
                 fileext = "";
+            }
+            string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id=" + PersonFileTypeId);
+            string FileTypeName = Util.AbitDB.GetStringValue("select Name from dbo.PersonFileType where Id=" + PersonFileTypeId);
+
+            if (!String.IsNullOrEmpty(FileNameTemplate))
+            {
+                fileComment = FileTypeName + ": " + fileComment;
+                fileComment += "(исходное название файла- " + fileName + ")";
+
+                if (FileTypeName.StartsWith("Эссе"))
+                    FileTypeName = "Эссе";
+
+                int Count = 0;
+                using (OnlinePriemEntities context = new OnlinePriemEntities())
+                {
+                    var FileNameList = (from pf in context.PersonFile
+                                        where pf.PersonId == PersonId && pf.PersonFileTypeId == PersonFileTypeId
+                                        select pf.FileName)
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                           join app in context.Application on apf.ApplicationId equals app.Id
+                                           where app.PersonId == PersonId && apf.Comment.StartsWith(FileTypeName)
+                                           select apf.FileName))
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                       join app in context.Application on apf.CommitId equals app.CommitId
+                                       where app.PersonId == PersonId && apf.Comment.StartsWith(FileTypeName)
+                                       select apf.FileName)).ToList();
+
+                    foreach (string name in FileNameList)
+                    {
+                        int tmp;
+                        if (name.Contains('.'))
+                        {
+                            if (int.TryParse(name.Substring(0, name.IndexOf('.')).Replace(FileNameTemplate, ""), out tmp))
+                            {
+                                if (Count < tmp)
+                                    Count = tmp;
+                            }
+                        }
+                        else if (int.TryParse(name.Replace(FileNameTemplate, ""), out tmp))
+                        {
+                            if (Count < tmp)
+                                Count = tmp;
+                        }
+                    }
+                }
+                fileName = FileNameTemplate + (Count + 1).ToString() + fileext;
             }
 
             try
@@ -746,7 +845,6 @@ namespace OnlineAbit2013.Controllers
                 return Json(Resources.ServerMessages.EmptyFileError);
 
             string fileName = Request.Files["File"].FileName;
-            string fileComment = Request.Form["Comment"];
             int fileSize = Convert.ToInt32(Request.Files["File"].InputStream.Length);
             byte[] fileData = new byte[fileSize];
             //читаем данные из ПОСТа
@@ -760,6 +858,50 @@ namespace OnlineAbit2013.Controllers
             {
                 fileext = "";
             }
+
+            string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id=10");
+            string FileTypeName = Util.AbitDB.GetStringValue("select Name from dbo.PersonFileType where Id=10");
+
+            if (!String.IsNullOrEmpty(FileNameTemplate))
+            {
+                int Count = 0;
+                using (OnlinePriemEntities context = new OnlinePriemEntities())
+                {
+                    var FileNameList = (from pf in context.PersonFile
+                                        where pf.PersonId == PersonId && pf.PersonFileTypeId == 10
+                                        select pf.FileName)
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                           join app in context.Application on apf.ApplicationId equals app.Id
+                                         where app.PersonId == PersonId && (apf.Comment.StartsWith(FileTypeName) || (apf.Comment.StartsWith("Мотивационное письмо")))
+                                           select apf.FileName))
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                       join app in context.Application on apf.CommitId equals app.CommitId
+                                         where app.PersonId == PersonId && (apf.Comment.StartsWith(FileTypeName) || (apf.Comment.StartsWith("Мотивационное письмо")))
+                                       select apf.FileName)).ToList();
+
+                    foreach (string name in FileNameList)
+                    {
+                        int tmp;
+                        if (name.Contains('.'))
+                        {
+                            if (int.TryParse(name.Substring(0, name.IndexOf('.')).Replace(FileNameTemplate, ""), out tmp))
+                            {
+                                if (Count < tmp)
+                                    Count = tmp;
+                            }
+                        }
+                        else if (int.TryParse(name.Replace(FileNameTemplate, ""), out tmp))
+                        {
+                            if (Count < tmp)
+                                Count = tmp;
+                        }
+                    }
+                }
+                fileName = FileNameTemplate + (Count + 1).ToString() + fileext;
+            }
+
 
             try
             {
@@ -805,7 +947,6 @@ namespace OnlineAbit2013.Controllers
             if (fileName.IndexOf('\\') > 0 && fileName.LastIndexOf('\\') < fileName.Length)
                 fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
 
-            string fileComment = Request.Form["Comment"];
             int fileSize = Convert.ToInt32(Request.Files["File"].InputStream.Length);
             byte[] fileData = new byte[fileSize];
             //читаем данные из ПОСТа
@@ -818,6 +959,51 @@ namespace OnlineAbit2013.Controllers
             catch
             {
                 fileext = "";
+            }
+
+            string FileNameTemplate = Util.AbitDB.GetStringValue("select FileNameTemplate from dbo.PersonFileType where Id=6");
+            string FileTypeName = Util.AbitDB.GetStringValue("select Name from dbo.PersonFileType where Id=6");
+
+            if (!String.IsNullOrEmpty(FileNameTemplate))
+            {
+                if (FileTypeName.StartsWith("Эссе"))
+                    FileTypeName = "Эссе";
+                int Count = 0;
+                using (OnlinePriemEntities context = new OnlinePriemEntities())
+                {
+                    var FileNameList = (from pf in context.PersonFile
+                                        where pf.PersonId == PersonId && pf.PersonFileTypeId == 6
+                                        select pf.FileName)
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                           join app in context.Application on apf.ApplicationId equals app.Id
+                                           where app.PersonId == PersonId && ( apf.Comment.StartsWith(FileTypeName) || (apf.Comment.StartsWith("Эссе")))
+                                           select apf.FileName))
+                                        .Union(
+                                        (from apf in context.ApplicationFile
+                                       join app in context.Application on apf.CommitId equals app.CommitId
+                                       where app.PersonId == PersonId && ( apf.Comment.StartsWith(FileTypeName) || (apf.Comment.StartsWith("Эссе")))
+                                       select apf.FileName)).ToList();
+
+                    foreach (string name in FileNameList)
+                    {
+                        int tmp;
+                        if (name.Contains('.'))
+                        {
+                            if (int.TryParse(name.Substring(0, name.IndexOf('.')).Replace(FileNameTemplate, ""), out tmp))
+                            {
+                                if (Count < tmp)
+                                    Count = tmp;
+                            }
+                        }
+                        else if (int.TryParse(name.Replace(FileNameTemplate, ""), out tmp))
+                        {
+                            if (Count < tmp)
+                                Count = tmp;
+                        }
+                    }
+                }
+                fileName = FileNameTemplate + (Count + 1).ToString() + fileext;
             }
 
             try
