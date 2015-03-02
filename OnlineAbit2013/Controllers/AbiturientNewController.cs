@@ -113,9 +113,9 @@ namespace OnlineAbit2013.Controllers
                 PersonalOffice model = new PersonalOffice() { Lang = "ru", Stage = stage != 0 ? stage : 1, Enabled = !Util.CheckPersonReadOnlyStatus(PersonId) };
                 model.ConstInfo = new Constants();
                 model.ConstInfo = Util.getConstInfo();
-                //////////////////////////////////////////----------Index-----////////////////////////////////////////////////////////////////////////
                 if (model.Stage == 1)
                 {
+                    #region Stage 1
                     model.PersonInfo = new InfoPerson();
                     model.ContactsInfo = new ContactsPerson();
                     var PersonContacts = Person.PersonContacts;
@@ -137,12 +137,12 @@ namespace OnlineAbit2013.Controllers
                         new SelectListItem () {Text = isEng ? "Male" : "Мужской", Value = "M" },
                         new SelectListItem () {Text = isEng ? "Female" : "Женский", Value = "F" }
                     };
-
+                    #endregion
                     return View("PersonalOffice_Page1", model);
                 }
-                //////////////////////////////////////////----------Index-----////////////////////////////////////////////////////////////////////////
                 else if (model.Stage == 2)
                 {
+                    #region Stage 2
                     model.PersonInfo = new InfoPerson();
                     model.PassportInfo = new PassportPerson();
                     model.res = Util.GetRess(PersonId);
@@ -193,12 +193,12 @@ namespace OnlineAbit2013.Controllers
                     model.PersonInfo.SNILS = Person.SNILS ?? "";
                     model.Files = Util.GetFileList(PersonId, "1");
                     model.FileTypes = Util.GetPersonFileTypeList();
-
+                    #endregion
                     return View("PersonalOffice_Page2", model);
                 }
-                //////////////////////////////////////////----------Index-----////////////////////////////////////////////////////////////////////////
                 else if (model.Stage == 3)
                 {
+                    #region Stage 3
                     model.ContactsInfo = new ContactsPerson();
                     var PersonContacts = Person.PersonContacts;
                     if (PersonContacts == null)
@@ -234,11 +234,12 @@ namespace OnlineAbit2013.Controllers
                              Value = rw.Field<int>("Id").ToString(),
                              Text = rw.Field<string>("Name")
                          }).ToList();
+                    #endregion
                     return View("PersonalOffice_Page3", model);
                 }
-               /////////////////////////////////////////////////////////////////////////////////////////////
                 else if (model.Stage == 4)
                 {
+                    #region Stage 4
                     string temp_str;
                     model.Messages = new List<PersonalMessage>();
                     if (!isEng)
@@ -343,11 +344,12 @@ namespace OnlineAbit2013.Controllers
                         model.EducationInfo.EducationDocuments.Add(EPD);
                     }
                     //------END--------EducationDocuments------------END----------
-                    
+                    #endregion
                     return View("PersonalOffice_Page4", model);
                 }
                 else if (model.Stage == 5)
                 {
+                    #region Stage 5
                     if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                         return RedirectToAction("LogOn", "Account");
 
@@ -370,7 +372,7 @@ namespace OnlineAbit2013.Controllers
                     model.EducationInfo.StudyFormList = Util.GetStudyFormList();
                     model.EducationInfo.StudyBasisList = Util.GetStudyBasisList();
 
-                    /////////////////////////////////////////////////
+                    #region CurrentEducation
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2 || x.VuzAdditionalTypeId == 4)).Count() > 0)
                     {
                         model.AddEducationInfo.HasTransfer = true;
@@ -409,8 +411,8 @@ namespace OnlineAbit2013.Controllers
                         model.CurrentEducation.EducationName = CurrentEducation.EducName;
                         model.CurrentEducation.HasScholarship = CurrentEducation.HasScholarship;
                     }
-
-                    /////////////////////////////////////////////////
+                    #endregion
+                    #region ChangeStudyFormReason
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2)).Count() > 0)
                     {
                         model.AddEducationInfo.HasTransfer = true;
@@ -420,8 +422,8 @@ namespace OnlineAbit2013.Controllers
                             ChangeStudyFormReason = new PersonChangeStudyFormReason();
                         model.ChangeStudyFormReason.Reason = ChangeStudyFormReason.Reason;
                     }
-
-                    /////////////////////////////////////////////////
+                    #endregion
+                    #region DisorderInfo
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 3)).Count() > 0)
                     {
                         model.AddEducationInfo.HasRecover = true;
@@ -439,8 +441,8 @@ namespace OnlineAbit2013.Controllers
                             model.DisorderInfo.IsForIGA = false;
                         }
                     }
-
-                    /////////////////////////////////////////////////
+                    #endregion
+                    #region AddEducationInfo
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 1).Count() > 0)
                     {
                         model.AddEducationInfo.HasEGE = true;
@@ -460,13 +462,15 @@ namespace OnlineAbit2013.Controllers
                                  Value = rw.Field<bool>("IsSecondWave") ? ("Сдаю во второй волне") : (rw.Field<bool>("IsInUniversity") ? "Сдаю в СПбГУ" : rw.Field<int?>("Value").ToString())
                              }).ToList();
                     }
-
+                    #endregion
+                    #endregion
                     return View("PersonalOffice_Page5", model);
                 }
                 else if (model.Stage == 6)
                 {
+                    #region Stage 6
+                    #region WorkInfo
                     model.WorkInfo = new WorkPerson();
-
                     query = "SELECT Id, Name, NameEng FROM ScienceWorkType";
                     DataTable tbl = Util.AbitDB.GetDataTable(query, null);
 
@@ -505,7 +509,8 @@ namespace OnlineAbit2013.Controllers
                              Level = rw.Field<string>("WorkProfession"),
                              Duties = rw.Field<string>("WorkSpecifications")
                          }).ToList();
-
+                    #endregion
+                    #region Olympiads
                     model.PrivelegeInfo = new PersonPrivileges();
                     model.PrivelegeInfo.pOlympiads = context.Olympiads.Where(x => x.PersonId == PersonId)
                         .Select(x => new OlympiadInformation()
@@ -520,6 +525,7 @@ namespace OnlineAbit2013.Controllers
                             DocumentDate = x.DocumentDate.HasValue ? x.DocumentDate.Value : DateTime.Now
                         }).ToList();
 
+                    #region PersonPrivileges
                     query = "SELECT Id, Name FROM OlympName";
                     DataTable _tbl = Util.AbitDB.GetDataTable(query, null);
                     model.PrivelegeInfo.OlympNameList =
@@ -565,6 +571,7 @@ namespace OnlineAbit2013.Controllers
                                         (string.IsNullOrEmpty(rw.Field<string>("NameEng")) ? rw.Field<string>("Name") : rw.Field<string>("NameEng"))
                                         : rw.Field<string>("Name"))
                          }).ToList();
+                    #endregion
 
                     query = "SELECT Id, Name, NameEng FROM SportQualification";
                     _tbl = Util.AbitDB.GetDataTable(query, null);
@@ -587,10 +594,13 @@ namespace OnlineAbit2013.Controllers
                         model.PrivelegeInfo.SportQualificationLevel = PersonSportQualification.SportQualificationLevel ?? "";
                         model.PrivelegeInfo.OtherSportQualification = PersonSportQualification.OtherSportQualification ?? "";
                     }
+                    #endregion
+                    #endregion
                     return View("PersonalOffice_Page6", model);
                 }
                 else //if (model.Stage == 7)
                 {
+                    #region Stage 7
                     if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                         return RedirectToAction("LogOn", "Account");
 
@@ -612,6 +622,7 @@ namespace OnlineAbit2013.Controllers
                             context.ReturnDocumentType.Select(x => new { x.Id, x.NameEng }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.NameEng }).ToList() :
                             context.ReturnDocumentType.Select(x => new { x.Id, x.Name }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList()
                     };
+                    #endregion
                     return View("PersonalOffice_Page7", model);
                 }
                 //return View("PersonalOffice_Page", model);
@@ -4614,13 +4625,6 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 return RedirectToAction("Main");
         }
 
-        public ActionResult CheckEqualWithRussia(string email)
-        {
-            EqualWithRussiaModel model = new EqualWithRussiaModel();
-            model.Email = email;
-            return View(model);
-        }
-
         #region RectorScholarship
         public ActionResult NewApplicationRectorScholarship()
         {
@@ -4748,6 +4752,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
         //}
         #endregion
 
+        #region EqualWithRussia
         public ActionResult CheckEqualWithRussia2(EqualWithRussiaModel model)
         {
             return View("CheckEqualWithRussia", model);
@@ -4830,6 +4835,14 @@ SELECT [User].Email
             }
             return View("Main");
         }
+
+        public ActionResult CheckEqualWithRussia(string email)
+        {
+            EqualWithRussiaModel model = new EqualWithRussiaModel();
+            model.Email = email;
+            return View(model);
+        }
+        #endregion
 
         #region Ajax
 
@@ -6725,6 +6738,7 @@ Order by cnt desc";
         }
         #endregion
 
+        #region UFMS
         public ActionResult RusLangExam_ufms(RuslangExamModelPersonList model)
         {
             Guid PersonId;
@@ -6922,7 +6936,6 @@ Order by cnt desc";
             }
             return RedirectToAction("LogOn", "Account");
         }
-        
 
         [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult GetUFMS(string sertId)
@@ -6999,5 +7012,6 @@ Order by cnt desc";
                 return Json(new { fio = FIO, level = Level, sex = Sex, nationality = Nationality, date = Date, birthdate = BirthDate, document = Document, number = Number });
             }
         }
+        #endregion
     }
 }
