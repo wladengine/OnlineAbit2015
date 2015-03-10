@@ -281,6 +281,12 @@
     <value>There is no information about the version of the application. We strongly recommend to go to the page &lt;b&gt;"Change prioritries"&lt;/b&gt; and save the priority sequence by pressing the button &lt;b&gt;"Save"&lt;/b&gt;.</value>
   </data>
   <data name="PrintApplicationWarning" xml:space="preserve">
-    <value>Вы собираетесь закончить формирование заявления и распечатать его.&lt;/br&gt;&lt;/br&gt;Обращаем Ваше внимание!&lt;/br&gt;&lt;/br&gt;После окончательного формирования Заявления внести изменения в список программ и изменить их приоритетность можно будет только путем  удаления данного заявления и формирования нового. Внести изменения в приоритетность профилей можно будет только путем личного обращения в Комиссию по приему документов.&lt;/br&gt;&lt;/br&gt;Вы желаете закончить формирование заявления и распечатать его?</value>
+    <value>You are going to finish the formation of the application and print it out. &lt;/br&gt;&lt;/br&gt;Please note!&lt;/br&gt;&lt;/br&gt;After the final formation of Applications to amend the list of programs and to change their priority will be possible only by the removal of the application and the formation of a new one. To amend the priority profiles can only be by a personal appeal to the Commission for Reception of documents.&lt;/br&gt;&lt;/br&gt;You want to finish the formation of the application and print it?</value>
+  </data>
+  <data name="ApplicationMessage1" xml:space="preserve">
+    <value>Print application. Signed and scanned application attach in the window below.</value>
+  </data>
+  <data name="ApplicationMessage2" xml:space="preserve">
+    <value>Print the application and take it to the admissions office.</value>
   </data>
 </root>

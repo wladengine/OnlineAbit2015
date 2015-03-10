@@ -241,11 +241,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, такую же, как Добавить ещё.
+        /// </summary>
+        internal static string EducationBlockAdd {
+            get {
+                return ResourceManager.GetString("EducationBlockAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, такую же, как Удалить.
+        /// </summary>
+        internal static string EducationBlockDelete {
+            get {
+                return ResourceManager.GetString("EducationBlockDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, такую же, как Документ об образовании.
         /// </summary>
         internal static string EducationDocumentHeader {
             get {
                 return ResourceManager.GetString("EducationDocumentHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, такую же, как Укажите те документы, оригиналы которых Вы сможете предоставить при зачислении.
+        /// </summary>
+        internal static string EducationDocumentsHeader {
+            get {
+                return ResourceManager.GetString("EducationDocumentsHeader", resourceCulture);
             }
         }
         

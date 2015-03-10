@@ -293,4 +293,10 @@
   <data name="DeleteApp_Warning4" xml:space="preserve">
     <value>Внимание!&lt;/br&gt; Вы не можете удалить заявление, поскольку в нем существует конкурс, прием на который уже закрыт. Для вас доступна функция редактирования заявления и изменения приоритетов. </value>
   </data>
+  <data name="ApplicationMessage1" xml:space="preserve">
+    <value>Распечатайте заявление. Подписанное и отсканированное заявление загрузите в окне ниже.</value>
+  </data>
+  <data name="ApplicationMessage2" xml:space="preserve">
+    <value>Распечатайте заявление и отнесите его в приемную комиссию, чтобы изменения вступили в силу</value>
+  </data>
 </root>

@@ -133,7 +133,7 @@
     <value>Country of your previous education</value>
   </data>
   <data name="CurrentYear" xml:space="preserve">
-    <value>2014 год</value>
+    <value>2015 year</value>
   </data>
   <data name="DiplomNumber" xml:space="preserve">
     <value>Number</value>
@@ -202,7 +202,7 @@
     <value>Foreign languages</value>
   </data>
   <data name="PassInSPbSU" xml:space="preserve">
-    <value>Сдаю в СПбГУ</value>
+    <value>Pass in SPbSU</value>
   </data>
   <data name="PersonQualification" xml:space="preserve">
     <value>Qualification</value>
@@ -302,5 +302,14 @@
   </data>
   <data name="ChangeStudyFormReason" xml:space="preserve">
     <value>The reason for changing basis of study</value>
+  </data>
+  <data name="EducationDocumentsHeader" xml:space="preserve">
+    <value>Specify the documents, the originals of which you will be able to provide for admission</value>
+  </data>
+  <data name="EducationBlockAdd" xml:space="preserve">
+    <value>Add another</value>
+  </data>
+  <data name="EducationBlockDelete" xml:space="preserve">
+    <value>Delete</value>
   </data>
 </root>

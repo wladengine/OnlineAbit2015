@@ -253,10 +253,10 @@
   { 
       if (Model.StudyLevelGroupId == 1)
                { %>
-                <p class="message info">Распечатайте заявление и отнесите его в приемную комиссию, чтобы изменения вступили в силу</p> <%}
+                <p class="message info"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationMessage2")%></p> <%}
                else
                { %>
-                <p class="message info">Распечатайте заявление. Подписанное и отсканированное заявление загрузите в окне ниже. </p> <% }
+                <p class="message info"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationMessage1")%></p> <% }
   }%>
  <% if (Model.HasVersion)
        {%>

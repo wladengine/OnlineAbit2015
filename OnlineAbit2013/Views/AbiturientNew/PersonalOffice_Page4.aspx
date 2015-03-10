@@ -362,7 +362,7 @@
                 <% } %>
                 <form id="form" action="AbiturientNew/NextStep" method="post" onsubmit="return CheckForm();">
                     <h3><%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationHeader")%></h3>
-                    <h6>Укажите те документы, оригиналы которых Вы сможете предоставить при зачислении</h6>
+                    <h6><%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationDocumentsHeader")%></h6>
                     <hr />
                     <input name="Stage" type="hidden" value="<%= Model.Stage %>" />
                     <fieldset>
@@ -695,13 +695,13 @@
                                 <% if (i < Model.EducationInfo.EducationDocumentsMaxCount - 1) { %>
                                 <span id="_linkAdd_<%= i %>" class="alink" onclick="AddNext(<%= i %>)">
                                     <img src="../../Content/themes/base/images/add-icon_16px.png" />
-                                    Добавить ещё
+                                    <%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationBlockAdd")%>
                                 </span>
                                 <% } %>
                                 <% if (i > 0) { %>
                                 <span id="_linkDelete_<%= i %>" class="alink" onclick="DeleteDoc(<%= i %>)">
                                     <img src="../../Content/themes/base/images/delete-icon.png" />
-                                    Удалить
+                                    <%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationBlockDelete")%>
                                 </span>
                                 <% } %>
                             </div>

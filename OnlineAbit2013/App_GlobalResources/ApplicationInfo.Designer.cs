@@ -133,6 +133,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, такую же, как Распечатайте заявление. Подписанное и отсканированное заявление загрузите в окне ниже..
+        /// </summary>
+        internal static string ApplicationMessage1 {
+            get {
+                return ResourceManager.GetString("ApplicationMessage1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, такую же, как Распечатайте заявление и отнесите его в приемную комиссию, чтобы изменения вступили в силу.
+        /// </summary>
+        internal static string ApplicationMessage2 {
+            get {
+                return ResourceManager.GetString("ApplicationMessage2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, такую же, как Изменить приоритеты.
         /// </summary>
         internal static string ApplicationPriorityChange {
