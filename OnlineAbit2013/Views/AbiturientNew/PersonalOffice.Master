@@ -184,7 +184,6 @@
                                 <asp:ContentPlaceHolder ID="MainContent" runat="server" />
                             </div>
                         </div>
-                        
                     </div>
                 </section>
                 <%--<aside class="grid_2">
