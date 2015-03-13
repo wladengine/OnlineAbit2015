@@ -295,7 +295,7 @@
     <value>Semester</value>
   </data>
   <data name="NewApp_3MorePrograms" xml:space="preserve">
-    <value>Заявление уже подано на 3 направления</value>
+    <value>You’ve already applied for 3 educational profiles</value>
   </data>
   <data name="AbitMessage" xml:space="preserve">
     <value>On this page you should select all the applications by pressing the button "Add". &lt;br&gt;Press the button "Submit" to finish.</value>

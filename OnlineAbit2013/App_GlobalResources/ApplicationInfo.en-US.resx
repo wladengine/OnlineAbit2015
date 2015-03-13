@@ -281,7 +281,7 @@
     <value>There is no information about the version of the application. We strongly recommend to go to the page &lt;b&gt;"Change prioritries"&lt;/b&gt; and save the priority sequence by pressing the button &lt;b&gt;"Save"&lt;/b&gt;.</value>
   </data>
   <data name="PrintApplicationWarning" xml:space="preserve">
-    <value>You are going to finish the formation of the application and print it out. &lt;/br&gt;&lt;/br&gt;Please note!&lt;/br&gt;&lt;/br&gt;After the final formation of Applications to amend the list of programs and to change their priority will be possible only by the removal of the application and the formation of a new one. To amend the priority profiles can only be by a personal appeal to the Commission for Reception of documents.&lt;/br&gt;&lt;/br&gt;You want to finish the formation of the application and print it?</value>
+    <value>You are ready to finish and print your application? Attention, please! After you finish your application, the only way to change any detail of your application will be to delete it and to create a new one. If you will decide to change ranking of educational profiles in your application, you will have to address personally to Admission Office. Are you sure that you ready to finish and print your application?</value>
   </data>
   <data name="ApplicationMessage1" xml:space="preserve">
     <value>Print application. Signed and scanned application attach in the window below.</value>
