@@ -304,7 +304,7 @@
     <value>The reason for changing basis of study</value>
   </data>
   <data name="EducationDocumentsHeader" xml:space="preserve">
-    <value>Please, list those documents, which originals you will provide during Admission procedure</value>
+    <value>Please, list those documents, which originals you will need to provide during Admission procedure</value>
   </data>
   <data name="EducationBlockAdd" xml:space="preserve">
     <value>Add another</value>

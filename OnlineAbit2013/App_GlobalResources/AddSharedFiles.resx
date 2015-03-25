@@ -189,7 +189,7 @@
     <value>Нет файлов</value>
   </data>
   <data name="PassportLoad" xml:space="preserve">
-    <value>Загрузите копию документа, удостоверяющего личность и гражданство поступающего</value>
+    <value>Загрузите копию документа, удостоверяющего личность, гражданство и место регистрации поступающего</value>
   </data>
   <data name="PersonalOffice_Passport" xml:space="preserve">
     <value>Сюда вы можете прикрепить сканы паспорта. &lt;/br&gt;

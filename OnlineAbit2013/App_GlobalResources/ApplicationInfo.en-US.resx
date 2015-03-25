@@ -227,7 +227,7 @@
     <value>View applications/add files</value>
   </data>
   <data name="AppInnerProirity" xml:space="preserve">
-    <value>For this contest, you can specify the priority of educational programs</value>
+    <value>For this contest, you should specify the priority of educational programs and profiles</value>
   </data>
   <data name="AppDetails" xml:space="preserve">
     <value>View Application details</value>

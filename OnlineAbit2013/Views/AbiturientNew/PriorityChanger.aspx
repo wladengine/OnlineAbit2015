@@ -223,7 +223,7 @@
         <%} %>
 	});
     </script>
-    <div id="dialog-form" style="display:none;">
+<div id="dialog-form" style="display:none;">
     <p class="errMessage"></p>
     <p>Изменить приоритет таким образом невозможно: будет нарушены значения приоритетов заблокированных конкурсов. Перемещение отменено.</p>
 </div>

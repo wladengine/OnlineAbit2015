@@ -310,7 +310,7 @@
     <value>Для смены основы обучения, укажите причину:</value>
   </data>
   <data name="EducationDocumentsHeader" xml:space="preserve">
-    <value>Укажите те документы, оригиналы которых Вы сможете предоставить при зачислении</value>
+    <value>Укажите только те документы, оригиналы которых Вы должны предоставить при зачислении</value>
   </data>
   <data name="EducationBlockAdd" xml:space="preserve">
     <value>Добавить ещё</value>
