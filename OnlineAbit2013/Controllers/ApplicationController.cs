@@ -630,7 +630,7 @@ namespace OnlineAbit2013.Controllers
                 }
                 else
                 {
-                    var lst = context.Application.Where(x => x.CommitId == appId && x.PersonId == personId).Select(x => x.EntryType).ToList();
+                    var lst = context.Application.Where(x => x.CommitId == appId && x.PersonId == personId).Select(x => x.C_Entry.SP_StudyLevel.StudyLevelGroupId).ToList();
                     if (lst.Count == 0)
                         return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Access error"), "text/plain");
                     int? CountryEducId = context.PersonEducationDocument.Where(x => x.PersonId == personId).Select(x => x.CountryEducId).FirstOrDefault();

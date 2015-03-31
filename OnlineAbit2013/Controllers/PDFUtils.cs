@@ -2484,7 +2484,7 @@ namespace OnlineAbit2013.Controllers
                     }).FirstOrDefault();
 
                 MemoryStream ms = new MemoryStream();
-                string dotName = "ApplicationAsp_2014.pdf";
+                string dotName = "ApplicationAsp_2015.pdf";
 
                 byte[] templateBytes;
                 using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
@@ -2499,7 +2499,6 @@ namespace OnlineAbit2013.Controllers
                 AcroFields acrFlds = pdfStm.AcroFields;
 
                 acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
-
 
                 if (person.HostelEduc)
                     acrFlds.SetField("HostelEducYes", "1");
