@@ -3048,7 +3048,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 else
                 {
-                    int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT max(QualificationId) FROM PersonHighEducationInfo WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT MAX(QualificationId) FROM PersonHighEducationInfo INNER JOIN PersonEducationDocument ON PersonEducationDocument.Id = PersonHighEducationInfo.EducationDocumentId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (iQualificationId.HasValue)
                     {
                         if ((int)iQualificationId == 1)
