@@ -179,7 +179,8 @@
       [Entry].[StudyLevelNameEng] AS [StudyLevelNameEng], 
       [Entry].[ComissionId] AS [ComissionId], 
       [Entry].[Address] AS [Address], 
-      [Entry].[LicenseProgramNewCode] AS [LicenseProgramNewCode]
+      [Entry].[LicenseProgramNewCode] AS [LicenseProgramNewCode], 
+      [Entry].[IsForeign] AS [IsForeign]
       FROM [dbo].[Entry] AS [Entry]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="extApplicationDetails" EntityType="OnlinePriem2012Model.Store.extApplicationDetails" store:Type="Views" store:Schema="dbo" store:Name="extApplicationDetails">
@@ -287,10 +288,6 @@
           <AssociationSet Name="FK_Application_Person" Association="OnlinePriem2012Model.Store.FK_Application_Person">
             <End Role="Person" EntitySet="Person" />
             <End Role="Application" EntitySet="Application" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ApplicationCommitVersion_ApplicationCommit" Association="OnlinePriem2012Model.Store.FK_ApplicationCommitVersion_ApplicationCommit">
-            <End Role="ApplicationCommit" EntitySet="ApplicationCommit" />
-            <End Role="ApplicationCommitVersion" EntitySet="ApplicationCommitVersion" />
           </AssociationSet>
           <AssociationSet Name="FK_ApplicationDetails_ObrazProgramInEntry" Association="OnlinePriem2012Model.Store.FK_ApplicationDetails_ObrazProgramInEntry">
             <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
@@ -557,6 +554,7 @@
           <Property Name="DateOfStart_GosLine" Type="datetime" />
           <Property Name="IsUsedForPriem" Type="bit" Nullable="false" />
           <Property Name="ComissionId" Type="int" />
+          <Property Name="IsForeign" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="AbiturientType">
           <Key>
@@ -595,8 +593,8 @@
           <Property Name="ProfileId" Type="int" Nullable="false" />
           <Property Name="EntryClassId" Type="int" Nullable="false" />
           <Property Name="HasManualExams" Type="bit" Nullable="false" />
-          <Property Name="DateOfStartEntry" Type="smalldatetime" />
-          <Property Name="DateOfStopEntry" Type="smalldatetime" />
+          <Property Name="DateOfStartEntry" Type="smalldatetime" Nullable="false" />
+          <Property Name="DateOfStopEntry" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <EntityType Name="AG_EntryClass">
           <Key>
@@ -705,8 +703,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="CommitId" Type="uniqueidentifier" />
-          <Property Name="VersionDate" Type="datetime" />
+          <Property Name="CommitId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="VersionDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationCommitVersonDetails">
           <Key>
@@ -1309,9 +1307,8 @@
             <PropertyRef Name="LicenseProgramId" />
             <PropertyRef Name="LicenseProgramName" />
             <PropertyRef Name="ObrazProgramId" />
-            <PropertyRef Name="ObrazProgramCrypt" />
             <PropertyRef Name="ObrazProgramName" />
-            <PropertyRef Name="ProfileName" />
+            
             <PropertyRef Name="StudyBasisId" />
             <PropertyRef Name="StudyFormId" />
             <PropertyRef Name="StudyLevelId" />
@@ -1330,6 +1327,8 @@
             <PropertyRef Name="IsDeleted" />
             <PropertyRef Name="IsCommonRussianCompetition" />
             <PropertyRef Name="IsPrinted" />
+            <PropertyRef Name="ObrazProgramCrypt" />
+            <PropertyRef Name="ProfileName" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
@@ -1349,10 +1348,10 @@
           <Property Name="LicenseProgramCode" Type="nvarchar" MaxLength="10" />
           <Property Name="LicenseProgramName" Type="nvarchar" Nullable="false" MaxLength="1000" />
           <Property Name="ObrazProgramId" Type="int" Nullable="false" />
-          <Property Name="ObrazProgramCrypt" Type="nvarchar" Nullable="false" MaxLength="53" />
+          <Property Name="ObrazProgramCrypt" Type="nvarchar" MaxLength="84" Nullable="false" />
           <Property Name="ObrazProgramName" Type="nvarchar" Nullable="false" MaxLength="1000" />
-          <Property Name="ProfileId" Type="uniqueidentifier" />
-          <Property Name="ProfileName" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="ProfileId" Type="int" Nullable="false" />
+          <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="StudyBasisId" Type="int" Nullable="false" />
           <Property Name="StudyBasisName" Type="nvarchar" MaxLength="50" />
           <Property Name="StudyFormId" Type="int" Nullable="false" />
@@ -1370,7 +1369,7 @@
           <Property Name="CampaignYear" Type="int" Nullable="false" />
           <Property Name="ObrazProgramNameEng" Type="nvarchar" MaxLength="1000" />
           <Property Name="LicenseProgramNameEng" Type="nvarchar" MaxLength="1000" />
-          <Property Name="ProfileNameEng" Type="nvarchar" MaxLength="250" />
+          <Property Name="ProfileNameEng" Type="nvarchar" MaxLength="1000" />
           <Property Name="StudyBasisNameEng" Type="nvarchar" MaxLength="50" />
           <Property Name="StudyFormNameEng" Type="nvarchar" MaxLength="50" />
           <Property Name="CommitId" Type="uniqueidentifier" Nullable="false" />
@@ -1414,6 +1413,7 @@
             <PropertyRef Name="Number" />
             <PropertyRef Name="LicenseProgramName" />
             <PropertyRef Name="StudyLevelGroupId" />
+            <PropertyRef Name="IsForeign" />
             <PropertyRef Name="ObrazProgramCrypt" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
@@ -1463,6 +1463,7 @@
           <Property Name="ComissionId" Type="int" />
           <Property Name="Address" Type="nvarchar" MaxLength="350" />
           <Property Name="LicenseProgramNewCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsForeign" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'OnlinePriem2015.dbo.extApplicationDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -1472,9 +1473,9 @@
             <PropertyRef Name="Id" />
             <PropertyRef Name="ApplicationId" />
             <PropertyRef Name="ObrazProgramName" />
+            <PropertyRef Name="ObrazProgramCrypt" />
             <PropertyRef Name="InnerEntryInEntryId" />
             <PropertyRef Name="InnerEntryInEntryPriority" />
-            <PropertyRef Name="ObrazProgramCrypt" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
@@ -1482,7 +1483,7 @@
           <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" />
           <Property Name="CurrVersion" Type="int" />
           <Property Name="CurrDate" Type="datetime" />
-          <Property Name="ObrazProgramCrypt" Type="nvarchar" MaxLength="84" Nullable="false" />
+          <Property Name="ObrazProgramCrypt" Type="nvarchar" Nullable="false" MaxLength="58" />
           <Property Name="InnerEntryInEntryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="InnerEntryInEntryPriority" Type="int" Nullable="false" />
         </EntityType>
@@ -1732,18 +1733,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ApplicationCommitVersion_ApplicationCommit">
-          <End Role="ApplicationCommit" Type="OnlinePriem2012Model.Store.ApplicationCommit" Multiplicity="0..1" />
-          <End Role="ApplicationCommitVersion" Type="OnlinePriem2012Model.Store.ApplicationCommitVersion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ApplicationCommit">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ApplicationCommitVersion">
-              <PropertyRef Name="CommitId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ApplicationDetails_ObrazProgramInEntry">
           <End Role="InnerEntryInEntry" Type="OnlinePriem2012Model.Store.InnerEntryInEntry" Multiplicity="1" />
           <End Role="ApplicationDetails" Type="OnlinePriem2012Model.Store.ApplicationDetails" Multiplicity="*" />
@@ -1841,7 +1830,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ObrazProgramInEntry__Entry">
-          <End Role="_Entry" Type="OnlinePriem2012Model.Store._Entry" Multiplicity="1" />
+          <End Role="_Entry" Type="OnlinePriem2012Model.Store._Entry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="InnerEntryInEntry" Type="OnlinePriem2012Model.Store.InnerEntryInEntry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="_Entry">
@@ -3928,8 +3919,8 @@
           <Property Type="Int32" Name="ProfileId" Nullable="false" />
           <Property Type="Int32" Name="EntryClassId" Nullable="false" />
           <Property Type="Boolean" Name="HasManualExams" Nullable="false" />
-          <Property Type="DateTime" Name="DateOfStartEntry" Precision="0" />
-          <Property Type="DateTime" Name="DateOfStopEntry" Precision="0" />
+          <Property Type="DateTime" Name="DateOfStartEntry" Precision="0" Nullable="false" />
+          <Property Type="DateTime" Name="DateOfStopEntry" Precision="0" Nullable="false" />
           <NavigationProperty Name="AG_EntryClass" Relationship="OnlinePriem2012Model.FK_AG_Entry_AG_EntryClass" FromRole="AG_Entry" ToRole="AG_EntryClass" />
           <NavigationProperty Name="AG_ObrazProgram" Relationship="OnlinePriem2012Model.FK_AG_Entry_AG_ObrazProgram" FromRole="AG_Entry" ToRole="AG_ObrazProgram" />
           <NavigationProperty Name="AG_Program" Relationship="OnlinePriem2012Model.FK_AG_Entry_AG_Program" FromRole="AG_Entry" ToRole="AG_Program" />
@@ -4159,8 +4150,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Guid" Name="CommitId" />
-          <Property Type="DateTime" Name="VersionDate" Precision="3" />
+          <Property Type="Guid" Name="CommitId" Nullable="false" />
+          <Property Type="DateTime" Name="VersionDate" Precision="3" Nullable="false" />
           <NavigationProperty Name="ApplicationCommit" Relationship="OnlinePriem2012Model.FK_ApplicationCommitVersion_ApplicationCommit" FromRole="ApplicationCommitVersion" ToRole="ApplicationCommit" />
         </EntityType>
         <EntityType Name="ApplicationCommitVersonDetails">
@@ -4381,7 +4372,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ApplicationCommitVersion_ApplicationCommit">
-          <End Type="OnlinePriem2012Model.ApplicationCommit" Role="ApplicationCommit" Multiplicity="0..1" />
+          <End Type="OnlinePriem2012Model.ApplicationCommit" Role="ApplicationCommit" Multiplicity="1" />
           <End Type="OnlinePriem2012Model.ApplicationCommitVersion" Role="ApplicationCommitVersion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ApplicationCommit">
@@ -4592,10 +4583,10 @@
           <Property Type="String" Name="LicenseProgramCode" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LicenseProgramName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ObrazProgramId" Nullable="false" />
-          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="53" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="84" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ObrazProgramName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="Guid" Name="ProfileId" />
-          <Property Type="String" Name="ProfileName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ProfileId" Nullable="false" />
+          <Property Type="String" Name="ProfileName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="StudyBasisId" Nullable="false" />
           <Property Type="String" Name="StudyBasisName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="StudyFormId" Nullable="false" />
@@ -4613,7 +4604,7 @@
           <Property Type="Int32" Name="CampaignYear" Nullable="false" />
           <Property Type="String" Name="ObrazProgramNameEng" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LicenseProgramNameEng" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ProfileNameEng" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProfileNameEng" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyBasisNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyFormNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Guid" Name="CommitId" Nullable="false" />
@@ -4647,7 +4638,7 @@
           <Property Type="String" Name="ProfileName" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="CurrVersion" />
           <Property Type="DateTime" Name="CurrDate" Precision="3" />
-          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="84" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="58" FixedLength="false" Unicode="true" />
           <Property Type="Guid" Name="InnerEntryInEntryId" Nullable="false" />
           <Property Type="Int32" Name="InnerEntryInEntryPriority" Nullable="false" />
         </EntityType>
@@ -4882,6 +4873,7 @@
           <NavigationProperty Name="SP_StudyLevel" Relationship="OnlinePriem2012Model.FK__Entry_SP_StudyLevel" FromRole="C_Entry" ToRole="SP_StudyLevel" />
           <NavigationProperty Name="Application" Relationship="OnlinePriem2012Model.FK_Application__Entry" FromRole="C_Entry" ToRole="Application" />
           <NavigationProperty Name="InnerEntryInEntry" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" FromRole="C_Entry" ToRole="InnerEntryInEntry" />
+          <Property Type="Boolean" Name="IsForeign" Nullable="false" />
         </EntityType>
         <Association Name="FK__Entry_Comission">
           <End Type="OnlinePriem2012Model.Comission" Role="Comission" Multiplicity="0..1" />
@@ -4990,6 +4982,7 @@
             <PropertyRef Name="LicenseProgramName" />
             <PropertyRef Name="ObrazProgramCrypt" />
             <PropertyRef Name="StudyLevelGroupId" />
+            <PropertyRef Name="IsForeign" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Int32" Name="SemesterId" Nullable="false" />
@@ -5038,6 +5031,7 @@
           <Property Type="Int32" Name="ComissionId" />
           <Property Type="String" Name="Address" MaxLength="350" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LicenseProgramNewCode" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsForeign" Nullable="false" />
         </EntityType>
         <EntityType Name="InnerEntryInEntry">
           <Key>
@@ -6006,6 +6000,7 @@
           <EntitySetMapping Name="C_Entry">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.C_Entry">
               <MappingFragment StoreEntitySet="_Entry">
+                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
                 <ScalarProperty Name="ComissionId" ColumnName="ComissionId" />
                 <ScalarProperty Name="IsUsedForPriem" ColumnName="IsUsedForPriem" />
                 <ScalarProperty Name="DateOfStart_GosLine" ColumnName="DateOfStart_GosLine" />
@@ -6040,6 +6035,7 @@
           <EntitySetMapping Name="Entry">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.Entry">
               <MappingFragment StoreEntitySet="Entry">
+                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
                 <ScalarProperty Name="LicenseProgramNewCode" ColumnName="LicenseProgramNewCode" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="ComissionId" ColumnName="ComissionId" />
@@ -6121,7 +6117,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="OnlineAbit" ZoomLevel="62" >
+      <Diagram Name="OnlineAbit" ZoomLevel="22" >
         <EntityTypeShape EntityType="OnlinePriem2012Model.PassportType" Width="1.5" PointX="6" PointY="45" Height="1.7566536458333317" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.PersonAddInfo" Width="1.5" PointX="16.5" PointY="37" Height="2.2496956380208317" />
         <EntityTypeShape EntityType="OnlinePriem2012Model.PersonCurrentEducation" Width="1.5" PointX="13.5" PointY="39.125" Height="3.0714322916666674" />

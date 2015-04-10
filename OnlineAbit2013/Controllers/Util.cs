@@ -1612,7 +1612,7 @@ WHERE PersonId=@PersonId ";
                          Entry.ProfileNameEng,
                          SemestrName = Semester.Name,
                          App.HostelEduc,
-                         App.IsGosLine,
+                         Entry.IsForeign,
                          Entry.StudyLevelGroupId,
                          StudyLevelGrName = bisEng ? Entry.StudyLevelGroupNameEng : Entry.StudyLevelGroupNameRus,
                          DateOfClose = Entry.DateOfClose
@@ -1638,7 +1638,7 @@ WHERE PersonId=@PersonId ";
                         SpecializationName = bisEng ? (String.IsNullOrEmpty(App.ProfileNameEng) ? App.ProfileName : App.ProfileNameEng) : App.ProfileName,
                         Hostel = App.HostelEduc,
                         SemestrName = App.SemestrName,
-                        IsGosLine = App.IsGosLine,
+                        IsForeign = App.IsForeign,
                         StudyLevelGroupId = App.StudyLevelGroupId,
                         DateOfClose = App.DateOfClose,
                         StudyLevelGroupName = App.StudyLevelGrName

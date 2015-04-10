@@ -11,9 +11,7 @@ namespace OnlineAbit2013.Controllers
 {
     public class ApplicationController : Controller
     {
-        
         // GET: /Application/
-
         public ActionResult Index(string id)
         {
             Guid personId;
@@ -609,16 +607,6 @@ namespace OnlineAbit2013.Controllers
             Guid appId;
             if (!Guid.TryParse(id, out appId))
                 return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Ошибка идентификатора заявления"), "text/plain");
-
-            //string query = "SELECT COUNT(Id) FROM Application WHERE CommitId=@Id AND PersonId=@PersonId";
-            //int cnt = (int)Util.AbitDB.GetValue(query, new SortedList<string, object>() { { "@Id", appId }, { "@PersonId", personId } });
-            //if (cnt == 0)
-            //{
-            //    query = "SELECT COUNT(Id) FROM AG_Application WHERE CommitId=@Id AND PersonId=@PersonId";
-            //    cnt = (int)Util.AbitDB.GetValue(query, new SortedList<string, object>() { { "@Id", appId }, { "@PersonId", personId } });
-            //    if (cnt == 0)
-            //        return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Access error"), "text/plain");
-            //}
 
             byte[] bindata; 
 

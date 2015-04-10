@@ -305,6 +305,7 @@
             $('#SchoolTypeId_<%= i %>').val('<%= Doc.SchoolTypeId %>');
             UpdateAfterSchooltype(<%= i %>);
             $('#VuzAdditionalTypeId_<%= i %>').val('<%= Doc.VuzAdditionalTypeId %>');
+            $('#PersonQualification_<%= i %>').val('<%= Doc.PersonQualification %>');
             $('#SchoolExitClassId_<%= i %>').val('<%= Doc.SchoolExitClassId %>');
             $('#CountryEducId_<%= i %>').val('<%= Doc.CountryEducId %>');
             $('#RegionEducId_<%= i %>').val('<%= Doc.RegionEducId %>');

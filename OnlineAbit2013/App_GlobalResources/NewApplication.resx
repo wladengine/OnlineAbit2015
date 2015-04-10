@@ -268,7 +268,7 @@
     <value>Просмотр заявлений</value>
   </data>
   <data name="EnterGosLine" xml:space="preserve">
-    <value>Поступать по гослинии</value>
+    <value>Поступать по конкурсу для иностранцев/гослинии</value>
   </data>
   <data name="NoApplications" xml:space="preserve">
     <value>Нет поданых заявлений</value>
@@ -299,5 +299,11 @@
   </data>
   <data name="AbitMessage" xml:space="preserve">
     <value>Уважаемый абитуриент. Используя кнопку «Добавить» укажите &lt;b&gt;все&lt;/b&gt; направления подготовки, образовательные программы, формы и основы обучения, в конкурсе по которым Вы собираетесь принять участие.&lt;br&gt;После добавления одного конкурса, Вам будет доступно добавление следующего.</value>
+  </data>
+  <data name="BlockData_IsForeign" xml:space="preserve">
+    <value>Иностранный конкурс/Гослиния</value>
+  </data>
+  <data name="AGProfile" xml:space="preserve">
+    <value>Профиль</value>
   </data>
 </root>

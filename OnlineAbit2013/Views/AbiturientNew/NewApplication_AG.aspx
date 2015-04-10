@@ -70,6 +70,46 @@
     var nextBlockData_Specialization = '#Specialization';
     var nextBlockData_ManualExam = '#ManualExam';
 
+    function GetProfs(i) {
+        $('#ObrazProgramsErrors').text('').hide();
+        $('#FinishBtn' + i).hide();
+        currProfiles = '#Profiles' + i;
+        currFinishButton = '#FinishBtn' + i;
+        currSpecs = '#Specs' + i;
+        currManualExam = '#ManualExam' + i;
+        currFinishButton = '#FinishBtn' + i;
+        currExams = '#Exams' + i;
+        currManualExam = '#ManualExam' + i;
+        currObrazProgramErrors = '#ObrazProgramsErrors' + i;
+        currProfile = '#Profile' + i;
+        currProfessions = '#Professions' + i;
+        currProfs = '#Profs' + i;
+
+        $(currFinishButton).hide();
+        $(currSpecs).hide();
+        $(currProfs).hide();
+        $(currManualExam).hide();
+        $(currProfessions).html('');
+        $(currProfile).html('');
+        $(currExams).html('');
+        $.post('/AbiturientNew/GetProfs_AG', { classid: $('#EntryClassId').val(), profileId: $(currProfiles).val(), CommitId : $('#CommitId').val() }, function (json_data, i) {
+            if (json_data.IsOk) {
+                $(currObrazProgramErrors).text('').hide();
+                
+                var Profs = json_data.Vals;
+                var info = '';
+                for (var i = 0; i < Profs.length; i++) {
+                    info += '<option value="' + Profs[i].Id + '">' + Profs[i].Name + '</option>';
+                }
+                $(currProfessions).html(info);
+                $(currProfs).show();
+            }
+            else {
+                $(currObrazProgramErrors).text(json_data.ErrorMessage).show();
+            }
+        }, 'json');
+    }
+
     function GetSpecializations(i) {
         $('#ObrazProgramsErrors').text('').hide();
         $('#FinishBtn' + i).hide();
@@ -82,13 +122,14 @@
         currObrazProgramErrors = '#ObrazProgramsErrors' + i;
         currProfile = '#Profile' + i;
         currProfessions = '#Professions' + i;
+        currProfiles = '#Profiles' + i;
 
         $(currFinishButton).hide();
         $(currSpecs).hide();
         $(currManualExam).hide();
         $(currProfile).html('');
         $(currExams).html('');
-        $.post('/AG/GetSpecializations', { classid: $('#EntryClassId').val(), programid: $(currProfessions).val(), CommitId : $('#CommitId').val() }, function (json_data, i) {
+        $.post('/AbiturientNew/GetSpecializations_AG', { classid: $('#EntryClassId').val(), programid: $(currProfiles).val(), profileid: $(currProfessions).val(), CommitId : $('#CommitId').val() }, function (json_data, i) {
             if (json_data.IsOk) {
                 $(currObrazProgramErrors).text('').hide();
                 if (json_data.HasProfileExams) {
@@ -133,12 +174,13 @@
         currObrazProgramErrors = '#ObrazProgramsErrors' + i;
         currProfile = '#Profile' + i;
         currProfessions = '#Professions' + i;
+        currProfiles = '#Profiles' + i;
 
         $(currFinishButton).hide();
         $(currManualExam).hide();
         $(currExams).html('');
 
-        $.post('/AG/CheckSpecializations', { classid: $('#EntryClassId').val(), programid: $(currProfessions).val(), specid: $(currProfile).val(), CommitId : $('#CommitId').val() }, function (json_data) {
+        $.post('/AbiturientNew/CheckSpecializations_AG', { classid: $('#EntryClassId').val(), programid: $(currProfiles).val(), specid: $(currProfessions).val(), CommitId : $('#CommitId').val() }, function (json_data) {
             if (json_data.IsOk) {
                 $(currObrazProgramErrors).text('').hide();
                 if (json_data.HasProfileExams) {
@@ -171,7 +213,7 @@
         currExams = '#Exams' + i;
         currManualExam = '#ManualExam' + i;
         currObrazProgramErrors = '#ObrazProgramsErrors' + i;
-        currProfile = '#Profile' + i;
+        currProfile = '#Profiles' + i;
         currProfessions = '#Professions' + i;
         currBlock = '#Block' + i;
         currNeedHostel = '#NeedHostel' + i;
@@ -183,7 +225,7 @@
         currBlockData_Specialization = '#BlockData_Specialization' + i;
         currBlockData_ManualExam = '#BlockData_ManualExam' + i;
 
-        $.post('/AbiturientNew/CheckApplication_AG', { Entryclass: $('#EntryClassId').val(), profession: $(currProfessions).val(), profileid: $(currProfile).val(), manualExam : $(currManualExam).val(), NeedHostel: $(currNeedHostel).is(':checked'), CommitId : $('#CommitId').val() }, function(json_data) {
+        $.post('/AbiturientNew/CheckApplication_AG', { Entryclass: $('#EntryClassId').val(), profession: $(currProfile).val(), profileid: $(currProfessions).val(), manualExam : $(currManualExam).val(), NeedHostel: $(currNeedHostel).is(':checked'), CommitId : $('#CommitId').val() }, function(json_data) {
             if (json_data.IsOk) {
                 $('#FinishBtn' + i).show();
             }
@@ -203,7 +245,7 @@
         currExams = '#Exams' + i;
         currManualExam = '#ManualExam' + i;
         currObrazProgramErrors = '#ObrazProgramsErrors' + i;
-        currProfile = '#Profile' + i;
+        currProfile = '#Profiles' + i;
         currProfessions = '#Professions' + i;
         currBlock = '#Block' + i;
         currNeedHostel = '#NeedHostel' + i;
@@ -216,7 +258,7 @@
         currBlockData_ManualExam = '#BlockData_ManualExam' + i;
         currBlockDataTr_ManualExam = '#BlockDataTr_ManualExam' + i;
 
-        $.post('/AbiturientNew/AddApplication_AG', { Entryclass: $('#EntryClassId').val(), profession: $(currProfessions).val(), profileid: $(currProfile).val(), manualExam : $(currExams).val(), NeedHostel: $(currNeedHostel).is(':checked'), CommitId : $('#CommitId').val() }, function(json_data) {
+        $.post('/AbiturientNew/AddApplication_AG', { Entryclass: $('#EntryClassId').val(), profession: $(currProfile).val(), profileid: $(currProfessions).val(), manualExam : $(currExams).val(), NeedHostel: $(currNeedHostel).is(':checked'), CommitId : $('#CommitId').val() }, function(json_data) {
             if (json_data.IsOk) {
                 $(currBlockData_Profession).text(json_data.Profession);
                 $(currBlockData_Specialization).text(json_data.Specialization);
@@ -324,10 +366,14 @@
     </div>
     <div id="Block<%= i.ToString()%>" style="display:none; width:500px;" class="panel">
         <h5><%= GetGlobalResourceObject("NewApplication", "AGHeaderProgram").ToString()%></h5>
-        <p id="Profs<%= i.ToString()%>">
+        <p id="AG_Profiles<%= i.ToString()%>">
+            <span><%= GetGlobalResourceObject("NewApplication", "AGProfile").ToString()%></span><br />
+            <%= Html.DropDownList("Profiles" + i.ToString(), Model.Profiles, new SortedList<string, object>() { { "size", "5" }, 
+{ "style", "min-width:450px;" }, { "onchange", "GetProfs(" + i.ToString() + ")"} })%>
+        </p>
+        <p id="Profs<%= i.ToString()%>" style="display:none;">
             <span><%= GetGlobalResourceObject("NewApplication", "AGProgram").ToString()%></span><br />
-            <%= Html.DropDownList("Professions" + i.ToString(), Model.Professions, new SortedList<string, object>() { { "size", "5" }, 
-{ "style", "min-width:450px;" }, { "onchange", "GetSpecializations(" + i.ToString() + ")"} })%>
+            <select id="Professions<%= i.ToString()%>" name="Professions" size="5" style="min-width:450px;" onchange="GetSpecializations(<%= i.ToString()%>)"></select>
         </p>
         <p id="Specs<%= i.ToString()%>" style="display:none;">
             <span><%= GetGlobalResourceObject("NewApplication", "AGSpecialization").ToString()%></span><br />
@@ -372,10 +418,14 @@
     </div>
     <div id="Block<%= i.ToString()%>" style="display:none; width:500px;" class="panel">
         <h5><%= GetGlobalResourceObject("NewApplication", "AGHeaderProgram").ToString()%></h5>
-        <p id="Profs<%= i.ToString()%>">
+        <p id="AG_Profiles<%= i.ToString()%>">
+            <span><%= GetGlobalResourceObject("NewApplication", "AGProfile").ToString()%></span><br />
+            <%= Html.DropDownList("Profiles" + i.ToString(), Model.Profiles, new SortedList<string, object>() { { "size", "5" }, 
+{ "style", "min-width:450px;" }, { "onchange", "GetProfs(" + i.ToString() + ")"} })%>
+        </p>
+        <p id="Profs<%= i.ToString()%>" style="display:none;">
             <span><%= GetGlobalResourceObject("NewApplication", "AGProgram").ToString()%></span><br />
-            <%= Html.DropDownList("Professions" + i.ToString(), Model.Professions, new SortedList<string, object>() { { "size", "5" }, 
-{ "style", "min-width:450px;" }, { "onchange", "GetSpecializations(" + i.ToString() + ")"} })%>
+            <select id="Professions<%= i.ToString()%>" name="Professions" size="5" style="min-width:450px;" onchange="GetSpecializations(<%= i.ToString()%>)"></select>
         </p>
         <p id="Specs<%= i.ToString()%>" style="display:none;">
             <span><%= GetGlobalResourceObject("NewApplication", "AGSpecialization").ToString()%></span><br />

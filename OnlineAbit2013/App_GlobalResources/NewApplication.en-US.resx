@@ -300,4 +300,7 @@
   <data name="AbitMessage" xml:space="preserve">
     <value>On this page you should select all the applications by pressing the button "Add". &lt;br&gt;Press the button "Submit" to finish.</value>
   </data>
+  <data name="BlockData_IsForeign" xml:space="preserve">
+    <value>Competition for Foreigners/Gosline</value>
+  </data>
 </root>

@@ -68,7 +68,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Application_ApplicationCommit", "ApplicationCommit", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ApplicationCommit), "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Application), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationFile_Application", "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Application), "ApplicationFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationFile), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonChangeStudyFormReason_Application", "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Application), "PersonChangeStudyFormReason", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonChangeStudyFormReason), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationCommitVersion_ApplicationCommit", "ApplicationCommit", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.ApplicationCommit), "ApplicationCommitVersion", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationCommitVersion), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationCommitVersion_ApplicationCommit", "ApplicationCommit", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ApplicationCommit), "ApplicationCommitVersion", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationCommitVersion), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationFile_ApplicationCommit", "ApplicationCommit", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.ApplicationCommit), "ApplicationFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationFile), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonChangeStudyFormReason_ApplicationCommit", "ApplicationCommit", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.ApplicationCommit), "PersonChangeStudyFormReason", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonChangeStudyFormReason), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Country_Region", "Region", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Region), "Country", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Country), true)]
@@ -2261,6 +2261,7 @@ namespace OnlineAbit2013
         /// <param name="obrazProgramId">Initial value of the ObrazProgramId property.</param>
         /// <param name="obrazProgramCrypt">Initial value of the ObrazProgramCrypt property.</param>
         /// <param name="obrazProgramName">Initial value of the ObrazProgramName property.</param>
+        /// <param name="profileId">Initial value of the ProfileId property.</param>
         /// <param name="profileName">Initial value of the ProfileName property.</param>
         /// <param name="studyBasisId">Initial value of the StudyBasisId property.</param>
         /// <param name="studyFormId">Initial value of the StudyFormId property.</param>
@@ -2280,7 +2281,7 @@ namespace OnlineAbit2013
         /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
         /// <param name="isCommonRussianCompetition">Initial value of the IsCommonRussianCompetition property.</param>
         /// <param name="isPrinted">Initial value of the IsPrinted property.</param>
-        public static Abiturient CreateAbiturient(global::System.Guid id, global::System.Guid personId, global::System.Int32 priority, global::System.Int32 barcode, global::System.Boolean enabled, global::System.Int32 entryType, global::System.Boolean hostelEduc, global::System.DateTime dateOfStart, global::System.Guid entryId, global::System.Int32 licenseProgramId, global::System.String licenseProgramName, global::System.Int32 obrazProgramId, global::System.String obrazProgramCrypt, global::System.String obrazProgramName, global::System.String profileName, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isApprovedByComission, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Int32 semesterId, global::System.Boolean isParallel, global::System.Int32 campaignYear, global::System.Guid commitId, global::System.Boolean isCommited, global::System.Int32 studyLevelGroupId, global::System.Boolean isGosLine, global::System.Int32 applicationCommitNumber, global::System.Boolean isImported, global::System.Boolean isDeleted, global::System.Boolean isCommonRussianCompetition, global::System.Boolean isPrinted)
+        public static Abiturient CreateAbiturient(global::System.Guid id, global::System.Guid personId, global::System.Int32 priority, global::System.Int32 barcode, global::System.Boolean enabled, global::System.Int32 entryType, global::System.Boolean hostelEduc, global::System.DateTime dateOfStart, global::System.Guid entryId, global::System.Int32 licenseProgramId, global::System.String licenseProgramName, global::System.Int32 obrazProgramId, global::System.String obrazProgramCrypt, global::System.String obrazProgramName, global::System.Int32 profileId, global::System.String profileName, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isApprovedByComission, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Int32 semesterId, global::System.Boolean isParallel, global::System.Int32 campaignYear, global::System.Guid commitId, global::System.Boolean isCommited, global::System.Int32 studyLevelGroupId, global::System.Boolean isGosLine, global::System.Int32 applicationCommitNumber, global::System.Boolean isImported, global::System.Boolean isDeleted, global::System.Boolean isCommonRussianCompetition, global::System.Boolean isPrinted)
         {
             Abiturient abiturient = new Abiturient();
             abiturient.Id = id;
@@ -2297,6 +2298,7 @@ namespace OnlineAbit2013
             abiturient.ObrazProgramId = obrazProgramId;
             abiturient.ObrazProgramCrypt = obrazProgramCrypt;
             abiturient.ObrazProgramName = obrazProgramName;
+            abiturient.ProfileId = profileId;
             abiturient.ProfileName = profileName;
             abiturient.StudyBasisId = studyBasisId;
             abiturient.StudyFormId = studyFormId;
@@ -2848,9 +2850,9 @@ namespace OnlineAbit2013
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Guid> ProfileId
+        public global::System.Int32 ProfileId
         {
             get
             {
@@ -2865,8 +2867,8 @@ namespace OnlineAbit2013
                 OnProfileIdChanged();
             }
         }
-        private Nullable<global::System.Guid> _ProfileId;
-        partial void OnProfileIdChanging(Nullable<global::System.Guid> value);
+        private global::System.Int32 _ProfileId;
+        partial void OnProfileIdChanging(global::System.Int32 value);
         partial void OnProfileIdChanged();
     
         /// <summary>
@@ -4450,7 +4452,9 @@ namespace OnlineAbit2013
         /// <param name="profileId">Initial value of the ProfileId property.</param>
         /// <param name="entryClassId">Initial value of the EntryClassId property.</param>
         /// <param name="hasManualExams">Initial value of the HasManualExams property.</param>
-        public static AG_Entry CreateAG_Entry(global::System.Guid id, global::System.Int32 programId, global::System.Int32 obrazProgramId, global::System.Int32 profileId, global::System.Int32 entryClassId, global::System.Boolean hasManualExams)
+        /// <param name="dateOfStartEntry">Initial value of the DateOfStartEntry property.</param>
+        /// <param name="dateOfStopEntry">Initial value of the DateOfStopEntry property.</param>
+        public static AG_Entry CreateAG_Entry(global::System.Guid id, global::System.Int32 programId, global::System.Int32 obrazProgramId, global::System.Int32 profileId, global::System.Int32 entryClassId, global::System.Boolean hasManualExams, global::System.DateTime dateOfStartEntry, global::System.DateTime dateOfStopEntry)
         {
             AG_Entry aG_Entry = new AG_Entry();
             aG_Entry.Id = id;
@@ -4459,6 +4463,8 @@ namespace OnlineAbit2013
             aG_Entry.ProfileId = profileId;
             aG_Entry.EntryClassId = entryClassId;
             aG_Entry.HasManualExams = hasManualExams;
+            aG_Entry.DateOfStartEntry = dateOfStartEntry;
+            aG_Entry.DateOfStopEntry = dateOfStopEntry;
             return aG_Entry;
         }
 
@@ -4616,9 +4622,9 @@ namespace OnlineAbit2013
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> DateOfStartEntry
+        public global::System.DateTime DateOfStartEntry
         {
             get
             {
@@ -4633,16 +4639,16 @@ namespace OnlineAbit2013
                 OnDateOfStartEntryChanged();
             }
         }
-        private Nullable<global::System.DateTime> _DateOfStartEntry;
-        partial void OnDateOfStartEntryChanging(Nullable<global::System.DateTime> value);
+        private global::System.DateTime _DateOfStartEntry;
+        partial void OnDateOfStartEntryChanging(global::System.DateTime value);
         partial void OnDateOfStartEntryChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> DateOfStopEntry
+        public global::System.DateTime DateOfStopEntry
         {
             get
             {
@@ -4657,8 +4663,8 @@ namespace OnlineAbit2013
                 OnDateOfStopEntryChanged();
             }
         }
-        private Nullable<global::System.DateTime> _DateOfStopEntry;
-        partial void OnDateOfStopEntryChanging(Nullable<global::System.DateTime> value);
+        private global::System.DateTime _DateOfStopEntry;
+        partial void OnDateOfStopEntryChanging(global::System.DateTime value);
         partial void OnDateOfStopEntryChanged();
 
         #endregion
@@ -7010,10 +7016,14 @@ namespace OnlineAbit2013
         /// Create a new ApplicationCommitVersion object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        public static ApplicationCommitVersion CreateApplicationCommitVersion(global::System.Int32 id)
+        /// <param name="commitId">Initial value of the CommitId property.</param>
+        /// <param name="versionDate">Initial value of the VersionDate property.</param>
+        public static ApplicationCommitVersion CreateApplicationCommitVersion(global::System.Int32 id, global::System.Guid commitId, global::System.DateTime versionDate)
         {
             ApplicationCommitVersion applicationCommitVersion = new ApplicationCommitVersion();
             applicationCommitVersion.Id = id;
+            applicationCommitVersion.CommitId = commitId;
+            applicationCommitVersion.VersionDate = versionDate;
             return applicationCommitVersion;
         }
 
@@ -7051,9 +7061,9 @@ namespace OnlineAbit2013
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Guid> CommitId
+        public global::System.Guid CommitId
         {
             get
             {
@@ -7068,16 +7078,16 @@ namespace OnlineAbit2013
                 OnCommitIdChanged();
             }
         }
-        private Nullable<global::System.Guid> _CommitId;
-        partial void OnCommitIdChanging(Nullable<global::System.Guid> value);
+        private global::System.Guid _CommitId;
+        partial void OnCommitIdChanging(global::System.Guid value);
         partial void OnCommitIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> VersionDate
+        public global::System.DateTime VersionDate
         {
             get
             {
@@ -7092,8 +7102,8 @@ namespace OnlineAbit2013
                 OnVersionDateChanged();
             }
         }
-        private Nullable<global::System.DateTime> _VersionDate;
-        partial void OnVersionDateChanging(Nullable<global::System.DateTime> value);
+        private global::System.DateTime _VersionDate;
+        partial void OnVersionDateChanging(global::System.DateTime value);
         partial void OnVersionDateChanged();
 
         #endregion
@@ -8319,7 +8329,8 @@ namespace OnlineAbit2013
         /// <param name="isDistance">Initial value of the IsDistance property.</param>
         /// <param name="campaignYear">Initial value of the CampaignYear property.</param>
         /// <param name="isUsedForPriem">Initial value of the IsUsedForPriem property.</param>
-        public static C_Entry CreateC_Entry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 profileId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem)
+        /// <param name="isForeign">Initial value of the IsForeign property.</param>
+        public static C_Entry CreateC_Entry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 profileId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.Boolean isForeign)
         {
             C_Entry c_Entry = new C_Entry();
             c_Entry.Id = id;
@@ -8338,6 +8349,7 @@ namespace OnlineAbit2013
             c_Entry.IsDistance = isDistance;
             c_Entry.CampaignYear = campaignYear;
             c_Entry.IsUsedForPriem = isUsedForPriem;
+            c_Entry.IsForeign = isForeign;
             return c_Entry;
         }
 
@@ -9019,6 +9031,30 @@ namespace OnlineAbit2013
         private Nullable<global::System.Int32> _ComissionId;
         partial void OnComissionIdChanging(Nullable<global::System.Int32> value);
         partial void OnComissionIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsForeign
+        {
+            get
+            {
+                return _IsForeign;
+            }
+            set
+            {
+                OnIsForeignChanging(value);
+                ReportPropertyChanging("IsForeign");
+                _IsForeign = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsForeign");
+                OnIsForeignChanged();
+            }
+        }
+        private global::System.Boolean _IsForeign;
+        partial void OnIsForeignChanging(global::System.Boolean value);
+        partial void OnIsForeignChanged();
 
         #endregion
 
@@ -10480,7 +10516,8 @@ namespace OnlineAbit2013
         /// <param name="licenseProgramName">Initial value of the LicenseProgramName property.</param>
         /// <param name="obrazProgramCrypt">Initial value of the ObrazProgramCrypt property.</param>
         /// <param name="studyLevelGroupId">Initial value of the StudyLevelGroupId property.</param>
-        public static Entry CreateEntry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Int32 profileId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.String obrazProgramName, global::System.String number, global::System.String licenseProgramName, global::System.String obrazProgramCrypt, global::System.Int32 studyLevelGroupId)
+        /// <param name="isForeign">Initial value of the IsForeign property.</param>
+        public static Entry CreateEntry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Int32 profileId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.String obrazProgramName, global::System.String number, global::System.String licenseProgramName, global::System.String obrazProgramCrypt, global::System.Int32 studyLevelGroupId, global::System.Boolean isForeign)
         {
             Entry entry = new Entry();
             entry.Id = id;
@@ -10504,6 +10541,7 @@ namespace OnlineAbit2013
             entry.LicenseProgramName = licenseProgramName;
             entry.ObrazProgramCrypt = obrazProgramCrypt;
             entry.StudyLevelGroupId = studyLevelGroupId;
+            entry.IsForeign = isForeign;
             return entry;
         }
 
@@ -11701,6 +11739,33 @@ namespace OnlineAbit2013
         private global::System.String _LicenseProgramNewCode;
         partial void OnLicenseProgramNewCodeChanging(global::System.String value);
         partial void OnLicenseProgramNewCodeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsForeign
+        {
+            get
+            {
+                return _IsForeign;
+            }
+            set
+            {
+                if (_IsForeign != value)
+                {
+                    OnIsForeignChanging(value);
+                    ReportPropertyChanging("IsForeign");
+                    _IsForeign = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("IsForeign");
+                    OnIsForeignChanged();
+                }
+            }
+        }
+        private global::System.Boolean _IsForeign;
+        partial void OnIsForeignChanging(global::System.Boolean value);
+        partial void OnIsForeignChanged();
 
         #endregion
 

@@ -311,7 +311,7 @@ namespace OnlineAbit2013.Controllers
                 var Version = context.ApplicationCommitVersion.Where(x => x.CommitId == appId).Select(x => new { x.VersionDate, x.Id }).ToList().LastOrDefault();
                 string sVersion = "";
                 if (Version != null)
-                    sVersion = "Версия №" + Version.Id + (Version.VersionDate.HasValue ? " от " + Version.VersionDate.Value.ToString("dd.MM.yyyy HH:mm") : "");
+                    sVersion = "Версия №" + Version.Id + " от " + Version.VersionDate.ToString("dd.MM.yyyy HH:mm");
                 string FIO = ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim();
 
                 List<ShortAppcation> lstApps = abitList
@@ -1987,7 +1987,7 @@ namespace OnlineAbit2013.Controllers
                  select rw.Field<string>("PrintName") + " " + rw.Field<string>("DocumentNumber"));
 
             MemoryStream ms = new MemoryStream();
-            string dotName = "ApplicationAG_2013.pdf";
+            string dotName = "ApplicationAG_2015.pdf";
 
             byte[] templateBytes;
             using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
@@ -2737,7 +2737,7 @@ namespace OnlineAbit2013.Controllers
                     };
 
                 MemoryStream ms = new MemoryStream();
-                string dotName = "ApplicationAG.pdf";
+                string dotName = "ApplicationAG_2015.pdf";
 
                 byte[] templateBytes;
                 using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
@@ -2771,6 +2771,11 @@ namespace OnlineAbit2013.Controllers
                         acrFlds.SetField("chbIsPriority" + i, "1");
                         hasSecondApp = false;
                     }
+
+                    if (abit.ClassNum.IndexOf("10") < 0)
+                        acrFlds.SetField("chbSchoolLevel1" + i, "1");
+                    else
+                        acrFlds.SetField("chbSchoolLevel2" + i, "1");
 
                     acrFlds.SetField("RegNum" + i, code);
                     acrFlds.SetField("Profession" + i, abit.Profession);
@@ -2908,7 +2913,7 @@ namespace OnlineAbit2013.Controllers
                 var Version = context.ApplicationCommitVersion.Where(x => x.CommitId == appId).Select(x => new { x.VersionDate, x.Id }).ToList().LastOrDefault();
                 string sVersion = "";
                 if (Version != null)
-                    sVersion = "Отказ от заявления №" + Version.Id + (Version.VersionDate.HasValue ? " от " + Version.VersionDate.Value.ToString("dd.MM.yyyy HH:mm") : "");
+                    sVersion = "Отказ от заявления №" + Version.Id + " от " + Version.VersionDate.ToString("dd.MM.yyyy HH:mm");
                 string FIO = ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim();
 
                 List<ShortAppcation> lstApps = abitList

@@ -15,10 +15,9 @@
 <% if (!Model.Enabled)
    {
        if (Model.HasError)
-       {  %>
-       <div class="error message"><%= Model.ErrorMessage%></div>  
+       {  %>   
+    <div class="error message"><%= Model.ErrorMessage%></div>  
        <% } %>
-   
 <%}
    else
    { %>
@@ -49,14 +48,14 @@
         var CurrSpecs = '#Specs'+i;
         var CurrFinishBtn = '#FinishBtn'+i; 
         var CurrStudyLevel = '#StudyLevel'+i; 
-        var CurrGosLine = '#GosLine'+i; 
+        var CurrIsForeign = '#IsForeign'+i; 
 
         $(CurrStudyLevel).hide();
         $(CurrProfs).hide();
         $(CurrObrazPrograms).hide();
         $(CurrSpecs).hide();
         $(CurrFinishBtn).hide();
-        $(CurrGosLine).hide();
+        $(CurrIsForeign).hide();
         $.post('/AbiturientNew/GetStudyLevels_SPO', { studyform: $('#StudyFormId'+i).val(), studybasis: $('#StudyBasisId'+i).val(),
             entry: $('#EntryType').val(), isSecond: $('#IsSecondHidden'+i).val(), isParallel: $('#IsParallelHidden'+i).val(), isReduced : $('#IsReducedHidden'+i).val() }, function (json_data) 
             {
@@ -90,13 +89,13 @@
         var CurrlObrazProgram = '#lObrazProgram'+i; 
         var CurrSpecs = '#Specs'+i;
         var CurrFinishBtn = '#FinishBtn'+i; 
-        var CurrGosLine = '#GosLine'+i; 
+        var CurrIsForeign = '#IsForeign'+i; 
 
         $(CurrProfs).show();
         $(CurrObrazPrograms).hide();
         $(CurrSpecs).hide();
         $(CurrFinishBtn).hide();
-        $(CurrGosLine).hide();
+        $(CurrIsForeign).hide();
         $.post('/AbiturientNew/GetProfs', { studyform: $('#StudyFormId'+i).val(), studybasis: $('#StudyBasisId'+i).val(),
             entry: $('#StudyLevel' + i).val(), isSecond: $('#IsSecondHidden'+i).val(), isParallel: $('#IsParallelHidden'+i).val(), isReduced : $('#IsReducedHidden'+i).val() }, function (json_data) 
         {
@@ -130,7 +129,7 @@
         var CurrlObrazProgram = '#lObrazProgram'+i; 
         var CurrSpecs = '#Specs'+i;
         var CurrFinishBtn = '#FinishBtn'+i; 
-        var CurrGosLine = '#GosLine'+i;  
+        var CurrIsForeign = '#IsForeign'+i;  
         var profId = $(CurrlProfession).val();
         var sfId = $('#StudyFormId'+i).val();
         flag = false;
@@ -141,7 +140,7 @@
         $(CurrObrazPrograms).show();
         $(CurrSpecs).hide();
         $(CurrFinishBtn).hide();
-        $(CurrGosLine).hide();
+        $(CurrIsForeign).hide();
         var I = i;
         $.post('/AbiturientNew/GetObrazPrograms', { prof: profId, studyform: sfId, studybasis: $('#StudyBasisId'+i).val(), 
             entry: $('#StudyLevel' + i).val(), isParallel: $('#IsParallelHidden'+i).val(), isReduced : $('#IsReducedHidden'+i).val(), 
@@ -186,35 +185,35 @@
         var CurrSpecs = '#Specs'+i;
         var CurrlSpecialization = '#lSpecialization'+i;
         var CurrFinishBtn = '#FinishBtn'+i; 
-        var CurrGosLine = '#GosLine'+i;  
-        var CurrGosLineHidden = '#isGosLineHidden'+i;  
+        var CurrIsForeign = '#IsForeign'+i;  
+        var CurrIsForeignHidden = '#isForeignHidden'+i;  
         $(CurrProfs).show();
         $(CurrObrazPrograms).show();
         $(CurrSpecs).hide();
         $(CurrFinishBtn).hide();
-        $(CurrGosLine).hide();
+        $(CurrIsForeign).hide();
         $.post('/AbiturientNew/GetSpecializations', { prof: profId, obrazprogram: opId, studyform: $('#StudyFormId'+i).val(), 
             studybasis: $('#StudyBasisId'+i).val(), entry: $('#StudyLevel' + i).val(), CommitId: $('#CommitId').val(), isParallel: $('#IsParallelHidden'+i).val(), 
             isReduced : $('#IsReducedHidden'+i).val(), semesterId : $('#SemesterId'+i).val() }, function (json_data) {
             var options = '';
             if (sbId==1){ //<!-- Бюджет -->
                 if (json_data.GosLine==0) { //<!-- Рф - РФ (только общий прием) -->
-                    $(CurrGosLine).hide();
-                    $(CurrGosLineHidden).val('0');
+                    $(CurrIsForeign).hide();
+                    $(CurrIsForeignHidden).val('0');
                 } 
                 else {
                     if (json_data.GosLine==1) { //<!-- неРф - неРФ или неСНГ-РФ (бд 1, только гослиния)-->
-                        $(CurrGosLine).hide();
-                        $(CurrGosLineHidden).val('1');  
+                        $(CurrIsForeign).hide();
+                        $(CurrIsForeignHidden).val('1');  
                     }
                     else { 
-                        $(CurrGosLine).show();  
+                        $(CurrIsForeign).show();  
                     }
                 }
             }
             else{
-                $(CurrGosLine).hide();
-                $(CurrGosLineHidden).val('0');
+                $(CurrIsForeign).hide();
+                $(CurrIsForeignHidden).val('0');
             } 
             
             if (json_data.ret.List.length == 1 && json_data.ret.List[0].Name == 'нет') {
@@ -226,7 +225,7 @@
                     var text = $('#ErrorHasApplication').text();
                     $(CurrObrazProgramsErrors).text(text).show();
                     $(CurrlSpecialization).attr('disabled', 'disabled').hide();
-                    $(CurrGosLine).hide();  
+                    $(CurrIsForeign).hide();  
                 }
                 else {    
                     for (var i = 0; i< json_data.ret.List.length; i++) {
@@ -287,8 +286,8 @@
         currSpecs = '#Specs' + i;    
         currObrazProgramErrors = '#ObrazProgramsErrors' + i;  
         currNeedHostel = '#NeedHostel' + i;
-        currGosLineHidden = '#isGosLineHidden'+i;
-        currGosLine = '#isGosLine'+i;
+        CurrIsForeignHidden = '#isForeignHidden'+i;
+        CurrIsForeign = '#IsForeign'+i;
 
         currBlock = '#Block' + i; 
         currBlockData = '#BlockData' + i;
@@ -314,7 +313,7 @@
         obrazprogram: $('#lObrazProgram'+i).val(), 
         specialization: $('#lSpecialization'+i).val(), 
         NeedHostel: $('#NeedHostel' + i).is(':checked'), 
-        IsGosLine: $('#isGosLineHidden'+i).val(),
+        IsForeign: $('#isForeignHidden'+i).val(),
         CommitId: $('#CommitId').val() 
           }, 
           function(json_data) {
@@ -340,17 +339,17 @@
         $('#Submit').removeAttr("disabled");
     }
     
-    function ChangeGosLine(i) {
-        if ($('#IsGosLine'+i).is(':checked')){
-            var CurrGosLineHidden = '#isGosLineHidden'+i;  
-            $(CurrGosLineHidden).val('1');
+    function ChangeIsForeign(i) {
+        if ($('#IsForeign'+i).is(':checked')){
+            var CurrIsForeignHidden = '#isForeignHidden'+i;  
+            $(CurrIsForeignHidden).val('1');
         }
         else{
-            var CurrGosLineHidden = '#isGosLineHidden'+i;  
-            $(CurrGosLineHidden).val('0');
+            var CurrIsForeignHidden = '#isForeignHidden'+i;  
+            $(CurrIsForeignHidden).val('0');
         }
     }
-function DeleteMsg(i)
+    function DeleteMsg(i)
     {
         var I = i;
         if (1!=2){
@@ -413,23 +412,18 @@ function DeleteMsg(i)
 <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
 <% using (Html.BeginForm("NewApp_SPO", "AbiturientNew", FormMethod.Post))
    { 
-%> 
-    <% if (Model.HasError)
-       { %>
-        <div class="error message"><%= Model.ErrorMessage%></div>
+       if (Model.HasError)
+       { %>    
+    <div class="error message"><%= Model.ErrorMessage%></div>
     <% } %>
     <%= Html.HiddenFor(x => x.CommitId)%>
-    <% if (!String.IsNullOrEmpty(Model.OldCommitId)){ %><%= Html.HiddenFor(x => x.OldCommitId)%><%} %>
-    <% if (2 == 1 && DateTime.Now < new DateTime(2012, 6, 20, 0, 0, 0))
+    <% if (!String.IsNullOrEmpty(Model.OldCommitId)){ %><%= Html.HiddenFor(x => x.OldCommitId)%><%} %> 
+    <p class = "error message">    
+        <%= GetGlobalResourceObject("NewApplication", "AbitMessage")%>    
+    </p>
+    <input type="hidden" id = "EntryType" name = "EntryType" value="3" />
+    <% for (int i = 1; i <= Model.Applications.Count; i++)
        { %>
-       <div class="message warning">Внимание! Подача заявлений на <strong style="font-size:10pt">первый курс</strong> начнётся с <strong style="font-size:11pt">20 июня 2012 года</strong></div>
-    <% } %>
-     <p class = "error message">
-            <%= GetGlobalResourceObject("NewApplication", "AbitMessage")%>
-        </p>
-        <input type="hidden" id = "EntryType" name = "EntryType" value="3" />
-        <% for (int i = 1; i <= Model.Applications.Count; i++)
-           { %>
     <div id="BlockData<%= i.ToString()%>" class="message info panel" style="width:659px;">
         <table class="nopadding" cellspacing="0" cellpadding="0">
             <tr>
@@ -460,10 +454,12 @@ function DeleteMsg(i)
                 <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_Specialization")%></td>
                 <td id="BlockData_Specialization<%= i.ToString()%>" style="font-size:1.3em;" ><%= Model.Applications[i - 1].SpecializationName%></td>
             </tr>
-        </table>
-         <button type="button" 
+        </table> 
+        <button type="button" 
                 <% if (Model.Applications[i-1].DateOfClose < DateTime.Now) { %>onclick="DeleteMsg(<%= i.ToString()%>)" <% } else { %> onclick="DeleteApp(<%= i.ToString()%>)" <% } %>
-                class="error"><%= GetGlobalResourceObject("NewApplication", "Delete")%></button>
+                class="error">
+            <%= GetGlobalResourceObject("NewApplication", "Delete")%>
+        </button>
         <div id="ObrazProgramsErrors_Block<%= i.ToString()%>" class="message error" style="display:none; width:450px;">
         </div>
     </div>
@@ -499,16 +495,16 @@ function DeleteMsg(i)
             <span><%= GetGlobalResourceObject("NewApplication", "HeaderFaculty")%></span><br />
             <select id="lFaculty<%= i.ToString()%>" size="2" name="lFaculty" onchange="GetProfessions(<%= i.ToString()%>)"></select>
         </p>
-        <div id = "GosLine<%= i.ToString()%>" style="display:none;" >
-             <input type="checkbox" name="isGosLine" title="Поступать по гослинии" id="IsGosLine<%= i.ToString()%>" onchange="ChangeGosLine(<%= i.ToString()%>)"/><span style="font-size:13px">Поступать по гослинии</span><br /><br />
-             <input type="hidden" name="isGosLineHidden" title="Поступать по гослинии" id="isGosLineHidden<%= i.ToString()%>" ></input>
+        <div id="IsForeign<%= i.ToString()%>" style="display:none;" >
+             <input type="checkbox" name="IsForeign" title="Поступать по гослинии" id="IsForeign<%= i.ToString()%>" onchange="ChangeIsForeign(<%= i.ToString()%>)"/><span style="font-size:13px">Поступать по гослинии</span><br /><br />
+             <input type="hidden" name="isForeignHidden" title="Поступать по гослинии" id="isForeignHidden<%= i.ToString()%>" ></input>
         </div>
         <div id="FinishBtn<%= i.ToString()%>" style="border-collapse:collapse;">
             <input id="Submit<%= i.ToString()%>" type="button" value=<%=GetGlobalResourceObject("NewApplication", "btnAdd").ToString()%> onclick="SaveData(<%= i.ToString()%>)" class="button button-blue"/>
         </div><br />
-        <span id="ObrazProgramsErrors<%= i.ToString()%>" class="message error" style="display:none;"></span>
-        </div>
-       <%} %>
+        <span id="ObrazProgramsErrors<%= i.ToString()%>" class="message error" style="display:none;"></span> 
+    </div>
+    <% } %>
     <span id="NewApp_NoFreeEntries" class="message error" style="display:none;"><%= GetGlobalResourceObject("NewApplication", "NewApp_NoFreeEntries")%></span>
     <span id="ErrorHasApplication" class="message error" style="display:none;"><%= GetGlobalResourceObject("NewApplication", "ErrorHasApplication")%></span>
     <% for (int i = Model.Applications.Count + 1; i <= Model.MaxBlocks; i++)
@@ -580,9 +576,9 @@ function DeleteMsg(i)
             <span>Факультет</span><br />
             <select id="lFaculty<%= i.ToString()%>" size="2" name="lFaculty" onchange="GetProfessions(<%= i.ToString()%>)"></select>
         </p> 
-        <div id = "GosLine<%= i.ToString()%>" style="display:none;" >
-             <input type="checkbox" name="isGosLine" title="Поступать по гослинии" id="IsGosLine<%= i.ToString()%>" onchange="ChangeGosLine(<%= i.ToString()%>)"/><span style="font-size:13px">Поступать по гослинии</span><br /><br />
-             <input type="hidden" name="isGosLineHidden" title="Поступать по гослинии" id="isGosLineHidden<%= i.ToString()%>" ></input>
+        <div id="IsForeign<%= i.ToString()%>" style="display:none;" >
+            <input type="checkbox" name="isForeign" title="Поступать по гослинии" id="IsForeign<%= i.ToString()%>" onchange="ChangeIsForeign(<%= i.ToString()%>)"/><span style="font-size:13px">Поступать по гослинии</span><br /><br /> 
+            <input type="hidden" name="isForeignHidden" title="Поступать по гослинии" id="isForeignHidden<%= i.ToString()%>" ></input>
         </div>
         <div id="FinishBtn<%= i.ToString()%>" style="border-collapse:collapse;">
             <input id="Submit<%= i.ToString()%>" type="button" value=<%=GetGlobalResourceObject("NewApplication", "btnAdd").ToString()%> onclick="SaveData(<%= i.ToString()%>)" class="button button-blue"/>
@@ -593,11 +589,11 @@ function DeleteMsg(i)
     <br />
     <input id="Submit" type="submit" <% if (!Model.ProjectJuly){ %>disabled <%} %> value=<%=GetGlobalResourceObject("NewApplication", "btnSubmit").ToString()%>  class="button button-green"/>
 <% 
-   }
-   }
+   } //using (Html.BeginForm("NewApp_SPO", "AbiturientNew", FormMethod.Post))
+   } //if (Model.Enabled)
 %>
-<div id="dialog-form" style="display:none;">
-    <p class="errMessage"></p>
-    <p>Так как прием на данное направление закрыт, то конкурс нельзя будет добавить снова. Вы хотите удалить заявление?</p>
-</div>
+    <div id="dialog-form" style="display:none;">
+        <p class="errMessage"></p>
+        <p>Так как прием на данное направление закрыт, то конкурс нельзя будет добавить снова. Вы хотите удалить заявление?</p>
+    </div>
 </asp:Content>

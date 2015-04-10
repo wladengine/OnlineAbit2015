@@ -727,7 +727,7 @@ namespace OnlineAbit2013.Models
         public int EntryClassId { get; set; }
         public bool HasError { get; set; }
         public string ErrorMessage { get; set; }
-        public List<SelectListItem> Professions { get; set; }
+        public List<SelectListItem> Profiles { get; set; }
         public List<int> PersonFilesId {get; set;}
         public List<KeyValuePair<int, string>> RequiredFiles { get; set; }
         public int MaxBlocks { get; set; }
@@ -810,7 +810,7 @@ namespace OnlineAbit2013.Models
         public bool Hostel { get; set; }
         public int StudyLevelGroupId { get; set; }
         public string StudyLevelGroupName { get; set; }
-        public bool? IsGosLine { get; set; }
+        public bool? IsForeign { get; set; }
         public DateTime? DateOfClose { get; set; }
         public string ChangeStudyFormReason { get; set; }
     }
