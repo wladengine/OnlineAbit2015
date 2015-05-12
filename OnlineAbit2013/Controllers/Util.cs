@@ -1646,7 +1646,7 @@ WHERE PersonId=@PersonId ";
                     string query = @"  Select SP_LicenseProgram.Id as Id, SP_LicenseProgram.Name as Name from Entry 
                                         Inner join SP_StudyLevel on SP_StudyLevel.Id=StudyLevelId
                                         Inner join SP_LicenseProgram on SP_LicenseProgram.Id = Entry.LicenseProgramId 
-                                        where StudyBasisId=@StudyBasisId and StudyFormId =@StudyFormId and SemesterId=1 and SP_StudyLevel.StudyLevelGroupId = @StudyLevelId";
+                                        where StudyBasisId=@StudyBasisId and StudyFormId=@StudyFormId and SemesterId=1 and SP_StudyLevel.StudyLevelGroupId = @StudyLevelId";
                     DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@StudyBasisId", Ent.StudyBasisId }, { "@StudyFormId", Ent.StudyFormId }, { "@StudyLevelId", Ent.StudyLevelGroupId } });
                     var ProfessionList =
                         (from DataRow rw in tbl.Rows
@@ -1761,7 +1761,7 @@ WHERE PersonId=@PersonId ";
 
         public static List<SelectListItem> GetSemestrList()
         {
-            string query = "SELECT DISTINCT Semester.Id as Id, Semester.Name as Name FROM Semester INNER JOIN Entry ON Entry.SemesterId = Semester.Id WHERE Semester.Id > 1 AND ((Entry.DateOfStart<@Date AND Entry.DateOfClose>@Date)or(Entry.DateOfStart_GosLine<@Date AND Entry.DateOfClose_GosLine>@Date)or(Entry.DateOfStart_Foreign<@Date AND Entry.DateOfClose_Foreign>@Date) )";
+            string query = "SELECT DISTINCT Semester.Id as Id, Semester.Name as Name FROM Semester INNER JOIN Entry ON Entry.SemesterId = Semester.Id WHERE Semester.Id > 1";
             /*if (bIsIGA)
                 query += " AND Semester.IsIGA=1 ";
             else

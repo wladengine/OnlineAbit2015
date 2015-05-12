@@ -20,6 +20,12 @@
     });
 </script>
 <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
+    <% if (!string.IsNullOrEmpty(Model.ErrorText)) { %>
+    <div class="message error"><span style="font:bold"><%= Model.ErrorText %></span></div>
+    <% } %>
+    <% if (!string.IsNullOrEmpty(Model.MessageText)) { %>
+    <div class="message info"><b><%= Model.MessageText %></b></div>
+    <% } %>
     <a href="../AbiturientNew/PriorityChanger?ComId=<%= Model.CommitId.ToString("N") %>"><%= Model.CommitName %></a>
     -> 
     <span><%= GetGlobalResourceObject("PriorityChangerForeign", "ObrazPr_Message1").ToString()%></span>

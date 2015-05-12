@@ -324,7 +324,7 @@
 %> 
     <%= Html.ValidationSummary()%>
     <%= Html.HiddenFor(x => x.CommitId)%>
-    <% if (DateTime.Now >= new DateTime(2014, 6, 23, 0, 0, 0))
+    <% if (DateTime.Now >= new DateTime(2015, 6, 20, 0, 0, 0))
        { %>
        <div class="message error" style="width:450px;">
            <strong style="font-size:10pt"><%= GetGlobalResourceObject("NewApplication", "AG_PriemClosed").ToString()%></strong>

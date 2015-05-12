@@ -18,6 +18,8 @@ namespace OnlineAbit2013.Models
         public Guid ApplicationId { get; set; }
         public Guid CommitId { get; set; }
         public string CommitName { get; set; }
+        public string ErrorText { get; set; }
+        public string MessageText { get; set; }
         public List<KeyValuePair<Guid, InnerEntryInEntrySmallEntity>> lstInnerEntries { get; set; }
     }
 }

@@ -1548,27 +1548,34 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                  }
                  else 
                  {
-                     int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id ", new SortedList<string, object>() { { "@Id", PersonId } });
-                     if (VuzAddType.HasValue)
+                     if (iAG_SchoolTypeId == 4)
                      {
-                         if ((int)VuzAddType != 1)
+                         int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id ", new SortedList<string, object>() { { "@Id", PersonId } });
+                         if (VuzAddType.HasValue)
+                         {
+                             if ((int)VuzAddType != 1)
+                             {
+                                 model.Enabled = false;
+                                 model.HasError = true;
+                                 if (!bIsEng)
+                                     model.ErrorMessage = "Невозможно подать заявление на первый курс (смените тип поступления в Анкете)";
+                                 else
+                                     model.ErrorMessage = "Change your Entry Type in Questionnaire Data";
+                             }
+                         }
+                         else
                          {
                              model.Enabled = false;
                              model.HasError = true;
                              if (!bIsEng)
                                  model.ErrorMessage = "Невозможно подать заявление на первый курс (смените тип поступления в Анкете)";
                              else
-                                 model.ErrorMessage = "Change your Entry Type in Questionnaire Data"; 
+                                 model.ErrorMessage = "Change your Entry Type in Questionnaire Data";
                          }
                      }
                      else
                      {
-                         model.Enabled = false;
-                         model.HasError = true;
-                         if (!bIsEng)
-                             model.ErrorMessage = "Невозможно подать заявление на первый курс (смените тип поступления в Анкете)";
-                         else
-                             model.ErrorMessage = "Change your Entry Type in Questionnaire Data"; 
+
                      }
                  }
                  model.MaxBlocks = maxBlock1kurs; 
@@ -1639,7 +1646,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         }
                     }
                 }
-                else 
+                else if (iSchoolTypeId == 4)
                 {
                     int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId)  FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
@@ -1664,6 +1671,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                             model.ErrorMessage = "Change your Entry Type in Questionnaire Data"; 
                     }
                 }
+
                 model.MaxBlocks = maxBlockSPO;
                 string query = "SELECT DISTINCT StudyFormId, StudyFormName FROM Entry WHERE StudyLevelGroupId = 3 ORDER BY 1";
                 tbl = Util.AbitDB.GetDataTable(query, null);
@@ -2486,7 +2494,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.IsForeign = Util.GetRess(PersonId) == 4;
 
 
-                var iScTypeIdList = (from sctype in context.PersonEducationDocument
+                var ScTypeList = (from sctype in context.PersonEducationDocument
                                      join highEduc in context.PersonHighEducationInfo on sctype.Id equals highEduc.EducationDocumentId into highEduc
                                      from hEduc in highEduc.DefaultIfEmpty()
                                      where sctype.PersonId == PersonId
@@ -2498,11 +2506,10 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                                          qualification = (hEduc == null)? -1: hEduc.QualificationId
                                      }).ToList();
 
-                //List<int?> iScTypeIdList = (List<int?>)Util.AbitDB.GetValue("SELECT SchoolTypeId FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
-                if (iScTypeIdList.Count>0)
+                if (ScTypeList.Count > 0)
                 {
                     bool HasVuzAddType = false;
-                    foreach (var iScTypeId in iScTypeIdList)
+                    foreach (var iScTypeId in ScTypeList)
                     {
                         if (iScTypeId.VuzAdditionalTypeId.HasValue)
                         {
@@ -2519,7 +2526,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     bool HasSchoolTypeEducEqual4 = false;
                     if (!HasVuzAddType)
                     {
-                        foreach (var iScTypeId in iScTypeIdList)
+                        foreach (var iScTypeId in ScTypeList)
                         {
                             if (iScTypeId.SchoolTypeId == 4)
                             {
@@ -2535,25 +2542,30 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                             model.EntryType = 1;
                             model.VuzAddType = 1;
 
-                            foreach (var iScTypeId in iScTypeIdList)
+                            foreach (var ScType in ScTypeList)
                             {
-                                //string ScTypeName = Util.AbitDB.GetStringValue("SELECT Name FROM SchoolTypeAll WHERE Id=@Id", new SortedList<string, object>() { { "@Id", iScTypeId } });
-                                //string ScTypeNameEng = Util.AbitDB.GetStringValue("SELECT NameEng FROM SchoolTypeAll WHERE Id=@Id", new SortedList<string, object>() { { "@Id", iScTypeId } });
+                                //string ScTypeName = Util.AbitDB.GetStringValue("SELECT Name FROM SchoolTypeAll WHERE Id=@Id", new SortedList<string, object>() { { "@Id", ScType } });
+                                //string ScTypeNameEng = Util.AbitDB.GetStringValue("SELECT NameEng FROM SchoolTypeAll WHERE Id=@Id", new SortedList<string, object>() { { "@Id", ScType } });
 
                                 //model.SchoolType = bisEng ? (String.IsNullOrEmpty(ScTypeNameEng) ? ScTypeName : ScTypeNameEng) : ScTypeName;
 
-                                int? iScExClassId = (int?)Util.AbitDB.GetValue("SELECT MAX (SchoolExitClass.IntValue) FROM PersonEducationDocument INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
-                                if (iScExClassId.HasValue)
+                                if (ScType.SchoolTypeId == 1)
                                 {
-                                    model.ExitClassId = (int)iScExClassId;
+                                    int? iScExClassValue = (int?)Util.AbitDB.GetValue("SELECT MAX(SchoolExitClass.IntValue) FROM PersonEducationDocument INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.SchoolExitClassId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                                    if (iScExClassValue.HasValue)
+                                    {
+                                        model.ExitClassId = (int)iScExClassValue;
+                                    }
+                                    else
+                                        return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
                                 }
-                                else
-                                    return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
+                                else if (ScType.SchoolTypeId == 2 || ScType.SchoolTypeId == 3 || ScType.SchoolTypeId == 5)
+                                    model.ExitClassId = 11;
                             }
                         }
                     }
                 }
-                else
+                else //если образований не введено
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
 
                 model.StudyForms = Util.GetStudyFormList(); 
@@ -3173,7 +3185,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         }
                     }
                 }
-                else
+                else if (iAG_SchoolTypeId == 4)
                 {
                     int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
@@ -3307,7 +3319,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         }
                     }
                 }
-                else
+                else if (iSchoolTypeId == 4)
                 {
                     int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
                     if (VuzAddType.HasValue)
@@ -3966,97 +3978,12 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 return Json(Resources.ServerMessages.IncorrectGUID, JsonRequestBehavior.AllowGet);
 
             bool isEng = Util.GetCurrentThreadLanguageIsEng();
-            using (OnlinePriemEntities context = new OnlinePriemEntities())
-            {
-                var PersonInfo = context.Person.Where(x => x.Id == PersonId).FirstOrDefault();
-                if (PersonInfo == null)//а что это могло бы значить???
-                    return RedirectToAction("Index");
 
-                var appl =
-                    (from App in context.Application
-                     join Entry in context.Entry on App.EntryId equals Entry.Id
-                     join OPIE in context.InnerEntryInEntry on App.EntryId equals OPIE.EntryId
-
-                     where App.PersonId == PersonId && App.IsCommited == true && App.Enabled == true && App.Id == gAppId
-                     select new
-                     {
-                         Id = App.Id,
-                         CommitId = App.CommitId,
-                         CommitName = isEng ? Entry.StudyLevelGroupNameEng : Entry.StudyLevelGroupNameRus,
-                         App.EntryId,
-                     }).FirstOrDefault();
-
-                var appPriors = (from AppDetails in context.ApplicationDetails
-                                 where AppDetails.ApplicationId == gAppId
-                                 select new
-                                 {
-                                     AppDetails.InnerEntryInEntryId,
-                                     AppDetails.InnerEntryInEntryPriority,
-                                 }).Distinct().ToList();
-
-                var InnerEnts =
-                    (from InnerEnInEntry in context.InnerEntryInEntry
-                     where InnerEnInEntry.EntryId == appl.EntryId
-                     select new StandartObrazProgramInEntryRow()
-                     {
-                         Id = InnerEnInEntry.Id,
-                         Name = isEng ? InnerEnInEntry.SP_ObrazProgram.NameEng : InnerEnInEntry.SP_ObrazProgram.Name,
-                         Priority = InnerEnInEntry.DefaultPriorityValue,
-                         DefaultPriority = InnerEnInEntry.DefaultPriorityValue
-                     }).ToList();
-
-                var InnerEntryBase = context.InnerEntryInEntry.Where(x => x.EntryId == appl.EntryId)
-                    .Select(x => new { x.Id, ObrazProgram = x.SP_ObrazProgram.Name, Profile = x.SP_Profile.Name }).ToList();
-
-                int ind = 0;
-                foreach (var InEnt in InnerEnts)
-                {
-                    if (appPriors.Where(x => x.InnerEntryInEntryId == InEnt.Id).Count() > 0)
-                        InnerEnts[ind].Priority = appPriors.Where(x => x.InnerEntryInEntryId == InEnt.Id).First().InnerEntryInEntryPriority;
-                    ind++;
-                }
-
-                var RetVal = new List<KeyValuePair<Guid, InnerEntryInEntrySmallEntity>>();
-                foreach (var zz in appPriors)
-                {
-                    RetVal.Add(new KeyValuePair<Guid, InnerEntryInEntrySmallEntity>(
-                        zz.InnerEntryInEntryId, 
-                        new InnerEntryInEntrySmallEntity()
-                        { 
-                            ObrazProgramName = InnerEntryBase.Where(x => x.Id == zz.InnerEntryInEntryId).Select(x => x.ObrazProgram).First(),
-                            ProfileName = InnerEntryBase.Where(x => x.Id == zz.InnerEntryInEntryId).Select(x => x.Profile).First(),
-                            Priority = zz.InnerEntryInEntryPriority
-                        })
-                    );
-                }
-
-                foreach (var xxx in InnerEntryBase)
-                {
-                    if (RetVal.Where(x => x.Key == xxx.Id).Count() == 0)
-                    {
-                        RetVal.Add(new KeyValuePair<Guid, InnerEntryInEntrySmallEntity>(
-                            xxx.Id,
-                            new InnerEntryInEntrySmallEntity()
-                            {
-                                ObrazProgramName = xxx.ObrazProgram,
-                                ProfileName = xxx.Profile,
-                                Priority = 1000
-                            })
-                        );
-                    }
-                }
-
-                PriorityChangerApplicationModel mdl = new PriorityChangerApplicationModel()
-                {
-                    ApplicationId = gAppId,
-                    CommitId = appl.CommitId,
-                    CommitName = appl.CommitName,
-                    lstInnerEntries = RetVal.OrderBy(x => x.Value.Priority).ThenBy(x => x.Value.ObrazProgramName).ThenBy(x => x.Value.ProfileName).Distinct().ToList(),
-                    ApplicationVersionId = gVersionId
-                };
-                return View(mdl);
-
-            }
+            return View(AbiturientClass.GetPriorityChangerApplication(gAppId, gVersionId, PersonId, isEng));
+        }
+        public ActionResult PriorityChangerApp(PriorityChangerApplicationModel model)
+        {
+            return View("PriorityChangerApplication", model);
         }
 
         [HttpPost]
@@ -4241,7 +4168,11 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     context.SaveChanges();
                 }
             }
-            return RedirectToAction("PriorityChangerApplication", new RouteValueDictionary() { { "AppId", model.ApplicationId.ToString("N") }, { "V", model.ApplicationVersionId.ToString("N") } });
+
+            var mdl = AbiturientClass.GetPriorityChangerApplication(model.ApplicationId, model.ApplicationVersionId, PersonId, Util.GetCurrentThreadLanguageIsEng());
+            mdl.MessageText = "Данные успешно сохранены";
+
+            return View("PriorityChangerApplication", mdl);
         }
         #endregion
 
@@ -6041,9 +5972,9 @@ Order by cnt desc";
                 if (cnt >= 2)
                     return Json(new { IsOk = false, ErrorMessage = "У абитуриента уже имеется 2 активных заявления" });
 
-                cnt = context.AG_Application.Where(x => x.PersonId == PersonId && x.Enabled == true && x.CommitId == gCommId && x.AG_Entry.ProgramId != iProgramId).Count();
-                if (cnt > 0)
-                    return Json(new { IsOk = false, ErrorMessage = "У абитуриента уже подано заявление на другой профиль" });
+                //cnt = context.AG_Application.Where(x => x.PersonId == PersonId && x.Enabled == true && x.CommitId == gCommId && x.AG_Entry.ProgramId != iProgramId).Count();
+                //if (cnt > 0)
+                //    return Json(new { IsOk = false, ErrorMessage = "У абитуриента уже подано заявление на другой профиль" });
 
                 cnt = context.AG_Application.Where(x => x.PersonId == PersonId && x.Enabled == true && x.CommitId == gCommId && x.AG_Entry.ProgramId == iProgramId).Count();
                 if (cnt > 0)

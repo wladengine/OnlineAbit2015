@@ -66,36 +66,34 @@
             return ret;
         }
         function GetProfessions() {
-            if ($('#EducationInfo_VuzAdditionalTypeId').val() == 2) {
-                var CurLevelId = $('#CurrentEducation_StudyLevelId').val();
-                var CurrlObrazProgram = '#CurrentEducation_ObrazProgramId';
-                var CurrlProfession = '#CurrentEducation_LicenseProgramId';
-                var sfId = $('#CurrentEducation_StudyFormId').val();
+            var CurLevelId = $('#CurrentEducation_StudyLevelId').val();
+            var CurrlObrazProgram = '#CurrentEducation_ObrazProgramId';
+            var CurrlProfession = '#CurrentEducation_LicenseProgramId';
+            var sfId = $('#CurrentEducation_StudyFormId').val();
 
-                var curSemester = $('#CurrentEducation_SemesterId').val();
+            var curSemester = $('#CurrentEducation_SemesterId').val();
 
-                $.post('/AbiturientNew/GetProfs', {
-                    studyform: sfId, studybasis: $('#CurrentEducation_StudyBasisId').val(),
-                    entry: CurLevelId,
-                    semesterId: curSemester
-                }, function (json_data) {
-                    var options = '';
-                    if (json_data.NoFree) {
-                        $('#CurrentEducation_LicenseProgramId').html('');
-                        $('#CurrentEducation_ObrazProgramId').html('');
+            $.post('/AbiturientNew/GetProfs', {
+                studyform: sfId, studybasis: $('#CurrentEducation_StudyBasisId').val(),
+                entry: CurLevelId,
+                semesterId: curSemester
+            }, function (json_data) {
+                var options = '';
+                if (json_data.NoFree) {
+                    $('#CurrentEducation_LicenseProgramId').html('');
+                    $('#CurrentEducation_ObrazProgramId').html('');
+                }
+                else {
+                    for (var i = 0; i < json_data.length; i++) {
+                        options += '<option value="' + json_data[i].Id + '"';
+                        if (json_data[i].Id == $('#CurrentEducation_HiddenLicenseProgramId').val())
+                            options += ' selected="true" ';
+                        options += ' >' + json_data[i].Name + '</option>';
                     }
-                    else {
-                        for (var i = 0; i < json_data.length; i++) {
-                            options += '<option value="' + json_data[i].Id + '"';
-                            if (json_data[i].Id == $('#CurrentEducation_HiddenLicenseProgramId').val())
-                                options += ' selected="true" ';
-                            options += ' >' + json_data[i].Name + '</option>';
-                        }
-                        $('#CurrentEducation_LicenseProgramId').html(options);
-                        $('#CurrentEducation_ObrazProgramId').html('');
-                    }
-                }, 'json');
-            }
+                    $('#CurrentEducation_LicenseProgramId').html(options);
+                    $('#CurrentEducation_ObrazProgramId').html('');
+                }
+            }, 'json');
         }
         function GetObrazPrograms() {
             var CurrlObrazProgram = '#CurrentEducation_ObrazProgramId';
