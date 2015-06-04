@@ -1576,6 +1576,35 @@ WHERE PersonId=@PersonId ";
             }
         }
 
+        public static int GetCrimea(Guid PersonId)
+        {
+            string query = "SELECT [NationalityId] FROM [Person] WHERE Id=@PersonId";
+            int? res_nat = (int?)AbitDB.GetValue(query, new SortedList<string, object>() { { "@PersonId", PersonId } });
+
+            query = "SELECT HasRussianNationality FROM [Person] WHERE Id=@PersonId";
+            bool HasRussianNationality = (bool?)AbitDB.GetValue(query, new SortedList<string, object>() { { "@PersonId", PersonId } }) ?? false;
+
+            if (res_nat.HasValue)
+            {
+                if (res_nat == 193)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public static int IsCrimea(Guid PersonId)
+        {
+            return GetCrimea(PersonId);
+        }
+
         public static List<Mag_ApplicationSipleEntity> GetApplicationListInCommit(Guid CommitId, Guid PersonId)
         {
             List<Mag_ApplicationSipleEntity> lstRet = new List<Mag_ApplicationSipleEntity>();
@@ -1759,7 +1788,7 @@ WHERE PersonId=@PersonId ";
                     .ToList();
         }
 
-        public static List<SelectListItem> GetSemestrList()
+        public static List<SelectListItem> GetSemesterList()
         {
             string query = "SELECT DISTINCT Semester.Id as Id, Semester.Name as Name FROM Semester INNER JOIN Entry ON Entry.SemesterId = Semester.Id WHERE Semester.Id > 1";
             /*if (bIsIGA)

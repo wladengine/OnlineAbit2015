@@ -169,6 +169,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Крым.
+        /// </summary>
+        internal static string BlockData_IsCrimea {
+            get {
+                return ResourceManager.GetString("BlockData_IsCrimea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Иностранный конкурс/Гослиния.
         /// </summary>
         internal static string BlockData_IsForeign {
@@ -291,6 +300,15 @@ namespace Resources {
         internal static string Educ_Mes2 {
             get {
                 return ResourceManager.GetString("Educ_Mes2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Поступать по конкурсу для лиц, постоянно проживающих в Крыму.
+        /// </summary>
+        internal static string EnterCrimea {
+            get {
+                return ResourceManager.GetString("EnterCrimea", resourceCulture);
             }
         }
         

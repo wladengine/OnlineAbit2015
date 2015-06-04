@@ -577,6 +577,7 @@ namespace OnlineAbit2013.Models
         FirstCourseBakSpec,
         Mag,
         Aspirant,
+        Ord,
         AG,
         SPO,
         TransferBakSpec,
@@ -652,6 +653,7 @@ namespace OnlineAbit2013.Models
         public string VersionId { get; set; }
         public List<SimpleApplication> Apps { get; set; }
         public List<string> lstApps { get; set; }
+        public int StudyLevelGroupId { get; set; }
     }
 
     public enum EmailConfirmationStatus
@@ -811,6 +813,7 @@ namespace OnlineAbit2013.Models
         public int StudyLevelGroupId { get; set; }
         public string StudyLevelGroupName { get; set; }
         public bool? IsForeign { get; set; }
+        public bool? IsCrimea { get; set; }
         public DateTime? DateOfClose { get; set; }
         public string ChangeStudyFormReason { get; set; }
     }

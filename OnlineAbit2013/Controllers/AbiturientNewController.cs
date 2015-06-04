@@ -384,7 +384,7 @@ namespace OnlineAbit2013.Controllers
                         model.CurrentEducation.EducationTypeList = Util.SchoolTypesAll
                                 .Select(x => new SelectListItem() { Value = x.Key.ToString(), Text = x.Value })
                                 .ToList();
-                        model.CurrentEducation.SemesterList = Util.GetSemestrList();
+                        model.CurrentEducation.SemesterList = Util.GetSemesterList();
 
                         query = "SELECT Id, Name FROM SP_StudyLevel";
                         DataTable _tblT = Util.AbitDB.GetDataTable(query, null);
@@ -1799,6 +1799,104 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
         }
 
         [OutputCache(NoStore = true, Duration = 0)]
+        public ActionResult NewApplication_Ord(params string[] errors)
+        {
+            if (errors != null && errors.Length > 0)
+            {
+                foreach (string er in errors)
+                    ModelState.AddModelError("", er);
+            }
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                return RedirectToAction("LogOn", "Account");
+            bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                var PersonInfo = context.Person.Where(x => x.Id == PersonId).FirstOrDefault();
+                if (PersonInfo == null)//а что это могло бы значить???
+                    return RedirectToAction("Index");
+
+                int? c = (int?)Util.AbitDB.GetValue("SELECT RegistrationStage FROM Person WHERE Id=@Id AND RegistrationStage=100", new SortedList<string, object>() { { "@Id", PersonId } });
+                if (c != 100)
+                    return RedirectToAction("Index", new RouteValueDictionary() { { "step", (c ?? 6).ToString() } });
+
+                Mag_ApplicationModel model = new Mag_ApplicationModel();
+                model.Applications = new List<Mag_ApplicationSipleEntity>();
+                model.CommitId = Guid.NewGuid().ToString("N");
+
+                model.Enabled = true;
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
+                   new SortedList<string, object>() { { "@Id", PersonId } });
+                if (iAG_SchoolTypeId != 4)
+                {
+                    // окончил не вуз
+                    model.Enabled = false;
+                    model.HasError = true;
+                    if (!bIsEng)
+                        model.ErrorMessage = "Невозможно подать заявление в ординатуру (не соответствует уровень образования)";
+                    else
+                        model.ErrorMessage = "Change your previous education degree in Questionnaire Data";
+                }
+                else
+                {
+                    int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT MAX(QualificationId) FROM PersonHighEducationInfo INNER JOIN PersonEducationDocument ON PersonEducationDocument.Id = PersonHighEducationInfo.EducationDocumentId WHERE PersonId=@Id and SchoolTypeId=@SchoolTypeId", new SortedList<string, object>() { { "@Id", PersonId }, { "@SchoolTypeId", iAG_SchoolTypeId } });
+                    if (iQualificationId.HasValue)
+                    {
+                        if ((int)iQualificationId != 1)
+                        {
+                            model.MaxBlocks = maxBlockAspirant;
+                            int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                            if (VuzAddType.HasValue)
+                            {
+                                if ((int)VuzAddType != 1)
+                                {
+                                    model.Enabled = false;
+                                    model.HasError = true;
+                                    if (!bIsEng)
+                                        model.ErrorMessage = "Невозможно подать заявление в ординатуру (смените тип поступления в Анкете)";
+                                    else
+                                        model.ErrorMessage = "Change your Entry Type in Questionnaire Data";
+                                }
+                            }
+                            else
+                            {
+                                model.Enabled = false;
+                                model.HasError = true;
+                                if (!bIsEng)
+                                    model.ErrorMessage = "Невозможно подать заявление в ординатуру (смените тип поступления в Анкете)";
+                                else
+                                    model.ErrorMessage = "Change your Entry Type in Questionnaire Data";
+                            }
+                        }
+                        else
+                        {
+                            model.Enabled = false;
+                            model.HasError = true;
+                            if (!bIsEng)
+                                model.ErrorMessage = "Невозможно подать заявление в ординатуру (не соответствует уровень образования)";
+                            else
+                                model.ErrorMessage = "Change your previous education degree in Questionnaire Data";
+                        }
+                    }
+                    else
+                    {
+                        model.Enabled = false;
+                        model.HasError = true;
+                        if (!bIsEng)
+                            model.ErrorMessage = "Невозможно подать заявление в ординатуру (не соответствует уровень образования)";
+                        else
+                            model.ErrorMessage = "Change your previous education degree in Questionnaire Data";
+                    }
+                }
+
+                model.StudyFormList = Util.GetStudyFormList();
+                model.StudyBasisList = Util.GetStudyBasisList();
+
+                return View("NewApplication_Ord", model);
+            }
+        }
+
+        [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult NewApplication_Recover(params string[] errors)
         {
             if (errors != null && errors.Length > 0)
@@ -1849,7 +1947,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                 model.StudyFormList = Util.GetStudyFormList();
                 model.StudyBasisList = Util.GetStudyBasisList();
-                model.SemestrList = Util.GetSemestrList();
+                model.SemestrList = Util.GetSemesterList();
 
                 return View("NewApplication_Recover", model);
             }
@@ -1906,7 +2004,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                 model.StudyFormList = Util.GetStudyFormList();
                 model.StudyBasisList = Util.GetStudyBasisList();
-                model.SemestrList = Util.GetSemestrList();
+                model.SemestrList = Util.GetSemesterList();
 
                 return View("NewApplication_Transfer", model);
             }
@@ -1963,7 +2061,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                 model.StudyFormList = Util.GetStudyFormList();
                 model.StudyBasisList = Util.GetStudyBasisList();
-                model.SemestrList = Util.GetSemestrList();
+                model.SemestrList = Util.GetSemesterList();
 
                 return View("NewApplication_ChangeStudyForm", model);
             }
@@ -2020,7 +2118,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                 model.StudyFormList = Util.GetStudyFormList();
                 model.StudyBasisList = Util.GetStudyBasisList();
-                model.SemestrList = Util.GetSemestrList();
+                model.SemestrList = Util.GetSemesterList();
                 model.SemestrId = (int?)Util.AbitDB.GetValue("SELECT S.NextSemesterId FROM PersonCurrentEducation P INNER JOIN Semester S ON S.Id = P.SemesterId WHERE PersonId=@PersonId", new SortedList<string, object>() { { "@PersonId", PersonId } }) ?? 3;
                 for (int i = 0; i < model.SemestrList.Count ; i++)
                 {
@@ -2196,7 +2294,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                         model.StudyFormList = Util.GetStudyFormList();
                         model.StudyBasisList = Util.GetStudyBasisList();
-                        model.SemestrList = Util.GetSemestrList();
+                        model.SemestrList = Util.GetSemesterList();
                         Guid CommitId = Guid.Parse(Id);
                         var CommId = context.Application.Where(x => x.PersonId == PersonId && x.IsCommited == true && x.CommitId == CommitId && x.SecondTypeId==c).Select(x => x.CommitId);
                         if (CommId.Count() > 0)
@@ -2241,7 +2339,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                         model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                         model.StudyFormList = Util.GetStudyFormList();
                         model.StudyBasisList = Util.GetStudyBasisList();
-                        model.SemestrList = Util.GetSemestrList();
+                        model.SemestrList = Util.GetSemesterList();
                         Guid CommitId = Guid.Parse(Id);
                         var CommId = context.Application.Where(x => x.PersonId == PersonId && x.IsCommited == true && x.CommitId == CommitId && x.SecondTypeId == c).Select(x => x.CommitId);
                         if (CommId.Count() > 0)
@@ -2493,7 +2591,6 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 ApplicationModel model = new ApplicationModel();
                 model.IsForeign = Util.GetRess(PersonId) == 4;
 
-
                 var ScTypeList = (from sctype in context.PersonEducationDocument
                                      join highEduc in context.PersonHighEducationInfo on sctype.Id equals highEduc.EducationDocumentId into highEduc
                                      from hEduc in highEduc.DefaultIfEmpty()
@@ -2662,7 +2759,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 case "8": { return RedirectToAction("NewApplication_AG", "AbiturientNew"); } //Поступление в Академическую Гимназию
                 case "9": { return RedirectToAction("NewApplication_SPO", "AbiturientNew"); } //Поступление в СПО
                 case "10": { return RedirectToAction("NewApplication_Aspirant", "AbiturientNew"); } //Поступление в аспирантуру гражданам РФ
-                case "11": { return RedirectToAction("page404", "AbiturientNew"); } //Поступление в аспирантуру иностранным гражданам
+                case "11": { return RedirectToAction("NewApplication_Ord", "AbiturientNew"); } //Поступление в ординатуру
                 default: { return RedirectToAction("page404", "AbiturientNew"); }
             }  
         }
@@ -3128,6 +3225,131 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             return RedirectToAction("PriorityChanger", new RouteValueDictionary() { { "ComId", CommitId.ToString() } });
         }
         [HttpPost]
+        public ActionResult NewApp_Ord(Mag_ApplicationModel model)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                return RedirectToAction("LogOn", "Account");
+
+            string sCommitId = Request.Form["CommitId"];
+            Guid CommitId;
+            if (!Guid.TryParse(sCommitId, out CommitId))
+                return Json(Resources.ServerMessages.IncorrectGUID);
+            string sOldCommitId = Request.Form["OldCommitId"];
+            Guid OldCommitId = Guid.Empty;
+            if (!String.IsNullOrEmpty(sOldCommitId))
+            {
+                if (!Guid.TryParse(sOldCommitId, out OldCommitId))
+                    return Json(Resources.ServerMessages.IncorrectGUID);
+            }
+
+            bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
+
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
+                       new SortedList<string, object>() { { "@Id", PersonId } });
+                if (iAG_SchoolTypeId != 4)
+                {
+                    // окончил не вуз
+                    model.Enabled = false;
+                    model.HasError = true;
+                    if (!bIsEng)
+                        model.ErrorMessage = "Невозможно подать заявление в ординатуру (не соответствует уровень образования)";
+                    else
+                        model.ErrorMessage = "Change your previous education degree in Questionnaire Data";
+                    return View("NewApplication_Ord", model);
+                }
+                else
+                {
+                    int? iQualificationId = (int?)Util.AbitDB.GetValue("SELECT MAX(QualificationId) FROM PersonHighEducationInfo INNER JOIN PersonEducationDocument ON PersonEducationDocument.Id = PersonHighEducationInfo.EducationDocumentId WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    if (iQualificationId.HasValue)
+                    {
+                        if ((int)iQualificationId == 1)
+                        {
+                            model.Enabled = false;
+                            model.HasError = true;
+                            if (!bIsEng)
+                                model.ErrorMessage = "Невозможно подать заявление в ординатуру (не соответствует уровень образования)";
+                            else
+                                model.ErrorMessage = "Change your previous education degree in Questionnaire Data";
+                            return View("NewApplication_Ord", model);
+                        }
+                    }
+                    int? VuzAddType = (int?)Util.AbitDB.GetValue("SELECT MAX(VuzAdditionalTypeId) FROM PersonEducationDocument WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+                    if (VuzAddType.HasValue)
+                    {
+                        if ((int)VuzAddType != 1)
+                        {
+                            model.Enabled = false;
+                            model.HasError = true;
+                            if (!bIsEng)
+                                model.ErrorMessage = "Невозможно подать заявление в ординатуру (смените тип поступления в Анкете)";
+                            else
+                                model.ErrorMessage = "Change your Entry Type in Questionnaire Data";
+                            return View("NewApplication_Ord", model);
+                        }
+                    }
+                    else
+                    {
+                        model.Enabled = false;
+                        model.HasError = true;
+                        if (!bIsEng)
+                            model.ErrorMessage = "Невозможно подать заявление в ординатуру (смените тип поступления в Анкете)";
+                        else
+                            model.ErrorMessage = "Change your Entry Type in Questionnaire Data";
+                        return View("NewApplication_Ord", model);
+                    }
+                }
+                if (!OldCommitId.Equals(Guid.Empty))
+                {
+                    var Ids = context.Application.Where(x => x.PersonId == PersonId && x.CommitId == OldCommitId && !x.IsDeleted).Select(x => x.Id).ToList();
+                    foreach (var AppId in Ids)
+                    {
+                        var App = context.Application.Where(x => x.Id == AppId).FirstOrDefault();
+                        if (App == null)
+                            continue;
+                        App.IsCommited = false;
+                    }
+                    context.SaveChanges();
+                    Util.DifferenceBetweenCommits(OldCommitId, CommitId, PersonId);
+                    bool? result = PDFUtils.GetDisableApplicationPDF(OldCommitId, Server.MapPath("~/Templates/"), PersonId);
+                    // печать заявления об отзыве (проверить isDeleted и возможно переставить код выше)
+                    Util.CommitApplication(CommitId, PersonId, context);
+                }
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.C_Entry.StudyLevelId == 15).Count() > 0)
+                {
+                    model.StudyFormList = Util.GetStudyFormList();
+                    model.StudyBasisList = Util.GetStudyBasisList();
+                    model.Applications = new List<Mag_ApplicationSipleEntity>();
+                    model.Applications = Util.GetApplicationListInCommit(CommitId, PersonId);
+                    model.MaxBlocks = maxBlockAspirant;
+                    model.HasError = true;
+                    if (!bIsEng)
+                        model.ErrorMessage = "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные.";
+                    else
+                        model.ErrorMessage = "To submit new application you should cancel your active application.";
+                    return View("NewApplication_Ord", model);
+                }
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => x.Id).Count() == 0)
+                {
+                    model.StudyFormList = Util.GetStudyFormList();
+                    model.StudyBasisList = Util.GetStudyBasisList();
+                    model.Applications = new List<Mag_ApplicationSipleEntity>();
+                    model.MaxBlocks = maxBlockAspirant;
+                    model.HasError = true;
+                    model.Enabled = true;
+                    if (!bIsEng)
+                        model.ErrorMessage = "Невозможно подать пустое заявление";
+                    else
+                        model.ErrorMessage = "You can not submit empty application.";
+                    return View("NewApplication_Ord", model);
+                }
+                Util.CommitApplication(CommitId, PersonId, context);
+            }
+            return RedirectToAction("PriorityChanger", new RouteValueDictionary() { { "ComId", CommitId.ToString() } });
+        }
+        [HttpPost]
         public ActionResult NewApp_1kurs(Mag_ApplicationModel model)
         {
             Guid PersonId;
@@ -3471,7 +3693,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }*/
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => x.Id).Count() == 0)
                 {
-                    model.SemestrList = Util.GetSemestrList();
+                    model.SemestrList = Util.GetSemesterList();
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
@@ -3569,7 +3791,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }*/
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => x.Id).Count() == 0)
                 {
-                    model.SemestrList = Util.GetSemestrList();
+                    model.SemestrList = Util.GetSemesterList();
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
@@ -3648,7 +3870,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.SecondTypeId == 4).Count() > 0)
                 {
-                    model.SemestrList = Util.GetSemestrList();
+                    model.SemestrList = Util.GetSemesterList();
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
@@ -3664,7 +3886,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => x.Id).Count() == 0)
                 {
-                    model.SemestrList = Util.GetSemestrList();
+                    model.SemestrList = Util.GetSemesterList();
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
@@ -3744,7 +3966,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => x.Id).Count() == 0)
                 {
-                    model.SemestrList = Util.GetSemestrList();
+                    model.SemestrList = Util.GetSemesterList();
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
@@ -3823,7 +4045,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.SecondTypeId == 5).Count() > 0)
                 {
-                    model.SemestrList = Util.GetSemestrList();
+                    model.SemestrList = Util.GetSemesterList();
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
@@ -3839,7 +4061,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => x.Id).Count() == 0)
                 {
-                    model.SemestrList = Util.GetSemestrList();
+                    model.SemestrList = Util.GetSemesterList();
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
@@ -3924,6 +4146,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                          Enabled = Entry.DateOfClose > DateTime.Now ? true : false,
                          SemesterName = (Entry.SemesterId!=1)?Semester.Name:"",
                          SecondTypeName = "",
+                         StudyLevelGroupId = Entry.StudyLevelGroupId,
                          StudyLevelGroupName = (bisEng ? ((String.IsNullOrEmpty(Entry.StudyLevelGroupNameEng)) ? Entry.StudyLevelGroupNameRus : Entry.StudyLevelGroupNameEng) : Entry.StudyLevelGroupNameRus) +
                                     (App.SecondTypeId.HasValue ?
                                         ((App.SecondTypeId == 3) ? (bisEng ? " (recovery)" : " (восстановление)") :
@@ -3958,7 +4181,8 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                     OldCommitId = (gComm.Equals(gCommitId))?"": gCommitId.ToString(),
                     Apps = apps,
                     UILanguage = Util.GetUILang(PersonId),
-                    VersionId = VersionId.ToString("N")
+                    VersionId = VersionId.ToString("N"),
+                    StudyLevelGroupId = apps.Select(x => x.StudyLevelGroupId).First()
                 };
                 return View(mdl);
             }
@@ -5057,8 +5281,9 @@ SELECT [User].Email
                 List = Specs.Select(x => new { Id = x.SpecId, Name = x.SpecName }).ToList()
             };
 
-            int GosLine = Util.IsGosLine(PersonId); 
-            return Json(new { ret, GosLine });
+            int GosLine = Util.IsGosLine(PersonId);
+            int Crimea = Util.IsCrimea(PersonId);
+            return Json(new { ret, GosLine, Crimea });
         } 
 
         [OutputCache(NoStore = true, Duration = 0)]
@@ -6307,7 +6532,7 @@ Order by cnt desc";
 
         #region Mag_Applications
         [HttpPost]
-        public JsonResult AddApplication_Mag(string priority, string studyform, string studybasis, string entry, string isSecond, string isReduced, string isParallel, string profession, string obrazprogram, string specialization, string NeedHostel, string IsForeign, string CommitId, string semesterId="1", string secondtype="1", string reason="")
+        public JsonResult AddApplication_Mag(string priority, string studyform, string studybasis, string entry, string isSecond, string isReduced, string isParallel, string profession, string obrazprogram, string specialization, string NeedHostel, string IsForeign, string IsCrimea, string CommitId, string semesterId="1", string secondtype="1", string reason="")
         {
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
@@ -6350,6 +6575,7 @@ Order by cnt desc";
                 bool bIsReduced = Util.ParseSafe(isReduced) == 1;
                 bool bIsSecond = Util.ParseSafe(isSecond) == 1;
                 bool bIsForeign = Util.ParseSafe(IsForeign) == 1;
+                bool bIsCrimea = Util.ParseSafe(IsCrimea) == 1;
                 
                 int iSpecialization = 0;
                 if ((specialization != null) && (specialization != "") && (specialization != "null"))
@@ -6373,7 +6599,8 @@ Order by cnt desc";
                             Ent.IsSecond == bIsSecond &&
                            (iSpecialization == 0 ? true : Ent.ProfileId == iSpecialization) &&
                             Ent.SemesterId == iSemesterId &&
-                            Ent.IsForeign == bIsForeign
+                            Ent.IsForeign == bIsForeign &&
+                            Ent.IsCrimea == bIsCrimea
                       select new
                       {
                           EntryId = Ent.Id,
@@ -6396,7 +6623,8 @@ Order by cnt desc";
 
                 Guid EntryId = EntryList.First().EntryId;
 
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == gCommId && x.EntryId == EntryId && x.IsDeleted == false && x.IsGosLine == bIsForeign).Count() > 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == gCommId && x.EntryId == EntryId && x.IsDeleted == false
+                    && x.C_Entry.IsForeign == bIsForeign && x.C_Entry.IsCrimea == bIsCrimea).Count() > 0)
                     return Json(new { IsOk = false, ErrorMessage = Resources.NewApplication.ErrorHasApplication }); 
 
                 DateTime? timeOfStart; 
@@ -6474,7 +6702,7 @@ Order by cnt desc";
                                         ((Applications.SecondTypeId == 6) ? (bisEng ? " (changing educational program)" : " (смена образовательной программы)") :
                                         ""))))) : "");
 
-                return Json(new { IsOk = true, StudyLevelGroupName = LevelGroupName, StudyFormName = StudyFormName, StudyBasisName = StudyBasisName, Profession = Profession, Specialization = Specialization, ObrazProgram = ObrazProgram, Id = appId.ToString("N"), Faculty = faculty, isgosline = IsForeign, semesterId = SemesterName, Reason = reason });
+                return Json(new { IsOk = true, StudyLevelGroupName = LevelGroupName, StudyFormName = StudyFormName, StudyBasisName = StudyBasisName, Profession = Profession, Specialization = Specialization, ObrazProgram = ObrazProgram, Id = appId.ToString("N"), Faculty = faculty, isgosline = IsForeign, isCrimea = IsCrimea, semesterId = SemesterName, Reason = reason });
             }
         }
         [HttpPost]

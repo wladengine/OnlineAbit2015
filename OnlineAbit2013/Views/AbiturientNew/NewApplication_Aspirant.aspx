@@ -45,13 +45,16 @@
         var CurrlObrazProgram = '#lObrazProgram'+i; 
         var CurrSpecs = '#Specs'+i;
         var CurrFinishBtn = '#FinishBtn'+i; 
-        var CurrIsForeign = '#IsForeign'+i; 
+        var CurrIsForeign = '#IsForeign'+i;
+        var CurrIsCrimea = '#IsCrimea'+i;
 
         $(CurrProfs).show();
         $(CurrObrazPrograms).hide();
         $(CurrSpecs).hide();
         $(CurrFinishBtn).hide();
         $(CurrIsForeign).hide();
+        $(CurrIsCrimea).hide();
+
         $.post('/AbiturientNew/GetProfs', { studyform: $('#StudyFormId'+i).val(), studybasis: $('#StudyBasisId'+i).val(),
             entry: $('#EntryType').val(), isSecond: $('#IsSecondHidden'+i).val(), 
             isParallel: $('#IsParallelHidden'+i).val(), isReduced : $('#IsReducedHidden'+i).val()
@@ -87,7 +90,9 @@
         var CurrlObrazProgram = '#lObrazProgram'+i; 
         var CurrSpecs = '#Specs'+i;
         var CurrFinishBtn = '#FinishBtn'+i; 
-        var CurrIsForeign = '#IsForeign'+i;  
+        var CurrIsForeign = '#IsForeign'+i; 
+        var CurrIsCrimea = '#IsCrimea'+i;
+
         var profId = $(CurrlProfession).val();
         var sfId = $('#StudyFormId'+i).val();
         flag = false;
@@ -99,6 +104,8 @@
         $(CurrSpecs).hide();
         $(CurrFinishBtn).hide();
         $(CurrIsForeign).hide();
+        $(CurrIsCrimea).hide();
+
         var I = i;
         $.post('/AbiturientNew/GetObrazPrograms', { prof: profId, studyform: sfId, studybasis: $('#StudyBasisId'+i).val(), 
             entry: $('#EntryType').val(), isParallel: $('#IsParallelHidden'+i).val(), isReduced : $('#IsReducedHidden'+i).val(), 
@@ -144,12 +151,17 @@
         var CurrlSpecialization = '#lSpecialization'+i;
         var CurrFinishBtn = '#FinishBtn'+i; 
         var CurrIsForeign = '#IsForeign'+i;  
-        var CurrIsForeignHidden = '#isForeignHidden'+i;  
+        var CurrIsForeignHidden = '#isForeignHidden'+i;
+        var CurrIsCrimea = '#IsCrimea'+i;
+        var CurrIsCrimeaHidden = '#IsCrimeaHidden'+i;
+
         $(CurrProfs).show();
         $(CurrObrazPrograms).show();
         $(CurrSpecs).hide();
         $(CurrFinishBtn).hide();
         $(CurrIsForeign).hide();
+        $(CurrIsCrimea).hide();
+
         $.post('/AbiturientNew/GetSpecializations', { prof: profId, obrazprogram: opId, studyform: $('#StudyFormId'+i).val(), 
             studybasis: $('#StudyBasisId'+i).val(), entry: $('#EntryType').val(), CommitId: $('#CommitId').val(), isParallel: $('#IsParallelHidden'+i).val(), 
             isReduced : $('#IsReducedHidden'+i).val(), semesterId : $('#SemesterId'+i).val() }, function (json_data) {
@@ -166,6 +178,20 @@
                 }
                 else { 
                     $(CurrIsForeign).show();  
+                }
+            }
+
+            if (json_data.Crimea == 0) { 
+                $(CurrIsCrimea).hide();
+                $(CurrIsCrimeaHidden).val('0');
+            } 
+            else {
+                if (json_data.Crimea == 1) {  
+                    $(CurrIsCrimea).hide();
+                    $(CurrIsCrimeaHidden).val('1');  
+                }
+                else { 
+                    $(CurrIsCrimea).show();  
                 }
             }
             
@@ -239,6 +265,8 @@
         currNeedHostel = '#NeedHostel' + i;
         CurrIsForeignHidden = '#isForeignHidden'+i;
         CurrIsForeign = '#isForeign'+i;
+        CurrIsCrimeaHidden = '#isCrimeaHidden'+i;
+        CurrIsCrimea = '#isCrimea'+i;
 
         currBlock = '#Block' + i; 
         currBlockData = '#BlockData' + i;
@@ -252,6 +280,7 @@
         currBlockData_Specialization = '#BlockData_Specialization' + i; 
         currBlockData_Faculty = '#BlockData_Faculty'+i;
         currBlockData_IsForeign = '#BlockData_IsForeign'+i;
+        currBlockData_IsCrimea = '#BlockData_IsCrimea'+i;
 
         $.post('/AbiturientNew/AddApplication_Mag', { 
         priority: i,
@@ -266,6 +295,7 @@
         specialization: $('#lSpecialization'+i).val(), 
         NeedHostel: $('#NeedHostel' + i).is(':checked'), 
         IsForeign: $('#isForeignHidden'+i).val(),
+        IsCrimea: $('#isCrimeaHidden'+i).val(),
         CommitId: $('#CommitId').val() 
           }, 
           function(json_data) {
@@ -283,6 +313,15 @@
                 {
                     $(currBlockData_IsForeign).hide();
                 }
+
+                if (json_data.isCrimea==1){
+                    $(currBlockData_IsCrimea).show();
+                }
+                else
+                {
+                    $(currBlockData_IsCrimea).hide();
+                }
+
                 $(currBlock).hide();
                 $(currBlockData).show();
                 if (BlockIds[nxt] == undefined) {
@@ -306,6 +345,16 @@
         else{
             var CurrGosLineHidden = '#isForeignHidden'+i;  
             $(CurrGosLineHidden).val('0');
+        }
+    }
+    function ChangeIsCrimea(i) {
+        if ($('#chbIsCrimea'+i).is(':checked')){
+            var CurrCrimeaHidden = '#isCrimeaHidden'+i;  
+            $(CurrCrimeaHidden).val('1');
+        }
+        else{
+            var CurrCrimeaHidden = '#isCrimeaHidden'+i;  
+            $(CurrCrimeaHidden).val('0');
         }
     }
 
@@ -488,15 +537,21 @@ function DeleteMsg(i)
                 <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_MagSpecialization")%></td>
                 <td id="BlockData_Specialization<%= i.ToString()%>" style="font-size:1.3em;"><%= Model.Applications[i - 1].SpecializationName%></td>
             </tr>
-            <% if (Model.Applications[i - 1].IsForeign.HasValue)
-                {
-                    if ((bool)Model.Applications[i - 1].IsForeign)
-                    {%>
+            <% if (Model.Applications[i - 1].IsForeign.HasValue) {
+                    if ((bool)Model.Applications[i - 1].IsForeign) { %>
             <tr id = "BlockData_IsForeign<%= i.ToString()%>" style="display: none;">
                 <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_IsForeign")%></td>
                 <td style="font-size:1.3em;"><%= GetGlobalResourceObject("NewApplication", "Yes")%></td>
             </tr>
-            <%       }
+            <%      }
+                }%>
+            <% if (Model.Applications[i - 1].IsCrimea.HasValue) {
+                   if ((bool)Model.Applications[i - 1].IsCrimea) { %>
+            <tr id = "BlockData_IsCrimea<%= i.ToString()%>" style="display: none;">
+                <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_IsCrimea")%></td>
+                <td style="font-size:1.3em;"><%= GetGlobalResourceObject("NewApplication", "Yes")%></td>
+            </tr>
+            <%      }
                 }%>
         </table>
             <button type="button" 
@@ -541,6 +596,10 @@ function DeleteMsg(i)
                  <input type="checkbox" name="isForeign" title="Поступать по конкурсу для иностранцев/гослинии" id="chbIsForeign<%= i.ToString()%>" onchange="ChangeIsForeign(<%= i.ToString()%>)"/><span style="font-size:13px"><%= GetGlobalResourceObject("NewApplication", "EnterGosLine")%></span><br /><br />
                  <input type="hidden" name="isForeignHidden" title="Поступать по конкурсу для иностранцев/гослинии" id="isForeignHidden<%= i.ToString()%>" /> 
             </div>
+            <div id="IsCrimea<%= i.ToString()%>" style="display:none;" >
+                 <input type="checkbox" name="isCrimea" title="Поступать по конкурсу для лиц, постоянно проживающих в Крыму" id="chbIsCrimea<%= i.ToString()%>" onchange="ChangeIsCrimea(<%= i.ToString()%>)"/><span style="font-size:13px"><%= GetGlobalResourceObject("NewApplication", "EnterCrimea")%></span><br /><br />
+                 <input type="hidden" name="isForeignHidden" title="Поступать по конкурсу для лиц, постоянно проживающих в Крыму" id="isCrimeaHidden<%= i.ToString()%>" /> 
+            </div>
             <div id="FinishBtn<%= i.ToString()%>" style="border-collapse:collapse;">
                 <input id="Submit<%= i.ToString()%>" type="button" value=<%=GetGlobalResourceObject("NewApplication", "btnAdd").ToString()%> onclick="SaveData(<%= i.ToString()%>)" class="button button-blue"/>
             </div><br />
@@ -584,7 +643,11 @@ function DeleteMsg(i)
                 <tr id = "BlockData_IsForeign<%= i.ToString()%>" style="display: none;">
                     <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_IsForeign")%></td>
                     <td style="font-size:1.3em;"><%= GetGlobalResourceObject("NewApplication", "Yes")%></td>
-                </tr> 
+                </tr>
+                <tr id = "BlockData_IsCrimea<%= i.ToString()%>" style="display: none;">
+                    <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_IsCrimea")%></td>
+                    <td style="font-size:1.3em;"><%= GetGlobalResourceObject("NewApplication", "Yes")%></td>
+                </tr>
             </table>
             <button type="button" onclick="DeleteApp(<%= i.ToString()%>)" class="error"><%= GetGlobalResourceObject("NewApplication", "Delete")%></button>
             <div id="ObrazProgramsErrors_Block<%= i.ToString()%>" class="message error" style="display:none; width:450px;">
@@ -624,6 +687,10 @@ function DeleteMsg(i)
             <div id="IsForeign<%= i.ToString()%>" style="display:none;" >
                 <input type="checkbox" name="isForeign" title="Поступать по конкурсу для иностранцев/гослинии" id="chbIsForeign<%= i.ToString()%>" onchange="ChangeIsForeign(<%= i.ToString()%>)"/><span style="font-size:13px"><%= GetGlobalResourceObject("NewApplication", "EnterGosLine")%></span><br /><br />
                 <input type="hidden" name="isForeignHidden" title="Поступать по конкурсу для иностранцев/гослинии" id="isForeignHidden<%= i.ToString()%>" /> 
+            </div>
+            <div id="IsCrimea<%= i.ToString()%>" style="display:none;" >
+                <input type="checkbox" name="isCrimea" title="Поступать по конкурсу для лиц, постоянно проживающих в Крыму" id="chbIsCrimea<%= i.ToString()%>" onchange="ChangeIsCrimea(<%= i.ToString()%>)"/><span style="font-size:13px"><%= GetGlobalResourceObject("NewApplication", "EnterCrimea")%></span><br /><br />
+                <input type="hidden" name="isCrimeaHidden" title="Поступать по конкурсу для лиц, постоянно проживающих в Крыму" id="isCrimeaHidden<%= i.ToString()%>" /> 
             </div>
             <div id="FinishBtn<%= i.ToString()%>" style="border-collapse:collapse;">
                 <input id="Submit<%= i.ToString()%>" type="button" value=<%=GetGlobalResourceObject("NewApplication", "btnAdd").ToString()%> onclick="SaveData(<%= i.ToString()%>)" class="button button-blue"/>

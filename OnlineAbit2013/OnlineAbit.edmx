@@ -128,7 +128,8 @@
       [Abiturient].[DocInsertDate] AS [DocInsertDate], 
       [Abiturient].[IsDeleted] AS [IsDeleted], 
       [Abiturient].[IsCommonRussianCompetition] AS [IsCommonRussianCompetition], 
-      [Abiturient].[IsPrinted] AS [IsPrinted]
+      [Abiturient].[IsPrinted] AS [IsPrinted], 
+      [Abiturient].[IsForeign] AS [IsForeign]
       FROM [dbo].[Abiturient] AS [Abiturient]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Entry" EntityType="OnlinePriem2012Model.Store.Entry" store:Type="Views" store:Schema="dbo" store:Name="Entry">
@@ -180,7 +181,8 @@
       [Entry].[ComissionId] AS [ComissionId], 
       [Entry].[Address] AS [Address], 
       [Entry].[LicenseProgramNewCode] AS [LicenseProgramNewCode], 
-      [Entry].[IsForeign] AS [IsForeign]
+      [Entry].[IsForeign] AS [IsForeign], 
+      [Entry].[IsCrimea] AS [IsCrimea]
       FROM [dbo].[Entry] AS [Entry]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="extApplicationDetails" EntityType="OnlinePriem2012Model.Store.extApplicationDetails" store:Type="Views" store:Schema="dbo" store:Name="extApplicationDetails">
@@ -461,10 +463,6 @@
             <End Role="VuzAdditionalType" EntitySet="VuzAdditionalType" />
             <End Role="PersonEducationDocument" EntitySet="PersonEducationDocument" />
           </AssociationSet>
-          <AssociationSet Name="FK_PersonFile_PersonFileType" Association="OnlinePriem2012Model.Store.FK_PersonFile_PersonFileType">
-            <End Role="PersonFileType" EntitySet="PersonFileType" />
-            <End Role="PersonFile" EntitySet="PersonFile" />
-          </AssociationSet>
           <AssociationSet Name="FK_PersonHighEducationInfo_PersonEducationDocument" Association="OnlinePriem2012Model.Store.FK_PersonHighEducationInfo_PersonEducationDocument">
             <End Role="PersonEducationDocument" EntitySet="PersonEducationDocument" />
             <End Role="PersonHighEducationInfo" EntitySet="PersonHighEducationInfo" />
@@ -555,6 +553,7 @@
           <Property Name="IsUsedForPriem" Type="bit" Nullable="false" />
           <Property Name="ComissionId" Type="int" />
           <Property Name="IsForeign" Type="bit" Nullable="false" />
+          <Property Name="IsCrimea" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="AbiturientType">
           <Key>
@@ -1327,6 +1326,7 @@
             <PropertyRef Name="IsDeleted" />
             <PropertyRef Name="IsCommonRussianCompetition" />
             <PropertyRef Name="IsPrinted" />
+            <PropertyRef Name="IsForeign" />
             <PropertyRef Name="ObrazProgramCrypt" />
             <PropertyRef Name="ProfileName" />
           </Key>
@@ -1387,6 +1387,7 @@
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="IsCommonRussianCompetition" Type="bit" Nullable="false" />
           <Property Name="IsPrinted" Type="bit" Nullable="false" />
+          <Property Name="IsForeign" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'OnlinePriem2015.dbo.Entry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -1414,6 +1415,7 @@
             <PropertyRef Name="LicenseProgramName" />
             <PropertyRef Name="StudyLevelGroupId" />
             <PropertyRef Name="IsForeign" />
+            <PropertyRef Name="IsCrimea" />
             <PropertyRef Name="ObrazProgramCrypt" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
@@ -1464,6 +1466,7 @@
           <Property Name="Address" Type="nvarchar" MaxLength="350" />
           <Property Name="LicenseProgramNewCode" Type="nvarchar" MaxLength="10" />
           <Property Name="IsForeign" Type="bit" Nullable="false" />
+          <Property Name="IsCrimea" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'OnlinePriem2015.dbo.extApplicationDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -2264,18 +2267,6 @@
             </Principal>
             <Dependent Role="PersonEducationDocument">
               <PropertyRef Name="VuzAdditionalTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PersonFile_PersonFileType">
-          <End Role="PersonFileType" Type="OnlinePriem2012Model.Store.PersonFileType" Multiplicity="1" />
-          <End Role="PersonFile" Type="OnlinePriem2012Model.Store.PersonFile" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PersonFileType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PersonFile">
-              <PropertyRef Name="PersonFileTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4564,6 +4555,7 @@
             <PropertyRef Name="IsDeleted" />
             <PropertyRef Name="IsCommonRussianCompetition" />
             <PropertyRef Name="IsPrinted" />
+            <PropertyRef Name="IsForeign" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="PersonId" Nullable="false" />
@@ -4622,6 +4614,7 @@
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <Property Type="Boolean" Name="IsCommonRussianCompetition" Nullable="false" />
           <Property Type="Boolean" Name="IsPrinted" Nullable="false" />
+          <Property Type="Boolean" Name="IsForeign" Nullable="false" />
         </EntityType>
         <EntityType Name="extApplicationDetails">
           <Key>
@@ -4874,6 +4867,7 @@
           <NavigationProperty Name="Application" Relationship="OnlinePriem2012Model.FK_Application__Entry" FromRole="C_Entry" ToRole="Application" />
           <NavigationProperty Name="InnerEntryInEntry" Relationship="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" FromRole="C_Entry" ToRole="InnerEntryInEntry" />
           <Property Type="Boolean" Name="IsForeign" Nullable="false" />
+          <Property Type="Boolean" Name="IsCrimea" Nullable="false" />
         </EntityType>
         <Association Name="FK__Entry_Comission">
           <End Type="OnlinePriem2012Model.Comission" Role="Comission" Multiplicity="0..1" />
@@ -4983,6 +4977,7 @@
             <PropertyRef Name="ObrazProgramCrypt" />
             <PropertyRef Name="StudyLevelGroupId" />
             <PropertyRef Name="IsForeign" />
+            <PropertyRef Name="IsCrimea" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Int32" Name="SemesterId" Nullable="false" />
@@ -5032,6 +5027,7 @@
           <Property Type="String" Name="Address" MaxLength="350" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LicenseProgramNewCode" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="IsForeign" Nullable="false" />
+          <Property Type="Boolean" Name="IsCrimea" Nullable="false" />
         </EntityType>
         <EntityType Name="InnerEntryInEntry">
           <Key>
@@ -5853,6 +5849,7 @@
           <EntitySetMapping Name="Abiturient">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.Abiturient">
               <MappingFragment StoreEntitySet="Abiturient">
+                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
                 <ScalarProperty Name="IsPrinted" ColumnName="IsPrinted" />
                 <ScalarProperty Name="IsCommonRussianCompetition" ColumnName="IsCommonRussianCompetition" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
@@ -6000,6 +5997,7 @@
           <EntitySetMapping Name="C_Entry">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.C_Entry">
               <MappingFragment StoreEntitySet="_Entry">
+                <ScalarProperty Name="IsCrimea" ColumnName="IsCrimea" />
                 <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
                 <ScalarProperty Name="ComissionId" ColumnName="ComissionId" />
                 <ScalarProperty Name="IsUsedForPriem" ColumnName="IsUsedForPriem" />
@@ -6035,6 +6033,7 @@
           <EntitySetMapping Name="Entry">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.Entry">
               <MappingFragment StoreEntitySet="Entry">
+                <ScalarProperty Name="IsCrimea" ColumnName="IsCrimea" />
                 <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
                 <ScalarProperty Name="LicenseProgramNewCode" ColumnName="LicenseProgramNewCode" />
                 <ScalarProperty Name="Address" ColumnName="Address" />

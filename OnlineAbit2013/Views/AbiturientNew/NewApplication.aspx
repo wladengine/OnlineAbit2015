@@ -156,10 +156,10 @@
             <!-- Магистратура -->
             <input type="button" class="button button-blue" name="Val" onclick="Submit2()" style="width:45em;" value="<%= GetGlobalResourceObject("PersonStartPage", "AbiturientType2") %>" /><br /><br />
             <% if (Model.ExitClassId != 1) {%> 
-            <!-- аспирантура рф -->
+            <!-- аспирантура -->
             <input type="button" class="button button-blue" name="Val" onclick="Submit10()" style="width:45em;" value="<%= GetGlobalResourceObject("PersonStartPage", "AbiturientType10") %>" /><br /><br />
-            <!-- аспирантура иностр -->
-            <!-- <input type="button" class="button button-blue" name="Val" onclick="Submit11()" style="width:45em;" value="<%= GetGlobalResourceObject("PersonStartPage", "AbiturientType11") %>" /><br /><br />-->
+            <!-- ординатура -->
+            <input type="button" class="button button-blue" name="Val" onclick="Submit11()" style="width:45em;" value="<%= GetGlobalResourceObject("PersonStartPage", "AbiturientType11") %>" /><br /><br />
             <% } %> 
        <% }
           else if (Model.VuzAddType == 2) // перевод

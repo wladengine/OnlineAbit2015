@@ -306,4 +306,10 @@
   <data name="AGProfile" xml:space="preserve">
     <value>Профиль</value>
   </data>
+  <data name="BlockData_IsCrimea" xml:space="preserve">
+    <value>Крым</value>
+  </data>
+  <data name="EnterCrimea" xml:space="preserve">
+    <value>Поступать по конкурсу для лиц, постоянно проживающих в Крыму</value>
+  </data>
 </root>

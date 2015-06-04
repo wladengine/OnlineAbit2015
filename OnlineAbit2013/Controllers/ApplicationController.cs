@@ -73,16 +73,6 @@ namespace OnlineAbit2013.Controllers
                         StudyLevelGroupId = 1,
                         StudyLevelGroupName = Resources.Common.AG,
                     }).ToList()).ToList();
-                /*
-                foreach (var App in tblAppsMain)
-                {
-                    if ((App.ObrazProgramInEntryId.HasValue) && (!App.ObrazProgramInEntryId.Equals(Guid.Empty)))
-                    {
-
-                    }
-                }*/
-                //if (tblAppsMain.Count() == 0)
-                //    return RedirectToAction("Main", "AbiturientNew");
 
                 string query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM ApplicationFile WHERE CommitId=@CommitId";
                 DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@CommitId", CommitId } });
@@ -284,9 +274,11 @@ namespace OnlineAbit2013.Controllers
                     case 1: abt = AbitType.AG; break;
                     case 8: abt = AbitType.SPO; break;
                     case 10: abt = AbitType.SPO; break;
+                    case 15: abt = AbitType.Aspirant; break;
                     case 16: abt = AbitType.FirstCourseBakSpec; break;
                     case 17: abt = AbitType.Mag; break;
                     case 18: abt = AbitType.FirstCourseBakSpec; break;
+                    case 20: abt = AbitType.Ord; break;
                     default: abt = AbitType.FirstCourseBakSpec; break;
                 }
                 int? c = (int?) Util.AbitDB.GetValue("SELECT top 1 SecondTypeId FROM Application WHERE Id=@Id AND PersonId=@PersonId", new SortedList<string, object>() { { "@PersonId", personId }, { "@Id", ApplicationId } }) ;
@@ -640,6 +632,8 @@ namespace OnlineAbit2013.Controllers
                         case 3: { bindata = PDFUtils.GetApplicationPDF_SPO(appId, Server.MapPath("~/Templates/"), personId); break; }
                         //Аспирантура
                         case 4: { bindata = PDFUtils.GetApplicationPDF_Aspirant(appId, Server.MapPath("~/Templates/"), personId); break; }
+                        //Аспирантура
+                        case 5: { bindata = PDFUtils.GetApplicationPDF_Ord(appId, Server.MapPath("~/Templates/"), personId); break; }
 
                         //case 5: { bindata = PDFUtils.GetApplicationPDFRecover(appId, Server.MapPath("~/Templates/")); break; }
                         //case 6: { bindata = PDFUtils.GetApplicationPDFChangeStudyForm(appId, Server.MapPath("~/Templates/")); break; }

@@ -2281,7 +2281,8 @@ namespace OnlineAbit2013
         /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
         /// <param name="isCommonRussianCompetition">Initial value of the IsCommonRussianCompetition property.</param>
         /// <param name="isPrinted">Initial value of the IsPrinted property.</param>
-        public static Abiturient CreateAbiturient(global::System.Guid id, global::System.Guid personId, global::System.Int32 priority, global::System.Int32 barcode, global::System.Boolean enabled, global::System.Int32 entryType, global::System.Boolean hostelEduc, global::System.DateTime dateOfStart, global::System.Guid entryId, global::System.Int32 licenseProgramId, global::System.String licenseProgramName, global::System.Int32 obrazProgramId, global::System.String obrazProgramCrypt, global::System.String obrazProgramName, global::System.Int32 profileId, global::System.String profileName, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isApprovedByComission, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Int32 semesterId, global::System.Boolean isParallel, global::System.Int32 campaignYear, global::System.Guid commitId, global::System.Boolean isCommited, global::System.Int32 studyLevelGroupId, global::System.Boolean isGosLine, global::System.Int32 applicationCommitNumber, global::System.Boolean isImported, global::System.Boolean isDeleted, global::System.Boolean isCommonRussianCompetition, global::System.Boolean isPrinted)
+        /// <param name="isForeign">Initial value of the IsForeign property.</param>
+        public static Abiturient CreateAbiturient(global::System.Guid id, global::System.Guid personId, global::System.Int32 priority, global::System.Int32 barcode, global::System.Boolean enabled, global::System.Int32 entryType, global::System.Boolean hostelEduc, global::System.DateTime dateOfStart, global::System.Guid entryId, global::System.Int32 licenseProgramId, global::System.String licenseProgramName, global::System.Int32 obrazProgramId, global::System.String obrazProgramCrypt, global::System.String obrazProgramName, global::System.Int32 profileId, global::System.String profileName, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isApprovedByComission, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Int32 semesterId, global::System.Boolean isParallel, global::System.Int32 campaignYear, global::System.Guid commitId, global::System.Boolean isCommited, global::System.Int32 studyLevelGroupId, global::System.Boolean isGosLine, global::System.Int32 applicationCommitNumber, global::System.Boolean isImported, global::System.Boolean isDeleted, global::System.Boolean isCommonRussianCompetition, global::System.Boolean isPrinted, global::System.Boolean isForeign)
         {
             Abiturient abiturient = new Abiturient();
             abiturient.Id = id;
@@ -2318,6 +2319,7 @@ namespace OnlineAbit2013
             abiturient.IsDeleted = isDeleted;
             abiturient.IsCommonRussianCompetition = isCommonRussianCompetition;
             abiturient.IsPrinted = isPrinted;
+            abiturient.IsForeign = isForeign;
             return abiturient;
         }
 
@@ -3791,6 +3793,33 @@ namespace OnlineAbit2013
         private global::System.Boolean _IsPrinted;
         partial void OnIsPrintedChanging(global::System.Boolean value);
         partial void OnIsPrintedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsForeign
+        {
+            get
+            {
+                return _IsForeign;
+            }
+            set
+            {
+                if (_IsForeign != value)
+                {
+                    OnIsForeignChanging(value);
+                    ReportPropertyChanging("IsForeign");
+                    _IsForeign = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("IsForeign");
+                    OnIsForeignChanged();
+                }
+            }
+        }
+        private global::System.Boolean _IsForeign;
+        partial void OnIsForeignChanging(global::System.Boolean value);
+        partial void OnIsForeignChanged();
 
         #endregion
 
@@ -8330,7 +8359,8 @@ namespace OnlineAbit2013
         /// <param name="campaignYear">Initial value of the CampaignYear property.</param>
         /// <param name="isUsedForPriem">Initial value of the IsUsedForPriem property.</param>
         /// <param name="isForeign">Initial value of the IsForeign property.</param>
-        public static C_Entry CreateC_Entry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 profileId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.Boolean isForeign)
+        /// <param name="isCrimea">Initial value of the IsCrimea property.</param>
+        public static C_Entry CreateC_Entry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 profileId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.Boolean isForeign, global::System.Boolean isCrimea)
         {
             C_Entry c_Entry = new C_Entry();
             c_Entry.Id = id;
@@ -8350,6 +8380,7 @@ namespace OnlineAbit2013
             c_Entry.CampaignYear = campaignYear;
             c_Entry.IsUsedForPriem = isUsedForPriem;
             c_Entry.IsForeign = isForeign;
+            c_Entry.IsCrimea = isCrimea;
             return c_Entry;
         }
 
@@ -9055,6 +9086,30 @@ namespace OnlineAbit2013
         private global::System.Boolean _IsForeign;
         partial void OnIsForeignChanging(global::System.Boolean value);
         partial void OnIsForeignChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsCrimea
+        {
+            get
+            {
+                return _IsCrimea;
+            }
+            set
+            {
+                OnIsCrimeaChanging(value);
+                ReportPropertyChanging("IsCrimea");
+                _IsCrimea = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsCrimea");
+                OnIsCrimeaChanged();
+            }
+        }
+        private global::System.Boolean _IsCrimea;
+        partial void OnIsCrimeaChanging(global::System.Boolean value);
+        partial void OnIsCrimeaChanged();
 
         #endregion
 
@@ -10517,7 +10572,8 @@ namespace OnlineAbit2013
         /// <param name="obrazProgramCrypt">Initial value of the ObrazProgramCrypt property.</param>
         /// <param name="studyLevelGroupId">Initial value of the StudyLevelGroupId property.</param>
         /// <param name="isForeign">Initial value of the IsForeign property.</param>
-        public static Entry CreateEntry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Int32 profileId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.String obrazProgramName, global::System.String number, global::System.String licenseProgramName, global::System.String obrazProgramCrypt, global::System.Int32 studyLevelGroupId, global::System.Boolean isForeign)
+        /// <param name="isCrimea">Initial value of the IsCrimea property.</param>
+        public static Entry CreateEntry(global::System.Guid id, global::System.Int32 semesterId, global::System.Int32 licenseProgramId, global::System.Int32 obrazProgramId, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Int32 profileId, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Boolean isParallel, global::System.Boolean isExpress, global::System.Boolean isElectronic, global::System.Boolean isDistance, global::System.Int32 campaignYear, global::System.Boolean isUsedForPriem, global::System.String obrazProgramName, global::System.String number, global::System.String licenseProgramName, global::System.String obrazProgramCrypt, global::System.Int32 studyLevelGroupId, global::System.Boolean isForeign, global::System.Boolean isCrimea)
         {
             Entry entry = new Entry();
             entry.Id = id;
@@ -10542,6 +10598,7 @@ namespace OnlineAbit2013
             entry.ObrazProgramCrypt = obrazProgramCrypt;
             entry.StudyLevelGroupId = studyLevelGroupId;
             entry.IsForeign = isForeign;
+            entry.IsCrimea = isCrimea;
             return entry;
         }
 
@@ -11766,6 +11823,33 @@ namespace OnlineAbit2013
         private global::System.Boolean _IsForeign;
         partial void OnIsForeignChanging(global::System.Boolean value);
         partial void OnIsForeignChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsCrimea
+        {
+            get
+            {
+                return _IsCrimea;
+            }
+            set
+            {
+                if (_IsCrimea != value)
+                {
+                    OnIsCrimeaChanging(value);
+                    ReportPropertyChanging("IsCrimea");
+                    _IsCrimea = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("IsCrimea");
+                    OnIsCrimeaChanged();
+                }
+            }
+        }
+        private global::System.Boolean _IsCrimea;
+        partial void OnIsCrimeaChanging(global::System.Boolean value);
+        partial void OnIsCrimeaChanged();
 
         #endregion
 
