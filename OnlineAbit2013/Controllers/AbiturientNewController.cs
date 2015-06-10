@@ -1145,32 +1145,32 @@ namespace OnlineAbit2013.Controllers
                     }
                     #endregion
 
-                    bool bHasDisorderInfo = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId == 3).Count() > 0;
-                    //-----------------PersonDisorderInfo---------------------
-                    #region PersonDisorderInfo
-                    if (bHasDisorderInfo)
-                    {
-                        bIns = false;
+                //bool bHasDisorderInfo = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId == 3).Count() > 0;
+                ////-----------------PersonDisorderInfo---------------------
+                //#region PersonDisorderInfo
+                //if (bHasDisorderInfo)
+                //{
+                //    bIns = false;
 
-                        var PersonDisorderInfo = Person.PersonDisorderInfo;
-                        if (PersonDisorderInfo == null)
-                        {
-                            PersonDisorderInfo = new PersonDisorderInfo();
-                            PersonDisorderInfo.PersonId = PersonId;
-                            bIns = true;
-                        }
+                //    var PersonDisorderInfo = Person.PersonDisorderInfo;
+                //    if (PersonDisorderInfo == null)
+                //    {
+                //        PersonDisorderInfo = new PersonDisorderInfo();
+                //        PersonDisorderInfo.PersonId = PersonId;
+                //        bIns = true;
+                //    }
 
-                        PersonDisorderInfo.IsForIGA = model.DisorderInfo.IsForIGA;
-                        PersonDisorderInfo.YearOfDisorder = model.DisorderInfo.YearOfDisorder;
-                        PersonDisorderInfo.EducationProgramName = model.DisorderInfo.EducationProgramName;
+                //    PersonDisorderInfo.IsForIGA = model.DisorderInfo.IsForIGA;
+                //    PersonDisorderInfo.YearOfDisorder = model.DisorderInfo.YearOfDisorder;
+                //    PersonDisorderInfo.EducationProgramName = model.DisorderInfo.EducationProgramName;
 
-                        if (bIns)
-                        {
-                            context.PersonDisorderInfo.AddObject(PersonDisorderInfo);
-                            bIns = false;
-                        }
-                    }
-                    #endregion
+                //    if (bIns)
+                //    {
+                //        context.PersonDisorderInfo.AddObject(PersonDisorderInfo);
+                //        bIns = false;
+                //    }
+                //}
+                //#endregion
 
                     if (iRegStage < 6)
                         Person.RegistrationStage = 6;
