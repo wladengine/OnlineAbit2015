@@ -1061,7 +1061,7 @@ namespace OnlineAbit2013.Controllers
                             context.PersonDisorderInfo.AddObject(PersonDisorderEducation);
                     }
                     #endregion
-                    bool bHasCurrentEducation = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId != 1).Count() > 0;
+                    bool bHasCurrentEducation = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId != 1 && x.VuzAdditionalTypeId!=3).Count() > 0;
                     //-----------------PersonCurrentEducation---------------------
                     #region PersonCurrentEducation
                     if (bHasCurrentEducation)
