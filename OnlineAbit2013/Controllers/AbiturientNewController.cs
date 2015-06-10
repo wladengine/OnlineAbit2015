@@ -3635,7 +3635,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAG(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                        new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
