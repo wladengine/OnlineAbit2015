@@ -1061,7 +1061,7 @@ namespace OnlineAbit2013.Controllers
                             context.PersonDisorderInfo.AddObject(PersonDisorderEducation);
                     }
                     #endregion
-                    bool bHasCurrentEducation = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId != 1).Count() > 0;
+                    bool bHasCurrentEducation = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2 || x.VuzAdditionalTypeId == 4)).Count() > 0;
                     //-----------------PersonCurrentEducation---------------------
                     #region PersonCurrentEducation
                     if (bHasCurrentEducation)
@@ -1117,7 +1117,6 @@ namespace OnlineAbit2013.Controllers
                         PersonCurrentEducation.CountryId = bHas ? 193 : iCountryEducId;
                         PersonCurrentEducation.ProfileName = model.CurrentEducation.ProfileName;
 
-
                         if (bIns)
                         {
                             context.PersonCurrentEducation.AddObject(PersonCurrentEducation);
@@ -1142,6 +1141,33 @@ namespace OnlineAbit2013.Controllers
                                 context.PersonChangeStudyFormReason.AddObject(ChangeStudyFormReason);
                                 bIns = false;
                             }
+                        }
+                    }
+                    #endregion
+
+                    bool bHasDisorderInfo = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId == 3).Count() > 0;
+                    //-----------------PersonDisorderInfo---------------------
+                    #region PersonDisorderInfo
+                    if (bHasDisorderInfo)
+                    {
+                        bIns = false;
+
+                        var PersonDisorderInfo = Person.PersonDisorderInfo;
+                        if (PersonDisorderInfo == null)
+                        {
+                            PersonDisorderInfo = new PersonDisorderInfo();
+                            PersonDisorderInfo.PersonId = PersonId;
+                            bIns = true;
+                        }
+
+                        PersonDisorderInfo.IsForIGA = model.DisorderInfo.IsForIGA;
+                        PersonDisorderInfo.YearOfDisorder = model.DisorderInfo.YearOfDisorder;
+                        PersonDisorderInfo.EducationProgramName = model.DisorderInfo.EducationProgramName;
+
+                        if (bIns)
+                        {
+                            context.PersonDisorderInfo.AddObject(PersonDisorderInfo);
+                            bIns = false;
                         }
                     }
                     #endregion
@@ -5099,10 +5125,13 @@ SELECT [User].Email
             bool bIsSecond = isSecond == "1" ? true : false;
             bool bIsReduced = isReduced == "1" ? true : false;
             bool bIsParallel = isParallel == "1" ? true : false;
+            int GosLine = Util.IsGosLine(PersonId);
 
             string query = "SELECT DISTINCT LicenseProgramId, LicenseProgramCode, LicenseProgramName, LicenseProgramNameEng FROM Entry " +
                 "WHERE StudyFormId=@StudyFormId AND StudyBasisId=@StudyBasisId AND StudyLevelGroupId=@StudyLevelGroupId AND IsSecond=@IsSecond AND IsParallel=@IsParallel " +
-                "AND IsReduced=@IsReduced AND [CampaignYear]=@Year AND SemesterId=@SemesterId";
+                "AND IsReduced=@IsReduced AND [CampaignYear]=@Year AND SemesterId=@SemesterId" +
+                (GosLine == 0 ? " AND IsForeign = 0 " : "");
+
             SortedList<string, object> dic = new SortedList<string, object>();
             dic.Add("@StudyFormId", iStudyFormId);
             dic.Add("@StudyBasisId", iStudyBasisId);
@@ -5174,10 +5203,13 @@ SELECT [User].Email
             bool bIsReduced = isReduced == "1" ? true : false;
             bool bIsParallel = isParallel == "1" ? true : false;
 
+            int GosLine = Util.IsGosLine(PersonId);
+
             string query = "SELECT DISTINCT ObrazProgramId, ObrazProgramName, ObrazProgramNameEng FROM Entry " +
                 "WHERE StudyFormId=@StudyFormId AND StudyBasisId=@StudyBasisId AND LicenseProgramId=@LicenseProgramId " +
                 "AND StudyLevelGroupId=@StudyLevelGroupId AND IsParallel=@IsParallel AND IsReduced=@IsReduced " +
-                "AND CampaignYear=@Year AND SemesterId=@SemesterId";
+                "AND CampaignYear=@Year AND SemesterId=@SemesterId" +
+                (GosLine == 0 ? " AND IsForeign = 0 " : "");
             SortedList<string, object> dic = new SortedList<string, object>();
             dic.Add("@StudyFormId", iStudyFormId);
             dic.Add("@StudyBasisId", iStudyBasisId);
@@ -5245,11 +5277,14 @@ SELECT [User].Email
             bool bIsParallel = isParallel == "1" ? true : false;
             //bool bIsGosLine = isgosline == "1" ? true : false;
 
+            int GosLine = Util.IsGosLine(PersonId);
+
             string query = "SELECT DISTINCT ProfileId, (case when (ProfileName is null) then 'нет' else ProfileName end) as 'ProfileName' FROM Entry WHERE StudyFormId=@StudyFormId " +
                 "AND StudyBasisId=@StudyBasisId AND LicenseProgramId=@LicenseProgramId AND ObrazProgramId=@ObrazProgramId AND StudyLevelGroupId=@StudyLevelGroupId " +
                 //"AND Entry.Id NOT IN (SELECT EntryId FROM [Application] WHERE PersonId=@PersonId AND IsCommited='True' AND EntryId IS NOT NULL and CommitId=@CommitId and IsDeleted=0 and IsGosLine<>@IsGosLine) " +
                 "AND IsParallel=@IsParallel AND IsReduced=@IsReduced "+ 
-                "AND CampaignYear=@Year AND SemesterId=@SemesterId ";
+                "AND CampaignYear=@Year AND SemesterId=@SemesterId " + 
+                (GosLine == 0 ? " AND IsForeign = 0 " : "");
 
             SortedList<string, object> dic = new SortedList<string, object>();
             dic.Add("@PersonId", PersonId);
@@ -5281,7 +5316,7 @@ SELECT [User].Email
                 List = Specs.Select(x => new { Id = x.SpecId, Name = x.SpecName }).ToList()
             };
 
-            int GosLine = Util.IsGosLine(PersonId);
+            
             int Crimea = Util.IsCrimea(PersonId);
             return Json(new { ret, GosLine, Crimea });
         } 

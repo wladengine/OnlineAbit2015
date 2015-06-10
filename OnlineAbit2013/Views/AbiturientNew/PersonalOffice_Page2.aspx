@@ -30,7 +30,7 @@
                     changeMonth: true,
                     changeYear: true,
                     showOn: "focus",
-                    yearRange: '1967:2014',
+                    yearRange: '1968:2015',
                     maxDate: "+1D",
                     defaultDate: '-3y'
                 });

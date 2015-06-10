@@ -26,7 +26,6 @@ namespace OnlineAbit2013.Controllers
                 Request.Url.AbsoluteUri.IndexOf("localhost", StringComparison.OrdinalIgnoreCase) == -1)
                 return Redirect(Request.Url.AbsoluteUri.Replace("http://", "https://"));
 
-
             Guid UserId;
             if (Util.CheckAuthCookies(Request.Cookies, out UserId))
                 return RedirectToAction("Main", "AbiturientNew");
@@ -85,7 +84,11 @@ namespace OnlineAbit2013.Controllers
                 {
                     usrTime = Convert.ToDateTime(Request.Form["time"], System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat);
                 }
-                catch { }
+                catch 
+                {
+                    //при плохо отправленном или не распарсенном времени добавлять 24 часа
+                    usrTime = DateTime.Now.AddHours(24);
+                }
                 string email = model.Email;
                 string remixPwd = Util.MD5Str(model.Password);
 
