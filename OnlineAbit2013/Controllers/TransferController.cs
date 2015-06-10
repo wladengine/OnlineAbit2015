@@ -53,7 +53,7 @@ namespace OnlineAbit2013.Controllers
 
             string query = "SELECT DISTINCT LicenseProgramId, LicenseProgramCode, LicenseProgramName, LicenseProgramNameEng FROM Entry " +
                 "WHERE StudyFormId=@StudyFormId AND StudyBasisId=@StudyBasisId AND StudyLevelGroupId=@StudyLevelGroupId AND IsSecond=@IsSecond AND IsParallel=@IsParallel " +
-                "AND IsReduced=@IsReduced AND [CampaignYear]=@Year AND SemesterId=@SemesterId";
+                "AND IsReduced=@IsReduced AND [CampaignYear]=@Year AND SemesterId=@SemesterId  and IsCrimea=0";
             SortedList<string, object> dic = new SortedList<string, object>();
             dic.Add("@StudyFormId", iStudyFormId);
             dic.Add("@StudyBasisId", iStudyBasisId);
@@ -146,7 +146,7 @@ namespace OnlineAbit2013.Controllers
             string query = "SELECT DISTINCT ObrazProgramId, ObrazProgramName, ObrazProgramNameEng FROM Entry " +
                 "WHERE StudyFormId=@StudyFormId AND StudyBasisId=@StudyBasisId AND LicenseProgramId=@LicenseProgramId " +
                 "AND StudyLevelGroupId=@StudyLevelGroupId AND IsParallel=@IsParallel AND IsReduced=@IsReduced " +
-                " AND CampaignYear=@Year AND SemesterId=@SemesterId ";
+                " AND CampaignYear=@Year AND SemesterId=@SemesterId and IsCrimea=0";
             SortedList<string, object> dic = new SortedList<string, object>();
             dic.Add("@StudyFormId", iStudyFormId);
             dic.Add("@StudyBasisId", iStudyBasisId);
@@ -218,7 +218,7 @@ namespace OnlineAbit2013.Controllers
             string query = "SELECT DISTINCT ProfileId, ProfileName FROM Entry INNER JOIN SP_StudyLevel ON SP_StudyLevel.Id = Entry.StudyLevelId WHERE StudyFormId=@StudyFormId " +
                 "AND StudyBasisId=@StudyBasisId AND LicenseProgramId=@LicenseProgramId AND ObrazProgramId=@ObrazProgramId AND Entry.StudyLevelGroupId=@StudyLevelGroupId " +
                // "AND Entry.Id NOT IN (SELECT EntryId FROM [Application] WHERE PersonId=@PersonId AND Enabled='True' AND EntryId IS NOT NULL) " +
-                "AND IsParallel=@IsParallel AND IsReduced=@IsReduced AND CampaignYear=@Year AND SemesterId=@SemesterId";
+                "AND IsParallel=@IsParallel AND IsReduced=@IsReduced AND CampaignYear=@Year AND SemesterId=@SemesterId  and IsCrimea=0";
 
             SortedList<string, object> dic = new SortedList<string, object>();
             dic.Add("@PersonId", PersonId);
@@ -240,7 +240,7 @@ namespace OnlineAbit2013.Controllers
             DataTable tblSpecs = Util.AbitDB.GetDataTable(query, dic);
             var Specs =
                 from DataRow rw in tblSpecs.Rows
-                select new { SpecId = rw.Field<Guid?>("ProfileId"), SpecName = rw.Field<string>("ProfileName") };
+                select new { SpecId = rw.Field<int?>("ProfileId"), SpecName = rw.Field<string>("ProfileName") };
 
             var ret = new
             {

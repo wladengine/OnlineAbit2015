@@ -38,7 +38,7 @@
         var CurrSpecs = '#Specs'+i;
         var CurrFinishBtn = '#FinishBtn'+i;
         var CurrSemesterId = '#semesterId'+i;
-        var CurrGosLine = '#GosLine'+i;  
+        var CurrGosLine = 0;  
 
         $(CurrProfs).show();
         $(CurrObrazPrograms).hide();
@@ -79,7 +79,7 @@
         var CurrlObrazProgram = '#lObrazProgram'+i; 
         var CurrSpecs = '#Specs'+i;
         var CurrFinishBtn = '#FinishBtn'+i; 
-        var CurrGosLine = '#GosLine'+i;  
+        var CurrGosLine = 0;  
         var profId = $(CurrlProfession).val();
         var sfId = $('#StudyFormId'+i).val();
         flag = false;
@@ -135,8 +135,8 @@
         var CurrSpecs = '#Specs'+i;
         var CurrlSpecialization = '#lSpecialization'+i;
         var CurrFinishBtn = '#FinishBtn'+i; 
-        var CurrGosLine = '#GosLine'+i;  
-        var CurrGosLineHidden = '#isGosLineHidden'+i;  
+        var CurrGosLine = 0;  
+        var CurrGosLineHidden = 0;  
         $(CurrProfs).show();
         $(CurrObrazPrograms).show();
         $(CurrSpecs).hide();
@@ -235,8 +235,8 @@
         currSpecs = '#Specs' + i;    
         currObrazProgramErrors = '#ObrazProgramsErrors' + i;  
         currNeedHostel = '#NeedHostel' + i;
-        currGosLineHidden = '#isGosLineHidden'+i;
-        currGosLine = '#isGosLine'+i;
+        currGosLineHidden = 0;
+        currGosLine = 0;
 
         currBlock = '#Block' + i; 
         currBlockData = '#BlockData' + i;
@@ -249,7 +249,7 @@
         currBlockData_ObrazProgram = '#BlockData_ObrazProgram' + i;
         currBlockData_Specialization = '#BlockData_Specialization' + i; 
         currBlockData_Faculty = '#BlockData_Faculty'+i;
-        currBlockData_GosLine = '#BlockData_GosLine'+i;
+        currBlockData_GosLine = 0;
         currBlockData_SemesterId = '#BlockData_SemesterId'+i;
         currBlockData_StudyLevelGroupId = '#BlockData_StudyLevelGroupId'+i;
 
@@ -265,11 +265,12 @@
         obrazprogram: $('#lObrazProgram'+i).val(), 
         specialization: $('#lSpecialization'+i).val(), 
         NeedHostel: $('#NeedHostel' + i).is(':checked'), 
-        IsGosLine: $('#isGosLineHidden'+i).val(),
+        IsForeign:'0',
         CommitId: $('#CommitId').val(),
         semesterId:  $('#semesterId' + i).val(),
-        secondtype: "2"
-          }, 
+        secondtype: "2",
+        IsCrimea: "0"
+        }, 
           function(json_data) {
             if (json_data.IsOk) { 
                 $(currBlockData_StudyLevelGroupId).text(json_data.StudyLevelGroupName);
@@ -302,15 +303,9 @@
         $('#Submit').removeAttr("disabled");
     }
     
-    function ChangeGosLine(i) {
-        if ($('#IsGosLine'+i).is(':checked')){
+    function ChangeGosLine(i) { 
             var CurrGosLineHidden = '#isGosLineHidden'+i;  
-            $(CurrGosLineHidden).val('1');
-        }
-        else{
-            var CurrGosLineHidden = '#isGosLineHidden'+i;  
-            $(CurrGosLineHidden).val('0');
-        }
+            $(CurrGosLineHidden).val('0'); 
     }
 
     function ChangeEType(i) {
@@ -473,6 +468,7 @@
                 <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_MagSpecialization")%></td>
                 <td id="BlockData_Specialization<%= i.ToString()%>" style="font-size:1.3em;"><%= Model.Applications[i - 1].SpecializationName%></td>
             </tr>
+                <%-- 
             <% if (Model.Applications[i - 1].IsGosLine.HasValue)
                {
                    if ((bool)Model.Applications[i - 1].IsGosLine) {%>
@@ -481,7 +477,7 @@
                         <td style="font-size:1.3em;"><%= GetGlobalResourceObject("NewApplication", "Yes")%></td>
                     </tr>
             <%       } 
-               }%>
+               }%> --%>
         </table>
         <button type="button" onclick="DeleteApp(<%= i.ToString()%>)" class="error"><%= GetGlobalResourceObject("NewApplication", "Delete")%></button>
         <div id="ObrazProgramsErrors_Block<%= i.ToString()%>" class="message error" style="display:none; width:450px;">
@@ -537,10 +533,10 @@
             <span><%= GetGlobalResourceObject("NewApplication", "HeaderFaculty")%></span><br />
             <select id="lFaculty<%= i.ToString()%>" size="2" name="lFaculty" onchange="GetProfessions(<%= i.ToString()%>)"></select>
         </p>
-        <div id = "GosLine<%= i.ToString()%>" style="display:none;" >
+        <%--<div id = "GosLine<%= i.ToString()%>" style="display:none;" >
              <input type="checkbox" name="isGosLine" title="Поступать по гослинии" id="IsGosLine<%= i.ToString()%>" onchange="ChangeGosLine(<%= i.ToString()%>)"/><span style="font-size:13px">Поступать по гослинии</span><br /><br />
              <input type="hidden" name="isGosLineHidden" title="Поступать по гослинии" id="isGosLineHidden<%= i.ToString()%>" /> 
-        </div>
+        </div>--%>
         <div id="FinishBtn<%= i.ToString()%>" style="border-collapse:collapse;">
              <input id="Submit<%= i.ToString()%>" type="button" value=<%=GetGlobalResourceObject("NewApplication", "btnAdd").ToString()%> onclick="SaveData(<%= i.ToString()%>)" class="button button-blue"/>
         </div><br />
@@ -589,10 +585,10 @@
                     <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_MagSpecialization")%></td>
                     <td id="BlockData_Specialization<%= i.ToString() %>" style="font-size:1.3em;" ></td>
                 </tr>
-                <tr id = "BlockData_GosLine<%= i.ToString()%>" style="display: none;">
+                <%-- <tr id = "BlockData_GosLine<%= i.ToString()%>" style="display: none;">
                     <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_GosLine")%></td>
                     <td style="font-size:1.3em;"><%= GetGlobalResourceObject("NewApplication", "Yes")%></td>
-                </tr> 
+                </tr> --%>
             </table>
             <button type="button" onclick="DeleteApp(<%= i.ToString()%>)" class="error"><%= GetGlobalResourceObject("NewApplication", "Delete")%></button>
             <div id="ObrazProgramsErrors_Block<%= i.ToString()%>" class="message error" style="display:none; width:450px;">
@@ -648,10 +644,10 @@
             <span><%= GetGlobalResourceObject("NewApplication", "HeaderFaculty")%></span><br />
             <select id="lFaculty<%= i.ToString()%>" size="2" name="lFaculty" onchange="GetProfessions(<%= i.ToString()%>)"></select>
         </p> 
-        <div id = "GosLine<%= i.ToString()%>" style="display:none;" >
+        <%--<div id = "GosLine<%= i.ToString()%>" style="display:none;" >
              <input type="checkbox" name="isGosLine" title="Поступать по гослинии" id="IsGosLine<%= i.ToString()%>" onchange="ChangeGosLine(<%= i.ToString()%>)"/><span style="font-size:13px">Поступать по гослинии</span><br /><br />
              <input type="hidden" name="isGosLineHidden" title="Поступать по гослинии" id="isGosLineHidden<%= i.ToString()%>" />
-        </div>
+        </div>--%>
         <div id="FinishBtn<%= i.ToString()%>" style="border-collapse:collapse;">
             <input id="Submit<%= i.ToString()%>" type="button" value=<%=GetGlobalResourceObject("NewApplication", "btnAdd").ToString()%> onclick="SaveData(<%= i.ToString()%>)" class="button button-blue"/>
         </div><br />
