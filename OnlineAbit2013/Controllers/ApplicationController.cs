@@ -1172,7 +1172,7 @@ namespace OnlineAbit2013.Controllers
                         ,qAbitFiles_OnlyEssayMotivLetter.[Comment] as Comment
                         ,(case when (qAbitFiles_OnlyEssayMotivLetter.FileTypeId = 2) then '" + MotiveMail + @"' else '"+Essay+@"' end) as FileTypeId
                         ,qAbitFiles_OnlyEssayMotivLetter.[IsApproved]
-                        ,(case when (qAbitFiles_OnlyEssayMotivLetter.ApplicationId is not null or qAbitFiles_OnlyEssayMotivLetter.CommitId is not null ) then ('"+ApplicationFile+@" (' + "+BasisName+@" +')') else '"+SharedFile+@"' end ) as AddInfo 
+                        ,(case when (qAbitFiles_OnlyEssayMotivLetter.ApplicationId is not null or qAbitFiles_OnlyEssayMotivLetter.CommitId is not null ) then ('"+ApplicationFile+@" (' + "+BasisName+@" +')') else '"+SharedFile+ @"' end ) as AddInfo 
                         ,Entry.StudyBasisName as BasisName
                         ,PortfolioFilesMark.Mark
                     
@@ -1185,10 +1185,10 @@ namespace OnlineAbit2013.Controllers
 
                         where
                         LicenseProgramName = 'Журналистика' and 
-                        ObrazProgramName = 'Журналистика (Глобальная коммуникация и международная журналистика)'
+                        ObrazProgramName = 'Глобальная коммуникация и международная журналистика'
                         and IsCommited = 1 
                         and  ((qAbitFiles_OnlyEssayMotivLetter.ApplicationId is null and qAbitFiles_OnlyEssayMotivLetter.CommitId is null) or qAbitFiles_OnlyEssayMotivLetter.ApplicationId = Application.Id or qAbitFiles_OnlyEssayMotivLetter.CommitId = Application.CommitId )
-                        order by FIO ";
+                        order by FIO, FileTypeId, FileName";
 
                         DataTable tbl = Util.AbitDB.GetDataTable(query, null);
 
