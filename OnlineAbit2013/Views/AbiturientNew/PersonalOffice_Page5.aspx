@@ -16,12 +16,6 @@
 <% } %>
     <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
     <script type="text/javascript"> 
-
-        <% if (Model.CurrentEducation != null && !String.IsNullOrEmpty(Model.CurrentEducation.HiddenObrazProgramId)) { %>
-        $(function () { setTimeout(GetObrazPrograms) });
-        <% } %>
-
-        $(function () { setTimeout(GetProfessions) });
         $(function () {
             $('#CurrentEducation_StudyLevelId').change(function () { setTimeout(GetProfessions) });
             $('#CurrentEducation_StudyFormId').change(function () { setTimeout(GetProfessions) });
@@ -32,6 +26,14 @@
             $('#DisorderInfo_YearOfDisorder').change(function () { setTimeout(CheckDisorderInfoYear) });
 
             fStart();
+
+            GetProfessions();
+
+            <% if (Model.CurrentEducation != null && !String.IsNullOrEmpty(Model.CurrentEducation.HiddenObrazProgramId)) { %>
+            $(function () { setTimeout(GetObrazPrograms) });
+            $('#CurrentEducation_ObrazProgramId').val(<%= Model.CurrentEducation.HiddenObrazProgramId %>);
+            $('#CurrentEducation_HiddenObrazProgramId').val(<%= Model.CurrentEducation.HiddenObrazProgramId %>);
+            <% } %>
         });
 
         function Myfun() {
@@ -125,6 +127,7 @@
             }, 'json');
         }
     </script>
+    <!-- ниже кусок JS для ЕГЭ -->
     <script type="text/javascript">
         function updateIs2014() {
             if ($("#Is2014").is(':checked')) {
@@ -400,10 +403,12 @@
                                 <%= Html.TextBoxFor(x => x.CurrentEducation.ProfileName)%>
                             </div>
                         </div>
+                        <% if (Model.AddEducationInfo.HasReason) { %>
                         <div id="_Reason"> 
                             <%= Html.LabelFor(x => x.ChangeStudyFormReason.Reason, GetGlobalResourceObject("PersonalOffice_Step4", "ChangeStudyFormReason").ToString())%>
                             <%= Html.TextAreaFor(x => x.ChangeStudyFormReason.Reason, 5, 85, new SortedList<string, object>() { { "class", "noresize" } })%>
                         </div>
+                        <% } %>
                         <div id="_TransferHasScholarship">
                             <div class="clearfix">
                                 <%= Html.LabelFor(x => x.CurrentEducation.HasScholarship, GetGlobalResourceObject("PersonalOffice_Step4", "HasScholarship").ToString()) %>

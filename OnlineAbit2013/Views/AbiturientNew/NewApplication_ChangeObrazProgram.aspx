@@ -472,15 +472,6 @@
                 <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_MagSpecialization")%></td>
                 <td id="BlockData_Specialization<%= i.ToString()%>" style="font-size:1.3em;"><%= Model.Applications[i - 1].SpecializationName%></td>
             </tr>
-            <% if (Model.Applications[i - 1].IsGosLine.HasValue)
-               {
-                   if ((bool)Model.Applications[i - 1].IsGosLine) {%>
-                    <tr id = "BlockData_GosLine<%= i.ToString()%>" style="display: none;">
-                        <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_GosLine")%></td>
-                        <td style="font-size:1.3em;"><%= GetGlobalResourceObject("NewApplication", "Yes")%></td>
-                    </tr>
-            <%       } 
-               }%>
         </table>
         <button type="button" onclick="DeleteApp(<%= i.ToString()%>)" class="error"><%= GetGlobalResourceObject("NewApplication", "Delete")%></button>
         <div id="ObrazProgramsErrors_Block<%= i.ToString()%>" class="message error" style="display:none; width:450px;">

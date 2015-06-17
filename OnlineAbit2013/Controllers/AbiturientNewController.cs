@@ -403,6 +403,7 @@ namespace OnlineAbit2013.Controllers
                         model.CurrentEducation.HiddenLicenseProgramId = CurrentEducation.LicenseProgramId.ToString();
                         model.CurrentEducation.HiddenObrazProgramId = CurrentEducation.ObrazProgramId.ToString();
                         model.CurrentEducation.ProfileName = CurrentEducation.ProfileName;
+                        
 
                         model.CurrentEducation.HasAccreditation = CurrentEducation.HasAccreditation;
                         model.CurrentEducation.AccreditationDate = CurrentEducation.AccreditationDate.HasValue ? CurrentEducation.AccreditationDate.Value.ToShortDateString() : "";
@@ -415,7 +416,7 @@ namespace OnlineAbit2013.Controllers
                     #region ChangeStudyFormReason
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2)).Count() > 0)
                     {
-                        model.AddEducationInfo.HasTransfer = true;
+                        model.AddEducationInfo.HasReason = true;
                         model.ChangeStudyFormReason = new PersonChangeStudyFormReason();
                         PersonChangeStudyFormReason ChangeStudyFormReason = Person.PersonChangeStudyFormReason;
                         if (ChangeStudyFormReason == null)
@@ -1145,32 +1146,22 @@ namespace OnlineAbit2013.Controllers
                     }
                     #endregion
 
-                //bool bHasDisorderInfo = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && x.VuzAdditionalTypeId == 3).Count() > 0;
-                ////-----------------PersonDisorderInfo---------------------
-                //#region PersonDisorderInfo
-                //if (bHasDisorderInfo)
-                //{
-                //    bIns = false;
+                    #region ChangeStudyFormReason
+                    if (model.AddEducationInfo.HasReason)
+                    {
+                        bIns = false;
+                        PersonChangeStudyFormReason ChangeStudyFormReason = Person.PersonChangeStudyFormReason;
+                        if (ChangeStudyFormReason == null)
+                        {
+                            ChangeStudyFormReason = new PersonChangeStudyFormReason();
+                            ChangeStudyFormReason.PersonId = PersonId;
+                        }
+                        ChangeStudyFormReason.Reason = model.ChangeStudyFormReason.Reason;
 
-                //    var PersonDisorderInfo = Person.PersonDisorderInfo;
-                //    if (PersonDisorderInfo == null)
-                //    {
-                //        PersonDisorderInfo = new PersonDisorderInfo();
-                //        PersonDisorderInfo.PersonId = PersonId;
-                //        bIns = true;
-                //    }
-
-                //    PersonDisorderInfo.IsForIGA = model.DisorderInfo.IsForIGA;
-                //    PersonDisorderInfo.YearOfDisorder = model.DisorderInfo.YearOfDisorder;
-                //    PersonDisorderInfo.EducationProgramName = model.DisorderInfo.EducationProgramName;
-
-                //    if (bIns)
-                //    {
-                //        context.PersonDisorderInfo.AddObject(PersonDisorderInfo);
-                //        bIns = false;
-                //    }
-                //}
-                //#endregion
+                        if (bIns)
+                            context.PersonChangeStudyFormReason.AddObject(ChangeStudyFormReason);
+                    }
+                    #endregion
 
                     if (iRegStage < 6)
                         Person.RegistrationStage = 6;
@@ -3661,7 +3652,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAG(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
+                int iAG_SchoolTypeId = (int)Util.AbitDB.GetValue("SELECT MAX(SchoolTypeId) FROM PersonEducationDocument WHERE PersonId=@Id",
                        new SortedList<string, object>() { { "@Id", PersonId } });
                 if (iAG_SchoolTypeId != 4)
                 {
