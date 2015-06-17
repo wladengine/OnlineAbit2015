@@ -1186,6 +1186,7 @@ namespace OnlineAbit2013.Controllers
                         where
                         LicenseProgramName = 'Журналистика' and 
                         ObrazProgramName = 'Глобальная коммуникация и международная журналистика'
+                        and Person.Barcode in (SELECT Barcode FROM _tmpJournalism)
                         and IsCommited = 1 
                         and  ((qAbitFiles_OnlyEssayMotivLetter.ApplicationId is null and qAbitFiles_OnlyEssayMotivLetter.CommitId is null) or qAbitFiles_OnlyEssayMotivLetter.ApplicationId = Application.Id or qAbitFiles_OnlyEssayMotivLetter.CommitId = Application.CommitId )
                         order by FIO, FileTypeId, FileName";
@@ -1257,7 +1258,7 @@ namespace OnlineAbit2013.Controllers
                 else
                 {
                     Util.AbitDB.ExecuteQuery(@"Update PortfolioFilesMark set Mark=@Mark where FileId=@Id", new SortedList<string, object>() { { "Id", gFileId }, { "Mark", imark } });
-                } 
+                }
             }
             catch
             {
