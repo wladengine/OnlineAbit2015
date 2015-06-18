@@ -1170,13 +1170,14 @@ namespace OnlineAbit2013.Controllers
                         ,Person.Surname +' '+ Person.Name + (case when (Secondname is not null)then ' '+SecondName else '' end) as FIO
                         ,qAbitFiles_OnlyEssayMotivLetter.FileName as FileName
                         ,qAbitFiles_OnlyEssayMotivLetter.[Comment] as Comment
-                        ,(case when (qAbitFiles_OnlyEssayMotivLetter.FileTypeId = 2) then '" + MotiveMail + @"' else '"+Essay+@"' end) as FileTypeId
+                        --,(case when (qAbitFiles_OnlyEssayMotivLetter.FileTypeId = 2) then '" + MotiveMail + @"' else '"+Essay+ @"' end) as FileTypeId
+                        ,FileTypeName" + (isEng ? "Eng" : "") + @" as FileTypeId
                         ,qAbitFiles_OnlyEssayMotivLetter.[IsApproved]
-                        ,(case when (qAbitFiles_OnlyEssayMotivLetter.ApplicationId is not null or qAbitFiles_OnlyEssayMotivLetter.CommitId is not null ) then ('"+ApplicationFile+@" (' + "+BasisName+@" +')') else '"+SharedFile+ @"' end ) as AddInfo 
+                        ,(case when (qAbitFiles_OnlyEssayMotivLetter.ApplicationId is not null or qAbitFiles_OnlyEssayMotivLetter.CommitId is not null ) then ('" + ApplicationFile+@" (' + "+BasisName+@" +')') else '"+SharedFile+ @"' end ) as AddInfo 
                         ,Entry.StudyBasisName as BasisName
                         ,PortfolioFilesMark.Mark
                     
-                        from qAbitFiles_OnlyEssayMotivLetter
+                        from qAbitFiles_AllExceptPassport AS qAbitFiles_OnlyEssayMotivLetter
                         
                         inner join Person on Person.Id = qAbitFiles_OnlyEssayMotivLetter.PersonId
                         inner join Application on Application.PersonId = qAbitFiles_OnlyEssayMotivLetter.PersonId
