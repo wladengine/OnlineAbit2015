@@ -1472,7 +1472,7 @@ namespace OnlineAbit2013.Controllers
 SELECT PersonFile.Id, FileName, FileSize, Comment, IsApproved, IsReadOnly, LoadDate, ISNULL(PersonFileType.Name, 'нет') AS Name
 FROM PersonFile 
 LEFT JOIN PersonFileType ON PersonFile.PersonFileTypeId = PersonFileType.Id 
-WHERE PersonId=@PersonId ";
+WHERE PersonId=@PersonId AND IsDeleted=0 ";
             string where = "";
             if (!string.IsNullOrEmpty(FileType))
             {

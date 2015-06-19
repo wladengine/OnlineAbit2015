@@ -101,6 +101,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationDetails_ObrazProgramInEntry", "InnerEntryInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.InnerEntryInEntry), "ApplicationDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationDetails), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry_SP_ObrazProgram", "SP_ObrazProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_ObrazProgram), "InnerEntryInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.InnerEntryInEntry), true)]
 [assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_InnerEntryInEntry_SP_Profile", "SP_Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_Profile), "InnerEntryInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.InnerEntryInEntry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_Profile", "SP_Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_Profile), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
 
 #endregion
 
@@ -2282,7 +2283,8 @@ namespace OnlineAbit2013
         /// <param name="isCommonRussianCompetition">Initial value of the IsCommonRussianCompetition property.</param>
         /// <param name="isPrinted">Initial value of the IsPrinted property.</param>
         /// <param name="isForeign">Initial value of the IsForeign property.</param>
-        public static Abiturient CreateAbiturient(global::System.Guid id, global::System.Guid personId, global::System.Int32 priority, global::System.Int32 barcode, global::System.Boolean enabled, global::System.Int32 entryType, global::System.Boolean hostelEduc, global::System.DateTime dateOfStart, global::System.Guid entryId, global::System.Int32 licenseProgramId, global::System.String licenseProgramName, global::System.Int32 obrazProgramId, global::System.String obrazProgramCrypt, global::System.String obrazProgramName, global::System.Int32 profileId, global::System.String profileName, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isApprovedByComission, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Int32 semesterId, global::System.Boolean isParallel, global::System.Int32 campaignYear, global::System.Guid commitId, global::System.Boolean isCommited, global::System.Int32 studyLevelGroupId, global::System.Boolean isGosLine, global::System.Int32 applicationCommitNumber, global::System.Boolean isImported, global::System.Boolean isDeleted, global::System.Boolean isCommonRussianCompetition, global::System.Boolean isPrinted, global::System.Boolean isForeign)
+        /// <param name="isCrimea">Initial value of the IsCrimea property.</param>
+        public static Abiturient CreateAbiturient(global::System.Guid id, global::System.Guid personId, global::System.Int32 priority, global::System.Int32 barcode, global::System.Boolean enabled, global::System.Int32 entryType, global::System.Boolean hostelEduc, global::System.DateTime dateOfStart, global::System.Guid entryId, global::System.Int32 licenseProgramId, global::System.String licenseProgramName, global::System.Int32 obrazProgramId, global::System.String obrazProgramCrypt, global::System.String obrazProgramName, global::System.Int32 profileId, global::System.String profileName, global::System.Int32 studyBasisId, global::System.Int32 studyFormId, global::System.Int32 studyLevelId, global::System.Boolean isApprovedByComission, global::System.Boolean isSecond, global::System.Boolean isReduced, global::System.Int32 semesterId, global::System.Boolean isParallel, global::System.Int32 campaignYear, global::System.Guid commitId, global::System.Boolean isCommited, global::System.Int32 studyLevelGroupId, global::System.Boolean isGosLine, global::System.Int32 applicationCommitNumber, global::System.Boolean isImported, global::System.Boolean isDeleted, global::System.Boolean isCommonRussianCompetition, global::System.Boolean isPrinted, global::System.Boolean isForeign, global::System.Boolean isCrimea)
         {
             Abiturient abiturient = new Abiturient();
             abiturient.Id = id;
@@ -2320,6 +2322,7 @@ namespace OnlineAbit2013
             abiturient.IsCommonRussianCompetition = isCommonRussianCompetition;
             abiturient.IsPrinted = isPrinted;
             abiturient.IsForeign = isForeign;
+            abiturient.IsCrimea = isCrimea;
             return abiturient;
         }
 
@@ -3820,6 +3823,33 @@ namespace OnlineAbit2013
         private global::System.Boolean _IsForeign;
         partial void OnIsForeignChanging(global::System.Boolean value);
         partial void OnIsForeignChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsCrimea
+        {
+            get
+            {
+                return _IsCrimea;
+            }
+            set
+            {
+                if (_IsCrimea != value)
+                {
+                    OnIsCrimeaChanging(value);
+                    ReportPropertyChanging("IsCrimea");
+                    _IsCrimea = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("IsCrimea");
+                    OnIsCrimeaChanged();
+                }
+            }
+        }
+        private global::System.Boolean _IsCrimea;
+        partial void OnIsCrimeaChanging(global::System.Boolean value);
+        partial void OnIsCrimeaChanged();
 
         #endregion
 
@@ -7551,7 +7581,8 @@ namespace OnlineAbit2013
         /// <param name="loadDate">Initial value of the LoadDate property.</param>
         /// <param name="isReadOnly">Initial value of the IsReadOnly property.</param>
         /// <param name="fileTypeId">Initial value of the FileTypeId property.</param>
-        public static ApplicationFile CreateApplicationFile(global::System.Guid id, global::System.String fileName, global::System.Int32 fileSize, global::System.DateTime loadDate, global::System.Boolean isReadOnly, global::System.Int32 fileTypeId)
+        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
+        public static ApplicationFile CreateApplicationFile(global::System.Guid id, global::System.String fileName, global::System.Int32 fileSize, global::System.DateTime loadDate, global::System.Boolean isReadOnly, global::System.Int32 fileTypeId, global::System.Boolean isDeleted)
         {
             ApplicationFile applicationFile = new ApplicationFile();
             applicationFile.Id = id;
@@ -7560,6 +7591,7 @@ namespace OnlineAbit2013
             applicationFile.LoadDate = loadDate;
             applicationFile.IsReadOnly = isReadOnly;
             applicationFile.FileTypeId = fileTypeId;
+            applicationFile.IsDeleted = isDeleted;
             return applicationFile;
         }
 
@@ -7905,6 +7937,30 @@ namespace OnlineAbit2013
         private global::System.Int32 _FileTypeId;
         partial void OnFileTypeIdChanging(global::System.Int32 value);
         partial void OnFileTypeIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsDeleted
+        {
+            get
+            {
+                return _IsDeleted;
+            }
+            set
+            {
+                OnIsDeletedChanging(value);
+                ReportPropertyChanging("IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsDeleted");
+                OnIsDeletedChanged();
+            }
+        }
+        private global::System.Boolean _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.Boolean value);
+        partial void OnIsDeletedChanged();
 
         #endregion
 
@@ -9384,6 +9440,44 @@ namespace OnlineAbit2013
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<InnerEntryInEntry>("OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry", "InnerEntryInEntry", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_SP_Profile", "SP_Profile")]
+        public SP_Profile SP_Profile
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SP_Profile>("OnlinePriem2012Model.FK__Entry_SP_Profile", "SP_Profile").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SP_Profile>("OnlinePriem2012Model.FK__Entry_SP_Profile", "SP_Profile").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<SP_Profile> SP_ProfileReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SP_Profile>("OnlinePriem2012Model.FK__Entry_SP_Profile", "SP_Profile");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<SP_Profile>("OnlinePriem2012Model.FK__Entry_SP_Profile", "SP_Profile", value);
                 }
             }
         }
@@ -18771,7 +18865,8 @@ namespace OnlineAbit2013
         /// <param name="loadDate">Initial value of the LoadDate property.</param>
         /// <param name="isReadOnly">Initial value of the IsReadOnly property.</param>
         /// <param name="personFileTypeId">Initial value of the PersonFileTypeId property.</param>
-        public static PersonFile CreatePersonFile(global::System.Guid id, global::System.Guid personId, global::System.String fileName, global::System.Int32 fileSize, global::System.Byte[] fileData, global::System.DateTime loadDate, global::System.Boolean isReadOnly, global::System.Int32 personFileTypeId)
+        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
+        public static PersonFile CreatePersonFile(global::System.Guid id, global::System.Guid personId, global::System.String fileName, global::System.Int32 fileSize, global::System.Byte[] fileData, global::System.DateTime loadDate, global::System.Boolean isReadOnly, global::System.Int32 personFileTypeId, global::System.Boolean isDeleted)
         {
             PersonFile personFile = new PersonFile();
             personFile.Id = id;
@@ -18782,6 +18877,7 @@ namespace OnlineAbit2013
             personFile.LoadDate = loadDate;
             personFile.IsReadOnly = isReadOnly;
             personFile.PersonFileTypeId = personFileTypeId;
+            personFile.IsDeleted = isDeleted;
             return personFile;
         }
 
@@ -19103,6 +19199,30 @@ namespace OnlineAbit2013
         private global::System.Int32 _PersonFileTypeId;
         partial void OnPersonFileTypeIdChanging(global::System.Int32 value);
         partial void OnPersonFileTypeIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsDeleted
+        {
+            get
+            {
+                return _IsDeleted;
+            }
+            set
+            {
+                OnIsDeletedChanging(value);
+                ReportPropertyChanging("IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsDeleted");
+                OnIsDeletedChanged();
+            }
+        }
+        private global::System.Boolean _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.Boolean value);
+        partial void OnIsDeletedChanged();
 
         #endregion
 
@@ -23532,6 +23652,28 @@ namespace OnlineAbit2013
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<InnerEntryInEntry>("OnlinePriem2012Model.FK_InnerEntryInEntry_SP_Profile", "InnerEntryInEntry", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK__Entry_SP_Profile", "C_Entry")]
+        public EntityCollection<C_Entry> C_Entry
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_Profile", "C_Entry");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<C_Entry>("OnlinePriem2012Model.FK__Entry_SP_Profile", "C_Entry", value);
                 }
             }
         }

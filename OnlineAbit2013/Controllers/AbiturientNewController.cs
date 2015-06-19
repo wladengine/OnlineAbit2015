@@ -4426,7 +4426,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                 return RedirectToAction("LogOn", "Account");
 
-            string query = "SELECT Id, FileName, FileSize, Comment FROM PersonFile WHERE PersonId=@PersonId order by LoadDate desc";
+            string query = "SELECT Id, FileName, FileSize, Comment FROM PersonFile WHERE PersonId=@PersonId AND IsDeleted=0 order by LoadDate desc";
             DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", PersonId } });
 
             List<AppendedFile> lst =
@@ -4754,6 +4754,87 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 return Content(Resources.ServerMessages.IncorrectGUID);
             string fontspath = Server.MapPath("~/Templates/times.ttf");
             return File(PDFUtils.GetFilesList(PersonId, ApplicationId, fontspath), "application/pdf", "FilesList.pdf");
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFile(string id)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+            {
+                var res = new { IsOk = false, ErrorMessage = "Ошибка авторизации" };
+                return Json(res);
+            }
+
+            Guid fileId;
+            if (!Guid.TryParse(id, out fileId))
+            {
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID };
+                return Json(res);
+            }
+            string attr = Util.AbitDB.GetStringValue("SELECT IsReadOnly FROM PersonFile WHERE PersonId=@PersonId AND Id=@Id", new SortedList<string, object>() { { "@PersonId", PersonId }, { "@Id", fileId } });
+            if (string.IsNullOrEmpty(attr))
+            {
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.FileNotFound };
+                return Json(res);
+            }
+            if (attr == "True")
+            {
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.ReadOnlyFile };
+                return Json(res);
+            }
+            try
+            {
+                Util.AbitDB.ExecuteQuery("UPDATE PersonFile SET IsDeleted = 1 WHERE PersonId=@PersonId AND Id=@Id", new SortedList<string, object>() { { "@PersonId", PersonId }, { "@Id", fileId } });
+            }
+            catch
+            {
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.ErrorWhileDeleting };
+                return Json(res);
+            }
+
+            var result = new { IsOk = true, ErrorMessage = "" };
+            return Json(result);
+        }
+
+        public JsonResult DeleteSharedFile(string id)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+            {
+                var res = new { IsOk = false, ErrorMessage = "Ошибка авторизации" };
+                return Json(res);
+            }
+
+            Guid fileId;
+            if (!Guid.TryParse(id, out fileId))
+            {
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID };
+                return Json(res);
+            }
+            string attr = Util.AbitDB.GetStringValue("SELECT ISNULL([IsReadOnly], 'False') FROM PersonFile WHERE PersonId=@PersonId AND Id=@Id", new SortedList<string, object>() { { "@PersonId", PersonId }, { "@Id", fileId } });
+            if (string.IsNullOrEmpty(attr))
+            {
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.FileNotFound };
+                return Json(res);
+            }
+            if (attr == "True")
+            {
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.ReadOnlyFile };
+                return Json(res);
+            }
+            try
+            {
+                Util.AbitDB.ExecuteQuery("UPDATE PersonFile SET IsDeleted = 1 WHERE PersonId=@PersonId AND Id=@Id", new SortedList<string, object>() { { "@PersonId", PersonId }, { "@Id", fileId } });
+            }
+            catch
+            {
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.ErrorWhileDeleting };
+                return Json(res);
+            }
+
+            var result = new { IsOk = true, ErrorMessage = "" };
+            return Json(result);
         }
         #endregion
 
@@ -5880,86 +5961,7 @@ Order by cnt desc";
         //    //    return Json(new { IsOk = true, Text = apps.First().MailText, Id = apps.First().Id });
         //}
 
-        [HttpPost]
-        public ActionResult DeleteFile(string id)
-        {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-            {
-                var res = new { IsOk = false, ErrorMessage = "Ошибка авторизации" };
-                return Json(res);
-            }
-
-            Guid fileId;
-            if (!Guid.TryParse(id, out fileId))
-            {
-                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID };
-                return Json(res);
-            }
-            string attr = Util.AbitDB.GetStringValue("SELECT IsReadOnly FROM PersonFile WHERE PersonId=@PersonId AND Id=@Id", new SortedList<string, object>() { { "@PersonId", PersonId }, { "@Id", fileId } });
-            if (string.IsNullOrEmpty(attr))
-            {
-                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.FileNotFound };
-                return Json(res);
-            }
-            if (attr == "True")
-            {
-                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.ReadOnlyFile };
-                return Json(res);
-            }
-            try
-            {
-                Util.AbitDB.ExecuteQuery("DELETE FROM PersonFile WHERE PersonId=@PersonId AND Id=@Id", new SortedList<string, object>() { { "@PersonId", PersonId }, { "@Id", fileId } });
-            }
-            catch
-            {
-                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.ErrorWhileDeleting };
-                return Json(res);
-            }
-
-            var result = new { IsOk = true, ErrorMessage = "" };
-            return Json(result);
-        }
-
-        public JsonResult DeleteSharedFile(string id)
-        {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-            {
-                var res = new { IsOk = false, ErrorMessage = "Ошибка авторизации" };
-                return Json(res);
-            }
-
-            Guid fileId;
-            if (!Guid.TryParse(id, out fileId))
-            {
-                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID };
-                return Json(res);
-            }
-            string attr = Util.AbitDB.GetStringValue("SELECT ISNULL([IsReadOnly], 'False') FROM PersonFile WHERE PersonId=@PersonId AND Id=@Id", new SortedList<string, object>() { { "@PersonId", PersonId }, { "@Id", fileId } });
-            if (string.IsNullOrEmpty(attr))
-            {
-                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.FileNotFound };
-                return Json(res);
-            }
-            if (attr == "True")
-            {
-                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.ReadOnlyFile };
-                return Json(res);
-            }
-            try
-            {
-                Util.AbitDB.ExecuteQuery("DELETE FROM PersonFile WHERE PersonId=@PersonId AND Id=@Id", new SortedList<string, object>() { { "@PersonId", PersonId }, { "@Id", fileId } });
-            }
-            catch
-            {
-                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.ErrorWhileDeleting };
-                return Json(res);
-            }
-
-            var result = new { IsOk = true, ErrorMessage = "" };
-            return Json(result);
-        }
+        
 
         public ActionResult DeleteMsg(string id)
         {
