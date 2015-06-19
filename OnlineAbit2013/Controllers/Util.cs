@@ -26,7 +26,7 @@ namespace OnlineAbit2013.Controllers
 
         private static SQLClass _abitDB;
         private static SQLClass _studDB;
-        private static SQLClass _priem2012DB;
+        //private static SQLClass _priem2012DB;
         private static string _entitiesConnString = "metadata=res://*/OnlineAbit.csdl|res://*/OnlineAbit.ssdl|res://*/OnlineAbit.msl;provider=System.Data.SqlClient;provider connection string=\"Data Source=SRVPRIEM;Initial Catalog=OnlineAbit20132012;User ID=OnlineAbit2013User;Password=**********\"";
 
         /// <summary>
@@ -41,7 +41,6 @@ namespace OnlineAbit2013.Controllers
                 return _abitDB;
             }
         }
-       
         /// <summary>
         /// ADO-Powered
         /// </summary>
@@ -49,7 +48,7 @@ namespace OnlineAbit2013.Controllers
         /// <summary>
         /// ADO-Powered
         /// </summary>
-        public static SQLClass Priem2012DB { get { return _priem2012DB; } }
+        //public static SQLClass Priem2012DB { get { return _priem2012DB; } }
         public static string EntitiesConnString { get { return _entitiesConnString; } }
 
         public static string ServerAddress { get; set; }

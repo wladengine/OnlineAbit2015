@@ -1161,7 +1161,7 @@ namespace OnlineAbit2013.Controllers
                     Guid UserId;
                     if (Util.CheckAuthCookies(Request.Cookies, out UserId))
                     {
-                        /*
+
                         string query = @" 
                         select 
                         distinct 
@@ -1191,86 +1191,6 @@ namespace OnlineAbit2013.Controllers
                         and IsCommited = 1 
                         and  ((qAbitFiles_OnlyEssayMotivLetter.ApplicationId is null and qAbitFiles_OnlyEssayMotivLetter.CommitId is null) or qAbitFiles_OnlyEssayMotivLetter.ApplicationId = Application.Id or qAbitFiles_OnlyEssayMotivLetter.CommitId = Application.CommitId )
                         order by FIO, FileTypeId, FileName";
-                        */
-                        string query_Priem = @"SELECT distinct Person.Barcode, Surname
-  FROM [Abiturient]
-  join	qEntry on Abiturient.EntryId = qEntry.Id
-  join Person on Person.Id = PersonId
-  where  qEntry.LicenseProgramName = 'журналистика'
-  and  qEntry.ObrazProgramName like 'глобал%'
-  and qEntry.StudyLevelId = 17
-  order by  1";
-                        DataTable tbl_Priem = Util.Priem2012DB.GetDataTable(query_Priem, null);
-                        string s = "";
-                        foreach (DataRow rw in tbl_Priem.Rows)
-                        {
-                            s += rw.Field<long>("Barcode") + ", ";
-                        }
-                        s = s.Substring(0, s.Length - 2);
-                        s = "(" + s + ")";
-
-                        string query = @"
-select distinct *  
-from 
-(
-select   distinct  qAbitFiles_OnlyEssayMotivLetter.Id as AbitFileId 
-                        ,Person.Surname +' '+ Person.Name + (case when (Secondname is not null)then ' '+SecondName else '' end) as FIO
-                        ,qAbitFiles_OnlyEssayMotivLetter.FileName as FileName
-                        ,qAbitFiles_OnlyEssayMotivLetter.[Comment] as Comment
-                         
-                        , FileTypeName  as FileTypeId
-                        ,qAbitFiles_OnlyEssayMotivLetter.[IsApproved]
-                        ,(case when (qAbitFiles_OnlyEssayMotivLetter.ApplicationId is not null or qAbitFiles_OnlyEssayMotivLetter.CommitId is not null ) 
-                        then (' ApplicationFile( ') else 'SharedFile' end ) as AddInfo 
-                        ,Entry.StudyBasisName as BasisName
-                        ,PortfolioFilesMark.Mark
-                    
-                        from qAbitFiles_AllExceptPassport AS qAbitFiles_OnlyEssayMotivLetter
-                        
-                        inner join Person on Person.Id = qAbitFiles_OnlyEssayMotivLetter.PersonId
-                        inner join Application on Application.PersonId = qAbitFiles_OnlyEssayMotivLetter.PersonId
-                        inner join Entry on Application.EntryId = Entry.Id
-                        left join PortfolioFilesMark on PortfolioFilesMark.FileId = qAbitFiles_OnlyEssayMotivLetter.Id                     
-						 
-                        where
-                        LicenseProgramName = 'Журналистика' and 
-                        ObrazProgramName = 'Глобальная коммуникация и международная журналистика'
-                        and Person.Barcode in (SELECT Barcode FROM _tmpJournalism)
-                        and IsCommited = 1 
-                        and  ((qAbitFiles_OnlyEssayMotivLetter.ApplicationId is null and qAbitFiles_OnlyEssayMotivLetter.CommitId is null)
-                         or qAbitFiles_OnlyEssayMotivLetter.ApplicationId = Application.Id or qAbitFiles_OnlyEssayMotivLetter.CommitId = Application.CommitId )
-                         
-union  
-  select   distinct 
-
-                        qAbitFiles_OnlyEssayMotivLetter.Id as AbitFileId 
-                        ,Person.Surname +' '+ Person.Name + (case when (Secondname is not null)then ' '+SecondName else '' end) as FIO
-                        ,qAbitFiles_OnlyEssayMotivLetter.FileName as FileName
-                        ,qAbitFiles_OnlyEssayMotivLetter.[Comment] as Comment
-                         ,(case when (qAbitFiles_OnlyEssayMotivLetter.FileTypeId = 2) then 'MotiveMail ' else 'Essay' end) as FileTypeId
-                        --, FileTypeName  as FileTypeId
-                        ,qAbitFiles_OnlyEssayMotivLetter.[IsApproved]
-                        ,(case when (qAbitFiles_OnlyEssayMotivLetter.ApplicationId is not null or qAbitFiles_OnlyEssayMotivLetter.CommitId is not null ) 
-                        then (' ApplicationFile( ') else 'SharedFile' end ) as AddInfo 
-                        ,Entry.StudyBasisName as BasisName
-                        ,PortfolioFilesMark.Mark
-                    
-                        from qAbitFiles_OnlyEssayMotivLetter  
-                        inner join Person on Person.Id = qAbitFiles_OnlyEssayMotivLetter.PersonId
-                        inner join Application on Application.PersonId = qAbitFiles_OnlyEssayMotivLetter.PersonId
-                        inner join Entry on Application.EntryId = Entry.Id
-                        left join PortfolioFilesMark on PortfolioFilesMark.FileId = qAbitFiles_OnlyEssayMotivLetter.Id                     
-						 
-                        where
-                        LicenseProgramName = 'Журналистика' and 
-                        ObrazProgramName = 'Глобальная коммуникация и международная журналистика' 
-                        and IsCommited = 1 
-                        and  ((qAbitFiles_OnlyEssayMotivLetter.ApplicationId is null and qAbitFiles_OnlyEssayMotivLetter.CommitId is null)
-                         or qAbitFiles_OnlyEssayMotivLetter.ApplicationId = Application.Id or qAbitFiles_OnlyEssayMotivLetter.CommitId = Application.CommitId )
-                         and Person.Barcode in  "+s+@"
-) as A
-order by FIO , FileTypeId, FileName
-                        ";
 
                         DataTable tbl = Util.AbitDB.GetDataTable(query, null);
 
