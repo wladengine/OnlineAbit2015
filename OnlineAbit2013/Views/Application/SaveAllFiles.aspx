@@ -17,11 +17,43 @@
    <script type="text/javascript" src="../../Scripts/jquery-1.5.1-vsdoc.js"></script>
 <% } %>
     <script type="text/javascript">
+        $(function () {
+            $("#printBtn")
+                .click(function () {
+                    $("#dialog-form-print-app").dialog("open");
+                });
+            $("#dialog-form-print-app").dialog(
+            {
+                autoOpen: false,
+                height: 200,
+                width: 350,
+                modal: true,
+                buttons:
+                {
+                    "Yes": function () {
+                        var FileId = $('#HiddenFileId').val();
+                        var Mark = $('#HiddenMark').val();
+                        $.post('/Application/AddMark', { FileId: FileId, Mark: Mark, Iamsure: "1" }, function (json_data) {
+                            if (json_data.IsOk) {  
+                            }
+                            else {
+                                alert(json_data.ErrorMessage);
+                            }
+                        }, 'json');
+                        $(this).dialog("close");
+                    },
+                    "No": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        });
+
         function CheckMark(i) {
-            var val = $('#Mark'+i).val();
+            var val = $('#Mark' + i).val();
             var regex = /^([0-9])+$/i;
             if (val != '') {
-                if (!regex.test(val)) { 
+                if (!regex.test(val)) {
                     return false;
                 }
                 else {
@@ -34,8 +66,18 @@
                 var FileId = $('#FileId' + i).val();
                 var Mark = $('#Mark' + i).val();
                 $.post('/Application/AddMark', { FileId: FileId, Mark: Mark }, function (json_data) {
-                    if (json_data.IsOk) { }
-                    else { alert(json_data.ErrorMessage); }
+                    if (json_data.IsOk) {
+                        if (json_data.HasMark) {
+                            $('#HiddenFileId').val(FileId);
+                            $('#HiddenMark').val(Mark);
+                            $("#dialog-form-print-app").dialog("open");
+                        }
+                        else {
+                        }
+                    }
+                    else {
+                        alert(json_data.ErrorMessage);
+                    }
                 }, 'json');
             }
         }
@@ -61,6 +103,14 @@
    }
 </style>
      <h3>Журналистика (Глобальная коммуникация и международная журналистика)</h3>
+    <div id="dialog-form-print-app" style="display:none;">
+    <p class="errMessage" ></p>
+    <input type="hidden" id ="HiddenFileId"/>
+    <input type="hidden" id ="HiddenMark"/> 
+    <p>Работа уже была оценена. Заменить оценку?
+       (Work has already been evaluated. Do you want to replace the mark?)
+    </p>
+    </div>
     <div class="panel" style="background:#eaeaea !important;">
     <% if (Model.Files.Count > 0)
         { %>

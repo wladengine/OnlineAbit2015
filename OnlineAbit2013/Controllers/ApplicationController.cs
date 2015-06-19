@@ -1174,7 +1174,7 @@ namespace OnlineAbit2013.Controllers
                         ,FileTypeName" + (isEng ? "Eng" : "") + @" as FileTypeId
                         ,qAbitFiles_OnlyEssayMotivLetter.[IsApproved]
                         ,(case when (qAbitFiles_OnlyEssayMotivLetter.ApplicationId is not null or qAbitFiles_OnlyEssayMotivLetter.CommitId is not null ) then ('" + ApplicationFile+@" (' + "+BasisName+@" +')') else '"+SharedFile+ @"' end ) as AddInfo 
-                        ,Entry.StudyBasisName as BasisName
+                       -- ,Entry.StudyBasisName as BasisName
                         ,PortfolioFilesMark.Mark
                     
                         from qAbitFiles_AllExceptPassport AS qAbitFiles_OnlyEssayMotivLetter
@@ -1229,11 +1229,11 @@ namespace OnlineAbit2013.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddMark(string FileId, string Mark)
+        public JsonResult AddMark(string FileId, string Mark, string Iamsure)
         {
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-            {    
+            {
                 return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
             }
 
@@ -1245,8 +1245,8 @@ namespace OnlineAbit2013.Controllers
 
             int imark = 0;
             if (!int.TryParse(Mark, out imark))
-            { 
-                return Json(new { IsOk = false, ErrorMessage = "Can not parse the mark" }); 
+            {
+                return Json(new { IsOk = false, ErrorMessage = "Can not parse the mark" });
             }
 
             try
@@ -1258,15 +1258,23 @@ namespace OnlineAbit2013.Controllers
                 }
                 else
                 {
-                    Util.AbitDB.ExecuteQuery(@"Update PortfolioFilesMark set Mark=@Mark where FileId=@Id", new SortedList<string, object>() { { "Id", gFileId }, { "Mark", imark } });
+                    if (Iamsure == "1")
+                    {
+                        Util.AbitDB.ExecuteQuery(@"Update PortfolioFilesMark set Mark=@Mark where FileId=@Id", new SortedList<string, object>() { { "Id", gFileId }, { "Mark", imark } });
+                    }
+                    else
+                    {
+                        return Json(new { IsOk = true, HasMark = true });
+                    }
                 }
             }
             catch
             {
-                return Json(new { IsOk = false, ErrorMessage ="Error in process updating/inserting the mark"});
+                return Json(new { IsOk = false, ErrorMessage = "Error in process updating/inserting the mark" });
             }
 
             return Json(new { IsOk = true });
         }
     }
 }
+
