@@ -193,7 +193,7 @@
                 }
             }
             
-            if (json_data.ret.List.length == 1 && json_data.ret.List[0].Name == 'нет') {
+            if (json_data.ret.List.length == 1) {
                 $(CurrFinishBtn).show();
                 $(CurrObrazProgramsErrors).text('').hide(); 
             }
@@ -243,6 +243,8 @@
             obrazprogram:  $('#lObrazProgram'+i).val(), 
             specialization: $('#lSpecialization'+i).val(), 
             NeedHostel: $('#NeedHostel' + i).is(':checked'), 
+            IsForeign: $('#isForeignHidden'+i).val(),
+            IsCrimea: $('#isCrimeaHidden'+i).val(),
             CommitId: $('#CommitId').val() }, 
             function(json_data) {
             if (json_data.IsOk) {

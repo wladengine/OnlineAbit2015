@@ -159,7 +159,7 @@
                 $(CurrGosLineHidden).val('0');
             } 
             
-            if (json_data.ret.List.length == 1 && json_data.ret.List[0].Name == 'нет') {
+            if (json_data.ret.List.length == 1) {
                 $(CurrFinishBtn).show();
                 $(CurrObrazProgramsErrors).text('').hide(); 
             }
@@ -209,6 +209,8 @@
             obrazprogram:  $('#lObrazProgram'+i).val(), 
             specialization: $('#lSpecialization'+i).val(), 
             NeedHostel: $('#NeedHostel' + i).is(':checked'), 
+            IsForeign: $('#isForeignHidden'+i).val(),
+            IsCrimea: $('#isCrimeaHidden'+i).val(),
             CommitId: $('#CommitId').val(),
             semesterId: $('#semesterId' + i).val() }, 
             function(json_data) {
@@ -464,9 +466,9 @@
                 <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_MagSpecialization")%></td>
                 <td id="BlockData_Specialization<%= i.ToString()%>" style="font-size:1.3em;"><%= Model.Applications[i - 1].SpecializationName%></td>
             </tr>
-            <% if (Model.Applications[i - 1].IsGosLine.HasValue)
+            <% if (Model.Applications[i - 1].IsForeign.HasValue)
                {
-                   if ((bool)Model.Applications[i - 1].IsGosLine) {%>
+                   if ((bool)Model.Applications[i - 1].IsForeign) {%>
                     <tr id = "BlockData_GosLine<%= i.ToString()%>" style="display: none;">
                         <td style="width:12em;"><%= GetGlobalResourceObject("NewApplication", "BlockData_GosLine")%></td>
                         <td style="font-size:1.3em;"><%= GetGlobalResourceObject("NewApplication", "Yes")%></td>

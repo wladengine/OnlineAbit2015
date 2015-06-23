@@ -5872,97 +5872,6 @@ Order by cnt desc";
             //}
         }
 
-        //public ActionResult SendMotivationMail(string info, string appId)
-        //{
-        //    Guid PersonId;
-        //    if (!Util.CheckAuthCookies((Request.Cookies), out PersonId))
-        //        return Json(new { IsOk = false, ErrorMessage = "Ошибка авторизации" });
-
-        //    Guid applicationId;
-        //    if (!Guid.TryParse(appId, out applicationId))
-        //        return Json(new { IsOk = false, ErrorMessage = "Некорректный идентификатор заявления" });
-
-        //    string query = "SELECT Id FROM MotivationMail WHERE ApplicationId=@AppId";
-        //    SortedList<string, object> dic = new SortedList<string, object>();
-        //    dic.Add("AppId", applicationId);
-        //    Guid? outMailId = (Guid?)Util.AbitDB.GetValue(query, dic);
-
-        //    try
-        //    {
-        //        dic.Clear();
-        //        Guid mailId = Guid.NewGuid();
-        //        if (outMailId.HasValue && outMailId.Value != Guid.Empty)
-        //        {
-        //            query = "UPDATE MotivationMail SET MailText=@MailText WHERE Id=@Id";
-        //            dic.Add("@MailText", info);
-        //            dic.Add("@Id", outMailId.Value);
-        //        }
-        //        else
-        //        {
-        //            query = "INSERT INTO MotivationMail(Id, ApplicationId, MailText) VALUES (@Id, @ApplicationId, @MailText)";
-        //            dic.Add("@Id", mailId);
-        //            dic.Add("@ApplicationId", applicationId);
-        //            dic.Add("@MailText", info);
-        //            outMailId = mailId;
-        //        }
-        //        Util.AbitDB.ExecuteQuery(query, dic);
-        //        return Json(new { IsOk = true, Id = outMailId.Value.ToString("N") });
-        //    }
-        //    catch
-        //    {
-        //        return Json(new { IsOk = false, ErrorMessage = "Ошибка при сохранении. Пожалуйста, повторите" });
-        //    }
-        //    //MotivationMail ml;
-        //    //if (Util.ABDB.MotivationMail.Where(x => x.ApplicationId == applicationId).Count() > 0)
-        //    //{
-        //    //    ml = Util.ABDB.MotivationMail.Where(x => x.ApplicationId == applicationId).First();
-        //    //    ml.MailText = info;
-        //    //}
-        //    //else
-        //    //{
-        //    //    ml = new MotivationMail()
-        //    //    {
-        //    //        Id = mailId,
-        //    //        ApplicationId = applicationId,
-        //    //        MailText = info
-        //    //    };
-        //    //    Util.ABDB.MotivationMail.AddObject(ml);
-        //    //}
-        //    //Util.ABDB.SaveChanges();
-        //}
-
-        //public ActionResult GetMotivationMail(string appId)
-        //{
-        //    Guid personId;
-        //    if (!Util.CheckAuthCookies(Request.Cookies, out personId))
-        //        return Json(new { IsOk = false, ErrorMessage = "Ошибка авторизации" });
-
-        //    Guid ApplicationId;
-        //    if (!Guid.TryParse(appId, out ApplicationId))
-        //        return Json(new { IsOk = false, ErrorMessage = "Некорректный идентификатор заявления" });
-
-        //    DataTable tbl = Util.AbitDB.GetDataTable("SELECT Id, MailText FROM MotivationMail WHERE ApplicationId=@Id",
-        //        new SortedList<string, object>() { { "@Id", ApplicationId } });
-
-        //    if (tbl.Rows.Count == 0)
-        //        return Json(new { IsOk = false, Text = "" });
-        //    else
-        //        return Json(new
-        //        {
-        //            IsOk = true,
-        //            Text = tbl.Rows[0].Field<string>("MailText"),
-        //            Id = tbl.Rows[0].Field<Guid>("Id").ToString("N")
-        //        });
-
-        //    //var apps = Util.ABDB.MotivationMail.Where(x => x.ApplicationId == ApplicationId).Select(x => new { x.Id, x.MailText }).AsEnumerable();
-        //    //if (apps.Count() == 0)
-        //    //    return Json(new { IsOk = false, Text = "" });
-        //    //else
-        //    //    return Json(new { IsOk = true, Text = apps.First().MailText, Id = apps.First().Id });
-        //}
-
-        
-
         public ActionResult DeleteMsg(string id)
         {
             if (id == "0")//system messages
@@ -6774,7 +6683,7 @@ Order by cnt desc";
             }
         }
         [HttpPost]
-        public JsonResult CheckApplication_Mag(string studyform, string studybasis, string entry, string isSecond, string isReduced, string isParallel, string profession, string obrazprogram, string specialization, string NeedHostel, string CommitId, string semesterId="1")
+        public JsonResult CheckApplication_Mag(string studyform, string studybasis, string entry, string isSecond, string isReduced, string isParallel, string profession, string obrazprogram, string specialization, string NeedHostel, string IsForeign, string IsCrimea, string CommitId, string semesterId = "1")
         {
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
@@ -6813,7 +6722,9 @@ Order by cnt desc";
 
                 bool bIsParallel = iParallel == 1;
                 bool bIsReduced = iReduced == 1;
-                bool bIsSecond = iSecond == 1; 
+                bool bIsSecond = iSecond == 1;
+                bool bIsForeign = Util.ParseSafe(IsForeign) == 1;
+                bool bIsCrimea = Util.ParseSafe(IsCrimea) == 1;
 
                 int gSpecialization = 0;
                 if ((specialization != null) && (specialization != "") && (specialization != "null"))
@@ -6833,7 +6744,9 @@ Order by cnt desc";
                              Ent.IsReduced == bIsReduced &&
                              Ent.IsSecond == bIsSecond &&
                             (gSpecialization == 0 ? true : Ent.ProfileId == gSpecialization) &&
-                             Ent.SemesterId == iSemesterId
+                             Ent.SemesterId == iSemesterId &&
+                             Ent.IsCrimea == bIsCrimea && 
+                             Ent.IsForeign == Ent.IsForeign
                        select new
                        {
                            EntryId = Ent.Id,

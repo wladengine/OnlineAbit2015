@@ -208,9 +208,10 @@ namespace OnlineAbit2013.Controllers
                                     Entry.StudyLevelId,
                                     CommitIntNumber = Commit.IntNumber,
                                     x.Priority,
-                                    IsGosLine = (Entry.IsForeign && Entry.StudyBasisId == 1),
+                                    Entry.IsForeign,
                                     Entry.ComissionId,
-                                    ComissionAddress = Entry.Address
+                                    ComissionAddress = Entry.Address,
+                                    Entry.IsCrimea
                                 }).OrderBy(x => x.Priority).ToList();
 
                 var abitProfileList = (from x in context.Application
@@ -324,6 +325,8 @@ namespace OnlineAbit2013.Controllers
                         StudyBasisId = x.StudyBasisId,
                         StudyFormId = x.StudyFormId,
                         HasInnerPriorities = abitProfileList.Where(y => y.ApplicationId == x.Id).Count() > 0,
+                        IsCrimea = x.IsCrimea,
+                        IsForeign = x.IsForeign
                     }).ToList();
                 int incrmtr = 1;
                 for (int u = 0; u < lstApps.Count; u++)
@@ -333,32 +336,19 @@ namespace OnlineAbit2013.Controllers
                         lstApps[u].InnerPrioritiesNum = incrmtr; //то пишем об этом
                         //и сразу же создаём приложение с описанием - потом приложим
 
+                        List<ShortApplicationDetails> lstAppDetails =
+                               abitProfileList.Where(x => x.ApplicationId == lstApps[u].ApplicationId).ToList();
+
                         if (isMag) //для магов всё просто
                         {
-                            List<ShortApplicationDetails> lstAppDetails = 
-                                abitProfileList.Where(x => x.ApplicationId == lstApps[u].ApplicationId).ToList();
                             lstAppendixes.Add(GetApplicationPDF_ProfileAppendix_Mag(lstAppDetails, lstApps[u].LicenseProgramName, FIO, dirPath, incrmtr));
                             incrmtr++;
                         }
                         else // для перваков всё запутаннее
                         {    // сначала надо проверить, нет ли внутреннего разбиения по программам
                              // если есть, то для каждой программы сделать своё приложение, а затем уже для тех программ, где есть внутри профили доложить приложений с профилями
-                            var profs = abitProfileList.Where(x => x.ApplicationId == lstApps[u].ApplicationId).ToList();
-                            var OP = profs.Select(x => x.ObrazProgramName).Distinct().ToList();
-                            if (OP.Count > 1)
-                            {
-                                lstAppendixes.Add(GetApplicationPDF_OPAppendix_1kurs(profs, lstApps[u].LicenseProgramName, FIO, dirPath, incrmtr));
-                                incrmtr++;
-                            }
-                            foreach (var OP_name in OP)
-                            {
-                                var lstProfs = abitProfileList.Where(x => x.ApplicationId == lstApps[u].ApplicationId && x.ObrazProgramName == OP_name).ToList();
-                                if (lstProfs.Count > 1)
-                                {
-                                    lstAppendixes.Add(GetApplicationPDF_ProfileAppendix_1kurs(lstProfs, lstApps[u].LicenseProgramName, FIO, dirPath, incrmtr));
-                                    incrmtr++;
-                                }
-                            }
+                            lstAppendixes.Add(GetApplicationPDF_ProfileAppendix_1kurs(lstAppDetails, lstApps[u].LicenseProgramName, FIO, dirPath, incrmtr));
+                            incrmtr++;
                         }
                     }
                 }
@@ -398,9 +388,6 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("HostelEducYes", "1");
                 else
                     acrFlds.SetField("HostelEducNo", "1");
-
-                if (abitList.Where(x => x.IsGosLine).Count() > 0)
-                    acrFlds.SetField("IsGosLine", "1");
 
                 acrFlds.SetField("HostelAbitYes", (person.HostelAbit ?? false) ? "1" : "0");
                 acrFlds.SetField("HostelAbitNo", (person.HostelAbit ?? false) ? "0" : "1");
@@ -687,7 +674,7 @@ namespace OnlineAbit2013.Controllers
         public static byte[] GetApplicationPDF_ProfileAppendix_1kurs(List<ShortApplicationDetails> lst, string LicenseProgramName, string FIO, string dirPath, int Num)
         {
             MemoryStream ms = new MemoryStream();
-            string dotName = "PriorityProfiles2014.pdf";
+            string dotName = "PriorityProfiles2015.pdf";
 
             byte[] templateBytes;
             using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
@@ -703,9 +690,17 @@ namespace OnlineAbit2013.Controllers
             acrFlds.SetField("Num", Num.ToString());
             acrFlds.SetField("FIO", FIO);
 
-            acrFlds.SetField("ObrazProgramHead", lst.First().ObrazProgramName);
             acrFlds.SetField("LicenseProgram", LicenseProgramName);
             acrFlds.SetField("ObrazProgram", lst.First().ObrazProgramName);
+
+            int i = 0;
+            foreach (var Prof in lst.OrderBy(x => x.InnerEntryInEntryPriority))
+            {
+                i++;
+                //если других программ нет, то нет смысла показывать её название.
+                bool bShowObrazProgram = lst.Where(x => x.ObrazProgramName != Prof.ObrazProgramName).Count() > 0;
+                acrFlds.SetField("Profile" + i.ToString(), (bShowObrazProgram ? Prof.ObrazProgramName + " /\n" : "") + Prof.ProfileName);
+            }
 
             pdfStm.FormFlattening = true;
             pdfStm.Close();
@@ -737,7 +732,7 @@ namespace OnlineAbit2013.Controllers
             if (isMag)
                 img.SetAbsolutePosition(420, 720);
             else
-                img.SetAbsolutePosition(100, 750);
+                img.SetAbsolutePosition(120, 775);
             cb.AddImage(img);
 
             AcroFields acrFlds = pdfStm.AcroFields;
@@ -2111,7 +2106,8 @@ namespace OnlineAbit2013.Controllers
                                     Entry.StudyLevelId,
                                     CommitIntNumber = Commit.IntNumber,
                                     x.Priority,
-                                    IsGosLine = Entry.IsForeign && Entry.StudyBasisId == 1
+                                    IsGosLine = Entry.IsForeign && Entry.StudyBasisId == 1,
+                                    Entry.IsCrimea
                                     //x.IsGosLine
                                 }).ToList();
 
@@ -2381,6 +2377,8 @@ namespace OnlineAbit2013.Controllers
                         StudyBasisId = x.StudyBasisId,
                         StudyFormId = x.StudyFormId,
                         HasInnerPriorities = false,
+                        IsCrimea = x.IsCrimea,
+                        IsForeign = x.IsGosLine
                     }).ToList();
 
                     List<ShortAppcation> lstAppsFirst = new List<ShortAppcation>();
