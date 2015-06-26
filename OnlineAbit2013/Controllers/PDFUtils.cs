@@ -339,14 +339,13 @@ namespace OnlineAbit2013.Controllers
                         List<ShortApplicationDetails> lstAppDetails =
                                abitProfileList.Where(x => x.ApplicationId == lstApps[u].ApplicationId).ToList();
 
-                        if (isMag) //для магов всё просто
+                        if (isMag)
                         {
-                            lstAppendixes.Add(GetApplicationPDF_ProfileAppendix_Mag(lstAppDetails, lstApps[u].LicenseProgramName, FIO, dirPath, incrmtr));
+                            lstAppendixes.Add(GetApplicationPDF_ProfileAppendix_Mag(lstAppDetails, lstApps[u].LicenseProgramName, lstApps[u].ObrazProgramName, FIO, dirPath, incrmtr));
                             incrmtr++;
                         }
-                        else // для перваков всё запутаннее
-                        {    // сначала надо проверить, нет ли внутреннего разбиения по программам
-                             // если есть, то для каждой программы сделать своё приложение, а затем уже для тех программ, где есть внутри профили доложить приложений с профилями
+                        else 
+                        {    
                             lstAppendixes.Add(GetApplicationPDF_ProfileAppendix_1kurs(lstAppDetails, lstApps[u].LicenseProgramName, FIO, dirPath, incrmtr));
                             incrmtr++;
                         }
@@ -605,7 +604,7 @@ namespace OnlineAbit2013.Controllers
             }
         }
 
-        public static byte[] GetApplicationPDF_ProfileAppendix_Mag(List<ShortApplicationDetails> lst, string LicenseProgramName, string FIO, string dirPath, int Num)
+        public static byte[] GetApplicationPDF_ProfileAppendix_Mag(List<ShortApplicationDetails> lst, string LicenseProgramName, string ObrazProgramName, string FIO, string dirPath, int Num)
         {
             MemoryStream ms = new MemoryStream();
             string dotName = "PriorityProfiles_Mag2014.pdf";
@@ -624,11 +623,13 @@ namespace OnlineAbit2013.Controllers
             acrFlds.SetField("Num", Num.ToString());
             acrFlds.SetField("FIO", FIO);
 
-            acrFlds.SetField("ObrazProgramHead", lst.First().ObrazProgramName);
+            string[] tmp = GetSplittedStrings(ObrazProgramName, 40, 70, 2);
+            acrFlds.SetField("ObrazProgramHead1", tmp[0]);
+            acrFlds.SetField("ObrazProgramHead2", tmp[1]);
             acrFlds.SetField("LicenseProgram", LicenseProgramName);
-            acrFlds.SetField("ObrazProgram", lst.First().ObrazProgramName);
+            acrFlds.SetField("ObrazProgram", ObrazProgramName);
             int rwind = 1;
-            foreach (var xxxx in lst.Where(x => x.ObrazProgramName == lst.First().ObrazProgramName).OrderBy(x => x.InnerEntryInEntryPriority))
+            foreach (var xxxx in lst.OrderBy(x => x.InnerEntryInEntryPriority))
             {
                 acrFlds.SetField("Profile" + rwind, xxxx.ProfileName);
                 rwind++;
