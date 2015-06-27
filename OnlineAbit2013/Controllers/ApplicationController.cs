@@ -127,7 +127,7 @@ namespace OnlineAbit2013.Controllers
                             break;
                         }
                 }
-                var AppVers = context.ApplicationCommitVersion.Where(x => x.CommitId == CommitId).Select(x => x.VersionDate).FirstOrDefault();
+                var AppVers = context.ApplicationCommitVersion.Where(x => x.CommitId == CommitId).Select(x => x.VersionDate).ToList().LastOrDefault();
                 if (AppVers == null)
                 {
                     model.HasVersion = false;

@@ -1906,6 +1906,31 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                 context.Application.DeleteObject(App);
             }
             context.SaveChanges();
+
+            // создать версию коммита в ApplicationCommitVersion И ApplicationCommitVersionDetails
+            SortedList<string, object> slParams = new SortedList<string, object>();
+            slParams.Add("CommitId", CommitId);
+            slParams.Add("VersionDate", DateTime.Now);
+            string val = Util.AbitDB.InsertRecordReturnValue("ApplicationCommitVersion", slParams);
+            int iCommitVersionId = 0;
+            int.TryParse(val, out iCommitVersionId);
+            //Details
+            var Apps = context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => new { x.Id, x.Priority}).ToList();
+            foreach (var AppId in Apps)
+            {
+                string query = @" INSERT INTO [ApplicationCommitVersonDetails] (ApplicationCommitVersionId, ApplicationId, Priority)
+                VALUES (@ApplicationCommitVersionId, @Id, @Priority)";
+                SortedList<string, object> dic = new SortedList<string, object>(); 
+                dic.AddItem("@Priority", AppId.Priority);
+                dic.AddItem("@Id", AppId.Id); 
+                dic.AddItem("@ApplicationCommitVersionId", iCommitVersionId);
+
+                try
+                {
+                    Util.AbitDB.ExecuteQuery(query, dic);
+                }
+                catch { }
+            }
         }
 
         public static Constants getConstInfo()
