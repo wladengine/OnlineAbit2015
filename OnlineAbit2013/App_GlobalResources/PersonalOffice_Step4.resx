@@ -318,4 +318,13 @@
   <data name="EducationBlockDelete" xml:space="preserve">
     <value>Удалить</value>
   </data>
+  <data name="CurrentEducationHeader" xml:space="preserve">
+    <value>Текущее образование</value>
+  </data>
+  <data name="CurrentEducation_LicenseProgramId_Message" xml:space="preserve">
+    <value>Выберите направление</value>
+  </data>
+  <data name="CurrentEducation_ObrazProgramId_Message" xml:space="preserve">
+    <value>Выберите образовательную программу</value>
+  </data>
 </root>

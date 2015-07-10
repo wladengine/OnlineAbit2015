@@ -28,6 +28,13 @@
             fStart();
 
             GetProfessions();
+             <% if (Model.CurrentEducation != null && !String.IsNullOrEmpty(Model.CurrentEducation.HiddenLicenseProgramId)) { %>
+            $('#CurrentEducation_LicenseProgramId').val(<%= Model.CurrentEducation.HiddenLicenseProgramId %>);
+            $('#CurrentEducation_HiddenLicenseProgramId').val(<%= Model.CurrentEducation.HiddenLicenseProgramId %>);
+            <% } %>
+            $("form").submit(function () {
+                return CheckForm();
+            });
 
             <% if (Model.CurrentEducation != null && !String.IsNullOrEmpty(Model.CurrentEducation.HiddenObrazProgramId)) { %>
             $(function () { setTimeout(GetObrazPrograms) });
@@ -36,6 +43,53 @@
             <% } %>
         });
 
+        function CheckForm() {
+            <% if (Model.AddEducationInfo.HasTransfer)
+               {
+                   if (Model.AddEducationInfo.HasReason)
+                   {  %>
+                        return CheckLicenseProgramId() && CheckObrazProgramId();
+                <% }
+                   else
+                   {%> 
+                        return CheckLicenseProgramId();
+                 <% }
+               }
+               else
+               { %>
+                    return true;
+            <% } %>
+        }
+        function CheckLicenseProgramId() {
+            var ret = true;
+            var val = $('#CurrentEducation_HiddenLicenseProgramId').val();
+             
+            if (val == '0' || val == '') {
+                ret = false;
+                $('#CurrentEducation_LicenseProgramId').addClass('input-validation-error');
+                $('#CurrentEducation_LicenseProgramId_Message').show();
+            }
+            else {
+                $('#CurrentEducation_LicenseProgramId').removeClass('input-validation-error');
+                $('#CurrentEducation_LicenseProgramId_Message').hide();
+            }
+            return ret;
+        }
+        function CheckObrazProgramId() {
+            var ret = true;
+            var val = $('#CurrentEducation_HiddenObrazProgramId').val();
+
+            if (val == '0' || val == '') {
+                ret = false;
+                $('#CurrentEducation_ObrazProgramId').addClass('input-validation-error');
+                $('#CurrentEducation_ObrazProgramId_Message').show();
+            }
+            else {
+                $('#CurrentEducation_ObrazProgramId').removeClass('input-validation-error');
+                $('#CurrentEducation_ObrazProgramId_Message').hide();
+            }
+            return ret;
+        }
         function Myfun() {
             var profId = $('#CurrentEducation_LicenseProgramId').val();
             $('#CurrentEducation_HiddenLicenseProgramId').val(profId);
@@ -74,6 +128,14 @@
             var sfId = $('#CurrentEducation_StudyFormId').val();
 
             var curSemester = $('#CurrentEducation_SemesterId').val();
+           
+            $('#CurrentEducation_HiddenLicenseProgramId').val('0'); 
+            $('#CurrentEducation_LicenseProgramId').removeClass('input-validation-error');
+            $('#CurrentEducation_LicenseProgramId_Message').hide();
+
+            $('#CurrentEducation_HiddenObrazProgramId').val('0');
+            $('#CurrentEducation_ObrazProgramId').removeClass('input-validation-error');
+            $('#CurrentEducation_ObrazProgramId_Message').hide();
 
             $.post('/AbiturientNew/GetProfs', {
                 studyform: sfId, studybasis: $('#CurrentEducation_StudyBasisId').val(),
@@ -104,6 +166,10 @@
             if (profId == null) {
                 profId = $('#CurrentEducation_HiddenLicenseProgramId').val();
             }
+            $('#CurrentEducation_HiddenObrazProgramId').val('0');
+
+            $('#CurrentEducation_ObrazProgramId').removeClass('input-validation-error');
+            $('#CurrentEducation_ObrazProgramId_Message').hide();
             $('#_ObrazProg').show();
             var CurLevelId = $('#CurrentEducation_StudyLevelId').val();
             var curSemester = $('#CurrentEducation_SemesterId').val();
@@ -327,7 +393,7 @@
                     <span class="ui-icon ui-icon-alert"></span><%= GetGlobalResourceObject("PersonInfo", "WarningMessagePersonLocked").ToString()%>
                 </div>
             <% } %>
-                <form class="panel form" action="AbiturientNew/NextStep" method="post">
+                <form class="panel form" action="AbiturientNew/NextStep" method="post" onsubmit="return CheckForm();">
                     <%= Html.ValidationSummary() %>
                     <%= Html.HiddenFor(x => x.Stage) %>
                     <div class="clearfix">
@@ -342,7 +408,9 @@
                         <%= Html.LabelFor(x => x.AddEducationInfo.StartEnglish, GetGlobalResourceObject("PersonalOffice_Step4", "EnglishNull").ToString())%>
                         <%= Html.CheckBoxFor(x => x.AddEducationInfo.StartEnglish)%>
                     </div>
-                    <% if (Model.AddEducationInfo.HasForeignCountryEduc) { %>
+                    <% if (Model.AddEducationInfo.HasForeignNationality)
+                       { %>
+                    <hr />
                     <div id="_ForeignCountryEduc" class="clearfix">
                         <div class="clearfix">
                             <%= Html.LabelFor(x => x.AddEducationInfo.HasTRKI, GetGlobalResourceObject("PersonalOffice_Step4", "HasTRKI").ToString())%>
@@ -353,10 +421,13 @@
                             <%= Html.TextBoxFor(x => x.AddEducationInfo.TRKICertificateNumber) %>
                         </div>
                     </div>
+                    <hr /> 
                     <% } %>
                     
                     <% if (Model.AddEducationInfo.HasTransfer) { %>
+                    <h3><%=GetGlobalResourceObject("PersonalOffice_Step4", "CurrentEducationHeader").ToString()%></h3>
                     <div id="_TransferData" class="clearfix">
+                        <% if (!Model.AddEducationInfo.HasReason) { %>
                         <div id = "_AccreditationInfo">
                             <div class="clearfix">
                                 <%= Html.LabelFor(x => x.CurrentEducation.HasAccreditation, GetGlobalResourceObject("PersonalOffice_Step4", "HasAccreditation").ToString())%>
@@ -371,6 +442,8 @@
                                 <%= Html.TextBoxFor(x => x.CurrentEducation.AccreditationDate)%> 
                             </div>
                         </div>
+                        <hr />
+                        <%} %>
                         <div class="clearfix">
                             <%= Html.LabelFor(x => x.CurrentEducation.StudyLevelId,  GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudyLevel").ToString())%>
                             <%= Html.DropDownListFor(x => x.CurrentEducation.StudyLevelId, Model.CurrentEducation.StudyLevelList, new SortedList<string, object>() { })%>
@@ -388,20 +461,26 @@
                                 <%= Html.LabelFor(x => x.CurrentEducation.StudyBasisId,GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudyBasis").ToString() ) %>
                                 <%= Html.DropDownListFor(x => x.CurrentEducation.StudyBasisId, Model.EducationInfo.StudyBasisList, new SortedList<string, object>() { })%>
                             </div>
+                            
                             <div class="clearfix">
                                 <%= Html.LabelFor(x => x.CurrentEducation.LicenseProgramId, GetGlobalResourceObject("PersonalOffice_Step4", "CurrentLicenceProgram").ToString()) %>
                                 <%= Html.HiddenFor(x=> x.CurrentEducation.HiddenLicenseProgramId) %>
-                                <select id="CurrentEducation_LicenseProgramId" size="12" name="lProfession" style="width:459px;" onchange="GetObrazPrograms()"></select> 
+                                <select id="CurrentEducation_LicenseProgramId" size="12" name="lProfession" style="width:459px;" onchange="GetObrazPrograms()"></select>
+                                <span id="CurrentEducation_LicenseProgramId_Message" class="Red" style="display:none; border-collapse:collapse;"><%=GetGlobalResourceObject("PersonalOffice_Step4", "CurrentEducation_LicenseProgramId_Message").ToString()%></span>
+                             
                             </div>
+                            <% if (Model.AddEducationInfo.HasReason) { %>
                             <div class="clearfix" id="_ObrazProg" <% if (String.IsNullOrEmpty(Model.CurrentEducation.HiddenObrazProgramId)) { %>style="display:none;"<% } %>>
                                 <%= Html.LabelFor(x => x.CurrentEducation.ObrazProgramId, GetGlobalResourceObject("PersonalOffice_Step4", "CurrentObrazProgram").ToString())%>
                                 <%= Html.HiddenFor(x => x.CurrentEducation.HiddenObrazProgramId)%>
                                 <select id="CurrentEducation_ObrazProgramId"  <%if (!Model.Enabled){ %> disabled="disabled" <% } %> size="5" name="CurObrazProgram" style="width:459px;"></select>
+                                <span id="CurrentEducation_ObrazProgramId_Message" class="Red" style="display:none; border-collapse:collapse;"><%=GetGlobalResourceObject("PersonalOffice_Step4", "CurrentEducation_ObrazProgramId_Message").ToString()%></span>
                             </div>
                             <div class="clearfix">
                                 <%= Html.LabelFor(x => x.CurrentEducation.ProfileName,GetGlobalResourceObject("PersonalOffice_Step4", "CurrentProfile").ToString())%>
                                 <%= Html.TextBoxFor(x => x.CurrentEducation.ProfileName)%>
                             </div>
+                            <%} %>
                         </div>
                         <% if (Model.AddEducationInfo.HasReason) { %>
                         <div id="_Reason"> 

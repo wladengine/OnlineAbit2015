@@ -312,4 +312,13 @@
   <data name="EducationBlockDelete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="CurrentEducationHeader" xml:space="preserve">
+    <value>Current education</value>
+  </data>
+  <data name="CurrentEducation_LicenseProgramId_Message" xml:space="preserve">
+    <value>Select license program</value>
+  </data>
+  <data name="CurrentEducation_ObrazProgramId_Message" xml:space="preserve">
+    <value>Select educational program</value>
+  </data>
 </root>

@@ -291,8 +291,16 @@ namespace OnlineAbit2013.Controllers
                         var EPD = new EducationDocumentPerson();
 
                         EPD.sId = PersonEducationDocument.Id.ToString();
-                        EPD.SchoolTypeList = SchoolTypeList.SetValue(PersonEducationDocument.SchoolTypeId.ToString());
                         EPD.SchoolTypeId = PersonEducationDocument.SchoolTypeId.ToString();
+
+                        EPD.SchoolTypeList = (from DataRow rw in _tblT.Rows
+                                              select new SelectListItem()
+                                              {
+                                                  Value = rw.Field<int>("Id").ToString(),
+                                                  Text = (isEng ?
+                                                             (string.IsNullOrEmpty(rw.Field<string>("NameEng")) ? rw.Field<string>("Name") : rw.Field<string>("NameEng"))
+                                                             : rw.Field<string>("Name"))
+                                              }).ToList().SetValue(EPD.SchoolTypeId.ToString());
 
                         EPD.SchoolName = Server.HtmlDecode(PersonEducationDocument.SchoolName);
                         EPD.SchoolNumber = Server.HtmlDecode(PersonEducationDocument.SchoolNum);
@@ -371,6 +379,10 @@ namespace OnlineAbit2013.Controllers
                     model.EducationInfo = new EducationPerson();
                     model.EducationInfo.StudyFormList = Util.GetStudyFormList();
                     model.EducationInfo.StudyBasisList = Util.GetStudyBasisList();
+                    if (Person.NationalityId != 193)
+                        model.AddEducationInfo.HasForeignNationality = true;
+                    else
+                        model.AddEducationInfo.HasForeignNationality = false;
 
                     #region CurrentEducation
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2 || x.VuzAdditionalTypeId == 4)).Count() > 0)
@@ -1039,7 +1051,7 @@ namespace OnlineAbit2013.Controllers
                     PersonAddInfo.StartEnglish = model.AddEducationInfo.StartEnglish;
                     PersonAddInfo.HasTRKI = model.AddEducationInfo.HasTRKI;
                     PersonAddInfo.TRKICertificateNumber = model.AddEducationInfo.TRKICertificateNumber;
-
+                    
                     if (bIns)
                         context.PersonAddInfo.AddObject(PersonAddInfo);
                     #region PersonDisorderInfo
@@ -1087,9 +1099,12 @@ namespace OnlineAbit2013.Controllers
                         int iLicenseProgramId = 1;
                         if (!int.TryParse(model.CurrentEducation.HiddenLicenseProgramId, out iLicenseProgramId))
                             iLicenseProgramId = 1;//default value
-                        int iObrazProgramId = 1;
-                        if (!int.TryParse(model.CurrentEducation.HiddenObrazProgramId, out iObrazProgramId))
-                            iObrazProgramId = 1;//default value
+                        int? iObrazProgramId;
+                        int _iObrazProgramId = 1;
+                        if (!int.TryParse(model.CurrentEducation.HiddenObrazProgramId, out _iObrazProgramId))
+                            iObrazProgramId = null;//default value
+                        else
+                            iObrazProgramId = _iObrazProgramId;
 
                         if (PersonCurrentEducation == null)
                         {

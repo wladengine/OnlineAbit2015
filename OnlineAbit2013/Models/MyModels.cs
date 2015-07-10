@@ -403,7 +403,7 @@ namespace OnlineAbit2013.Models
         public bool HasRecover { get; set; }
         public bool HasEGE { get; set; }
         public bool HasReason { get; set; }
-        public bool HasForeignCountryEduc { get; set; }
+        public bool HasForeignNationality { get; set; }
     }
 
     public class VisaInfo
