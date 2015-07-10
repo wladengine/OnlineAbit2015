@@ -226,7 +226,7 @@ namespace OnlineAbit2013.Controllers
 
                     model.ContactsInfo.CountryList = Util.GetCountryList();
 
-                    query = "SELECT Id, Name FROM Region WHERE RegionNumber IS NOT NULL";
+                    query = "SELECT Id, Name FROM Region WHERE RegionNumber IS NOT NULL ORDER BY Distance, Name";
                     model.ContactsInfo.RegionList =
                         (from DataRow rw in Util.AbitDB.GetDataTable(query, null).Rows
                          select new SelectListItem()
