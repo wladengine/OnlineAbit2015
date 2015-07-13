@@ -1090,7 +1090,7 @@ namespace OnlineAbit2013.Controllers
                 return RedirectToAction("Main", "AbiturientNew");
 
 
-            string query = "SELECT Id, FileName, FileSize, Comment, IsApproved, IsReadOnly FROM ApplicationFile WHERE CommitId=@CommitId";
+            string query = "SELECT Id, FileName, FileSize, Comment, IsApproved, IsReadOnly FROM ApplicationFile WHERE CommitId=@CommitId AND IsDeleted=0 ";
             DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@CommitId", CommitId } });
 
             List<AppendedFile> lFiles =
@@ -1107,7 +1107,7 @@ namespace OnlineAbit2013.Controllers
                              (rw.Field<bool>("IsApproved") ? ApprovalStatus.Approved : ApprovalStatus.Rejected) : ApprovalStatus.NotSet
                  }).ToList();
 
-            query = "SELECT Id, FileName, FileSize, Comment, IsApproved, IsReadOnly FROM PersonFile WHERE PersonId=@PersonId";
+            query = "SELECT Id, FileName, FileSize, Comment, IsApproved, IsReadOnly FROM PersonFile WHERE PersonId=@PersonId AND IsDeleted=0 ";
             tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", PersonId } });
             var lSharedFiles =
                 (from DataRow rw in tbl.Rows
