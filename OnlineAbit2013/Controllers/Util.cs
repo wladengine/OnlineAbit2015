@@ -1888,6 +1888,13 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                     }
                 }
             }
+
+            //Обновляем статус коммита: он новый и не импортировался
+            var Comm = context.ApplicationCommit.Where(x => x.Id == CommitId).FirstOrDefault();
+            if (Comm != null)
+            {
+                Comm.IsImported = false;
+            }
             context.SaveChanges();
 
             //всё, что вне коммита - удаляем
