@@ -1055,10 +1055,10 @@ namespace OnlineAbit2013.Controllers
                     if (bIns)
                         context.PersonAddInfo.AddObject(PersonAddInfo);
                     #region PersonDisorderInfo
-                    if (model.AddEducationInfo.HasRecover && model.DisorderInfo != null)
+                    bool bHasDisorder = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 3)).Count() > 0;
+                    if (bHasDisorder && model.DisorderInfo != null)
                     {
                         bIns = false;
-
                         PersonDisorderInfo PersonDisorderEducation = Person.PersonDisorderInfo;
                         if (PersonDisorderEducation == null)
                         {
@@ -1069,7 +1069,6 @@ namespace OnlineAbit2013.Controllers
                         PersonDisorderEducation.IsForIGA = model.DisorderInfo.IsForIGA;
                         PersonDisorderEducation.YearOfDisorder = model.DisorderInfo.YearOfDisorder;
                         PersonDisorderEducation.EducationProgramName = model.DisorderInfo.EducationProgramName;
-
                         if (bIns)
                             context.PersonDisorderInfo.AddObject(PersonDisorderEducation);
                     }
@@ -1950,6 +1949,10 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 if (c != 100)
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", (c ?? 6).ToString() } });
 
+                var PersonDisOrderInfo = context.PersonDisorderInfo.Where(x => x.PersonId == PersonId).FirstOrDefault();
+                if (PersonDisOrderInfo == null)
+                    return RedirectToAction("Index", "AbiturientNew", new RouteValueDictionary() { { "step", 5 } });
+
                 Mag_ApplicationModel model = new Mag_ApplicationModel();
                 model.Applications = new List<Mag_ApplicationSipleEntity>();
                 model.CommitId = Guid.NewGuid().ToString("N");
@@ -2007,6 +2010,11 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 if (c != 100)
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", (c ?? 6).ToString() } });
 
+                var PersonCurEducInfo = context.PersonCurrentEducation.Where(x => x.PersonId == PersonId).FirstOrDefault();
+                if (PersonCurEducInfo == null)
+                    return RedirectToAction("Index", "AbiturientNew", new RouteValueDictionary() { { "step", 5 } });
+
+
                 Mag_ApplicationModel model = new Mag_ApplicationModel();
                 model.Applications = new List<Mag_ApplicationSipleEntity>();
                 model.CommitId = Guid.NewGuid().ToString("N");
@@ -2037,7 +2045,6 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 model.StudyFormList = Util.GetStudyFormList();
                 model.StudyBasisList = Util.GetStudyBasisList();
                 model.SemestrList = Util.GetSemesterList();
-
                 return View("NewApplication_Transfer", model);
             }
         }
@@ -2063,7 +2070,9 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 int? c = (int?)Util.AbitDB.GetValue("SELECT RegistrationStage FROM Person WHERE Id=@Id AND RegistrationStage=100", new SortedList<string, object>() { { "@Id", PersonId } });
                 if (c != 100)
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", (c ?? 6).ToString() } });
-
+                var PersonCurEducInfo = context.PersonCurrentEducation.Where(x => x.PersonId == PersonId).FirstOrDefault();
+                if (PersonCurEducInfo == null)
+                    return RedirectToAction("Index", "AbiturientNew", new RouteValueDictionary() { { "step", 5 } });
                 Mag_ApplicationModel model = new Mag_ApplicationModel();
                 model.Applications = new List<Mag_ApplicationSipleEntity>();
                 model.CommitId = Guid.NewGuid().ToString("N");
@@ -2120,7 +2129,9 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 int? c = (int?)Util.AbitDB.GetValue("SELECT RegistrationStage FROM Person WHERE Id=@Id AND RegistrationStage=100", new SortedList<string, object>() { { "@Id", PersonId } });
                 if (c != 100)
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", (c ?? 6).ToString() } });
-
+                var PersonCurEducInfo = context.PersonCurrentEducation.Where(x => x.PersonId == PersonId).FirstOrDefault();
+                if (PersonCurEducInfo == null)
+                    return RedirectToAction("Index", "AbiturientNew", new RouteValueDictionary() { { "step", 5 } });
                 Mag_ApplicationModel model = new Mag_ApplicationModel();
                 model.Applications = new List<Mag_ApplicationSipleEntity>();
                 model.CommitId = Guid.NewGuid().ToString("N");
@@ -2182,7 +2193,9 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 int? c = (int?)Util.AbitDB.GetValue("SELECT RegistrationStage FROM Person WHERE Id=@Id AND RegistrationStage=100", new SortedList<string, object>() { { "@Id", PersonId } });
                 if (c != 100)
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", (c ?? 6).ToString() } });
-
+                var PersonCurEducInfo = context.PersonCurrentEducation.Where(x => x.PersonId == PersonId).FirstOrDefault();
+                if (PersonCurEducInfo == null)
+                    return RedirectToAction("Index", "AbiturientNew", new RouteValueDictionary() { { "step", 5 } });
                 Mag_ApplicationModel model = new Mag_ApplicationModel();
                 model.Applications = new List<Mag_ApplicationSipleEntity>();
                 Guid gComm = Guid.NewGuid();
