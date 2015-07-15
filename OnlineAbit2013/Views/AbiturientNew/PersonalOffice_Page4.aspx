@@ -128,6 +128,24 @@
                 LoadAutoCompleteValues(i);
             }
         }
+        function UpdateVuzAddTypeAll(i)
+        {
+            var X =  $('#VuzAdditionalTypeId_' + i).val();
+            for (var j = 0 ; j< <%=Model.EducationInfo.EducationDocumentsMaxCount%>; j++)
+            {
+                var options = '';
+                <% for (int k = 0; k < Model.EducationInfo.VuzAdditionalTypeList.Count(); k++)
+                   {%>
+                options += '<option value="' + <%=Model.EducationInfo.VuzAdditionalTypeList[k].Value%> + '"';
+                if (<%=Model.EducationInfo.VuzAdditionalTypeList[k].Value%> == X)
+                    options += ' selected="true" ';
+                options += ' > <%=Model.EducationInfo.VuzAdditionalTypeList[k].Text%> </option>';
+                <%}%>
+                $('#VuzAdditionalTypeId_'+j).html(options);
+                $('#VuzAdditionalTypeId_'+j).val(X);
+                UpdateVuzAddType(j);
+            }
+        }
         function UpdateVuzAddType(i) {
             if ($('#VuzAdditionalTypeId_' + i).val() == 2) {
                 $('#_TransferHasScholarship_' + i).show();
@@ -295,23 +313,21 @@
                 }
                 else {
                     $('#_SchoolNumber_' + i).hide();
-                }
-                //UpdateAfterSchooltype(i);
+                } 
                 UpdateVuzAddType(i);
             }
             <% for (int i = 0; i < Model.EducationInfo.EducationDocuments.Count; i++ )
                {
-                   var Doc = Model.EducationInfo.EducationDocuments[i]; %>
-            $('#SchoolTypeId_<%= i %>').val('<%= Doc.SchoolTypeId %>');
-            UpdateAfterSchooltype(<%= i %>);
-            $('#VuzAdditionalTypeId_<%= i %>').val('<%= Doc.VuzAdditionalTypeId %>');
-            $('#PersonQualification_<%= i %>').val('<%= Doc.PersonQualification %>');
-            $('#SchoolExitClassId_<%= i %>').val('<%= Doc.SchoolExitClassId %>');
-            $('#CountryEducId_<%= i %>').val('<%= Doc.CountryEducId %>');
-            $('#RegionEducId_<%= i %>').val('<%= Doc.RegionEducId %>');
-            setTimeout(function() { GetCities(<%= i %>); });
-            $('#PersonStudyForm_<%= i %>').val('<%= Doc.StudyFormId %>');
-            $('#PersonQualification_<%= i %>').val('<%= Doc.PersonQualification %>');
+                    var Doc = Model.EducationInfo.EducationDocuments[i]; %>
+                    $('#SchoolTypeId_<%= i %>').val('<%= Doc.SchoolTypeId %>');
+                    UpdateAfterSchooltype(<%= i %>);
+                    $('#VuzAdditionalTypeId_<%= i %>').val('<%= Doc.VuzAdditionalTypeId %>');
+                    $('#PersonQualification_<%= i %>').val('<%= Doc.PersonQualification %>');
+                    $('#SchoolExitClassId_<%= i %>').val('<%= Doc.SchoolExitClassId %>');
+                    $('#CountryEducId_<%= i %>').val('<%= Doc.CountryEducId %>');
+                    $('#RegionEducId_<%= i %>').val('<%= Doc.RegionEducId %>');
+                    setTimeout(function() { GetCities(<%= i %>); });
+                    $('#PersonStudyForm_<%= i %>').val('<%= Doc.StudyFormId %>');
             <% } %>
         });
     </script>
@@ -510,7 +526,7 @@
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "PersonQualification").ToString(), new Dictionary<string, object> { { "for", "PersonQualification_" + i } })%>
-                                    <%= Html.DropDownList("PersonQualification_" + i, Model.EducationInfo.QualificationList, new Dictionary<string, object> { { "id", "PersonQualification_" + i } }) %>
+                                    <%= Html.DropDownList("PersonQualification_" + i, Doc.QualificationList, new Dictionary<string, object> { { "id", "PersonQualification_" + i } }) %>
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomTheme").ToString(), new Dictionary<string, object> { { "for", "DiplomTheme_" + i } })%>
