@@ -2674,7 +2674,7 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                             {
                                 model.EntryType = 2;
                                 model.VuzAddType = iScTypeId.VuzAdditionalTypeId.Value;
-                                model.ExitClassId = iScTypeId.qualification;
+                                model.ExitClassId = ScTypeList.Where(x => x.SchoolTypeId == 4).Select(x => x.qualification).Max();
                                 HasSchoolTypeEducEqual4 = true;
                                 break;
                             }
