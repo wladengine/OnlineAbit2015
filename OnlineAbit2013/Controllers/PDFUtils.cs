@@ -587,11 +587,7 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("Comission" + comInd++, comission);
                 }
 
-                //ApplicationCommit.IsPrinted
-                var Commt = context.ApplicationCommit.Where(x => x.Id == appId).FirstOrDefault();
-                if (Commt != null)
-                    Commt.IsPrinted = true;
-
+              
                 context.SaveChanges();
 
                 pdfStm.FormFlattening = true;
