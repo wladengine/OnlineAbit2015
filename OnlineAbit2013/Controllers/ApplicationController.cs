@@ -74,7 +74,7 @@ namespace OnlineAbit2013.Controllers
                         StudyLevelGroupName = Resources.Common.AG,
                     }).ToList()).ToList();
 
-                string query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM ApplicationFile WHERE CommitId=@CommitId";
+                string query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM ApplicationFile WHERE CommitId=@CommitId and IsDeleted = 0";
                 DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@CommitId", CommitId } });
 
                 List<AppendedFile> lFiles =
@@ -90,7 +90,7 @@ namespace OnlineAbit2013.Controllers
                                  (rw.Field<bool>("IsApproved") ? ApprovalStatus.Approved : ApprovalStatus.Rejected) : ApprovalStatus.NotSet
                      }).ToList();
 
-                query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM PersonFile WHERE PersonId=@PersonId";
+                query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM PersonFile WHERE PersonId=@PersonId and IsDeleted = 0";
                 tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", personId } });
                 var lSharedFiles =
                     (from DataRow rw in tbl.Rows
@@ -235,7 +235,7 @@ namespace OnlineAbit2013.Controllers
 
                 //var AllFiles = lFiles.Union(lSharedFiles).OrderBy(x => x.IsShared).ToList();
 
-                string query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM ApplicationFile WHERE ApplicationId=@ApplicationId";
+                string query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM ApplicationFile WHERE ApplicationId=@ApplicationId and IsDeleted=0";
                 DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@ApplicationId", ApplicationId } });
 
                 List<AppendedFile> lFiles =
@@ -251,7 +251,7 @@ namespace OnlineAbit2013.Controllers
                                  (rw.Field<bool>("IsApproved") ? ApprovalStatus.Approved : ApprovalStatus.Rejected) : ApprovalStatus.NotSet
                      }).ToList();
 
-                query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM PersonFile WHERE PersonId=@PersonId";
+                query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM PersonFile WHERE PersonId=@PersonId and IsDeleted = 0";
                 tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", personId } });
                 var lSharedFiles =
                     (from DataRow rw in tbl.Rows
