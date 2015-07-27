@@ -272,21 +272,34 @@ namespace OnlineAbit2013.Controllers
                                   x.PersonAddInfo.TRKICertificateNumber,
                               }).FirstOrDefault();
 
-                var personEducation = 
-                    (from x in context.PersonEducationDocument
-                     where x.PersonId == PersonId 
-                     select new {
+                var personEducationList =
+                   (from x in context.PersonEducationDocument
+                    join hx in context.PersonHighEducationInfo on x.Id equals hx.EducationDocumentId into gj
+                    from heduc in gj.DefaultIfEmpty()
+
+                    join q in context.Qualification on heduc.QualificationId equals q.Id into ggj
+                    from qual in ggj.DefaultIfEmpty()
+
+                    where x.PersonId == PersonId
+                    select new
+                    {
+                        x.Id,
                         x.SchoolExitYear,
                         x.SchoolName,
                         x.SchoolNum,
                         x.IsEqual,
                         x.EqualDocumentNumber,
+                        ProgramName = (heduc == null ? "" : heduc.ProgramName),
                         CountryEduc = x.CountryEducId != null ? x.Country.Name : "",
+                        QualificationId = (heduc == null ? -1 : heduc.QualificationId),
+                        Qualification = (qual == null ? "" : qual.Name),
                         x.CountryEducId,
                         x.SchoolTypeId,
                         EducationDocumentSeries = x.Series,
                         EducationDocumentNumber = x.Number,
-                    }).FirstOrDefault();
+                    }).ToList();
+
+                var personEducation = personEducationList.OrderByDescending(x=>x.SchoolTypeId).OrderByDescending(x => x.QualificationId).First();
 
                 MemoryStream ms = new MemoryStream();
                 string dotName;
@@ -397,7 +410,7 @@ namespace OnlineAbit2013.Controllers
                 {
                     acrFlds.SetField("BirthDateYear", person.BirthDate.Value.Year.ToString("D2"));
                     acrFlds.SetField("BirthDateMonth", person.BirthDate.Value.Month.ToString("D2"));
-                    acrFlds.SetField("BirthDateDay", person.BirthDate.Value.Day.ToString());
+                    acrFlds.SetField("BirthDateDay", person.BirthDate.Value.Day.ToString("D2"));
                 }
                 acrFlds.SetField("BirthPlace", person.BirthPlace);
                 acrFlds.SetField("Male", person.Sex ? "1" : "0");
@@ -453,14 +466,8 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("School" + i, splitStr[i - 1]);
 
                 //только у магистров
-                var HEInfo = context.PersonEducationDocument
-                    .Where(x => x.PersonId == PersonId && x.PersonHighEducationInfo != null)
-                    .Select(x => new { x.PersonHighEducationInfo.ProgramName, Qualification = x.PersonHighEducationInfo.Qualification.Name }).FirstOrDefault();
-                if (HEInfo != null)
-                {
-                    acrFlds.SetField("HEProfession", HEInfo.ProgramName ?? "");
-                    acrFlds.SetField("Qualification", HEInfo.Qualification ?? "");
-                }
+                acrFlds.SetField("HEProfession", personEducation.ProgramName ?? "");
+                acrFlds.SetField("Qualification", personEducation.Qualification ?? "");
 
                 acrFlds.SetField("Original", "0");
                 acrFlds.SetField("Copy", "0");
@@ -496,7 +503,7 @@ namespace OnlineAbit2013.Controllers
                 acrFlds.SetField("ReturnDocumentType" + person.ReturnDocumentTypeId, "1");
                 // имею ли образование этого уровня:
                 // если закончил школу, спо, нпо и прочее (кроме ВУЗа) + (если выбран ВУЗ + Квалификация 
-                if ((personEducation.SchoolTypeId != 4) || (isMag && personEducation.SchoolTypeId == 4 && HEInfo != null && (HEInfo.Qualification).ToLower().IndexOf("магист") < 0))
+                if ((personEducationList.Where(x=>x.SchoolTypeId == 4).Select(x=>x).Count() == 0) || (isMag && personEducationList.Where(x=>x.SchoolTypeId == 4).Select(x=>x.Qualification.ToLower().IndexOf("магистр")).Max() <0 ))// personEducation.SchoolTypeId == 4 && (personEducation.Qualification).ToLower().IndexOf("магист") < 0))
                     acrFlds.SetField("NoEduc", "1");
                 else
                 {
@@ -2206,7 +2213,7 @@ namespace OnlineAbit2013.Controllers
                 {
                     acrFlds.SetField("BirthDateYear", person.BirthDate.Value.Year.ToString("D2"));
                     acrFlds.SetField("BirthDateMonth", person.BirthDate.Value.Month.ToString("D2"));
-                    acrFlds.SetField("BirthDateDay", person.BirthDate.Value.Day.ToString());
+                    acrFlds.SetField("BirthDateDay", person.BirthDate.Value.Day.ToString("D2"));
                 }
                 acrFlds.SetField("BirthPlace", person.BirthPlace);
                 acrFlds.SetField("Male", person.Sex ? "1" : "0");
@@ -2470,7 +2477,6 @@ namespace OnlineAbit2013.Controllers
                                   x.PassportDate,
                                   x.PersonContacts.City,
                                   Region = x.PersonContacts.Region.Name,
-                                  //x.PersonHighEducationInfo.ProgramName,
                                   x.PersonContacts.Code,
                                   x.PersonContacts.Street,
                                   x.PersonContacts.House,
@@ -2480,7 +2486,6 @@ namespace OnlineAbit2013.Controllers
                                   x.PersonContacts.Mobiles,
                                   AddInfo = x.PersonAddInfo.AddInfo,
                                   Parents = x.PersonAddInfo.Parents,
-                                  //Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
                                   HasPrivileges = x.PersonAddInfo.HasPrivileges ?? false,
                                   x.PersonAddInfo.ReturnDocumentTypeId,
                                   SportQualificationName = x.PersonSportQualification.SportQualification1.Name,
@@ -2555,7 +2560,7 @@ namespace OnlineAbit2013.Controllers
                 {
                     acrFlds.SetField("BirthDateYear", person.BirthDate.Value.Year.ToString("D2"));
                     acrFlds.SetField("BirthDateMonth", person.BirthDate.Value.Month.ToString("D2"));
-                    acrFlds.SetField("BirthDateDay", person.BirthDate.Value.Day.ToString());
+                    acrFlds.SetField("BirthDateDay", person.BirthDate.Value.Day.ToString("D2"));
                 }
                 acrFlds.SetField("BirthPlace", person.BirthPlace);
                 acrFlds.SetField("Male", person.Sex ? "1" : "0");
@@ -2634,7 +2639,8 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("HasPrivileges", "1");
 
                 acrFlds.SetField("ReturnDocumentType" + person.ReturnDocumentTypeId, "1");
-                if ((personEducation.SchoolTypeId != 2) && (personEducation.SchoolTypeId != 5))//SSUZ & SPO
+               
+                if ((personEducation.SchoolTypeId != 4) || (personEducation.SchoolTypeId == 4 && (personEducation.Qualification).ToLower().IndexOf("аспирант") < 0))
                     acrFlds.SetField("NoEduc", "1");
                 else
                 {
@@ -2805,19 +2811,33 @@ namespace OnlineAbit2013.Controllers
                                   Language = x.PersonAddInfo.Language.Name,
                               }).FirstOrDefault();
 
-                var personEducation = context.PersonEducationDocument.Where(x => x.PersonId == PersonId)
-                    .Select(x => new
+                var personEducationList =
+                   (from x in context.PersonEducationDocument
+                    join hx in context.PersonHighEducationInfo on x.Id equals hx.EducationDocumentId into gj
+                    from heduc in gj.DefaultIfEmpty()
+
+                    join q in context.Qualification on heduc.QualificationId equals q.Id into ggj
+                    from qual in ggj.DefaultIfEmpty()
+
+                    where x.PersonId == PersonId
+                    select new
                     {
+                        x.Id,
                         x.SchoolExitYear,
                         x.SchoolName,
+                        x.SchoolNum,
                         x.IsEqual,
                         x.EqualDocumentNumber,
+                        ProgramName = (heduc == null ? "" : heduc.ProgramName),
                         CountryEduc = x.CountryEducId != null ? x.Country.Name : "",
+                        QualificationId = (heduc == null ? -1 : heduc.QualificationId),
+                        Qualification = (qual == null ? "" : qual.Name),
                         x.CountryEducId,
                         x.SchoolTypeId,
                         EducationDocumentSeries = x.Series,
                         EducationDocumentNumber = x.Number,
-                    }).FirstOrDefault();
+                    }).ToList();
+                var personEducation = personEducationList.OrderByDescending(x => x.QualificationId).First();
 
                 MemoryStream ms = new MemoryStream();
                 string dotName = "ApplicationOrd_2015.pdf";
@@ -2897,11 +2917,8 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("School" + i, splitStr[i - 1]);
 
                 //только у магистров
-                var HEInfo = context.PersonEducationDocument
-                    .Where(x => x.PersonId == PersonId && x.PersonHighEducationInfo != null)
-                    .Select(x => new { x.PersonHighEducationInfo.ProgramName, Qualification = x.PersonHighEducationInfo.Qualification.Name }).FirstOrDefault();
-                acrFlds.SetField("HEProfession", HEInfo.ProgramName ?? "");
-                acrFlds.SetField("Qualification", HEInfo.Qualification ?? "");
+                acrFlds.SetField("HEProfession", personEducation.ProgramName ?? "");
+                acrFlds.SetField("Qualification", personEducation.Qualification ?? "");
 
                 acrFlds.SetField("Original", "0");
                 acrFlds.SetField("Copy", "0");
