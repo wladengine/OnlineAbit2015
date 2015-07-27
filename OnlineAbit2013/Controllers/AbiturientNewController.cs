@@ -244,7 +244,7 @@ namespace OnlineAbit2013.Controllers
                     model.Messages = new List<PersonalMessage>();
                     if (!isEng)
                     {
-                        temp_str = "<li>Для <b>перевода в СПбГУ</b> выберите 'ВУЗ' в поле 'Тип образовательного учреждения' и 'Перевод в СПбГУ' в поле 'Тип поступления'<br>"
+                        temp_str = "<li>Для <b>перевода в СПбГУ</b> (из другого университета) выберите 'ВУЗ' в поле 'Тип образовательного учреждения' и 'Перевод в СПбГУ' в поле 'Тип поступления'<br>"
                                         + "<br><li>Для <b>восстановления в СПбГУ</b> выберите 'ВУЗ' в поле 'Тип образовательного учреждения' и 'Восстановление в СПбГУ' в поле 'Тип поступления'<br>"
                                          + "<br><li>Для <b>смены образовательной программы, формы и основы обучения</b> выберите 'ВУЗ' в поле 'Тип образовательного учреждения' и 'Перевод внутри СПбГУ' в поле 'Тип поступления'<br>"
                                          + "<br>В остальных случаях выбирайте  'тип образовательного учреждения' в соответствии с имеющимся у вас образованием.";
@@ -360,13 +360,15 @@ namespace OnlineAbit2013.Controllers
                     #region Stage 5
                     if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                         return RedirectToAction("LogOn", "Account");
-
+                    
                     var AddInfo = Person.PersonAddInfo;
                     if (AddInfo == null)
                         AddInfo = new PersonAddInfo();
 
                     var AddEducInfo = new AdditionalEducationInfoPerson();
 
+                    if (model.Messages == null)
+                        model.Messages = new List<PersonalMessage>();
                     AddEducInfo.StartEnglish = AddInfo.StartEnglish;
                     AddEducInfo.EnglishMark = AddInfo.EnglishMark.ToString();
                     AddEducInfo.HasTRKI = AddInfo.HasTRKI;
@@ -375,7 +377,7 @@ namespace OnlineAbit2013.Controllers
                     AddEducInfo.LanguageList = Util.GetLanguageList();
 
                     model.AddEducationInfo = AddEducInfo;
-
+                    
                     model.EducationInfo = new EducationPerson();
                     model.EducationInfo.StudyFormList = Util.GetStudyFormList();
                     model.EducationInfo.StudyBasisList = Util.GetStudyBasisList();
@@ -387,6 +389,12 @@ namespace OnlineAbit2013.Controllers
                     #region CurrentEducation
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2 || x.VuzAdditionalTypeId == 4)).Count() > 0)
                     {
+                        if (!isEng)
+                        {
+                            string temp_str = "Будьте внимательны! Для поступления в СПбГУ на программы бакалавриата, магистратуры и аспирантуры необходимо выбирать 'основной прием' на странице 'Образование' (4 стр. анкеты). ";
+                         
+                            model.Messages.Add(new PersonalMessage() { Id = "0", Type = MessageType.TipMessage, Text = temp_str });
+                        }
                         model.AddEducationInfo.HasTransfer = true;
                         model.CurrentEducation = new CurrentEducation();
                         PersonCurrentEducation CurrentEducation = Person.PersonCurrentEducation;

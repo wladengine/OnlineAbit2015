@@ -24,7 +24,8 @@
             $('#CurrentEducation_LicenseProgramId').change(function () { setTimeout(Myfun) });
             $('#CurrentEducation_ObrazProgramId').change(function () { setTimeout(Myfun) });
             $('#DisorderInfo_YearOfDisorder').change(function () { setTimeout(CheckDisorderInfoYear) });
-
+            $('#ChangeStudyFormReason_Reason').keyup(function () { setTimeout(ChangeReason); });
+            $('#ChangeStudyFormReason_Reason').blur(function () { setTimeout(ChangeReason); });
             fStart();
 
             GetProfessions();
@@ -383,6 +384,17 @@
                 }
             }, 'json');
         }
+        function ChangeReason() {
+            var tx = $('#ChangeStudyFormReason_Reason').val();
+            if (tx.indexOf("поступление") != -1) {
+                $('#ChangeStudyFormReasonMessage').text('Для поступления на программы подготовки бакалавриата, магистратуры, аспирантуры - измените тип поступления на 4й странице анкеты на "Основной приём"');
+                $('#ChangeStudyFormReasonMessage').show();
+            }
+            else {
+                $('#ChangeStudyFormReasonMessage').text('');
+                $('#ChangeStudyFormReasonMessage').hide();
+            }
+        }
 	</script>
     <div class="grid">
         <div class="wrapper">
@@ -393,6 +405,13 @@
                     <span class="ui-icon ui-icon-alert"></span><%= GetGlobalResourceObject("PersonInfo", "WarningMessagePersonLocked").ToString()%>
                 </div>
             <% } %>
+                <% foreach (var msg in Model.Messages)
+                    { %>
+                    <div id="<%= msg.Id %>" class="message info" style="padding:5px">
+                        <span class="ui-icon ui-icon-alert"></span><%= msg.Text %>
+                        <div style="float:right;"><span class="link" onclick="DeleteMsg('<%= msg.Id %>')"><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить" /></span></div>
+                    </div>
+                <% } %>
                 <form class="panel form" action="AbiturientNew/NextStep" method="post" onsubmit="return CheckForm();">
                     <%= Html.ValidationSummary() %>
                     <%= Html.HiddenFor(x => x.Stage) %>
@@ -485,7 +504,8 @@
                         <% if (Model.AddEducationInfo.HasReason) { %>
                         <div id="_Reason"> 
                             <%= Html.LabelFor(x => x.ChangeStudyFormReason.Reason, GetGlobalResourceObject("PersonalOffice_Step4", "ChangeStudyFormReason").ToString())%>
-                            <%= Html.TextAreaFor(x => x.ChangeStudyFormReason.Reason, 5, 85, new SortedList<string, object>() { { "class", "noresize" } })%>
+                            <%= Html.TextAreaFor(x => x.ChangeStudyFormReason.Reason, 5, 85, new SortedList<string, object>() { { "class", "noresize" },{ "onchange", "ChangeReason()" } })%>
+                            <span id="ChangeStudyFormReasonMessage" class="Red" style="display:none; border-collapse:collapse;"> </span>
                         </div>
                         <% } %>
                         <div id="_TransferHasScholarship">
