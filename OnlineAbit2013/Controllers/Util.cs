@@ -2029,13 +2029,58 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                             InnerEntryInEntryId = inner.InnerEntryInEntryId,
                             InnerEntryInEntryPriority = inner.InnerEntryInEntryPriority,
                         });
-                    }
-
+                    } 
                     context.SaveChanges();
                 }
             }
         }
+        public static void CopyApplicationFiles(Guid OldCommitId, Guid NewCommitId, Guid PersonId)
+        {
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                var oldabitList = (from x in context.Application
+                                join Entry in context.Entry on x.EntryId equals Entry.Id
+                                where (x.CommitId == OldCommitId) && (x.PersonId == PersonId)
+                                select new
+                                {
+                                    AppId = x.Id,
+                                    x.EntryId,
+                                }).ToList();
 
+                var newabitList = (from x in context.Application
+                                   join Entry in context.Entry on x.EntryId equals Entry.Id
+                                   where (x.CommitId == NewCommitId) && (x.PersonId == PersonId)
+                                   select new
+                                   {
+                                       AppId = x.Id,
+                                       x.EntryId,
+                                   }).ToList();
+
+                foreach (var newapp in newabitList)
+                {
+                    var old_app = oldabitList.Where(x => x.EntryId == newapp.EntryId).Select(x => x.AppId).FirstOrDefault();
+                    if (old_app != null)
+                    {
+                        var abitListFiles = (from x in context.ApplicationFile
+                                             where x.ApplicationId == old_app
+                                             select x).ToList();
+                        foreach (var file in abitListFiles)
+                        {
+                            file.ApplicationId = newapp.AppId;
+                            context.SaveChanges();
+                        }
+                    }
+                }
+                var CommitFilesList = (from x in context.ApplicationFile
+                                       where x.CommitId == OldCommitId
+                                       select x).ToList();
+                foreach (var file in CommitFilesList)
+                {
+                    file.CommitId = NewCommitId;
+                    context.SaveChanges();
+                }
+            }
+        }
         public static void DifferenceBetweenCommits(Guid OldCommitId, Guid NewCommitId, Guid PersonId)
         {
             using (OnlinePriemEntities context = new OnlinePriemEntities())

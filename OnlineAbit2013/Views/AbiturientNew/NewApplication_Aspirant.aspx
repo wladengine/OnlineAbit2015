@@ -561,7 +561,7 @@ function DeleteMsg(i)
                 class="error">
                 <%= GetGlobalResourceObject("NewApplication", "Delete")%>
             </button>
-            <div id="ObrazProgramsErrors_Block<%= i.ToString()%>" class="message error" style="display:none; width:450px;" />
+            <div id="ObrazProgramsErrors_Block<%= i.ToString()%>" class="message error" style="display:none; width:450px;" ></div>
         </div>
         <div id="Block<%= i.ToString()%>" class="message info panel" style="width:659px; display:none;">
             <p id="SForm<%= i.ToString()%>">

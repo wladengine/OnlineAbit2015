@@ -272,8 +272,10 @@ namespace OnlineAbit2013.Controllers
                                   x.PersonAddInfo.TRKICertificateNumber,
                               }).FirstOrDefault();
 
-                var personEducation = context.PersonEducationDocument.Where(x => x.PersonId == PersonId)
-                    .Select(x => new {
+                var personEducation = 
+                    (from x in context.PersonEducationDocument
+                     where x.PersonId == PersonId 
+                     select new {
                         x.SchoolExitYear,
                         x.SchoolName,
                         x.SchoolNum,
@@ -2492,19 +2494,34 @@ namespace OnlineAbit2013.Controllers
                                   Language = x.PersonAddInfo.Language.Name,
                               }).FirstOrDefault();
 
-                var personEducation = context.PersonEducationDocument.Where(x => x.PersonId == PersonId)
-                    .Select(x => new
+                var personEducationList =
+                   (from x in context.PersonEducationDocument
+                    join hx in context.PersonHighEducationInfo on x.Id equals hx.EducationDocumentId into gj
+                    from heduc in gj.DefaultIfEmpty()
+
+                    join q in context.Qualification on heduc.QualificationId equals q.Id into ggj
+                    from qual in ggj.DefaultIfEmpty()
+
+                    where x.PersonId == PersonId
+                    select new
                     {
+                        x.Id,
                         x.SchoolExitYear,
                         x.SchoolName,
+                        x.SchoolNum,
                         x.IsEqual,
                         x.EqualDocumentNumber,
+                        ProgramName = (heduc == null ? "" : heduc.ProgramName),
                         CountryEduc = x.CountryEducId != null ? x.Country.Name : "",
+                        QualificationId = (heduc == null ? -1 : heduc.QualificationId),
+                        Qualification = (qual== null ? "" : qual.Name),
                         x.CountryEducId,
                         x.SchoolTypeId,
                         EducationDocumentSeries = x.Series,
                         EducationDocumentNumber = x.Number,
-                    }).FirstOrDefault();
+                    }).ToList();
+
+                var personEducation = personEducationList.OrderByDescending(x => x.QualificationId).First();
 
                 MemoryStream ms = new MemoryStream();
                 string dotName = "ApplicationAsp_2015.pdf";
@@ -2584,11 +2601,9 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("School" + i, splitStr[i - 1]);
 
                 //только у магистров
-                var HEInfo = context.PersonEducationDocument
-                    .Where(x => x.PersonId == PersonId && x.PersonHighEducationInfo != null)
-                    .Select(x => new { x.PersonHighEducationInfo.ProgramName, Qualification = x.PersonHighEducationInfo.Qualification.Name }).FirstOrDefault();
-                acrFlds.SetField("HEProfession", HEInfo.ProgramName ?? "");
-                acrFlds.SetField("Qualification", HEInfo.Qualification ?? "");
+                
+                acrFlds.SetField("HEProfession", personEducation.ProgramName ?? "");
+                acrFlds.SetField("Qualification", personEducation.Qualification ?? "");
 
                 acrFlds.SetField("Original", "0");
                 acrFlds.SetField("Copy", "0");
