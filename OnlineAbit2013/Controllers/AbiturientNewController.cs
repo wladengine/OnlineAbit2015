@@ -2757,41 +2757,48 @@ INNER JOIN SchoolExitClass ON SchoolExitClass.Id = PersonEducationDocument.Schoo
                 }
                 if (model.VuzAddType == 2)
                 {
-                    int? qw = (int?)Util.AbitDB.GetValue("SELECT LicenseProgramId FROM PersonCurrentEducation WHERE PersonId=@PersonId ", new SortedList<string, object>() { { "@PersonId", PersonId } });
-                    if (qw.HasValue)
-                    {
-                        model.LicenseProgramName = Util.AbitDB.GetStringValue("select top 1 LicenseProgramName from Entry where LicenseProgramId=@Id", new SortedList<string, object>() { { "@Id", qw } });
-                    }
-                    qw = (int?)Util.AbitDB.GetValue("SELECT ObrazProgramId FROM PersonCurrentEducation WHERE PersonId=@PersonId ", new SortedList<string, object>() { { "@PersonId", PersonId } });
-                    if (qw.HasValue)
-                    {
-                        model.ObrazProgramName = Util.AbitDB.GetStringValue("select top 1 ObrazProgramName from Entry  where ObrazProgramId=@Id", new SortedList<string, object>() { { "@Id", qw } });
-                    }
-                    
-                    var EntryList =
-                        (from Ent in context.Entry
-                         join SPStudyLevel in context.SP_StudyLevel on Ent.StudyLevelId equals SPStudyLevel.Id
-                         join PersonCurrentEduc in context.PersonCurrentEducation on PersonId equals PersonCurrentEduc.PersonId
-                         join Semester in context.Semester on Ent.SemesterId equals Semester.Id
-                         where PersonCurrentEduc.LicenseProgramId == Ent.LicenseProgramId &&
-                                Ent.ObrazProgramId == PersonCurrentEduc.ObrazProgramId &&
-                                Ent.StudyFormId == PersonCurrentEduc.StudyFormId &&
-                                Ent.StudyBasisId == PersonCurrentEduc.StudyBasisId &&
-                                Ent.CampaignYear == Util.iPriemYear &&
-                                Ent.StudyLevelId == PersonCurrentEduc.StudyLevelId &&
-                                Ent.IsParallel == false &&
-                                Ent.IsReduced == false &&
-                                Ent.IsSecond == false &&
-                                Ent.SemesterId == PersonCurrentEduc.SemesterId
-                         select new
-                         {
-                             EntryId = Ent.Id 
-                         }).FirstOrDefault();
-
-                    if (EntryList == null)
-                    {
+                    var CurEduc = (from x in context.PersonCurrentEducation
+                                   where x.PersonId == PersonId
+                                   select x).FirstOrDefault();
+                    if (CurEduc == null)
                         model.Message = "Данные некорректны (не найден учебный план). Вернитесь в анкету и проверьте правильность данных";
-                    } 
+                    else
+                    {
+                        int qw = CurEduc.LicenseProgramId;
+                        model.LicenseProgramName = Util.AbitDB.GetStringValue("select top 1 LicenseProgramName from Entry where LicenseProgramId=@Id", new SortedList<string, object>() { { "@Id", qw } });
+                        if (!CurEduc.ObrazProgramId.HasValue)
+                            model.Message = "Данные некорректны (не найден учебный план). Вернитесь в анкету и проверьте правильность данных";
+                        else
+                        {
+                            qw = CurEduc.ObrazProgramId.Value;
+                            model.ObrazProgramName = Util.AbitDB.GetStringValue("select top 1 ObrazProgramName from Entry  where ObrazProgramId=@Id", new SortedList<string, object>() { { "@Id", qw } });
+
+                            var EntryList =
+                                (from Ent in context.Entry
+                                 join SPStudyLevel in context.SP_StudyLevel on Ent.StudyLevelId equals SPStudyLevel.Id
+                                 join PersonCurrentEduc in context.PersonCurrentEducation on PersonId equals PersonCurrentEduc.PersonId
+                                 join Semester in context.Semester on Ent.SemesterId equals Semester.Id
+                                 where PersonCurrentEduc.LicenseProgramId == Ent.LicenseProgramId &&
+                                        Ent.ObrazProgramId == PersonCurrentEduc.ObrazProgramId &&
+                                        Ent.StudyFormId == PersonCurrentEduc.StudyFormId &&
+                                        Ent.StudyBasisId == PersonCurrentEduc.StudyBasisId &&
+                                        Ent.CampaignYear == Util.iPriemYear &&
+                                        Ent.StudyLevelId == PersonCurrentEduc.StudyLevelId &&
+                                        Ent.IsParallel == false &&
+                                        Ent.IsReduced == false &&
+                                        Ent.IsSecond == false &&
+                                        Ent.SemesterId == PersonCurrentEduc.SemesterId
+                                 select new
+                                 {
+                                     EntryId = Ent.Id
+                                 }).FirstOrDefault();
+
+                            if (EntryList == null)
+                            {
+                                model.Message = "Данные некорректны (не найден учебный план). Вернитесь в анкету и проверьте правильность данных";
+                            }
+                        }
+                    }
                 }
                 return View("NewApplication", model);
             }
