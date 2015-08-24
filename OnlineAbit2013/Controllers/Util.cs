@@ -1496,7 +1496,7 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                          FileSize = rw.Field<int>("FileSize"),
                          Comment = rw.Field<string>("Comment"),
                          LoadDate = Convert.ToString(rw.Field<DateTime>("LoadDate")),
-                         FileType = rw.Field<string>("Name"),
+                         FileType =  rw.Field<string>("Name"),
                          IsApproved = rw.Field<bool?>("IsApproved").HasValue ?
                          rw.Field<bool>("IsApproved") ? ApprovalStatus.Approved : ApprovalStatus.Rejected : ApprovalStatus.NotSet,
                          IsReadOnly = rw.Field<bool?>("IsReadOnly").HasValue ? rw.Field<bool?>("IsReadOnly").Value : false
