@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineAbit2015", "OnlineAbit2013\OnlineAbit2015.csproj", "{E083211C-E1CF-45DD-8E88-34449A4657C5}"
 EndProject
 Global

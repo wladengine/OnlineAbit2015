@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/AbiturientNew/PersonalOffice.Master" Inherits="System.Web.Mvc.ViewPage<OnlineAbit2013.Models.ExtApplicationModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Abiturient/PersonalOffice.Master" Inherits="System.Web.Mvc.ViewPage<OnlineAbit2013.Models.ExtApplicationModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     <%= GetGlobalResourceObject("ApplicationInfo", "AppDetails")%>
@@ -171,7 +171,7 @@
     }
     </script>
 
-<a href="../../AbiturientNew/Main/"><%= GetGlobalResourceObject("ApplicationInfo", "LinkMainMenu")%></a> - 
+<a href="../../Abiturient/Main/"><%= GetGlobalResourceObject("ApplicationInfo", "LinkMainMenu")%></a> - 
 <a href="../../Application/Index/<%= Model.CommitId.ToString("N") %>"><%= Model.CommitName %></a> - 
 <%= GetGlobalResourceObject("ApplicationInfo", "AppDetails")%>
 <br />
@@ -255,7 +255,7 @@
     <h4 onclick="HidePortfolio()" style="cursor:pointer;"><%= GetGlobalResourceObject("ApplicationInfo", "HeaderPortfolio")%> </h4>
     <div class="message info">
         <b><%= GetGlobalResourceObject("ApplicationInfo", "FilesWarning1")%> </b> 
-        <a href="../../AbiturientNew/AddSharedFiles" style="font-weight:bold"><%= GetGlobalResourceObject("AddSharedFiles", "Header") %></a>
+        <a href="../../Abiturient/AddSharedFiles" style="font-weight:bold"><%= GetGlobalResourceObject("AddSharedFiles", "Header") %></a>
     </div>
     <div id="dPortfolio">
     <hr />
@@ -320,7 +320,7 @@
     <% } %>
     </tbody>
     </table><br />
-    <a class="button button-blue" href="../../AbiturientNew/FilesList?id=<%= Model.Id.ToString("N") %>" target="_blank"><%=GetGlobalResourceObject("AddSharedFiles", "FileList")%></a><br />
+    <a class="button button-blue" href="../../Abiturient/FilesList?id=<%= Model.Id.ToString("N") %>" target="_blank"><%=GetGlobalResourceObject("AddSharedFiles", "FileList")%></a><br />
     <% if (Model.Enabled)
        { %>
     <br />

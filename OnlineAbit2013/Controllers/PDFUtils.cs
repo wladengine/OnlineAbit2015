@@ -1950,142 +1950,141 @@ namespace OnlineAbit2013.Controllers
             }
         }
 
-        public static byte[] GetApplicationPDF_AG(Guid appId, string dirPath)
+       /* public static byte[] GetApplicationPDF_AG(Guid appId, string dirPath, Guid PersonId)
         {
-            string query = "SELECT TOP 1 PersonId, Barcode, ProgramNameRod, ObrazProgramNum, ObrazProgramId, ProfileName, EntryClassNum, HostelEduc, AG_ManualExam.Name AS ManualExam" +
-                " FROM [AG_Application] INNER JOIN AG_qEntry ON [AG_Application].EntryId=AG_qEntry.Id LEFT JOIN AG_ManualExam ON AG_ManualExam.Id = [AG_Application].ManualExamId" +
-                " WHERE [AG_Application].Id=@Id ORDER BY [AG_Application].Priority";
-            DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@Id", appId } });
-
-            var abit =
-                (from DataRow rw in tbl.Rows
-                 select new
-                 {
-                     PersonId = rw.Field<Guid?>("PersonId"),
-                     Barcode = rw.Field<int>("Barcode"),
-                     Profession = rw.Field<string>("ProgramNameRod"),
-                     ObrazProgram = rw.Field<string>("ObrazProgramNum"),
-                     ObrazProgramId = rw.Field<int>("ObrazProgramId"),
-                     Specialization = rw.Field<string>("ProfileName"),
-                     ClassNum = rw.Field<string>("EntryClassNum"),
-                     ManualExam = rw.Field<string>("ManualExam")
-                 }).FirstOrDefault();
-
-            query = "SELECT Surname, Name, SecondName, PersonAddInfo.HostelEduc FROM Person INNER JOIN PersonAddInfo ON PersonAddInfo.Id = Person.Id PersonAddInfo.HostelEduc WHERE Id=@Id";
-            tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@Id", abit.PersonId } });
-
-            var person =
-                (from DataRow rw in tbl.Rows
-                 select new
-                 {
-                     Surname = rw.Field<string>("Surname"),
-                     Name = rw.Field<string>("Name"),
-                     SecondName = rw.Field<string>("SecondName"),
-                     HostelEduc = rw.Field<bool>("HostelEduc"),
-                 }).FirstOrDefault();
-
-            query = "SELECT PrintName, DocumentNumber FROM AG_AllPriveleges WHERE PersonId=@PersonId";
-            tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", abit.PersonId } });
-            var privileges =
-                (from DataRow rw in tbl.Rows
-                 select rw.Field<string>("PrintName") + " " + rw.Field<string>("DocumentNumber"));
-
-            MemoryStream ms = new MemoryStream();
-            string dotName = "ApplicationAG_2015.pdf";
-
-            byte[] templateBytes;
-            using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                templateBytes = new byte[fs.Length];
-                fs.Read(templateBytes, 0, templateBytes.Length);
-            }
+                var abitList = (from x in context.Application
+                                join Commit in context.ApplicationCommit on x.CommitId equals Commit.Id
+                                join Entry in context.Entry on x.EntryId equals Entry.Id
+                                join sLevel in context.SP_StudyLevel on Entry.StudyLevelId equals sLevel.Id
+                                where x.CommitId == appId
+                                select new
+                                {
+                                    x.Id,
+                                    x.PersonId,
+                                    x.Barcode,
+                                    Profession = Entry.LicenseProgramName,
+                                    ObrazProgram = Entry.ObrazProgramName,
+                                    Specialization = Entry.ProfileName,
+                                    Entry.StudyLevelGroupId,
+                                    CommitIntNumber = Commit.IntNumber,
+                                    x.Priority,
+                                    Entry.ComissionId,
+                                    ComissionAddress = Entry.Address,
+                                    sLevel.ClassName,
+                                    sLevel.Duration,
+                                }).OrderBy(x => x.Priority).ToList();
 
-            PdfReader pdfRd = new PdfReader(templateBytes);
-            PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
-            pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
-            AcroFields acrFlds = pdfStm.AcroFields;
-            string code = (800000 + abit.Barcode).ToString();
+                var person = (from x in context.Person
+                              where x.Id == PersonId
+                              select new
+                              {
+                                  x.Surname,
+                                  x.Name,
+                                  x.SecondName,
+                                  x.Barcode,
+                                  x.PersonAddInfo.HostelEduc,
+                              }).FirstOrDefault();
 
-            //добавляем штрихкод
-            Barcode128 barcode = new Barcode128();
-            barcode.Code = code;
-            PdfContentByte cb = pdfStm.GetOverContent(1);
-            iTextSharp.text.Image img = barcode.CreateImageWithBarcode(cb, null, null);
-            img.SetAbsolutePosition(70, 750);
-            cb.AddImage(img);
+                
 
-            acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
-            acrFlds.SetField("ProgramName_1", abit.Profession);
-            acrFlds.SetField("ObrazProgramNum", abit.ObrazProgram);
-            acrFlds.SetField("ClassNum", abit.ClassNum);
-            acrFlds.SetField("Date", DateTime.Now.ToShortDateString());
-            acrFlds.SetField("ManualExam_1", abit.ManualExam ?? "нет");
-            if (person.HostelEduc)
-                acrFlds.SetField("HostelEducYes", "1");
-            else
-                acrFlds.SetField("HostelEducNo", "1");
+                MemoryStream ms = new MemoryStream();
+                string dotName = "ApplicationAG_2015.pdf";
 
-            if (abit.ObrazProgramId == 1)
-            {
-                acrFlds.SetField("is9Class", "______________");
-            }
-            else
-            {
-                acrFlds.SetField("is11Class_1", "______________");
-                acrFlds.SetField("is11Class_2", "______");
-            }
-
-            query = "SELECT ProgramNameRod, ProfileName, EntryClassNum, HostelEduc, AG_ManualExam.Name AS ManualExam" +
-                " FROM [AG_Application] INNER JOIN AG_qEntry ON [AG_Application].EntryId=AG_qEntry.Id LEFT JOIN AG_ManualExam ON AG_ManualExam.Id = [AG_Application].ManualExamId" +
-                " WHERE [AG_Application].Id<>@Id AND [AG_Application].PersonId=@PersonId";
-            tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@Id", appId }, { "@PersonId", abit.PersonId } });
-            if (tbl.Rows.Count > 0)
-            {
-                var otherapp =
-                     (from DataRow rw in tbl.Rows
-                      select new
-                      {
-                          Specialization = rw.Field<string>("ProfileName"),
-                          ManualExam = rw.Field<string>("ManualExam")
-                      }).FirstOrDefault();
-
-                acrFlds.SetField("Specialization_2", otherapp.Specialization);
-                acrFlds.SetField("ManualExam_2", otherapp.ManualExam ?? "нет");
-
-                acrFlds.SetField("Specialization_Priority", abit.Specialization);
-            }
-
-            string AllPrivileges = privileges.DefaultIfEmpty().Aggregate((x, next) => x + "; " + next) ?? "";
-            int index = 0, startindex = 0;
-            for (int i = 1; i <= 6; i++)
-            {
-                if (AllPrivileges.Length > startindex && startindex >= 0)
+                byte[] templateBytes;
+                using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
                 {
-                    int rowLength = 100;//длина строки, разная у первых строк
-                    if (i > 1) //длина остальных строк одинакова
-                        rowLength = 100;
-                    index = startindex + rowLength;
-                    if (index < AllPrivileges.Length)
-                    {
-                        index = AllPrivileges.IndexOf(" ", index);
-                        string val = index > 0 ?
-                            AllPrivileges.Substring(startindex, index - startindex)
-                            : AllPrivileges.Substring(startindex);
-                        acrFlds.SetField("AddDocs" + i.ToString(), val);
-                    }
-                    else
-                        acrFlds.SetField("AddDocs" + i.ToString(),
-                            AllPrivileges.Substring(startindex));
+                    templateBytes = new byte[fs.Length];
+                    fs.Read(templateBytes, 0, templateBytes.Length);
                 }
-                startindex = index;
+
+                PdfReader pdfRd = new PdfReader(templateBytes);
+                PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
+                pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
+                AcroFields acrFlds = pdfStm.AcroFields;
+                string code = (800000 + person.Barcode).ToString();
+
+                //добавляем штрихкод
+                Barcode128 barcode = new Barcode128();
+                barcode.Code = code;
+                PdfContentByte cb = pdfStm.GetOverContent(1);
+                iTextSharp.text.Image img = barcode.CreateImageWithBarcode(cb, null, null);
+                img.SetAbsolutePosition(70, 750);
+                cb.AddImage(img);
+
+                acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
+
+                acrFlds.SetField("EntryClass", abitList.First().ClassName.ToString());
+                acrFlds.SetField("ObrazProgramYear", abitList.First().Duration.ToString());
+
+                acrFlds.SetField("Date", DateTime.Now.ToShortDateString());
+
+                for (int i = 0; i < abitList.Count; i++)
+                {
+                    var Exams = Util.GetExamList(abitList[i].Id);
+                    string _sI = (i + 1).ToString();
+                    acrFlds.SetField("Profession"+_sI, abitList[i].Profession);
+                    acrFlds.SetField("ObrazProgram" + _sI, abitList[i].ObrazProgram);
+                    
+                    if (Exams.Count == 0)
+                        acrFlds.SetField("ManualExam" + _sI, "нет");
+                    else
+                    {
+                        string ExamNames = "";
+                        foreach (var x in Exams)
+                        {
+                            ExamNames += (x.ExamInBlockList.Where(ex => ex.Value.ToString() == x.SelectedExamInBlockId.ToString()).Select(ex => ex.Text).FirstOrDefault()) +", ";
+                        }
+                        if (ExamNames.Length >2 )
+                            ExamNames = ExamNames.Substring(0, ExamNames.Length-2);
+                        acrFlds.SetField("ManualExam" + _sI, ExamNames);
+                    }
+                    acrFlds.SetField("chbSchoolLevel1" + _sI, abitList[i].StudyLevelGroupId == 6 ? "1" : "0");
+                    acrFlds.SetField("chbSchoolLevel2" + _sI, abitList[i].StudyLevelGroupId == 7 ? "1" : "0");
+                }
+                if (person.HostelEduc)
+                    acrFlds.SetField("HostelAbitYes", "1");
+                else
+                    acrFlds.SetField("HostelAbitNo", "1");
+
+                //string query = "SELECT PrintName, DocumentNumber FROM AG_AllPriveleges WHERE PersonId=@PersonId";
+                //DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", abitList.First().PersonId } });
+                //var privileges =
+                //    (from DataRow rw in tbl.Rows
+                //     select rw.Field<string>("PrintName") + " " + rw.Field<string>("DocumentNumber"));
+                //string AllPrivileges = privileges.DefaultIfEmpty().Aggregate((x, next) => x + "; " + next) ?? "";
+                //int index = 0, startindex = 0;
+                //for (int i = 1; i <= 6; i++)
+                //{
+                //    if (AllPrivileges.Length > startindex && startindex >= 0)
+                //    {
+                //        int rowLength = 100;//длина строки, разная у первых строк
+                //        if (i > 1) //длина остальных строк одинакова
+                //            rowLength = 100;
+                //        index = startindex + rowLength;
+                //        if (index < AllPrivileges.Length)
+                //        {
+                //            index = AllPrivileges.IndexOf(" ", index);
+                //            string val = index > 0 ?
+                //                AllPrivileges.Substring(startindex, index - startindex)
+                //                : AllPrivileges.Substring(startindex);
+                //            acrFlds.SetField("AddDocs" + i.ToString(), val);
+                //        }
+                //        else
+                //            acrFlds.SetField("AddDocs" + i.ToString(),
+                //                AllPrivileges.Substring(startindex));
+                //    }
+                //    startindex = index;
+                //}
+
+                pdfStm.FormFlattening = true;
+                pdfStm.Close();
+                pdfRd.Close();
+
+                return ms.ToArray();
             }
-
-            pdfStm.FormFlattening = true;
-            pdfStm.Close();
-            pdfRd.Close();
-
-            return ms.ToArray();
-        }
+        }*/
 
         public static byte[] GetApplicationPDF_SPO(Guid appId, string dirPath, Guid PersonId)
         {
@@ -3050,22 +3049,31 @@ namespace OnlineAbit2013.Controllers
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
                 var abitList =
-                    (from App in context.AG_Application
+                    (from App in context.Application
+                     join Commit in context.ApplicationCommit on App.CommitId equals Commit.Id
+                     join Entry in context.Entry on App.EntryId equals Entry.Id
+                     join sLevel in context.SP_StudyLevel on Entry.StudyLevelId equals sLevel.Id
                      orderby App.Priority
                      where App.CommitId == commitId && App.IsCommited == true && App.Enabled == true
                      select new
                      {
-                         PersonId = App.PersonId,
-                         Barcode = App.Barcode,
-                         Profession = App.AG_Entry.AG_Program.Name,
-                         ObrazProgram = App.AG_Entry.AG_ObrazProgram.Num,
-                         ObrazProgramName = App.AG_Entry.AG_Profile.Name,
-                         Specialization = App.AG_Entry.AG_Profile.Name,
-                         ClassNum = App.AG_Entry.AG_EntryClass.Num,
-                         ManualExam = App.ManualExamId.HasValue ? App.AG_ManualExam.Name : "нет"
-                     });
+                         App.Id,
+                         App.PersonId,
+                         App.Barcode,
+                         Profession = Entry.LicenseProgramName,
+                         ObrazProgram = Entry.ObrazProgramName,
+                         Specialization = Entry.ProfileName,
+                         Entry.StudyLevelGroupId,
+                         App.Priority,
+                         Entry.ComissionId,
+                         ComissionAddress = Entry.Address,
+                         ClassNum = sLevel.ClassName,
+                         CommitIntNumber = Commit.IntNumber,
+                         sLevel.Duration,
+                     }).OrderBy(x => x.Priority).ToList();
 
                 Guid PersonId = abitList.FirstOrDefault().PersonId;
+
                 var person =
                     context.Person.Where(x => x.Id == PersonId).Select(x => new
                     {
@@ -3099,13 +3107,33 @@ namespace OnlineAbit2013.Controllers
                     fs.Read(templateBytes, 0, templateBytes.Length);
                 }
 
+                
+
+                var Version = context.ApplicationCommitVersion.Where(x => x.CommitId == commitId).Select(x => new { x.VersionDate, x.Id }).ToList().LastOrDefault();
+                string sVersion = "";
+                if (Version != null)
+                    sVersion = "Версия №" + Version.Id + " от " + Version.VersionDate.ToString("dd.MM.yyyy HH:mm");
+                
+
                 PdfReader pdfRd = new PdfReader(templateBytes);
                 PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
                 pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
                 AcroFields acrFlds = pdfStm.AcroFields;
 
+                acrFlds.SetField("Version", sVersion);
+
+                int multiplyer = abitList.FirstOrDefault().StudyLevelGroupId;
+                string code = ((multiplyer * 100000) + abitList.First().CommitIntNumber).ToString();
+                Barcode128 barcode = new Barcode128();
+                barcode.Code = code;
+                PdfContentByte cb = pdfStm.GetOverContent(1);
+                iTextSharp.text.Image img = barcode.CreateImageWithBarcode(cb, null, null);
+                // img.SetAbsolutePosition(420, 720);
+                img.SetAbsolutePosition(120, 775);
+                cb.AddImage(img);
+
                 acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
-                acrFlds.SetField("ObrazProgramYear", abitList.FirstOrDefault().ObrazProgram);
+                acrFlds.SetField("ObrazProgramYear", abitList.FirstOrDefault().Duration.ToString());
                 acrFlds.SetField("EntryClass", abitList.FirstOrDefault().ClassNum);
                 if (person.HostelEduc)
                     acrFlds.SetField("HostelAbitYes", "1");
@@ -3116,7 +3144,6 @@ namespace OnlineAbit2013.Controllers
                 bool hasSecondApp = abitList.Count() > 1;
                 foreach (var abit in abitList)
                 {
-                    string code = (800000 + abit.Barcode).ToString();
                     inc++;
                     string i = inc.ToString();
                     if (hasSecondApp)
@@ -3130,10 +3157,22 @@ namespace OnlineAbit2013.Controllers
                     else
                         acrFlds.SetField("chbSchoolLevel2" + i, "1");
 
-                    acrFlds.SetField("RegNum" + i, code);
+                    acrFlds.SetField("RegNum" + i, (800000 + abit.Barcode).ToString());
                     acrFlds.SetField("Profession" + i, abit.Profession);
-                    acrFlds.SetField("ObrazProgram" + i, abit.ObrazProgramName);
-                    acrFlds.SetField("ManualExam" + i, abit.ManualExam);
+                    acrFlds.SetField("ObrazProgram" + i, abit.ObrazProgram);
+
+                    var Exams = Util.GetExamList(abit.Id);
+                    if (Exams.Count == 0)
+                        acrFlds.SetField("ManualExam" + i, "нет");
+                    else
+                    {
+                        string ExamNames = "";
+                        foreach (var x in Exams)
+                            ExamNames += (x.ExamInBlockList.Where(ex => ex.Value.ToString() == x.SelectedExamInBlockId.ToString()).Select(ex => ex.Text).FirstOrDefault()) + ", ";
+                        if (ExamNames.Length > 2)
+                            ExamNames = ExamNames.Substring(0, ExamNames.Length - 2);
+                        acrFlds.SetField("ManualExam" + i, ExamNames);
+                    }
                 }
 
                 pdfStm.FormFlattening = true;

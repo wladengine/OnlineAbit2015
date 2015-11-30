@@ -20,60 +20,49 @@ namespace OnlineAbit2013.Controllers
 
             Guid CommitId = new Guid();
             if (!Guid.TryParse(id, out CommitId))
-                return RedirectToAction("Main", "AbiturientNew");
+                return RedirectToAction("Main", "Abiturient");
             bool isEng = Util.GetCurrentThreadLanguageIsEng(); 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                var tblAppsMain = 
+                var tblAppsMain =
                     (from App in context.Application
-                    join Entry in context.Entry on App.EntryId equals Entry.Id
-                    join Semester in context.Semester on Entry.SemesterId equals Semester.Id
-                    where App.CommitId == CommitId && App.IsCommited == true && App.Enabled == true
-                    select new SimpleApplication()
-                    {
-                        Id = App.Id,
-                        Profession = isEng? (String.IsNullOrEmpty(Entry.LicenseProgramNameEng)? Entry.LicenseProgramName : Entry.LicenseProgramNameEng): Entry.LicenseProgramName,
-                        ObrazProgram = isEng ? (String.IsNullOrEmpty(Entry.ObrazProgramNameEng) ? Entry.ObrazProgramName : Entry.ObrazProgramNameEng) : Entry.ObrazProgramName,
-                        Specialization = isEng ? (String.IsNullOrEmpty(Entry.ProfileNameEng) ? Entry.ProfileName : Entry.ProfileNameEng) : Entry.ProfileName,
-                        StudyForm = isEng ? (String.IsNullOrEmpty(Entry.StudyFormNameEng) ? Entry.StudyFormName : Entry.StudyFormNameEng) : Entry.StudyFormName,
-                        StudyBasis = /*isEng ? (String.IsNullOrEmpty(Entry.StudyBasisNameEng) ? Entry.StudyBasisName : Entry.StudyBasisNameEng) : */Entry.StudyBasisName, 
-                        StudyLevel = isEng ? (String.IsNullOrEmpty(Entry.StudyLevelName) ? Entry.StudyLevelName : Entry.StudyLevelName) : Entry.StudyLevelName, 
-                        Priority = App.Priority,
-                        IsGosLine = App.IsGosLine,
-                        HasManualExams = false,
-                        dateofClose = Entry.DateOfClose,
-                        Enabled = App.Enabled,
-                        SemesterName = (Entry.SemesterId != 1) ? Semester.Name : "",
-                        StudyLevelGroupId = Entry.StudyLevelGroupId,
-                        StudyLevelGroupName = (isEng ? ((String.IsNullOrEmpty(Entry.StudyLevelGroupNameEng)) ? Entry.StudyLevelGroupNameRus : Entry.StudyLevelGroupNameEng) : Entry.StudyLevelGroupNameRus) +
-                                    (App.SecondTypeId.HasValue ?
-                                        ((App.SecondTypeId == 3) ? (isEng ? " (recovery)" : " (восстановление)") :
-                                        ((App.SecondTypeId == 2) ? (isEng ? " (transfer)" : " (перевод)") :
-                                        ((App.SecondTypeId == 4) ? (isEng ? " (changing form of education)" : " (смена формы обучения)") :
-                                        ((App.SecondTypeId == 5) ? (isEng ? " (changing basis of education)" : " (смена основы обучения)") :
-                                        ((App.SecondTypeId == 6) ? (isEng ? " (changing educational program)" : " (смена образовательной программы)") :
-                                        ""))))) : "")//,
-                        /*HasSeparateObrazPrograms = context.ObrazProgramInEntry.Where(x => x.EntryId == App.EntryId).Count() > 0,
-                        ObrazProgramInEntryId = context.ObrazProgramInEntry.Where(x => x.EntryId == App.EntryId).Count() == 1 ? 
-                                                context.ObrazProgramInEntry.Where(x => x.EntryId == App.EntryId).Select(x => x.Id).FirstOrDefault() : Guid.Empty     */              
-                    }).ToList().Union(
-                    context.AG_Application.Where(x => x.CommitId == CommitId && x.IsCommited == true && x.Enabled == true).Select(x => new SimpleApplication()
-                    {
-                        Id = x.Id,
-                        Profession = x.AG_Entry.AG_Program.Name,
-                        ObrazProgram = x.AG_Entry.AG_EntryClass.Name,
-                        Specialization = x.AG_Entry.AG_Profile.Name,
-                        StudyForm = Resources.Common.StudyFormFullTime,
-                        StudyBasis = Resources.Common.StudyBasisBudget,
-                        StudyLevel = Resources.Common.AG,
-                        Priority = x.Priority,
-                        HasManualExams = x.ManualExamId.HasValue,
-                        ManualExam = x.ManualExamId.HasValue ? x.AG_ManualExam.Name : "",
-                        Enabled = x.Enabled,
-                        StudyLevelGroupId = 1,
-                        StudyLevelGroupName = Resources.Common.AG,
-                    }).ToList()).ToList();
+                     join Entry in context.Entry on App.EntryId equals Entry.Id
+                     join Semester in context.Semester on Entry.SemesterId equals Semester.Id
 
+                     join apstype in context.ApplicationSecondType on App.SecondTypeId equals apstype.Id into _sectype
+                     from sectype in _sectype.DefaultIfEmpty()
+
+                     where App.CommitId == CommitId && App.IsCommited == true && App.Enabled == true
+                     select new SimpleApplication()
+                     {
+                         Id = App.Id,
+                         Profession = isEng ? (String.IsNullOrEmpty(Entry.LicenseProgramNameEng) ? Entry.LicenseProgramName : Entry.LicenseProgramNameEng) : Entry.LicenseProgramName,
+                         ObrazProgram = isEng ? (String.IsNullOrEmpty(Entry.ObrazProgramNameEng) ? Entry.ObrazProgramName : Entry.ObrazProgramNameEng) : Entry.ObrazProgramName,
+                         Specialization = isEng ? (String.IsNullOrEmpty(Entry.ProfileNameEng) ? Entry.ProfileName : Entry.ProfileNameEng) : Entry.ProfileName,
+                         StudyForm = isEng ? (String.IsNullOrEmpty(Entry.StudyFormNameEng) ? Entry.StudyFormName : Entry.StudyFormNameEng) : Entry.StudyFormName,
+                         StudyBasis = isEng ? (String.IsNullOrEmpty(Entry.StudyBasisNameEng) ? Entry.StudyBasisName : Entry.StudyBasisNameEng) : Entry.StudyBasisName,
+                         StudyLevel = isEng ? (String.IsNullOrEmpty(Entry.StudyLevelNameEng) ? Entry.StudyLevelName : Entry.StudyLevelNameEng) : Entry.StudyLevelName,
+                         Priority = App.Priority,
+                         IsGosLine = App.IsGosLine,
+                         dateofClose = Entry.DateOfClose,
+                         Enabled = App.Enabled,
+                         SemesterName = (Entry.SemesterId != 1) ? Semester.Name : "",
+                         StudyLevelGroupId = Entry.StudyLevelGroupId,
+                         StudyLevelGroupName = (isEng ? ((String.IsNullOrEmpty(Entry.StudyLevelGroupNameEng)) ? Entry.StudyLevelGroupNameRus : Entry.StudyLevelGroupNameEng) : Entry.StudyLevelGroupNameRus) +
+                                  (sectype == null ? "" : (isEng ? sectype.NameEng : sectype.Name)),   
+                     }).ToList();
+                foreach (SimpleApplication app in tblAppsMain)
+                {
+                    var lst = Util.GetExamList(app.Id);
+                    app.HasManualExams = lst.Count > 0;
+                    if (lst.Count>0)
+                    {
+                        app.ManualExam = new List<string>();
+                        foreach (var x in lst)
+                            app.ManualExam.Add(x.ExamInBlockList.Where(e => e.Value.ToString() == x.SelectedExamInBlockId.ToString()).Select(e => e.Text.ToString()).FirstOrDefault());
+                    }
+                }
+                
                 string query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM ApplicationFile WHERE CommitId=@CommitId and IsDeleted = 0";
                 DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@CommitId", CommitId } });
 
@@ -116,7 +105,8 @@ namespace OnlineAbit2013.Controllers
                     Files = AllFiles,
                     IsPrinted = bIsPrinted,
                     Enabled = true,
-                    StudyLevelGroupId =(tblAppsMain.Count==0)?1:tblAppsMain.First().StudyLevelGroupId
+                    StudyLevelGroupId =(tblAppsMain.Count==0)?1:tblAppsMain.First().StudyLevelGroupId,
+                    HasManualExams = tblAppsMain.Where(x=>x.HasManualExams).Count()>0,
                 };
                 foreach (SimpleApplication s in tblAppsMain)
                 {
@@ -167,8 +157,8 @@ namespace OnlineAbit2013.Controllers
                     ObrazProgram = isEng ? (String.IsNullOrEmpty(Entry.ObrazProgramNameEng) ? Entry.ObrazProgramName : Entry.ObrazProgramNameEng) : Entry.ObrazProgramName,
                     Specialization = isEng ? (String.IsNullOrEmpty(Entry.ProfileNameEng) ? Entry.ProfileName : Entry.ProfileNameEng) : Entry.ProfileName,
                     StudyForm = isEng ? (String.IsNullOrEmpty(Entry.StudyFormNameEng) ? Entry.StudyFormName : Entry.StudyFormNameEng) : Entry.StudyFormName,
-                    StudyBasis = /*isEng ? (String.IsNullOrEmpty(Entry.StudyBasisNameEng) ? Entry.StudyBasisName : Entry.StudyBasisNameEng) :*/ Entry.StudyBasisName,
-                    StudyLevel = /*isEng ? (String.IsNullOrEmpty(Entry.StudyLevelNameEng) ? Entry.StudyLevelName : Entry.StudyLevelNameEng) : */Entry.StudyLevelName,
+                    StudyBasis = isEng ? (String.IsNullOrEmpty(Entry.StudyBasisNameEng) ? Entry.StudyBasisName : Entry.StudyBasisNameEng) : Entry.StudyBasisName,
+                    StudyLevel = isEng ? (String.IsNullOrEmpty(Entry.StudyLevelNameEng) ? Entry.StudyLevelName : Entry.StudyLevelNameEng) : Entry.StudyLevelName,
                     StudyLevelId = Entry.StudyLevelId,
                     Priority = App.Priority,
                     Enabled = App.Enabled,
@@ -178,63 +168,9 @@ namespace OnlineAbit2013.Controllers
                     IsApproved = App.IsApprovedByComission,
                     EntryTypeId = App.EntryType,
                     CommitId = App.CommitId,
-                    CommitName = /*isEng ? (String.IsNullOrEmpty(Entry.StudyLevelNameEng) ? Entry.StudyLevelName : Entry.StudyLevelNameEng) :*/Entry.StudyLevelName
+                    CommitName = isEng ? (String.IsNullOrEmpty(Entry.StudyLevelNameEng) ? Entry.StudyLevelName : Entry.StudyLevelNameEng) :Entry.StudyLevelName
                 }).FirstOrDefault();
-                if (ApplicationEntity == null)
-                {
-                    ApplicationEntity = context.AG_Application.Where(x => x.Id == ApplicationId && x.IsCommited == true && x.CommitId.HasValue).Select(x => new 
-                    {
-                        Id = x.Id,
-                        Profession = x.AG_Entry.AG_Program.Name,
-                        ObrazProgram = x.AG_Entry.AG_EntryClass.Name,
-                        Specialization = x.AG_Entry.AG_Profile.Name,
-                        StudyForm = Resources.Common.StudyFormFullTime,
-                        StudyBasis = Resources.Common.StudyBasisBudget,
-                        StudyLevel = Resources.Common.AG,
-                        StudyLevelId = 1,
-                        Priority = x.Priority,
-                        Enabled = x.Enabled,
-                        ComissionAddress = "",
-                        ComissionYaCoord = "",
-                        DateOfDisable = x.DateOfDisable,
-                        IsApproved = x.IsApprovedByComission,
-                        EntryTypeId = 0,
-                        CommitId = x.CommitId.Value,
-                        CommitName = Resources.Common.AG
-                    }).FirstOrDefault();
-                }
-                //var lFiles =
-                //    context.ApplicationFile.Where(x => x.ApplicationId == ApplicationId).Select
-                //    (
-                //        x => new AppendedFile()
-                //        {
-                //            Id = x.Id,
-                //            FileName = x.FileName,
-                //            FileSize = x.FileSize,
-                //            Comment = x.Comment,
-                //            IsShared = false,
-                //            IsApproved = x.IsApproved.HasValue ?
-                //                x.IsApproved.Value ? ApprovalStatus.Approved : ApprovalStatus.Rejected : ApprovalStatus.NotSet,
-                //        }
-                //    ).ToList();
-
-                //var lSharedFiles =
-                //    context.PersonFile.Where(x => x.PersonId == personId).Select
-                //    (
-                //        x => new AppendedFile()
-                //        {
-                //            Id = x.Id,
-                //            FileName = x.FileName,
-                //            FileSize = x.FileSize,
-                //            Comment = x.Comment,
-                //            IsShared = true,
-                //            IsApproved = x.IsApproved.HasValue ?
-                //                x.IsApproved.Value ? ApprovalStatus.Approved : ApprovalStatus.Rejected : ApprovalStatus.NotSet
-                //        }
-                //    ).ToList();
-
-                //var AllFiles = lFiles.Union(lSharedFiles).OrderBy(x => x.IsShared).ToList();
-
+                
                 string query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM ApplicationFile WHERE ApplicationId=@ApplicationId and IsDeleted=0";
                 DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@ApplicationId", ApplicationId } });
 
@@ -427,7 +363,7 @@ namespace OnlineAbit2013.Controllers
 
             Guid CommitId = new Guid();
             if (!Guid.TryParse(id, out CommitId))
-                return RedirectToAction("Main", "AbiturientNew");
+                return RedirectToAction("Main", "Abiturient");
 
             if (Request.Files["File"] == null || Request.Files["File"].ContentLength == 0 || string.IsNullOrEmpty(Request.Files["File"].FileName))
                 return Json(Resources.ServerMessages.EmptyFileError);
@@ -605,71 +541,60 @@ namespace OnlineAbit2013.Controllers
             {
                 try
                 {
-                    if (context.AG_Application.Where(x => x.CommitId == appId && x.PersonId == personId).Count() > 0)
+                    var lst = context.Application.Where(x => x.CommitId == appId && x.PersonId == personId).Select(x => x.C_Entry.SP_StudyLevel.StudyLevelGroupId).ToList();
+                    if (lst.Count == 0)
+                        return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Access error"), "text/plain");
+                    int? CountryEducId = context.PersonEducationDocument.Where(x => x.PersonId == personId).Select(x => x.CountryEducId).FirstOrDefault();
+                    int? Secondlst = context.Application.Where(x => x.CommitId == appId && x.PersonId == personId).Select(x => x.SecondTypeId).FirstOrDefault();
+                    /*if (Secondlst.Count == 0)
+                        return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Access error"), "text/plain");*/
+
+                    //дальше должно быть разделение - для 1 курса, магистров, аспирантов, переводящихся и восстанавливающихся
+                    //пока что затычка из АГ
+                    int EntryType = lst.First();
+
+                    switch (EntryType)
                     {
-                        bindata = PDFUtils.GetApplicationBlockPDF_AG(appId, Server.MapPath("~/Templates/"));
+                        //бакалавриат
+                        case 1: { bindata = PDFUtils.GetApplicationPDF(appId, Server.MapPath("~/Templates/"), false, personId); break; }
+                        //магистратура
+                        case 2: { bindata = PDFUtils.GetApplicationPDF(appId, Server.MapPath("~/Templates/"), true, personId); break; }
+                        //СПО
+                        case 3: { bindata = PDFUtils.GetApplicationPDF_SPO(appId, Server.MapPath("~/Templates/"), personId); break; }
+                        //Аспирантура
+                        case 4: { bindata = PDFUtils.GetApplicationPDF_Aspirant(appId, Server.MapPath("~/Templates/"), personId); break; }
+                        //Аспирантура
+                        case 5: { bindata = PDFUtils.GetApplicationPDF_Ord(appId, Server.MapPath("~/Templates/"), personId); break; }
+
+                        case 6:
+                        case 7: { bindata = PDFUtils.GetApplicationBlockPDF_AG(appId, Server.MapPath("~/Templates/")); break; }
+                        default: { bindata = PDFUtils.GetApplicationPDF(appId, Server.MapPath("~/Templates/"), false, personId); break; }
                     }
-                    else
+                    if (Secondlst.HasValue)
                     {
-                        var lst = context.Application.Where(x => x.CommitId == appId && x.PersonId == personId).Select(x => x.C_Entry.SP_StudyLevel.StudyLevelGroupId).ToList();
-                        if (lst.Count == 0)
-                            return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Access error"), "text/plain");
-                        int? CountryEducId = context.PersonEducationDocument.Where(x => x.PersonId == personId).Select(x => x.CountryEducId).FirstOrDefault();
-                        int? Secondlst = context.Application.Where(x => x.CommitId == appId && x.PersonId == personId).Select(x => x.SecondTypeId).FirstOrDefault();
-                        /*if (Secondlst.Count == 0)
-                            return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Access error"), "text/plain");*/
-
-                        //дальше должно быть разделение - для 1 курса, магистров, аспирантов, переводящихся и восстанавливающихся
-                        //пока что затычка из АГ
-                        int EntryType = lst.First();
-
-                        switch (EntryType)
+                        // восстановление
+                        if (Secondlst == 3) { bindata = PDFUtils.GetApplicationPDFRecover(appId, Server.MapPath("~/Templates/"), false, personId); }
+                        // перевод
+                        else if (Secondlst == 2)
                         {
-                            //бакалавриат
-                            case 1: { bindata = PDFUtils.GetApplicationPDF(appId, Server.MapPath("~/Templates/"), false, personId); break; }
-                            //магистратура
-                            case 2: { bindata = PDFUtils.GetApplicationPDF(appId, Server.MapPath("~/Templates/"), true, personId); break; }
-                            //СПО
-                            case 3: { bindata = PDFUtils.GetApplicationPDF_SPO(appId, Server.MapPath("~/Templates/"), personId); break; }
-                            //Аспирантура
-                            case 4: { bindata = PDFUtils.GetApplicationPDF_Aspirant(appId, Server.MapPath("~/Templates/"), personId); break; }
-                            //Аспирантура
-                            case 5: { bindata = PDFUtils.GetApplicationPDF_Ord(appId, Server.MapPath("~/Templates/"), personId); break; }
-
-                            //case 5: { bindata = PDFUtils.GetApplicationPDFRecover(appId, Server.MapPath("~/Templates/")); break; }
-                            //case 6: { bindata = PDFUtils.GetApplicationPDFChangeStudyForm(appId, Server.MapPath("~/Templates/")); break; }
-                            //case 7: { bindata = PDFUtils.GetApplicationPDFChangeObrazProgram(appId, Server.MapPath("~/Templates/")); break; }
-                            //case 8: { bindata = PDFUtils.GetApplicationPDF_AG(appId, Server.MapPath("~/Templates/")); break; }
-                            //case 9: { bindata = PDFUtils.GetApplicationPDF_SPO(appId, Server.MapPath("~/Templates/")); break; }
-                            //case 10: { bindata = PDFUtils.GetApplicationPDF_Aspirant(appId, Server.MapPath("~/Templates/")); break; }
-                            //case 11: { bindata = PDFUtils.GetApplicationPDF_Aspirant(appId, Server.MapPath("~/Templates/")); break; }
-                            default: { bindata = PDFUtils.GetApplicationPDF(appId, Server.MapPath("~/Templates/"), false, personId); break; }
-                        }
-                        if (Secondlst.HasValue)
-                        {
-                            // восстановление
-                            if (Secondlst == 3) { bindata = PDFUtils.GetApplicationPDFRecover(appId, Server.MapPath("~/Templates/"), false, personId); }
-                            // перевод
-                            else if (Secondlst == 2)
+                            if (CountryEducId.HasValue)
                             {
-                                if (CountryEducId.HasValue)
-                                {
-                                    if (CountryEducId == 193)
-                                        bindata = PDFUtils.GetApplicationPDFTransfer(appId, Server.MapPath("~/Templates/"), false, personId);
-                                    else
-                                        bindata = PDFUtils.GetApplicationPDFTransferForeign(appId, Server.MapPath("~/Templates/"), false, personId);
-                                }
-                                else
+                                if (CountryEducId == 193)
                                     bindata = PDFUtils.GetApplicationPDFTransfer(appId, Server.MapPath("~/Templates/"), false, personId);
+                                else
+                                    bindata = PDFUtils.GetApplicationPDFTransferForeign(appId, Server.MapPath("~/Templates/"), false, personId);
                             }
-                            // смена формы
-                            else if (Secondlst == 4) { bindata = PDFUtils.GetApplicationPDFChangeStudyBasis(appId, Server.MapPath("~/Templates/"), false, personId); }
-                            // смена основы
-                            else if (Secondlst == 5) { bindata = PDFUtils.GetApplicationPDFChangeStudyBasis(appId, Server.MapPath("~/Templates/"), false, personId); }
-                            // смена образовательной программы
-                            else if (Secondlst == 6) { bindata = PDFUtils.GetApplicationPDFChangeObrazProgram(appId, Server.MapPath("~/Templates/"), false, personId); }
+                            else
+                                bindata = PDFUtils.GetApplicationPDFTransfer(appId, Server.MapPath("~/Templates/"), false, personId);
                         }
+                        // смена формы
+                        else if (Secondlst == 4) { bindata = PDFUtils.GetApplicationPDFChangeStudyBasis(appId, Server.MapPath("~/Templates/"), false, personId); }
+                        // смена основы
+                        else if (Secondlst == 5) { bindata = PDFUtils.GetApplicationPDFChangeStudyBasis(appId, Server.MapPath("~/Templates/"), false, personId); }
+                        // смена образовательной программы
+                        else if (Secondlst == 6) { bindata = PDFUtils.GetApplicationPDFChangeObrazProgram(appId, Server.MapPath("~/Templates/"), false, personId); }
                     }
+
                     //ApplicationCommit.IsPrinted
                     var Commt = context.ApplicationCommit.Where(x => x.Id == appId).FirstOrDefault();
                     if (Commt != null)
@@ -1098,7 +1023,7 @@ namespace OnlineAbit2013.Controllers
 
             Guid CommitId = new Guid();
             if (!Guid.TryParse(id, out CommitId))
-                return RedirectToAction("Main", "AbiturientNew");
+                return RedirectToAction("Main", "Abiturient");
 
 
             string query = "SELECT Id, FileName, FileSize, Comment, IsApproved, IsReadOnly FROM ApplicationFile WHERE CommitId=@CommitId AND IsDeleted=0 ";

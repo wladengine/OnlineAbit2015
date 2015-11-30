@@ -158,7 +158,7 @@
                     
                     <%--<ul class="clearfix">
                         <li class="active"><a href="../../Account/RegisterFor">Registration</a></li>
-                        <li><a href="../../AbiturientNew/Main">Enter for registered</a></li>
+                        <li><a href="../../Abiturient/Main">Enter for registered</a></li>
                     </ul>--%>
                 </div>
             </div>

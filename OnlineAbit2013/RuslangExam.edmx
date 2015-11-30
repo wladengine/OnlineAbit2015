@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="RuslangExamModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="RuslangExamModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="RuslangExamModelStoreContainer">
-          <EntitySet Name="Additional" EntityType="RuslangExamModel.Store.Additional" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Level" EntityType="RuslangExamModel.Store.Level" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="LevelName" EntityType="RuslangExamModel.Store.LevelName" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Nationality" EntityType="RuslangExamModel.Store.Nationality" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Passport" EntityType="RuslangExamModel.Store.Passport" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="PassportType" EntityType="RuslangExamModel.Store.PassportType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Person" EntityType="RuslangExamModel.Store.Person" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Sertificate" EntityType="RuslangExamModel.Store.Sertificate" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Sex" EntityType="RuslangExamModel.Store.Sex" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="extPersonSertificate" EntityType="RuslangExamModel.Store.extPersonSertificate" store:Type="Views" store:Schema="dbo" store:Name="extPersonSertificate">
+          <EntitySet Name="Additional" EntityType="RuslangExamModel.Store.Additional" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Level" EntityType="RuslangExamModel.Store.Level" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="LevelName" EntityType="RuslangExamModel.Store.LevelName" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Nationality" EntityType="RuslangExamModel.Store.Nationality" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Passport" EntityType="RuslangExamModel.Store.Passport" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="PassportType" EntityType="RuslangExamModel.Store.PassportType" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Person" EntityType="RuslangExamModel.Store.Person" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Sertificate" EntityType="RuslangExamModel.Store.Sertificate" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Sex" EntityType="RuslangExamModel.Store.Sex" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="extPersonSertificate" EntityType="RuslangExamModel.Store.extPersonSertificate" store:Type="Views" store:Schema="dbo" store:Name="extPersonSertificate" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [extPersonSertificate].[Id] AS [Id], 
       [extPersonSertificate].[FIO] AS [FIO], 
@@ -25,7 +25,7 @@
       [extPersonSertificate].[Name] AS [Name]
       FROM [dbo].[extPersonSertificate] AS [extPersonSertificate]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="PrintViewSertificate" EntityType="RuslangExamModel.Store.PrintViewSertificate" store:Type="Views" store:Schema="dbo" store:Name="PrintViewSertificate">
+          <EntitySet Name="PrintViewSertificate" EntityType="RuslangExamModel.Store.PrintViewSertificate" store:Type="Views" store:Schema="dbo" store:Name="PrintViewSertificate" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [PrintViewSertificate].[PersonId] AS [PersonId], 
       [PrintViewSertificate].[FIO] AS [FIO], 
@@ -283,8 +283,8 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="RuslangExamModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="RuslangExamEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="RuslangExamModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="RuslangExamEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="Additional" EntityType="RuslangExamModel.ruslang_Additional" />
           <EntitySet Name="Nationality" EntityType="RuslangExamModel.ruslang_Nationality" />
           <EntitySet Name="Passport" EntityType="RuslangExamModel.ruslang_Passport" />
@@ -321,7 +321,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="language_id" Type="Int64" />
           <Property Name="FIOEng" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="ParentId" Type="Int64" />
@@ -334,7 +334,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="NameEng" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="Code" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
@@ -348,7 +348,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Seria" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="Number" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="SerNum" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
@@ -368,7 +368,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Passport" Relationship="RuslangExamModel.FKA88822D5D2F12766" FromRole="PassportType" ToRole="Passport" />
         </EntityType>
@@ -376,13 +376,13 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
         </EntityType>
         <EntityType Name="ruslang_Sertificate">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="SertificateNumber" Type="Int64" />
           <Property Name="Timestamp" Type="DateTime" />
           <Property Name="Author" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
@@ -399,7 +399,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="NameEng" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="Obrashenie" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
@@ -459,7 +459,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="LevelName" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LevelNameEng" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Author" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -476,7 +476,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="PublicLevelName" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="PublicLevelNameEng" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="TRKI" />
@@ -540,7 +540,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="RuslangExamModelStoreContainer" CdmEntityContainer="RuslangExamEntities">
           <EntitySetMapping Name="Additional">
             <EntityTypeMapping TypeName="RuslangExamModel.ruslang_Additional">
@@ -702,7 +702,7 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
@@ -742,11 +742,11 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="RuslangExamModel.ruslang_Level" Width="1.5" PointX="3.5" PointY="10.75" Height="3.3263964843749996" />
         <EntityTypeShape EntityType="RuslangExamModel.ruslang_LevelName" Width="1.5" PointX="1.125" PointY="10.75" Height="3.3263964843750031" />
-        <AssociationConnector Association="RuslangExamModel.FK497BA9A228765FEA" >
+        <AssociationConnector Association="RuslangExamModel.FK497BA9A228765FEA">
           <ConnectorPoint PointX="2.625" PointY="12.4131982421875" />
           <ConnectorPoint PointX="3.5" PointY="12.4131982421875" />
         </AssociationConnector>
-        <AssociationConnector Association="RuslangExamModel.FKD6BDFFFA31C8D929" >
+        <AssociationConnector Association="RuslangExamModel.FKD6BDFFFA31C8D929">
           <ConnectorPoint PointX="4.78125" PointY="10.75" />
           <ConnectorPoint PointX="4.78125" PointY="7.5499886067708335" />
           <ConnectorPoint PointX="5.75" PointY="7.5499886067708335" />

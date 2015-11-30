@@ -144,7 +144,7 @@
                     <br /><h1 style=" padding-left:70px;"><a href="../../" style=" text-decoration: none; color:White;"><%= GetGlobalResourceObject("Common", "PersonalOfficeHeaderName") %></a></h1><br />
                     <%--<ul class="clearfix">
                         <li class="active"><a href="../../Account/RegisterFor">Registration</a></li>
-                        <li><a href="../../AbiturientNew/Main">Enter for registered</a></li>
+                        <li><a href="../../Abiturient/Main">Enter for registered</a></li>
                         <li id="quick-links" style="display:none">
                             <a href="#" style="width:120px;">Help<span>&darr;</span></a>
                             <ul style="width:140px;">

@@ -469,6 +469,7 @@ namespace OnlineAbit2013.Models
         public List<AppendedFile> Files { get; set; }
         public List<PersonalMessage> Messages { get; set; }
     }
+    
 
     public class SimpleApplication
     {
@@ -482,7 +483,7 @@ namespace OnlineAbit2013.Models
         public string StudyBasis { get; set; }
         public string StudyLevel { get; set; }
         public bool HasManualExams { get; set; }
-        public string ManualExam { get; set; }
+        public List<string> ManualExam { get; set; }
         public bool Enabled { get; set; }
         public bool IsGosLine { get; set; }
         //public bool NeedHostel { get; set; }
@@ -494,6 +495,10 @@ namespace OnlineAbit2013.Models
         public DateTime? dateofClose { get; set; }
         public Guid? InnerEntryInEntryId { get; set; }
         public List<string> InnerProfiles { get; set; }
+    }
+    public class SimpleApplicationWithExams : SimpleApplication
+    {
+        public List<ExamsBlock> Exams { get; set; }
     }
     public class SimpleApplicationPackage
     {
@@ -538,6 +543,8 @@ namespace OnlineAbit2013.Models
         public int VuzAddType { get; set; }
         public string StudyFormId { get; set; }
 
+        public List<AbitType> AbitTypeList { get; set; }
+
         public List<SelectListItem> StudyBasises { get; set; }
         public string StudyBasisId { get; set; }
 
@@ -555,15 +562,15 @@ namespace OnlineAbit2013.Models
         public List<AppendedFile> Files { get; set; }
     }
 
-    public class ShortFileInfo
+  /*  public class ShortFileInfo
     {
         public string Path { get; set; }
         public string Id { get; set; }
         public string FileName { get; set; }
         public string FileSize { get; set; }
     }
-
-    public class SPO_PersonPrivileges
+    */
+   /* public class SPO_PersonPrivileges
     {
         public string Stag { get; set; }
         public string WorkPlace { get; set; }
@@ -571,7 +578,7 @@ namespace OnlineAbit2013.Models
         public string SportQualificationLevel { get; set; }
         public string SportQualification { get; set; }
         public List<SelectListItem> SportQualificationList { get; set; }
-    }
+    }*/
 
     public enum AbitType
     {
@@ -640,6 +647,8 @@ namespace OnlineAbit2013.Models
         //перспективные
         public bool IsApproved { get; set; }
         public bool NotEnabled { get; set; }
+
+        public bool HasManualExams { get; set; }
 
         public List<SelectListItem> FileType { get; set; }
 
@@ -752,7 +761,8 @@ namespace OnlineAbit2013.Models
         public List<SelectListItem> ManualExamList { get; set; }
     }
 
-    public class SPO_NewApplicationModel
+    
+    /*public class SPO_NewApplicationModel
     {
         public bool CanChooseExitClass { get; set; }
         public string ObrazProgramId { get; set; }
@@ -761,7 +771,7 @@ namespace OnlineAbit2013.Models
         public int EntryClassId { get; set; }
         public List<SelectListItem> Professions { get; set; }
     }
-
+    */
     public class NewApplicationRectorScholarshipModel
     {
         public string Message { get; set; }
@@ -771,6 +781,7 @@ namespace OnlineAbit2013.Models
     public class Mag_ApplicationModel
     {
         public bool Enabled { get; set; } // доступно?
+        public int iEntry { get; set; }
         public bool ProjectJuly { get; set; }
         public int MaxBlocks { get; set; } // макс количество блоков
         public string CommitId { get; set; } // коммит
@@ -784,7 +795,6 @@ namespace OnlineAbit2013.Models
         public List<SelectListItem> FacultyList { get; set; }
         public List<SelectListItem> StudyLevelGroupList { get; set; }
         public List<Mag_ApplicationSipleEntity> Applications { get; set; }
-
         public List<KeyValuePair<int, string>> RequiredFiles { get; set; }
     }
 
@@ -818,8 +828,21 @@ namespace OnlineAbit2013.Models
         public DateTime? DateOfClose { get; set; }
         public string ChangeStudyFormReason { get; set; }
     }
+    public class Mag_ApplicationExams
+    {
+        public List<string> ErrorMsg { get; set; }
+        public string CommitId { get; set; }
+        public List<SimpleApplicationWithExams> Applications { get; set; }
+    }
 
-    public class SPO_ApplicationModel
+    public class ExamsBlock
+    {
+        public Guid Id { get; set; }
+        public string BlockName { get; set; }
+        public Guid SelectedExamInBlockId { get; set; }
+        public List<SelectListItem> ExamInBlockList { get; set; }
+    }
+ /*   public class SPO_ApplicationModel
     {
         public bool Enabled { get; set; } // доступно?
         public int MaxBlocks { get; set; } // макс количество блоков
@@ -834,9 +857,9 @@ namespace OnlineAbit2013.Models
         public List<SPO_ApplicationSipleEntity> Applications { get; set; }
 
         public List<KeyValuePair<int, string>> RequiredFiles { get; set; }
-    }
-
-    public class SPO_ApplicationSipleEntity
+    }*/
+    
+   /* public class SPO_ApplicationSipleEntity
     {
         public Guid Id { get; set; }
         public int StudyFormId { get; set; }
@@ -859,7 +882,7 @@ namespace OnlineAbit2013.Models
         public string FacultyName { get; set; }
         public bool Hostel { get; set; }
     }
-
+*/
     public class Constants
     {
         public int? Surname { get; set; }
@@ -901,15 +924,12 @@ namespace OnlineAbit2013.Models
         public string Mark { get; set; }
     }
 
-    public class RuslangExamModelPerson
+    public class sp_level
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
+        public int GroupId { get; set; }
         public string Name { get; set; }
-    }
-    public class RuslangExamModelPersonList
-    {
-        public bool Enable { get; set; }
-        public string findstring { get; set; }
-        public List<RuslangExamModelPerson> PersonList { get; set; }
+        public int MaxBlocks { get; set; }
+        public AbitType? type { get; set; }
     }
 }

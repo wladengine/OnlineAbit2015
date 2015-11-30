@@ -299,4 +299,7 @@
   <data name="ApplicationMessage2" xml:space="preserve">
     <value>Распечатайте заявление и отнесите его в приемную комиссию, чтобы изменения вступили в силу</value>
   </data>
+  <data name="ApplicationExamenChange" xml:space="preserve">
+    <value>Редактировать экзамены по выбору</value>
+  </data>
 </root>

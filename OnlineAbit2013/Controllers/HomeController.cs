@@ -18,7 +18,7 @@ namespace OnlineAbit2013.Controllers
             if (!Util.CheckAuthCookies(Request.Cookies, out g))
                 return RedirectToAction("LogOn", "Account");
             else
-                return RedirectToAction("Main", "AbiturientNew");
+                return RedirectToAction("Main", "Abiturient");
         }
 
         public ActionResult About()

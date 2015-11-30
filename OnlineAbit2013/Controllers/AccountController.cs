@@ -28,7 +28,7 @@ namespace OnlineAbit2013.Controllers
 
             Guid UserId;
             if (Util.CheckAuthCookies(Request.Cookies, out UserId))
-                return RedirectToAction("Main", "AbiturientNew");
+                return RedirectToAction("Main", "Abiturient");
 
             Util.SetThreadCultureByCookies(Request.Cookies);
             if (Request.Cookies["sid"] == null || string.IsNullOrEmpty(Request.Cookies["sid"].Value))
@@ -140,7 +140,7 @@ namespace OnlineAbit2013.Controllers
                     bool dorms = Usr.IsDormsAccount.HasValue ? Usr.IsDormsAccount.Value : false;
                     if (!dorms)
                     {
-                        return RedirectToAction("Main", "AbiturientNew");
+                        return RedirectToAction("Main", "Abiturient");
                     }
                     else
                     {
@@ -212,7 +212,7 @@ namespace OnlineAbit2013.Controllers
                     if (Usr.IsForeign.HasValue && Usr.IsForeign.Value == true)
                         return RedirectToAction("Index", "ForeignAbiturient");
                     else
-                        return RedirectToAction("Index", "AbiturientNew");
+                        return RedirectToAction("Index", "Abiturient");
                 }
                 else
                 {

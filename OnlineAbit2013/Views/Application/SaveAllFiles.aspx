@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#"  MasterPageFile="~/Views/AbiturientNew/PersonalOffice.Master"  Inherits="System.Web.Mvc.ViewPage<OnlineAbit2013.Models.FileListChecker>" %>
+﻿<%@ Page Title="" Language="C#"  MasterPageFile="~/Views/Abiturient/PersonalOffice.Master"  Inherits="System.Web.Mvc.ViewPage<OnlineAbit2013.Models.FileListChecker>" %>
 
 <asp:Content ID="loginTitle" ContentPlaceHolderID="TitleContent" runat="server">
     <%//= GetGlobalResourceObject("ApplicationInfo", "Title")%>

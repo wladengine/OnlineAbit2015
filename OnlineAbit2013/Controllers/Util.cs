@@ -2124,5 +2124,108 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
 
             return lst;
         }
+
+        public static List<ExamsBlock> GetExamList(Guid AppId)
+        {
+             using (OnlinePriemEntities context = new OnlinePriemEntities())
+             {
+                 var Exams =
+                        (from examblock in context.ExamInEntryBlock
+
+                         join examunit in context.ExamInEntryBlockUnit on examblock.Id equals examunit.ExamInEntryBlockId
+
+                         join exam in context.Exam on examunit.ExamId equals exam.Id
+
+                         join examname in context.ExamName on exam.ExamNameId equals examname.Id
+
+                         join app in context.Application on examblock.EntryId equals app.EntryId into _App
+                         from App in _App.DefaultIfEmpty()
+
+                         where App.Id == AppId
+                         select new
+                         {
+                             BlockId = examblock.Id,
+                             BlockName = examblock.Name,
+                             ExamUnitId = examunit.Id,
+                             ExamName = examname.Name,
+                         }).ToList();
+
+                 var AppExams =
+                     (from app in context.ApplicationSelectedExam
+                      join unit in context.ExamInEntryBlockUnit on app.ExamInEntryBlockUnitId equals unit.Id
+                      where app.ApplicationId == AppId
+                      select new
+                      {
+                          app.ExamInEntryBlockUnitId,
+                          unit.ExamInEntryBlockId,
+                      }).ToList();
+
+                 List<ExamsBlock> examsblock
+                     = (from exams in Exams
+                        group exams by exams.BlockId into ex
+                        select new ExamsBlock
+                        {
+                            Id = ex.Key,
+                            BlockName = ex.Select(x=>x.BlockName).FirstOrDefault(),
+                            ExamInBlockList = 
+                                ex.Select(m => new SelectListItem() { Value = m.ExamUnitId.ToString(), Text = m.ExamName, Selected = AppExams.Select(x=>x.ExamInEntryBlockUnitId).Contains(m.ExamUnitId)}).ToList(),
+                            SelectedExamInBlockId = AppExams.Where(x=>x.ExamInEntryBlockId == ex.Key).Select(x=>x.ExamInEntryBlockUnitId).FirstOrDefault(),
+                        }).ToList();
+
+                 return examsblock;
+            }
+        }
+        public static List<sp_level> GetEnableLevelList(List<int> StudyLevelGroupIdList, Person PersonInfo)
+        {
+            return GetEnableLevelList(StudyLevelGroupIdList, PersonInfo, false);
+        }
+        public static List<sp_level> GetEnableLevelList(List<int> StudyLevelGroupIdList, Person PersonInfo, bool isFor)
+        {
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                var PersonEducationDocument = (from p in PersonInfo.PersonEducationDocument
+                                               join sch in context.SchoolTypeAll on p.SchoolTypeId equals sch.Id
+
+                                               join scls in context.SchoolExitClass on p.SchoolExitClassId equals scls.Id into _scls
+                                               from sclss in _scls.DefaultIfEmpty()
+
+                                               select new { p, sch.OrderNumber, SchoolExitClassId = sclss.OrderNumber }).OrderByDescending(x => x.OrderNumber).FirstOrDefault();
+
+                if (StudyLevelGroupIdList == null)
+                    StudyLevelGroupIdList = new List<int>();
+
+
+                List<sp_level> lst = (from sp in context.SchoolExitClassToStudyLevel
+                                      join sp_l in context.SP_StudyLevel on sp.StudyLeveId equals sp_l.Id
+                                      where
+                                      (sp.MaximumOrderNumberSchoolTypeId >= PersonEducationDocument.OrderNumber)
+                                          && (sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumExitClassId.HasValue ? sp.MaximumExitClassId >= PersonEducationDocument.SchoolExitClassId : true)
+                                          && (sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumQualificationId.HasValue ? sp.MaximumQualificationId >= PersonEducationDocument.p.PersonHighEducationInfo.QualificationId : true)
+                                          && (sp.MinimumOrderNumberSchoolTypeId <= PersonEducationDocument.OrderNumber)
+                                          && (sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumExitClassId.HasValue ? sp.MinimumExitClassId <= PersonEducationDocument.SchoolExitClassId : true)
+                                          && (sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumQualificationId.HasValue ? sp.MinimumQualificationId <= PersonEducationDocument.p.PersonHighEducationInfo.QualificationId : true)
+                                          
+                                          && (StudyLevelGroupIdList.Count()== 0 ? true : StudyLevelGroupIdList.Contains(sp_l.StudyLevelGroupId))
+                                          && isFor == sp.IsForeign
+                                      select new sp_level
+                                       {
+                                           Id = sp_l.Id,
+                                           GroupId = sp_l.StudyLevelGroupId,
+                                           Name = sp_l.Name,
+                                           MaxBlocks = sp.MaxBlocks ?? 1, 
+                                       }).ToList();
+                foreach (var l in lst)
+                    switch (l.GroupId)
+                    {
+                        case 1: { l.type = AbitType.FirstCourseBakSpec; break;}
+                        case 2: { l.type = AbitType.Mag; break; }
+                        case 3: { l.type = AbitType.SPO; break;}
+                        case 4: { l.type = AbitType.Aspirant; break; }
+                        case 5: { l.type = AbitType.Ord; break; }
+                        case 6:case 7: { l.type = AbitType.AG; break; }
+                    }
+                return lst;
+            }
+        }
     }
 }

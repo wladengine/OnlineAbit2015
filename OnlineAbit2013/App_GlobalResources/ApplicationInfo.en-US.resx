@@ -289,4 +289,7 @@
   <data name="ApplicationMessage2" xml:space="preserve">
     <value>Print the application and take it to the admissions office.</value>
   </data>
+  <data name="ApplicationExamenChange" xml:space="preserve">
+    <value>Change application exams</value>
+  </data>
 </root>

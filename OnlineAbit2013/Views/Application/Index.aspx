@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/AbiturientNew/PersonalOffice.Master" Inherits="System.Web.Mvc.ViewPage<OnlineAbit2013.Models.ExtApplicationCommitModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Abiturient/PersonalOffice.Master" Inherits="System.Web.Mvc.ViewPage<OnlineAbit2013.Models.ExtApplicationCommitModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     <%= GetGlobalResourceObject("ApplicationInfo", "Title")%>
@@ -107,7 +107,7 @@
                 for (var i = 0; i < res.Data.length; i++) {
                     if (!HideSomeFiles || !res.Data[i].IsReadOnly) {
                         tbody += '<tr id="' + res.Data[i].Id + '">';
-                        tbody += '<td style="vertical-align:middle; text-align:center;"><a href="../../AbiturientNew/GetFile?id=' + res.Data[i].Id + '" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a></td>';
+                        tbody += '<td style="vertical-align:middle; text-align:center;"><a href="../../Abiturient/GetFile?id=' + res.Data[i].Id + '" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a></td>';
                         tbody += '<td style="vertical-align:middle; text-align:center;">' + res.Data[i].FileName + '</td>';
                         tbody += '<td style="vertical-align:middle; text-align:center;">';
                         if (res.Data[i].FileSize > (2 * 1024 * 1024)) {
@@ -204,15 +204,22 @@
         </td>
         <% if (!(Model.IsPrinted && Model.Enabled)) { %>
         <td>
-            <a href="<%= string.Format("../../AbiturientNew/PriorityChanger?ComId={0}", Model.Id.ToString("N")) %>">
+            <a href="<%= string.Format("../../Abiturient/PriorityChanger?ComId={0}", Model.Id.ToString("N")) %>">
                 <img src="../../Content/themes/base/images/transfer-down-up.png" alt="Изменить приоритеты" />
             </a>
         </td>
         <td>
-            <a href="<%= string.Format("../../AbiturientNew/ChangeApplication?Id={0}", Model.Id.ToString("N")) %>">
+            <a href="<%= string.Format("../../Abiturient/ChangeApplication?Id={0}", Model.Id.ToString("N")) %>">
                 <img src="../../Content/themes/base/images/File_edit064.png" alt="Редактировать заявление" />
             </a>
         </td>
+        <% if (Model.HasManualExams) { %>
+        <td>
+            <a href="<%= string.Format("../../Abiturient/ApplicationExams?ComId={0}", Model.Id.ToString("N")) %>">
+                <img src="../../Content/themes/base/images/File_edit064.png" alt="Редактировать экзамены по выбору" />
+            </a>
+        </td>
+        <% } %> 
         <% } %> 
     </tr>
     <tr>
@@ -222,6 +229,10 @@
            { %>
         <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationPriorityChange")%></td>
         <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationChange")%></td>
+        <% if (Model.HasManualExams) { %>
+
+        <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationExamenChange")%></td>
+        <% } %>
         <% } %>
     </tr>
 
@@ -297,7 +308,11 @@
         {%>
     <tr>
         <td width="30%" align="right"><%= GetGlobalResourceObject("PriorityChangerForeign", "ManualExam").ToString()%></td>
-        <td align="left"><%= Html.Encode(Application.ManualExam) %></td>
+        <td align="left"><%for (int i = 0; i < Application.ManualExam.Count; i++)
+                           { %><%= Html.Encode(Application.ManualExam[i])%>
+        <% if (i < Application.ManualExam.Count - 1)
+           { %>,<%}
+                           } %></td>
     </tr>
     <%  } %>
     <tr>
@@ -333,7 +348,7 @@
     <h4 onclick="HidePortfolio()" style="cursor:pointer;"><%= GetGlobalResourceObject("AddSharedFiles", "LoadedFiles")%></h4>
     <div class="message info">
         <b><%= GetGlobalResourceObject("ApplicationInfo", "FilesWarning1")%></b> 
-        <a href="../../AbiturientNew/AddSharedFiles" style="font-weight:bold"><%= GetGlobalResourceObject("AddSharedFiles", "Header")%></a>
+        <a href="../../Abiturient/AddSharedFiles" style="font-weight:bold"><%= GetGlobalResourceObject("AddSharedFiles", "Header")%></a>
         <br />
         <b><%= GetGlobalResourceObject("ApplicationInfo", "FilesWarning2")%></b>
     </div>

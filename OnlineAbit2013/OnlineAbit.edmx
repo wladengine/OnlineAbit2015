@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="OnlinePriem2012Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="OnlinePriem2012Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="_Entry">
           <Key>
             <PropertyRef Name="Id" />
@@ -181,6 +181,7 @@
           <Property Name="IsPrinted" Type="bit" Nullable="false" />
           <Property Name="IsImported" Type="bit" Nullable="false" />
           <Property Name="DateReviewDocs" Type="datetime" />
+          <Property Name="IsVisible" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationCommitVersion">
           <Key>
@@ -227,6 +228,25 @@
           <Property Name="FailReason" Type="nvarchar(max)" />
           <Property Name="FileTypeId" Type="int" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ApplicationSecondType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="NameEng" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="ApplicationSelectedExam">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+            <PropertyRef Name="ExamInEntryBlockUnitId" />
+          </Key>
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExamInEntryBlockUnitId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationVersion">
           <Key>
@@ -297,6 +317,37 @@
           <Property Name="IsInUniversity" Type="bit" Nullable="false" />
           <Property Name="IsSecondWave" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Exam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ExamNameId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExamInEntryBlock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="ExamInEntryBlockUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExamInEntryBlockId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExamId" Type="int" Nullable="false" />
+          <Property Name="EgeMin" Type="float" />
+        </EntityType>
+        <EntityType Name="ExamName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="InnerEntryInEntry">
           <Key>
             <PropertyRef Name="Id" />
@@ -325,6 +376,7 @@
           <Property Name="OlympNameId" Type="int" Nullable="false" />
           <Property Name="OlympSubjectId" Type="int" Nullable="false" />
           <Property Name="OlympTypeId" Type="int" Nullable="false" />
+          <Property Name="OlympYear" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Olympiads">
           <Key>
@@ -664,6 +716,32 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IntValue" Type="int" Nullable="false" />
+          <Property Name="OrderNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="SchoolExitClassToStudyLevel">
+          <Key>
+            <PropertyRef Name="StudyLeveId" />
+            <PropertyRef Name="IsForeign" />
+          </Key>
+          <Property Name="MaximumOrderNumberSchoolTypeId" Type="int" Nullable="false" />
+          <Property Name="MaximumExitClassId" Type="int" />
+          <Property Name="MaximumQualificationId" Type="int" />
+          <Property Name="MinimumOrderNumberSchoolTypeId" Type="int" Nullable="false" />
+          <Property Name="MinimumExitClassId" Type="int" />
+          <Property Name="MinimumQualificationId" Type="int" />
+          <Property Name="StudyLeveId" Type="int" Nullable="false" />
+          <Property Name="MaxBlocks" Type="int" />
+          <Property Name="IsForeign" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SchoolTypeAll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="150" />
+          <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderNumber" Type="int" />
         </EntityType>
         <EntityType Name="Semester">
           <Key>
@@ -741,6 +819,8 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Acronym" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClassName" Type="nvarchar" MaxLength="5" />
+          <Property Name="Duration" Type="int" />
         </EntityType>
         <EntityType Name="SportQualification">
           <Key>
@@ -814,6 +894,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
             <PropertyRef Name="IsPrinted" />
             <PropertyRef Name="IsForeign" />
             <PropertyRef Name="IsCrimea" />
+            <PropertyRef Name="PersonBarcode" />
             <PropertyRef Name="ObrazProgramCrypt" />
             <PropertyRef Name="ProfileName" />
           </Key>
@@ -876,6 +957,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
           <Property Name="IsPrinted" Type="bit" Nullable="false" />
           <Property Name="IsForeign" Type="bit" Nullable="false" />
           <Property Name="IsCrimea" Type="bit" Nullable="false" />
+          <Property Name="PersonBarcode" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'OnlinePriem2015.dbo.Entry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1241,18 +1323,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLette
             </Principal>
             <Dependent Role="ApplicationDetails">
               <PropertyRef Name="InnerEntryInEntryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ApplicationFile_ApplicationCommit">
-          <End Role="ApplicationCommit" Type="Self.ApplicationCommit" Multiplicity="0..1" />
-          <End Role="ApplicationFile" Type="Self.ApplicationFile" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ApplicationCommit">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ApplicationFile">
-              <PropertyRef Name="CommitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2009,6 +2079,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLette
           <EntitySet Name="ApplicationCommitVersonDetails" EntityType="Self.ApplicationCommitVersonDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationDetails" EntityType="Self.ApplicationDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationFile" EntityType="Self.ApplicationFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationSelectedExam" EntityType="Self.ApplicationSelectedExam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationVersion" EntityType="Self.ApplicationVersion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationVersionDetails" EntityType="Self.ApplicationVersionDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comission" EntityType="Self.Comission" Schema="dbo" store:Type="Tables" />
@@ -2016,6 +2087,10 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLette
           <EntitySet Name="EgeCertificate" EntityType="Self.EgeCertificate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EgeExam" EntityType="Self.EgeExam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EgeMark" EntityType="Self.EgeMark" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Exam" EntityType="Self.Exam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamInEntryBlock" EntityType="Self.ExamInEntryBlock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamInEntryBlockUnit" EntityType="Self.ExamInEntryBlockUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamName" EntityType="Self.ExamName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InnerEntryInEntry" EntityType="Self.InnerEntryInEntry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OlympBook" EntityType="Self.OlympBook" Schema="dbo" store:Type="Tables" />
@@ -2046,6 +2121,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLette
           <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReturnDocumentType" EntityType="Self.ReturnDocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SchoolExitClass" EntityType="Self.SchoolExitClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SchoolExitClassToStudyLevel" EntityType="Self.SchoolExitClassToStudyLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SchoolTypeAll" EntityType="Self.SchoolTypeAll" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SP_Faculty" EntityType="Self.SP_Faculty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SP_LicenseProgram" EntityType="Self.SP_LicenseProgram" Schema="dbo" store:Type="Tables" />
@@ -2055,6 +2132,13 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLette
           <EntitySet Name="SportQualification" EntityType="Self.SportQualification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VuzAdditionalType" EntityType="Self.VuzAdditionalType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationSecondType" EntityType="Self.ApplicationSecondType" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[ApplicationSecondType].[Id] AS [Id], 
+[ApplicationSecondType].[Name] AS [Name], 
+[ApplicationSecondType].[NameEng] AS [NameEng]
+FROM [dbo].[ApplicationSecondType] AS [ApplicationSecondType]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Abiturient" EntityType="Self.Abiturient" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [Abiturient].[Id] AS [Id], 
@@ -2115,7 +2199,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLette
 [Abiturient].[IsCommonRussianCompetition] AS [IsCommonRussianCompetition], 
 [Abiturient].[IsPrinted] AS [IsPrinted], 
 [Abiturient].[IsForeign] AS [IsForeign], 
-[Abiturient].[IsCrimea] AS [IsCrimea]
+[Abiturient].[IsCrimea] AS [IsCrimea], 
+[Abiturient].[PersonBarcode] AS [PersonBarcode]
 FROM [dbo].[Abiturient] AS [Abiturient]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Entry" EntityType="Self.Entry" store:Type="Views" store:Schema="dbo">
@@ -2284,10 +2369,6 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <AssociationSet Name="FK_ApplicationDetails_ObrazProgramInEntry" Association="Self.FK_ApplicationDetails_ObrazProgramInEntry">
             <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
             <End Role="ApplicationDetails" EntitySet="ApplicationDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ApplicationFile_ApplicationCommit" Association="Self.FK_ApplicationFile_ApplicationCommit">
-            <End Role="ApplicationCommit" EntitySet="ApplicationCommit" />
-            <End Role="ApplicationFile" EntitySet="ApplicationFile" />
           </AssociationSet>
           <AssociationSet Name="FK_Country_Region" Association="Self.FK_Country_Region">
             <End Role="Region" EntitySet="Region" />
@@ -2513,8 +2594,8 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="OnlinePriem2012Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="OnlinePriemEntities" annotation:LazyLoadingEnabled="true" >
+      <Schema Namespace="OnlinePriem2012Model" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="OnlinePriemEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="PassportType" EntityType="OnlinePriem2012Model.PassportType" />
           <EntitySet Name="PersonAddInfo" EntityType="OnlinePriem2012Model.PersonAddInfo" />
           <EntitySet Name="PersonCurrentEducation" EntityType="OnlinePriem2012Model.PersonCurrentEducation" />
@@ -2958,6 +3039,14 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             <End Role="SP_Profile" EntitySet="SP_Profile" />
             <End Role="C_Entry" EntitySet="C_Entry" />
           </AssociationSet>
+          <EntitySet Name="ApplicationSelectedExam" EntityType="OnlinePriem2012Model.ApplicationSelectedExam" />
+          <EntitySet Name="Exam" EntityType="OnlinePriem2012Model.Exam" />
+          <EntitySet Name="ExamInEntryBlock" EntityType="OnlinePriem2012Model.ExamInEntryBlock" />
+          <EntitySet Name="ExamInEntryBlockUnit" EntityType="OnlinePriem2012Model.ExamInEntryBlockUnit" />
+          <EntitySet Name="ExamName" EntityType="OnlinePriem2012Model.ExamName" />
+          <EntitySet Name="ApplicationSecondType" EntityType="OnlinePriem2012Model.ApplicationSecondType" />
+          <EntitySet Name="SchoolTypeAll" EntityType="OnlinePriem2012Model.SchoolTypeAll" />
+          <EntitySet Name="SchoolExitClassToStudyLevel" EntityType="OnlinePriem2012Model.SchoolExitClassToStudyLevel" />
           </EntityContainer>
         <EntityType Name="PassportType">
           <Key>
@@ -3096,7 +3185,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="PersonId" Nullable="false" />
           <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Boolean" Name="Enabled" Nullable="false" />
           <Property Type="Int32" Name="EntryType" Nullable="false" />
           <Property Type="Boolean" Name="HostelEduc" Nullable="false" />
@@ -3147,6 +3236,8 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <NavigationProperty Name="PersonCurrentEducation" Relationship="OnlinePriem2012Model.FK_PersonCurrentEducation_SP_StudyLevel" FromRole="SP_StudyLevel" ToRole="PersonCurrentEducation" />
           <NavigationProperty Name="SP_LicenseProgram" Relationship="OnlinePriem2012Model.FK_SP_LicenseProgram_SP_StudyLevel" FromRole="SP_StudyLevel" ToRole="SP_LicenseProgram" />
           <NavigationProperty Name="C_Entry" Relationship="OnlinePriem2012Model.FK__Entry_SP_StudyLevel" FromRole="SP_StudyLevel" ToRole="C_Entry" />
+          <Property Name="ClassName" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Duration" Type="Int32" />
         </EntityType>
         <EntityType Name="PersonDisorderInfo">
           <Key>
@@ -3227,7 +3318,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="NameEng" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="RegionId" Nullable="false" />
@@ -3282,7 +3373,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="UserId" Nullable="false" />
-          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Surname" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Name" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SecondName" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -3497,11 +3588,12 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PersonSchoolInfo" Relationship="OnlinePriem2012Model.FK_PersonSchoolInfo_SchoolExitClass" FromRole="SchoolExitClass" ToRole="PersonSchoolInfo" />
           <Property Type="Int32" Name="IntValue" Nullable="false" />
           <NavigationProperty Name="PersonEducationDocument" Relationship="OnlinePriem2012Model.FK_PersonEducationDocument_SchoolExitClass" FromRole="SchoolExitClass" ToRole="PersonEducationDocument" />
+          <Property Name="OrderNumber" Type="Int32" />
         </EntityType>
         <Association Name="FK_PersonSchoolInfo_Person">
           <End Type="OnlinePriem2012Model.Person" Role="Person" Multiplicity="1" />
@@ -3721,6 +3813,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <NavigationProperty Name="OlympName" Relationship="OnlinePriem2012Model.FK_OlympBook_OlympName" FromRole="OlympBook" ToRole="OlympName" />
           <NavigationProperty Name="OlympSubject" Relationship="OnlinePriem2012Model.FK_OlympBook_OlympSubject" FromRole="OlympBook" ToRole="OlympSubject" />
           <NavigationProperty Name="OlympType" Relationship="OnlinePriem2012Model.FK_OlympBook_OlympType" FromRole="OlympBook" ToRole="OlympType" />
+          <Property Name="OlympYear" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Olympiads">
           <Key>
@@ -3745,7 +3838,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Number" />
           <NavigationProperty Name="OlympBook" Relationship="OnlinePriem2012Model.FK_OlympBook_OlympName" FromRole="OlympName" ToRole="OlympBook" />
@@ -3757,7 +3850,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OlympBook" Relationship="OnlinePriem2012Model.FK_OlympBook_OlympSubject" FromRole="OlympSubject" ToRole="OlympBook" />
           <NavigationProperty Name="Olympiads" Relationship="OnlinePriem2012Model.FK_Olympiads_OlympSubject" FromRole="OlympSubject" ToRole="Olympiads" />
@@ -3906,7 +3999,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="PersonId" Nullable="false" />
           <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Boolean" Name="Enabled" Nullable="false" />
           <Property Type="Boolean" Name="HostelEduc" Nullable="false" />
           <Property Type="DateTime" Name="DateOfDisable" Precision="3" />
@@ -3968,7 +4061,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AG_Application" Relationship="OnlinePriem2012Model.FK_AG_Application_AG_ManualExam" FromRole="AG_ManualExam" ToRole="AG_Application" />
           <NavigationProperty Name="AG_ManualExamInAG_Entry" Relationship="OnlinePriem2012Model.FK_AG_ManualExamInAG_Entry_AG_ManualExam" FromRole="AG_ManualExam" ToRole="AG_ManualExamInAG_Entry" />
@@ -4149,7 +4242,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="IntNumber" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IntNumber" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Boolean" Name="IsPrinted" Nullable="false" />
           <Property Type="Boolean" Name="IsImported" Nullable="false" />
           <Property Type="DateTime" Name="DateReviewDocs" Precision="3" />
@@ -4157,12 +4250,13 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <NavigationProperty Name="ApplicationCommitVersion" Relationship="OnlinePriem2012Model.FK_ApplicationCommitVersion_ApplicationCommit" FromRole="ApplicationCommit" ToRole="ApplicationCommitVersion" />
           <NavigationProperty Name="ApplicationFile" Relationship="OnlinePriem2012Model.FK_ApplicationFile_ApplicationCommit" FromRole="ApplicationCommit" ToRole="ApplicationFile" />
           <NavigationProperty Name="PersonChangeStudyFormReason" Relationship="OnlinePriem2012Model.FK_PersonChangeStudyFormReason_ApplicationCommit" FromRole="ApplicationCommit" ToRole="PersonChangeStudyFormReason" />
+          <Property Name="IsVisible" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationCommitVersion">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Guid" Name="CommitId" Nullable="false" />
           <Property Type="DateTime" Name="VersionDate" Precision="3" Nullable="false" />
           <NavigationProperty Name="ApplicationCommit" Relationship="OnlinePriem2012Model.FK_ApplicationCommitVersion_ApplicationCommit" FromRole="ApplicationCommitVersion" ToRole="ApplicationCommit" />
@@ -4171,7 +4265,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="ApplicationCommitVersionId" Nullable="false" />
           <Property Type="Guid" Name="ApplicationId" Nullable="false" />
           <Property Type="Int32" Name="Priority" Nullable="false" />
@@ -4272,7 +4366,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="IntNumber" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IntNumber" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Guid" Name="ApplicationId" Nullable="false" />
           <Property Type="DateTime" Name="VersionDate" Nullable="false" Precision="3" />
           <NavigationProperty Name="ApplicationVersionDetails" Relationship="OnlinePriem2012Model.FK_ApplicationVersionDetails_ApplicationVersion" FromRole="ApplicationVersion" ToRole="ApplicationVersionDetails" />
@@ -4281,7 +4375,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Guid" Name="ApplicationVersionId" Nullable="false" />
           <NavigationProperty Name="ApplicationVersion" Relationship="OnlinePriem2012Model.FK_ApplicationVersionDetails_ApplicationVersion" FromRole="ApplicationVersionDetails" ToRole="ApplicationVersion" />
           <Property Type="Guid" Name="InnerEntryInEntryId" Nullable="false" />
@@ -4580,6 +4674,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             <PropertyRef Name="IsPrinted" />
             <PropertyRef Name="IsForeign" />
             <PropertyRef Name="IsCrimea" />
+            <PropertyRef Name="PersonBarcode" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="PersonId" Nullable="false" />
@@ -4640,6 +4735,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Type="Boolean" Name="IsPrinted" Nullable="false" />
           <Property Type="Boolean" Name="IsForeign" Nullable="false" />
           <Property Name="IsCrimea" Type="Boolean" Nullable="false" />
+          <Property Name="PersonBarcode" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="extApplicationDetails">
           <Key>
@@ -4700,7 +4796,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Guid" Name="PersonId" Nullable="false" />
           <Property Type="Int32" Name="PassportTypeId" Nullable="false" />
           <Property Type="String" Name="PassportSeries" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -5129,12 +5225,85 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ApplicationSelectedExam">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+            <PropertyRef Name="ExamInEntryBlockUnitId" />
+          </Key>
+          <Property Name="ApplicationId" Type="Guid" Nullable="false" />
+          <Property Name="ExamInEntryBlockUnitId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Exam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ExamNameId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExamInEntryBlock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="EntryId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ExamInEntryBlockUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ExamInEntryBlockId" Type="Guid" Nullable="false" />
+          <Property Name="ExamId" Type="Int32" Nullable="false" />
+          <Property Name="EgeMin" Type="Double" />
+        </EntityType>
+        <EntityType Name="ExamName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ApplicationSecondType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="NameEng" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SchoolTypeAll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="NameEng" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderNumber" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SchoolExitClassToStudyLevel">
+          <Key>
+            <PropertyRef Name="StudyLeveId" />
+            <PropertyRef Name="IsForeign" />
+          </Key>
+          <Property Name="MaximumOrderNumberSchoolTypeId" Type="Int32" Nullable="false" />
+          <Property Name="MaximumExitClassId" Type="Int32" />
+          <Property Name="MaximumQualificationId" Type="Int32" />
+          <Property Name="MinimumOrderNumberSchoolTypeId" Type="Int32" Nullable="false" />
+          <Property Name="MinimumExitClassId" Type="Int32" />
+          <Property Name="MinimumQualificationId" Type="Int32" />
+          <Property Name="StudyLeveId" Type="Int32" Nullable="false" />
+          <Property Name="MaxBlocks" Type="Int32" />
+          <Property Name="IsForeign" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="OnlinePriem2012ModelStoreContainer" CdmEntityContainer="OnlinePriemEntities" >
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OnlinePriem2012ModelStoreContainer" CdmEntityContainer="OnlinePriemEntities">
           <EntitySetMapping Name="PassportType">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.PassportType">
               <MappingFragment StoreEntitySet="PassportType">
@@ -5294,6 +5463,8 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySetMapping Name="SP_StudyLevel">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.SP_StudyLevel">
               <MappingFragment StoreEntitySet="SP_StudyLevel">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
                 <ScalarProperty Name="NameEng" ColumnName="NameEng" />
                 <ScalarProperty Name="Acronym" ColumnName="Acronym" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -5451,6 +5622,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySetMapping Name="SchoolExitClass">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.SchoolExitClass">
               <MappingFragment StoreEntitySet="SchoolExitClass">
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
                 <ScalarProperty Name="IntValue" ColumnName="IntValue" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -5530,6 +5702,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySetMapping Name="OlympBook">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.OlympBook">
               <MappingFragment StoreEntitySet="OlympBook">
+                <ScalarProperty Name="OlympYear" ColumnName="OlympYear" />
                 <ScalarProperty Name="OlympTypeId" ColumnName="OlympTypeId" />
                 <ScalarProperty Name="OlympSubjectId" ColumnName="OlympSubjectId" />
                 <ScalarProperty Name="OlympNameId" ColumnName="OlympNameId" />
@@ -5768,6 +5941,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySetMapping Name="ApplicationCommit">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.ApplicationCommit">
               <MappingFragment StoreEntitySet="ApplicationCommit">
+                <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
                 <ScalarProperty Name="DateReviewDocs" ColumnName="DateReviewDocs" />
                 <ScalarProperty Name="IsImported" ColumnName="IsImported" />
                 <ScalarProperty Name="IsPrinted" ColumnName="IsPrinted" />
@@ -5889,6 +6063,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySetMapping Name="Abiturient">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.Abiturient">
               <MappingFragment StoreEntitySet="Abiturient">
+                <ScalarProperty Name="PersonBarcode" ColumnName="PersonBarcode" />
                 <ScalarProperty Name="IsCrimea" ColumnName="IsCrimea" />
                 <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
                 <ScalarProperty Name="IsPrinted" ColumnName="IsPrinted" />
@@ -6137,826 +6312,912 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationSelectedExam">
+            <EntityTypeMapping TypeName="OnlinePriem2012Model.ApplicationSelectedExam">
+              <MappingFragment StoreEntitySet="ApplicationSelectedExam">
+                <ScalarProperty Name="ExamInEntryBlockUnitId" ColumnName="ExamInEntryBlockUnitId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Exam">
+            <EntityTypeMapping TypeName="OnlinePriem2012Model.Exam">
+              <MappingFragment StoreEntitySet="Exam">
+                <ScalarProperty Name="ExamNameId" ColumnName="ExamNameId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExamInEntryBlock">
+            <EntityTypeMapping TypeName="OnlinePriem2012Model.ExamInEntryBlock">
+              <MappingFragment StoreEntitySet="ExamInEntryBlock">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExamInEntryBlockUnit">
+            <EntityTypeMapping TypeName="OnlinePriem2012Model.ExamInEntryBlockUnit">
+              <MappingFragment StoreEntitySet="ExamInEntryBlockUnit">
+                <ScalarProperty Name="EgeMin" ColumnName="EgeMin" />
+                <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+                <ScalarProperty Name="ExamInEntryBlockId" ColumnName="ExamInEntryBlockId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExamName">
+            <EntityTypeMapping TypeName="OnlinePriem2012Model.ExamName">
+              <MappingFragment StoreEntitySet="ExamName">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationSecondType">
+            <EntityTypeMapping TypeName="OnlinePriem2012Model.ApplicationSecondType">
+              <MappingFragment StoreEntitySet="ApplicationSecondType">
+                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SchoolTypeAll">
+            <EntityTypeMapping TypeName="OnlinePriem2012Model.SchoolTypeAll">
+              <MappingFragment StoreEntitySet="SchoolTypeAll">
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SchoolExitClassToStudyLevel">
+            <EntityTypeMapping TypeName="OnlinePriem2012Model.SchoolExitClassToStudyLevel">
+              <MappingFragment StoreEntitySet="SchoolExitClassToStudyLevel">
+                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
+                <ScalarProperty Name="MaxBlocks" ColumnName="MaxBlocks" />
+                <ScalarProperty Name="StudyLeveId" ColumnName="StudyLeveId" />
+                <ScalarProperty Name="MinimumQualificationId" ColumnName="MinimumQualificationId" />
+                <ScalarProperty Name="MinimumExitClassId" ColumnName="MinimumExitClassId" />
+                <ScalarProperty Name="MinimumOrderNumberSchoolTypeId" ColumnName="MinimumOrderNumberSchoolTypeId" />
+                <ScalarProperty Name="MaximumQualificationId" ColumnName="MaximumQualificationId" />
+                <ScalarProperty Name="MaximumExitClassId" ColumnName="MaximumExitClassId" />
+                <ScalarProperty Name="MaximumOrderNumberSchoolTypeId" ColumnName="MaximumOrderNumberSchoolTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
-    <Connection>
-      <DesignerInfoPropertySet>
-        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
-      </DesignerInfoPropertySet>
-    </Connection>
-    <Options>
-      <DesignerInfoPropertySet>
-        <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
-        <DesignerProperty Name="UseLegacyProvider" Value="True" />
-      </DesignerInfoPropertySet>
-    </Options>
+  <edmx:Designer>
+    <edmx:Connection>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <edmx:DesignerProperty Name="EnablePluralization" Value="False" />
+        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <edmx:DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams>
-      <Diagram Name="OnlineAbit" ZoomLevel="22" >
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PassportType" Width="1.5" PointX="6" PointY="45" Height="1.7566536458333317" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonAddInfo" Width="1.5" PointX="16.5" PointY="37" Height="2.2496956380208317" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonCurrentEducation" Width="1.5" PointX="13.5" PointY="39.125" Height="3.0714322916666674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonScienceWork" Width="1.5" PointX="10.5" PointY="88.25" Height="1.5923063151041674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonWork" Width="1.5" PointX="10.5" PointY="91" Height="1.9210009765624996" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Region" Width="1.5" PointX="0.75" PointY="36.5" Height="2.2496956380208317" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.User" Width="1.5" PointX="6" PointY="48" Height="2.7427376302083317" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AbiturientType" Width="1.5" PointX="6" PointY="35.375" Height="1.2636116536458317" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Application" Width="1.5" PointX="10.5" PointY="46.75" Height="3.5644742838541674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Semester" Width="1.5" PointX="11.25" PointY="54.875" Height="1.5923063151041674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_StudyLevel" Width="1.5" PointX="9" PointY="27.75" Height="1.4279589843750031" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonDisorderInfo" Width="1.5" PointX="10.5" PointY="94.125" Height="1.5923063151041674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonChangeStudyFormReason" Width="1.5" PointX="18.75" PointY="45" Height="1.4279589843749996" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonContacts" Width="1.5" PointX="5.25" PointY="38.625" Height="4.3862109375000031" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonContacts_Region" >
-          <ConnectorPoint PointX="2.25" PointY="27.189392903645835" />
-          <ConnectorPoint PointX="2.4479166666666665" PointY="27.189392903645835" />
-          <ConnectorPoint PointX="2.6145833333333335" PointY="27.189392903645835" />
-          <ConnectorPoint PointX="3.0416661666666664" PointY="27.189392903645835" />
-          <ConnectorPoint PointX="3.2083328333333334" PointY="27.189392903645835" />
-          <ConnectorPoint PointX="3.625" PointY="27.189392903645835" />
-          <ConnectorPoint PointX="3.625" PointY="27.875" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonHighEducationInfo" Width="1.5" PointX="15.75" PointY="33.375" Height="2.2496956380208388" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Country" Width="1.5" PointX="3" PointY="42.125" Height="2.2496956380208317" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonContacts_Country" >
-          <ConnectorPoint PointX="7.5" PointY="11.78904296875" />
-          <ConnectorPoint PointX="7.875" PointY="12.16404296875" />
-          <ConnectorPoint PointX="7.875" PointY="20.44310546875" />
-          <ConnectorPoint PointX="8.25" PointY="20.44310546875" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonVisaInfo" Width="1.5" PointX="10.5" PointY="43" Height="1.7566536458333388" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Language" Width="1.5" PointX="14.25" PointY="26.375" Height="1.427958984374996" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Person" Width="1.5" PointX="8.25" PointY="39.125" Height="6.1940315755208246" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Application_Person" >
-          <ConnectorPoint PointX="6.1493740000000034" PointY="58.681946614583332" />
-          <ConnectorPoint PointX="6.1493740000000034" PointY="59.5" />
-          <ConnectorPoint PointX="6.916666666666667" PointY="59.5" />
-          <ConnectorPoint PointX="7.239583333333333" PointY="59.5" />
-          <ConnectorPoint PointX="7.25" PointY="59.5" />
-          <ConnectorPoint PointX="7.25" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="7.322916666666667" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="7.520833333333333" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="7.5572891666666671" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="7.7239558333333331" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="7.760416666666667" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="7.927083333333333" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="7.9635441666666678" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="8.1302108333333347" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="9.5260441666666669" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="9.6927108333333347" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="9.9166666666666661" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="10.083333333333334" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="12.494791666666666" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="12.661458333333334" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="13" PointY="61.17258789062501" />
-          <ConnectorPoint PointX="13" PointY="59.007973620542828" />
-          <ConnectorPoint PointX="13.104166666666666" PointY="59.007973620542828" />
-          <ConnectorPoint PointX="13.333333333333334" PointY="59.007973620542828" />
-          <ConnectorPoint PointX="13.5" PointY="59.007973620542828" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Person_ForeignCountry" >
-          <ConnectorPoint PointX="7.0001263761901855" PointY="11.78904296875" />
-          <ConnectorPoint PointX="7.0001263761901855" PointY="17.606076558517536" />
-          <ConnectorPoint PointX="7.041666666666667" PointY="17.606076558517536" />
-          <ConnectorPoint PointX="7.3335910857137039" PointY="17.606076558517536" />
-          <ConnectorPoint PointX="7.791666666666667" PointY="17.606076558517536" />
-          <ConnectorPoint PointX="7.958333333333333" PointY="17.606076558517536" />
-          <ConnectorPoint PointX="11.25" PointY="17.606076558517536" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Person_PassportType" >
-          <ConnectorPoint PointX="5.25" PointY="26.052643229166669" />
-          <ConnectorPoint PointX="5.416666666666667" PointY="26.052643229166669" />
-          <ConnectorPoint PointX="5.583333333333333" PointY="26.052643229166669" />
-          <ConnectorPoint PointX="5.604166666666667" PointY="26.052643229166669" />
-          <ConnectorPoint PointX="5.833333333333333" PointY="26.052643229166669" />
-          <ConnectorPoint PointX="6" PointY="26.052643229166669" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Person_User" >
-          <ConnectorPoint PointX="2.25" PointY="23.916473795572919" />
-          <ConnectorPoint PointX="4.697916666666667" PointY="23.916473795572919" />
-          <ConnectorPoint PointX="4.864583333333333" PointY="23.916473795572919" />
-          <ConnectorPoint PointX="10.75" PointY="23.916473795572919" />
-          <ConnectorPoint PointX="10.75" PointY="22.625" />
-          <ConnectorPoint PointX="10.791666666666666" PointY="22.625" />
-          <ConnectorPoint PointX="11.270833333333334" PointY="22.625" />
-          <ConnectorPoint PointX="12" PointY="22.625" />
-          <ConnectorPoint PointX="12" PointY="21.469462890625003" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonAddInfo_Person" >
-          <ConnectorPoint PointX="12" PointY="14.125" />
-          <ConnectorPoint PointX="12" PointY="13.624847819010416" />
-          <ConnectorPoint PointX="8.5520833333333339" PointY="13.624847819010416" />
-          <ConnectorPoint PointX="8.3854166666666661" PointY="13.624847819010416" />
-          <ConnectorPoint PointX="7.958333333333333" PointY="13.624847819010416" />
-          <ConnectorPoint PointX="7.791666666666667" PointY="13.624847819010416" />
-          <ConnectorPoint PointX="7.3335910857137039" PointY="13.624847819010416" />
-          <ConnectorPoint PointX="7.1669244190470378" PointY="13.624847819010416" />
-          <ConnectorPoint PointX="7.0834597095235186" PointY="13.624847819010416" />
-          <ConnectorPoint PointX="6.9167930428568525" PointY="13.624847819010416" />
-          <ConnectorPoint PointX="6.75" PointY="13.624847819010416" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonChangeStudyFormReason_Person" >
-          <ConnectorPoint PointX="6.4271870000000053" PointY="58.681946614583332" />
-          <ConnectorPoint PointX="6.4271870000000053" PointY="58.947571614583325" />
-          <ConnectorPoint PointX="6.8872916666666688" PointY="58.947571614583325" />
-          <ConnectorPoint PointX="7.239583333333333" PointY="58.947571614583325" />
-          <ConnectorPoint PointX="7.25" PointY="58.947571614583325" />
-          <ConnectorPoint PointX="7.25" PointY="56.5" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="56.5" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="56.5" />
-          <ConnectorPoint PointX="9.5260441666666669" PointY="56.5" />
-          <ConnectorPoint PointX="9.6927108333333347" PointY="56.5" />
-          <ConnectorPoint PointX="9.9166666666666661" PointY="56.5" />
-          <ConnectorPoint PointX="10.083333333333334" PointY="56.5" />
-          <ConnectorPoint PointX="10.25" PointY="56.5" />
-          <ConnectorPoint PointX="10.25" PointY="55.25" />
-          <ConnectorPoint PointX="12.494791666666666" PointY="55.25" />
-          <ConnectorPoint PointX="12.661458333333334" PointY="55.25" />
-          <ConnectorPoint PointX="13.104166666666666" PointY="55.25" />
-          <ConnectorPoint PointX="13.333333333333334" PointY="55.25" />
-          <ConnectorPoint PointX="15.375" PointY="55.25" />
-          <ConnectorPoint PointX="15.375" PointY="55.622470330729165" />
-          <ConnectorPoint PointX="15.416666666666666" PointY="55.622470330729165" />
-          <ConnectorPoint PointX="15.583333333333334" PointY="55.622470330729165" />
-          <ConnectorPoint PointX="15.75" PointY="55.622470330729165" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonContacts_Person" >
-          <ConnectorPoint PointX="11.25" PointY="20.161341010554416" />
-          <ConnectorPoint PointX="9.75" PointY="20.161341010554416" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_Person" >
-          <ConnectorPoint PointX="6.75" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="7.979166666666667" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="8.1458333333333339" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="8.4664721979166657" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="8.6331388645833336" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="9.1510416666666661" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="9.3177083333333339" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="10.041666666666666" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="48.970856119791662" />
-          <ConnectorPoint PointX="10.5" PointY="48.970856119791662" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonDisorderInfo_Person" >
-          <ConnectorPoint PointX="6.7050000000000063" PointY="58.681946614583332" />
-          <ConnectorPoint PointX="7.0816994349011217" PointY="59.058646049484445" />
-          <ConnectorPoint PointX="7.2464255650988791" PointY="59.223372179682208" />
-          <ConnectorPoint PointX="7.3125" PointY="59.289446614583326" />
-          <ConnectorPoint PointX="7.3125" PointY="97.115143229166677" />
-          <ConnectorPoint PointX="7.5" PointY="97.115143229166677" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonVisaInfo_Person" >
-          <ConnectorPoint PointX="6.75" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="7.104166666666667" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="7.270833333333333" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="9.5260441666666669" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="9.6927108333333347" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="9.9166666666666661" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="10.083333333333334" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="10.104166666666666" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="56.581451822916662" />
-          <ConnectorPoint PointX="10.5" PointY="56.581451822916662" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_Semester" >
-          <ConnectorPoint PointX="9.40625" PointY="62.125" />
-          <ConnectorPoint PointX="9.40625" PointY="46.06856952473958" />
-          <ConnectorPoint PointX="9.7916666666666661" PointY="46.06856952473958" />
-          <ConnectorPoint PointX="9.9583333333333339" PointY="46.06856952473958" />
-          <ConnectorPoint PointX="10.041666666666666" PointY="46.06856952473958" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="46.06856952473958" />
-          <ConnectorPoint PointX="10.5" PointY="46.06856952473958" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Qualification" Width="1.5" PointX="13.5" PointY="32.75" Height="1.5923063151041674" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonHighEducationInfo_Qualification" >
-          <ConnectorPoint PointX="12.40625" PointY="42.605286458333332" />
-          <ConnectorPoint PointX="12.40625" PointY="54.86729003906251" />
-          <ConnectorPoint PointX="12.494791666666666" PointY="54.86729003906251" />
-          <ConnectorPoint PointX="12.661458333333334" PointY="54.86729003906251" />
-          <ConnectorPoint PointX="13.104166666666666" PointY="54.86729003906251" />
-          <ConnectorPoint PointX="13.333333333333334" PointY="54.86729003906251" />
-          <ConnectorPoint PointX="13.5" PointY="54.86729003906251" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonSchoolInfo" Width="1.5" PointX="16.5" PointY="47" Height="2.0853483072916674" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SchoolExitClass" Width="1.5" PointX="8.25" PointY="32.125" Height="1.427958984374996" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonSchoolInfo_Person" >
-          <ConnectorPoint PointX="6.75" PointY="52.845876464843748" />
-          <ConnectorPoint PointX="7.25" PointY="52.845876464843748" />
-          <ConnectorPoint PointX="7.25" PointY="51.875" />
-          <ConnectorPoint PointX="7.979166666666667" PointY="51.875" />
-          <ConnectorPoint PointX="8.1458333333333339" PointY="51.875" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="51.875" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="51.875" />
-          <ConnectorPoint PointX="9.5260441666666669" PointY="51.875" />
-          <ConnectorPoint PointX="9.6927108333333347" PointY="51.875" />
-          <ConnectorPoint PointX="9.9166666666666661" PointY="51.875" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="51.875" />
-          <ConnectorPoint PointX="11.25" PointY="51.875" />
-          <ConnectorPoint PointX="11.25" PointY="52.5" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonSchoolInfo_SchoolExitClass" >
-          <ConnectorPoint PointX="7.5" PointY="41.229131612179494" />
-          <ConnectorPoint PointX="7.8761548461538453" PointY="41.605286458333339" />
-          <ConnectorPoint PointX="7.979166666666667" PointY="41.605286458333339" />
-          <ConnectorPoint PointX="8.1458333333333339" PointY="41.605286458333339" />
-          <ConnectorPoint PointX="8.4664721979166657" PointY="41.605286458333339" />
-          <ConnectorPoint PointX="8.6331388645833336" PointY="41.605286458333339" />
-          <ConnectorPoint PointX="8.9259469322916658" PointY="41.605286458333339" />
-          <ConnectorPoint PointX="9.0926135989583337" PointY="41.605286458333339" />
-          <ConnectorPoint PointX="9.1510416666666661" PointY="41.605286458333339" />
-          <ConnectorPoint PointX="9.3177083333333339" PointY="41.605286458333339" />
-          <ConnectorPoint PointX="10.125" PointY="41.605286458333339" />
-          <ConnectorPoint PointX="10.125" PointY="52.125" />
-          <ConnectorPoint PointX="10.128574434901122" PointY="52.128574434901118" />
-          <ConnectorPoint PointX="10.246425565098878" PointY="52.246425565098882" />
-          <ConnectorPoint PointX="10.5" PointY="52.5" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonWork_Person" >
-          <ConnectorPoint PointX="6.7338461538461631" PointY="58.681946614583332" />
-          <ConnectorPoint PointX="7.0973244349011217" PointY="59.045424895638284" />
-          <ConnectorPoint PointX="7.2464255650988791" PointY="59.194526025836048" />
-          <ConnectorPoint PointX="7.40625" PointY="59.354350460737166" />
-          <ConnectorPoint PointX="7.40625" PointY="94.182444661458334" />
-          <ConnectorPoint PointX="7.5" PointY="94.182444661458334" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonSportQualification" Width="1.5" PointX="13.5" PointY="36" Height="1.9210009765624996" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SportQualification" Width="1.5" PointX="11.25" PointY="33.125" Height="1.5923063151041674" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonSportQualification_Person" >
-          <ConnectorPoint PointX="5.593748" PointY="58.681946614583332" />
-          <ConnectorPoint PointX="5.593748" PointY="59.336293945312505" />
-          <ConnectorPoint PointX="6.06604066666667" PointY="59.336293945312505" />
-          <ConnectorPoint PointX="6.2327073333333365" PointY="59.336293945312505" />
-          <ConnectorPoint PointX="7" PointY="59.336293945312505" />
-          <ConnectorPoint PointX="7" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="7.057291666666667" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="7.520833333333333" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="7.5572891666666671" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="7.7239558333333331" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="7.760416666666667" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="7.927083333333333" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="7.9635441666666678" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="8.1302108333333347" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="9.5260441666666669" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="9.6927108333333347" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="9.9166666666666661" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="10.083333333333334" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="10.125" PointY="60.710999348958339" />
-          <ConnectorPoint PointX="10.125" PointY="59.586293945312505" />
-          <ConnectorPoint PointX="10.5" PointY="59.586293945312505" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonSportQualification_SportQualification" >
-          <ConnectorPoint PointX="9.75" PointY="35.541823919871788" />
-          <ConnectorPoint PointX="10.1875" PointY="35.979323919871788" />
-          <ConnectorPoint PointX="10.1875" PointY="59.011894972656258" />
-          <ConnectorPoint PointX="10.5" PointY="59.011894972656258" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Person_User1" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonScienceWork_Person" >
-          <ConnectorPoint PointX="6.75" PointY="58.668099460737174" />
-          <ConnectorPoint PointX="7.0973244349011217" PointY="59.015423895638293" />
-          <ConnectorPoint PointX="7.2464255650988791" PointY="59.164525025836056" />
-          <ConnectorPoint PointX="7.4375" PointY="59.355599460737174" />
-          <ConnectorPoint PointX="7.4375" PointY="91.240143229166677" />
-          <ConnectorPoint PointX="7.5" PointY="91.240143229166677" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_User_User" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.EgeCertificate" Width="1.5" PointX="10.5" PointY="85.125" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.EgeExam" Width="1.5" PointX="10.5" PointY="82.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.EgeMark" Width="1.5" PointX="12.75" PointY="85.125" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_EgeMark_EgeCertificate" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_EgeMark_EgeExam" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.VuzAdditionalType" Width="1.5" PointX="8.25" PointY="35.375" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ReturnDocumentType" Width="1.5" PointX="14.25" PointY="29.875" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonAddInfo_ReturnDocumentType" >
-          <ConnectorPoint PointX="6.75" PointY="59.812306692307693" />
-          <ConnectorPoint PointX="6.9410744349011209" PointY="59.621232257406568" />
-          <ConnectorPoint PointX="7.0589255650988783" PointY="59.503381127208804" />
-          <ConnectorPoint PointX="7.1875" PointY="59.374806692307686" />
-          <ConnectorPoint PointX="7.1875" PointY="55.372179734374996" />
-          <ConnectorPoint PointX="7.5" PointY="55.372179734374996" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympBook" Width="1.5" PointX="19.5" PointY="41.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Olympiads" Width="1.5" PointX="13.5" PointY="45.25" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympName" Width="1.5" PointX="11.25" PointY="65.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympSubject" Width="1.5" PointX="11.25" PointY="23.875" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympType" Width="1.5" PointX="11.25" PointY="62.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympValue" Width="1.5" PointX="11.25" PointY="68.625" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.OlympLevel" Width="1.5" PointX="17.25" PointY="31" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_OlympBook_OlympLevel" >
-          <ConnectorPoint PointX="10.75" PointY="100.42284179687499" />
-          <ConnectorPoint PointX="12.90625" PointY="100.42284179687499" />
-          <ConnectorPoint PointX="12.90625" PointY="67.7494921875" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_OlympBook_OlympName" >
-          <ConnectorPoint PointX="6.75" PointY="68.09375" />
-          <ConnectorPoint PointX="7.057291666666667" PointY="68.09375" />
-          <ConnectorPoint PointX="7.223958333333333" PointY="68.09375" />
-          <ConnectorPoint PointX="7.229166666666667" PointY="68.09375" />
-          <ConnectorPoint PointX="7.520833333333333" PointY="68.09375" />
-          <ConnectorPoint PointX="7.760416666666667" PointY="68.09375" />
-          <ConnectorPoint PointX="7.927083333333333" PointY="68.09375" />
-          <ConnectorPoint PointX="7.9635441666666678" PointY="68.09375" />
-          <ConnectorPoint PointX="8.1302108333333347" PointY="68.09375" />
-          <ConnectorPoint PointX="10.791666666666666" PointY="68.09375" />
-          <ConnectorPoint PointX="11.083333333333334" PointY="68.09375" />
-          <ConnectorPoint PointX="12.8749975" PointY="68.09375" />
-          <ConnectorPoint PointX="12.8749975" PointY="67.7494921875" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_OlympBook_OlympSubject" >
-          <ConnectorPoint PointX="6.75" PointY="65.28125" />
-          <ConnectorPoint PointX="7.057291666666667" PointY="65.28125" />
-          <ConnectorPoint PointX="7.223958333333333" PointY="65.28125" />
-          <ConnectorPoint PointX="7.229166666666667" PointY="65.28125" />
-          <ConnectorPoint PointX="7.520833333333333" PointY="65.28125" />
-          <ConnectorPoint PointX="7.5572891666666671" PointY="65.28125" />
-          <ConnectorPoint PointX="7.7239558333333331" PointY="65.28125" />
-          <ConnectorPoint PointX="7.760416666666667" PointY="65.28125" />
-          <ConnectorPoint PointX="7.927083333333333" PointY="65.28125" />
-          <ConnectorPoint PointX="7.9635441666666678" PointY="65.28125" />
-          <ConnectorPoint PointX="8.1302108333333347" PointY="65.28125" />
-          <ConnectorPoint PointX="10.916666666666666" PointY="65.28125" />
-          <ConnectorPoint PointX="11.083333333333334" PointY="65.28125" />
-          <ConnectorPoint PointX="11.5" PointY="65.28125" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_OlympBook_OlympType" >
-          <ConnectorPoint PointX="6.75" PointY="64.453837890625" />
-          <ConnectorPoint PointX="7.057291666666667" PointY="64.453837890625" />
-          <ConnectorPoint PointX="7.223958333333333" PointY="64.453837890625" />
-          <ConnectorPoint PointX="7.229166666666667" PointY="64.453837890625" />
-          <ConnectorPoint PointX="7.520833333333333" PointY="64.453837890625" />
-          <ConnectorPoint PointX="7.5572891666666671" PointY="64.453837890625" />
-          <ConnectorPoint PointX="7.7239558333333331" PointY="64.453837890625" />
-          <ConnectorPoint PointX="7.760416666666667" PointY="64.453837890625" />
-          <ConnectorPoint PointX="7.927083333333333" PointY="64.453837890625" />
-          <ConnectorPoint PointX="7.9635441666666678" PointY="64.453837890625" />
-          <ConnectorPoint PointX="8.1302108333333347" PointY="64.453837890625" />
-          <ConnectorPoint PointX="9.9166666666666661" PointY="64.453837890625" />
-          <ConnectorPoint PointX="10.083333333333334" PointY="64.453837890625" />
-          <ConnectorPoint PointX="12.90625" PointY="64.453837890625" />
-          <ConnectorPoint PointX="12.90625" PointY="65" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Olympiads_OlympName" >
-          <ConnectorPoint PointX="6.75" PointY="69.260572161458327" />
-          <ConnectorPoint PointX="7.057291666666667" PointY="69.260572161458327" />
-          <ConnectorPoint PointX="7.223958333333333" PointY="69.260572161458327" />
-          <ConnectorPoint PointX="7.229166666666667" PointY="69.260572161458327" />
-          <ConnectorPoint PointX="7.520833333333333" PointY="69.260572161458327" />
-          <ConnectorPoint PointX="7.84375" PointY="69.260572161458327" />
-          <ConnectorPoint PointX="7.84375" PointY="60.460999348958339" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Olympiads_OlympSubject" >
-          <ConnectorPoint PointX="6.75" PointY="66.287020729166656" />
-          <ConnectorPoint PointX="7.057291666666667" PointY="66.287020729166656" />
-          <ConnectorPoint PointX="7.223958333333333" PointY="66.287020729166656" />
-          <ConnectorPoint PointX="7.229166666666667" PointY="66.287020729166656" />
-          <ConnectorPoint PointX="7.520833333333333" PointY="66.287020729166656" />
-          <ConnectorPoint PointX="7.6406225" PointY="66.287020729166656" />
-          <ConnectorPoint PointX="7.6406225" PointY="60.460999348958339" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Olympiads_OlympType" >
-          <ConnectorPoint PointX="6.75" PointY="62.406152846153852" />
-          <ConnectorPoint PointX="7.15625" PointY="61.999902846153844" />
-          <ConnectorPoint PointX="7.15625" PointY="58.1250005" />
-          <ConnectorPoint PointX="7.166666666666667" PointY="58.1250005" />
-          <ConnectorPoint PointX="7.458333333333333" PointY="58.1250005" />
-          <ConnectorPoint PointX="7.5" PointY="58.1250005" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Olympiads_OlympValue" >
-          <ConnectorPoint PointX="6.75" PointY="72.018992513020834" />
-          <ConnectorPoint PointX="7.057291666666667" PointY="72.018992513020834" />
-          <ConnectorPoint PointX="7.223958333333333" PointY="72.018992513020834" />
-          <ConnectorPoint PointX="7.229166666666667" PointY="72.018992513020834" />
-          <ConnectorPoint PointX="7.520833333333333" PointY="72.018992513020834" />
-          <ConnectorPoint PointX="8.0468775" PointY="72.018992513020834" />
-          <ConnectorPoint PointX="8.0468775" PointY="60.460999348958339" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Olympiads_Person" >
-          <ConnectorPoint PointX="6.75" PointY="57.37500025" />
-          <ConnectorPoint PointX="7.104166666666667" PointY="57.37500025" />
-          <ConnectorPoint PointX="7.458333333333333" PointY="57.37500025" />
-          <ConnectorPoint PointX="7.5" PointY="57.37500025" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Application" Width="1.5" PointX="13.5" PointY="50" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Entry" Width="1.5" PointX="11.25" PointY="74.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_EntryClass" Width="1.5" PointX="9" PointY="71.375" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_EntryGroup" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_EntryInEntryGroup" Width="1.5" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_ManualExam" Width="1.5" PointX="11.25" PointY="20.875" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_ManualExamInAG_Entry" Width="1.5" PointX="19.5" PointY="52.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_ObrazProgram" Width="1.5" PointX="9" PointY="74.25" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Profile" Width="1.5" PointX="9" PointY="77" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.AG_Program" Width="1.5" PointX="9" PointY="79.625" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_AG_Entry_AG_EntryClass" >
-          <ConnectorPoint PointX="10.5" PointY="67.546433044471129" />
-          <ConnectorPoint PointX="10.875" PointY="67.921433044471129" />
-          <ConnectorPoint PointX="10.875" PointY="70.355499674479162" />
-          <ConnectorPoint PointX="11.25" PointY="70.355499674479162" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_AG_Entry_AG_ObrazProgram" >
-          <ConnectorPoint PointX="10.5" PointY="69.365143229166677" />
-          <ConnectorPoint PointX="10.791666666666666" PointY="69.365143229166677" />
-          <ConnectorPoint PointX="10.958333333333334" PointY="69.365143229166677" />
-          <ConnectorPoint PointX="11.25" PointY="69.365143229166677" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_AG_Entry_AG_Program" >
-          <ConnectorPoint PointX="10.5" PointY="74.518992513020834" />
-          <ConnectorPoint PointX="12" PointY="74.518992513020834" />
-          <ConnectorPoint PointX="12" PointY="72.210999348958325" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_AG_Entry_AG_Profile" >
-          <ConnectorPoint PointX="10.5" PointY="71.605499674479162" />
-          <ConnectorPoint PointX="11.25" PointY="71.605499674479162" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_AG_Application_AG_Entry" >
-          <ConnectorPoint PointX="12.75" PointY="70.975626593098951" />
-          <ConnectorPoint PointX="12.822916666666666" PointY="70.975626593098951" />
-          <ConnectorPoint PointX="12.989583333333334" PointY="70.975626593098951" />
-          <ConnectorPoint PointX="13.25" PointY="70.975626593098951" />
-          <ConnectorPoint PointX="13.25" PointY="51.095602213541667" />
-          <ConnectorPoint PointX="14.25" PointY="51.095602213541667" />
-          <ConnectorPoint PointX="14.25" PointY="50.720602213541667" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_AG_Application_AG_ManualExam" >
-          <ConnectorPoint PointX="12.578125" PointY="62.125" />
-          <ConnectorPoint PointX="12.578125" PointY="50.049907226562496" />
-          <ConnectorPoint PointX="13.041666666666666" PointY="50.049907226562496" />
-          <ConnectorPoint PointX="13.270833333333334" PointY="50.049907226562496" />
-          <ConnectorPoint PointX="13.5" PointY="50.049907226562496" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonFile" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonFileType" Width="1.5" PointX="0.75" PointY="1.875" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Comission" Width="1.5" PointX="6" PointY="58.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationFile" Width="1.5" PointX="15.75" PointY="50" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommit" Width="1.5" PointX="8.25" PointY="50.25" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommitVersion" Width="1.5" PointX="10.5" PointY="17.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommitVersonDetails" Width="1.5" PointX="2.75" PointY="5.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_Faculty" Width="2" PointX="5.5" PointY="55.25" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_LicenseProgram" Width="1.5" PointX="11.25" PointY="26.875" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_ObrazProgram" Width="1.5" PointX="11.25" PointY="58" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.SP_Profile" Width="1.5" PointX="14.25" PointY="55.125" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationDetails" Width="3" PointX="18.75" PointY="48.75" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationDetails_Application" >
-          <ConnectorPoint PointX="15" PointY="58.32031375" />
-          <ConnectorPoint PointX="15.416666666666666" PointY="58.32031375" />
-          <ConnectorPoint PointX="15.583333333333334" PointY="58.32031375" />
-          <ConnectorPoint PointX="17.416666666666668" PointY="58.32031375" />
-          <ConnectorPoint PointX="17.708333333333332" PointY="58.32031375" />
-          <ConnectorPoint PointX="18.166666666666668" PointY="58.32031375" />
-          <ConnectorPoint PointX="18.333333333333332" PointY="58.32031375" />
-          <ConnectorPoint PointX="18.75" PointY="58.32031375" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersion" Width="1.5" PointX="16.5" PointY="62.125" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersionDetails" Width="2.375" PointX="18.75" PointY="56.75" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationVersionDetails_ApplicationVersion" >
-          <ConnectorPoint PointX="10.875" PointY="22.990143229166669" />
-          <ConnectorPoint PointX="10.683" PointY="22.990143229166669" />
-          <ConnectorPoint PointX="10.683" PointY="27.873520833333338" />
-          <ConnectorPoint PointX="13.442" PointY="27.873520833333338" />
-          <ConnectorPoint PointX="13.442" PointY="26.12474609375" />
-          <ConnectorPoint PointX="13.25" PointY="26.12474609375" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Person_AbiturientType" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_AG_Application_Person" >
-          <ConnectorPoint PointX="6.75" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="7.979166666666667" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="8.1458333333333339" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="8.4664721979166657" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="8.6331388645833336" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="9.1510416666666661" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="9.3177083333333339" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="10.041666666666666" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="12.322916666666666" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="12.489583333333334" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="13.041666666666666" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="13.270833333333334" PointY="49.65205973307291" />
-          <ConnectorPoint PointX="13.5" PointY="49.65205973307291" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_AG_ManualExamInAG_Entry_AG_Entry" >
-          <ConnectorPoint PointX="12.75" PointY="69.677749837239588" />
-          <ConnectorPoint PointX="12.822916666666666" PointY="69.677749837239588" />
-          <ConnectorPoint PointX="12.989583333333334" PointY="69.677749837239588" />
-          <ConnectorPoint PointX="13.166666666666666" PointY="69.677749837239588" />
-          <ConnectorPoint PointX="13.333333333333334" PointY="69.677749837239588" />
-          <ConnectorPoint PointX="13.5" PointY="69.677749837239588" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_AG_ManualExamInAG_Entry_AG_ManualExam" >
-          <ConnectorPoint PointX="12.75" PointY="63.018992513020834" />
-          <ConnectorPoint PointX="13.166666666666666" PointY="63.018992513020834" />
-          <ConnectorPoint PointX="13.333333333333334" PointY="63.018992513020834" />
-          <ConnectorPoint PointX="14" PointY="63.018992513020834" />
-          <ConnectorPoint PointX="14" PointY="68.75" />
-          <ConnectorPoint PointX="14.25" PointY="68.75" />
-          <ConnectorPoint PointX="14.25" PointY="69.125" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Application_ApplicationCommit" >
-          <ConnectorPoint PointX="12.725769230769233" PointY="39.374492187499996" />
-          <ConnectorPoint PointX="13.066074434901122" PointY="39.714797391631883" />
-          <ConnectorPoint PointX="13.183925565098878" PointY="39.832648521829647" />
-          <ConnectorPoint PointX="13.1875" PointY="39.836222956730765" />
-          <ConnectorPoint PointX="13.1875" PointY="61.020499226938071" />
-          <ConnectorPoint PointX="13.5" PointY="61.020499226938071" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationFile_Application" >
-          <ConnectorPoint PointX="15" PointY="60.672801106770834" />
-          <ConnectorPoint PointX="15.416666666666666" PointY="60.672801106770834" />
-          <ConnectorPoint PointX="15.583333333333334" PointY="60.672801106770834" />
-          <ConnectorPoint PointX="15.75" PointY="60.672801106770834" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonChangeStudyFormReason_Application" >
-          <ConnectorPoint PointX="15" PointY="56.682444661458334" />
-          <ConnectorPoint PointX="15.354166666666666" PointY="56.682444661458334" />
-          <ConnectorPoint PointX="15.583333333333334" PointY="56.682444661458334" />
-          <ConnectorPoint PointX="15.75" PointY="56.682444661458334" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationCommitVersion_ApplicationCommit" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationFile_ApplicationCommit" >
-          <ConnectorPoint PointX="12.75" PointY="39.347952725961534" />
-          <ConnectorPoint PointX="13.151539461538462" PointY="39.749492187499996" />
-          <ConnectorPoint PointX="15.4375" PointY="39.749492187499996" />
-          <ConnectorPoint PointX="15.4375" PointY="58.3125" />
-          <ConnectorPoint PointX="15.441074434901122" PointY="58.316074434901118" />
-          <ConnectorPoint PointX="15.558925565098878" PointY="58.433925565098882" />
-          <ConnectorPoint PointX="15.75" PointY="58.625" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonChangeStudyFormReason_ApplicationCommit" >
-          <ConnectorPoint PointX="12.75" PointY="36.84375" />
-          <ConnectorPoint PointX="13.041666666666666" PointY="36.84375" />
-          <ConnectorPoint PointX="13.208333333333334" PointY="36.84375" />
-          <ConnectorPoint PointX="15.84375" PointY="36.84375" />
-          <ConnectorPoint PointX="15.84375" PointY="54.625" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Country_Region" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonVisaInfo_Country" >
-          <ConnectorPoint PointX="3.75" PointY="53.65330078125" />
-          <ConnectorPoint PointX="3.75" PointY="54.5" />
-          <ConnectorPoint PointX="4.72897335897436" PointY="54.5" />
-          <ConnectorPoint PointX="4.8956400256410264" PointY="54.5" />
-          <ConnectorPoint PointX="5" PointY="54.5" />
-          <ConnectorPoint PointX="5" PointY="58.931946614583325" />
-          <ConnectorPoint PointX="5.5104146666666667" PointY="58.931946614583325" />
-          <ConnectorPoint PointX="5.6770813333333328" PointY="58.931946614583325" />
-          <ConnectorPoint PointX="6.06604066666667" PointY="58.931946614583325" />
-          <ConnectorPoint PointX="6.2327073333333365" PointY="58.931946614583325" />
-          <ConnectorPoint PointX="6.8716666666666688" PointY="58.931946614583325" />
-          <ConnectorPoint PointX="7.270833333333333" PointY="58.931946614583325" />
-          <ConnectorPoint PointX="7.375" PointY="58.931946614583325" />
-          <ConnectorPoint PointX="7.375" PointY="56.550199322916662" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="56.550199322916662" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="56.550199322916662" />
-          <ConnectorPoint PointX="9.5260441666666669" PointY="56.550199322916662" />
-          <ConnectorPoint PointX="9.6927108333333347" PointY="56.550199322916662" />
-          <ConnectorPoint PointX="9.9166666666666661" PointY="56.550199322916662" />
-          <ConnectorPoint PointX="10.083333333333334" PointY="56.550199322916662" />
-          <ConnectorPoint PointX="10.104166666666666" PointY="56.550199322916662" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="56.550199322916662" />
-          <ConnectorPoint PointX="10.5" PointY="56.550199322916662" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_EgeCertificate_Person" >
-          <ConnectorPoint PointX="6.75" PointY="58.624253306891021" />
-          <ConnectorPoint PointX="7.140625" PointY="59.014878306891021" />
-          <ConnectorPoint PointX="7.140625" PointY="88.307444661458334" />
-          <ConnectorPoint PointX="7.229166666666667" PointY="88.307444661458334" />
-          <ConnectorPoint PointX="7.489583333333333" PointY="88.307444661458334" />
-          <ConnectorPoint PointX="7.5" PointY="88.307444661458334" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_Region" >
-          <ConnectorPoint PointX="1.0937480000000002" PointY="39.826396484374996" />
-          <ConnectorPoint PointX="1.0937480000000002" PointY="46.595856119791662" />
-          <ConnectorPoint PointX="1.8229191666666667" PointY="46.595856119791662" />
-          <ConnectorPoint PointX="1.9895858333333332" PointY="46.595856119791662" />
-          <ConnectorPoint PointX="4.604166666666667" PointY="46.595856119791662" />
-          <ConnectorPoint PointX="4.958333333333333" PointY="46.595856119791662" />
-          <ConnectorPoint PointX="5" PointY="46.595856119791662" />
-          <ConnectorPoint PointX="5" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="5.010416666666667" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="5.177083333333333" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="5.916666666666667" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="6.083333333333333" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="7.979166666666667" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="8.1458333333333339" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="8.4664721979166657" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="8.6331388645833336" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="9.1510416666666661" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="9.3177083333333339" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="9.875" PointY="47.874410807291667" />
-          <ConnectorPoint PointX="9.875" PointY="45.102085779947913" />
-          <ConnectorPoint PointX="10.041666666666666" PointY="45.102085779947913" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="45.102085779947913" />
-          <ConnectorPoint PointX="10.5" PointY="45.102085779947913" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_SP_LicenseProgram" >
-          <ConnectorPoint PointX="9.75" PointY="29.689623964843697" />
-          <ConnectorPoint PointX="10.84375" PointY="29.689623964843697" />
-          <ConnectorPoint PointX="10.84375" PointY="43.875" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_SP_ObrazProgram" >
-          <ConnectorPoint PointX="9.009280265625" PointY="40.335999348958332" />
-          <ConnectorPoint PointX="9.009280265625" PointY="47.002742666015621" />
-          <ConnectorPoint PointX="9.1510416666666661" PointY="47.002742666015621" />
-          <ConnectorPoint PointX="9.3177083333333339" PointY="47.002742666015621" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="47.002742666015621" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="47.002742666015621" />
-          <ConnectorPoint PointX="9.7916666666666661" PointY="47.002742666015621" />
-          <ConnectorPoint PointX="9.9583333333333339" PointY="47.002742666015621" />
-          <ConnectorPoint PointX="10.041666666666666" PointY="47.002742666015621" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="47.002742666015621" />
-          <ConnectorPoint PointX="10.5" PointY="47.002742666015621" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_SP_StudyLevel" >
-          <ConnectorPoint PointX="7.4999999999999964" PointY="31.057190755208335" />
-          <ConnectorPoint PointX="7.875" PointY="31.432190755208339" />
-          <ConnectorPoint PointX="7.875" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="7.979166666666667" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="8.1458333333333339" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="8.4664721979166657" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="8.6331388645833336" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="8.9259469322916658" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="9.0926135989583337" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="9.1510416666666661" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="9.3177083333333339" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="10.041666666666666" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="44.457290889973955" />
-          <ConnectorPoint PointX="10.5" PointY="44.457290889973955" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonFile_PersonFileType" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_SP_LicenseProgram_SP_StudyLevel" >
-          <ConnectorPoint PointX="7.5" PointY="29.747342877604169" />
-          <ConnectorPoint PointX="7.854166666666667" PointY="29.747342877604169" />
-          <ConnectorPoint PointX="8.0208333333333339" PointY="29.747342877604169" />
-          <ConnectorPoint PointX="8.25" PointY="29.747342877604169" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_SP_ObrazProgram_SP_LicenseProgram" >
-          <ConnectorPoint PointX="9.7499999999999964" PointY="31.912903645833335" />
-          <ConnectorPoint PointX="10.375" PointY="32.537903645833339" />
-          <ConnectorPoint PointX="10.375" PointY="36" />
-          <ConnectorPoint PointX="10.246425565098878" PointY="36.128574434901118" />
-          <ConnectorPoint PointX="10.128574434901122" PointY="36.246425565098882" />
-          <ConnectorPoint PointX="9.7500000000000018" PointY="36.625" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Abiturient" Width="1.5" PointX="5.75" PointY="3.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.extApplicationDetails" Width="2.875" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.extDefaultEntryDetails" Width="2.5" PointX="7.75" PointY="4.5" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.qAbitFiles_OnlyEssayMotivLetter" Width="1.5" PointX="7.75" PointY="7.75" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonOtherPassport" Width="1.5" PointX="16.5" PointY="42.625" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonOtherPassport_PassportType" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonOtherPassport_Person" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.PersonEducationDocument" Width="1.5" PointX="10.5" PointY="36.125" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_Country" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_Person" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_Region" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_SchoolExitClass" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_VuzAdditionalType" >
-          <ConnectorPoint PointX="7.5" PointY="36.062306692307693" />
-          <ConnectorPoint PointX="7.8160744349011209" PointY="35.746232257406575" />
-          <ConnectorPoint PointX="7.9339255650988791" PointY="35.628381127208812" />
-          <ConnectorPoint PointX="7.9375" PointY="35.624806692307693" />
-          <ConnectorPoint PointX="7.9375" PointY="27.691712239583339" />
-          <ConnectorPoint PointX="7.75" PointY="27.691712239583339" />
-          <ConnectorPoint PointX="7.3749999999999964" PointY="27.316712239583335" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonAddInfo_Language" >
-          <ConnectorPoint PointX="7.5" PointY="33.15625" />
-          <ConnectorPoint PointX="7.791666666666667" PointY="33.15625" />
-          <ConnectorPoint PointX="8.0208333333333339" PointY="33.15625" />
-          <ConnectorPoint PointX="8.0625" PointY="33.15625" />
-          <ConnectorPoint PointX="8.0625" PointY="52.125" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument" >
-          <ConnectorPoint PointX="7.375" PointY="24.564604119791731" />
-          <ConnectorPoint PointX="13.125" PointY="24.564604119791731" />
-          <ConnectorPoint PointX="13.125" PointY="51.875" />
-          <ConnectorPoint PointX="13.166666666666666" PointY="51.875" />
-          <ConnectorPoint PointX="13.333333333333334" PointY="51.875" />
-          <ConnectorPoint PointX="14.25" PointY="51.875" />
-          <ConnectorPoint PointX="14.25" PointY="52.25" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.C_Entry" Width="1.5" PointX="2.125" PointY="54" Height="8.1339322916666674" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK__Entry_Comission" >
-          <ConnectorPoint PointX="10.25" PointY="81.990143229166662" />
-          <ConnectorPoint PointX="12.822916666666666" PointY="81.990143229166662" />
-          <ConnectorPoint PointX="12.989583333333334" PointY="81.990143229166662" />
-          <ConnectorPoint PointX="16.25" PointY="81.990143229166662" />
-          <ConnectorPoint PointX="16.25" PointY="62.970602213541667" />
-          <ConnectorPoint PointX="17.5" PointY="62.970602213541667" />
-          <ConnectorPoint PointX="17.5" PointY="53.758932291666667" />
-          <ConnectorPoint PointX="17.489583333333332" PointY="53.758932291666667" />
-          <ConnectorPoint PointX="17.322916666666668" PointY="53.758932291666667" />
-          <ConnectorPoint PointX="17.161458333333332" PointY="53.758932291666667" />
-          <ConnectorPoint PointX="16.994791666666668" PointY="53.758932291666667" />
-          <ConnectorPoint PointX="16.75" PointY="53.758932291666667" />
-          <ConnectorPoint PointX="16.75" PointY="53.383932291666667" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK__Entry_Semester" >
-          <ConnectorPoint PointX="9.6093775" PointY="62.125" />
-          <ConnectorPoint PointX="9.6093775" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="10.041666666666666" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="12.322916666666666" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="12.489583333333334" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="12.494791666666666" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="12.661458333333334" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="13.041666666666666" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="13.333333333333334" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="15.354166666666666" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="15.520833333333334" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="15.760416666666666" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="15.927083333333334" PointY="51.360301106770834" />
-          <ConnectorPoint PointX="16" PointY="51.360301106770834" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK__Entry_SP_Faculty" >
-          <ConnectorPoint PointX="10.25" PointY="79.028595377604177" />
-          <ConnectorPoint PointX="12.822916666666666" PointY="79.028595377604177" />
-          <ConnectorPoint PointX="12.989583333333334" PointY="79.028595377604177" />
-          <ConnectorPoint PointX="15.979166666666666" PointY="79.028595377604177" />
-          <ConnectorPoint PointX="16.145833333333332" PointY="79.028595377604177" />
-          <ConnectorPoint PointX="16.1875" PointY="79.028595377604177" />
-          <ConnectorPoint PointX="16.1875" PointY="63.220602213541667" />
-          <ConnectorPoint PointX="17.625" PointY="63.220602213541667" />
-          <ConnectorPoint PointX="17.625" PointY="54.008932291666667" />
-          <ConnectorPoint PointX="17.583333333333332" PointY="54.008932291666667" />
-          <ConnectorPoint PointX="17.322916666666668" PointY="54.008932291666667" />
-          <ConnectorPoint PointX="17.161458333333332" PointY="54.008932291666667" />
-          <ConnectorPoint PointX="16.994791666666668" PointY="54.008932291666667" />
-          <ConnectorPoint PointX="16.343747999999998" PointY="54.008932291666667" />
-          <ConnectorPoint PointX="16.343747999999998" PointY="53.383932291666667" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK__Entry_SP_LicenseProgram" >
-          <ConnectorPoint PointX="9.75" PointY="30.801263805338515" />
-          <ConnectorPoint PointX="10.760416666666666" PointY="30.801263805338515" />
-          <ConnectorPoint PointX="10.927083333333334" PointY="30.801263805338515" />
-          <ConnectorPoint PointX="13.041666666666666" PointY="30.801263805338515" />
-          <ConnectorPoint PointX="13.208333333333334" PointY="30.801263805338515" />
-          <ConnectorPoint PointX="16.75" PointY="30.801263805338515" />
-          <ConnectorPoint PointX="16.75" PointY="45.25" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK__Entry_SP_ObrazProgram" >
-          <ConnectorPoint PointX="9.234375" PointY="40.335999348958332" />
-          <ConnectorPoint PointX="9.234375" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="9.3229166666666661" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="9.4895833333333339" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="10.041666666666666" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="10.270833333333334" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="12.322916666666666" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="12.489583333333334" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="12.494791666666666" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="12.661458333333334" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="13.041666666666666" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="13.270833333333334" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="14.166666666666666" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="14.333333333333334" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="15.354166666666666" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="15.520833333333334" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="15.760416666666666" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="15.927083333333334" PointY="50.939352213541667" />
-          <ConnectorPoint PointX="16" PointY="50.939352213541667" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK__Entry_SP_StudyLevel" >
-          <ConnectorPoint PointX="7.5" PointY="30.402266816406254" />
-          <ConnectorPoint PointX="7.854166666666667" PointY="30.402266816406254" />
-          <ConnectorPoint PointX="8.0208333333333339" PointY="30.402266816406254" />
-          <ConnectorPoint PointX="8.125" PointY="30.402266816406254" />
-          <ConnectorPoint PointX="8.125" PointY="32.162903645833339" />
-          <ConnectorPoint PointX="9.9166666666666661" PointY="32.162903645833339" />
-          <ConnectorPoint PointX="10.083333333333334" PointY="32.162903645833339" />
-          <ConnectorPoint PointX="10.760416666666666" PointY="32.162903645833339" />
-          <ConnectorPoint PointX="10.927083333333334" PointY="32.162903645833339" />
-          <ConnectorPoint PointX="13.041666666666666" PointY="32.162903645833339" />
-          <ConnectorPoint PointX="13.208333333333334" PointY="32.162903645833339" />
-          <ConnectorPoint PointX="16.343747999999998" PointY="32.162903645833339" />
-          <ConnectorPoint PointX="16.343747999999998" PointY="45.25" />
-        </AssociationConnector>
-        <AssociationConnector Association="OnlinePriem2012Model.FK_Application__Entry" >
-          <ConnectorPoint PointX="17.40625" PointY="53.383932291666667" />
-          <ConnectorPoint PointX="17.40625" PointY="57.655099036458338" />
-          <ConnectorPoint PointX="15.583333333333334" PointY="57.655099036458338" />
-          <ConnectorPoint PointX="15.354166666666666" PointY="57.655099036458338" />
-          <ConnectorPoint PointX="15" PointY="57.655099036458338" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="OnlinePriem2012Model.Entry" Width="1.5" PointX="0.75" PointY="8.75" Height="10.056946614583325" />
-        <EntityTypeShape EntityType="OnlinePriem2012Model.InnerEntryInEntry" Width="1.5" PointX="15.25" PointY="4.25" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationDetails_ObrazProgramInEntry" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK_InnerEntryInEntry_SP_Profile" />
-        <AssociationConnector Association="OnlinePriem2012Model.FK__Entry_SP_Profile" />
-        </Diagram>
-    </Diagrams>
-  </Designer>
+    <edmx:Diagrams>
+      <edmx:Diagram Name="OnlineAbit" ZoomLevel="44">
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PassportType" Width="1.5" PointX="6" PointY="45" Height="1.7566536458333317" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonAddInfo" Width="1.5" PointX="16.5" PointY="37" Height="2.2496956380208317" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonCurrentEducation" Width="1.5" PointX="13.5" PointY="39.125" Height="3.0714322916666674" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonScienceWork" Width="1.5" PointX="10.5" PointY="88.25" Height="1.5923063151041674" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonWork" Width="1.5" PointX="10.5" PointY="91" Height="1.9210009765624996" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Region" Width="1.5" PointX="0.75" PointY="36.5" Height="2.2496956380208317" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.User" Width="1.5" PointX="6" PointY="48" Height="2.7427376302083317" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AbiturientType" Width="1.5" PointX="6" PointY="35.375" Height="1.2636116536458317" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Application" Width="1.5" PointX="10.5" PointY="46.75" Height="3.5644742838541674" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Semester" Width="1.5" PointX="11.25" PointY="54.875" Height="1.5923063151041674" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SP_StudyLevel" Width="1.5" PointX="9" PointY="27.75" Height="1.4279589843750031" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonDisorderInfo" Width="1.5" PointX="10.5" PointY="94.125" Height="1.5923063151041674" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonChangeStudyFormReason" Width="1.5" PointX="18.75" PointY="45" Height="1.4279589843749996" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonContacts" Width="1.5" PointX="5.25" PointY="38.625" Height="4.3862109375000031" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonContacts_Region">
+          <edmx:ConnectorPoint PointX="2.25" PointY="27.189392903645835" />
+          <edmx:ConnectorPoint PointX="2.4479166666666665" PointY="27.189392903645835" />
+          <edmx:ConnectorPoint PointX="2.6145833333333335" PointY="27.189392903645835" />
+          <edmx:ConnectorPoint PointX="3.0416661666666664" PointY="27.189392903645835" />
+          <edmx:ConnectorPoint PointX="3.2083328333333334" PointY="27.189392903645835" />
+          <edmx:ConnectorPoint PointX="3.625" PointY="27.189392903645835" />
+          <edmx:ConnectorPoint PointX="3.625" PointY="27.875" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonHighEducationInfo" Width="1.5" PointX="15.75" PointY="33.375" Height="2.2496956380208388" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Country" Width="1.5" PointX="3" PointY="42.125" Height="2.2496956380208317" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonContacts_Country">
+          <edmx:ConnectorPoint PointX="7.5" PointY="11.78904296875" />
+          <edmx:ConnectorPoint PointX="7.875" PointY="12.16404296875" />
+          <edmx:ConnectorPoint PointX="7.875" PointY="20.44310546875" />
+          <edmx:ConnectorPoint PointX="8.25" PointY="20.44310546875" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonVisaInfo" Width="1.5" PointX="10.5" PointY="43" Height="1.7566536458333388" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Language" Width="1.5" PointX="14.25" PointY="26.375" Height="1.427958984374996" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Person" Width="1.5" PointX="8.25" PointY="39.125" Height="6.1940315755208246" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Application_Person">
+          <edmx:ConnectorPoint PointX="6.1493740000000034" PointY="58.681946614583332" />
+          <edmx:ConnectorPoint PointX="6.1493740000000034" PointY="59.5" />
+          <edmx:ConnectorPoint PointX="6.916666666666667" PointY="59.5" />
+          <edmx:ConnectorPoint PointX="7.239583333333333" PointY="59.5" />
+          <edmx:ConnectorPoint PointX="7.25" PointY="59.5" />
+          <edmx:ConnectorPoint PointX="7.25" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="7.322916666666667" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="7.520833333333333" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="7.5572891666666671" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="7.7239558333333331" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="7.760416666666667" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="7.927083333333333" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="7.9635441666666678" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="8.1302108333333347" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="9.5260441666666669" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="9.6927108333333347" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="9.9166666666666661" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="10.083333333333334" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="12.494791666666666" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="12.661458333333334" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="13" PointY="61.17258789062501" />
+          <edmx:ConnectorPoint PointX="13" PointY="59.007973620542828" />
+          <edmx:ConnectorPoint PointX="13.104166666666666" PointY="59.007973620542828" />
+          <edmx:ConnectorPoint PointX="13.333333333333334" PointY="59.007973620542828" />
+          <edmx:ConnectorPoint PointX="13.5" PointY="59.007973620542828" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Person_ForeignCountry">
+          <edmx:ConnectorPoint PointX="7.0001263761901855" PointY="11.78904296875" />
+          <edmx:ConnectorPoint PointX="7.0001263761901855" PointY="17.606076558517536" />
+          <edmx:ConnectorPoint PointX="7.041666666666667" PointY="17.606076558517536" />
+          <edmx:ConnectorPoint PointX="7.3335910857137039" PointY="17.606076558517536" />
+          <edmx:ConnectorPoint PointX="7.791666666666667" PointY="17.606076558517536" />
+          <edmx:ConnectorPoint PointX="7.958333333333333" PointY="17.606076558517536" />
+          <edmx:ConnectorPoint PointX="11.25" PointY="17.606076558517536" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Person_PassportType">
+          <edmx:ConnectorPoint PointX="5.25" PointY="26.052643229166669" />
+          <edmx:ConnectorPoint PointX="5.416666666666667" PointY="26.052643229166669" />
+          <edmx:ConnectorPoint PointX="5.583333333333333" PointY="26.052643229166669" />
+          <edmx:ConnectorPoint PointX="5.604166666666667" PointY="26.052643229166669" />
+          <edmx:ConnectorPoint PointX="5.833333333333333" PointY="26.052643229166669" />
+          <edmx:ConnectorPoint PointX="6" PointY="26.052643229166669" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Person_User">
+          <edmx:ConnectorPoint PointX="2.25" PointY="23.916473795572919" />
+          <edmx:ConnectorPoint PointX="4.697916666666667" PointY="23.916473795572919" />
+          <edmx:ConnectorPoint PointX="4.864583333333333" PointY="23.916473795572919" />
+          <edmx:ConnectorPoint PointX="10.75" PointY="23.916473795572919" />
+          <edmx:ConnectorPoint PointX="10.75" PointY="22.625" />
+          <edmx:ConnectorPoint PointX="10.791666666666666" PointY="22.625" />
+          <edmx:ConnectorPoint PointX="11.270833333333334" PointY="22.625" />
+          <edmx:ConnectorPoint PointX="12" PointY="22.625" />
+          <edmx:ConnectorPoint PointX="12" PointY="21.469462890625003" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonAddInfo_Person">
+          <edmx:ConnectorPoint PointX="12" PointY="14.125" />
+          <edmx:ConnectorPoint PointX="12" PointY="13.624847819010416" />
+          <edmx:ConnectorPoint PointX="8.5520833333333339" PointY="13.624847819010416" />
+          <edmx:ConnectorPoint PointX="8.3854166666666661" PointY="13.624847819010416" />
+          <edmx:ConnectorPoint PointX="7.958333333333333" PointY="13.624847819010416" />
+          <edmx:ConnectorPoint PointX="7.791666666666667" PointY="13.624847819010416" />
+          <edmx:ConnectorPoint PointX="7.3335910857137039" PointY="13.624847819010416" />
+          <edmx:ConnectorPoint PointX="7.1669244190470378" PointY="13.624847819010416" />
+          <edmx:ConnectorPoint PointX="7.0834597095235186" PointY="13.624847819010416" />
+          <edmx:ConnectorPoint PointX="6.9167930428568525" PointY="13.624847819010416" />
+          <edmx:ConnectorPoint PointX="6.75" PointY="13.624847819010416" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonChangeStudyFormReason_Person">
+          <edmx:ConnectorPoint PointX="6.4271870000000053" PointY="58.681946614583332" />
+          <edmx:ConnectorPoint PointX="6.4271870000000053" PointY="58.947571614583325" />
+          <edmx:ConnectorPoint PointX="6.8872916666666688" PointY="58.947571614583325" />
+          <edmx:ConnectorPoint PointX="7.239583333333333" PointY="58.947571614583325" />
+          <edmx:ConnectorPoint PointX="7.25" PointY="58.947571614583325" />
+          <edmx:ConnectorPoint PointX="7.25" PointY="56.5" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="56.5" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="56.5" />
+          <edmx:ConnectorPoint PointX="9.5260441666666669" PointY="56.5" />
+          <edmx:ConnectorPoint PointX="9.6927108333333347" PointY="56.5" />
+          <edmx:ConnectorPoint PointX="9.9166666666666661" PointY="56.5" />
+          <edmx:ConnectorPoint PointX="10.083333333333334" PointY="56.5" />
+          <edmx:ConnectorPoint PointX="10.25" PointY="56.5" />
+          <edmx:ConnectorPoint PointX="10.25" PointY="55.25" />
+          <edmx:ConnectorPoint PointX="12.494791666666666" PointY="55.25" />
+          <edmx:ConnectorPoint PointX="12.661458333333334" PointY="55.25" />
+          <edmx:ConnectorPoint PointX="13.104166666666666" PointY="55.25" />
+          <edmx:ConnectorPoint PointX="13.333333333333334" PointY="55.25" />
+          <edmx:ConnectorPoint PointX="15.375" PointY="55.25" />
+          <edmx:ConnectorPoint PointX="15.375" PointY="55.622470330729165" />
+          <edmx:ConnectorPoint PointX="15.416666666666666" PointY="55.622470330729165" />
+          <edmx:ConnectorPoint PointX="15.583333333333334" PointY="55.622470330729165" />
+          <edmx:ConnectorPoint PointX="15.75" PointY="55.622470330729165" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonContacts_Person">
+          <edmx:ConnectorPoint PointX="11.25" PointY="20.161341010554416" />
+          <edmx:ConnectorPoint PointX="9.75" PointY="20.161341010554416" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_Person">
+          <edmx:ConnectorPoint PointX="6.75" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="7.979166666666667" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="8.1458333333333339" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="8.4664721979166657" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="8.6331388645833336" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="9.1510416666666661" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="9.3177083333333339" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="10.041666666666666" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="48.970856119791662" />
+          <edmx:ConnectorPoint PointX="10.5" PointY="48.970856119791662" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonDisorderInfo_Person">
+          <edmx:ConnectorPoint PointX="6.7050000000000063" PointY="58.681946614583332" />
+          <edmx:ConnectorPoint PointX="7.0816994349011217" PointY="59.058646049484445" />
+          <edmx:ConnectorPoint PointX="7.2464255650988791" PointY="59.223372179682208" />
+          <edmx:ConnectorPoint PointX="7.3125" PointY="59.289446614583326" />
+          <edmx:ConnectorPoint PointX="7.3125" PointY="97.115143229166677" />
+          <edmx:ConnectorPoint PointX="7.5" PointY="97.115143229166677" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonVisaInfo_Person">
+          <edmx:ConnectorPoint PointX="6.75" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="7.104166666666667" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="7.270833333333333" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="9.5260441666666669" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="9.6927108333333347" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="9.9166666666666661" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="10.083333333333334" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="10.104166666666666" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="56.581451822916662" />
+          <edmx:ConnectorPoint PointX="10.5" PointY="56.581451822916662" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_Semester">
+          <edmx:ConnectorPoint PointX="9.40625" PointY="62.125" />
+          <edmx:ConnectorPoint PointX="9.40625" PointY="46.06856952473958" />
+          <edmx:ConnectorPoint PointX="9.7916666666666661" PointY="46.06856952473958" />
+          <edmx:ConnectorPoint PointX="9.9583333333333339" PointY="46.06856952473958" />
+          <edmx:ConnectorPoint PointX="10.041666666666666" PointY="46.06856952473958" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="46.06856952473958" />
+          <edmx:ConnectorPoint PointX="10.5" PointY="46.06856952473958" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Qualification" Width="1.5" PointX="13.5" PointY="32.75" Height="1.5923063151041674" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonHighEducationInfo_Qualification">
+          <edmx:ConnectorPoint PointX="12.40625" PointY="42.605286458333332" />
+          <edmx:ConnectorPoint PointX="12.40625" PointY="54.86729003906251" />
+          <edmx:ConnectorPoint PointX="12.494791666666666" PointY="54.86729003906251" />
+          <edmx:ConnectorPoint PointX="12.661458333333334" PointY="54.86729003906251" />
+          <edmx:ConnectorPoint PointX="13.104166666666666" PointY="54.86729003906251" />
+          <edmx:ConnectorPoint PointX="13.333333333333334" PointY="54.86729003906251" />
+          <edmx:ConnectorPoint PointX="13.5" PointY="54.86729003906251" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonSchoolInfo" Width="1.5" PointX="16.5" PointY="47" Height="2.0853483072916674" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SchoolExitClass" Width="1.5" PointX="8.25" PointY="32.125" Height="1.427958984374996" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonSchoolInfo_Person">
+          <edmx:ConnectorPoint PointX="6.75" PointY="52.845876464843748" />
+          <edmx:ConnectorPoint PointX="7.25" PointY="52.845876464843748" />
+          <edmx:ConnectorPoint PointX="7.25" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="7.979166666666667" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="8.1458333333333339" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="9.5260441666666669" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="9.6927108333333347" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="9.9166666666666661" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="11.25" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="11.25" PointY="52.5" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonSchoolInfo_SchoolExitClass">
+          <edmx:ConnectorPoint PointX="7.5" PointY="41.229131612179494" />
+          <edmx:ConnectorPoint PointX="7.8761548461538453" PointY="41.605286458333339" />
+          <edmx:ConnectorPoint PointX="7.979166666666667" PointY="41.605286458333339" />
+          <edmx:ConnectorPoint PointX="8.1458333333333339" PointY="41.605286458333339" />
+          <edmx:ConnectorPoint PointX="8.4664721979166657" PointY="41.605286458333339" />
+          <edmx:ConnectorPoint PointX="8.6331388645833336" PointY="41.605286458333339" />
+          <edmx:ConnectorPoint PointX="8.9259469322916658" PointY="41.605286458333339" />
+          <edmx:ConnectorPoint PointX="9.0926135989583337" PointY="41.605286458333339" />
+          <edmx:ConnectorPoint PointX="9.1510416666666661" PointY="41.605286458333339" />
+          <edmx:ConnectorPoint PointX="9.3177083333333339" PointY="41.605286458333339" />
+          <edmx:ConnectorPoint PointX="10.125" PointY="41.605286458333339" />
+          <edmx:ConnectorPoint PointX="10.125" PointY="52.125" />
+          <edmx:ConnectorPoint PointX="10.128574434901122" PointY="52.128574434901118" />
+          <edmx:ConnectorPoint PointX="10.246425565098878" PointY="52.246425565098882" />
+          <edmx:ConnectorPoint PointX="10.5" PointY="52.5" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonWork_Person">
+          <edmx:ConnectorPoint PointX="6.7338461538461631" PointY="58.681946614583332" />
+          <edmx:ConnectorPoint PointX="7.0973244349011217" PointY="59.045424895638284" />
+          <edmx:ConnectorPoint PointX="7.2464255650988791" PointY="59.194526025836048" />
+          <edmx:ConnectorPoint PointX="7.40625" PointY="59.354350460737166" />
+          <edmx:ConnectorPoint PointX="7.40625" PointY="94.182444661458334" />
+          <edmx:ConnectorPoint PointX="7.5" PointY="94.182444661458334" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonSportQualification" Width="1.5" PointX="13.5" PointY="36" Height="1.9210009765624996" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SportQualification" Width="1.5" PointX="11.25" PointY="33.125" Height="1.5923063151041674" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonSportQualification_Person">
+          <edmx:ConnectorPoint PointX="5.593748" PointY="58.681946614583332" />
+          <edmx:ConnectorPoint PointX="5.593748" PointY="59.336293945312505" />
+          <edmx:ConnectorPoint PointX="6.06604066666667" PointY="59.336293945312505" />
+          <edmx:ConnectorPoint PointX="6.2327073333333365" PointY="59.336293945312505" />
+          <edmx:ConnectorPoint PointX="7" PointY="59.336293945312505" />
+          <edmx:ConnectorPoint PointX="7" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="7.057291666666667" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="7.520833333333333" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="7.5572891666666671" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="7.7239558333333331" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="7.760416666666667" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="7.927083333333333" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="7.9635441666666678" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="8.1302108333333347" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="9.5260441666666669" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="9.6927108333333347" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="9.9166666666666661" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="10.083333333333334" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="10.125" PointY="60.710999348958339" />
+          <edmx:ConnectorPoint PointX="10.125" PointY="59.586293945312505" />
+          <edmx:ConnectorPoint PointX="10.5" PointY="59.586293945312505" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonSportQualification_SportQualification">
+          <edmx:ConnectorPoint PointX="9.75" PointY="35.541823919871788" />
+          <edmx:ConnectorPoint PointX="10.1875" PointY="35.979323919871788" />
+          <edmx:ConnectorPoint PointX="10.1875" PointY="59.011894972656258" />
+          <edmx:ConnectorPoint PointX="10.5" PointY="59.011894972656258" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Person_User1" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonScienceWork_Person">
+          <edmx:ConnectorPoint PointX="6.75" PointY="58.668099460737174" />
+          <edmx:ConnectorPoint PointX="7.0973244349011217" PointY="59.015423895638293" />
+          <edmx:ConnectorPoint PointX="7.2464255650988791" PointY="59.164525025836056" />
+          <edmx:ConnectorPoint PointX="7.4375" PointY="59.355599460737174" />
+          <edmx:ConnectorPoint PointX="7.4375" PointY="91.240143229166677" />
+          <edmx:ConnectorPoint PointX="7.5" PointY="91.240143229166677" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_User_User" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.EgeCertificate" Width="1.5" PointX="10.5" PointY="85.125" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.EgeExam" Width="1.5" PointX="10.5" PointY="82.5" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.EgeMark" Width="1.5" PointX="12.75" PointY="85.125" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_EgeMark_EgeCertificate" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_EgeMark_EgeExam" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.VuzAdditionalType" Width="1.5" PointX="8.25" PointY="35.375" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ReturnDocumentType" Width="1.5" PointX="14.25" PointY="29.875" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonAddInfo_ReturnDocumentType">
+          <edmx:ConnectorPoint PointX="6.75" PointY="59.812306692307693" />
+          <edmx:ConnectorPoint PointX="6.9410744349011209" PointY="59.621232257406568" />
+          <edmx:ConnectorPoint PointX="7.0589255650988783" PointY="59.503381127208804" />
+          <edmx:ConnectorPoint PointX="7.1875" PointY="59.374806692307686" />
+          <edmx:ConnectorPoint PointX="7.1875" PointY="55.372179734374996" />
+          <edmx:ConnectorPoint PointX="7.5" PointY="55.372179734374996" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.OlympBook" Width="1.5" PointX="19.5" PointY="41.5" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Olympiads" Width="1.5" PointX="13.5" PointY="45.25" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.OlympName" Width="1.5" PointX="11.25" PointY="65.5" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.OlympSubject" Width="1.5" PointX="11.25" PointY="23.875" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.OlympType" Width="1.5" PointX="11.25" PointY="62.5" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.OlympValue" Width="1.5" PointX="11.25" PointY="68.625" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.OlympLevel" Width="1.5" PointX="17.25" PointY="31" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_OlympBook_OlympLevel">
+          <edmx:ConnectorPoint PointX="10.75" PointY="100.42284179687499" />
+          <edmx:ConnectorPoint PointX="12.90625" PointY="100.42284179687499" />
+          <edmx:ConnectorPoint PointX="12.90625" PointY="67.7494921875" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_OlympBook_OlympName">
+          <edmx:ConnectorPoint PointX="6.75" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="7.057291666666667" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="7.223958333333333" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="7.229166666666667" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="7.520833333333333" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="7.760416666666667" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="7.927083333333333" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="7.9635441666666678" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="8.1302108333333347" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="10.791666666666666" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="11.083333333333334" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="12.8749975" PointY="68.09375" />
+          <edmx:ConnectorPoint PointX="12.8749975" PointY="67.7494921875" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_OlympBook_OlympSubject">
+          <edmx:ConnectorPoint PointX="6.75" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="7.057291666666667" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="7.223958333333333" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="7.229166666666667" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="7.520833333333333" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="7.5572891666666671" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="7.7239558333333331" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="7.760416666666667" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="7.927083333333333" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="7.9635441666666678" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="8.1302108333333347" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="10.916666666666666" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="11.083333333333334" PointY="65.28125" />
+          <edmx:ConnectorPoint PointX="11.5" PointY="65.28125" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_OlympBook_OlympType">
+          <edmx:ConnectorPoint PointX="6.75" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="7.057291666666667" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="7.223958333333333" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="7.229166666666667" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="7.520833333333333" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="7.5572891666666671" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="7.7239558333333331" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="7.760416666666667" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="7.927083333333333" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="7.9635441666666678" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="8.1302108333333347" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="9.9166666666666661" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="10.083333333333334" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="12.90625" PointY="64.453837890625" />
+          <edmx:ConnectorPoint PointX="12.90625" PointY="65" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Olympiads_OlympName">
+          <edmx:ConnectorPoint PointX="6.75" PointY="69.260572161458327" />
+          <edmx:ConnectorPoint PointX="7.057291666666667" PointY="69.260572161458327" />
+          <edmx:ConnectorPoint PointX="7.223958333333333" PointY="69.260572161458327" />
+          <edmx:ConnectorPoint PointX="7.229166666666667" PointY="69.260572161458327" />
+          <edmx:ConnectorPoint PointX="7.520833333333333" PointY="69.260572161458327" />
+          <edmx:ConnectorPoint PointX="7.84375" PointY="69.260572161458327" />
+          <edmx:ConnectorPoint PointX="7.84375" PointY="60.460999348958339" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Olympiads_OlympSubject">
+          <edmx:ConnectorPoint PointX="6.75" PointY="66.287020729166656" />
+          <edmx:ConnectorPoint PointX="7.057291666666667" PointY="66.287020729166656" />
+          <edmx:ConnectorPoint PointX="7.223958333333333" PointY="66.287020729166656" />
+          <edmx:ConnectorPoint PointX="7.229166666666667" PointY="66.287020729166656" />
+          <edmx:ConnectorPoint PointX="7.520833333333333" PointY="66.287020729166656" />
+          <edmx:ConnectorPoint PointX="7.6406225" PointY="66.287020729166656" />
+          <edmx:ConnectorPoint PointX="7.6406225" PointY="60.460999348958339" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Olympiads_OlympType">
+          <edmx:ConnectorPoint PointX="6.75" PointY="62.406152846153852" />
+          <edmx:ConnectorPoint PointX="7.15625" PointY="61.999902846153844" />
+          <edmx:ConnectorPoint PointX="7.15625" PointY="58.1250005" />
+          <edmx:ConnectorPoint PointX="7.166666666666667" PointY="58.1250005" />
+          <edmx:ConnectorPoint PointX="7.458333333333333" PointY="58.1250005" />
+          <edmx:ConnectorPoint PointX="7.5" PointY="58.1250005" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Olympiads_OlympValue">
+          <edmx:ConnectorPoint PointX="6.75" PointY="72.018992513020834" />
+          <edmx:ConnectorPoint PointX="7.057291666666667" PointY="72.018992513020834" />
+          <edmx:ConnectorPoint PointX="7.223958333333333" PointY="72.018992513020834" />
+          <edmx:ConnectorPoint PointX="7.229166666666667" PointY="72.018992513020834" />
+          <edmx:ConnectorPoint PointX="7.520833333333333" PointY="72.018992513020834" />
+          <edmx:ConnectorPoint PointX="8.0468775" PointY="72.018992513020834" />
+          <edmx:ConnectorPoint PointX="8.0468775" PointY="60.460999348958339" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Olympiads_Person">
+          <edmx:ConnectorPoint PointX="6.75" PointY="57.37500025" />
+          <edmx:ConnectorPoint PointX="7.104166666666667" PointY="57.37500025" />
+          <edmx:ConnectorPoint PointX="7.458333333333333" PointY="57.37500025" />
+          <edmx:ConnectorPoint PointX="7.5" PointY="57.37500025" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AG_Application" Width="1.5" PointX="13.5" PointY="50" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AG_Entry" Width="1.5" PointX="11.25" PointY="74.5" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AG_EntryClass" Width="1.5" PointX="9" PointY="71.375" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AG_EntryGroup" Width="1.5" PointX="5.75" PointY="0.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AG_EntryInEntryGroup" Width="1.5" PointX="0.75" PointY="5.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AG_ManualExam" Width="1.5" PointX="11.25" PointY="20.875" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AG_ManualExamInAG_Entry" Width="1.5" PointX="19.5" PointY="52.5" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AG_ObrazProgram" Width="1.5" PointX="9" PointY="74.25" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AG_Profile" Width="1.5" PointX="9" PointY="77" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.AG_Program" Width="1.5" PointX="9" PointY="79.625" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_AG_Entry_AG_EntryClass">
+          <edmx:ConnectorPoint PointX="10.5" PointY="67.546433044471129" />
+          <edmx:ConnectorPoint PointX="10.875" PointY="67.921433044471129" />
+          <edmx:ConnectorPoint PointX="10.875" PointY="70.355499674479162" />
+          <edmx:ConnectorPoint PointX="11.25" PointY="70.355499674479162" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_AG_Entry_AG_ObrazProgram">
+          <edmx:ConnectorPoint PointX="10.5" PointY="69.365143229166677" />
+          <edmx:ConnectorPoint PointX="10.791666666666666" PointY="69.365143229166677" />
+          <edmx:ConnectorPoint PointX="10.958333333333334" PointY="69.365143229166677" />
+          <edmx:ConnectorPoint PointX="11.25" PointY="69.365143229166677" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_AG_Entry_AG_Program">
+          <edmx:ConnectorPoint PointX="10.5" PointY="74.518992513020834" />
+          <edmx:ConnectorPoint PointX="12" PointY="74.518992513020834" />
+          <edmx:ConnectorPoint PointX="12" PointY="72.210999348958325" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_AG_Entry_AG_Profile">
+          <edmx:ConnectorPoint PointX="10.5" PointY="71.605499674479162" />
+          <edmx:ConnectorPoint PointX="11.25" PointY="71.605499674479162" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_AG_Application_AG_Entry">
+          <edmx:ConnectorPoint PointX="12.75" PointY="70.975626593098951" />
+          <edmx:ConnectorPoint PointX="12.822916666666666" PointY="70.975626593098951" />
+          <edmx:ConnectorPoint PointX="12.989583333333334" PointY="70.975626593098951" />
+          <edmx:ConnectorPoint PointX="13.25" PointY="70.975626593098951" />
+          <edmx:ConnectorPoint PointX="13.25" PointY="51.095602213541667" />
+          <edmx:ConnectorPoint PointX="14.25" PointY="51.095602213541667" />
+          <edmx:ConnectorPoint PointX="14.25" PointY="50.720602213541667" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_AG_Application_AG_ManualExam">
+          <edmx:ConnectorPoint PointX="12.578125" PointY="62.125" />
+          <edmx:ConnectorPoint PointX="12.578125" PointY="50.049907226562496" />
+          <edmx:ConnectorPoint PointX="13.041666666666666" PointY="50.049907226562496" />
+          <edmx:ConnectorPoint PointX="13.270833333333334" PointY="50.049907226562496" />
+          <edmx:ConnectorPoint PointX="13.5" PointY="50.049907226562496" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonFile" Width="1.5" PointX="3" PointY="1" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonFileType" Width="1.5" PointX="0.75" PointY="1.875" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Comission" Width="1.5" PointX="6" PointY="58.5" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationFile" Width="1.5" PointX="15.75" PointY="50" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommit" Width="1.5" PointX="8.25" PointY="50.25" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommitVersion" Width="1.5" PointX="10.5" PointY="17.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationCommitVersonDetails" Width="1.5" PointX="2.75" PointY="5.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SP_Faculty" Width="2" PointX="5.5" PointY="55.25" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SP_LicenseProgram" Width="1.5" PointX="11.25" PointY="26.875" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SP_ObrazProgram" Width="1.5" PointX="11.25" PointY="58" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SP_Profile" Width="1.5" PointX="14.25" PointY="55.125" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationDetails" Width="3" PointX="18.75" PointY="48.75" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationDetails_Application">
+          <edmx:ConnectorPoint PointX="15" PointY="58.32031375" />
+          <edmx:ConnectorPoint PointX="15.416666666666666" PointY="58.32031375" />
+          <edmx:ConnectorPoint PointX="15.583333333333334" PointY="58.32031375" />
+          <edmx:ConnectorPoint PointX="17.416666666666668" PointY="58.32031375" />
+          <edmx:ConnectorPoint PointX="17.708333333333332" PointY="58.32031375" />
+          <edmx:ConnectorPoint PointX="18.166666666666668" PointY="58.32031375" />
+          <edmx:ConnectorPoint PointX="18.333333333333332" PointY="58.32031375" />
+          <edmx:ConnectorPoint PointX="18.75" PointY="58.32031375" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersion" Width="1.5" PointX="16.5" PointY="62.125" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationVersionDetails" Width="2.375" PointX="18.75" PointY="56.75" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationVersionDetails_ApplicationVersion">
+          <edmx:ConnectorPoint PointX="10.875" PointY="22.990143229166669" />
+          <edmx:ConnectorPoint PointX="10.683" PointY="22.990143229166669" />
+          <edmx:ConnectorPoint PointX="10.683" PointY="27.873520833333338" />
+          <edmx:ConnectorPoint PointX="13.442" PointY="27.873520833333338" />
+          <edmx:ConnectorPoint PointX="13.442" PointY="26.12474609375" />
+          <edmx:ConnectorPoint PointX="13.25" PointY="26.12474609375" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Person_AbiturientType" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_AG_Application_Person">
+          <edmx:ConnectorPoint PointX="6.75" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="7.979166666666667" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="8.1458333333333339" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="8.4664721979166657" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="8.6331388645833336" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="9.1510416666666661" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="9.3177083333333339" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="10.041666666666666" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="12.322916666666666" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="12.489583333333334" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="13.041666666666666" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="13.270833333333334" PointY="49.65205973307291" />
+          <edmx:ConnectorPoint PointX="13.5" PointY="49.65205973307291" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_AG_ManualExamInAG_Entry_AG_Entry">
+          <edmx:ConnectorPoint PointX="12.75" PointY="69.677749837239588" />
+          <edmx:ConnectorPoint PointX="12.822916666666666" PointY="69.677749837239588" />
+          <edmx:ConnectorPoint PointX="12.989583333333334" PointY="69.677749837239588" />
+          <edmx:ConnectorPoint PointX="13.166666666666666" PointY="69.677749837239588" />
+          <edmx:ConnectorPoint PointX="13.333333333333334" PointY="69.677749837239588" />
+          <edmx:ConnectorPoint PointX="13.5" PointY="69.677749837239588" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_AG_ManualExamInAG_Entry_AG_ManualExam">
+          <edmx:ConnectorPoint PointX="12.75" PointY="63.018992513020834" />
+          <edmx:ConnectorPoint PointX="13.166666666666666" PointY="63.018992513020834" />
+          <edmx:ConnectorPoint PointX="13.333333333333334" PointY="63.018992513020834" />
+          <edmx:ConnectorPoint PointX="14" PointY="63.018992513020834" />
+          <edmx:ConnectorPoint PointX="14" PointY="68.75" />
+          <edmx:ConnectorPoint PointX="14.25" PointY="68.75" />
+          <edmx:ConnectorPoint PointX="14.25" PointY="69.125" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Application_ApplicationCommit">
+          <edmx:ConnectorPoint PointX="12.725769230769233" PointY="39.374492187499996" />
+          <edmx:ConnectorPoint PointX="13.066074434901122" PointY="39.714797391631883" />
+          <edmx:ConnectorPoint PointX="13.183925565098878" PointY="39.832648521829647" />
+          <edmx:ConnectorPoint PointX="13.1875" PointY="39.836222956730765" />
+          <edmx:ConnectorPoint PointX="13.1875" PointY="61.020499226938071" />
+          <edmx:ConnectorPoint PointX="13.5" PointY="61.020499226938071" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationFile_Application">
+          <edmx:ConnectorPoint PointX="15" PointY="60.672801106770834" />
+          <edmx:ConnectorPoint PointX="15.416666666666666" PointY="60.672801106770834" />
+          <edmx:ConnectorPoint PointX="15.583333333333334" PointY="60.672801106770834" />
+          <edmx:ConnectorPoint PointX="15.75" PointY="60.672801106770834" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonChangeStudyFormReason_Application">
+          <edmx:ConnectorPoint PointX="15" PointY="56.682444661458334" />
+          <edmx:ConnectorPoint PointX="15.354166666666666" PointY="56.682444661458334" />
+          <edmx:ConnectorPoint PointX="15.583333333333334" PointY="56.682444661458334" />
+          <edmx:ConnectorPoint PointX="15.75" PointY="56.682444661458334" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationCommitVersion_ApplicationCommit" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationFile_ApplicationCommit">
+          <edmx:ConnectorPoint PointX="12.75" PointY="39.347952725961534" />
+          <edmx:ConnectorPoint PointX="13.151539461538462" PointY="39.749492187499996" />
+          <edmx:ConnectorPoint PointX="15.4375" PointY="39.749492187499996" />
+          <edmx:ConnectorPoint PointX="15.4375" PointY="58.3125" />
+          <edmx:ConnectorPoint PointX="15.441074434901122" PointY="58.316074434901118" />
+          <edmx:ConnectorPoint PointX="15.558925565098878" PointY="58.433925565098882" />
+          <edmx:ConnectorPoint PointX="15.75" PointY="58.625" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonChangeStudyFormReason_ApplicationCommit">
+          <edmx:ConnectorPoint PointX="12.75" PointY="36.84375" />
+          <edmx:ConnectorPoint PointX="13.041666666666666" PointY="36.84375" />
+          <edmx:ConnectorPoint PointX="13.208333333333334" PointY="36.84375" />
+          <edmx:ConnectorPoint PointX="15.84375" PointY="36.84375" />
+          <edmx:ConnectorPoint PointX="15.84375" PointY="54.625" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Country_Region" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonVisaInfo_Country">
+          <edmx:ConnectorPoint PointX="3.75" PointY="53.65330078125" />
+          <edmx:ConnectorPoint PointX="3.75" PointY="54.5" />
+          <edmx:ConnectorPoint PointX="4.72897335897436" PointY="54.5" />
+          <edmx:ConnectorPoint PointX="4.8956400256410264" PointY="54.5" />
+          <edmx:ConnectorPoint PointX="5" PointY="54.5" />
+          <edmx:ConnectorPoint PointX="5" PointY="58.931946614583325" />
+          <edmx:ConnectorPoint PointX="5.5104146666666667" PointY="58.931946614583325" />
+          <edmx:ConnectorPoint PointX="5.6770813333333328" PointY="58.931946614583325" />
+          <edmx:ConnectorPoint PointX="6.06604066666667" PointY="58.931946614583325" />
+          <edmx:ConnectorPoint PointX="6.2327073333333365" PointY="58.931946614583325" />
+          <edmx:ConnectorPoint PointX="6.8716666666666688" PointY="58.931946614583325" />
+          <edmx:ConnectorPoint PointX="7.270833333333333" PointY="58.931946614583325" />
+          <edmx:ConnectorPoint PointX="7.375" PointY="58.931946614583325" />
+          <edmx:ConnectorPoint PointX="7.375" PointY="56.550199322916662" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="56.550199322916662" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="56.550199322916662" />
+          <edmx:ConnectorPoint PointX="9.5260441666666669" PointY="56.550199322916662" />
+          <edmx:ConnectorPoint PointX="9.6927108333333347" PointY="56.550199322916662" />
+          <edmx:ConnectorPoint PointX="9.9166666666666661" PointY="56.550199322916662" />
+          <edmx:ConnectorPoint PointX="10.083333333333334" PointY="56.550199322916662" />
+          <edmx:ConnectorPoint PointX="10.104166666666666" PointY="56.550199322916662" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="56.550199322916662" />
+          <edmx:ConnectorPoint PointX="10.5" PointY="56.550199322916662" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_EgeCertificate_Person">
+          <edmx:ConnectorPoint PointX="6.75" PointY="58.624253306891021" />
+          <edmx:ConnectorPoint PointX="7.140625" PointY="59.014878306891021" />
+          <edmx:ConnectorPoint PointX="7.140625" PointY="88.307444661458334" />
+          <edmx:ConnectorPoint PointX="7.229166666666667" PointY="88.307444661458334" />
+          <edmx:ConnectorPoint PointX="7.489583333333333" PointY="88.307444661458334" />
+          <edmx:ConnectorPoint PointX="7.5" PointY="88.307444661458334" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_Region">
+          <edmx:ConnectorPoint PointX="1.0937480000000002" PointY="39.826396484374996" />
+          <edmx:ConnectorPoint PointX="1.0937480000000002" PointY="46.595856119791662" />
+          <edmx:ConnectorPoint PointX="1.8229191666666667" PointY="46.595856119791662" />
+          <edmx:ConnectorPoint PointX="1.9895858333333332" PointY="46.595856119791662" />
+          <edmx:ConnectorPoint PointX="4.604166666666667" PointY="46.595856119791662" />
+          <edmx:ConnectorPoint PointX="4.958333333333333" PointY="46.595856119791662" />
+          <edmx:ConnectorPoint PointX="5" PointY="46.595856119791662" />
+          <edmx:ConnectorPoint PointX="5" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="5.010416666666667" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="5.177083333333333" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="5.916666666666667" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="6.083333333333333" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="7.979166666666667" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="8.1458333333333339" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="8.4664721979166657" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="8.6331388645833336" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="9.1510416666666661" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="9.3177083333333339" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="9.875" PointY="47.874410807291667" />
+          <edmx:ConnectorPoint PointX="9.875" PointY="45.102085779947913" />
+          <edmx:ConnectorPoint PointX="10.041666666666666" PointY="45.102085779947913" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="45.102085779947913" />
+          <edmx:ConnectorPoint PointX="10.5" PointY="45.102085779947913" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_SP_LicenseProgram">
+          <edmx:ConnectorPoint PointX="9.75" PointY="29.689623964843697" />
+          <edmx:ConnectorPoint PointX="10.84375" PointY="29.689623964843697" />
+          <edmx:ConnectorPoint PointX="10.84375" PointY="43.875" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_SP_ObrazProgram">
+          <edmx:ConnectorPoint PointX="9.009280265625" PointY="40.335999348958332" />
+          <edmx:ConnectorPoint PointX="9.009280265625" PointY="47.002742666015621" />
+          <edmx:ConnectorPoint PointX="9.1510416666666661" PointY="47.002742666015621" />
+          <edmx:ConnectorPoint PointX="9.3177083333333339" PointY="47.002742666015621" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="47.002742666015621" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="47.002742666015621" />
+          <edmx:ConnectorPoint PointX="9.7916666666666661" PointY="47.002742666015621" />
+          <edmx:ConnectorPoint PointX="9.9583333333333339" PointY="47.002742666015621" />
+          <edmx:ConnectorPoint PointX="10.041666666666666" PointY="47.002742666015621" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="47.002742666015621" />
+          <edmx:ConnectorPoint PointX="10.5" PointY="47.002742666015621" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonCurrentEducation_SP_StudyLevel">
+          <edmx:ConnectorPoint PointX="7.4999999999999964" PointY="31.057190755208335" />
+          <edmx:ConnectorPoint PointX="7.875" PointY="31.432190755208339" />
+          <edmx:ConnectorPoint PointX="7.875" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="7.979166666666667" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="8.1458333333333339" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="8.4664721979166657" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="8.6331388645833336" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="8.9259469322916658" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="9.0926135989583337" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="9.1510416666666661" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="9.3177083333333339" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="10.041666666666666" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="44.457290889973955" />
+          <edmx:ConnectorPoint PointX="10.5" PointY="44.457290889973955" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonFile_PersonFileType" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_SP_LicenseProgram_SP_StudyLevel">
+          <edmx:ConnectorPoint PointX="7.5" PointY="29.747342877604169" />
+          <edmx:ConnectorPoint PointX="7.854166666666667" PointY="29.747342877604169" />
+          <edmx:ConnectorPoint PointX="8.0208333333333339" PointY="29.747342877604169" />
+          <edmx:ConnectorPoint PointX="8.25" PointY="29.747342877604169" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_SP_ObrazProgram_SP_LicenseProgram">
+          <edmx:ConnectorPoint PointX="9.7499999999999964" PointY="31.912903645833335" />
+          <edmx:ConnectorPoint PointX="10.375" PointY="32.537903645833339" />
+          <edmx:ConnectorPoint PointX="10.375" PointY="36" />
+          <edmx:ConnectorPoint PointX="10.246425565098878" PointY="36.128574434901118" />
+          <edmx:ConnectorPoint PointX="10.128574434901122" PointY="36.246425565098882" />
+          <edmx:ConnectorPoint PointX="9.7500000000000018" PointY="36.625" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Abiturient" Width="1.5" PointX="5.75" PointY="3.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.extApplicationDetails" Width="2.875" PointX="7.75" PointY="0.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.extDefaultEntryDetails" Width="2.5" PointX="7.75" PointY="4.5" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.qAbitFiles_OnlyEssayMotivLetter" Width="1.5" PointX="7.75" PointY="7.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonOtherPassport" Width="1.5" PointX="16.5" PointY="42.625" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonOtherPassport_PassportType" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonOtherPassport_Person" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.PersonEducationDocument" Width="1.5" PointX="10.5" PointY="36.125" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_Country" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_Person" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_Region" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_SchoolExitClass" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonEducationDocument_VuzAdditionalType">
+          <edmx:ConnectorPoint PointX="7.5" PointY="36.062306692307693" />
+          <edmx:ConnectorPoint PointX="7.8160744349011209" PointY="35.746232257406575" />
+          <edmx:ConnectorPoint PointX="7.9339255650988791" PointY="35.628381127208812" />
+          <edmx:ConnectorPoint PointX="7.9375" PointY="35.624806692307693" />
+          <edmx:ConnectorPoint PointX="7.9375" PointY="27.691712239583339" />
+          <edmx:ConnectorPoint PointX="7.75" PointY="27.691712239583339" />
+          <edmx:ConnectorPoint PointX="7.3749999999999964" PointY="27.316712239583335" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonAddInfo_Language">
+          <edmx:ConnectorPoint PointX="7.5" PointY="33.15625" />
+          <edmx:ConnectorPoint PointX="7.791666666666667" PointY="33.15625" />
+          <edmx:ConnectorPoint PointX="8.0208333333333339" PointY="33.15625" />
+          <edmx:ConnectorPoint PointX="8.0625" PointY="33.15625" />
+          <edmx:ConnectorPoint PointX="8.0625" PointY="52.125" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonHighEducationInfo_PersonEducationDocument">
+          <edmx:ConnectorPoint PointX="7.375" PointY="24.564604119791731" />
+          <edmx:ConnectorPoint PointX="13.125" PointY="24.564604119791731" />
+          <edmx:ConnectorPoint PointX="13.125" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="13.166666666666666" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="13.333333333333334" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="14.25" PointY="51.875" />
+          <edmx:ConnectorPoint PointX="14.25" PointY="52.25" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.C_Entry" Width="1.5" PointX="2.125" PointY="54" Height="8.1339322916666674" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK__Entry_Comission">
+          <edmx:ConnectorPoint PointX="10.25" PointY="81.990143229166662" />
+          <edmx:ConnectorPoint PointX="12.822916666666666" PointY="81.990143229166662" />
+          <edmx:ConnectorPoint PointX="12.989583333333334" PointY="81.990143229166662" />
+          <edmx:ConnectorPoint PointX="16.25" PointY="81.990143229166662" />
+          <edmx:ConnectorPoint PointX="16.25" PointY="62.970602213541667" />
+          <edmx:ConnectorPoint PointX="17.5" PointY="62.970602213541667" />
+          <edmx:ConnectorPoint PointX="17.5" PointY="53.758932291666667" />
+          <edmx:ConnectorPoint PointX="17.489583333333332" PointY="53.758932291666667" />
+          <edmx:ConnectorPoint PointX="17.322916666666668" PointY="53.758932291666667" />
+          <edmx:ConnectorPoint PointX="17.161458333333332" PointY="53.758932291666667" />
+          <edmx:ConnectorPoint PointX="16.994791666666668" PointY="53.758932291666667" />
+          <edmx:ConnectorPoint PointX="16.75" PointY="53.758932291666667" />
+          <edmx:ConnectorPoint PointX="16.75" PointY="53.383932291666667" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK__Entry_Semester">
+          <edmx:ConnectorPoint PointX="9.6093775" PointY="62.125" />
+          <edmx:ConnectorPoint PointX="9.6093775" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="10.041666666666666" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="12.322916666666666" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="12.489583333333334" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="12.494791666666666" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="12.661458333333334" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="13.041666666666666" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="13.333333333333334" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="15.354166666666666" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="15.520833333333334" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="15.760416666666666" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="15.927083333333334" PointY="51.360301106770834" />
+          <edmx:ConnectorPoint PointX="16" PointY="51.360301106770834" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK__Entry_SP_Faculty">
+          <edmx:ConnectorPoint PointX="10.25" PointY="79.028595377604177" />
+          <edmx:ConnectorPoint PointX="12.822916666666666" PointY="79.028595377604177" />
+          <edmx:ConnectorPoint PointX="12.989583333333334" PointY="79.028595377604177" />
+          <edmx:ConnectorPoint PointX="15.979166666666666" PointY="79.028595377604177" />
+          <edmx:ConnectorPoint PointX="16.145833333333332" PointY="79.028595377604177" />
+          <edmx:ConnectorPoint PointX="16.1875" PointY="79.028595377604177" />
+          <edmx:ConnectorPoint PointX="16.1875" PointY="63.220602213541667" />
+          <edmx:ConnectorPoint PointX="17.625" PointY="63.220602213541667" />
+          <edmx:ConnectorPoint PointX="17.625" PointY="54.008932291666667" />
+          <edmx:ConnectorPoint PointX="17.583333333333332" PointY="54.008932291666667" />
+          <edmx:ConnectorPoint PointX="17.322916666666668" PointY="54.008932291666667" />
+          <edmx:ConnectorPoint PointX="17.161458333333332" PointY="54.008932291666667" />
+          <edmx:ConnectorPoint PointX="16.994791666666668" PointY="54.008932291666667" />
+          <edmx:ConnectorPoint PointX="16.343747999999998" PointY="54.008932291666667" />
+          <edmx:ConnectorPoint PointX="16.343747999999998" PointY="53.383932291666667" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK__Entry_SP_LicenseProgram">
+          <edmx:ConnectorPoint PointX="9.75" PointY="30.801263805338515" />
+          <edmx:ConnectorPoint PointX="10.760416666666666" PointY="30.801263805338515" />
+          <edmx:ConnectorPoint PointX="10.927083333333334" PointY="30.801263805338515" />
+          <edmx:ConnectorPoint PointX="13.041666666666666" PointY="30.801263805338515" />
+          <edmx:ConnectorPoint PointX="13.208333333333334" PointY="30.801263805338515" />
+          <edmx:ConnectorPoint PointX="16.75" PointY="30.801263805338515" />
+          <edmx:ConnectorPoint PointX="16.75" PointY="45.25" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK__Entry_SP_ObrazProgram">
+          <edmx:ConnectorPoint PointX="9.234375" PointY="40.335999348958332" />
+          <edmx:ConnectorPoint PointX="9.234375" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="9.3229166666666661" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="9.4895833333333339" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="10.041666666666666" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="10.270833333333334" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="12.322916666666666" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="12.489583333333334" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="12.494791666666666" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="12.661458333333334" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="13.041666666666666" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="13.270833333333334" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="14.166666666666666" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="14.333333333333334" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="15.354166666666666" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="15.520833333333334" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="15.760416666666666" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="15.927083333333334" PointY="50.939352213541667" />
+          <edmx:ConnectorPoint PointX="16" PointY="50.939352213541667" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK__Entry_SP_StudyLevel">
+          <edmx:ConnectorPoint PointX="7.5" PointY="30.402266816406254" />
+          <edmx:ConnectorPoint PointX="7.854166666666667" PointY="30.402266816406254" />
+          <edmx:ConnectorPoint PointX="8.0208333333333339" PointY="30.402266816406254" />
+          <edmx:ConnectorPoint PointX="8.125" PointY="30.402266816406254" />
+          <edmx:ConnectorPoint PointX="8.125" PointY="32.162903645833339" />
+          <edmx:ConnectorPoint PointX="9.9166666666666661" PointY="32.162903645833339" />
+          <edmx:ConnectorPoint PointX="10.083333333333334" PointY="32.162903645833339" />
+          <edmx:ConnectorPoint PointX="10.760416666666666" PointY="32.162903645833339" />
+          <edmx:ConnectorPoint PointX="10.927083333333334" PointY="32.162903645833339" />
+          <edmx:ConnectorPoint PointX="13.041666666666666" PointY="32.162903645833339" />
+          <edmx:ConnectorPoint PointX="13.208333333333334" PointY="32.162903645833339" />
+          <edmx:ConnectorPoint PointX="16.343747999999998" PointY="32.162903645833339" />
+          <edmx:ConnectorPoint PointX="16.343747999999998" PointY="45.25" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_Application__Entry">
+          <edmx:ConnectorPoint PointX="17.40625" PointY="53.383932291666667" />
+          <edmx:ConnectorPoint PointX="17.40625" PointY="57.655099036458338" />
+          <edmx:ConnectorPoint PointX="15.583333333333334" PointY="57.655099036458338" />
+          <edmx:ConnectorPoint PointX="15.354166666666666" PointY="57.655099036458338" />
+          <edmx:ConnectorPoint PointX="15" PointY="57.655099036458338" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Entry" Width="1.5" PointX="0.75" PointY="8.75" Height="10.056946614583325" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.InnerEntryInEntry" Width="1.5" PointX="15.25" PointY="4.25" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ObrazProgramInEntry__Entry" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationDetails_ObrazProgramInEntry" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ObrazProgramInEntry_SP_ObrazProgram" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_InnerEntryInEntry_SP_Profile" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK__Entry_SP_Profile" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationSelectedExam" Width="1.5" PointX="10.375" PointY="7.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.Exam" Width="1.5" PointX="10.375" PointY="10.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ExamInEntryBlock" Width="1.5" PointX="11.375" PointY="0.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ExamInEntryBlockUnit" Width="1.5" PointX="11.375" PointY="3.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ExamName" Width="1.5" PointX="12.375" PointY="6.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationSecondType" Width="1.5" PointX="12.375" PointY="9.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SchoolTypeAll" Width="1.5" PointX="13.375" PointY="0.75" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SchoolExitClassToStudyLevel" Width="3.5" PointX="11.5" PointY="13" />
+        </edmx:Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
 </edmx:Edmx>
