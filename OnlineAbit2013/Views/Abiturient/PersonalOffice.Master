@@ -8,7 +8,7 @@
 <html>
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="shortcut icon" type="" href="../../Content/favicon.ico" />
+    <link rel="shortcut icon" type="" href="../../favicon.ico" />
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     
     <link rel="Stylesheet" href="../../Content/themes/base/jquery-ui.css" type="text/css"  />
