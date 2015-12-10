@@ -2199,15 +2199,15 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                                       join sp_l in context.SP_StudyLevel on sp.StudyLeveId equals sp_l.Id
                                       where
                                       (sp.MaximumOrderNumberSchoolTypeId >= PersonEducationDocument.OrderNumber)
-                                          && (sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumExitClassId.HasValue ? sp.MaximumExitClassId >= PersonEducationDocument.SchoolExitClassId : true)
-                                          && (sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumQualificationId.HasValue ? sp.MaximumQualificationId >= PersonEducationDocument.p.PersonHighEducationInfo.QualificationId : true)
+                                          && ((sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumExitClassId.HasValue) ? sp.MaximumExitClassId >= PersonEducationDocument.SchoolExitClassId : true)
+                                          && ((sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumQualificationId.HasValue) ? sp.MaximumQualificationId >= PersonEducationDocument.p.PersonHighEducationInfo.QualificationId : true)
                                           && (sp.MinimumOrderNumberSchoolTypeId <= PersonEducationDocument.OrderNumber)
-                                          && (sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumExitClassId.HasValue ? sp.MinimumExitClassId <= PersonEducationDocument.SchoolExitClassId : true)
-                                          && (sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumQualificationId.HasValue ? sp.MinimumQualificationId <= PersonEducationDocument.p.PersonHighEducationInfo.QualificationId : true)
+                                          && ((sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumExitClassId.HasValue) ? sp.MinimumExitClassId <= PersonEducationDocument.SchoolExitClassId : true)
+                                          && ((sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumQualificationId.HasValue) ? sp.MinimumQualificationId <= PersonEducationDocument.p.PersonHighEducationInfo.QualificationId : true)
                                           
-                                          && (StudyLevelGroupIdList.Count()== 0 ? true : StudyLevelGroupIdList.Contains(sp_l.StudyLevelGroupId))
+                                          && (StudyLevelGroupIdList.Count() == 0 ? true : StudyLevelGroupIdList.Contains(sp_l.StudyLevelGroupId))
                                           && isFor == sp.IsForeign
-                                      select new sp_level
+                                       select new sp_level
                                        {
                                            Id = sp_l.Id,
                                            GroupId = sp_l.StudyLevelGroupId,

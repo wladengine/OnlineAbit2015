@@ -2522,7 +2522,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2541,7 +2541,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -2568,7 +2568,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonIdChanging(value);
                     ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                    _PersonId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonId");
                     OnPersonIdChanged();
                 }
@@ -2595,7 +2595,7 @@ namespace OnlineAbit2013
                 {
                     OnPriorityChanging(value);
                     ReportPropertyChanging("Priority");
-                    _Priority = StructuralObject.SetValidValue(value, "Priority");
+                    _Priority = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Priority");
                     OnPriorityChanged();
                 }
@@ -2622,7 +2622,7 @@ namespace OnlineAbit2013
                 {
                     OnBarcodeChanging(value);
                     ReportPropertyChanging("Barcode");
-                    _Barcode = StructuralObject.SetValidValue(value, "Barcode");
+                    _Barcode = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Barcode");
                     OnBarcodeChanged();
                 }
@@ -2649,7 +2649,7 @@ namespace OnlineAbit2013
                 {
                     OnEnabledChanging(value);
                     ReportPropertyChanging("Enabled");
-                    _Enabled = StructuralObject.SetValidValue(value, "Enabled");
+                    _Enabled = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Enabled");
                     OnEnabledChanged();
                 }
@@ -2676,7 +2676,7 @@ namespace OnlineAbit2013
                 {
                     OnEntryTypeChanging(value);
                     ReportPropertyChanging("EntryType");
-                    _EntryType = StructuralObject.SetValidValue(value, "EntryType");
+                    _EntryType = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("EntryType");
                     OnEntryTypeChanged();
                 }
@@ -2703,7 +2703,7 @@ namespace OnlineAbit2013
                 {
                     OnHostelEducChanging(value);
                     ReportPropertyChanging("HostelEduc");
-                    _HostelEduc = StructuralObject.SetValidValue(value, "HostelEduc");
+                    _HostelEduc = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("HostelEduc");
                     OnHostelEducChanged();
                 }
@@ -2728,7 +2728,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfDisableChanging(value);
                 ReportPropertyChanging("DateOfDisable");
-                _DateOfDisable = StructuralObject.SetValidValue(value, "DateOfDisable");
+                _DateOfDisable = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfDisable");
                 OnDateOfDisableChanged();
             }
@@ -2754,7 +2754,7 @@ namespace OnlineAbit2013
                 {
                     OnDateOfStartChanging(value);
                     ReportPropertyChanging("DateOfStart");
-                    _DateOfStart = StructuralObject.SetValidValue(value, "DateOfStart");
+                    _DateOfStart = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("DateOfStart");
                     OnDateOfStartChanged();
                 }
@@ -2781,7 +2781,7 @@ namespace OnlineAbit2013
                 {
                     OnEntryIdChanging(value);
                     ReportPropertyChanging("EntryId");
-                    _EntryId = StructuralObject.SetValidValue(value, "EntryId");
+                    _EntryId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("EntryId");
                     OnEntryIdChanged();
                 }
@@ -2806,7 +2806,7 @@ namespace OnlineAbit2013
             {
                 OnStudyPlanIdChanging(value);
                 ReportPropertyChanging("StudyPlanId");
-                _StudyPlanId = StructuralObject.SetValidValue(value, "StudyPlanId");
+                _StudyPlanId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyPlanId");
                 OnStudyPlanIdChanged();
             }
@@ -2830,7 +2830,7 @@ namespace OnlineAbit2013
             {
                 OnStudyPlanNumberChanging(value);
                 ReportPropertyChanging("StudyPlanNumber");
-                _StudyPlanNumber = StructuralObject.SetValidValue(value, true, "StudyPlanNumber");
+                _StudyPlanNumber = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyPlanNumber");
                 OnStudyPlanNumberChanged();
             }
@@ -2854,7 +2854,7 @@ namespace OnlineAbit2013
             {
                 OnFacultyIdChanging(value);
                 ReportPropertyChanging("FacultyId");
-                _FacultyId = StructuralObject.SetValidValue(value, "FacultyId");
+                _FacultyId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("FacultyId");
                 OnFacultyIdChanged();
             }
@@ -2878,7 +2878,7 @@ namespace OnlineAbit2013
             {
                 OnFacultyNameChanging(value);
                 ReportPropertyChanging("FacultyName");
-                _FacultyName = StructuralObject.SetValidValue(value, true, "FacultyName");
+                _FacultyName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FacultyName");
                 OnFacultyNameChanged();
             }
@@ -2904,7 +2904,7 @@ namespace OnlineAbit2013
                 {
                     OnLicenseProgramIdChanging(value);
                     ReportPropertyChanging("LicenseProgramId");
-                    _LicenseProgramId = StructuralObject.SetValidValue(value, "LicenseProgramId");
+                    _LicenseProgramId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("LicenseProgramId");
                     OnLicenseProgramIdChanged();
                 }
@@ -2929,7 +2929,7 @@ namespace OnlineAbit2013
             {
                 OnLicenseProgramCodeChanging(value);
                 ReportPropertyChanging("LicenseProgramCode");
-                _LicenseProgramCode = StructuralObject.SetValidValue(value, true, "LicenseProgramCode");
+                _LicenseProgramCode = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("LicenseProgramCode");
                 OnLicenseProgramCodeChanged();
             }
@@ -2955,7 +2955,7 @@ namespace OnlineAbit2013
                 {
                     OnLicenseProgramNameChanging(value);
                     ReportPropertyChanging("LicenseProgramName");
-                    _LicenseProgramName = StructuralObject.SetValidValue(value, false, "LicenseProgramName");
+                    _LicenseProgramName = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("LicenseProgramName");
                     OnLicenseProgramNameChanged();
                 }
@@ -2982,7 +2982,7 @@ namespace OnlineAbit2013
                 {
                     OnObrazProgramIdChanging(value);
                     ReportPropertyChanging("ObrazProgramId");
-                    _ObrazProgramId = StructuralObject.SetValidValue(value, "ObrazProgramId");
+                    _ObrazProgramId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("ObrazProgramId");
                     OnObrazProgramIdChanged();
                 }
@@ -3009,7 +3009,7 @@ namespace OnlineAbit2013
                 {
                     OnObrazProgramCryptChanging(value);
                     ReportPropertyChanging("ObrazProgramCrypt");
-                    _ObrazProgramCrypt = StructuralObject.SetValidValue(value, false, "ObrazProgramCrypt");
+                    _ObrazProgramCrypt = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("ObrazProgramCrypt");
                     OnObrazProgramCryptChanged();
                 }
@@ -3036,7 +3036,7 @@ namespace OnlineAbit2013
                 {
                     OnObrazProgramNameChanging(value);
                     ReportPropertyChanging("ObrazProgramName");
-                    _ObrazProgramName = StructuralObject.SetValidValue(value, false, "ObrazProgramName");
+                    _ObrazProgramName = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("ObrazProgramName");
                     OnObrazProgramNameChanged();
                 }
@@ -3061,7 +3061,7 @@ namespace OnlineAbit2013
             {
                 OnProfileIdChanging(value);
                 ReportPropertyChanging("ProfileId");
-                _ProfileId = StructuralObject.SetValidValue(value, "ProfileId");
+                _ProfileId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ProfileId");
                 OnProfileIdChanged();
             }
@@ -3087,7 +3087,7 @@ namespace OnlineAbit2013
                 {
                     OnProfileNameChanging(value);
                     ReportPropertyChanging("ProfileName");
-                    _ProfileName = StructuralObject.SetValidValue(value, false, "ProfileName");
+                    _ProfileName = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("ProfileName");
                     OnProfileNameChanged();
                 }
@@ -3114,7 +3114,7 @@ namespace OnlineAbit2013
                 {
                     OnStudyBasisIdChanging(value);
                     ReportPropertyChanging("StudyBasisId");
-                    _StudyBasisId = StructuralObject.SetValidValue(value, "StudyBasisId");
+                    _StudyBasisId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("StudyBasisId");
                     OnStudyBasisIdChanged();
                 }
@@ -3139,7 +3139,7 @@ namespace OnlineAbit2013
             {
                 OnStudyBasisNameChanging(value);
                 ReportPropertyChanging("StudyBasisName");
-                _StudyBasisName = StructuralObject.SetValidValue(value, true, "StudyBasisName");
+                _StudyBasisName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyBasisName");
                 OnStudyBasisNameChanged();
             }
@@ -3165,7 +3165,7 @@ namespace OnlineAbit2013
                 {
                     OnStudyFormIdChanging(value);
                     ReportPropertyChanging("StudyFormId");
-                    _StudyFormId = StructuralObject.SetValidValue(value, "StudyFormId");
+                    _StudyFormId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("StudyFormId");
                     OnStudyFormIdChanged();
                 }
@@ -3190,7 +3190,7 @@ namespace OnlineAbit2013
             {
                 OnStudyFormNameChanging(value);
                 ReportPropertyChanging("StudyFormName");
-                _StudyFormName = StructuralObject.SetValidValue(value, true, "StudyFormName");
+                _StudyFormName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyFormName");
                 OnStudyFormNameChanged();
             }
@@ -3216,7 +3216,7 @@ namespace OnlineAbit2013
                 {
                     OnStudyLevelIdChanging(value);
                     ReportPropertyChanging("StudyLevelId");
-                    _StudyLevelId = StructuralObject.SetValidValue(value, "StudyLevelId");
+                    _StudyLevelId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("StudyLevelId");
                     OnStudyLevelIdChanged();
                 }
@@ -3241,7 +3241,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelNameChanging(value);
                 ReportPropertyChanging("StudyLevelName");
-                _StudyLevelName = StructuralObject.SetValidValue(value, true, "StudyLevelName");
+                _StudyLevelName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyLevelName");
                 OnStudyLevelNameChanged();
             }
@@ -3267,7 +3267,7 @@ namespace OnlineAbit2013
                 {
                     OnIsApprovedByComissionChanging(value);
                     ReportPropertyChanging("IsApprovedByComission");
-                    _IsApprovedByComission = StructuralObject.SetValidValue(value, "IsApprovedByComission");
+                    _IsApprovedByComission = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsApprovedByComission");
                     OnIsApprovedByComissionChanged();
                 }
@@ -3292,7 +3292,7 @@ namespace OnlineAbit2013
             {
                 OnSecondTypeIdChanging(value);
                 ReportPropertyChanging("SecondTypeId");
-                _SecondTypeId = StructuralObject.SetValidValue(value, "SecondTypeId");
+                _SecondTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("SecondTypeId");
                 OnSecondTypeIdChanged();
             }
@@ -3318,7 +3318,7 @@ namespace OnlineAbit2013
                 {
                     OnIsSecondChanging(value);
                     ReportPropertyChanging("IsSecond");
-                    _IsSecond = StructuralObject.SetValidValue(value, "IsSecond");
+                    _IsSecond = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsSecond");
                     OnIsSecondChanged();
                 }
@@ -3345,7 +3345,7 @@ namespace OnlineAbit2013
                 {
                     OnIsReducedChanging(value);
                     ReportPropertyChanging("IsReduced");
-                    _IsReduced = StructuralObject.SetValidValue(value, "IsReduced");
+                    _IsReduced = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsReduced");
                     OnIsReducedChanged();
                 }
@@ -3370,7 +3370,7 @@ namespace OnlineAbit2013
             {
                 OnDateReviewDocsChanging(value);
                 ReportPropertyChanging("DateReviewDocs");
-                _DateReviewDocs = StructuralObject.SetValidValue(value, "DateReviewDocs");
+                _DateReviewDocs = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateReviewDocs");
                 OnDateReviewDocsChanged();
             }
@@ -3396,7 +3396,7 @@ namespace OnlineAbit2013
                 {
                     OnSemesterIdChanging(value);
                     ReportPropertyChanging("SemesterId");
-                    _SemesterId = StructuralObject.SetValidValue(value, "SemesterId");
+                    _SemesterId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("SemesterId");
                     OnSemesterIdChanged();
                 }
@@ -3423,7 +3423,7 @@ namespace OnlineAbit2013
                 {
                     OnIsParallelChanging(value);
                     ReportPropertyChanging("IsParallel");
-                    _IsParallel = StructuralObject.SetValidValue(value, "IsParallel");
+                    _IsParallel = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsParallel");
                     OnIsParallelChanged();
                 }
@@ -3448,7 +3448,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfCloseChanging(value);
                 ReportPropertyChanging("DateOfClose");
-                _DateOfClose = StructuralObject.SetValidValue(value, "DateOfClose");
+                _DateOfClose = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfClose");
                 OnDateOfCloseChanged();
             }
@@ -3474,7 +3474,7 @@ namespace OnlineAbit2013
                 {
                     OnCampaignYearChanging(value);
                     ReportPropertyChanging("CampaignYear");
-                    _CampaignYear = StructuralObject.SetValidValue(value, "CampaignYear");
+                    _CampaignYear = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("CampaignYear");
                     OnCampaignYearChanged();
                 }
@@ -3499,7 +3499,7 @@ namespace OnlineAbit2013
             {
                 OnObrazProgramNameEngChanging(value);
                 ReportPropertyChanging("ObrazProgramNameEng");
-                _ObrazProgramNameEng = StructuralObject.SetValidValue(value, true, "ObrazProgramNameEng");
+                _ObrazProgramNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ObrazProgramNameEng");
                 OnObrazProgramNameEngChanged();
             }
@@ -3523,7 +3523,7 @@ namespace OnlineAbit2013
             {
                 OnLicenseProgramNameEngChanging(value);
                 ReportPropertyChanging("LicenseProgramNameEng");
-                _LicenseProgramNameEng = StructuralObject.SetValidValue(value, true, "LicenseProgramNameEng");
+                _LicenseProgramNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("LicenseProgramNameEng");
                 OnLicenseProgramNameEngChanged();
             }
@@ -3547,7 +3547,7 @@ namespace OnlineAbit2013
             {
                 OnProfileNameEngChanging(value);
                 ReportPropertyChanging("ProfileNameEng");
-                _ProfileNameEng = StructuralObject.SetValidValue(value, true, "ProfileNameEng");
+                _ProfileNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ProfileNameEng");
                 OnProfileNameEngChanged();
             }
@@ -3571,7 +3571,7 @@ namespace OnlineAbit2013
             {
                 OnStudyBasisNameEngChanging(value);
                 ReportPropertyChanging("StudyBasisNameEng");
-                _StudyBasisNameEng = StructuralObject.SetValidValue(value, true, "StudyBasisNameEng");
+                _StudyBasisNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyBasisNameEng");
                 OnStudyBasisNameEngChanged();
             }
@@ -3595,7 +3595,7 @@ namespace OnlineAbit2013
             {
                 OnStudyFormNameEngChanging(value);
                 ReportPropertyChanging("StudyFormNameEng");
-                _StudyFormNameEng = StructuralObject.SetValidValue(value, true, "StudyFormNameEng");
+                _StudyFormNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyFormNameEng");
                 OnStudyFormNameEngChanged();
             }
@@ -3621,7 +3621,7 @@ namespace OnlineAbit2013
                 {
                     OnCommitIdChanging(value);
                     ReportPropertyChanging("CommitId");
-                    _CommitId = StructuralObject.SetValidValue(value, "CommitId");
+                    _CommitId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("CommitId");
                     OnCommitIdChanged();
                 }
@@ -3648,7 +3648,7 @@ namespace OnlineAbit2013
                 {
                     OnIsCommitedChanging(value);
                     ReportPropertyChanging("IsCommited");
-                    _IsCommited = StructuralObject.SetValidValue(value, "IsCommited");
+                    _IsCommited = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsCommited");
                     OnIsCommitedChanged();
                 }
@@ -3673,7 +3673,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelGroupNameEngChanging(value);
                 ReportPropertyChanging("StudyLevelGroupNameEng");
-                _StudyLevelGroupNameEng = StructuralObject.SetValidValue(value, true, "StudyLevelGroupNameEng");
+                _StudyLevelGroupNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyLevelGroupNameEng");
                 OnStudyLevelGroupNameEngChanged();
             }
@@ -3697,7 +3697,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelGroupNameRusChanging(value);
                 ReportPropertyChanging("StudyLevelGroupNameRus");
-                _StudyLevelGroupNameRus = StructuralObject.SetValidValue(value, true, "StudyLevelGroupNameRus");
+                _StudyLevelGroupNameRus = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyLevelGroupNameRus");
                 OnStudyLevelGroupNameRusChanged();
             }
@@ -3723,7 +3723,7 @@ namespace OnlineAbit2013
                 {
                     OnStudyLevelGroupIdChanging(value);
                     ReportPropertyChanging("StudyLevelGroupId");
-                    _StudyLevelGroupId = StructuralObject.SetValidValue(value, "StudyLevelGroupId");
+                    _StudyLevelGroupId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("StudyLevelGroupId");
                     OnStudyLevelGroupIdChanged();
                 }
@@ -3750,7 +3750,7 @@ namespace OnlineAbit2013
                 {
                     OnIsGosLineChanging(value);
                     ReportPropertyChanging("IsGosLine");
-                    _IsGosLine = StructuralObject.SetValidValue(value, "IsGosLine");
+                    _IsGosLine = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsGosLine");
                     OnIsGosLineChanged();
                 }
@@ -3777,7 +3777,7 @@ namespace OnlineAbit2013
                 {
                     OnApplicationCommitNumberChanging(value);
                     ReportPropertyChanging("ApplicationCommitNumber");
-                    _ApplicationCommitNumber = StructuralObject.SetValidValue(value, "ApplicationCommitNumber");
+                    _ApplicationCommitNumber = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("ApplicationCommitNumber");
                     OnApplicationCommitNumberChanged();
                 }
@@ -3802,7 +3802,7 @@ namespace OnlineAbit2013
             {
                 OnHasInnerPrioritiesChanging(value);
                 ReportPropertyChanging("HasInnerPriorities");
-                _HasInnerPriorities = StructuralObject.SetValidValue(value, "HasInnerPriorities");
+                _HasInnerPriorities = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HasInnerPriorities");
                 OnHasInnerPrioritiesChanged();
             }
@@ -3828,7 +3828,7 @@ namespace OnlineAbit2013
                 {
                     OnIsImportedChanging(value);
                     ReportPropertyChanging("IsImported");
-                    _IsImported = StructuralObject.SetValidValue(value, "IsImported");
+                    _IsImported = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsImported");
                     OnIsImportedChanged();
                 }
@@ -3853,7 +3853,7 @@ namespace OnlineAbit2013
             {
                 OnCompetitionIdChanging(value);
                 ReportPropertyChanging("CompetitionId");
-                _CompetitionId = StructuralObject.SetValidValue(value, "CompetitionId");
+                _CompetitionId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CompetitionId");
                 OnCompetitionIdChanged();
             }
@@ -3877,7 +3877,7 @@ namespace OnlineAbit2013
             {
                 OnApproverNameChanging(value);
                 ReportPropertyChanging("ApproverName");
-                _ApproverName = StructuralObject.SetValidValue(value, true, "ApproverName");
+                _ApproverName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ApproverName");
                 OnApproverNameChanged();
             }
@@ -3901,7 +3901,7 @@ namespace OnlineAbit2013
             {
                 OnDocInsertDateChanging(value);
                 ReportPropertyChanging("DocInsertDate");
-                _DocInsertDate = StructuralObject.SetValidValue(value, "DocInsertDate");
+                _DocInsertDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DocInsertDate");
                 OnDocInsertDateChanged();
             }
@@ -3927,7 +3927,7 @@ namespace OnlineAbit2013
                 {
                     OnIsDeletedChanging(value);
                     ReportPropertyChanging("IsDeleted");
-                    _IsDeleted = StructuralObject.SetValidValue(value, "IsDeleted");
+                    _IsDeleted = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsDeleted");
                     OnIsDeletedChanged();
                 }
@@ -3954,7 +3954,7 @@ namespace OnlineAbit2013
                 {
                     OnIsCommonRussianCompetitionChanging(value);
                     ReportPropertyChanging("IsCommonRussianCompetition");
-                    _IsCommonRussianCompetition = StructuralObject.SetValidValue(value, "IsCommonRussianCompetition");
+                    _IsCommonRussianCompetition = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsCommonRussianCompetition");
                     OnIsCommonRussianCompetitionChanged();
                 }
@@ -3981,7 +3981,7 @@ namespace OnlineAbit2013
                 {
                     OnIsPrintedChanging(value);
                     ReportPropertyChanging("IsPrinted");
-                    _IsPrinted = StructuralObject.SetValidValue(value, "IsPrinted");
+                    _IsPrinted = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsPrinted");
                     OnIsPrintedChanged();
                 }
@@ -4008,7 +4008,7 @@ namespace OnlineAbit2013
                 {
                     OnIsForeignChanging(value);
                     ReportPropertyChanging("IsForeign");
-                    _IsForeign = StructuralObject.SetValidValue(value, "IsForeign");
+                    _IsForeign = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsForeign");
                     OnIsForeignChanged();
                 }
@@ -4035,7 +4035,7 @@ namespace OnlineAbit2013
                 {
                     OnIsCrimeaChanging(value);
                     ReportPropertyChanging("IsCrimea");
-                    _IsCrimea = StructuralObject.SetValidValue(value, "IsCrimea");
+                    _IsCrimea = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsCrimea");
                     OnIsCrimeaChanged();
                 }
@@ -4062,7 +4062,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonBarcodeChanging(value);
                     ReportPropertyChanging("PersonBarcode");
-                    _PersonBarcode = StructuralObject.SetValidValue(value, "PersonBarcode");
+                    _PersonBarcode = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonBarcode");
                     OnPersonBarcodeChanged();
                 }
@@ -4074,6 +4074,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -4099,7 +4100,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -4118,7 +4119,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -4143,7 +4144,7 @@ namespace OnlineAbit2013
             {
                 OnDescriptionChanging(value);
                 ReportPropertyChanging("Description");
-                _Description = StructuralObject.SetValidValue(value, true, "Description");
+                _Description = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Description");
                 OnDescriptionChanged();
             }
@@ -4167,7 +4168,7 @@ namespace OnlineAbit2013
             {
                 OnMultiplierChanging(value);
                 ReportPropertyChanging("Multiplier");
-                _Multiplier = StructuralObject.SetValidValue(value, "Multiplier");
+                _Multiplier = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Multiplier");
                 OnMultiplierChanged();
             }
@@ -4191,7 +4192,7 @@ namespace OnlineAbit2013
             {
                 OnAppSecondTypeIdChanging(value);
                 ReportPropertyChanging("AppSecondTypeId");
-                _AppSecondTypeId = StructuralObject.SetValidValue(value, "AppSecondTypeId");
+                _AppSecondTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("AppSecondTypeId");
                 OnAppSecondTypeIdChanged();
             }
@@ -4202,6 +4203,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -4271,7 +4273,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -4290,7 +4292,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -4315,7 +4317,7 @@ namespace OnlineAbit2013
             {
                 OnPersonIdChanging(value);
                 ReportPropertyChanging("PersonId");
-                _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                _PersonId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PersonId");
                 OnPersonIdChanged();
             }
@@ -4339,7 +4341,7 @@ namespace OnlineAbit2013
             {
                 OnPriorityChanging(value);
                 ReportPropertyChanging("Priority");
-                _Priority = StructuralObject.SetValidValue(value, "Priority");
+                _Priority = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Priority");
                 OnPriorityChanged();
             }
@@ -4363,7 +4365,7 @@ namespace OnlineAbit2013
             {
                 OnBarcodeChanging(value);
                 ReportPropertyChanging("Barcode");
-                _Barcode = StructuralObject.SetValidValue(value, "Barcode");
+                _Barcode = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Barcode");
                 OnBarcodeChanged();
             }
@@ -4387,7 +4389,7 @@ namespace OnlineAbit2013
             {
                 OnEnabledChanging(value);
                 ReportPropertyChanging("Enabled");
-                _Enabled = StructuralObject.SetValidValue(value, "Enabled");
+                _Enabled = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Enabled");
                 OnEnabledChanged();
             }
@@ -4411,7 +4413,7 @@ namespace OnlineAbit2013
             {
                 OnHostelEducChanging(value);
                 ReportPropertyChanging("HostelEduc");
-                _HostelEduc = StructuralObject.SetValidValue(value, "HostelEduc");
+                _HostelEduc = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HostelEduc");
                 OnHostelEducChanged();
             }
@@ -4435,7 +4437,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfDisableChanging(value);
                 ReportPropertyChanging("DateOfDisable");
-                _DateOfDisable = StructuralObject.SetValidValue(value, "DateOfDisable");
+                _DateOfDisable = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfDisable");
                 OnDateOfDisableChanged();
             }
@@ -4459,7 +4461,7 @@ namespace OnlineAbit2013
             {
                 OnEntryIdChanging(value);
                 ReportPropertyChanging("EntryId");
-                _EntryId = StructuralObject.SetValidValue(value, "EntryId");
+                _EntryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EntryId");
                 OnEntryIdChanged();
             }
@@ -4483,7 +4485,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfStartChanging(value);
                 ReportPropertyChanging("DateOfStart");
-                _DateOfStart = StructuralObject.SetValidValue(value, "DateOfStart");
+                _DateOfStart = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfStart");
                 OnDateOfStartChanged();
             }
@@ -4507,7 +4509,7 @@ namespace OnlineAbit2013
             {
                 OnManualExamIdChanging(value);
                 ReportPropertyChanging("ManualExamId");
-                _ManualExamId = StructuralObject.SetValidValue(value, "ManualExamId");
+                _ManualExamId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ManualExamId");
                 OnManualExamIdChanged();
             }
@@ -4531,7 +4533,7 @@ namespace OnlineAbit2013
             {
                 OnIsApprovedByComissionChanging(value);
                 ReportPropertyChanging("IsApprovedByComission");
-                _IsApprovedByComission = StructuralObject.SetValidValue(value, "IsApprovedByComission");
+                _IsApprovedByComission = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsApprovedByComission");
                 OnIsApprovedByComissionChanged();
             }
@@ -4555,7 +4557,7 @@ namespace OnlineAbit2013
             {
                 OnIsCommitedChanging(value);
                 ReportPropertyChanging("IsCommited");
-                _IsCommited = StructuralObject.SetValidValue(value, "IsCommited");
+                _IsCommited = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsCommited");
                 OnIsCommitedChanged();
             }
@@ -4579,7 +4581,7 @@ namespace OnlineAbit2013
             {
                 OnCommitIdChanging(value);
                 ReportPropertyChanging("CommitId");
-                _CommitId = StructuralObject.SetValidValue(value, "CommitId");
+                _CommitId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CommitId");
                 OnCommitIdChanged();
             }
@@ -4590,6 +4592,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -4747,7 +4750,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -4766,7 +4769,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -4791,7 +4794,7 @@ namespace OnlineAbit2013
             {
                 OnProgramIdChanging(value);
                 ReportPropertyChanging("ProgramId");
-                _ProgramId = StructuralObject.SetValidValue(value, "ProgramId");
+                _ProgramId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ProgramId");
                 OnProgramIdChanged();
             }
@@ -4815,7 +4818,7 @@ namespace OnlineAbit2013
             {
                 OnObrazProgramIdChanging(value);
                 ReportPropertyChanging("ObrazProgramId");
-                _ObrazProgramId = StructuralObject.SetValidValue(value, "ObrazProgramId");
+                _ObrazProgramId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ObrazProgramId");
                 OnObrazProgramIdChanged();
             }
@@ -4839,7 +4842,7 @@ namespace OnlineAbit2013
             {
                 OnProfileIdChanging(value);
                 ReportPropertyChanging("ProfileId");
-                _ProfileId = StructuralObject.SetValidValue(value, "ProfileId");
+                _ProfileId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ProfileId");
                 OnProfileIdChanged();
             }
@@ -4863,7 +4866,7 @@ namespace OnlineAbit2013
             {
                 OnEntryClassIdChanging(value);
                 ReportPropertyChanging("EntryClassId");
-                _EntryClassId = StructuralObject.SetValidValue(value, "EntryClassId");
+                _EntryClassId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EntryClassId");
                 OnEntryClassIdChanged();
             }
@@ -4887,7 +4890,7 @@ namespace OnlineAbit2013
             {
                 OnHasManualExamsChanging(value);
                 ReportPropertyChanging("HasManualExams");
-                _HasManualExams = StructuralObject.SetValidValue(value, "HasManualExams");
+                _HasManualExams = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HasManualExams");
                 OnHasManualExamsChanged();
             }
@@ -4911,7 +4914,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfStartEntryChanging(value);
                 ReportPropertyChanging("DateOfStartEntry");
-                _DateOfStartEntry = StructuralObject.SetValidValue(value, "DateOfStartEntry");
+                _DateOfStartEntry = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfStartEntry");
                 OnDateOfStartEntryChanged();
             }
@@ -4935,7 +4938,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfStopEntryChanging(value);
                 ReportPropertyChanging("DateOfStopEntry");
-                _DateOfStopEntry = StructuralObject.SetValidValue(value, "DateOfStopEntry");
+                _DateOfStopEntry = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfStopEntry");
                 OnDateOfStopEntryChanged();
             }
@@ -4946,6 +4949,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -5171,7 +5175,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -5190,7 +5194,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -5215,7 +5219,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -5239,7 +5243,7 @@ namespace OnlineAbit2013
             {
                 OnNumChanging(value);
                 ReportPropertyChanging("Num");
-                _Num = StructuralObject.SetValidValue(value, true, "Num");
+                _Num = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Num");
                 OnNumChanged();
             }
@@ -5263,7 +5267,7 @@ namespace OnlineAbit2013
             {
                 OnExitClassNameChanging(value);
                 ReportPropertyChanging("ExitClassName");
-                _ExitClassName = StructuralObject.SetValidValue(value, true, "ExitClassName");
+                _ExitClassName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ExitClassName");
                 OnExitClassNameChanged();
             }
@@ -5287,7 +5291,7 @@ namespace OnlineAbit2013
             {
                 OnExitClassNumChanging(value);
                 ReportPropertyChanging("ExitClassNum");
-                _ExitClassNum = StructuralObject.SetValidValue(value, "ExitClassNum");
+                _ExitClassNum = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ExitClassNum");
                 OnExitClassNumChanged();
             }
@@ -5298,6 +5302,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -5349,7 +5354,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -5368,7 +5373,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -5393,7 +5398,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -5404,6 +5409,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -5431,7 +5437,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -5450,7 +5456,7 @@ namespace OnlineAbit2013
                 {
                     OnEntryIdChanging(value);
                     ReportPropertyChanging("EntryId");
-                    _EntryId = StructuralObject.SetValidValue(value, "EntryId");
+                    _EntryId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("EntryId");
                     OnEntryIdChanged();
                 }
@@ -5475,7 +5481,7 @@ namespace OnlineAbit2013
             {
                 OnEntryGroupIdChanging(value);
                 ReportPropertyChanging("EntryGroupId");
-                _EntryGroupId = StructuralObject.SetValidValue(value, "EntryGroupId");
+                _EntryGroupId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EntryGroupId");
                 OnEntryGroupIdChanged();
             }
@@ -5486,6 +5492,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -5511,7 +5518,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -5530,7 +5537,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -5555,7 +5562,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -5566,6 +5573,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -5643,7 +5651,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -5662,7 +5670,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -5687,7 +5695,7 @@ namespace OnlineAbit2013
             {
                 OnEntryIdChanging(value);
                 ReportPropertyChanging("EntryId");
-                _EntryId = StructuralObject.SetValidValue(value, "EntryId");
+                _EntryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EntryId");
                 OnEntryIdChanged();
             }
@@ -5711,7 +5719,7 @@ namespace OnlineAbit2013
             {
                 OnExamIdChanging(value);
                 ReportPropertyChanging("ExamId");
-                _ExamId = StructuralObject.SetValidValue(value, "ExamId");
+                _ExamId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ExamId");
                 OnExamIdChanged();
             }
@@ -5722,6 +5730,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -5827,7 +5836,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -5846,7 +5855,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -5871,7 +5880,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -5895,7 +5904,7 @@ namespace OnlineAbit2013
             {
                 OnNameRodChanging(value);
                 ReportPropertyChanging("NameRod");
-                _NameRod = StructuralObject.SetValidValue(value, true, "NameRod");
+                _NameRod = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameRod");
                 OnNameRodChanged();
             }
@@ -5919,7 +5928,7 @@ namespace OnlineAbit2013
             {
                 OnNumChanging(value);
                 ReportPropertyChanging("Num");
-                _Num = StructuralObject.SetValidValue(value, true, "Num");
+                _Num = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Num");
                 OnNumChanged();
             }
@@ -5930,6 +5939,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -5981,7 +5991,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -6000,7 +6010,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -6025,7 +6035,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -6049,7 +6059,7 @@ namespace OnlineAbit2013
             {
                 OnNamePrintChanging(value);
                 ReportPropertyChanging("NamePrint");
-                _NamePrint = StructuralObject.SetValidValue(value, true, "NamePrint");
+                _NamePrint = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NamePrint");
                 OnNamePrintChanged();
             }
@@ -6060,6 +6070,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -6111,7 +6122,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -6130,7 +6141,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -6155,7 +6166,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -6179,7 +6190,7 @@ namespace OnlineAbit2013
             {
                 OnNameRodChanging(value);
                 ReportPropertyChanging("NameRod");
-                _NameRod = StructuralObject.SetValidValue(value, true, "NameRod");
+                _NameRod = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameRod");
                 OnNameRodChanged();
             }
@@ -6190,6 +6201,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -6273,7 +6285,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -6292,7 +6304,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -6317,7 +6329,7 @@ namespace OnlineAbit2013
             {
                 OnPersonIdChanging(value);
                 ReportPropertyChanging("PersonId");
-                _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                _PersonId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PersonId");
                 OnPersonIdChanged();
             }
@@ -6341,7 +6353,7 @@ namespace OnlineAbit2013
             {
                 OnPriorityChanging(value);
                 ReportPropertyChanging("Priority");
-                _Priority = StructuralObject.SetValidValue(value, "Priority");
+                _Priority = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Priority");
                 OnPriorityChanged();
             }
@@ -6365,7 +6377,7 @@ namespace OnlineAbit2013
             {
                 OnBarcodeChanging(value);
                 ReportPropertyChanging("Barcode");
-                _Barcode = StructuralObject.SetValidValue(value, "Barcode");
+                _Barcode = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Barcode");
                 OnBarcodeChanged();
             }
@@ -6389,7 +6401,7 @@ namespace OnlineAbit2013
             {
                 OnEnabledChanging(value);
                 ReportPropertyChanging("Enabled");
-                _Enabled = StructuralObject.SetValidValue(value, "Enabled");
+                _Enabled = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Enabled");
                 OnEnabledChanged();
             }
@@ -6413,7 +6425,7 @@ namespace OnlineAbit2013
             {
                 OnEntryTypeChanging(value);
                 ReportPropertyChanging("EntryType");
-                _EntryType = StructuralObject.SetValidValue(value, "EntryType");
+                _EntryType = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EntryType");
                 OnEntryTypeChanged();
             }
@@ -6437,7 +6449,7 @@ namespace OnlineAbit2013
             {
                 OnHostelEducChanging(value);
                 ReportPropertyChanging("HostelEduc");
-                _HostelEduc = StructuralObject.SetValidValue(value, "HostelEduc");
+                _HostelEduc = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HostelEduc");
                 OnHostelEducChanged();
             }
@@ -6461,7 +6473,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfDisableChanging(value);
                 ReportPropertyChanging("DateOfDisable");
-                _DateOfDisable = StructuralObject.SetValidValue(value, "DateOfDisable");
+                _DateOfDisable = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfDisable");
                 OnDateOfDisableChanged();
             }
@@ -6485,7 +6497,7 @@ namespace OnlineAbit2013
             {
                 OnEntryIdChanging(value);
                 ReportPropertyChanging("EntryId");
-                _EntryId = StructuralObject.SetValidValue(value, "EntryId");
+                _EntryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EntryId");
                 OnEntryIdChanged();
             }
@@ -6509,7 +6521,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfStartChanging(value);
                 ReportPropertyChanging("DateOfStart");
-                _DateOfStart = StructuralObject.SetValidValue(value, "DateOfStart");
+                _DateOfStart = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfStart");
                 OnDateOfStartChanged();
             }
@@ -6533,7 +6545,7 @@ namespace OnlineAbit2013
             {
                 OnIsApprovedByComissionChanging(value);
                 ReportPropertyChanging("IsApprovedByComission");
-                _IsApprovedByComission = StructuralObject.SetValidValue(value, "IsApprovedByComission");
+                _IsApprovedByComission = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsApprovedByComission");
                 OnIsApprovedByComissionChanged();
             }
@@ -6557,7 +6569,7 @@ namespace OnlineAbit2013
             {
                 OnIsImportedChanging(value);
                 ReportPropertyChanging("IsImported");
-                _IsImported = StructuralObject.SetValidValue(value, "IsImported");
+                _IsImported = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsImported");
                 OnIsImportedChanged();
             }
@@ -6581,7 +6593,7 @@ namespace OnlineAbit2013
             {
                 OnSecondTypeIdChanging(value);
                 ReportPropertyChanging("SecondTypeId");
-                _SecondTypeId = StructuralObject.SetValidValue(value, "SecondTypeId");
+                _SecondTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("SecondTypeId");
                 OnSecondTypeIdChanged();
             }
@@ -6605,7 +6617,7 @@ namespace OnlineAbit2013
             {
                 OnDateReviewDocsChanging(value);
                 ReportPropertyChanging("DateReviewDocs");
-                _DateReviewDocs = StructuralObject.SetValidValue(value, "DateReviewDocs");
+                _DateReviewDocs = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateReviewDocs");
                 OnDateReviewDocsChanged();
             }
@@ -6629,7 +6641,7 @@ namespace OnlineAbit2013
             {
                 OnCommitIdChanging(value);
                 ReportPropertyChanging("CommitId");
-                _CommitId = StructuralObject.SetValidValue(value, "CommitId");
+                _CommitId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CommitId");
                 OnCommitIdChanged();
             }
@@ -6653,7 +6665,7 @@ namespace OnlineAbit2013
             {
                 OnIsCommitedChanging(value);
                 ReportPropertyChanging("IsCommited");
-                _IsCommited = StructuralObject.SetValidValue(value, "IsCommited");
+                _IsCommited = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsCommited");
                 OnIsCommitedChanged();
             }
@@ -6677,7 +6689,7 @@ namespace OnlineAbit2013
             {
                 OnIsGosLineChanging(value);
                 ReportPropertyChanging("IsGosLine");
-                _IsGosLine = StructuralObject.SetValidValue(value, "IsGosLine");
+                _IsGosLine = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsGosLine");
                 OnIsGosLineChanged();
             }
@@ -6701,7 +6713,7 @@ namespace OnlineAbit2013
             {
                 OnIsPrintedChanging(value);
                 ReportPropertyChanging("IsPrinted");
-                _IsPrinted = StructuralObject.SetValidValue(value, "IsPrinted");
+                _IsPrinted = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsPrinted");
                 OnIsPrintedChanged();
             }
@@ -6725,7 +6737,7 @@ namespace OnlineAbit2013
             {
                 OnIsDeletedChanging(value);
                 ReportPropertyChanging("IsDeleted");
-                _IsDeleted = StructuralObject.SetValidValue(value, "IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsDeleted");
                 OnIsDeletedChanged();
             }
@@ -6749,7 +6761,7 @@ namespace OnlineAbit2013
             {
                 OnCompetitionIdChanging(value);
                 ReportPropertyChanging("CompetitionId");
-                _CompetitionId = StructuralObject.SetValidValue(value, "CompetitionId");
+                _CompetitionId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CompetitionId");
                 OnCompetitionIdChanged();
             }
@@ -6773,7 +6785,7 @@ namespace OnlineAbit2013
             {
                 OnApproverNameChanging(value);
                 ReportPropertyChanging("ApproverName");
-                _ApproverName = StructuralObject.SetValidValue(value, true, "ApproverName");
+                _ApproverName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ApproverName");
                 OnApproverNameChanged();
             }
@@ -6797,7 +6809,7 @@ namespace OnlineAbit2013
             {
                 OnDocInsertDateChanging(value);
                 ReportPropertyChanging("DocInsertDate");
-                _DocInsertDate = StructuralObject.SetValidValue(value, "DocInsertDate");
+                _DocInsertDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DocInsertDate");
                 OnDocInsertDateChanged();
             }
@@ -6821,7 +6833,7 @@ namespace OnlineAbit2013
             {
                 OnIsCommonRussianCompetitionChanging(value);
                 ReportPropertyChanging("IsCommonRussianCompetition");
-                _IsCommonRussianCompetition = StructuralObject.SetValidValue(value, "IsCommonRussianCompetition");
+                _IsCommonRussianCompetition = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsCommonRussianCompetition");
                 OnIsCommonRussianCompetitionChanged();
             }
@@ -6832,6 +6844,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -7049,7 +7062,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -7068,7 +7081,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -7093,7 +7106,7 @@ namespace OnlineAbit2013
             {
                 OnIntNumberChanging(value);
                 ReportPropertyChanging("IntNumber");
-                _IntNumber = StructuralObject.SetValidValue(value, "IntNumber");
+                _IntNumber = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IntNumber");
                 OnIntNumberChanged();
             }
@@ -7117,7 +7130,7 @@ namespace OnlineAbit2013
             {
                 OnIsPrintedChanging(value);
                 ReportPropertyChanging("IsPrinted");
-                _IsPrinted = StructuralObject.SetValidValue(value, "IsPrinted");
+                _IsPrinted = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsPrinted");
                 OnIsPrintedChanged();
             }
@@ -7141,7 +7154,7 @@ namespace OnlineAbit2013
             {
                 OnIsImportedChanging(value);
                 ReportPropertyChanging("IsImported");
-                _IsImported = StructuralObject.SetValidValue(value, "IsImported");
+                _IsImported = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsImported");
                 OnIsImportedChanged();
             }
@@ -7165,7 +7178,7 @@ namespace OnlineAbit2013
             {
                 OnDateReviewDocsChanging(value);
                 ReportPropertyChanging("DateReviewDocs");
-                _DateReviewDocs = StructuralObject.SetValidValue(value, "DateReviewDocs");
+                _DateReviewDocs = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateReviewDocs");
                 OnDateReviewDocsChanged();
             }
@@ -7189,7 +7202,7 @@ namespace OnlineAbit2013
             {
                 OnIsVisibleChanging(value);
                 ReportPropertyChanging("IsVisible");
-                _IsVisible = StructuralObject.SetValidValue(value, "IsVisible");
+                _IsVisible = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsVisible");
                 OnIsVisibleChanged();
             }
@@ -7200,6 +7213,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -7321,7 +7335,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -7340,7 +7354,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -7365,7 +7379,7 @@ namespace OnlineAbit2013
             {
                 OnCommitIdChanging(value);
                 ReportPropertyChanging("CommitId");
-                _CommitId = StructuralObject.SetValidValue(value, "CommitId");
+                _CommitId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CommitId");
                 OnCommitIdChanged();
             }
@@ -7389,7 +7403,7 @@ namespace OnlineAbit2013
             {
                 OnVersionDateChanging(value);
                 ReportPropertyChanging("VersionDate");
-                _VersionDate = StructuralObject.SetValidValue(value, "VersionDate");
+                _VersionDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("VersionDate");
                 OnVersionDateChanged();
             }
@@ -7400,6 +7414,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -7473,7 +7488,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -7492,7 +7507,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -7517,7 +7532,7 @@ namespace OnlineAbit2013
             {
                 OnApplicationCommitVersionIdChanging(value);
                 ReportPropertyChanging("ApplicationCommitVersionId");
-                _ApplicationCommitVersionId = StructuralObject.SetValidValue(value, "ApplicationCommitVersionId");
+                _ApplicationCommitVersionId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ApplicationCommitVersionId");
                 OnApplicationCommitVersionIdChanged();
             }
@@ -7541,7 +7556,7 @@ namespace OnlineAbit2013
             {
                 OnApplicationIdChanging(value);
                 ReportPropertyChanging("ApplicationId");
-                _ApplicationId = StructuralObject.SetValidValue(value, "ApplicationId");
+                _ApplicationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ApplicationId");
                 OnApplicationIdChanged();
             }
@@ -7565,7 +7580,7 @@ namespace OnlineAbit2013
             {
                 OnPriorityChanging(value);
                 ReportPropertyChanging("Priority");
-                _Priority = StructuralObject.SetValidValue(value, "Priority");
+                _Priority = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Priority");
                 OnPriorityChanged();
             }
@@ -7576,6 +7591,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -7607,7 +7623,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -7626,7 +7642,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -7651,7 +7667,7 @@ namespace OnlineAbit2013
             {
                 OnApplicationIdChanging(value);
                 ReportPropertyChanging("ApplicationId");
-                _ApplicationId = StructuralObject.SetValidValue(value, "ApplicationId");
+                _ApplicationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ApplicationId");
                 OnApplicationIdChanged();
             }
@@ -7675,7 +7691,7 @@ namespace OnlineAbit2013
             {
                 OnInnerEntryInEntryIdChanging(value);
                 ReportPropertyChanging("InnerEntryInEntryId");
-                _InnerEntryInEntryId = StructuralObject.SetValidValue(value, "InnerEntryInEntryId");
+                _InnerEntryInEntryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("InnerEntryInEntryId");
                 OnInnerEntryInEntryIdChanged();
             }
@@ -7699,7 +7715,7 @@ namespace OnlineAbit2013
             {
                 OnInnerEntryInEntryPriorityChanging(value);
                 ReportPropertyChanging("InnerEntryInEntryPriority");
-                _InnerEntryInEntryPriority = StructuralObject.SetValidValue(value, "InnerEntryInEntryPriority");
+                _InnerEntryInEntryPriority = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("InnerEntryInEntryPriority");
                 OnInnerEntryInEntryPriorityChanged();
             }
@@ -7710,6 +7726,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -7827,7 +7844,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -7846,7 +7863,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -7871,7 +7888,7 @@ namespace OnlineAbit2013
             {
                 OnApplicationIdChanging(value);
                 ReportPropertyChanging("ApplicationId");
-                _ApplicationId = StructuralObject.SetValidValue(value, "ApplicationId");
+                _ApplicationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ApplicationId");
                 OnApplicationIdChanged();
             }
@@ -7895,7 +7912,7 @@ namespace OnlineAbit2013
             {
                 OnCommitIdChanging(value);
                 ReportPropertyChanging("CommitId");
-                _CommitId = StructuralObject.SetValidValue(value, "CommitId");
+                _CommitId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CommitId");
                 OnCommitIdChanged();
             }
@@ -7919,7 +7936,7 @@ namespace OnlineAbit2013
             {
                 OnFileNameChanging(value);
                 ReportPropertyChanging("FileName");
-                _FileName = StructuralObject.SetValidValue(value, false, "FileName");
+                _FileName = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("FileName");
                 OnFileNameChanged();
             }
@@ -7943,7 +7960,7 @@ namespace OnlineAbit2013
             {
                 OnFileSizeChanging(value);
                 ReportPropertyChanging("FileSize");
-                _FileSize = StructuralObject.SetValidValue(value, "FileSize");
+                _FileSize = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("FileSize");
                 OnFileSizeChanged();
             }
@@ -7967,7 +7984,7 @@ namespace OnlineAbit2013
             {
                 OnFileExtentionChanging(value);
                 ReportPropertyChanging("FileExtention");
-                _FileExtention = StructuralObject.SetValidValue(value, true, "FileExtention");
+                _FileExtention = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FileExtention");
                 OnFileExtentionChanged();
             }
@@ -7991,7 +8008,7 @@ namespace OnlineAbit2013
             {
                 OnFileDataChanging(value);
                 ReportPropertyChanging("FileData");
-                _FileData = StructuralObject.SetValidValue(value, true, "FileData");
+                _FileData = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FileData");
                 OnFileDataChanged();
             }
@@ -8015,7 +8032,7 @@ namespace OnlineAbit2013
             {
                 OnCommentChanging(value);
                 ReportPropertyChanging("Comment");
-                _Comment = StructuralObject.SetValidValue(value, true, "Comment");
+                _Comment = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Comment");
                 OnCommentChanged();
             }
@@ -8039,7 +8056,7 @@ namespace OnlineAbit2013
             {
                 OnLoadDateChanging(value);
                 ReportPropertyChanging("LoadDate");
-                _LoadDate = StructuralObject.SetValidValue(value, "LoadDate");
+                _LoadDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("LoadDate");
                 OnLoadDateChanged();
             }
@@ -8063,7 +8080,7 @@ namespace OnlineAbit2013
             {
                 OnIsReadOnlyChanging(value);
                 ReportPropertyChanging("IsReadOnly");
-                _IsReadOnly = StructuralObject.SetValidValue(value, "IsReadOnly");
+                _IsReadOnly = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsReadOnly");
                 OnIsReadOnlyChanged();
             }
@@ -8087,7 +8104,7 @@ namespace OnlineAbit2013
             {
                 OnMimeTypeChanging(value);
                 ReportPropertyChanging("MimeType");
-                _MimeType = StructuralObject.SetValidValue(value, true, "MimeType");
+                _MimeType = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("MimeType");
                 OnMimeTypeChanged();
             }
@@ -8111,7 +8128,7 @@ namespace OnlineAbit2013
             {
                 OnIsApprovedChanging(value);
                 ReportPropertyChanging("IsApproved");
-                _IsApproved = StructuralObject.SetValidValue(value, "IsApproved");
+                _IsApproved = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsApproved");
                 OnIsApprovedChanged();
             }
@@ -8135,7 +8152,7 @@ namespace OnlineAbit2013
             {
                 OnFailReasonChanging(value);
                 ReportPropertyChanging("FailReason");
-                _FailReason = StructuralObject.SetValidValue(value, true, "FailReason");
+                _FailReason = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FailReason");
                 OnFailReasonChanged();
             }
@@ -8159,7 +8176,7 @@ namespace OnlineAbit2013
             {
                 OnFileTypeIdChanging(value);
                 ReportPropertyChanging("FileTypeId");
-                _FileTypeId = StructuralObject.SetValidValue(value, "FileTypeId");
+                _FileTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("FileTypeId");
                 OnFileTypeIdChanged();
             }
@@ -8183,7 +8200,7 @@ namespace OnlineAbit2013
             {
                 OnIsDeletedChanging(value);
                 ReportPropertyChanging("IsDeleted");
-                _IsDeleted = StructuralObject.SetValidValue(value, "IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsDeleted");
                 OnIsDeletedChanged();
             }
@@ -8194,6 +8211,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -8301,7 +8319,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -8320,7 +8338,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -8347,7 +8365,7 @@ namespace OnlineAbit2013
                 {
                     OnNameChanging(value);
                     ReportPropertyChanging("Name");
-                    _Name = StructuralObject.SetValidValue(value, false, "Name");
+                    _Name = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("Name");
                     OnNameChanged();
                 }
@@ -8372,7 +8390,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -8383,6 +8401,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -8410,7 +8429,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -8429,7 +8448,7 @@ namespace OnlineAbit2013
                 {
                     OnApplicationIdChanging(value);
                     ReportPropertyChanging("ApplicationId");
-                    _ApplicationId = StructuralObject.SetValidValue(value, "ApplicationId");
+                    _ApplicationId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("ApplicationId");
                     OnApplicationIdChanged();
                 }
@@ -8456,7 +8475,7 @@ namespace OnlineAbit2013
                 {
                     OnExamInEntryBlockUnitIdChanging(value);
                     ReportPropertyChanging("ExamInEntryBlockUnitId");
-                    _ExamInEntryBlockUnitId = StructuralObject.SetValidValue(value, "ExamInEntryBlockUnitId");
+                    _ExamInEntryBlockUnitId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("ExamInEntryBlockUnitId");
                     OnExamInEntryBlockUnitIdChanged();
                 }
@@ -8468,6 +8487,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -8499,7 +8519,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -8518,7 +8538,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -8543,7 +8563,7 @@ namespace OnlineAbit2013
             {
                 OnIntNumberChanging(value);
                 ReportPropertyChanging("IntNumber");
-                _IntNumber = StructuralObject.SetValidValue(value, "IntNumber");
+                _IntNumber = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IntNumber");
                 OnIntNumberChanged();
             }
@@ -8567,7 +8587,7 @@ namespace OnlineAbit2013
             {
                 OnApplicationIdChanging(value);
                 ReportPropertyChanging("ApplicationId");
-                _ApplicationId = StructuralObject.SetValidValue(value, "ApplicationId");
+                _ApplicationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ApplicationId");
                 OnApplicationIdChanged();
             }
@@ -8591,7 +8611,7 @@ namespace OnlineAbit2013
             {
                 OnVersionDateChanging(value);
                 ReportPropertyChanging("VersionDate");
-                _VersionDate = StructuralObject.SetValidValue(value, "VersionDate");
+                _VersionDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("VersionDate");
                 OnVersionDateChanged();
             }
@@ -8602,6 +8622,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -8659,7 +8680,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -8678,7 +8699,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -8703,7 +8724,7 @@ namespace OnlineAbit2013
             {
                 OnApplicationVersionIdChanging(value);
                 ReportPropertyChanging("ApplicationVersionId");
-                _ApplicationVersionId = StructuralObject.SetValidValue(value, "ApplicationVersionId");
+                _ApplicationVersionId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ApplicationVersionId");
                 OnApplicationVersionIdChanged();
             }
@@ -8727,7 +8748,7 @@ namespace OnlineAbit2013
             {
                 OnInnerEntryInEntryIdChanging(value);
                 ReportPropertyChanging("InnerEntryInEntryId");
-                _InnerEntryInEntryId = StructuralObject.SetValidValue(value, "InnerEntryInEntryId");
+                _InnerEntryInEntryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("InnerEntryInEntryId");
                 OnInnerEntryInEntryIdChanged();
             }
@@ -8751,7 +8772,7 @@ namespace OnlineAbit2013
             {
                 OnInnerEntryInEntryPriorityChanging(value);
                 ReportPropertyChanging("InnerEntryInEntryPriority");
-                _InnerEntryInEntryPriority = StructuralObject.SetValidValue(value, "InnerEntryInEntryPriority");
+                _InnerEntryInEntryPriority = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("InnerEntryInEntryPriority");
                 OnInnerEntryInEntryPriorityChanged();
             }
@@ -8762,6 +8783,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -8863,7 +8885,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -8882,7 +8904,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -8907,7 +8929,7 @@ namespace OnlineAbit2013
             {
                 OnSemesterIdChanging(value);
                 ReportPropertyChanging("SemesterId");
-                _SemesterId = StructuralObject.SetValidValue(value, "SemesterId");
+                _SemesterId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("SemesterId");
                 OnSemesterIdChanged();
             }
@@ -8931,7 +8953,7 @@ namespace OnlineAbit2013
             {
                 OnStudyPlanIdChanging(value);
                 ReportPropertyChanging("StudyPlanId");
-                _StudyPlanId = StructuralObject.SetValidValue(value, "StudyPlanId");
+                _StudyPlanId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyPlanId");
                 OnStudyPlanIdChanged();
             }
@@ -8955,7 +8977,7 @@ namespace OnlineAbit2013
             {
                 OnStudyPlanNumberChanging(value);
                 ReportPropertyChanging("StudyPlanNumber");
-                _StudyPlanNumber = StructuralObject.SetValidValue(value, true, "StudyPlanNumber");
+                _StudyPlanNumber = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyPlanNumber");
                 OnStudyPlanNumberChanged();
             }
@@ -8979,7 +9001,7 @@ namespace OnlineAbit2013
             {
                 OnFacultyIdChanging(value);
                 ReportPropertyChanging("FacultyId");
-                _FacultyId = StructuralObject.SetValidValue(value, "FacultyId");
+                _FacultyId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("FacultyId");
                 OnFacultyIdChanged();
             }
@@ -9003,7 +9025,7 @@ namespace OnlineAbit2013
             {
                 OnLicenseProgramIdChanging(value);
                 ReportPropertyChanging("LicenseProgramId");
-                _LicenseProgramId = StructuralObject.SetValidValue(value, "LicenseProgramId");
+                _LicenseProgramId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("LicenseProgramId");
                 OnLicenseProgramIdChanged();
             }
@@ -9027,7 +9049,7 @@ namespace OnlineAbit2013
             {
                 OnObrazProgramIdChanging(value);
                 ReportPropertyChanging("ObrazProgramId");
-                _ObrazProgramId = StructuralObject.SetValidValue(value, "ObrazProgramId");
+                _ObrazProgramId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ObrazProgramId");
                 OnObrazProgramIdChanged();
             }
@@ -9051,7 +9073,7 @@ namespace OnlineAbit2013
             {
                 OnProfileIdChanging(value);
                 ReportPropertyChanging("ProfileId");
-                _ProfileId = StructuralObject.SetValidValue(value, "ProfileId");
+                _ProfileId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ProfileId");
                 OnProfileIdChanged();
             }
@@ -9075,7 +9097,7 @@ namespace OnlineAbit2013
             {
                 OnStudyBasisIdChanging(value);
                 ReportPropertyChanging("StudyBasisId");
-                _StudyBasisId = StructuralObject.SetValidValue(value, "StudyBasisId");
+                _StudyBasisId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyBasisId");
                 OnStudyBasisIdChanged();
             }
@@ -9099,7 +9121,7 @@ namespace OnlineAbit2013
             {
                 OnStudyFormIdChanging(value);
                 ReportPropertyChanging("StudyFormId");
-                _StudyFormId = StructuralObject.SetValidValue(value, "StudyFormId");
+                _StudyFormId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyFormId");
                 OnStudyFormIdChanged();
             }
@@ -9123,7 +9145,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelIdChanging(value);
                 ReportPropertyChanging("StudyLevelId");
-                _StudyLevelId = StructuralObject.SetValidValue(value, "StudyLevelId");
+                _StudyLevelId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyLevelId");
                 OnStudyLevelIdChanged();
             }
@@ -9147,7 +9169,7 @@ namespace OnlineAbit2013
             {
                 OnIsSecondChanging(value);
                 ReportPropertyChanging("IsSecond");
-                _IsSecond = StructuralObject.SetValidValue(value, "IsSecond");
+                _IsSecond = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsSecond");
                 OnIsSecondChanged();
             }
@@ -9171,7 +9193,7 @@ namespace OnlineAbit2013
             {
                 OnIsReducedChanging(value);
                 ReportPropertyChanging("IsReduced");
-                _IsReduced = StructuralObject.SetValidValue(value, "IsReduced");
+                _IsReduced = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsReduced");
                 OnIsReducedChanged();
             }
@@ -9195,7 +9217,7 @@ namespace OnlineAbit2013
             {
                 OnIsParallelChanging(value);
                 ReportPropertyChanging("IsParallel");
-                _IsParallel = StructuralObject.SetValidValue(value, "IsParallel");
+                _IsParallel = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsParallel");
                 OnIsParallelChanged();
             }
@@ -9219,7 +9241,7 @@ namespace OnlineAbit2013
             {
                 OnIsExpressChanging(value);
                 ReportPropertyChanging("IsExpress");
-                _IsExpress = StructuralObject.SetValidValue(value, "IsExpress");
+                _IsExpress = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsExpress");
                 OnIsExpressChanged();
             }
@@ -9243,7 +9265,7 @@ namespace OnlineAbit2013
             {
                 OnIsElectronicChanging(value);
                 ReportPropertyChanging("IsElectronic");
-                _IsElectronic = StructuralObject.SetValidValue(value, "IsElectronic");
+                _IsElectronic = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsElectronic");
                 OnIsElectronicChanged();
             }
@@ -9267,7 +9289,7 @@ namespace OnlineAbit2013
             {
                 OnIsDistanceChanging(value);
                 ReportPropertyChanging("IsDistance");
-                _IsDistance = StructuralObject.SetValidValue(value, "IsDistance");
+                _IsDistance = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsDistance");
                 OnIsDistanceChanged();
             }
@@ -9291,7 +9313,7 @@ namespace OnlineAbit2013
             {
                 OnCampaignYearChanging(value);
                 ReportPropertyChanging("CampaignYear");
-                _CampaignYear = StructuralObject.SetValidValue(value, "CampaignYear");
+                _CampaignYear = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CampaignYear");
                 OnCampaignYearChanged();
             }
@@ -9315,7 +9337,7 @@ namespace OnlineAbit2013
             {
                 OnQualificationIdChanging(value);
                 ReportPropertyChanging("QualificationId");
-                _QualificationId = StructuralObject.SetValidValue(value, "QualificationId");
+                _QualificationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("QualificationId");
                 OnQualificationIdChanged();
             }
@@ -9339,7 +9361,7 @@ namespace OnlineAbit2013
             {
                 OnProgramModeIdChanging(value);
                 ReportPropertyChanging("ProgramModeId");
-                _ProgramModeId = StructuralObject.SetValidValue(value, "ProgramModeId");
+                _ProgramModeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ProgramModeId");
                 OnProgramModeIdChanged();
             }
@@ -9363,7 +9385,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfCloseChanging(value);
                 ReportPropertyChanging("DateOfClose");
-                _DateOfClose = StructuralObject.SetValidValue(value, "DateOfClose");
+                _DateOfClose = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfClose");
                 OnDateOfCloseChanged();
             }
@@ -9387,7 +9409,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfStartChanging(value);
                 ReportPropertyChanging("DateOfStart");
-                _DateOfStart = StructuralObject.SetValidValue(value, "DateOfStart");
+                _DateOfStart = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfStart");
                 OnDateOfStartChanged();
             }
@@ -9411,7 +9433,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfClose_ForeignChanging(value);
                 ReportPropertyChanging("DateOfClose_Foreign");
-                _DateOfClose_Foreign = StructuralObject.SetValidValue(value, "DateOfClose_Foreign");
+                _DateOfClose_Foreign = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfClose_Foreign");
                 OnDateOfClose_ForeignChanged();
             }
@@ -9435,7 +9457,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfStart_ForeignChanging(value);
                 ReportPropertyChanging("DateOfStart_Foreign");
-                _DateOfStart_Foreign = StructuralObject.SetValidValue(value, "DateOfStart_Foreign");
+                _DateOfStart_Foreign = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfStart_Foreign");
                 OnDateOfStart_ForeignChanged();
             }
@@ -9459,7 +9481,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfClose_GosLineChanging(value);
                 ReportPropertyChanging("DateOfClose_GosLine");
-                _DateOfClose_GosLine = StructuralObject.SetValidValue(value, "DateOfClose_GosLine");
+                _DateOfClose_GosLine = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfClose_GosLine");
                 OnDateOfClose_GosLineChanged();
             }
@@ -9483,7 +9505,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfStart_GosLineChanging(value);
                 ReportPropertyChanging("DateOfStart_GosLine");
-                _DateOfStart_GosLine = StructuralObject.SetValidValue(value, "DateOfStart_GosLine");
+                _DateOfStart_GosLine = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfStart_GosLine");
                 OnDateOfStart_GosLineChanged();
             }
@@ -9507,7 +9529,7 @@ namespace OnlineAbit2013
             {
                 OnIsUsedForPriemChanging(value);
                 ReportPropertyChanging("IsUsedForPriem");
-                _IsUsedForPriem = StructuralObject.SetValidValue(value, "IsUsedForPriem");
+                _IsUsedForPriem = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsUsedForPriem");
                 OnIsUsedForPriemChanged();
             }
@@ -9531,7 +9553,7 @@ namespace OnlineAbit2013
             {
                 OnComissionIdChanging(value);
                 ReportPropertyChanging("ComissionId");
-                _ComissionId = StructuralObject.SetValidValue(value, "ComissionId");
+                _ComissionId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ComissionId");
                 OnComissionIdChanged();
             }
@@ -9555,7 +9577,7 @@ namespace OnlineAbit2013
             {
                 OnIsForeignChanging(value);
                 ReportPropertyChanging("IsForeign");
-                _IsForeign = StructuralObject.SetValidValue(value, "IsForeign");
+                _IsForeign = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsForeign");
                 OnIsForeignChanged();
             }
@@ -9579,7 +9601,7 @@ namespace OnlineAbit2013
             {
                 OnIsCrimeaChanging(value);
                 ReportPropertyChanging("IsCrimea");
-                _IsCrimea = StructuralObject.SetValidValue(value, "IsCrimea");
+                _IsCrimea = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsCrimea");
                 OnIsCrimeaChanged();
             }
@@ -9590,6 +9612,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -9933,7 +9956,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -9952,7 +9975,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -9977,7 +10000,7 @@ namespace OnlineAbit2013
             {
                 OnAddressChanging(value);
                 ReportPropertyChanging("Address");
-                _Address = StructuralObject.SetValidValue(value, false, "Address");
+                _Address = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("Address");
                 OnAddressChanged();
             }
@@ -10001,7 +10024,7 @@ namespace OnlineAbit2013
             {
                 OnYaMapCoordChanging(value);
                 ReportPropertyChanging("YaMapCoord");
-                _YaMapCoord = StructuralObject.SetValidValue(value, false, "YaMapCoord");
+                _YaMapCoord = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("YaMapCoord");
                 OnYaMapCoordChanged();
             }
@@ -10012,6 +10035,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -10073,7 +10097,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -10092,7 +10116,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -10117,7 +10141,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -10141,7 +10165,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -10165,7 +10189,7 @@ namespace OnlineAbit2013
             {
                 OnRegionIdChanging(value);
                 ReportPropertyChanging("RegionId");
-                _RegionId = StructuralObject.SetValidValue(value, "RegionId");
+                _RegionId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("RegionId");
                 OnRegionIdChanged();
             }
@@ -10189,7 +10213,7 @@ namespace OnlineAbit2013
             {
                 OnLevelOfUsingChanging(value);
                 ReportPropertyChanging("LevelOfUsing");
-                _LevelOfUsing = StructuralObject.SetValidValue(value, "LevelOfUsing");
+                _LevelOfUsing = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("LevelOfUsing");
                 OnLevelOfUsingChanged();
             }
@@ -10213,7 +10237,7 @@ namespace OnlineAbit2013
             {
                 OnPriemDictionaryIdChanging(value);
                 ReportPropertyChanging("PriemDictionaryId");
-                _PriemDictionaryId = StructuralObject.SetValidValue(value, "PriemDictionaryId");
+                _PriemDictionaryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PriemDictionaryId");
                 OnPriemDictionaryIdChanged();
             }
@@ -10237,7 +10261,7 @@ namespace OnlineAbit2013
             {
                 OnIsCountryChanging(value);
                 ReportPropertyChanging("IsCountry");
-                _IsCountry = StructuralObject.SetValidValue(value, "IsCountry");
+                _IsCountry = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsCountry");
                 OnIsCountryChanged();
             }
@@ -10261,7 +10285,7 @@ namespace OnlineAbit2013
             {
                 OnIsNationalityChanging(value);
                 ReportPropertyChanging("IsNationality");
-                _IsNationality = StructuralObject.SetValidValue(value, "IsNationality");
+                _IsNationality = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsNationality");
                 OnIsNationalityChanged();
             }
@@ -10285,7 +10309,7 @@ namespace OnlineAbit2013
             {
                 OnIsSNGChanging(value);
                 ReportPropertyChanging("IsSNG");
-                _IsSNG = StructuralObject.SetValidValue(value, "IsSNG");
+                _IsSNG = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsSNG");
                 OnIsSNGChanged();
             }
@@ -10309,7 +10333,7 @@ namespace OnlineAbit2013
             {
                 OnIsRussiaChanging(value);
                 ReportPropertyChanging("IsRussia");
-                _IsRussia = StructuralObject.SetValidValue(value, "IsRussia");
+                _IsRussia = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsRussia");
                 OnIsRussiaChanged();
             }
@@ -10320,6 +10344,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -10481,7 +10506,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -10500,7 +10525,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -10525,7 +10550,7 @@ namespace OnlineAbit2013
             {
                 OnPersonIdChanging(value);
                 ReportPropertyChanging("PersonId");
-                _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                _PersonId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PersonId");
                 OnPersonIdChanged();
             }
@@ -10549,7 +10574,7 @@ namespace OnlineAbit2013
             {
                 OnNumberChanging(value);
                 ReportPropertyChanging("Number");
-                _Number = StructuralObject.SetValidValue(value, true, "Number");
+                _Number = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Number");
                 OnNumberChanged();
             }
@@ -10573,7 +10598,7 @@ namespace OnlineAbit2013
             {
                 OnIsGIAChanging(value);
                 ReportPropertyChanging("IsGIA");
-                _IsGIA = StructuralObject.SetValidValue(value, "IsGIA");
+                _IsGIA = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsGIA");
                 OnIsGIAChanged();
             }
@@ -10597,7 +10622,7 @@ namespace OnlineAbit2013
             {
                 OnIs2014Changing(value);
                 ReportPropertyChanging("Is2014");
-                _Is2014 = StructuralObject.SetValidValue(value, "Is2014");
+                _Is2014 = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Is2014");
                 OnIs2014Changed();
             }
@@ -10608,6 +10633,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -10697,7 +10723,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -10716,7 +10742,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -10741,7 +10767,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -10752,6 +10778,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -10813,7 +10840,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -10832,7 +10859,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -10857,7 +10884,7 @@ namespace OnlineAbit2013
             {
                 OnEgeCertificateIdChanging(value);
                 ReportPropertyChanging("EgeCertificateId");
-                _EgeCertificateId = StructuralObject.SetValidValue(value, "EgeCertificateId");
+                _EgeCertificateId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EgeCertificateId");
                 OnEgeCertificateIdChanged();
             }
@@ -10881,7 +10908,7 @@ namespace OnlineAbit2013
             {
                 OnEgeExamIdChanging(value);
                 ReportPropertyChanging("EgeExamId");
-                _EgeExamId = StructuralObject.SetValidValue(value, "EgeExamId");
+                _EgeExamId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EgeExamId");
                 OnEgeExamIdChanged();
             }
@@ -10905,7 +10932,7 @@ namespace OnlineAbit2013
             {
                 OnValueChanging(value);
                 ReportPropertyChanging("Value");
-                _Value = StructuralObject.SetValidValue(value, "Value");
+                _Value = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Value");
                 OnValueChanged();
             }
@@ -10929,7 +10956,7 @@ namespace OnlineAbit2013
             {
                 OnIsInUniversityChanging(value);
                 ReportPropertyChanging("IsInUniversity");
-                _IsInUniversity = StructuralObject.SetValidValue(value, "IsInUniversity");
+                _IsInUniversity = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsInUniversity");
                 OnIsInUniversityChanged();
             }
@@ -10953,7 +10980,7 @@ namespace OnlineAbit2013
             {
                 OnIsSecondWaveChanging(value);
                 ReportPropertyChanging("IsSecondWave");
-                _IsSecondWave = StructuralObject.SetValidValue(value, "IsSecondWave");
+                _IsSecondWave = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsSecondWave");
                 OnIsSecondWaveChanged();
             }
@@ -10964,6 +10991,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -11113,7 +11141,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -11132,7 +11160,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -11159,7 +11187,7 @@ namespace OnlineAbit2013
                 {
                     OnSemesterIdChanging(value);
                     ReportPropertyChanging("SemesterId");
-                    _SemesterId = StructuralObject.SetValidValue(value, "SemesterId");
+                    _SemesterId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("SemesterId");
                     OnSemesterIdChanged();
                 }
@@ -11184,7 +11212,7 @@ namespace OnlineAbit2013
             {
                 OnStudyPlanIdChanging(value);
                 ReportPropertyChanging("StudyPlanId");
-                _StudyPlanId = StructuralObject.SetValidValue(value, "StudyPlanId");
+                _StudyPlanId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyPlanId");
                 OnStudyPlanIdChanged();
             }
@@ -11208,7 +11236,7 @@ namespace OnlineAbit2013
             {
                 OnStudyPlanNumberChanging(value);
                 ReportPropertyChanging("StudyPlanNumber");
-                _StudyPlanNumber = StructuralObject.SetValidValue(value, true, "StudyPlanNumber");
+                _StudyPlanNumber = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyPlanNumber");
                 OnStudyPlanNumberChanged();
             }
@@ -11232,7 +11260,7 @@ namespace OnlineAbit2013
             {
                 OnFacultyIdChanging(value);
                 ReportPropertyChanging("FacultyId");
-                _FacultyId = StructuralObject.SetValidValue(value, "FacultyId");
+                _FacultyId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("FacultyId");
                 OnFacultyIdChanged();
             }
@@ -11258,7 +11286,7 @@ namespace OnlineAbit2013
                 {
                     OnLicenseProgramIdChanging(value);
                     ReportPropertyChanging("LicenseProgramId");
-                    _LicenseProgramId = StructuralObject.SetValidValue(value, "LicenseProgramId");
+                    _LicenseProgramId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("LicenseProgramId");
                     OnLicenseProgramIdChanged();
                 }
@@ -11285,7 +11313,7 @@ namespace OnlineAbit2013
                 {
                     OnObrazProgramIdChanging(value);
                     ReportPropertyChanging("ObrazProgramId");
-                    _ObrazProgramId = StructuralObject.SetValidValue(value, "ObrazProgramId");
+                    _ObrazProgramId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("ObrazProgramId");
                     OnObrazProgramIdChanged();
                 }
@@ -11310,7 +11338,7 @@ namespace OnlineAbit2013
             {
                 OnProfileNameChanging(value);
                 ReportPropertyChanging("ProfileName");
-                _ProfileName = StructuralObject.SetValidValue(value, true, "ProfileName");
+                _ProfileName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ProfileName");
                 OnProfileNameChanged();
             }
@@ -11334,7 +11362,7 @@ namespace OnlineAbit2013
             {
                 OnProfileNameEngChanging(value);
                 ReportPropertyChanging("ProfileNameEng");
-                _ProfileNameEng = StructuralObject.SetValidValue(value, true, "ProfileNameEng");
+                _ProfileNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ProfileNameEng");
                 OnProfileNameEngChanged();
             }
@@ -11360,7 +11388,7 @@ namespace OnlineAbit2013
                 {
                     OnStudyBasisIdChanging(value);
                     ReportPropertyChanging("StudyBasisId");
-                    _StudyBasisId = StructuralObject.SetValidValue(value, "StudyBasisId");
+                    _StudyBasisId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("StudyBasisId");
                     OnStudyBasisIdChanged();
                 }
@@ -11387,7 +11415,7 @@ namespace OnlineAbit2013
                 {
                     OnStudyFormIdChanging(value);
                     ReportPropertyChanging("StudyFormId");
-                    _StudyFormId = StructuralObject.SetValidValue(value, "StudyFormId");
+                    _StudyFormId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("StudyFormId");
                     OnStudyFormIdChanged();
                 }
@@ -11414,7 +11442,7 @@ namespace OnlineAbit2013
                 {
                     OnStudyLevelIdChanging(value);
                     ReportPropertyChanging("StudyLevelId");
-                    _StudyLevelId = StructuralObject.SetValidValue(value, "StudyLevelId");
+                    _StudyLevelId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("StudyLevelId");
                     OnStudyLevelIdChanged();
                 }
@@ -11441,7 +11469,7 @@ namespace OnlineAbit2013
                 {
                     OnProfileIdChanging(value);
                     ReportPropertyChanging("ProfileId");
-                    _ProfileId = StructuralObject.SetValidValue(value, "ProfileId");
+                    _ProfileId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("ProfileId");
                     OnProfileIdChanged();
                 }
@@ -11468,7 +11496,7 @@ namespace OnlineAbit2013
                 {
                     OnIsSecondChanging(value);
                     ReportPropertyChanging("IsSecond");
-                    _IsSecond = StructuralObject.SetValidValue(value, "IsSecond");
+                    _IsSecond = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsSecond");
                     OnIsSecondChanged();
                 }
@@ -11495,7 +11523,7 @@ namespace OnlineAbit2013
                 {
                     OnIsReducedChanging(value);
                     ReportPropertyChanging("IsReduced");
-                    _IsReduced = StructuralObject.SetValidValue(value, "IsReduced");
+                    _IsReduced = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsReduced");
                     OnIsReducedChanged();
                 }
@@ -11522,7 +11550,7 @@ namespace OnlineAbit2013
                 {
                     OnIsParallelChanging(value);
                     ReportPropertyChanging("IsParallel");
-                    _IsParallel = StructuralObject.SetValidValue(value, "IsParallel");
+                    _IsParallel = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsParallel");
                     OnIsParallelChanged();
                 }
@@ -11549,7 +11577,7 @@ namespace OnlineAbit2013
                 {
                     OnIsExpressChanging(value);
                     ReportPropertyChanging("IsExpress");
-                    _IsExpress = StructuralObject.SetValidValue(value, "IsExpress");
+                    _IsExpress = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsExpress");
                     OnIsExpressChanged();
                 }
@@ -11576,7 +11604,7 @@ namespace OnlineAbit2013
                 {
                     OnIsElectronicChanging(value);
                     ReportPropertyChanging("IsElectronic");
-                    _IsElectronic = StructuralObject.SetValidValue(value, "IsElectronic");
+                    _IsElectronic = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsElectronic");
                     OnIsElectronicChanged();
                 }
@@ -11603,7 +11631,7 @@ namespace OnlineAbit2013
                 {
                     OnIsDistanceChanging(value);
                     ReportPropertyChanging("IsDistance");
-                    _IsDistance = StructuralObject.SetValidValue(value, "IsDistance");
+                    _IsDistance = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsDistance");
                     OnIsDistanceChanged();
                 }
@@ -11630,7 +11658,7 @@ namespace OnlineAbit2013
                 {
                     OnCampaignYearChanging(value);
                     ReportPropertyChanging("CampaignYear");
-                    _CampaignYear = StructuralObject.SetValidValue(value, "CampaignYear");
+                    _CampaignYear = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("CampaignYear");
                     OnCampaignYearChanged();
                 }
@@ -11655,7 +11683,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfCloseChanging(value);
                 ReportPropertyChanging("DateOfClose");
-                _DateOfClose = StructuralObject.SetValidValue(value, "DateOfClose");
+                _DateOfClose = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfClose");
                 OnDateOfCloseChanged();
             }
@@ -11679,7 +11707,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfStartChanging(value);
                 ReportPropertyChanging("DateOfStart");
-                _DateOfStart = StructuralObject.SetValidValue(value, "DateOfStart");
+                _DateOfStart = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfStart");
                 OnDateOfStartChanged();
             }
@@ -11703,7 +11731,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfClose_ForeignChanging(value);
                 ReportPropertyChanging("DateOfClose_Foreign");
-                _DateOfClose_Foreign = StructuralObject.SetValidValue(value, "DateOfClose_Foreign");
+                _DateOfClose_Foreign = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfClose_Foreign");
                 OnDateOfClose_ForeignChanged();
             }
@@ -11727,7 +11755,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfStart_ForeignChanging(value);
                 ReportPropertyChanging("DateOfStart_Foreign");
-                _DateOfStart_Foreign = StructuralObject.SetValidValue(value, "DateOfStart_Foreign");
+                _DateOfStart_Foreign = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfStart_Foreign");
                 OnDateOfStart_ForeignChanged();
             }
@@ -11751,7 +11779,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfClose_GosLineChanging(value);
                 ReportPropertyChanging("DateOfClose_GosLine");
-                _DateOfClose_GosLine = StructuralObject.SetValidValue(value, "DateOfClose_GosLine");
+                _DateOfClose_GosLine = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfClose_GosLine");
                 OnDateOfClose_GosLineChanged();
             }
@@ -11775,7 +11803,7 @@ namespace OnlineAbit2013
             {
                 OnDateOfStart_GosLineChanging(value);
                 ReportPropertyChanging("DateOfStart_GosLine");
-                _DateOfStart_GosLine = StructuralObject.SetValidValue(value, "DateOfStart_GosLine");
+                _DateOfStart_GosLine = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateOfStart_GosLine");
                 OnDateOfStart_GosLineChanged();
             }
@@ -11801,7 +11829,7 @@ namespace OnlineAbit2013
                 {
                     OnIsUsedForPriemChanging(value);
                     ReportPropertyChanging("IsUsedForPriem");
-                    _IsUsedForPriem = StructuralObject.SetValidValue(value, "IsUsedForPriem");
+                    _IsUsedForPriem = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsUsedForPriem");
                     OnIsUsedForPriemChanged();
                 }
@@ -11828,7 +11856,7 @@ namespace OnlineAbit2013
                 {
                     OnObrazProgramNameChanging(value);
                     ReportPropertyChanging("ObrazProgramName");
-                    _ObrazProgramName = StructuralObject.SetValidValue(value, false, "ObrazProgramName");
+                    _ObrazProgramName = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("ObrazProgramName");
                     OnObrazProgramNameChanged();
                 }
@@ -11853,7 +11881,7 @@ namespace OnlineAbit2013
             {
                 OnObrazProgramNameEngChanging(value);
                 ReportPropertyChanging("ObrazProgramNameEng");
-                _ObrazProgramNameEng = StructuralObject.SetValidValue(value, true, "ObrazProgramNameEng");
+                _ObrazProgramNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ObrazProgramNameEng");
                 OnObrazProgramNameEngChanged();
             }
@@ -11879,7 +11907,7 @@ namespace OnlineAbit2013
                 {
                     OnNumberChanging(value);
                     ReportPropertyChanging("Number");
-                    _Number = StructuralObject.SetValidValue(value, false, "Number");
+                    _Number = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("Number");
                     OnNumberChanged();
                 }
@@ -11904,7 +11932,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelNameChanging(value);
                 ReportPropertyChanging("StudyLevelName");
-                _StudyLevelName = StructuralObject.SetValidValue(value, true, "StudyLevelName");
+                _StudyLevelName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyLevelName");
                 OnStudyLevelNameChanged();
             }
@@ -11928,7 +11956,7 @@ namespace OnlineAbit2013
             {
                 OnFacultyNameChanging(value);
                 ReportPropertyChanging("FacultyName");
-                _FacultyName = StructuralObject.SetValidValue(value, true, "FacultyName");
+                _FacultyName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FacultyName");
                 OnFacultyNameChanged();
             }
@@ -11954,7 +11982,7 @@ namespace OnlineAbit2013
                 {
                     OnLicenseProgramNameChanging(value);
                     ReportPropertyChanging("LicenseProgramName");
-                    _LicenseProgramName = StructuralObject.SetValidValue(value, false, "LicenseProgramName");
+                    _LicenseProgramName = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("LicenseProgramName");
                     OnLicenseProgramNameChanged();
                 }
@@ -11979,7 +12007,7 @@ namespace OnlineAbit2013
             {
                 OnLicenseProgramNameEngChanging(value);
                 ReportPropertyChanging("LicenseProgramNameEng");
-                _LicenseProgramNameEng = StructuralObject.SetValidValue(value, true, "LicenseProgramNameEng");
+                _LicenseProgramNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("LicenseProgramNameEng");
                 OnLicenseProgramNameEngChanged();
             }
@@ -12003,7 +12031,7 @@ namespace OnlineAbit2013
             {
                 OnLicenseProgramCodeChanging(value);
                 ReportPropertyChanging("LicenseProgramCode");
-                _LicenseProgramCode = StructuralObject.SetValidValue(value, true, "LicenseProgramCode");
+                _LicenseProgramCode = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("LicenseProgramCode");
                 OnLicenseProgramCodeChanged();
             }
@@ -12027,7 +12055,7 @@ namespace OnlineAbit2013
             {
                 OnStudyFormNameChanging(value);
                 ReportPropertyChanging("StudyFormName");
-                _StudyFormName = StructuralObject.SetValidValue(value, true, "StudyFormName");
+                _StudyFormName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyFormName");
                 OnStudyFormNameChanged();
             }
@@ -12051,7 +12079,7 @@ namespace OnlineAbit2013
             {
                 OnStudyBasisNameChanging(value);
                 ReportPropertyChanging("StudyBasisName");
-                _StudyBasisName = StructuralObject.SetValidValue(value, true, "StudyBasisName");
+                _StudyBasisName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyBasisName");
                 OnStudyBasisNameChanged();
             }
@@ -12077,7 +12105,7 @@ namespace OnlineAbit2013
                 {
                     OnObrazProgramCryptChanging(value);
                     ReportPropertyChanging("ObrazProgramCrypt");
-                    _ObrazProgramCrypt = StructuralObject.SetValidValue(value, false, "ObrazProgramCrypt");
+                    _ObrazProgramCrypt = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("ObrazProgramCrypt");
                     OnObrazProgramCryptChanged();
                 }
@@ -12102,7 +12130,7 @@ namespace OnlineAbit2013
             {
                 OnStudyBasisNameEngChanging(value);
                 ReportPropertyChanging("StudyBasisNameEng");
-                _StudyBasisNameEng = StructuralObject.SetValidValue(value, true, "StudyBasisNameEng");
+                _StudyBasisNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyBasisNameEng");
                 OnStudyBasisNameEngChanged();
             }
@@ -12126,7 +12154,7 @@ namespace OnlineAbit2013
             {
                 OnStudyFormNameEngChanging(value);
                 ReportPropertyChanging("StudyFormNameEng");
-                _StudyFormNameEng = StructuralObject.SetValidValue(value, true, "StudyFormNameEng");
+                _StudyFormNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyFormNameEng");
                 OnStudyFormNameEngChanged();
             }
@@ -12152,7 +12180,7 @@ namespace OnlineAbit2013
                 {
                     OnStudyLevelGroupIdChanging(value);
                     ReportPropertyChanging("StudyLevelGroupId");
-                    _StudyLevelGroupId = StructuralObject.SetValidValue(value, "StudyLevelGroupId");
+                    _StudyLevelGroupId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("StudyLevelGroupId");
                     OnStudyLevelGroupIdChanged();
                 }
@@ -12177,7 +12205,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelGroupNameEngChanging(value);
                 ReportPropertyChanging("StudyLevelGroupNameEng");
-                _StudyLevelGroupNameEng = StructuralObject.SetValidValue(value, true, "StudyLevelGroupNameEng");
+                _StudyLevelGroupNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyLevelGroupNameEng");
                 OnStudyLevelGroupNameEngChanged();
             }
@@ -12201,7 +12229,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelGroupNameRusChanging(value);
                 ReportPropertyChanging("StudyLevelGroupNameRus");
-                _StudyLevelGroupNameRus = StructuralObject.SetValidValue(value, true, "StudyLevelGroupNameRus");
+                _StudyLevelGroupNameRus = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyLevelGroupNameRus");
                 OnStudyLevelGroupNameRusChanged();
             }
@@ -12225,7 +12253,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelNameEngChanging(value);
                 ReportPropertyChanging("StudyLevelNameEng");
-                _StudyLevelNameEng = StructuralObject.SetValidValue(value, true, "StudyLevelNameEng");
+                _StudyLevelNameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StudyLevelNameEng");
                 OnStudyLevelNameEngChanged();
             }
@@ -12249,7 +12277,7 @@ namespace OnlineAbit2013
             {
                 OnComissionIdChanging(value);
                 ReportPropertyChanging("ComissionId");
-                _ComissionId = StructuralObject.SetValidValue(value, "ComissionId");
+                _ComissionId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ComissionId");
                 OnComissionIdChanged();
             }
@@ -12273,7 +12301,7 @@ namespace OnlineAbit2013
             {
                 OnAddressChanging(value);
                 ReportPropertyChanging("Address");
-                _Address = StructuralObject.SetValidValue(value, true, "Address");
+                _Address = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Address");
                 OnAddressChanged();
             }
@@ -12297,7 +12325,7 @@ namespace OnlineAbit2013
             {
                 OnLicenseProgramNewCodeChanging(value);
                 ReportPropertyChanging("LicenseProgramNewCode");
-                _LicenseProgramNewCode = StructuralObject.SetValidValue(value, true, "LicenseProgramNewCode");
+                _LicenseProgramNewCode = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("LicenseProgramNewCode");
                 OnLicenseProgramNewCodeChanged();
             }
@@ -12323,7 +12351,7 @@ namespace OnlineAbit2013
                 {
                     OnIsForeignChanging(value);
                     ReportPropertyChanging("IsForeign");
-                    _IsForeign = StructuralObject.SetValidValue(value, "IsForeign");
+                    _IsForeign = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsForeign");
                     OnIsForeignChanged();
                 }
@@ -12350,7 +12378,7 @@ namespace OnlineAbit2013
                 {
                     OnIsCrimeaChanging(value);
                     ReportPropertyChanging("IsCrimea");
-                    _IsCrimea = StructuralObject.SetValidValue(value, "IsCrimea");
+                    _IsCrimea = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsCrimea");
                     OnIsCrimeaChanged();
                 }
@@ -12362,6 +12390,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -12389,7 +12418,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -12408,7 +12437,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -12433,7 +12462,7 @@ namespace OnlineAbit2013
             {
                 OnExamNameIdChanging(value);
                 ReportPropertyChanging("ExamNameId");
-                _ExamNameId = StructuralObject.SetValidValue(value, "ExamNameId");
+                _ExamNameId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ExamNameId");
                 OnExamNameIdChanged();
             }
@@ -12444,6 +12473,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -12471,7 +12501,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -12490,7 +12520,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -12515,7 +12545,7 @@ namespace OnlineAbit2013
             {
                 OnEntryIdChanging(value);
                 ReportPropertyChanging("EntryId");
-                _EntryId = StructuralObject.SetValidValue(value, "EntryId");
+                _EntryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EntryId");
                 OnEntryIdChanged();
             }
@@ -12539,7 +12569,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -12550,6 +12580,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -12579,7 +12610,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -12598,7 +12629,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -12623,7 +12654,7 @@ namespace OnlineAbit2013
             {
                 OnExamInEntryBlockIdChanging(value);
                 ReportPropertyChanging("ExamInEntryBlockId");
-                _ExamInEntryBlockId = StructuralObject.SetValidValue(value, "ExamInEntryBlockId");
+                _ExamInEntryBlockId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ExamInEntryBlockId");
                 OnExamInEntryBlockIdChanged();
             }
@@ -12647,7 +12678,7 @@ namespace OnlineAbit2013
             {
                 OnExamIdChanging(value);
                 ReportPropertyChanging("ExamId");
-                _ExamId = StructuralObject.SetValidValue(value, "ExamId");
+                _ExamId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ExamId");
                 OnExamIdChanged();
             }
@@ -12671,7 +12702,7 @@ namespace OnlineAbit2013
             {
                 OnEgeMinChanging(value);
                 ReportPropertyChanging("EgeMin");
-                _EgeMin = StructuralObject.SetValidValue(value, "EgeMin");
+                _EgeMin = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EgeMin");
                 OnEgeMinChanged();
             }
@@ -12682,6 +12713,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -12707,7 +12739,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -12726,7 +12758,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -12751,7 +12783,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -12762,6 +12794,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -12797,7 +12830,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -12816,7 +12849,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -12843,7 +12876,7 @@ namespace OnlineAbit2013
                 {
                     OnApplicationIdChanging(value);
                     ReportPropertyChanging("ApplicationId");
-                    _ApplicationId = StructuralObject.SetValidValue(value, "ApplicationId");
+                    _ApplicationId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("ApplicationId");
                     OnApplicationIdChanged();
                 }
@@ -12870,7 +12903,7 @@ namespace OnlineAbit2013
                 {
                     OnObrazProgramNameChanging(value);
                     ReportPropertyChanging("ObrazProgramName");
-                    _ObrazProgramName = StructuralObject.SetValidValue(value, false, "ObrazProgramName");
+                    _ObrazProgramName = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("ObrazProgramName");
                     OnObrazProgramNameChanged();
                 }
@@ -12895,7 +12928,7 @@ namespace OnlineAbit2013
             {
                 OnProfileNameChanging(value);
                 ReportPropertyChanging("ProfileName");
-                _ProfileName = StructuralObject.SetValidValue(value, true, "ProfileName");
+                _ProfileName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ProfileName");
                 OnProfileNameChanged();
             }
@@ -12919,7 +12952,7 @@ namespace OnlineAbit2013
             {
                 OnCurrVersionChanging(value);
                 ReportPropertyChanging("CurrVersion");
-                _CurrVersion = StructuralObject.SetValidValue(value, "CurrVersion");
+                _CurrVersion = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CurrVersion");
                 OnCurrVersionChanged();
             }
@@ -12943,7 +12976,7 @@ namespace OnlineAbit2013
             {
                 OnCurrDateChanging(value);
                 ReportPropertyChanging("CurrDate");
-                _CurrDate = StructuralObject.SetValidValue(value, "CurrDate");
+                _CurrDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CurrDate");
                 OnCurrDateChanged();
             }
@@ -12969,7 +13002,7 @@ namespace OnlineAbit2013
                 {
                     OnObrazProgramCryptChanging(value);
                     ReportPropertyChanging("ObrazProgramCrypt");
-                    _ObrazProgramCrypt = StructuralObject.SetValidValue(value, false, "ObrazProgramCrypt");
+                    _ObrazProgramCrypt = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("ObrazProgramCrypt");
                     OnObrazProgramCryptChanged();
                 }
@@ -12996,7 +13029,7 @@ namespace OnlineAbit2013
                 {
                     OnInnerEntryInEntryIdChanging(value);
                     ReportPropertyChanging("InnerEntryInEntryId");
-                    _InnerEntryInEntryId = StructuralObject.SetValidValue(value, "InnerEntryInEntryId");
+                    _InnerEntryInEntryId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("InnerEntryInEntryId");
                     OnInnerEntryInEntryIdChanged();
                 }
@@ -13023,7 +13056,7 @@ namespace OnlineAbit2013
                 {
                     OnInnerEntryInEntryPriorityChanging(value);
                     ReportPropertyChanging("InnerEntryInEntryPriority");
-                    _InnerEntryInEntryPriority = StructuralObject.SetValidValue(value, "InnerEntryInEntryPriority");
+                    _InnerEntryInEntryPriority = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("InnerEntryInEntryPriority");
                     OnInnerEntryInEntryPriorityChanged();
                 }
@@ -13035,6 +13068,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -13068,7 +13102,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -13087,7 +13121,7 @@ namespace OnlineAbit2013
                 {
                     OnEntryIdChanging(value);
                     ReportPropertyChanging("EntryId");
-                    _EntryId = StructuralObject.SetValidValue(value, "EntryId");
+                    _EntryId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("EntryId");
                     OnEntryIdChanged();
                 }
@@ -13114,7 +13148,7 @@ namespace OnlineAbit2013
                 {
                     OnDefaultPriorityValueChanging(value);
                     ReportPropertyChanging("DefaultPriorityValue");
-                    _DefaultPriorityValue = StructuralObject.SetValidValue(value, "DefaultPriorityValue");
+                    _DefaultPriorityValue = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("DefaultPriorityValue");
                     OnDefaultPriorityValueChanged();
                 }
@@ -13141,7 +13175,7 @@ namespace OnlineAbit2013
                 {
                     OnInnerEntryInEntryIdChanging(value);
                     ReportPropertyChanging("InnerEntryInEntryId");
-                    _InnerEntryInEntryId = StructuralObject.SetValidValue(value, "InnerEntryInEntryId");
+                    _InnerEntryInEntryId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("InnerEntryInEntryId");
                     OnInnerEntryInEntryIdChanged();
                 }
@@ -13168,7 +13202,7 @@ namespace OnlineAbit2013
                 {
                     OnProfileIdChanging(value);
                     ReportPropertyChanging("ProfileId");
-                    _ProfileId = StructuralObject.SetValidValue(value, "ProfileId");
+                    _ProfileId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("ProfileId");
                     OnProfileIdChanged();
                 }
@@ -13195,7 +13229,7 @@ namespace OnlineAbit2013
                 {
                     OnObrazProgramNameChanging(value);
                     ReportPropertyChanging("ObrazProgramName");
-                    _ObrazProgramName = StructuralObject.SetValidValue(value, false, "ObrazProgramName");
+                    _ObrazProgramName = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("ObrazProgramName");
                     OnObrazProgramNameChanged();
                 }
@@ -13220,7 +13254,7 @@ namespace OnlineAbit2013
             {
                 OnProfileNameChanging(value);
                 ReportPropertyChanging("ProfileName");
-                _ProfileName = StructuralObject.SetValidValue(value, true, "ProfileName");
+                _ProfileName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ProfileName");
                 OnProfileNameChanged();
             }
@@ -13231,6 +13265,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -13264,7 +13299,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -13283,7 +13318,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -13308,7 +13343,7 @@ namespace OnlineAbit2013
             {
                 OnEntryIdChanging(value);
                 ReportPropertyChanging("EntryId");
-                _EntryId = StructuralObject.SetValidValue(value, "EntryId");
+                _EntryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EntryId");
                 OnEntryIdChanged();
             }
@@ -13332,7 +13367,7 @@ namespace OnlineAbit2013
             {
                 OnObrazProgramIdChanging(value);
                 ReportPropertyChanging("ObrazProgramId");
-                _ObrazProgramId = StructuralObject.SetValidValue(value, "ObrazProgramId");
+                _ObrazProgramId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ObrazProgramId");
                 OnObrazProgramIdChanged();
             }
@@ -13356,7 +13391,7 @@ namespace OnlineAbit2013
             {
                 OnProfileIdChanging(value);
                 ReportPropertyChanging("ProfileId");
-                _ProfileId = StructuralObject.SetValidValue(value, "ProfileId");
+                _ProfileId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ProfileId");
                 OnProfileIdChanged();
             }
@@ -13380,7 +13415,7 @@ namespace OnlineAbit2013
             {
                 OnDefaultPriorityValueChanging(value);
                 ReportPropertyChanging("DefaultPriorityValue");
-                _DefaultPriorityValue = StructuralObject.SetValidValue(value, "DefaultPriorityValue");
+                _DefaultPriorityValue = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DefaultPriorityValue");
                 OnDefaultPriorityValueChanged();
             }
@@ -13391,6 +13426,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -13556,7 +13592,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -13575,7 +13611,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -13600,7 +13636,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -13624,7 +13660,7 @@ namespace OnlineAbit2013
             {
                 OnNameDatChanging(value);
                 ReportPropertyChanging("NameDat");
-                _NameDat = StructuralObject.SetValidValue(value, true, "NameDat");
+                _NameDat = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameDat");
                 OnNameDatChanged();
             }
@@ -13648,7 +13684,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -13659,6 +13695,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -13720,7 +13757,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -13739,7 +13776,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -13764,7 +13801,7 @@ namespace OnlineAbit2013
             {
                 OnOlympLevelIdChanging(value);
                 ReportPropertyChanging("OlympLevelId");
-                _OlympLevelId = StructuralObject.SetValidValue(value, "OlympLevelId");
+                _OlympLevelId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OlympLevelId");
                 OnOlympLevelIdChanged();
             }
@@ -13788,7 +13825,7 @@ namespace OnlineAbit2013
             {
                 OnOlympNameIdChanging(value);
                 ReportPropertyChanging("OlympNameId");
-                _OlympNameId = StructuralObject.SetValidValue(value, "OlympNameId");
+                _OlympNameId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OlympNameId");
                 OnOlympNameIdChanged();
             }
@@ -13812,7 +13849,7 @@ namespace OnlineAbit2013
             {
                 OnOlympSubjectIdChanging(value);
                 ReportPropertyChanging("OlympSubjectId");
-                _OlympSubjectId = StructuralObject.SetValidValue(value, "OlympSubjectId");
+                _OlympSubjectId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OlympSubjectId");
                 OnOlympSubjectIdChanged();
             }
@@ -13836,7 +13873,7 @@ namespace OnlineAbit2013
             {
                 OnOlympTypeIdChanging(value);
                 ReportPropertyChanging("OlympTypeId");
-                _OlympTypeId = StructuralObject.SetValidValue(value, "OlympTypeId");
+                _OlympTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OlympTypeId");
                 OnOlympTypeIdChanged();
             }
@@ -13860,7 +13897,7 @@ namespace OnlineAbit2013
             {
                 OnOlympYearChanging(value);
                 ReportPropertyChanging("OlympYear");
-                _OlympYear = StructuralObject.SetValidValue(value, "OlympYear");
+                _OlympYear = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OlympYear");
                 OnOlympYearChanged();
             }
@@ -13871,6 +13908,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -14062,7 +14100,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -14081,7 +14119,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -14106,7 +14144,7 @@ namespace OnlineAbit2013
             {
                 OnPersonIdChanging(value);
                 ReportPropertyChanging("PersonId");
-                _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                _PersonId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PersonId");
                 OnPersonIdChanged();
             }
@@ -14130,7 +14168,7 @@ namespace OnlineAbit2013
             {
                 OnOlympTypeIdChanging(value);
                 ReportPropertyChanging("OlympTypeId");
-                _OlympTypeId = StructuralObject.SetValidValue(value, "OlympTypeId");
+                _OlympTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OlympTypeId");
                 OnOlympTypeIdChanged();
             }
@@ -14154,7 +14192,7 @@ namespace OnlineAbit2013
             {
                 OnOlympNameIdChanging(value);
                 ReportPropertyChanging("OlympNameId");
-                _OlympNameId = StructuralObject.SetValidValue(value, "OlympNameId");
+                _OlympNameId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OlympNameId");
                 OnOlympNameIdChanged();
             }
@@ -14178,7 +14216,7 @@ namespace OnlineAbit2013
             {
                 OnOlympSubjectIdChanging(value);
                 ReportPropertyChanging("OlympSubjectId");
-                _OlympSubjectId = StructuralObject.SetValidValue(value, "OlympSubjectId");
+                _OlympSubjectId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OlympSubjectId");
                 OnOlympSubjectIdChanged();
             }
@@ -14202,7 +14240,7 @@ namespace OnlineAbit2013
             {
                 OnOlympValueIdChanging(value);
                 ReportPropertyChanging("OlympValueId");
-                _OlympValueId = StructuralObject.SetValidValue(value, "OlympValueId");
+                _OlympValueId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OlympValueId");
                 OnOlympValueIdChanged();
             }
@@ -14226,7 +14264,7 @@ namespace OnlineAbit2013
             {
                 OnDocumentSeriesChanging(value);
                 ReportPropertyChanging("DocumentSeries");
-                _DocumentSeries = StructuralObject.SetValidValue(value, true, "DocumentSeries");
+                _DocumentSeries = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("DocumentSeries");
                 OnDocumentSeriesChanged();
             }
@@ -14250,7 +14288,7 @@ namespace OnlineAbit2013
             {
                 OnDocumentNumberChanging(value);
                 ReportPropertyChanging("DocumentNumber");
-                _DocumentNumber = StructuralObject.SetValidValue(value, true, "DocumentNumber");
+                _DocumentNumber = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("DocumentNumber");
                 OnDocumentNumberChanged();
             }
@@ -14274,7 +14312,7 @@ namespace OnlineAbit2013
             {
                 OnDocumentDateChanging(value);
                 ReportPropertyChanging("DocumentDate");
-                _DocumentDate = StructuralObject.SetValidValue(value, "DocumentDate");
+                _DocumentDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DocumentDate");
                 OnDocumentDateChanged();
             }
@@ -14285,6 +14323,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -14504,7 +14543,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -14523,7 +14562,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -14548,7 +14587,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -14559,6 +14598,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -14612,7 +14652,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -14631,7 +14671,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -14656,7 +14696,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -14680,7 +14720,7 @@ namespace OnlineAbit2013
             {
                 OnNumberChanging(value);
                 ReportPropertyChanging("Number");
-                _Number = StructuralObject.SetValidValue(value, "Number");
+                _Number = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Number");
                 OnNumberChanged();
             }
@@ -14704,7 +14744,7 @@ namespace OnlineAbit2013
             {
                 OnIsOpenChanging(value);
                 ReportPropertyChanging("IsOpen");
-                _IsOpen = StructuralObject.SetValidValue(value, "IsOpen");
+                _IsOpen = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsOpen");
                 OnIsOpenChanged();
             }
@@ -14728,7 +14768,7 @@ namespace OnlineAbit2013
             {
                 OnHolderChanging(value);
                 ReportPropertyChanging("Holder");
-                _Holder = StructuralObject.SetValidValue(value, true, "Holder");
+                _Holder = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Holder");
                 OnHolderChanged();
             }
@@ -14739,6 +14779,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -14812,7 +14853,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -14831,7 +14872,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -14856,7 +14897,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -14880,7 +14921,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -14891,6 +14932,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -14968,7 +15010,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -14987,7 +15029,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -15012,7 +15054,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false, "Name");
+                _Name = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -15036,7 +15078,7 @@ namespace OnlineAbit2013
             {
                 OnIsVserossChanging(value);
                 ReportPropertyChanging("IsVseross");
-                _IsVseross = StructuralObject.SetValidValue(value, "IsVseross");
+                _IsVseross = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsVseross");
                 OnIsVserossChanged();
             }
@@ -15060,7 +15102,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -15071,6 +15113,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -15144,7 +15187,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -15163,7 +15206,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -15188,7 +15231,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -15212,7 +15255,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -15223,6 +15266,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -15274,7 +15318,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -15293,7 +15337,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -15318,7 +15362,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -15342,7 +15386,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -15366,7 +15410,7 @@ namespace OnlineAbit2013
             {
                 OnIsApprovedForeignChanging(value);
                 ReportPropertyChanging("IsApprovedForeign");
-                _IsApprovedForeign = StructuralObject.SetValidValue(value, "IsApprovedForeign");
+                _IsApprovedForeign = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsApprovedForeign");
                 OnIsApprovedForeignChanged();
             }
@@ -15377,6 +15421,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -15468,7 +15513,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -15487,7 +15532,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -15512,7 +15557,7 @@ namespace OnlineAbit2013
             {
                 OnUserIdChanging(value);
                 ReportPropertyChanging("UserId");
-                _UserId = StructuralObject.SetValidValue(value, "UserId");
+                _UserId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("UserId");
                 OnUserIdChanged();
             }
@@ -15536,7 +15581,7 @@ namespace OnlineAbit2013
             {
                 OnBarcodeChanging(value);
                 ReportPropertyChanging("Barcode");
-                _Barcode = StructuralObject.SetValidValue(value, "Barcode");
+                _Barcode = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Barcode");
                 OnBarcodeChanged();
             }
@@ -15560,7 +15605,7 @@ namespace OnlineAbit2013
             {
                 OnSurnameChanging(value);
                 ReportPropertyChanging("Surname");
-                _Surname = StructuralObject.SetValidValue(value, true, "Surname");
+                _Surname = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Surname");
                 OnSurnameChanged();
             }
@@ -15584,7 +15629,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -15608,7 +15653,7 @@ namespace OnlineAbit2013
             {
                 OnSecondNameChanging(value);
                 ReportPropertyChanging("SecondName");
-                _SecondName = StructuralObject.SetValidValue(value, true, "SecondName");
+                _SecondName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SecondName");
                 OnSecondNameChanged();
             }
@@ -15632,7 +15677,7 @@ namespace OnlineAbit2013
             {
                 OnSexChanging(value);
                 ReportPropertyChanging("Sex");
-                _Sex = StructuralObject.SetValidValue(value, "Sex");
+                _Sex = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Sex");
                 OnSexChanged();
             }
@@ -15656,7 +15701,7 @@ namespace OnlineAbit2013
             {
                 OnBirthDateChanging(value);
                 ReportPropertyChanging("BirthDate");
-                _BirthDate = StructuralObject.SetValidValue(value, "BirthDate");
+                _BirthDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("BirthDate");
                 OnBirthDateChanged();
             }
@@ -15680,7 +15725,7 @@ namespace OnlineAbit2013
             {
                 OnBirthPlaceChanging(value);
                 ReportPropertyChanging("BirthPlace");
-                _BirthPlace = StructuralObject.SetValidValue(value, true, "BirthPlace");
+                _BirthPlace = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("BirthPlace");
                 OnBirthPlaceChanged();
             }
@@ -15704,7 +15749,7 @@ namespace OnlineAbit2013
             {
                 OnPassportTypeIdChanging(value);
                 ReportPropertyChanging("PassportTypeId");
-                _PassportTypeId = StructuralObject.SetValidValue(value, "PassportTypeId");
+                _PassportTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PassportTypeId");
                 OnPassportTypeIdChanged();
             }
@@ -15728,7 +15773,7 @@ namespace OnlineAbit2013
             {
                 OnPassportSeriesChanging(value);
                 ReportPropertyChanging("PassportSeries");
-                _PassportSeries = StructuralObject.SetValidValue(value, true, "PassportSeries");
+                _PassportSeries = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("PassportSeries");
                 OnPassportSeriesChanged();
             }
@@ -15752,7 +15797,7 @@ namespace OnlineAbit2013
             {
                 OnPassportNumberChanging(value);
                 ReportPropertyChanging("PassportNumber");
-                _PassportNumber = StructuralObject.SetValidValue(value, true, "PassportNumber");
+                _PassportNumber = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("PassportNumber");
                 OnPassportNumberChanged();
             }
@@ -15776,7 +15821,7 @@ namespace OnlineAbit2013
             {
                 OnPassportDateChanging(value);
                 ReportPropertyChanging("PassportDate");
-                _PassportDate = StructuralObject.SetValidValue(value, "PassportDate");
+                _PassportDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PassportDate");
                 OnPassportDateChanged();
             }
@@ -15800,7 +15845,7 @@ namespace OnlineAbit2013
             {
                 OnPassportAuthorChanging(value);
                 ReportPropertyChanging("PassportAuthor");
-                _PassportAuthor = StructuralObject.SetValidValue(value, true, "PassportAuthor");
+                _PassportAuthor = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("PassportAuthor");
                 OnPassportAuthorChanged();
             }
@@ -15824,7 +15869,7 @@ namespace OnlineAbit2013
             {
                 OnPassportCodeChanging(value);
                 ReportPropertyChanging("PassportCode");
-                _PassportCode = StructuralObject.SetValidValue(value, true, "PassportCode");
+                _PassportCode = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("PassportCode");
                 OnPassportCodeChanged();
             }
@@ -15848,7 +15893,7 @@ namespace OnlineAbit2013
             {
                 OnPassportValidChanging(value);
                 ReportPropertyChanging("PassportValid");
-                _PassportValid = StructuralObject.SetValidValue(value, "PassportValid");
+                _PassportValid = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PassportValid");
                 OnPassportValidChanged();
             }
@@ -15872,7 +15917,7 @@ namespace OnlineAbit2013
             {
                 OnNationalityIdChanging(value);
                 ReportPropertyChanging("NationalityId");
-                _NationalityId = StructuralObject.SetValidValue(value, "NationalityId");
+                _NationalityId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("NationalityId");
                 OnNationalityIdChanged();
             }
@@ -15896,7 +15941,7 @@ namespace OnlineAbit2013
             {
                 OnRegistrationStageChanging(value);
                 ReportPropertyChanging("RegistrationStage");
-                _RegistrationStage = StructuralObject.SetValidValue(value, "RegistrationStage");
+                _RegistrationStage = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("RegistrationStage");
                 OnRegistrationStageChanged();
             }
@@ -15920,7 +15965,7 @@ namespace OnlineAbit2013
             {
                 OnAbiturientTypeIdChanging(value);
                 ReportPropertyChanging("AbiturientTypeId");
-                _AbiturientTypeId = StructuralObject.SetValidValue(value, "AbiturientTypeId");
+                _AbiturientTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("AbiturientTypeId");
                 OnAbiturientTypeIdChanged();
             }
@@ -15944,7 +15989,7 @@ namespace OnlineAbit2013
             {
                 OnIsLockedChanging(value);
                 ReportPropertyChanging("IsLocked");
-                _IsLocked = StructuralObject.SetValidValue(value, "IsLocked");
+                _IsLocked = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsLocked");
                 OnIsLockedChanged();
             }
@@ -15968,7 +16013,7 @@ namespace OnlineAbit2013
             {
                 OnIsImportedChanging(value);
                 ReportPropertyChanging("IsImported");
-                _IsImported = StructuralObject.SetValidValue(value, "IsImported");
+                _IsImported = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsImported");
                 OnIsImportedChanged();
             }
@@ -15992,7 +16037,7 @@ namespace OnlineAbit2013
             {
                 OnDateReviewDocsChanging(value);
                 ReportPropertyChanging("DateReviewDocs");
-                _DateReviewDocs = StructuralObject.SetValidValue(value, "DateReviewDocs");
+                _DateReviewDocs = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DateReviewDocs");
                 OnDateReviewDocsChanged();
             }
@@ -16016,7 +16061,7 @@ namespace OnlineAbit2013
             {
                 OnIsDisabledChanging(value);
                 ReportPropertyChanging("IsDisabled");
-                _IsDisabled = StructuralObject.SetValidValue(value, "IsDisabled");
+                _IsDisabled = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsDisabled");
                 OnIsDisabledChanged();
             }
@@ -16040,7 +16085,7 @@ namespace OnlineAbit2013
             {
                 OnIsCreatedByComissionChanging(value);
                 ReportPropertyChanging("IsCreatedByComission");
-                _IsCreatedByComission = StructuralObject.SetValidValue(value, "IsCreatedByComission");
+                _IsCreatedByComission = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsCreatedByComission");
                 OnIsCreatedByComissionChanged();
             }
@@ -16064,7 +16109,7 @@ namespace OnlineAbit2013
             {
                 OnSNILSChanging(value);
                 ReportPropertyChanging("SNILS");
-                _SNILS = StructuralObject.SetValidValue(value, true, "SNILS");
+                _SNILS = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SNILS");
                 OnSNILSChanged();
             }
@@ -16088,7 +16133,7 @@ namespace OnlineAbit2013
             {
                 OnHasRussianNationalityChanging(value);
                 ReportPropertyChanging("HasRussianNationality");
-                _HasRussianNationality = StructuralObject.SetValidValue(value, "HasRussianNationality");
+                _HasRussianNationality = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HasRussianNationality");
                 OnHasRussianNationalityChanged();
             }
@@ -16099,6 +16144,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -16806,7 +16852,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -16825,7 +16871,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonIdChanging(value);
                     ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                    _PersonId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonId");
                     OnPersonIdChanged();
                 }
@@ -16850,7 +16896,7 @@ namespace OnlineAbit2013
             {
                 OnMaritalStatusChanging(value);
                 ReportPropertyChanging("MaritalStatus");
-                _MaritalStatus = StructuralObject.SetValidValue(value, true, "MaritalStatus");
+                _MaritalStatus = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("MaritalStatus");
                 OnMaritalStatusChanged();
             }
@@ -16874,7 +16920,7 @@ namespace OnlineAbit2013
             {
                 OnSocialStatusChanging(value);
                 ReportPropertyChanging("SocialStatus");
-                _SocialStatus = StructuralObject.SetValidValue(value, true, "SocialStatus");
+                _SocialStatus = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SocialStatus");
                 OnSocialStatusChanged();
             }
@@ -16898,7 +16944,7 @@ namespace OnlineAbit2013
             {
                 OnAddInfoChanging(value);
                 ReportPropertyChanging("AddInfo");
-                _AddInfo = StructuralObject.SetValidValue(value, true, "AddInfo");
+                _AddInfo = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("AddInfo");
                 OnAddInfoChanged();
             }
@@ -16922,7 +16968,7 @@ namespace OnlineAbit2013
             {
                 OnParentsChanging(value);
                 ReportPropertyChanging("Parents");
-                _Parents = StructuralObject.SetValidValue(value, true, "Parents");
+                _Parents = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Parents");
                 OnParentsChanged();
             }
@@ -16946,7 +16992,7 @@ namespace OnlineAbit2013
             {
                 OnHasPrivilegesChanging(value);
                 ReportPropertyChanging("HasPrivileges");
-                _HasPrivileges = StructuralObject.SetValidValue(value, "HasPrivileges");
+                _HasPrivileges = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HasPrivileges");
                 OnHasPrivilegesChanged();
             }
@@ -16970,7 +17016,7 @@ namespace OnlineAbit2013
             {
                 OnHostelAbitChanging(value);
                 ReportPropertyChanging("HostelAbit");
-                _HostelAbit = StructuralObject.SetValidValue(value, "HostelAbit");
+                _HostelAbit = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HostelAbit");
                 OnHostelAbitChanged();
             }
@@ -16994,7 +17040,7 @@ namespace OnlineAbit2013
             {
                 OnReturnDocumentTypeIdChanging(value);
                 ReportPropertyChanging("ReturnDocumentTypeId");
-                _ReturnDocumentTypeId = StructuralObject.SetValidValue(value, "ReturnDocumentTypeId");
+                _ReturnDocumentTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ReturnDocumentTypeId");
                 OnReturnDocumentTypeIdChanged();
             }
@@ -17018,7 +17064,7 @@ namespace OnlineAbit2013
             {
                 OnHostelEducChanging(value);
                 ReportPropertyChanging("HostelEduc");
-                _HostelEduc = StructuralObject.SetValidValue(value, "HostelEduc");
+                _HostelEduc = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HostelEduc");
                 OnHostelEducChanged();
             }
@@ -17042,7 +17088,7 @@ namespace OnlineAbit2013
             {
                 OnHasTRKIChanging(value);
                 ReportPropertyChanging("HasTRKI");
-                _HasTRKI = StructuralObject.SetValidValue(value, "HasTRKI");
+                _HasTRKI = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HasTRKI");
                 OnHasTRKIChanged();
             }
@@ -17066,7 +17112,7 @@ namespace OnlineAbit2013
             {
                 OnTRKICertificateNumberChanging(value);
                 ReportPropertyChanging("TRKICertificateNumber");
-                _TRKICertificateNumber = StructuralObject.SetValidValue(value, true, "TRKICertificateNumber");
+                _TRKICertificateNumber = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("TRKICertificateNumber");
                 OnTRKICertificateNumberChanged();
             }
@@ -17090,7 +17136,7 @@ namespace OnlineAbit2013
             {
                 OnStartEnglishChanging(value);
                 ReportPropertyChanging("StartEnglish");
-                _StartEnglish = StructuralObject.SetValidValue(value, "StartEnglish");
+                _StartEnglish = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StartEnglish");
                 OnStartEnglishChanged();
             }
@@ -17114,7 +17160,7 @@ namespace OnlineAbit2013
             {
                 OnEnglishMarkChanging(value);
                 ReportPropertyChanging("EnglishMark");
-                _EnglishMark = StructuralObject.SetValidValue(value, "EnglishMark");
+                _EnglishMark = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EnglishMark");
                 OnEnglishMarkChanged();
             }
@@ -17138,7 +17184,7 @@ namespace OnlineAbit2013
             {
                 OnLanguageIdChanging(value);
                 ReportPropertyChanging("LanguageId");
-                _LanguageId = StructuralObject.SetValidValue(value, "LanguageId");
+                _LanguageId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("LanguageId");
                 OnLanguageIdChanged();
             }
@@ -17149,6 +17195,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -17292,7 +17339,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -17311,7 +17358,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonIdChanging(value);
                     ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                    _PersonId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonId");
                     OnPersonIdChanged();
                 }
@@ -17336,7 +17383,7 @@ namespace OnlineAbit2013
             {
                 OnReasonChanging(value);
                 ReportPropertyChanging("Reason");
-                _Reason = StructuralObject.SetValidValue(value, true, "Reason");
+                _Reason = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Reason");
                 OnReasonChanged();
             }
@@ -17360,7 +17407,7 @@ namespace OnlineAbit2013
             {
                 OnApplicationIdChanging(value);
                 ReportPropertyChanging("ApplicationId");
-                _ApplicationId = StructuralObject.SetValidValue(value, "ApplicationId");
+                _ApplicationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ApplicationId");
                 OnApplicationIdChanged();
             }
@@ -17384,7 +17431,7 @@ namespace OnlineAbit2013
             {
                 OnCommitIdChanging(value);
                 ReportPropertyChanging("CommitId");
-                _CommitId = StructuralObject.SetValidValue(value, "CommitId");
+                _CommitId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CommitId");
                 OnCommitIdChanged();
             }
@@ -17395,6 +17442,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -17540,7 +17588,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -17559,7 +17607,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonIdChanging(value);
                     ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                    _PersonId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonId");
                     OnPersonIdChanged();
                 }
@@ -17584,7 +17632,7 @@ namespace OnlineAbit2013
             {
                 OnPhoneChanging(value);
                 ReportPropertyChanging("Phone");
-                _Phone = StructuralObject.SetValidValue(value, true, "Phone");
+                _Phone = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Phone");
                 OnPhoneChanged();
             }
@@ -17608,7 +17656,7 @@ namespace OnlineAbit2013
             {
                 OnMobilesChanging(value);
                 ReportPropertyChanging("Mobiles");
-                _Mobiles = StructuralObject.SetValidValue(value, true, "Mobiles");
+                _Mobiles = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Mobiles");
                 OnMobilesChanged();
             }
@@ -17632,7 +17680,7 @@ namespace OnlineAbit2013
             {
                 OnCodeChanging(value);
                 ReportPropertyChanging("Code");
-                _Code = StructuralObject.SetValidValue(value, true, "Code");
+                _Code = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Code");
                 OnCodeChanged();
             }
@@ -17656,7 +17704,7 @@ namespace OnlineAbit2013
             {
                 OnCityChanging(value);
                 ReportPropertyChanging("City");
-                _City = StructuralObject.SetValidValue(value, true, "City");
+                _City = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("City");
                 OnCityChanged();
             }
@@ -17680,7 +17728,7 @@ namespace OnlineAbit2013
             {
                 OnStreetChanging(value);
                 ReportPropertyChanging("Street");
-                _Street = StructuralObject.SetValidValue(value, true, "Street");
+                _Street = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Street");
                 OnStreetChanged();
             }
@@ -17704,7 +17752,7 @@ namespace OnlineAbit2013
             {
                 OnKorpusChanging(value);
                 ReportPropertyChanging("Korpus");
-                _Korpus = StructuralObject.SetValidValue(value, true, "Korpus");
+                _Korpus = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Korpus");
                 OnKorpusChanged();
             }
@@ -17728,7 +17776,7 @@ namespace OnlineAbit2013
             {
                 OnFlatChanging(value);
                 ReportPropertyChanging("Flat");
-                _Flat = StructuralObject.SetValidValue(value, true, "Flat");
+                _Flat = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Flat");
                 OnFlatChanged();
             }
@@ -17752,7 +17800,7 @@ namespace OnlineAbit2013
             {
                 OnCodeRealChanging(value);
                 ReportPropertyChanging("CodeReal");
-                _CodeReal = StructuralObject.SetValidValue(value, true, "CodeReal");
+                _CodeReal = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("CodeReal");
                 OnCodeRealChanged();
             }
@@ -17776,7 +17824,7 @@ namespace OnlineAbit2013
             {
                 OnCityRealChanging(value);
                 ReportPropertyChanging("CityReal");
-                _CityReal = StructuralObject.SetValidValue(value, true, "CityReal");
+                _CityReal = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("CityReal");
                 OnCityRealChanged();
             }
@@ -17800,7 +17848,7 @@ namespace OnlineAbit2013
             {
                 OnStreetRealChanging(value);
                 ReportPropertyChanging("StreetReal");
-                _StreetReal = StructuralObject.SetValidValue(value, true, "StreetReal");
+                _StreetReal = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("StreetReal");
                 OnStreetRealChanged();
             }
@@ -17824,7 +17872,7 @@ namespace OnlineAbit2013
             {
                 OnKorpusRealChanging(value);
                 ReportPropertyChanging("KorpusReal");
-                _KorpusReal = StructuralObject.SetValidValue(value, true, "KorpusReal");
+                _KorpusReal = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("KorpusReal");
                 OnKorpusRealChanged();
             }
@@ -17848,7 +17896,7 @@ namespace OnlineAbit2013
             {
                 OnFlatRealChanging(value);
                 ReportPropertyChanging("FlatReal");
-                _FlatReal = StructuralObject.SetValidValue(value, true, "FlatReal");
+                _FlatReal = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FlatReal");
                 OnFlatRealChanged();
             }
@@ -17872,7 +17920,7 @@ namespace OnlineAbit2013
             {
                 OnCountryIdChanging(value);
                 ReportPropertyChanging("CountryId");
-                _CountryId = StructuralObject.SetValidValue(value, "CountryId");
+                _CountryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CountryId");
                 OnCountryIdChanged();
             }
@@ -17896,7 +17944,7 @@ namespace OnlineAbit2013
             {
                 OnRegionIdChanging(value);
                 ReportPropertyChanging("RegionId");
-                _RegionId = StructuralObject.SetValidValue(value, "RegionId");
+                _RegionId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("RegionId");
                 OnRegionIdChanged();
             }
@@ -17920,7 +17968,7 @@ namespace OnlineAbit2013
             {
                 OnHouseChanging(value);
                 ReportPropertyChanging("House");
-                _House = StructuralObject.SetValidValue(value, true, "House");
+                _House = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("House");
                 OnHouseChanged();
             }
@@ -17944,7 +17992,7 @@ namespace OnlineAbit2013
             {
                 OnHouseRealChanging(value);
                 ReportPropertyChanging("HouseReal");
-                _HouseReal = StructuralObject.SetValidValue(value, true, "HouseReal");
+                _HouseReal = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("HouseReal");
                 OnHouseRealChanged();
             }
@@ -17968,7 +18016,7 @@ namespace OnlineAbit2013
             {
                 OnForeignAddressInfoChanging(value);
                 ReportPropertyChanging("ForeignAddressInfo");
-                _ForeignAddressInfo = StructuralObject.SetValidValue(value, true, "ForeignAddressInfo");
+                _ForeignAddressInfo = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ForeignAddressInfo");
                 OnForeignAddressInfoChanged();
             }
@@ -17992,7 +18040,7 @@ namespace OnlineAbit2013
             {
                 OnKladrCodeChanging(value);
                 ReportPropertyChanging("KladrCode");
-                _KladrCode = StructuralObject.SetValidValue(value, true, "KladrCode");
+                _KladrCode = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("KladrCode");
                 OnKladrCodeChanged();
             }
@@ -18003,6 +18051,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -18160,7 +18209,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -18179,7 +18228,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonIdChanging(value);
                     ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                    _PersonId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonId");
                     OnPersonIdChanged();
                 }
@@ -18204,7 +18253,7 @@ namespace OnlineAbit2013
             {
                 OnEducTypeIdChanging(value);
                 ReportPropertyChanging("EducTypeId");
-                _EducTypeId = StructuralObject.SetValidValue(value, "EducTypeId");
+                _EducTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EducTypeId");
                 OnEducTypeIdChanged();
             }
@@ -18228,7 +18277,7 @@ namespace OnlineAbit2013
             {
                 OnEducNameChanging(value);
                 ReportPropertyChanging("EducName");
-                _EducName = StructuralObject.SetValidValue(value, true, "EducName");
+                _EducName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("EducName");
                 OnEducNameChanged();
             }
@@ -18252,7 +18301,7 @@ namespace OnlineAbit2013
             {
                 OnHasAccreditationChanging(value);
                 ReportPropertyChanging("HasAccreditation");
-                _HasAccreditation = StructuralObject.SetValidValue(value, "HasAccreditation");
+                _HasAccreditation = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HasAccreditation");
                 OnHasAccreditationChanged();
             }
@@ -18276,7 +18325,7 @@ namespace OnlineAbit2013
             {
                 OnAccreditationNumberChanging(value);
                 ReportPropertyChanging("AccreditationNumber");
-                _AccreditationNumber = StructuralObject.SetValidValue(value, true, "AccreditationNumber");
+                _AccreditationNumber = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("AccreditationNumber");
                 OnAccreditationNumberChanged();
             }
@@ -18300,7 +18349,7 @@ namespace OnlineAbit2013
             {
                 OnAccreditationDateChanging(value);
                 ReportPropertyChanging("AccreditationDate");
-                _AccreditationDate = StructuralObject.SetValidValue(value, "AccreditationDate");
+                _AccreditationDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("AccreditationDate");
                 OnAccreditationDateChanged();
             }
@@ -18324,7 +18373,7 @@ namespace OnlineAbit2013
             {
                 OnSemesterIdChanging(value);
                 ReportPropertyChanging("SemesterId");
-                _SemesterId = StructuralObject.SetValidValue(value, "SemesterId");
+                _SemesterId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("SemesterId");
                 OnSemesterIdChanged();
             }
@@ -18348,7 +18397,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelIdChanging(value);
                 ReportPropertyChanging("StudyLevelId");
-                _StudyLevelId = StructuralObject.SetValidValue(value, "StudyLevelId");
+                _StudyLevelId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyLevelId");
                 OnStudyLevelIdChanged();
             }
@@ -18372,7 +18421,7 @@ namespace OnlineAbit2013
             {
                 OnHasScholarshipChanging(value);
                 ReportPropertyChanging("HasScholarship");
-                _HasScholarship = StructuralObject.SetValidValue(value, "HasScholarship");
+                _HasScholarship = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("HasScholarship");
                 OnHasScholarshipChanged();
             }
@@ -18396,7 +18445,7 @@ namespace OnlineAbit2013
             {
                 OnCountryIdChanging(value);
                 ReportPropertyChanging("CountryId");
-                _CountryId = StructuralObject.SetValidValue(value, "CountryId");
+                _CountryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CountryId");
                 OnCountryIdChanged();
             }
@@ -18420,7 +18469,7 @@ namespace OnlineAbit2013
             {
                 OnLicenseProgramIdChanging(value);
                 ReportPropertyChanging("LicenseProgramId");
-                _LicenseProgramId = StructuralObject.SetValidValue(value, "LicenseProgramId");
+                _LicenseProgramId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("LicenseProgramId");
                 OnLicenseProgramIdChanged();
             }
@@ -18444,7 +18493,7 @@ namespace OnlineAbit2013
             {
                 OnProfileNameChanging(value);
                 ReportPropertyChanging("ProfileName");
-                _ProfileName = StructuralObject.SetValidValue(value, true, "ProfileName");
+                _ProfileName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ProfileName");
                 OnProfileNameChanged();
             }
@@ -18468,7 +18517,7 @@ namespace OnlineAbit2013
             {
                 OnRegionIdChanging(value);
                 ReportPropertyChanging("RegionId");
-                _RegionId = StructuralObject.SetValidValue(value, "RegionId");
+                _RegionId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("RegionId");
                 OnRegionIdChanged();
             }
@@ -18492,7 +18541,7 @@ namespace OnlineAbit2013
             {
                 OnStudyFormIdChanging(value);
                 ReportPropertyChanging("StudyFormId");
-                _StudyFormId = StructuralObject.SetValidValue(value, "StudyFormId");
+                _StudyFormId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyFormId");
                 OnStudyFormIdChanged();
             }
@@ -18516,7 +18565,7 @@ namespace OnlineAbit2013
             {
                 OnStudyBasisIdChanging(value);
                 ReportPropertyChanging("StudyBasisId");
-                _StudyBasisId = StructuralObject.SetValidValue(value, "StudyBasisId");
+                _StudyBasisId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyBasisId");
                 OnStudyBasisIdChanged();
             }
@@ -18540,7 +18589,7 @@ namespace OnlineAbit2013
             {
                 OnObrazProgramIdChanging(value);
                 ReportPropertyChanging("ObrazProgramId");
-                _ObrazProgramId = StructuralObject.SetValidValue(value, "ObrazProgramId");
+                _ObrazProgramId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ObrazProgramId");
                 OnObrazProgramIdChanged();
             }
@@ -18564,7 +18613,7 @@ namespace OnlineAbit2013
             {
                 OnProfileIdChanging(value);
                 ReportPropertyChanging("ProfileId");
-                _ProfileId = StructuralObject.SetValidValue(value, "ProfileId");
+                _ProfileId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ProfileId");
                 OnProfileIdChanged();
             }
@@ -18575,6 +18624,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -18834,7 +18884,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -18853,7 +18903,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonIdChanging(value);
                     ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                    _PersonId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonId");
                     OnPersonIdChanged();
                 }
@@ -18878,7 +18928,7 @@ namespace OnlineAbit2013
             {
                 OnYearOfDisorderChanging(value);
                 ReportPropertyChanging("YearOfDisorder");
-                _YearOfDisorder = StructuralObject.SetValidValue(value, true, "YearOfDisorder");
+                _YearOfDisorder = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("YearOfDisorder");
                 OnYearOfDisorderChanged();
             }
@@ -18902,7 +18952,7 @@ namespace OnlineAbit2013
             {
                 OnEducationProgramNameChanging(value);
                 ReportPropertyChanging("EducationProgramName");
-                _EducationProgramName = StructuralObject.SetValidValue(value, true, "EducationProgramName");
+                _EducationProgramName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("EducationProgramName");
                 OnEducationProgramNameChanged();
             }
@@ -18926,7 +18976,7 @@ namespace OnlineAbit2013
             {
                 OnIsForIGAChanging(value);
                 ReportPropertyChanging("IsForIGA");
-                _IsForIGA = StructuralObject.SetValidValue(value, "IsForIGA");
+                _IsForIGA = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsForIGA");
                 OnIsForIGAChanged();
             }
@@ -18937,6 +18987,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -19016,7 +19067,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -19035,7 +19086,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -19060,7 +19111,7 @@ namespace OnlineAbit2013
             {
                 OnPersonIdChanging(value);
                 ReportPropertyChanging("PersonId");
-                _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                _PersonId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PersonId");
                 OnPersonIdChanged();
             }
@@ -19084,7 +19135,7 @@ namespace OnlineAbit2013
             {
                 OnSchoolTypeIdChanging(value);
                 ReportPropertyChanging("SchoolTypeId");
-                _SchoolTypeId = StructuralObject.SetValidValue(value, "SchoolTypeId");
+                _SchoolTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("SchoolTypeId");
                 OnSchoolTypeIdChanged();
             }
@@ -19108,7 +19159,7 @@ namespace OnlineAbit2013
             {
                 OnCountryEducIdChanging(value);
                 ReportPropertyChanging("CountryEducId");
-                _CountryEducId = StructuralObject.SetValidValue(value, "CountryEducId");
+                _CountryEducId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CountryEducId");
                 OnCountryEducIdChanged();
             }
@@ -19132,7 +19183,7 @@ namespace OnlineAbit2013
             {
                 OnRegionEducIdChanging(value);
                 ReportPropertyChanging("RegionEducId");
-                _RegionEducId = StructuralObject.SetValidValue(value, "RegionEducId");
+                _RegionEducId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("RegionEducId");
                 OnRegionEducIdChanged();
             }
@@ -19156,7 +19207,7 @@ namespace OnlineAbit2013
             {
                 OnVuzAdditionalTypeIdChanging(value);
                 ReportPropertyChanging("VuzAdditionalTypeId");
-                _VuzAdditionalTypeId = StructuralObject.SetValidValue(value, "VuzAdditionalTypeId");
+                _VuzAdditionalTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("VuzAdditionalTypeId");
                 OnVuzAdditionalTypeIdChanged();
             }
@@ -19180,7 +19231,7 @@ namespace OnlineAbit2013
             {
                 OnSchoolCityChanging(value);
                 ReportPropertyChanging("SchoolCity");
-                _SchoolCity = StructuralObject.SetValidValue(value, true, "SchoolCity");
+                _SchoolCity = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SchoolCity");
                 OnSchoolCityChanged();
             }
@@ -19204,7 +19255,7 @@ namespace OnlineAbit2013
             {
                 OnSchoolNameChanging(value);
                 ReportPropertyChanging("SchoolName");
-                _SchoolName = StructuralObject.SetValidValue(value, true, "SchoolName");
+                _SchoolName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SchoolName");
                 OnSchoolNameChanged();
             }
@@ -19228,7 +19279,7 @@ namespace OnlineAbit2013
             {
                 OnSchoolNumChanging(value);
                 ReportPropertyChanging("SchoolNum");
-                _SchoolNum = StructuralObject.SetValidValue(value, true, "SchoolNum");
+                _SchoolNum = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SchoolNum");
                 OnSchoolNumChanged();
             }
@@ -19252,7 +19303,7 @@ namespace OnlineAbit2013
             {
                 OnSchoolExitYearChanging(value);
                 ReportPropertyChanging("SchoolExitYear");
-                _SchoolExitYear = StructuralObject.SetValidValue(value, true, "SchoolExitYear");
+                _SchoolExitYear = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SchoolExitYear");
                 OnSchoolExitYearChanged();
             }
@@ -19276,7 +19327,7 @@ namespace OnlineAbit2013
             {
                 OnSchoolExitClassIdChanging(value);
                 ReportPropertyChanging("SchoolExitClassId");
-                _SchoolExitClassId = StructuralObject.SetValidValue(value, "SchoolExitClassId");
+                _SchoolExitClassId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("SchoolExitClassId");
                 OnSchoolExitClassIdChanged();
             }
@@ -19300,7 +19351,7 @@ namespace OnlineAbit2013
             {
                 OnSeriesChanging(value);
                 ReportPropertyChanging("Series");
-                _Series = StructuralObject.SetValidValue(value, true, "Series");
+                _Series = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Series");
                 OnSeriesChanged();
             }
@@ -19324,7 +19375,7 @@ namespace OnlineAbit2013
             {
                 OnNumberChanging(value);
                 ReportPropertyChanging("Number");
-                _Number = StructuralObject.SetValidValue(value, true, "Number");
+                _Number = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Number");
                 OnNumberChanged();
             }
@@ -19348,7 +19399,7 @@ namespace OnlineAbit2013
             {
                 OnIsEqualChanging(value);
                 ReportPropertyChanging("IsEqual");
-                _IsEqual = StructuralObject.SetValidValue(value, "IsEqual");
+                _IsEqual = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsEqual");
                 OnIsEqualChanged();
             }
@@ -19372,7 +19423,7 @@ namespace OnlineAbit2013
             {
                 OnEqualDocumentNumberChanging(value);
                 ReportPropertyChanging("EqualDocumentNumber");
-                _EqualDocumentNumber = StructuralObject.SetValidValue(value, true, "EqualDocumentNumber");
+                _EqualDocumentNumber = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("EqualDocumentNumber");
                 OnEqualDocumentNumberChanged();
             }
@@ -19396,7 +19447,7 @@ namespace OnlineAbit2013
             {
                 OnAvgMarkChanging(value);
                 ReportPropertyChanging("AvgMark");
-                _AvgMark = StructuralObject.SetValidValue(value, "AvgMark");
+                _AvgMark = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("AvgMark");
                 OnAvgMarkChanged();
             }
@@ -19420,7 +19471,7 @@ namespace OnlineAbit2013
             {
                 OnIsExcellentChanging(value);
                 ReportPropertyChanging("IsExcellent");
-                _IsExcellent = StructuralObject.SetValidValue(value, "IsExcellent");
+                _IsExcellent = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsExcellent");
                 OnIsExcellentChanged();
             }
@@ -19431,6 +19482,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -19704,7 +19756,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -19723,7 +19775,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -19748,7 +19800,7 @@ namespace OnlineAbit2013
             {
                 OnPersonIdChanging(value);
                 ReportPropertyChanging("PersonId");
-                _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                _PersonId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PersonId");
                 OnPersonIdChanged();
             }
@@ -19772,7 +19824,7 @@ namespace OnlineAbit2013
             {
                 OnFileNameChanging(value);
                 ReportPropertyChanging("FileName");
-                _FileName = StructuralObject.SetValidValue(value, false, "FileName");
+                _FileName = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("FileName");
                 OnFileNameChanged();
             }
@@ -19796,7 +19848,7 @@ namespace OnlineAbit2013
             {
                 OnFileSizeChanging(value);
                 ReportPropertyChanging("FileSize");
-                _FileSize = StructuralObject.SetValidValue(value, "FileSize");
+                _FileSize = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("FileSize");
                 OnFileSizeChanged();
             }
@@ -19820,7 +19872,7 @@ namespace OnlineAbit2013
             {
                 OnFileExtentionChanging(value);
                 ReportPropertyChanging("FileExtention");
-                _FileExtention = StructuralObject.SetValidValue(value, true, "FileExtention");
+                _FileExtention = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FileExtention");
                 OnFileExtentionChanged();
             }
@@ -19844,7 +19896,7 @@ namespace OnlineAbit2013
             {
                 OnFileDataChanging(value);
                 ReportPropertyChanging("FileData");
-                _FileData = StructuralObject.SetValidValue(value, false, "FileData");
+                _FileData = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("FileData");
                 OnFileDataChanged();
             }
@@ -19868,7 +19920,7 @@ namespace OnlineAbit2013
             {
                 OnCommentChanging(value);
                 ReportPropertyChanging("Comment");
-                _Comment = StructuralObject.SetValidValue(value, true, "Comment");
+                _Comment = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Comment");
                 OnCommentChanged();
             }
@@ -19892,7 +19944,7 @@ namespace OnlineAbit2013
             {
                 OnLoadDateChanging(value);
                 ReportPropertyChanging("LoadDate");
-                _LoadDate = StructuralObject.SetValidValue(value, "LoadDate");
+                _LoadDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("LoadDate");
                 OnLoadDateChanged();
             }
@@ -19916,7 +19968,7 @@ namespace OnlineAbit2013
             {
                 OnMimeTypeChanging(value);
                 ReportPropertyChanging("MimeType");
-                _MimeType = StructuralObject.SetValidValue(value, true, "MimeType");
+                _MimeType = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("MimeType");
                 OnMimeTypeChanged();
             }
@@ -19940,7 +19992,7 @@ namespace OnlineAbit2013
             {
                 OnIsReadOnlyChanging(value);
                 ReportPropertyChanging("IsReadOnly");
-                _IsReadOnly = StructuralObject.SetValidValue(value, "IsReadOnly");
+                _IsReadOnly = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsReadOnly");
                 OnIsReadOnlyChanged();
             }
@@ -19964,7 +20016,7 @@ namespace OnlineAbit2013
             {
                 OnIsApprovedChanging(value);
                 ReportPropertyChanging("IsApproved");
-                _IsApproved = StructuralObject.SetValidValue(value, "IsApproved");
+                _IsApproved = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsApproved");
                 OnIsApprovedChanged();
             }
@@ -19988,7 +20040,7 @@ namespace OnlineAbit2013
             {
                 OnFailReasonChanging(value);
                 ReportPropertyChanging("FailReason");
-                _FailReason = StructuralObject.SetValidValue(value, true, "FailReason");
+                _FailReason = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FailReason");
                 OnFailReasonChanged();
             }
@@ -20012,7 +20064,7 @@ namespace OnlineAbit2013
             {
                 OnPersonFileTypeIdChanging(value);
                 ReportPropertyChanging("PersonFileTypeId");
-                _PersonFileTypeId = StructuralObject.SetValidValue(value, "PersonFileTypeId");
+                _PersonFileTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PersonFileTypeId");
                 OnPersonFileTypeIdChanged();
             }
@@ -20036,7 +20088,7 @@ namespace OnlineAbit2013
             {
                 OnIsDeletedChanging(value);
                 ReportPropertyChanging("IsDeleted");
-                _IsDeleted = StructuralObject.SetValidValue(value, "IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsDeleted");
                 OnIsDeletedChanged();
             }
@@ -20047,6 +20099,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -20114,7 +20167,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -20133,7 +20186,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -20158,7 +20211,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -20182,7 +20235,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -20206,7 +20259,7 @@ namespace OnlineAbit2013
             {
                 OnFileNameTemplateChanging(value);
                 ReportPropertyChanging("FileNameTemplate");
-                _FileNameTemplate = StructuralObject.SetValidValue(value, true, "FileNameTemplate");
+                _FileNameTemplate = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FileNameTemplate");
                 OnFileNameTemplateChanged();
             }
@@ -20217,6 +20270,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -20274,7 +20328,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -20291,7 +20345,7 @@ namespace OnlineAbit2013
             {
                 OnEntryYearChanging(value);
                 ReportPropertyChanging("EntryYear");
-                _EntryYear = StructuralObject.SetValidValue(value, "EntryYear");
+                _EntryYear = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EntryYear");
                 OnEntryYearChanged();
             }
@@ -20315,7 +20369,7 @@ namespace OnlineAbit2013
             {
                 OnExitYearChanging(value);
                 ReportPropertyChanging("ExitYear");
-                _ExitYear = StructuralObject.SetValidValue(value, "ExitYear");
+                _ExitYear = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ExitYear");
                 OnExitYearChanged();
             }
@@ -20339,7 +20393,7 @@ namespace OnlineAbit2013
             {
                 OnDiplomaThemeChanging(value);
                 ReportPropertyChanging("DiplomaTheme");
-                _DiplomaTheme = StructuralObject.SetValidValue(value, true, "DiplomaTheme");
+                _DiplomaTheme = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("DiplomaTheme");
                 OnDiplomaThemeChanged();
             }
@@ -20363,7 +20417,7 @@ namespace OnlineAbit2013
             {
                 OnQualificationIdChanging(value);
                 ReportPropertyChanging("QualificationId");
-                _QualificationId = StructuralObject.SetValidValue(value, "QualificationId");
+                _QualificationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("QualificationId");
                 OnQualificationIdChanged();
             }
@@ -20387,7 +20441,7 @@ namespace OnlineAbit2013
             {
                 OnStudyFormIdChanging(value);
                 ReportPropertyChanging("StudyFormId");
-                _StudyFormId = StructuralObject.SetValidValue(value, "StudyFormId");
+                _StudyFormId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyFormId");
                 OnStudyFormIdChanged();
             }
@@ -20411,7 +20465,7 @@ namespace OnlineAbit2013
             {
                 OnProgramNameChanging(value);
                 ReportPropertyChanging("ProgramName");
-                _ProgramName = StructuralObject.SetValidValue(value, true, "ProgramName");
+                _ProgramName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ProgramName");
                 OnProgramNameChanged();
             }
@@ -20437,7 +20491,7 @@ namespace OnlineAbit2013
                 {
                     OnEducationDocumentIdChanging(value);
                     ReportPropertyChanging("EducationDocumentId");
-                    _EducationDocumentId = StructuralObject.SetValidValue(value, "EducationDocumentId");
+                    _EducationDocumentId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("EducationDocumentId");
                     OnEducationDocumentIdChanged();
                 }
@@ -20449,6 +20503,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -20560,7 +20615,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -20579,7 +20634,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -20604,7 +20659,7 @@ namespace OnlineAbit2013
             {
                 OnPersonIdChanging(value);
                 ReportPropertyChanging("PersonId");
-                _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                _PersonId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PersonId");
                 OnPersonIdChanged();
             }
@@ -20628,7 +20683,7 @@ namespace OnlineAbit2013
             {
                 OnPassportTypeIdChanging(value);
                 ReportPropertyChanging("PassportTypeId");
-                _PassportTypeId = StructuralObject.SetValidValue(value, "PassportTypeId");
+                _PassportTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PassportTypeId");
                 OnPassportTypeIdChanged();
             }
@@ -20652,7 +20707,7 @@ namespace OnlineAbit2013
             {
                 OnPassportSeriesChanging(value);
                 ReportPropertyChanging("PassportSeries");
-                _PassportSeries = StructuralObject.SetValidValue(value, true, "PassportSeries");
+                _PassportSeries = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("PassportSeries");
                 OnPassportSeriesChanged();
             }
@@ -20676,7 +20731,7 @@ namespace OnlineAbit2013
             {
                 OnPassportNumberChanging(value);
                 ReportPropertyChanging("PassportNumber");
-                _PassportNumber = StructuralObject.SetValidValue(value, false, "PassportNumber");
+                _PassportNumber = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("PassportNumber");
                 OnPassportNumberChanged();
             }
@@ -20700,7 +20755,7 @@ namespace OnlineAbit2013
             {
                 OnSurnameChanging(value);
                 ReportPropertyChanging("Surname");
-                _Surname = StructuralObject.SetValidValue(value, true, "Surname");
+                _Surname = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Surname");
                 OnSurnameChanged();
             }
@@ -20724,7 +20779,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -20748,7 +20803,7 @@ namespace OnlineAbit2013
             {
                 OnSecondNameChanging(value);
                 ReportPropertyChanging("SecondName");
-                _SecondName = StructuralObject.SetValidValue(value, true, "SecondName");
+                _SecondName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SecondName");
                 OnSecondNameChanged();
             }
@@ -20759,6 +20814,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -20868,7 +20924,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -20887,7 +20943,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonIdChanging(value);
                     ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                    _PersonId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonId");
                     OnPersonIdChanged();
                 }
@@ -20912,7 +20968,7 @@ namespace OnlineAbit2013
             {
                 OnSchoolTypeIdChanging(value);
                 ReportPropertyChanging("SchoolTypeId");
-                _SchoolTypeId = StructuralObject.SetValidValue(value, "SchoolTypeId");
+                _SchoolTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("SchoolTypeId");
                 OnSchoolTypeIdChanged();
             }
@@ -20936,7 +20992,7 @@ namespace OnlineAbit2013
             {
                 OnSchoolExitClassIdChanging(value);
                 ReportPropertyChanging("SchoolExitClassId");
-                _SchoolExitClassId = StructuralObject.SetValidValue(value, "SchoolExitClassId");
+                _SchoolExitClassId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("SchoolExitClassId");
                 OnSchoolExitClassIdChanged();
             }
@@ -20960,7 +21016,7 @@ namespace OnlineAbit2013
             {
                 OnSchoolAddressChanging(value);
                 ReportPropertyChanging("SchoolAddress");
-                _SchoolAddress = StructuralObject.SetValidValue(value, true, "SchoolAddress");
+                _SchoolAddress = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SchoolAddress");
                 OnSchoolAddressChanged();
             }
@@ -20971,6 +21027,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -21080,7 +21137,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -21099,7 +21156,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -21124,7 +21181,7 @@ namespace OnlineAbit2013
             {
                 OnPersonIdChanging(value);
                 ReportPropertyChanging("PersonId");
-                _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                _PersonId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PersonId");
                 OnPersonIdChanged();
             }
@@ -21148,7 +21205,7 @@ namespace OnlineAbit2013
             {
                 OnWorkTypeIdChanging(value);
                 ReportPropertyChanging("WorkTypeId");
-                _WorkTypeId = StructuralObject.SetValidValue(value, "WorkTypeId");
+                _WorkTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("WorkTypeId");
                 OnWorkTypeIdChanged();
             }
@@ -21172,7 +21229,7 @@ namespace OnlineAbit2013
             {
                 OnWorkInfoChanging(value);
                 ReportPropertyChanging("WorkInfo");
-                _WorkInfo = StructuralObject.SetValidValue(value, true, "WorkInfo");
+                _WorkInfo = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("WorkInfo");
                 OnWorkInfoChanged();
             }
@@ -21183,6 +21240,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -21252,7 +21310,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -21271,7 +21329,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonIdChanging(value);
                     ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                    _PersonId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonId");
                     OnPersonIdChanged();
                 }
@@ -21296,7 +21354,7 @@ namespace OnlineAbit2013
             {
                 OnSportQualificationIdChanging(value);
                 ReportPropertyChanging("SportQualificationId");
-                _SportQualificationId = StructuralObject.SetValidValue(value, "SportQualificationId");
+                _SportQualificationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("SportQualificationId");
                 OnSportQualificationIdChanged();
             }
@@ -21320,7 +21378,7 @@ namespace OnlineAbit2013
             {
                 OnOtherSportQualificationChanging(value);
                 ReportPropertyChanging("OtherSportQualification");
-                _OtherSportQualification = StructuralObject.SetValidValue(value, true, "OtherSportQualification");
+                _OtherSportQualification = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("OtherSportQualification");
                 OnOtherSportQualificationChanged();
             }
@@ -21344,7 +21402,7 @@ namespace OnlineAbit2013
             {
                 OnSportQualificationLevelChanging(value);
                 ReportPropertyChanging("SportQualificationLevel");
-                _SportQualificationLevel = StructuralObject.SetValidValue(value, true, "SportQualificationLevel");
+                _SportQualificationLevel = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SportQualificationLevel");
                 OnSportQualificationLevelChanged();
             }
@@ -21355,6 +21413,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -21462,7 +21521,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -21481,7 +21540,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonIdChanging(value);
                     ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                    _PersonId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonId");
                     OnPersonIdChanged();
                 }
@@ -21506,7 +21565,7 @@ namespace OnlineAbit2013
             {
                 OnCountryIdChanging(value);
                 ReportPropertyChanging("CountryId");
-                _CountryId = StructuralObject.SetValidValue(value, "CountryId");
+                _CountryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CountryId");
                 OnCountryIdChanged();
             }
@@ -21530,7 +21589,7 @@ namespace OnlineAbit2013
             {
                 OnPostAddressChanging(value);
                 ReportPropertyChanging("PostAddress");
-                _PostAddress = StructuralObject.SetValidValue(value, true, "PostAddress");
+                _PostAddress = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("PostAddress");
                 OnPostAddressChanged();
             }
@@ -21554,7 +21613,7 @@ namespace OnlineAbit2013
             {
                 OnTownChanging(value);
                 ReportPropertyChanging("Town");
-                _Town = StructuralObject.SetValidValue(value, true, "Town");
+                _Town = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Town");
                 OnTownChanged();
             }
@@ -21565,6 +21624,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -21672,7 +21732,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -21691,7 +21751,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -21716,7 +21776,7 @@ namespace OnlineAbit2013
             {
                 OnPersonIdChanging(value);
                 ReportPropertyChanging("PersonId");
-                _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                _PersonId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PersonId");
                 OnPersonIdChanged();
             }
@@ -21740,7 +21800,7 @@ namespace OnlineAbit2013
             {
                 OnStageChanging(value);
                 ReportPropertyChanging("Stage");
-                _Stage = StructuralObject.SetValidValue(value, true, "Stage");
+                _Stage = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Stage");
                 OnStageChanged();
             }
@@ -21764,7 +21824,7 @@ namespace OnlineAbit2013
             {
                 OnWorkPlaceChanging(value);
                 ReportPropertyChanging("WorkPlace");
-                _WorkPlace = StructuralObject.SetValidValue(value, true, "WorkPlace");
+                _WorkPlace = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("WorkPlace");
                 OnWorkPlaceChanged();
             }
@@ -21788,7 +21848,7 @@ namespace OnlineAbit2013
             {
                 OnWorkProfessionChanging(value);
                 ReportPropertyChanging("WorkProfession");
-                _WorkProfession = StructuralObject.SetValidValue(value, true, "WorkProfession");
+                _WorkProfession = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("WorkProfession");
                 OnWorkProfessionChanged();
             }
@@ -21812,7 +21872,7 @@ namespace OnlineAbit2013
             {
                 OnWorkSpecificationsChanging(value);
                 ReportPropertyChanging("WorkSpecifications");
-                _WorkSpecifications = StructuralObject.SetValidValue(value, true, "WorkSpecifications");
+                _WorkSpecifications = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("WorkSpecifications");
                 OnWorkSpecificationsChanged();
             }
@@ -21823,6 +21883,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -21900,7 +21961,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -21919,7 +21980,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -21946,7 +22007,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonIdChanging(value);
                     ReportPropertyChanging("PersonId");
-                    _PersonId = StructuralObject.SetValidValue(value, "PersonId");
+                    _PersonId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonId");
                     OnPersonIdChanged();
                 }
@@ -21971,7 +22032,7 @@ namespace OnlineAbit2013
             {
                 OnApplicationIdChanging(value);
                 ReportPropertyChanging("ApplicationId");
-                _ApplicationId = StructuralObject.SetValidValue(value, "ApplicationId");
+                _ApplicationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ApplicationId");
                 OnApplicationIdChanged();
             }
@@ -21995,7 +22056,7 @@ namespace OnlineAbit2013
             {
                 OnCommitIdChanging(value);
                 ReportPropertyChanging("CommitId");
-                _CommitId = StructuralObject.SetValidValue(value, "CommitId");
+                _CommitId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CommitId");
                 OnCommitIdChanged();
             }
@@ -22021,7 +22082,7 @@ namespace OnlineAbit2013
                 {
                     OnPersonBarcodeChanging(value);
                     ReportPropertyChanging("PersonBarcode");
-                    _PersonBarcode = StructuralObject.SetValidValue(value, "PersonBarcode");
+                    _PersonBarcode = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("PersonBarcode");
                     OnPersonBarcodeChanged();
                 }
@@ -22046,7 +22107,7 @@ namespace OnlineAbit2013
             {
                 OnApplicationBarcodeChanging(value);
                 ReportPropertyChanging("ApplicationBarcode");
-                _ApplicationBarcode = StructuralObject.SetValidValue(value, "ApplicationBarcode");
+                _ApplicationBarcode = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ApplicationBarcode");
                 OnApplicationBarcodeChanged();
             }
@@ -22072,7 +22133,7 @@ namespace OnlineAbit2013
                 {
                     OnFileNameChanging(value);
                     ReportPropertyChanging("FileName");
-                    _FileName = StructuralObject.SetValidValue(value, false, "FileName");
+                    _FileName = StructuralObject.SetValidValue(value, false);
                     ReportPropertyChanged("FileName");
                     OnFileNameChanged();
                 }
@@ -22097,7 +22158,7 @@ namespace OnlineAbit2013
             {
                 OnCommentChanging(value);
                 ReportPropertyChanging("Comment");
-                _Comment = StructuralObject.SetValidValue(value, true, "Comment");
+                _Comment = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Comment");
                 OnCommentChanged();
             }
@@ -22121,7 +22182,7 @@ namespace OnlineAbit2013
             {
                 OnIsApprovedChanging(value);
                 ReportPropertyChanging("IsApproved");
-                _IsApproved = StructuralObject.SetValidValue(value, "IsApproved");
+                _IsApproved = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsApproved");
                 OnIsApprovedChanged();
             }
@@ -22147,7 +22208,7 @@ namespace OnlineAbit2013
                 {
                     OnIsReadOnlyChanging(value);
                     ReportPropertyChanging("IsReadOnly");
-                    _IsReadOnly = StructuralObject.SetValidValue(value, "IsReadOnly");
+                    _IsReadOnly = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsReadOnly");
                     OnIsReadOnlyChanged();
                 }
@@ -22174,7 +22235,7 @@ namespace OnlineAbit2013
                 {
                     OnFileTypeIdChanging(value);
                     ReportPropertyChanging("FileTypeId");
-                    _FileTypeId = StructuralObject.SetValidValue(value, "FileTypeId");
+                    _FileTypeId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("FileTypeId");
                     OnFileTypeIdChanged();
                 }
@@ -22186,6 +22247,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -22213,7 +22275,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -22232,7 +22294,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -22257,7 +22319,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -22281,7 +22343,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -22305,7 +22367,7 @@ namespace OnlineAbit2013
             {
                 OnIsForAspirantChanging(value);
                 ReportPropertyChanging("IsForAspirant");
-                _IsForAspirant = StructuralObject.SetValidValue(value, "IsForAspirant");
+                _IsForAspirant = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsForAspirant");
                 OnIsForAspirantChanged();
             }
@@ -22316,6 +22378,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -22369,7 +22432,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -22388,7 +22451,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -22413,7 +22476,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -22437,7 +22500,7 @@ namespace OnlineAbit2013
             {
                 OnDistanceChanging(value);
                 ReportPropertyChanging("Distance");
-                _Distance = StructuralObject.SetValidValue(value, "Distance");
+                _Distance = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Distance");
                 OnDistanceChanged();
             }
@@ -22461,7 +22524,7 @@ namespace OnlineAbit2013
             {
                 OnRegionNumberChanging(value);
                 ReportPropertyChanging("RegionNumber");
-                _RegionNumber = StructuralObject.SetValidValue(value, "RegionNumber");
+                _RegionNumber = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("RegionNumber");
                 OnRegionNumberChanged();
             }
@@ -22485,7 +22548,7 @@ namespace OnlineAbit2013
             {
                 OnRodNameChanging(value);
                 ReportPropertyChanging("RodName");
-                _RodName = StructuralObject.SetValidValue(value, true, "RodName");
+                _RodName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("RodName");
                 OnRodNameChanged();
             }
@@ -22509,7 +22572,7 @@ namespace OnlineAbit2013
             {
                 OnPriemDictionaryIdChanging(value);
                 ReportPropertyChanging("PriemDictionaryId");
-                _PriemDictionaryId = StructuralObject.SetValidValue(value, "PriemDictionaryId");
+                _PriemDictionaryId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("PriemDictionaryId");
                 OnPriemDictionaryIdChanged();
             }
@@ -22533,7 +22596,7 @@ namespace OnlineAbit2013
             {
                 OnKladrCodeChanging(value);
                 ReportPropertyChanging("KladrCode");
-                _KladrCode = StructuralObject.SetValidValue(value, true, "KladrCode");
+                _KladrCode = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("KladrCode");
                 OnKladrCodeChanged();
             }
@@ -22557,7 +22620,7 @@ namespace OnlineAbit2013
             {
                 OnRegionNumberStringValueChanging(value);
                 ReportPropertyChanging("RegionNumberStringValue");
-                _RegionNumberStringValue = StructuralObject.SetValidValue(value, true, "RegionNumberStringValue");
+                _RegionNumberStringValue = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("RegionNumberStringValue");
                 OnRegionNumberStringValueChanged();
             }
@@ -22568,6 +22631,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -22685,7 +22749,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -22704,7 +22768,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -22729,7 +22793,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -22753,7 +22817,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -22764,6 +22828,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -22819,7 +22884,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -22838,7 +22903,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -22863,7 +22928,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false, "Name");
+                _Name = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -22887,7 +22952,7 @@ namespace OnlineAbit2013
             {
                 OnIntValueChanging(value);
                 ReportPropertyChanging("IntValue");
-                _IntValue = StructuralObject.SetValidValue(value, "IntValue");
+                _IntValue = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IntValue");
                 OnIntValueChanged();
             }
@@ -22911,7 +22976,7 @@ namespace OnlineAbit2013
             {
                 OnOrderNumberChanging(value);
                 ReportPropertyChanging("OrderNumber");
-                _OrderNumber = StructuralObject.SetValidValue(value, "OrderNumber");
+                _OrderNumber = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OrderNumber");
                 OnOrderNumberChanged();
             }
@@ -22922,6 +22987,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -23001,7 +23067,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -23018,7 +23084,7 @@ namespace OnlineAbit2013
             {
                 OnMaximumOrderNumberSchoolTypeIdChanging(value);
                 ReportPropertyChanging("MaximumOrderNumberSchoolTypeId");
-                _MaximumOrderNumberSchoolTypeId = StructuralObject.SetValidValue(value, "MaximumOrderNumberSchoolTypeId");
+                _MaximumOrderNumberSchoolTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("MaximumOrderNumberSchoolTypeId");
                 OnMaximumOrderNumberSchoolTypeIdChanged();
             }
@@ -23042,7 +23108,7 @@ namespace OnlineAbit2013
             {
                 OnMaximumExitClassIdChanging(value);
                 ReportPropertyChanging("MaximumExitClassId");
-                _MaximumExitClassId = StructuralObject.SetValidValue(value, "MaximumExitClassId");
+                _MaximumExitClassId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("MaximumExitClassId");
                 OnMaximumExitClassIdChanged();
             }
@@ -23066,7 +23132,7 @@ namespace OnlineAbit2013
             {
                 OnMaximumQualificationIdChanging(value);
                 ReportPropertyChanging("MaximumQualificationId");
-                _MaximumQualificationId = StructuralObject.SetValidValue(value, "MaximumQualificationId");
+                _MaximumQualificationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("MaximumQualificationId");
                 OnMaximumQualificationIdChanged();
             }
@@ -23090,7 +23156,7 @@ namespace OnlineAbit2013
             {
                 OnMinimumOrderNumberSchoolTypeIdChanging(value);
                 ReportPropertyChanging("MinimumOrderNumberSchoolTypeId");
-                _MinimumOrderNumberSchoolTypeId = StructuralObject.SetValidValue(value, "MinimumOrderNumberSchoolTypeId");
+                _MinimumOrderNumberSchoolTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("MinimumOrderNumberSchoolTypeId");
                 OnMinimumOrderNumberSchoolTypeIdChanged();
             }
@@ -23114,7 +23180,7 @@ namespace OnlineAbit2013
             {
                 OnMinimumExitClassIdChanging(value);
                 ReportPropertyChanging("MinimumExitClassId");
-                _MinimumExitClassId = StructuralObject.SetValidValue(value, "MinimumExitClassId");
+                _MinimumExitClassId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("MinimumExitClassId");
                 OnMinimumExitClassIdChanged();
             }
@@ -23138,7 +23204,7 @@ namespace OnlineAbit2013
             {
                 OnMinimumQualificationIdChanging(value);
                 ReportPropertyChanging("MinimumQualificationId");
-                _MinimumQualificationId = StructuralObject.SetValidValue(value, "MinimumQualificationId");
+                _MinimumQualificationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("MinimumQualificationId");
                 OnMinimumQualificationIdChanged();
             }
@@ -23164,7 +23230,7 @@ namespace OnlineAbit2013
                 {
                     OnStudyLeveIdChanging(value);
                     ReportPropertyChanging("StudyLeveId");
-                    _StudyLeveId = StructuralObject.SetValidValue(value, "StudyLeveId");
+                    _StudyLeveId = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("StudyLeveId");
                     OnStudyLeveIdChanged();
                 }
@@ -23189,7 +23255,7 @@ namespace OnlineAbit2013
             {
                 OnMaxBlocksChanging(value);
                 ReportPropertyChanging("MaxBlocks");
-                _MaxBlocks = StructuralObject.SetValidValue(value, "MaxBlocks");
+                _MaxBlocks = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("MaxBlocks");
                 OnMaxBlocksChanged();
             }
@@ -23215,7 +23281,7 @@ namespace OnlineAbit2013
                 {
                     OnIsForeignChanging(value);
                     ReportPropertyChanging("IsForeign");
-                    _IsForeign = StructuralObject.SetValidValue(value, "IsForeign");
+                    _IsForeign = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("IsForeign");
                     OnIsForeignChanged();
                 }
@@ -23227,6 +23293,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -23252,7 +23319,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -23271,7 +23338,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -23296,7 +23363,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -23320,7 +23387,7 @@ namespace OnlineAbit2013
             {
                 OnFullNameChanging(value);
                 ReportPropertyChanging("FullName");
-                _FullName = StructuralObject.SetValidValue(value, true, "FullName");
+                _FullName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FullName");
                 OnFullNameChanged();
             }
@@ -23344,7 +23411,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -23368,7 +23435,7 @@ namespace OnlineAbit2013
             {
                 OnOrderNumberChanging(value);
                 ReportPropertyChanging("OrderNumber");
-                _OrderNumber = StructuralObject.SetValidValue(value, "OrderNumber");
+                _OrderNumber = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("OrderNumber");
                 OnOrderNumberChanged();
             }
@@ -23379,6 +23446,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -23408,7 +23476,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -23427,7 +23495,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -23452,7 +23520,7 @@ namespace OnlineAbit2013
             {
                 OnEducYearChanging(value);
                 ReportPropertyChanging("EducYear");
-                _EducYear = StructuralObject.SetValidValue(value, "EducYear");
+                _EducYear = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("EducYear");
                 OnEducYearChanged();
             }
@@ -23476,7 +23544,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -23500,7 +23568,7 @@ namespace OnlineAbit2013
             {
                 OnIsIGAChanging(value);
                 ReportPropertyChanging("IsIGA");
-                _IsIGA = StructuralObject.SetValidValue(value, "IsIGA");
+                _IsIGA = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsIGA");
                 OnIsIGAChanged();
             }
@@ -23524,7 +23592,7 @@ namespace OnlineAbit2013
             {
                 OnNextSemesterIdChanging(value);
                 ReportPropertyChanging("NextSemesterId");
-                _NextSemesterId = StructuralObject.SetValidValue(value, "NextSemesterId");
+                _NextSemesterId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("NextSemesterId");
                 OnNextSemesterIdChanged();
             }
@@ -23535,6 +23603,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -23608,7 +23677,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -23627,7 +23696,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -23652,7 +23721,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -23676,7 +23745,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -23700,7 +23769,7 @@ namespace OnlineAbit2013
             {
                 OnAcronymChanging(value);
                 ReportPropertyChanging("Acronym");
-                _Acronym = StructuralObject.SetValidValue(value, true, "Acronym");
+                _Acronym = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Acronym");
                 OnAcronymChanged();
             }
@@ -23724,7 +23793,7 @@ namespace OnlineAbit2013
             {
                 OnRodNameChanging(value);
                 ReportPropertyChanging("RodName");
-                _RodName = StructuralObject.SetValidValue(value, true, "RodName");
+                _RodName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("RodName");
                 OnRodNameChanged();
             }
@@ -23748,7 +23817,7 @@ namespace OnlineAbit2013
             {
                 OnDatNameChanging(value);
                 ReportPropertyChanging("DatName");
-                _DatName = StructuralObject.SetValidValue(value, true, "DatName");
+                _DatName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("DatName");
                 OnDatNameChanged();
             }
@@ -23772,7 +23841,7 @@ namespace OnlineAbit2013
             {
                 OnVinNameChanging(value);
                 ReportPropertyChanging("VinName");
-                _VinName = StructuralObject.SetValidValue(value, true, "VinName");
+                _VinName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("VinName");
                 OnVinNameChanged();
             }
@@ -23783,6 +23852,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -23844,7 +23914,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -23863,7 +23933,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -23888,7 +23958,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false, "Name");
+                _Name = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -23912,7 +23982,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -23936,7 +24006,7 @@ namespace OnlineAbit2013
             {
                 OnCodeChanging(value);
                 ReportPropertyChanging("Code");
-                _Code = StructuralObject.SetValidValue(value, true, "Code");
+                _Code = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Code");
                 OnCodeChanged();
             }
@@ -23960,7 +24030,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelIdChanging(value);
                 ReportPropertyChanging("StudyLevelId");
-                _StudyLevelId = StructuralObject.SetValidValue(value, "StudyLevelId");
+                _StudyLevelId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyLevelId");
                 OnStudyLevelIdChanged();
             }
@@ -23984,7 +24054,7 @@ namespace OnlineAbit2013
             {
                 OnProgramTypeIdChanging(value);
                 ReportPropertyChanging("ProgramTypeId");
-                _ProgramTypeId = StructuralObject.SetValidValue(value, "ProgramTypeId");
+                _ProgramTypeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ProgramTypeId");
                 OnProgramTypeIdChanged();
             }
@@ -24008,7 +24078,7 @@ namespace OnlineAbit2013
             {
                 OnPositionNumChanging(value);
                 ReportPropertyChanging("PositionNum");
-                _PositionNum = StructuralObject.SetValidValue(value, true, "PositionNum");
+                _PositionNum = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("PositionNum");
                 OnPositionNumChanged();
             }
@@ -24032,7 +24102,7 @@ namespace OnlineAbit2013
             {
                 OnNormativePeriodChanging(value);
                 ReportPropertyChanging("NormativePeriod");
-                _NormativePeriod = StructuralObject.SetValidValue(value, true, "NormativePeriod");
+                _NormativePeriod = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NormativePeriod");
                 OnNormativePeriodChanged();
             }
@@ -24056,7 +24126,7 @@ namespace OnlineAbit2013
             {
                 OnQualificationIdChanging(value);
                 ReportPropertyChanging("QualificationId");
-                _QualificationId = StructuralObject.SetValidValue(value, "QualificationId");
+                _QualificationId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("QualificationId");
                 OnQualificationIdChanged();
             }
@@ -24080,7 +24150,7 @@ namespace OnlineAbit2013
             {
                 OnAggregateGroupIdChanging(value);
                 ReportPropertyChanging("AggregateGroupId");
-                _AggregateGroupId = StructuralObject.SetValidValue(value, "AggregateGroupId");
+                _AggregateGroupId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("AggregateGroupId");
                 OnAggregateGroupIdChanged();
             }
@@ -24104,7 +24174,7 @@ namespace OnlineAbit2013
             {
                 OnIsOpenChanging(value);
                 ReportPropertyChanging("IsOpen");
-                _IsOpen = StructuralObject.SetValidValue(value, "IsOpen");
+                _IsOpen = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsOpen");
                 OnIsOpenChanged();
             }
@@ -24128,7 +24198,7 @@ namespace OnlineAbit2013
             {
                 OnHolderChanging(value);
                 ReportPropertyChanging("Holder");
-                _Holder = StructuralObject.SetValidValue(value, true, "Holder");
+                _Holder = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Holder");
                 OnHolderChanged();
             }
@@ -24152,7 +24222,7 @@ namespace OnlineAbit2013
             {
                 OnNewCodeChanging(value);
                 ReportPropertyChanging("NewCode");
-                _NewCode = StructuralObject.SetValidValue(value, true, "NewCode");
+                _NewCode = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NewCode");
                 OnNewCodeChanged();
             }
@@ -24163,6 +24233,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -24310,7 +24381,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -24329,7 +24400,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -24354,7 +24425,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false, "Name");
+                _Name = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -24378,7 +24449,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -24402,7 +24473,7 @@ namespace OnlineAbit2013
             {
                 OnNumberChanging(value);
                 ReportPropertyChanging("Number");
-                _Number = StructuralObject.SetValidValue(value, false, "Number");
+                _Number = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("Number");
                 OnNumberChanged();
             }
@@ -24426,7 +24497,7 @@ namespace OnlineAbit2013
             {
                 OnLicenseProgramIdChanging(value);
                 ReportPropertyChanging("LicenseProgramId");
-                _LicenseProgramId = StructuralObject.SetValidValue(value, "LicenseProgramId");
+                _LicenseProgramId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("LicenseProgramId");
                 OnLicenseProgramIdChanged();
             }
@@ -24450,7 +24521,7 @@ namespace OnlineAbit2013
             {
                 OnFacultyIdChanging(value);
                 ReportPropertyChanging("FacultyId");
-                _FacultyId = StructuralObject.SetValidValue(value, "FacultyId");
+                _FacultyId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("FacultyId");
                 OnFacultyIdChanged();
             }
@@ -24474,7 +24545,7 @@ namespace OnlineAbit2013
             {
                 OnProgramModeIdChanging(value);
                 ReportPropertyChanging("ProgramModeId");
-                _ProgramModeId = StructuralObject.SetValidValue(value, "ProgramModeId");
+                _ProgramModeId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ProgramModeId");
                 OnProgramModeIdChanged();
             }
@@ -24498,7 +24569,7 @@ namespace OnlineAbit2013
             {
                 OnIsExpressChanging(value);
                 ReportPropertyChanging("IsExpress");
-                _IsExpress = StructuralObject.SetValidValue(value, "IsExpress");
+                _IsExpress = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsExpress");
                 OnIsExpressChanged();
             }
@@ -24522,7 +24593,7 @@ namespace OnlineAbit2013
             {
                 OnIsOpenChanging(value);
                 ReportPropertyChanging("IsOpen");
-                _IsOpen = StructuralObject.SetValidValue(value, "IsOpen");
+                _IsOpen = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsOpen");
                 OnIsOpenChanged();
             }
@@ -24546,7 +24617,7 @@ namespace OnlineAbit2013
             {
                 OnHolderChanging(value);
                 ReportPropertyChanging("Holder");
-                _Holder = StructuralObject.SetValidValue(value, true, "Holder");
+                _Holder = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Holder");
                 OnHolderChanged();
             }
@@ -24557,6 +24628,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -24692,7 +24764,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -24711,7 +24783,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -24736,7 +24808,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -24760,7 +24832,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -24784,7 +24856,7 @@ namespace OnlineAbit2013
             {
                 OnAcronymChanging(value);
                 ReportPropertyChanging("Acronym");
-                _Acronym = StructuralObject.SetValidValue(value, true, "Acronym");
+                _Acronym = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Acronym");
                 OnAcronymChanged();
             }
@@ -24808,7 +24880,7 @@ namespace OnlineAbit2013
             {
                 OnAcronymEngChanging(value);
                 ReportPropertyChanging("AcronymEng");
-                _AcronymEng = StructuralObject.SetValidValue(value, true, "AcronymEng");
+                _AcronymEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("AcronymEng");
                 OnAcronymEngChanged();
             }
@@ -24832,7 +24904,7 @@ namespace OnlineAbit2013
             {
                 OnIsOpenChanging(value);
                 ReportPropertyChanging("IsOpen");
-                _IsOpen = StructuralObject.SetValidValue(value, "IsOpen");
+                _IsOpen = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsOpen");
                 OnIsOpenChanged();
             }
@@ -24856,7 +24928,7 @@ namespace OnlineAbit2013
             {
                 OnHolderChanging(value);
                 ReportPropertyChanging("Holder");
-                _Holder = StructuralObject.SetValidValue(value, true, "Holder");
+                _Holder = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Holder");
                 OnHolderChanged();
             }
@@ -24867,6 +24939,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -24944,7 +25017,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -24963,7 +25036,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -24988,7 +25061,7 @@ namespace OnlineAbit2013
             {
                 OnStudyLevelGroupIdChanging(value);
                 ReportPropertyChanging("StudyLevelGroupId");
-                _StudyLevelGroupId = StructuralObject.SetValidValue(value, "StudyLevelGroupId");
+                _StudyLevelGroupId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StudyLevelGroupId");
                 OnStudyLevelGroupIdChanged();
             }
@@ -25012,7 +25085,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -25036,7 +25109,7 @@ namespace OnlineAbit2013
             {
                 OnAcronymChanging(value);
                 ReportPropertyChanging("Acronym");
-                _Acronym = StructuralObject.SetValidValue(value, false, "Acronym");
+                _Acronym = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("Acronym");
                 OnAcronymChanged();
             }
@@ -25060,7 +25133,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -25084,7 +25157,7 @@ namespace OnlineAbit2013
             {
                 OnClassNameChanging(value);
                 ReportPropertyChanging("ClassName");
-                _ClassName = StructuralObject.SetValidValue(value, true, "ClassName");
+                _ClassName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("ClassName");
                 OnClassNameChanged();
             }
@@ -25108,7 +25181,7 @@ namespace OnlineAbit2013
             {
                 OnDurationChanging(value);
                 ReportPropertyChanging("Duration");
-                _Duration = StructuralObject.SetValidValue(value, "Duration");
+                _Duration = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Duration");
                 OnDurationChanged();
             }
@@ -25119,6 +25192,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -25214,7 +25288,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -25233,7 +25307,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -25258,7 +25332,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -25282,7 +25356,7 @@ namespace OnlineAbit2013
             {
                 OnAcronymChanging(value);
                 ReportPropertyChanging("Acronym");
-                _Acronym = StructuralObject.SetValidValue(value, true, "Acronym");
+                _Acronym = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Acronym");
                 OnAcronymChanged();
             }
@@ -25306,7 +25380,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -25317,6 +25391,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -25380,7 +25455,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -25399,7 +25474,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -25424,7 +25499,7 @@ namespace OnlineAbit2013
             {
                 OnPasswordChanging(value);
                 ReportPropertyChanging("Password");
-                _Password = StructuralObject.SetValidValue(value, true, "Password");
+                _Password = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Password");
                 OnPasswordChanged();
             }
@@ -25448,7 +25523,7 @@ namespace OnlineAbit2013
             {
                 OnEmailChanging(value);
                 ReportPropertyChanging("Email");
-                _Email = StructuralObject.SetValidValue(value, false, "Email");
+                _Email = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("Email");
                 OnEmailChanged();
             }
@@ -25472,7 +25547,7 @@ namespace OnlineAbit2013
             {
                 OnSIDChanging(value);
                 ReportPropertyChanging("SID");
-                _SID = StructuralObject.SetValidValue(value, true, "SID");
+                _SID = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("SID");
                 OnSIDChanged();
             }
@@ -25496,7 +25571,7 @@ namespace OnlineAbit2013
             {
                 OnIsApprovedChanging(value);
                 ReportPropertyChanging("IsApproved");
-                _IsApproved = StructuralObject.SetValidValue(value, "IsApproved");
+                _IsApproved = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsApproved");
                 OnIsApprovedChanged();
             }
@@ -25520,7 +25595,7 @@ namespace OnlineAbit2013
             {
                 OnEmailTicketChanging(value);
                 ReportPropertyChanging("EmailTicket");
-                _EmailTicket = StructuralObject.SetValidValue(value, true, "EmailTicket");
+                _EmailTicket = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("EmailTicket");
                 OnEmailTicketChanged();
             }
@@ -25544,7 +25619,7 @@ namespace OnlineAbit2013
             {
                 OnIsForeignChanging(value);
                 ReportPropertyChanging("IsForeign");
-                _IsForeign = StructuralObject.SetValidValue(value, "IsForeign");
+                _IsForeign = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsForeign");
                 OnIsForeignChanged();
             }
@@ -25568,7 +25643,7 @@ namespace OnlineAbit2013
             {
                 OnUILanguageChanging(value);
                 ReportPropertyChanging("UILanguage");
-                _UILanguage = StructuralObject.SetValidValue(value, true, "UILanguage");
+                _UILanguage = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("UILanguage");
                 OnUILanguageChanged();
             }
@@ -25592,7 +25667,7 @@ namespace OnlineAbit2013
             {
                 OnIsDormsAccountChanging(value);
                 ReportPropertyChanging("IsDormsAccount");
-                _IsDormsAccount = StructuralObject.SetValidValue(value, "IsDormsAccount");
+                _IsDormsAccount = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("IsDormsAccount");
                 OnIsDormsAccountChanged();
             }
@@ -25616,7 +25691,7 @@ namespace OnlineAbit2013
             {
                 OnRegDateChanging(value);
                 ReportPropertyChanging("RegDate");
-                _RegDate = StructuralObject.SetValidValue(value, "RegDate");
+                _RegDate = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("RegDate");
                 OnRegDateChanged();
             }
@@ -25640,7 +25715,7 @@ namespace OnlineAbit2013
             {
                 OnCampaignYearChanging(value);
                 ReportPropertyChanging("CampaignYear");
-                _CampaignYear = StructuralObject.SetValidValue(value, "CampaignYear");
+                _CampaignYear = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CampaignYear");
                 OnCampaignYearChanged();
             }
@@ -25651,6 +25726,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -25816,7 +25892,7 @@ namespace OnlineAbit2013
 
         #endregion
 
-        #region Simple Properties
+        #region Primitive Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -25835,7 +25911,7 @@ namespace OnlineAbit2013
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -25860,7 +25936,7 @@ namespace OnlineAbit2013
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -25884,7 +25960,7 @@ namespace OnlineAbit2013
             {
                 OnFullNameChanging(value);
                 ReportPropertyChanging("FullName");
-                _FullName = StructuralObject.SetValidValue(value, true, "FullName");
+                _FullName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("FullName");
                 OnFullNameChanged();
             }
@@ -25908,7 +25984,7 @@ namespace OnlineAbit2013
             {
                 OnNameEngChanging(value);
                 ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
+                _NameEng = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("NameEng");
                 OnNameEngChanged();
             }
@@ -25919,6 +25995,7 @@ namespace OnlineAbit2013
 
         #endregion
 
+    
         #region Navigation Properties
     
         /// <summary>
@@ -25949,4 +26026,5 @@ namespace OnlineAbit2013
 
     #endregion
 
+    
 }
