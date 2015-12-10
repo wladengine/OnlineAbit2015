@@ -292,4 +292,10 @@
   <data name="ApplicationExamenChange" xml:space="preserve">
     <value>Change application exams</value>
   </data>
+  <data name="IsApprowed" xml:space="preserve">
+    <value>Application is approwed by comission</value>
+  </data>
+  <data name="IsApprowedTitle" xml:space="preserve">
+    <value>Decision</value>
+  </data>
 </root>

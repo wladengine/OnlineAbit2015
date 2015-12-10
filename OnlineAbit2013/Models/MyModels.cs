@@ -486,7 +486,7 @@ namespace OnlineAbit2013.Models
         public List<string> ManualExam { get; set; }
         public bool Enabled { get; set; }
         public bool IsGosLine { get; set; }
-        //public bool NeedHostel { get; set; }
+        public bool IsApprowed { get; set; }
         public string SemesterName { get; set; }
         public string SecondTypeName { get; set; }
         public int StudyLevelGroupId { get; set; }
@@ -503,6 +503,7 @@ namespace OnlineAbit2013.Models
     public class SimpleApplicationPackage
     {
         public Guid Id { get; set; }
+        public bool isApproved { get; set; }
         public string StudyLevel { get; set; }
         public string PriemType { get; set; }
     }

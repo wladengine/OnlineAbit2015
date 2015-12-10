@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Abiturient/PersonalOffice.Master" Inherits="System.Web.Mvc.ViewPage<OnlineAbit2013.Models.Mag_ApplicationExams>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Смена приоритетов внутри конкурса
+    <%= GetGlobalResourceObject("PriorityChangerForeign", "ManualExamTitle").ToString()%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -27,7 +27,7 @@
 </script>
 <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
      <div class="message info">
-         Выберите экзамены по выбору для каждого заявления.
+         Укажите экзамены по выбору для каждого заявления.
      </div>
     <form action="/Abiturient/ApplicationExamsSave" method="post">
 
@@ -45,7 +45,7 @@
             <table  class="nopadding" cellspacing="0" cellpadding="0">
                 <tr>
                     <td style="width:12em"><%= GetGlobalResourceObject("NewApplication", "ApplicationLevel").ToString()%></td>
-                    <td><%=app.StudyLevelGroupName%><%=Html.DisplayFor(x=>x.Applications[i].StudyLevelGroupName) %></td>
+                    <td><%=Html.DisplayFor(x=>x.Applications[i].StudyLevelGroupName) %></td>
                 </tr>
                 <tr>
                     <td style="width:12em"><%= GetGlobalResourceObject("PriorityChangerForeign", "LicenseProgram").ToString()%></td>
@@ -86,9 +86,14 @@
                    var block = app.Exams[j]; 
                    %>
                    <%= Html.HiddenFor(x=>x.Applications[i].Exams[j].Id)%>
-                   <b><%=Model.Applications[i].Exams[j].BlockName %></b>
-                    <%=Html.ListBoxFor(x => x.Applications[i].Exams[j].SelectedExamInBlockId, Model.Applications[i].Exams[j].ExamInBlockList,
-                    new { style = "width:659px;" })%>
+                    <b><%=Model.Applications[i].Exams[j].BlockName %></b>
+                    <% if (!app.Enabled) { %>
+                    <%=Html.DropDownListFor(x => x.Applications[i].Exams[j].SelectedExamInBlockId, Model.Applications[i].Exams[j].ExamInBlockList,
+                    new { style = "width:659px;" , size = app.Exams[j].ExamInBlockList.Count, disabled = "disabled"})%>
+                    <%} else {%>
+                    <%=Html.DropDownListFor(x => x.Applications[i].Exams[j].SelectedExamInBlockId, Model.Applications[i].Exams[j].ExamInBlockList,
+                    new { style = "width:659px;", size = app.Exams[j].ExamInBlockList.Count })%>
+                    <% }%>
             <% } %>
         </li>
     <% } %>
@@ -100,5 +105,5 @@
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="Subheader" runat="server">
-    <h2><%= GetGlobalResourceObject("PriorityChangerForeign", "ObrazPr_Message1").ToString()%></h2>
+    <h2><%= GetGlobalResourceObject("PriorityChangerForeign", "ManualExamTitle").ToString()%></h2>
 </asp:Content>

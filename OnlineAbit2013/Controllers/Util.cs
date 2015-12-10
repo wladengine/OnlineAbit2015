@@ -2189,7 +2189,7 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                                                join scls in context.SchoolExitClass on p.SchoolExitClassId equals scls.Id into _scls
                                                from sclss in _scls.DefaultIfEmpty()
 
-                                               select new { p, sch.OrderNumber, SchoolExitClassId = sclss.OrderNumber }).OrderByDescending(x => x.OrderNumber).FirstOrDefault();
+                                               select new { p, sch.OrderNumber, SchoolExitClassId = (sclss == null)?-1:sclss.OrderNumber }).OrderByDescending(x => x.OrderNumber).FirstOrDefault();
 
                 if (StudyLevelGroupIdList == null)
                     StudyLevelGroupIdList = new List<int>();

@@ -288,6 +288,12 @@
         <td align="left"><%= Html.Encode(Application.Priority) %></td>
     </tr>
     <% } %>
+    <% if (Application.IsApprowed) { %>
+    <tr >
+        <!--<td width="30%" align="right"><%= GetGlobalResourceObject("ApplicationInfo", "IsApprowedTitle").ToString()%></td>-->
+        <td align="left" colspan="2" style="text-align:center;"><div class="message success"><%= GetGlobalResourceObject("ApplicationInfo", "IsApprowed").ToString()%></div></td>
+    </tr>
+    <% } %>
     <tr>
         <td width="30%" align="right"><%= GetGlobalResourceObject("NewApplication", "ApplicationLevel").ToString()%></td>
         <td align="left"><%= Html.Encode(Application.StudyLevelGroupName) %></td>

@@ -3044,7 +3044,7 @@ namespace OnlineAbit2013.Controllers
             }
         }
 
-        public static byte[] GetApplicationBlockPDF_AG(Guid commitId, string dirPath)
+        public static byte[] GetApplicationPDF_AG(Guid commitId, string dirPath)
         {
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {

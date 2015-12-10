@@ -157,4 +157,7 @@
   <data name="StudyForm" xml:space="preserve">
     <value>Форма обучения</value>
   </data>
+  <data name="ManualExamTitle" xml:space="preserve">
+    <value>Указание экзаменов по выбору</value>
+  </data>
 </root>

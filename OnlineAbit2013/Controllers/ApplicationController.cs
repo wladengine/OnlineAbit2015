@@ -43,6 +43,7 @@ namespace OnlineAbit2013.Controllers
                          StudyBasis = isEng ? (String.IsNullOrEmpty(Entry.StudyBasisNameEng) ? Entry.StudyBasisName : Entry.StudyBasisNameEng) : Entry.StudyBasisName,
                          StudyLevel = isEng ? (String.IsNullOrEmpty(Entry.StudyLevelNameEng) ? Entry.StudyLevelName : Entry.StudyLevelNameEng) : Entry.StudyLevelName,
                          Priority = App.Priority,
+                         IsApprowed = App.IsApprovedByComission,
                          IsGosLine = App.IsGosLine,
                          dateofClose = Entry.DateOfClose,
                          Enabled = App.Enabled,
@@ -567,7 +568,7 @@ namespace OnlineAbit2013.Controllers
                         case 5: { bindata = PDFUtils.GetApplicationPDF_Ord(appId, Server.MapPath("~/Templates/"), personId); break; }
 
                         case 6:
-                        case 7: { bindata = PDFUtils.GetApplicationBlockPDF_AG(appId, Server.MapPath("~/Templates/")); break; }
+                        case 7: { bindata = PDFUtils.GetApplicationPDF_AG(appId, Server.MapPath("~/Templates/")); break; }
                         default: { bindata = PDFUtils.GetApplicationPDF(appId, Server.MapPath("~/Templates/"), false, personId); break; }
                     }
                     if (Secondlst.HasValue)

@@ -424,15 +424,11 @@
         </div>
     </div>
     <div id="Block<%= i.ToString()%>" class="message info panel" style="width:659px; display:none;">
-        <p id="SForm<%= i.ToString()%>">
-            <span><%= GetGlobalResourceObject("NewApplication", "BlockData_StudyForm")%></span><br /> 
-            <%= Html.DropDownList("StudyFormId" + i.ToString(), Model.StudyFormList, new SortedList<string, object>() { { "size", "1" },
-                 { "style", "min-width:450px;" }, { "onchange", "GetProfessions(" + i.ToString() + ")" }})%>
+        <p id="SForm<%= i.ToString()%>" style="display:none;">
+            <%=Html.Hidden("StudyFormId" + i.ToString(),"1") %>
         </p>
-        <p id="SBasis<%= i.ToString()%>">
-            <span><%= GetGlobalResourceObject("NewApplication", "BlockData_StudyBasis")%></span><br />
-            <%= Html.DropDownList("StudyBasisId" + i.ToString(), Model.StudyBasisList, new SortedList<string, object>() { { "size", "1" }, 
-                { "style", "min-width:450px;" },   { "onchange", "GetProfessions(" + i.ToString() + ")" } })%>
+        <p id="SBasis<%= i.ToString()%>" style="display:none;">
+            <%=Html.Hidden("StudyBasisId" + i.ToString(),"1") %>
         </p>
         <p id="StudyLevels<%= i.ToString()%>" style="border-collapse:collapse;">
             <span><%= GetGlobalResourceObject("NewApplication", "HeaderStudyLevel")%></span><br />
@@ -502,15 +498,11 @@
         </div>
     </div>
     <div id="Block<%= i.ToString()%>" class="message info panel" style="width:659px; display:none;">
-        <p id="SForm<%= i.ToString()%>">
-            <span><%= GetGlobalResourceObject("NewApplication", "BlockData_StudyForm")%></span><br /> 
-            <%= Html.DropDownList("StudyFormId" + i.ToString(), Model.StudyFormList, new SortedList<string, object>() { { "size", "1" },
-                 { "style", "min-width:450px;" }, { "onchange", "GetProfessions(" + i.ToString() + ")" } })%>
+        <p id="SForm<%= i.ToString()%>" style="display:none;">
+            <%=Html.Hidden("StudyFormId" + i.ToString(),"1")%>
         </p>
-        <p id="SBasis<%= i.ToString()%>">
-            <span><%= GetGlobalResourceObject("NewApplication", "BlockData_StudyBasis")%></span><br />
-            <%= Html.DropDownList("StudyBasisId" + i.ToString(), Model.StudyBasisList, new SortedList<string, object>() { { "size", "1" }, 
-                { "style", "min-width:450px;" },   { "onchange", "GetProfessions(" + i.ToString() + ")" } })%>
+        <p id="SBasis<%= i.ToString()%>"style="display:none;">
+            <%=Html.Hidden("StudyBasisId" + i.ToString(),"1")%>
         </p>
         <p id="StudyLevels<%= i.ToString()%>" style="border-collapse:collapse;">
             <span><%= GetGlobalResourceObject("NewApplication", "HeaderStudyLevel")%></span><br />

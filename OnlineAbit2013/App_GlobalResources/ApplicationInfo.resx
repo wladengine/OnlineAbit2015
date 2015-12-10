@@ -302,4 +302,10 @@
   <data name="ApplicationExamenChange" xml:space="preserve">
     <value>Редактировать экзамены по выбору</value>
   </data>
+  <data name="IsApprowed" xml:space="preserve">
+    <value>Заявление одобрено</value>
+  </data>
+  <data name="IsApprowedTitle" xml:space="preserve">
+    <value>Решение комиссии</value>
+  </data>
 </root>

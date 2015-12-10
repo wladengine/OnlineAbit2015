@@ -41,6 +41,7 @@
     <table class="paginate full">
         <thead>
             <tr>
+                <th></th>
                 <th><%= GetGlobalResourceObject("Main", "AppLevel")%></th>
                 <%--<th>Тип поступления</th>--%>
                 <th><%= GetGlobalResourceObject("Main", "AppView")%></th>
@@ -49,6 +50,7 @@
     <% foreach (OnlineAbit2013.Models.SimpleApplicationPackage app in Model.Applications.ToList())
         { %>
          <tr>
+            <td><%if (app.isApproved){ %><span title ="Одобрено комиссией"><img src="../../Content/themes/base/images/isApproved.gif"/></span><%} %></td>
             <td style="vertical-align:middle; text-align:center;"><%= Html.Encode(app.StudyLevel) %></td>
             <%--<td style="vertical-align:middle; text-align:center;"><%= Html.Encode(app.PriemType) %></td>--%>
             <td style="vertical-align:middle; text-align:center;"><a href="<%= string.Format("../../Application/Index/{0}", app.Id.ToString("N")) %>"><%= GetGlobalResourceObject("Main", "View")%></a></td>

@@ -20,10 +20,10 @@ namespace OnlineAbit2013.Controllers
 {
     public class AbiturientController : Controller
     {
-        int maxBlockMag = 50;
-        int maxBlock1kurs = 7;
-        int maxBlockSPO = 6;
-        int maxBlockAspirant = 6;
+       // int maxBlockMag = 50;
+       //int maxBlock1kurs = 7;
+       // int maxBlockSPO = 6;
+       // int maxBlockAspirant = 6;
         int maxBlockRecover = 1;
         public ActionResult OpenPersonalAccount()
         {
@@ -1311,7 +1311,7 @@ namespace OnlineAbit2013.Controllers
                 model.SecondName = Server.HtmlEncode(PersonInfo.SecondName);
 
                 var Applications = context.Abiturient.Where(x => x.PersonId == PersonID && x.Enabled == true && x.IsCommited == true)
-                    .Select(x => new { x.CommitId, x.StudyLevelGroupNameRus, x.StudyLevelGroupNameEng, x.EntryType, x.SecondTypeId }).Distinct();
+                    .Select(x => new { x.CommitId, x.StudyLevelGroupNameRus, x.StudyLevelGroupNameEng, x.EntryType, x.SecondTypeId, x.IsApprovedByComission }).Distinct();
                 var SecondTypeList = context.ApplicationSecondType.Select(x => new { x.Id, Name = bIsEng ? x.NameEng : x.Name });
 
                 foreach (var app in Applications)
@@ -1319,6 +1319,7 @@ namespace OnlineAbit2013.Controllers
                     model.Applications.Add(new SimpleApplicationPackage()
                     {
                         Id = app.CommitId,
+                        isApproved = app.IsApprovedByComission,
                         StudyLevel = bIsEng ? app.StudyLevelGroupNameEng : app.StudyLevelGroupNameRus +
                                      SecondTypeList.Where(x => x.Id == app.SecondTypeId).Select(x => x.Name).FirstOrDefault(),
 
@@ -1392,6 +1393,7 @@ namespace OnlineAbit2013.Controllers
                 }
                 model.StudyFormList = Util.GetStudyFormList();
                 model.StudyBasisList = Util.GetStudyBasisList();
+
                 return View("NewApplication_AG", model);
             }
         }
@@ -2201,8 +2203,6 @@ namespace OnlineAbit2013.Controllers
                                          qualification = (hEduc == null) ? -1 : hEduc.QualificationId
                                      }).ToList();
 
-                
-
                 if (ScTypeList.Count > 0)
                 {
                     if (ScTypeList.Where(x => x.VuzAdditionalTypeId != 1 && x.VuzAdditionalTypeId.HasValue).Count() > 0)
@@ -2228,7 +2228,7 @@ namespace OnlineAbit2013.Controllers
                 //выборка активных заявлений
                 model.Applications = new List<SimpleApplicationPackage>();
                 var Applications = context.Abiturient.Where(x => x.PersonId == PersonId && x.Enabled == true && x.IsCommited == true)
-                    .Select(x => new { x.CommitId, x.StudyLevelGroupNameEng, x.StudyLevelGroupNameRus, x.EntryType, x.SecondTypeId }).Distinct();
+                    .Select(x => new { x.CommitId, x.StudyLevelGroupNameEng, x.StudyLevelGroupNameRus, x.EntryType, x.SecondTypeId,  x.IsApprovedByComission }).Distinct();
 
                 var SecondTypeList = context.ApplicationSecondType.Select(x => new { x.Id, Name = bIsEng ? x.NameEng : x.Name });
                 foreach (var app in Applications)
@@ -2236,6 +2236,7 @@ namespace OnlineAbit2013.Controllers
                     model.Applications.Add(new SimpleApplicationPackage()
                     {
                         Id = app.CommitId,
+                        isApproved = app.IsApprovedByComission,
                         PriemType = app.EntryType.ToString(),
                         StudyLevel = bIsEng ? app.StudyLevelGroupNameEng : app.StudyLevelGroupNameRus +
                                      SecondTypeList.Where(x=>x.Id == app.SecondTypeId).Select(x=>x.Name).FirstOrDefault(),
@@ -2436,7 +2437,7 @@ namespace OnlineAbit2013.Controllers
             return RedirectToAction("Index", "Application", new RouteValueDictionary() { { "id", appId.ToString("N") } });
         }
         [HttpPost]
-        public ActionResult NewApp_AG()
+        public ActionResult NewApp_AG(Mag_ApplicationModel model)
         {
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
@@ -2458,6 +2459,14 @@ namespace OnlineAbit2013.Controllers
             if (!Guid.TryParse(sCommitId, out CommitId))
                 return Json(Resources.ServerMessages.IncorrectGUID);
 
+            string sOldCommitId = Request.Form["OldCommitId"];
+            Guid OldCommitId = Guid.Empty;
+            if (!String.IsNullOrEmpty(sOldCommitId))
+            {
+                if (!Guid.TryParse(sOldCommitId, out OldCommitId))
+                    return Json(Resources.ServerMessages.IncorrectGUID);
+            }
+
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
                 var PersonInfo = context.Person.Where(x => x.Id == PersonId).FirstOrDefault();
@@ -2467,50 +2476,62 @@ namespace OnlineAbit2013.Controllers
                 if (PersonInfo.RegistrationStage != 100)
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", (PersonInfo.RegistrationStage).ToString() } });
 
-                if (PersonInfo.PersonEducationDocument == null)
-                    return RedirectToAction("NewApplication_AG",
-                           new RouteValueDictionary() { { "errors", "Невозможно подать заявление в Академическую Гимназию (не соответствует уровень образования)" } });
-
                 var lst = Util.GetEnableLevelList(new List<int>() { 6, 7 }, PersonInfo);
-
                 if (lst.Count == 0)
                 {
-                    RouteValueDictionary dict = bIsEng ?
-                        new RouteValueDictionary() { { "errors", "Невозможно подать заявление в Академическую Гимназию (не соответствует уровень образования)" } } :
-                        new RouteValueDictionary() { { "errors", "Change your previous education degree in Questionnaire Data." } };
-                    return RedirectToAction("NewApplication_AG", dict);
+                    model.Enabled = false;
+                    model.HasError = true;
+                    model.ErrorMessage = (!bIsEng) ?
+                        "Невозможно подать заявление в Академическую Гимназию (не соответствует уровень образования)" :
+                        "Change your previous education degree in Questionnaire Data." ;
+                     return View("NewApplication_AG", model);
                 }
+
+                if (!OldCommitId.Equals(Guid.Empty))
+                {
+                    var Ids = context.Application.Where(x => x.PersonId == PersonId && x.CommitId == OldCommitId && !x.IsDeleted).Select(x => x.Id).ToList();
+                    foreach (var AppId in Ids)
+                    {
+                        var App = context.Application.Where(x => x.Id == AppId).FirstOrDefault();
+                        if (App == null)
+                            continue;
+                        App.IsCommited = false;
+                    }
+                    context.SaveChanges();
+                    Util.DifferenceBetweenCommits(OldCommitId, CommitId, PersonId);
+                    bool? result = PDFUtils.GetDisableApplicationPDF(OldCommitId, Server.MapPath("~/Templates/"), PersonId);
+                    // печать заявления об отзыве (проверить isDeleted и возможно переставить код выше)
+                    Util.CommitApplication(CommitId, PersonId, context);
+                }
+
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true).Count() > 0)
                 {
-                    RouteValueDictionary dict = bIsEng ?
-                        new RouteValueDictionary() { { "errors", "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные." } } :
-                        new RouteValueDictionary() { { "errors", "To submit new application you should cancel your active application." } };
-                    return RedirectToAction("NewApplication_AG", dict);
+                    model.StudyFormList = Util.GetStudyFormList();
+                    model.StudyBasisList = Util.GetStudyBasisList();
+                    model.Applications = new List<Mag_ApplicationSipleEntity>();
+                    model.Applications = Util.GetApplicationListInCommit(CommitId, PersonId);
+                    model.MaxBlocks = lst.First().MaxBlocks;
+                    model.HasError = true;
+                    model.ErrorMessage = (!bIsEng) ?
+                    "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные." :
+                    "To submit new application you should cancel your active application.";
+                    return View("NewApplication_AG", model);
                 }
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId).Count() == 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Count() == 0)
                 {
-                    RouteValueDictionary dict = bIsEng ? 
-                        new RouteValueDictionary() { { "errors", "You can not submit empty application." } } :
-                        new RouteValueDictionary() { { "errors", "Невозможно подать пустое заявление." } };
-                    return RedirectToAction("NewApplication_AG", dict);
+                    model.StudyFormList = Util.GetStudyFormList();
+                    model.StudyBasisList = Util.GetStudyBasisList();
+                    model.Applications = new List<Mag_ApplicationSipleEntity>();
+                    model.MaxBlocks = lst.First().MaxBlocks;
+                    model.HasError = true;
+                    model.Enabled = true;
+                    model.ErrorMessage = (!bIsEng) ?
+                        "Невозможно подать пустое заявление" :
+                        "You can not submit empty application.";
+                    return View("NewApplication_AG", model);
                 }
 
-                var Ids = context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId).Select(x => x.Id).ToList();
-                foreach (var AppId in Ids)
-                {
-                    var App = context.Application.Where(x => x.Id == AppId).FirstOrDefault();
-                    App.IsCommited = true;
-                }
-                context.SaveChanges();
-
-                //всё, что вне коммита - удаляем
-                Ids = context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == false).Select(x => x.Id).ToList();
-                foreach (var AppId in Ids)
-                {
-                    var App = context.Application.Where(x => x.Id == AppId).FirstOrDefault();
-                    context.Application.DeleteObject(App);
-                }
-                context.SaveChanges();
+                Util.CommitApplication(CommitId, PersonId, context);
             }
             return RedirectToAction("ApplicationExams", new RouteValueDictionary() { { "ComId", CommitId.ToString() } });
         }
@@ -2584,7 +2605,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
                     model.Applications = Util.GetApplicationListInCommit(CommitId, PersonId);
-                    model.MaxBlocks = maxBlockMag;
+                    model.MaxBlocks = lst.First().MaxBlocks;
                     model.HasError = true;
                     model.ErrorMessage = (!bIsEng) ?
                         "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные." :
@@ -2596,7 +2617,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
-                    model.MaxBlocks = maxBlockMag;
+                    model.MaxBlocks = lst.First().MaxBlocks;
                     model.HasError = true;
                     model.Enabled = true;
                     model.ErrorMessage = (!bIsEng) ?
@@ -2676,7 +2697,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
                     model.Applications = Util.GetApplicationListInCommit(CommitId, PersonId);
-                    model.MaxBlocks = maxBlockAspirant;
+                    model.MaxBlocks = lst.First().MaxBlocks;
                     model.HasError = true;
                     model.ErrorMessage = (!bIsEng)?
                         "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные.":
@@ -2688,7 +2709,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
-                    model.MaxBlocks = maxBlockAspirant;
+                    model.MaxBlocks = lst.First().MaxBlocks;
                     model.HasError = true;
                     model.Enabled = true;
                     model.ErrorMessage = (!bIsEng)?
@@ -2769,7 +2790,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
                     model.Applications = Util.GetApplicationListInCommit(CommitId, PersonId);
-                    model.MaxBlocks = maxBlockAspirant;
+                    model.MaxBlocks = lst.First().MaxBlocks;
                     model.HasError = true;
                     model.ErrorMessage = (!bIsEng) ?
                         "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные." :
@@ -2781,7 +2802,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
-                    model.MaxBlocks = maxBlockAspirant;
+                    model.MaxBlocks = lst.First().MaxBlocks;
                     model.HasError = true;
                     model.Enabled = true;
                     model.ErrorMessage = (!bIsEng) ? 
@@ -2821,7 +2842,8 @@ namespace OnlineAbit2013.Controllers
                 var PersonInfo = context.Person.Where(x => x.Id == PersonId).FirstOrDefault();
                 if (PersonInfo == null)//а что это могло бы значить???
                     return RedirectToAction("Index");
-                var lst = Util.GetEnableLevelList(new List<int>() { 1 }, PersonInfo);
+                bool isForeign = Util.GetRess(PersonId) == 4;
+                var lst = Util.GetEnableLevelList(new List<int>() { 1 }, PersonInfo, isForeign);
                 if (lst.Count == 0)
                 {
                     model.Enabled = false;
@@ -2863,12 +2885,11 @@ namespace OnlineAbit2013.Controllers
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
                     model.Applications = Util.GetApplicationListInCommit(CommitId, PersonId);
-                    model.MaxBlocks = maxBlock1kurs;
+                    model.MaxBlocks = lst.First().MaxBlocks;
                     model.HasError = true;
-                    if (!bIsEng)
-                        model.ErrorMessage = "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные.";
-                    else
-                        model.ErrorMessage = "To submit new application you should cancel your active application.";  
+                    model.ErrorMessage = (!bIsEng)?
+                        "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные.":
+                        "To submit new application you should cancel your active application.";  
                     return View("NewApplication_1kurs", model);
                 }
                 if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => x.Id).Count() == 0)
@@ -2876,13 +2897,12 @@ namespace OnlineAbit2013.Controllers
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
-                    model.MaxBlocks = maxBlock1kurs;
+                    model.MaxBlocks = lst.First().MaxBlocks;
                     model.HasError = true;
                     model.Enabled = true;
-                    if (!bIsEng)
-                        model.ErrorMessage = "Невозможно подать пустое заявление";
-                    else
-                        model.ErrorMessage = "You can not submit empty application."; 
+                    model.ErrorMessage = (!bIsEng)?
+                        "Невозможно подать пустое заявление":
+                        "You can not submit empty application."; 
                     return View("NewApplication_1kurs", model);
                 }
                 Util.CommitApplication(CommitId, PersonId, context);
@@ -2955,7 +2975,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
                     model.Applications = Util.GetApplicationListInCommit(CommitId, PersonId);
-                    model.MaxBlocks = maxBlockSPO;
+                    model.MaxBlocks = lst.First().MaxBlocks;
                     model.HasError = true;
                     model.ErrorMessage = (!bIsEng) ? 
                         "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные." :
@@ -2967,7 +2987,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
-                    model.MaxBlocks = maxBlockSPO;
+                    model.MaxBlocks = lst.First().MaxBlocks;
                     model.HasError = true;
                     model.Enabled = true;
                     model.ErrorMessage = (!bIsEng) ?
@@ -4592,7 +4612,7 @@ SELECT [User].Email
                  select new
                  {
                      Id = rw.Field<int>("LicenseProgramId"),
-                     Name = "(" + rw.Field<string>("LicenseProgramCode") + ") " + 
+                     Name = (String.IsNullOrEmpty(rw.Field<string>("LicenseProgramCode")) ? "" : "(" + rw.Field<string>("LicenseProgramCode") + ") ") + 
                         (isEng ?
                           (string.IsNullOrEmpty(rw.Field<string>("LicenseProgramNameEng")) ? rw.Field<string>("LicenseProgramName") : rw.Field<string>("LicenseProgramNameEng")) 
                           : rw.Field<string>("LicenseProgramName"))
