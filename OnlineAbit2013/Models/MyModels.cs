@@ -488,6 +488,7 @@ namespace OnlineAbit2013.Models
         public bool IsGosLine { get; set; }
         public bool IsApprowed { get; set; }
         public string SemesterName { get; set; }
+        public int AbiturientTypeId { get; set; }
         public string SecondTypeName { get; set; }
         public int StudyLevelGroupId { get; set; }
         public string StudyLevelGroupName { get; set; }

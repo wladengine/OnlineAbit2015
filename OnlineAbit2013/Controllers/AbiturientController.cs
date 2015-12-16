@@ -14,17 +14,16 @@ using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Net.Mail;
-using System.Data.Objects;
+using System.Data.Entity.Core.Objects;
 
 namespace OnlineAbit2013.Controllers
 {
     public class AbiturientController : Controller
     {
-       // int maxBlockMag = 50;
-       //int maxBlock1kurs = 7;
-       // int maxBlockSPO = 6;
-       // int maxBlockAspirant = 6;
+        int maxBlockTransfer = 1;
+        int maxBlockChangeStudyFormBasis = 1;
         int maxBlockRecover = 1;
+
         public ActionResult OpenPersonalAccount()
         {
             Request.Cookies.SetThreadCultureByCookies();
@@ -1743,7 +1742,7 @@ namespace OnlineAbit2013.Controllers
                                      select x).FirstOrDefault();
                 if (PersonEducDoc != null)
                 {
-                    model.MaxBlocks = 1;
+                    model.MaxBlocks = maxBlockRecover;
                     model.Enabled = true;
                 }
                 else
@@ -1794,7 +1793,7 @@ namespace OnlineAbit2013.Controllers
                                      select x).FirstOrDefault();
                 if (PersonEducDoc != null)
                 {
-                    model.MaxBlocks = 1;
+                    model.MaxBlocks = maxBlockTransfer;
                     model.Enabled = true;
                 }
                 else
@@ -1841,7 +1840,7 @@ namespace OnlineAbit2013.Controllers
                                      select x).FirstOrDefault();
                 if (PersonEducDoc != null)
                 {
-                    model.MaxBlocks = 1;
+                    model.MaxBlocks = maxBlockChangeStudyFormBasis;
                     model.Enabled = true;
                 }
                 else
@@ -1889,7 +1888,7 @@ namespace OnlineAbit2013.Controllers
                                      select x).FirstOrDefault();
                 if (PersonEducDoc != null)
                 {
-                    model.MaxBlocks = 1;
+                    model.MaxBlocks = maxBlockTransfer;
                     model.Enabled = true;
                 }
                 else
@@ -1946,7 +1945,7 @@ namespace OnlineAbit2013.Controllers
                                      select x).FirstOrDefault();
                 if (PersonEducDoc != null)
                 {
-                    model.MaxBlocks = 1;
+                    model.MaxBlocks = maxBlockChangeStudyFormBasis;
                     model.Enabled = true;
                 }
                 else
@@ -2105,7 +2104,7 @@ namespace OnlineAbit2013.Controllers
                                          select x).FirstOrDefault();
                     if (PersonEducDoc != null)
                     {
-                        model.MaxBlocks = 1;
+                        model.MaxBlocks = maxBlockRecover;
                         model.Enabled = true;
                     }
                     else
@@ -2137,7 +2136,7 @@ namespace OnlineAbit2013.Controllers
                                          select x).FirstOrDefault();
                     if (PersonEducDoc != null)
                     {
-                        model.MaxBlocks = 1;
+                        
                         model.Enabled = true;
                     }
                     else
@@ -2155,11 +2154,11 @@ namespace OnlineAbit2013.Controllers
                     }
                     switch (SecondTypeId)
                     {
-                        case 2: { return View("NewApplication_Transfer", model); }
-                        case 4: {return View("NewApplication_ChangeStudyForm", model);}
-                        case 5:{return View("NewApplication_ChangeStudyBasis", model);}
-                        case 6:{return View("NewApplication_ChangeObrazProgram", model);}
-                        default: { return RedirectToAction("Index","Application"); }
+                        case 2: { model.MaxBlocks = maxBlockTransfer; return View("NewApplication_Transfer", model); }
+                        case 4: { model.MaxBlocks = maxBlockChangeStudyFormBasis; return View("NewApplication_ChangeStudyForm", model); }
+                        case 5: { model.MaxBlocks = maxBlockChangeStudyFormBasis; return View("NewApplication_ChangeStudyBasis", model); }
+                        case 6: { model.MaxBlocks = maxBlockTransfer; return View("NewApplication_ChangeObrazProgram", model); }
+                        default: { model.MaxBlocks = 1; return RedirectToAction("Index", "Application"); }
                     }
                     #endregion
                 }
@@ -3076,7 +3075,7 @@ namespace OnlineAbit2013.Controllers
                     return RedirectToAction("Index");
 
                 var PersonEducDoc = (from x in PersonInfo.PersonEducationDocument
-                                     where x.SchoolTypeId == 4 && x.VuzAdditionalTypeId == 2
+                                     where x.SchoolTypeId == 4 && x.VuzAdditionalTypeId == 4
                                      select x).FirstOrDefault();
                 if (PersonEducDoc == null)
                 {
@@ -3096,7 +3095,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
-                    model.MaxBlocks = maxBlockRecover;
+                    model.MaxBlocks = maxBlockTransfer;
                     model.HasError = true;
                     model.Enabled = true;
                     model.ErrorMessage = (!bIsEng) ?
@@ -3150,7 +3149,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
                     model.Applications = Util.GetApplicationListInCommit(CommitId, PersonId);
-                    model.MaxBlocks = maxBlockRecover;
+                    model.MaxBlocks = maxBlockChangeStudyFormBasis;
                     model.HasError = true;
                     model.ErrorMessage = (!bIsEng) ?
                         "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные.":
@@ -3164,7 +3163,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
-                    model.MaxBlocks = maxBlockRecover;
+                    model.MaxBlocks = maxBlockChangeStudyFormBasis;
                     model.HasError = true;
                     model.Enabled = true;
                     model.ErrorMessage = (!bIsEng) ?
@@ -3220,7 +3219,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
-                    model.MaxBlocks = maxBlockRecover;
+                    model.MaxBlocks = maxBlockTransfer;
                     model.HasError = true;
                     model.Enabled = true;
                     model.ErrorMessage = (!bIsEng) ?
@@ -3276,7 +3275,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
                     model.Applications = Util.GetApplicationListInCommit(CommitId, PersonId);
-                    model.MaxBlocks = maxBlockRecover;
+                    model.MaxBlocks = maxBlockChangeStudyFormBasis;
                     model.HasError = true;
                     model.ErrorMessage = (!bIsEng) ?
                         "Уже существует активное заявление. Для создания нового заявления необходимо удалить уже созданные." :
@@ -3290,7 +3289,7 @@ namespace OnlineAbit2013.Controllers
                     model.StudyBasisList = Util.GetStudyBasisList();
                     model.StudyLevelGroupList = Util.GetStudyLevelGroupList();
                     model.Applications = new List<Mag_ApplicationSipleEntity>();
-                    model.MaxBlocks = maxBlockRecover;
+                    model.MaxBlocks = maxBlockChangeStudyFormBasis;
                     model.HasError = true;
                     model.Enabled = true;
                     model.ErrorMessage = (!bIsEng) ? 
@@ -3477,7 +3476,7 @@ namespace OnlineAbit2013.Controllers
                         if (dateofClose < DateTime.Now)
                             prior = priority - 1;
 
-                    query = "UPDATE [Application] SET Priority=@Priority WHERE Id=@Id AND PersonId=@PersonId AND CommitId=@CommitId;" +
+                    query = "UPDATE [Application] SET IsViewed=0, Priority=@Priority WHERE Id=@Id AND PersonId=@PersonId AND CommitId=@CommitId;" +
                         " INSERT INTO [ApplicationCommitVersonDetails] (ApplicationCommitVersionId, ApplicationId, Priority) VALUES (@ApplicationCommitVersionId, @Id, @Priority)";
                     dic.AddItem("@Priority", ++prior);
                     dic.AddItem("@PersonId", PersonId);
@@ -3936,6 +3935,8 @@ namespace OnlineAbit2013.Controllers
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
                 dic.Add("@PersonFileTypeId", PersonFileTypeId);
                 Util.AbitDB.ExecuteQuery(query, dic);
+
+                Util.AbitDB.ExecuteQuery(@"update dbo.Application set IsViewed=0 where PersonId=@PersonId", dic);
             }
             catch
             {
@@ -4050,6 +4051,7 @@ namespace OnlineAbit2013.Controllers
                 dic.Add("@PersonFileTypeId", PersonFileTypeId);
 
                 Util.AbitDB.ExecuteQuery(query, dic);
+                Util.AbitDB.ExecuteQuery(@"update dbo.Application set IsViewed=0 where PersonId=@PersonId", dic);
             }
             catch
             {

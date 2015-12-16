@@ -50,7 +50,8 @@ namespace OnlineAbit2013.Controllers
                          SemesterName = (Entry.SemesterId != 1) ? Semester.Name : "",
                          StudyLevelGroupId = Entry.StudyLevelGroupId,
                          StudyLevelGroupName = (isEng ? ((String.IsNullOrEmpty(Entry.StudyLevelGroupNameEng)) ? Entry.StudyLevelGroupNameRus : Entry.StudyLevelGroupNameEng) : Entry.StudyLevelGroupNameRus) +
-                                  (sectype == null ? "" : (isEng ? sectype.NameEng : sectype.Name)),   
+                                  (sectype == null ? "" : (isEng ? sectype.NameEng : sectype.Name)), 
+                         AbiturientTypeId = App.SecondTypeId ?? 1,
                      }).ToList();
                 foreach (SimpleApplication app in tblAppsMain)
                 {
@@ -108,6 +109,7 @@ namespace OnlineAbit2013.Controllers
                     Enabled = true,
                     StudyLevelGroupId =(tblAppsMain.Count==0)?1:tblAppsMain.First().StudyLevelGroupId,
                     HasManualExams = tblAppsMain.Where(x=>x.HasManualExams).Count()>0,
+                    AbiturientTypeId = tblAppsMain.Select(x=>x.AbiturientTypeId).First(),
                 };
                 foreach (SimpleApplication s in tblAppsMain)
                 {
@@ -126,7 +128,7 @@ namespace OnlineAbit2013.Controllers
                 else
                 {
                     model.HasVersion = true;
-                    model.VersionDate = AppVers.ToString();
+                    model.VersionDate = AppVers.ToString(); 
                 }
                 model.FileType = Util.GetPersonFileTypeList();
                 return View(model);
@@ -345,6 +347,7 @@ namespace OnlineAbit2013.Controllers
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
 
                 Util.AbitDB.ExecuteQuery(query, dic);
+                Util.AbitDB.ExecuteQuery(@"update dbo.Application set IsViewed=0 where Id=@ApplicationId", dic);
             }
             catch
             {
@@ -451,6 +454,7 @@ namespace OnlineAbit2013.Controllers
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
 
                 Util.AbitDB.ExecuteQuery(query, dic);
+                Util.AbitDB.ExecuteQuery(@"update dbo.Application set IsViewed=0 where CommitId=@CommitId", dic);
             }
             catch
             {

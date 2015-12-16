@@ -1697,7 +1697,6 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                 }
 
                 context.SaveChanges();
-
                 return lstRet;
             }
         }
@@ -1854,7 +1853,7 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                 var App = context.Application.Where(x => x.Id == AppId).FirstOrDefault();
                 if (App == null)
                     continue;
-
+                //App.isV
                 App.IsCommited = true;
                 var AppDetails_exists = context.extApplicationDetails.Where(x => x.ApplicationId == AppId)
                     .Select(x => new

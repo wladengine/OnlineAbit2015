@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="OnlinePriem2012Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="OnlinePriem2012Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="_Entry">
           <Key>
             <PropertyRef Name="Id" />
@@ -171,6 +171,9 @@
           <Property Name="ApproverName" Type="nvarchar" MaxLength="150" />
           <Property Name="DocInsertDate" Type="smalldatetime" />
           <Property Name="IsCommonRussianCompetition" Type="bit" Nullable="false" />
+          <Property Name="IsUpdatedByComission" Type="bit" Nullable="false" />
+          <Property Name="UpdaterName" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsViewed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationCommit">
           <Key>
@@ -229,8 +232,8 @@
           <Property Name="FileTypeId" Type="int" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.ApplicationSecondType" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="ApplicationSecondType">
           <Key>
             <PropertyRef Name="Id" />
@@ -856,8 +859,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="FullName" Type="nvarchar" MaxLength="150" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.Abiturient" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Abiturient">
           <Key>
             <PropertyRef Name="Id" />
@@ -895,6 +898,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
             <PropertyRef Name="IsForeign" />
             <PropertyRef Name="IsCrimea" />
             <PropertyRef Name="PersonBarcode" />
+            <PropertyRef Name="IsUpdatedByComission" />
             <PropertyRef Name="ObrazProgramCrypt" />
             <PropertyRef Name="ProfileName" />
           </Key>
@@ -916,7 +920,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
           <Property Name="LicenseProgramCode" Type="nvarchar" MaxLength="10" />
           <Property Name="LicenseProgramName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="ObrazProgramId" Type="int" Nullable="false" />
-          <Property Name="ObrazProgramCrypt" Type="nvarchar" MaxLength="84" Nullable="false" />
+          <Property Name="ObrazProgramCrypt" Type="nvarchar" MaxLength="92" Nullable="false" />
           <Property Name="ObrazProgramName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="ProfileId" Type="int" Nullable="false" />
           <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" Nullable="false" />
@@ -948,6 +952,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
           <Property Name="IsGosLine" Type="bit" Nullable="false" />
           <Property Name="ApplicationCommitNumber" Type="int" Nullable="false" />
           <Property Name="HasInnerPriorities" Type="bit" />
+          <Property Name="HasManualExams" Type="bit" />
           <Property Name="IsImported" Type="bit" Nullable="false" />
           <Property Name="CompetitionId" Type="int" />
           <Property Name="ApproverName" Type="nvarchar" MaxLength="150" />
@@ -958,9 +963,10 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
           <Property Name="IsForeign" Type="bit" Nullable="false" />
           <Property Name="IsCrimea" Type="bit" Nullable="false" />
           <Property Name="PersonBarcode" Type="int" Nullable="false" />
+          <Property Name="IsUpdatedByComission" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.Entry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.Entry" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Entry">
           <Key>
             <PropertyRef Name="Id" />
@@ -1024,7 +1030,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Entry' does not have a primary
           <Property Name="LicenseProgramCode" Type="nvarchar" MaxLength="10" />
           <Property Name="StudyFormName" Type="nvarchar" MaxLength="50" />
           <Property Name="StudyBasisName" Type="nvarchar" MaxLength="50" />
-          <Property Name="ObrazProgramCrypt" Type="nvarchar" MaxLength="84" Nullable="false" />
+          <Property Name="ObrazProgramCrypt" Type="nvarchar" MaxLength="92" Nullable="false" />
           <Property Name="StudyBasisNameEng" Type="nvarchar" MaxLength="50" />
           <Property Name="StudyFormNameEng" Type="nvarchar" MaxLength="50" />
           <Property Name="StudyLevelGroupId" Type="int" Nullable="false" />
@@ -1037,8 +1043,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Entry' does not have a primary
           <Property Name="IsForeign" Type="bit" Nullable="false" />
           <Property Name="IsCrimea" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.extApplicationDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.extApplicationDetails" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="extApplicationDetails">
           <Key>
             <PropertyRef Name="Id" />
@@ -1058,8 +1064,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.extApplicationDetails' does no
           <Property Name="InnerEntryInEntryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="InnerEntryInEntryPriority" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.extDefaultEntryDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.extDefaultEntryDetails" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="extDefaultEntryDetails">
           <Key>
             <PropertyRef Name="EntryId" />
@@ -1075,8 +1081,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.extDefaultEntryDetails' does n
           <Property Name="ObrazProgramName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLetter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLetter" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="qAbitFiles_OnlyEssayMotivLetter">
           <Key>
             <PropertyRef Name="Id" />
@@ -1326,6 +1332,20 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLette
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ApplicationSelectedExam_ApplicationSelectedExam">
+          <End Role="Application" Type="Self.Application" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ApplicationSelectedExam" Type="Self.ApplicationSelectedExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationSelectedExam">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Country_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="1" />
           <End Role="Country" Type="Self.Country" Multiplicity="*" />
@@ -1371,6 +1391,20 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLette
             </Principal>
             <Dependent Role="EgeMark">
               <PropertyRef Name="EgeExamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExamInEntryBlockUnit_ExamInEntryBlock">
+          <End Role="ExamInEntryBlock" Type="Self.ExamInEntryBlock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ExamInEntryBlockUnit" Type="Self.ExamInEntryBlockUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExamInEntryBlock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExamInEntryBlockUnit">
+              <PropertyRef Name="ExamInEntryBlockId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2061,85 +2095,85 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbitFiles_OnlyEssayMotivLette
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="OnlinePriem2012ModelStoreContainer">
-          <EntitySet Name="_Entry" EntityType="Self._Entry" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AbiturientType" EntityType="Self.AbiturientType" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AG_Application" EntityType="Self.AG_Application" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AG_Entry" EntityType="Self.AG_Entry" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AG_EntryClass" EntityType="Self.AG_EntryClass" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AG_EntryGroup" EntityType="Self.AG_EntryGroup" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AG_EntryInEntryGroup" EntityType="Self.AG_EntryInEntryGroup" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AG_ManualExam" EntityType="Self.AG_ManualExam" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AG_ManualExamInAG_Entry" EntityType="Self.AG_ManualExamInAG_Entry" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AG_ObrazProgram" EntityType="Self.AG_ObrazProgram" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AG_Profile" EntityType="Self.AG_Profile" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AG_Program" EntityType="Self.AG_Program" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ApplicationCommit" EntityType="Self.ApplicationCommit" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ApplicationCommitVersion" EntityType="Self.ApplicationCommitVersion" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ApplicationCommitVersonDetails" EntityType="Self.ApplicationCommitVersonDetails" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ApplicationDetails" EntityType="Self.ApplicationDetails" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ApplicationFile" EntityType="Self.ApplicationFile" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ApplicationSelectedExam" EntityType="Self.ApplicationSelectedExam" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ApplicationVersion" EntityType="Self.ApplicationVersion" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ApplicationVersionDetails" EntityType="Self.ApplicationVersionDetails" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Comission" EntityType="Self.Comission" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="EgeCertificate" EntityType="Self.EgeCertificate" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="EgeExam" EntityType="Self.EgeExam" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="EgeMark" EntityType="Self.EgeMark" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Exam" EntityType="Self.Exam" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ExamInEntryBlock" EntityType="Self.ExamInEntryBlock" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ExamInEntryBlockUnit" EntityType="Self.ExamInEntryBlockUnit" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ExamName" EntityType="Self.ExamName" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="InnerEntryInEntry" EntityType="Self.InnerEntryInEntry" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="OlympBook" EntityType="Self.OlympBook" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Olympiads" EntityType="Self.Olympiads" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="OlympLevel" EntityType="Self.OlympLevel" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="OlympName" EntityType="Self.OlympName" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="OlympSubject" EntityType="Self.OlympSubject" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="OlympType" EntityType="Self.OlympType" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="OlympValue" EntityType="Self.OlympValue" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PassportType" EntityType="Self.PassportType" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonAddInfo" EntityType="Self.PersonAddInfo" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonChangeStudyFormReason" EntityType="Self.PersonChangeStudyFormReason" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonContacts" EntityType="Self.PersonContacts" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonCurrentEducation" EntityType="Self.PersonCurrentEducation" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonDisorderInfo" EntityType="Self.PersonDisorderInfo" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonEducationDocument" EntityType="Self.PersonEducationDocument" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonFile" EntityType="Self.PersonFile" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonFileType" EntityType="Self.PersonFileType" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonHighEducationInfo" EntityType="Self.PersonHighEducationInfo" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonOtherPassport" EntityType="Self.PersonOtherPassport" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonSchoolInfo" EntityType="Self.PersonSchoolInfo" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonScienceWork" EntityType="Self.PersonScienceWork" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonSportQualification" EntityType="Self.PersonSportQualification" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonVisaInfo" EntityType="Self.PersonVisaInfo" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="PersonWork" EntityType="Self.PersonWork" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Qualification" EntityType="Self.Qualification" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ReturnDocumentType" EntityType="Self.ReturnDocumentType" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SchoolExitClass" EntityType="Self.SchoolExitClass" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SchoolExitClassToStudyLevel" EntityType="Self.SchoolExitClassToStudyLevel" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SchoolTypeAll" EntityType="Self.SchoolTypeAll" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SP_Faculty" EntityType="Self.SP_Faculty" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SP_LicenseProgram" EntityType="Self.SP_LicenseProgram" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SP_ObrazProgram" EntityType="Self.SP_ObrazProgram" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SP_Profile" EntityType="Self.SP_Profile" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SP_StudyLevel" EntityType="Self.SP_StudyLevel" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SportQualification" EntityType="Self.SportQualification" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="VuzAdditionalType" EntityType="Self.VuzAdditionalType" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ApplicationSecondType" EntityType="Self.ApplicationSecondType" store:Type="Tables" store:Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+          <EntitySet Name="_Entry" EntityType="Self._Entry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AbiturientType" EntityType="Self.AbiturientType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AG_Application" EntityType="Self.AG_Application" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AG_Entry" EntityType="Self.AG_Entry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AG_EntryClass" EntityType="Self.AG_EntryClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AG_EntryGroup" EntityType="Self.AG_EntryGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AG_EntryInEntryGroup" EntityType="Self.AG_EntryInEntryGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AG_ManualExam" EntityType="Self.AG_ManualExam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AG_ManualExamInAG_Entry" EntityType="Self.AG_ManualExamInAG_Entry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AG_ObrazProgram" EntityType="Self.AG_ObrazProgram" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AG_Profile" EntityType="Self.AG_Profile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AG_Program" EntityType="Self.AG_Program" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationCommit" EntityType="Self.ApplicationCommit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationCommitVersion" EntityType="Self.ApplicationCommitVersion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationCommitVersonDetails" EntityType="Self.ApplicationCommitVersonDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationDetails" EntityType="Self.ApplicationDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationFile" EntityType="Self.ApplicationFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationSelectedExam" EntityType="Self.ApplicationSelectedExam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationVersion" EntityType="Self.ApplicationVersion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationVersionDetails" EntityType="Self.ApplicationVersionDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comission" EntityType="Self.Comission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EgeCertificate" EntityType="Self.EgeCertificate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EgeExam" EntityType="Self.EgeExam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EgeMark" EntityType="Self.EgeMark" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Exam" EntityType="Self.Exam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamInEntryBlock" EntityType="Self.ExamInEntryBlock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamInEntryBlockUnit" EntityType="Self.ExamInEntryBlockUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamName" EntityType="Self.ExamName" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InnerEntryInEntry" EntityType="Self.InnerEntryInEntry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OlympBook" EntityType="Self.OlympBook" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Olympiads" EntityType="Self.Olympiads" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OlympLevel" EntityType="Self.OlympLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OlympName" EntityType="Self.OlympName" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OlympSubject" EntityType="Self.OlympSubject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OlympType" EntityType="Self.OlympType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OlympValue" EntityType="Self.OlympValue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PassportType" EntityType="Self.PassportType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonAddInfo" EntityType="Self.PersonAddInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonChangeStudyFormReason" EntityType="Self.PersonChangeStudyFormReason" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonContacts" EntityType="Self.PersonContacts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonCurrentEducation" EntityType="Self.PersonCurrentEducation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonDisorderInfo" EntityType="Self.PersonDisorderInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonEducationDocument" EntityType="Self.PersonEducationDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonFile" EntityType="Self.PersonFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonFileType" EntityType="Self.PersonFileType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonHighEducationInfo" EntityType="Self.PersonHighEducationInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonOtherPassport" EntityType="Self.PersonOtherPassport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonSchoolInfo" EntityType="Self.PersonSchoolInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonScienceWork" EntityType="Self.PersonScienceWork" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonSportQualification" EntityType="Self.PersonSportQualification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonVisaInfo" EntityType="Self.PersonVisaInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonWork" EntityType="Self.PersonWork" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Qualification" EntityType="Self.Qualification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReturnDocumentType" EntityType="Self.ReturnDocumentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SchoolExitClass" EntityType="Self.SchoolExitClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SchoolExitClassToStudyLevel" EntityType="Self.SchoolExitClassToStudyLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SchoolTypeAll" EntityType="Self.SchoolTypeAll" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SP_Faculty" EntityType="Self.SP_Faculty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SP_LicenseProgram" EntityType="Self.SP_LicenseProgram" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SP_ObrazProgram" EntityType="Self.SP_ObrazProgram" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SP_Profile" EntityType="Self.SP_Profile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SP_StudyLevel" EntityType="Self.SP_StudyLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SportQualification" EntityType="Self.SportQualification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VuzAdditionalType" EntityType="Self.VuzAdditionalType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationSecondType" EntityType="Self.ApplicationSecondType" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [ApplicationSecondType].[Id] AS [Id], 
 [ApplicationSecondType].[Name] AS [Name], 
 [ApplicationSecondType].[NameEng] AS [NameEng]
 FROM [dbo].[ApplicationSecondType] AS [ApplicationSecondType]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Abiturient" EntityType="Self.Abiturient" store:Type="Views" store:Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+          <EntitySet Name="Abiturient" EntityType="Self.Abiturient" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [Abiturient].[Id] AS [Id], 
 [Abiturient].[PersonId] AS [PersonId], 
@@ -2191,6 +2225,7 @@ FROM [dbo].[ApplicationSecondType] AS [ApplicationSecondType]</DefiningQuery>
 [Abiturient].[IsGosLine] AS [IsGosLine], 
 [Abiturient].[ApplicationCommitNumber] AS [ApplicationCommitNumber], 
 [Abiturient].[HasInnerPriorities] AS [HasInnerPriorities], 
+[Abiturient].[HasManualExams] AS [HasManualExams], 
 [Abiturient].[IsImported] AS [IsImported], 
 [Abiturient].[CompetitionId] AS [CompetitionId], 
 [Abiturient].[ApproverName] AS [ApproverName], 
@@ -2200,10 +2235,11 @@ FROM [dbo].[ApplicationSecondType] AS [ApplicationSecondType]</DefiningQuery>
 [Abiturient].[IsPrinted] AS [IsPrinted], 
 [Abiturient].[IsForeign] AS [IsForeign], 
 [Abiturient].[IsCrimea] AS [IsCrimea], 
-[Abiturient].[PersonBarcode] AS [PersonBarcode]
+[Abiturient].[PersonBarcode] AS [PersonBarcode], 
+[Abiturient].[IsUpdatedByComission] AS [IsUpdatedByComission]
 FROM [dbo].[Abiturient] AS [Abiturient]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Entry" EntityType="Self.Entry" store:Type="Views" store:Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+          <EntitySet Name="Entry" EntityType="Self.Entry" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [Entry].[Id] AS [Id], 
 [Entry].[SemesterId] AS [SemesterId], 
@@ -2256,7 +2292,7 @@ FROM [dbo].[Abiturient] AS [Abiturient]</DefiningQuery>
 [Entry].[IsCrimea] AS [IsCrimea]
 FROM [dbo].[Entry] AS [Entry]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="extApplicationDetails" EntityType="Self.extApplicationDetails" store:Type="Views" store:Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+          <EntitySet Name="extApplicationDetails" EntityType="Self.extApplicationDetails" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [extApplicationDetails].[Id] AS [Id], 
 [extApplicationDetails].[ApplicationId] AS [ApplicationId], 
@@ -2269,7 +2305,7 @@ FROM [dbo].[Entry] AS [Entry]</DefiningQuery>
 [extApplicationDetails].[InnerEntryInEntryPriority] AS [InnerEntryInEntryPriority]
 FROM [dbo].[extApplicationDetails] AS [extApplicationDetails]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="extDefaultEntryDetails" EntityType="Self.extDefaultEntryDetails" store:Type="Views" store:Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+          <EntitySet Name="extDefaultEntryDetails" EntityType="Self.extDefaultEntryDetails" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [extDefaultEntryDetails].[EntryId] AS [EntryId], 
 [extDefaultEntryDetails].[InnerEntryInEntryId] AS [InnerEntryInEntryId], 
@@ -2279,7 +2315,7 @@ FROM [dbo].[extApplicationDetails] AS [extApplicationDetails]</DefiningQuery>
 [extDefaultEntryDetails].[ProfileName] AS [ProfileName]
 FROM [dbo].[extDefaultEntryDetails] AS [extDefaultEntryDetails]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="qAbitFiles_OnlyEssayMotivLetter" EntityType="Self.qAbitFiles_OnlyEssayMotivLetter" store:Type="Views" store:Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+          <EntitySet Name="qAbitFiles_OnlyEssayMotivLetter" EntityType="Self.qAbitFiles_OnlyEssayMotivLetter" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [qAbitFiles_OnlyEssayMotivLetter].[Id] AS [Id], 
 [qAbitFiles_OnlyEssayMotivLetter].[PersonId] AS [PersonId], 
@@ -2370,6 +2406,10 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
             <End Role="ApplicationDetails" EntitySet="ApplicationDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_ApplicationSelectedExam_ApplicationSelectedExam" Association="Self.FK_ApplicationSelectedExam_ApplicationSelectedExam">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="ApplicationSelectedExam" EntitySet="ApplicationSelectedExam" />
+          </AssociationSet>
           <AssociationSet Name="FK_Country_Region" Association="Self.FK_Country_Region">
             <End Role="Region" EntitySet="Region" />
             <End Role="Country" EntitySet="Country" />
@@ -2385,6 +2425,10 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <AssociationSet Name="FK_EgeMark_EgeExam" Association="Self.FK_EgeMark_EgeExam">
             <End Role="EgeExam" EntitySet="EgeExam" />
             <End Role="EgeMark" EntitySet="EgeMark" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExamInEntryBlockUnit_ExamInEntryBlock" Association="Self.FK_ExamInEntryBlockUnit_ExamInEntryBlock">
+            <End Role="ExamInEntryBlock" EntitySet="ExamInEntryBlock" />
+            <End Role="ExamInEntryBlockUnit" EntitySet="ExamInEntryBlockUnit" />
           </AssociationSet>
           <AssociationSet Name="FK_InnerEntryInEntry_SP_Profile" Association="Self.FK_InnerEntryInEntry_SP_Profile">
             <End Role="SP_Profile" EntitySet="SP_Profile" />
@@ -2594,8 +2638,8 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="OnlinePriem2012Model" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
-        <EntityContainer Name="OnlinePriemEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="OnlinePriem2012Model" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="OnlinePriemEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="PassportType" EntityType="OnlinePriem2012Model.PassportType" />
           <EntitySet Name="PersonAddInfo" EntityType="OnlinePriem2012Model.PersonAddInfo" />
           <EntitySet Name="PersonCurrentEducation" EntityType="OnlinePriem2012Model.PersonCurrentEducation" />
@@ -3047,6 +3091,14 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySet Name="ApplicationSecondType" EntityType="OnlinePriem2012Model.ApplicationSecondType" />
           <EntitySet Name="SchoolTypeAll" EntityType="OnlinePriem2012Model.SchoolTypeAll" />
           <EntitySet Name="SchoolExitClassToStudyLevel" EntityType="OnlinePriem2012Model.SchoolExitClassToStudyLevel" />
+          <AssociationSet Name="FK_ApplicationSelectedExam_ApplicationSelectedExam" Association="OnlinePriem2012Model.FK_ApplicationSelectedExam_ApplicationSelectedExam">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="ApplicationSelectedExam" EntitySet="ApplicationSelectedExam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExamInEntryBlockUnit_ExamInEntryBlock" Association="OnlinePriem2012Model.FK_ExamInEntryBlockUnit_ExamInEntryBlock">
+            <End Role="ExamInEntryBlock" EntitySet="ExamInEntryBlock" />
+            <End Role="ExamInEntryBlockUnit" EntitySet="ExamInEntryBlockUnit" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="PassportType">
           <Key>
@@ -3185,7 +3237,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="PersonId" Nullable="false" />
           <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Boolean" Name="Enabled" Nullable="false" />
           <Property Type="Int32" Name="EntryType" Nullable="false" />
           <Property Type="Boolean" Name="HostelEduc" Nullable="false" />
@@ -3211,6 +3263,10 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <NavigationProperty Name="ApplicationFile" Relationship="OnlinePriem2012Model.FK_ApplicationFile_Application" FromRole="Application" ToRole="ApplicationFile" />
           <NavigationProperty Name="PersonChangeStudyFormReason" Relationship="OnlinePriem2012Model.FK_PersonChangeStudyFormReason_Application" FromRole="Application" ToRole="PersonChangeStudyFormReason" />
           <NavigationProperty Name="C_Entry" Relationship="OnlinePriem2012Model.FK_Application__Entry" FromRole="Application" ToRole="C_Entry" />
+          <Property Name="IsUpdatedByComission" Type="Boolean" Nullable="false" />
+          <Property Name="UpdaterName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsViewed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ApplicationSelectedExam" Relationship="OnlinePriem2012Model.FK_ApplicationSelectedExam_ApplicationSelectedExam" FromRole="Application" ToRole="ApplicationSelectedExam" />
         </EntityType>
         <EntityType Name="Semester">
           <Key>
@@ -3318,7 +3374,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="NameEng" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="RegionId" Nullable="false" />
@@ -3373,7 +3429,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="UserId" Nullable="false" />
-          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Surname" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Name" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SecondName" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -3588,7 +3644,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PersonSchoolInfo" Relationship="OnlinePriem2012Model.FK_PersonSchoolInfo_SchoolExitClass" FromRole="SchoolExitClass" ToRole="PersonSchoolInfo" />
           <Property Type="Int32" Name="IntValue" Nullable="false" />
@@ -3838,7 +3894,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Number" />
           <NavigationProperty Name="OlympBook" Relationship="OnlinePriem2012Model.FK_OlympBook_OlympName" FromRole="OlympName" ToRole="OlympBook" />
@@ -3850,7 +3906,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OlympBook" Relationship="OnlinePriem2012Model.FK_OlympBook_OlympSubject" FromRole="OlympSubject" ToRole="OlympBook" />
           <NavigationProperty Name="Olympiads" Relationship="OnlinePriem2012Model.FK_Olympiads_OlympSubject" FromRole="OlympSubject" ToRole="Olympiads" />
@@ -3999,7 +4055,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="PersonId" Nullable="false" />
           <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Barcode" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Boolean" Name="Enabled" Nullable="false" />
           <Property Type="Boolean" Name="HostelEduc" Nullable="false" />
           <Property Type="DateTime" Name="DateOfDisable" Precision="3" />
@@ -4061,7 +4117,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AG_Application" Relationship="OnlinePriem2012Model.FK_AG_Application_AG_ManualExam" FromRole="AG_ManualExam" ToRole="AG_Application" />
           <NavigationProperty Name="AG_ManualExamInAG_Entry" Relationship="OnlinePriem2012Model.FK_AG_ManualExamInAG_Entry_AG_ManualExam" FromRole="AG_ManualExam" ToRole="AG_ManualExamInAG_Entry" />
@@ -4242,7 +4298,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="IntNumber" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IntNumber" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Boolean" Name="IsPrinted" Nullable="false" />
           <Property Type="Boolean" Name="IsImported" Nullable="false" />
           <Property Type="DateTime" Name="DateReviewDocs" Precision="3" />
@@ -4256,7 +4312,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Guid" Name="CommitId" Nullable="false" />
           <Property Type="DateTime" Name="VersionDate" Precision="3" Nullable="false" />
           <NavigationProperty Name="ApplicationCommit" Relationship="OnlinePriem2012Model.FK_ApplicationCommitVersion_ApplicationCommit" FromRole="ApplicationCommitVersion" ToRole="ApplicationCommit" />
@@ -4265,7 +4321,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="ApplicationCommitVersionId" Nullable="false" />
           <Property Type="Guid" Name="ApplicationId" Nullable="false" />
           <Property Type="Int32" Name="Priority" Nullable="false" />
@@ -4366,7 +4422,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="IntNumber" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IntNumber" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Guid" Name="ApplicationId" Nullable="false" />
           <Property Type="DateTime" Name="VersionDate" Nullable="false" Precision="3" />
           <NavigationProperty Name="ApplicationVersionDetails" Relationship="OnlinePriem2012Model.FK_ApplicationVersionDetails_ApplicationVersion" FromRole="ApplicationVersion" ToRole="ApplicationVersionDetails" />
@@ -4375,7 +4431,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Guid" Name="ApplicationVersionId" Nullable="false" />
           <NavigationProperty Name="ApplicationVersion" Relationship="OnlinePriem2012Model.FK_ApplicationVersionDetails_ApplicationVersion" FromRole="ApplicationVersionDetails" ToRole="ApplicationVersion" />
           <Property Type="Guid" Name="InnerEntryInEntryId" Nullable="false" />
@@ -4675,6 +4731,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             <PropertyRef Name="IsForeign" />
             <PropertyRef Name="IsCrimea" />
             <PropertyRef Name="PersonBarcode" />
+            <PropertyRef Name="IsUpdatedByComission" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="PersonId" Nullable="false" />
@@ -4694,7 +4751,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Type="String" Name="LicenseProgramCode" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LicenseProgramName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ObrazProgramId" Nullable="false" />
-          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="84" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="92" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ObrazProgramName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ProfileId" Nullable="false" />
           <Property Type="String" Name="ProfileName" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -4736,6 +4793,8 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Type="Boolean" Name="IsForeign" Nullable="false" />
           <Property Name="IsCrimea" Type="Boolean" Nullable="false" />
           <Property Name="PersonBarcode" Type="Int32" Nullable="false" />
+          <Property Name="HasManualExams" Type="Boolean" />
+          <Property Name="IsUpdatedByComission" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="extApplicationDetails">
           <Key>
@@ -4796,7 +4855,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Guid" Name="PersonId" Nullable="false" />
           <Property Type="Int32" Name="PassportTypeId" Nullable="false" />
           <Property Type="String" Name="PassportSeries" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -5138,7 +5197,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Type="String" Name="LicenseProgramCode" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyFormName" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyBasisName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="84" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ObrazProgramCrypt" Nullable="false" MaxLength="92" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyBasisNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="StudyFormNameEng" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="StudyLevelGroupId" Nullable="false" />
@@ -5232,6 +5291,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           </Key>
           <Property Name="ApplicationId" Type="Guid" Nullable="false" />
           <Property Name="ExamInEntryBlockUnitId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Application" Relationship="OnlinePriem2012Model.FK_ApplicationSelectedExam_ApplicationSelectedExam" FromRole="ApplicationSelectedExam" ToRole="Application" />
         </EntityType>
         <EntityType Name="Exam">
           <Key>
@@ -5247,6 +5307,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="EntryId" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ExamInEntryBlockUnit" Relationship="OnlinePriem2012Model.FK_ExamInEntryBlockUnit_ExamInEntryBlock" FromRole="ExamInEntryBlock" ToRole="ExamInEntryBlockUnit" />
         </EntityType>
         <EntityType Name="ExamInEntryBlockUnit">
           <Key>
@@ -5256,6 +5317,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Name="ExamInEntryBlockId" Type="Guid" Nullable="false" />
           <Property Name="ExamId" Type="Int32" Nullable="false" />
           <Property Name="EgeMin" Type="Double" />
+          <NavigationProperty Name="ExamInEntryBlock" Relationship="OnlinePriem2012Model.FK_ExamInEntryBlockUnit_ExamInEntryBlock" FromRole="ExamInEntryBlockUnit" ToRole="ExamInEntryBlock" />
         </EntityType>
         <EntityType Name="ExamName">
           <Key>
@@ -5298,11 +5360,39 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Name="MaxBlocks" Type="Int32" />
           <Property Name="IsForeign" Type="Boolean" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ApplicationSelectedExam_ApplicationSelectedExam">
+          <End Type="OnlinePriem2012Model.Application" Role="Application" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="OnlinePriem2012Model.ApplicationSelectedExam" Role="ApplicationSelectedExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationSelectedExam">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExamInEntryBlockUnit_ExamInEntryBlock">
+          <End Type="OnlinePriem2012Model.ExamInEntryBlock" Role="ExamInEntryBlock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="OnlinePriem2012Model.ExamInEntryBlockUnit" Role="ExamInEntryBlockUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExamInEntryBlock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExamInEntryBlockUnit">
+              <PropertyRef Name="ExamInEntryBlockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="OnlinePriem2012ModelStoreContainer" CdmEntityContainer="OnlinePriemEntities">
           <EntitySetMapping Name="PassportType">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.PassportType">
@@ -5423,6 +5513,9 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySetMapping Name="Application">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.Application">
               <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="IsViewed" ColumnName="IsViewed" />
+                <ScalarProperty Name="UpdaterName" ColumnName="UpdaterName" />
+                <ScalarProperty Name="IsUpdatedByComission" ColumnName="IsUpdatedByComission" />
                 <ScalarProperty Name="IsCommonRussianCompetition" ColumnName="IsCommonRussianCompetition" />
                 <ScalarProperty Name="DocInsertDate" ColumnName="DocInsertDate" />
                 <ScalarProperty Name="ApproverName" ColumnName="ApproverName" />
@@ -6063,6 +6156,8 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySetMapping Name="Abiturient">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.Abiturient">
               <MappingFragment StoreEntitySet="Abiturient">
+                <ScalarProperty Name="IsUpdatedByComission" ColumnName="IsUpdatedByComission" />
+                <ScalarProperty Name="HasManualExams" ColumnName="HasManualExams" />
                 <ScalarProperty Name="PersonBarcode" ColumnName="PersonBarcode" />
                 <ScalarProperty Name="IsCrimea" ColumnName="IsCrimea" />
                 <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
@@ -7217,6 +7312,8 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
         <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ApplicationSecondType" Width="1.5" PointX="12.375" PointY="9.75" />
         <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SchoolTypeAll" Width="1.5" PointX="13.375" PointY="0.75" />
         <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SchoolExitClassToStudyLevel" Width="3.5" PointX="11.5" PointY="13" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationSelectedExam_ApplicationSelectedExam" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ExamInEntryBlockUnit_ExamInEntryBlock" />
         </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

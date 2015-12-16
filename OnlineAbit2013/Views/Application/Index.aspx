@@ -262,13 +262,10 @@
 <hr />
 <%if (!Model.IsPrinted)
   { 
-      if (Model.StudyLevelGroupId == 1)
-               { %>
-                <p class="message info"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationMessage2")%></p> <%}
-               else
-               { %>
-                <p class="message info"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationMessage1")%></p> <% }
-  }%>
+      if (Model.StudyLevelGroupId == 1 && Model.AbiturientTypeId == 1)
+      { %> <p class="message info" style="font-size:12px;"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationMessage2")%></p> <%}
+      else { %> <p class="message info" style="font-size:12px;"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationMessage1")%></p> <% }
+      }%>
  <% if (Model.HasVersion)
        {%>
        <p class="message info"><%= GetGlobalResourceObject("ApplicationInfo", "AppLastChanges")%> <% = Model.VersionDate %> </p>

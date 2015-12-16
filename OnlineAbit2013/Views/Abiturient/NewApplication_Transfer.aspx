@@ -425,11 +425,6 @@
     <% } %>
     <%= Html.ValidationSummary() %>
      <%= Html.HiddenFor(x => x.CommitId)%>
-    <% if (2 == 1 && DateTime.Now < new DateTime(2012, 6, 20, 0, 0, 0))
-       { %>
-       <div class="message warning">Внимание! Подача заявлений на <strong style="font-size:10pt">первый курс</strong> начнётся с <strong style="font-size:11pt">20 июня 2012 года</strong></div>
-    <% } %>
- 
         <% for (int i = 1; i <= Model.Applications.Count; i++)
            { %>
            <div id="BlockData<%= i.ToString()%>" class="message info panel" style="width:659px;">
