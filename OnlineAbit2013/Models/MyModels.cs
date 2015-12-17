@@ -643,7 +643,7 @@ namespace OnlineAbit2013.Models
         public string DateOfDisable { get; set; }
 
         public int StudyLevelGroupId { get; set; }
-        public int AbiturientTypeId { get; set; }
+        public int? AbiturientTypeId { get; set; }
         public bool IsPrinted { get; set; }
 
         //перспективные

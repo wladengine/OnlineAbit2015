@@ -109,7 +109,7 @@ namespace OnlineAbit2013.Controllers
                     Enabled = true,
                     StudyLevelGroupId =(tblAppsMain.Count==0)?1:tblAppsMain.First().StudyLevelGroupId,
                     HasManualExams = tblAppsMain.Where(x=>x.HasManualExams).Count()>0,
-                    AbiturientTypeId = tblAppsMain.Select(x=>x.AbiturientTypeId).First(),
+                    AbiturientTypeId = tblAppsMain.Count>0 ? tblAppsMain.Select(x => x.AbiturientTypeId).FirstOrDefault() : 1,
                 };
                 foreach (SimpleApplication s in tblAppsMain)
                 {

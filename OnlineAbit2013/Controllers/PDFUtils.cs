@@ -3081,12 +3081,29 @@ namespace OnlineAbit2013.Controllers
                         x.Name,
                         x.SecondName,
                         x.Sex,
+                        x.BirthDate,
+                        Language = x.PersonAddInfo.Language.Name,
                         x.PersonAddInfo.HasPrivileges,
-                        x.PersonAddInfo.HostelEduc
+                        x.PersonAddInfo.HostelEduc,
+                        x.PersonContacts.City,
+                        Region = x.PersonContacts.Region.Name,
+                        x.PersonContacts.Code,
+                        x.PersonContacts.Street,
+                        x.PersonContacts.House,
+                        x.PersonContacts.Korpus,
+                        x.PersonContacts.Flat,
+                        x.PersonContacts.Phone,
+                        x.PersonContacts.Mobiles,
+                        x.PersonContacts.Country.IsRussia,
+                        Country = x.PersonContacts.Country.Name,
+                        SportTypeName = x.PersonSportQualification.SportQualification1.Name,
+                        SportTypeOtherName = x.PersonSportQualification.OtherSportQualification,
+                        SportInfo = x.PersonSportQualification.SportQualificationLevel,
+                        x.User.Email,
                     }).FirstOrDefault();
 
                 var Olympiads =
-                    from Ol in context.Olympiads
+                    (from Ol in context.Olympiads
                     where Ol.PersonId == PersonId
                     select new
                     {
@@ -3094,12 +3111,23 @@ namespace OnlineAbit2013.Controllers
                         Ol.DocumentNumber,
                         Ol.DocumentDate,
                         OlympName = Ol.OlympName.Name,
-                        OlympSubject = Ol.OlympSubject.Name
-                    };
-
+                        OlympSubject = Ol.OlympSubject.Name,
+                        OlympValue = Ol.OlympValue.Name,
+                    }).ToList();
+                var personEduc = (from p in context.PersonEducationDocument
+                                  join excl in context.SchoolExitClass on p.SchoolExitClassId equals excl.Id
+                                  where p.PersonId == PersonId
+                                  select new
+                                  {
+                                      ExitClass = excl.OrderNumber,
+                                      p.SchoolNum,
+                                      p.SchoolName,
+                                      RegionName = p.Region.Name,
+                                      p.SchoolCity, 
+                                  }).OrderByDescending(x=>x.ExitClass).First();
+                                      
                 MemoryStream ms = new MemoryStream();
                 string dotName = "ApplicationAG_2015.pdf";
-
                 byte[] templateBytes;
                 using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
                 {
@@ -3107,17 +3135,13 @@ namespace OnlineAbit2013.Controllers
                     fs.Read(templateBytes, 0, templateBytes.Length);
                 }
 
-                
-
                 var Version = context.ApplicationCommitVersion.Where(x => x.CommitId == commitId).Select(x => new { x.VersionDate, x.Id }).ToList().LastOrDefault();
                 string sVersion = "";
                 if (Version != null)
                     sVersion = "Версия №" + Version.Id + " от " + Version.VersionDate.ToString("dd.MM.yyyy HH:mm");
-                
 
                 PdfReader pdfRd = new PdfReader(templateBytes);
                 PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
-                pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
                 AcroFields acrFlds = pdfStm.AcroFields;
 
                 acrFlds.SetField("Version", sVersion);
@@ -3179,7 +3203,114 @@ namespace OnlineAbit2013.Controllers
                 pdfStm.Close();
                 pdfRd.Close();
 
-                return ms.ToArray();
+                MemoryStream ms_ank = new MemoryStream();
+                dotName = "AnketaAG2016.pdf";
+                using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
+                {
+                    templateBytes = new byte[fs.Length];
+                    fs.Read(templateBytes, 0, templateBytes.Length);
+                }
+                pdfRd = new PdfReader(templateBytes);
+                pdfStm = new PdfStamper(pdfRd, ms_ank);
+                acrFlds = pdfStm.AcroFields;
+
+                acrFlds.SetField("ClassNum", abitList.First().ClassNum.ToString());
+
+                acrFlds.SetField("Surname", person.Surname);
+                acrFlds.SetField("Name", person.Name);
+                acrFlds.SetField("SecondName", person.SecondName);
+                inc = 0;
+                foreach (var abit in abitList)
+                {
+                    inc++;
+                    acrFlds.SetField("Specialization" + inc.ToString(), abit.ObrazProgram);
+                    acrFlds.SetField("Profile" + inc.ToString(), abit.Profession);
+                }
+                string Year = person.BirthDate.Value.Year.ToString();
+                string Month = person.BirthDate.Value.Month.ToString();
+                Month = (Month.Length == 1) ? "0" + Month : Month;
+                string Day = person.BirthDate.Value.Day.ToString();
+                Day = (Day.Length == 1) ? "0" + Day : Day;
+                for (int i = 0; i < 4; i++)
+                    acrFlds.SetField("Year" + (i + 1).ToString(), Year[i].ToString());
+                for (int i = 0; i < 2; i++)
+                    acrFlds.SetField("Month" + (i + 1).ToString(), Month[i].ToString());
+                for (int i = 0; i < 2; i++)
+                    acrFlds.SetField("Day" + (i + 1).ToString(), Day[i].ToString());
+
+
+                string Address = string.Format("{0} {1}{2},", (person.Code) ?? "", (person.IsRussia ? (person.Region + ", ") ?? "" : person.Country + ", "), (person.City + ", ") ?? "") +
+                    string.Format("{0} {1} {2} {3}", person.Street ?? "", person.House == string.Empty ? "" : "дом " + person.House,
+                    person.Korpus == string.Empty ? "" : "корп. " + person.Korpus,
+                    person.Flat == string.Empty ? "" : "кв. " + person.Flat);
+
+                string[] splitStr = GetSplittedStrings(Address, 50, 70, 3);
+                for (int i = 1; i <= 2; i++)
+                    acrFlds.SetField("Address" + i, splitStr[i - 1]);
+                
+                acrFlds.SetField("PostIndex", person.Code);
+                acrFlds.SetField("Email", person.Email);
+                string Phone = person.Phone;
+                for (int i = 0; i < Phone.Length; i++ )
+                    acrFlds.SetField("Phone" + (i + 1).ToString(), Phone[i].ToString());
+                string Mobile = person.Mobiles;
+                for (int i = 0; i < Mobile.Length; i++)
+                    acrFlds.SetField("Mobile" + (i + 1).ToString(), Mobile[i].ToString());
+
+                acrFlds.SetField("ParentSurname", "");
+                acrFlds.SetField("ParentName", "");
+                acrFlds.SetField("ParentSecondName", "");
+                acrFlds.SetField("ParentPhone", "");
+                acrFlds.SetField("ParentEmail", "");
+                acrFlds.SetField("ParentWork", "");
+                acrFlds.SetField("ParentPost", "");
+
+                string SchName = string.Format(personEduc.SchoolName + " " + personEduc.SchoolNum);
+                splitStr = GetSplittedStrings(SchName, 70, 70, 2);
+                for (int i = 1; i <= 2; i++)
+                    acrFlds.SetField("SchoolNum" + i, splitStr[i - 1]);
+
+                string SchAddress = string.Format(personEduc.RegionName + " " + personEduc.SchoolCity);
+                splitStr = GetSplittedStrings(SchAddress, 70, 70, 2);
+                for (int i = 1; i <= 2; i++)
+                    acrFlds.SetField("SchoolAddress" + i, splitStr[i - 1]);
+
+                acrFlds.SetField("English1", person.Language);
+                acrFlds.SetField("English2", "");
+
+                for (int i = 0; (i < 4)&&(i<Olympiads.Count()); i++)
+                {
+                    acrFlds.SetField("OlympSubject"+(i+1).ToString(), Olympiads[i].OlympSubject.ToString());
+                    acrFlds.SetField("OlympYear" + (i + 1).ToString(), Olympiads[i].DocumentDate.HasValue ? Olympiads[i].DocumentDate.Value.Year.ToString(): "");
+                    acrFlds.SetField("OlympName" + (i + 1).ToString(), Olympiads[i].OlympName);
+                    acrFlds.SetField("OlympStep" + (i + 1).ToString(), "");
+                    acrFlds.SetField("OlympLevel" + (i + 1).ToString(), "");
+                    acrFlds.SetField("OlympDiploma" + (i + 1).ToString(), Olympiads[i].OlympValue);
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    acrFlds.SetField("ConferenceName" + (i + 1).ToString(), "");
+                    acrFlds.SetField("ConferenceYear" + (i + 1).ToString(), "");
+                    acrFlds.SetField("ConferenceName2" + (i + 1).ToString(), "");
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    acrFlds.SetField("Add" + (i + 1).ToString(), "");
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    acrFlds.SetField("SportType" + (i + 1).ToString(), !String.IsNullOrEmpty(person.SportTypeName) ? person.SportTypeName : person.SportTypeOtherName);
+                    acrFlds.SetField("SportInfo" + (i + 1).ToString(), person.SportInfo);
+                }
+
+                pdfStm.FormFlattening = true;
+                pdfStm.Close();
+                pdfRd.Close();
+
+                List<byte[]> ms_arr = new List<byte[]>();
+                ms_arr.Add(ms.ToArray());
+                ms_arr.Add(ms_ank.ToArray());
+                return MergePdfFiles(ms_arr);
             }
         }
 
