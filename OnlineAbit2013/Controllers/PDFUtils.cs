@@ -3266,12 +3266,12 @@ namespace OnlineAbit2013.Controllers
                 acrFlds.SetField("ParentPost", "");
 
                 string SchName = string.Format(personEduc.SchoolName + " " + personEduc.SchoolNum);
-                splitStr = GetSplittedStrings(SchName, 70, 70, 2);
+                splitStr = GetSplittedStrings(SchName, 60, 60, 2);
                 for (int i = 1; i <= 2; i++)
                     acrFlds.SetField("SchoolNum" + i, splitStr[i - 1]);
 
                 string SchAddress = string.Format(personEduc.RegionName + " " + personEduc.SchoolCity);
-                splitStr = GetSplittedStrings(SchAddress, 70, 70, 2);
+                splitStr = GetSplittedStrings(SchAddress, 60, 60, 2);
                 for (int i = 1; i <= 2; i++)
                     acrFlds.SetField("SchoolAddress" + i, splitStr[i - 1]);
 
