@@ -207,7 +207,7 @@
     </tr>
 </table>
 <br />
-<% if (Model.EntryTypeId != 2 && (Model.AbiturientType == OnlineAbit2013.Models.AbitType.AG || Model.AbiturientType == OnlineAbit2013.Models.AbitType.FirstCourseBakSpec))
+<% if (Model.EntryTypeId != 2 && Model.AbiturientType == OnlineAbit2013.Models.AbitType.FirstCourseBakSpec)
    { %>
    <div class="message info">
     <b><%= GetGlobalResourceObject("NewApplication", "PrintFormWarning1")%> <%= GetGlobalResourceObject("NewApplication", "PrintFormWarning2")%></b> 

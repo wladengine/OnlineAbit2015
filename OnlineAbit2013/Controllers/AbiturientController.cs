@@ -501,9 +501,8 @@ namespace OnlineAbit2013.Controllers
                              Value = rw.Field<int>("Id").ToString(),
                              Text = rw.Field<string>(isEng ? "NameEng" : "Name")
                          }).ToList();
-                    //Util.ScienceWorkTypeAll.Select(x => new SelectListItem() { Text = x.Value, Value = x.Key.ToString() }).ToList();
 
-                    string qPSW = "SELECT PersonScienceWork.Id, ScienceWorkType.Name, ScienceWorkType.NameEng, PersonScienceWork.WorkInfo FROM PersonScienceWork " +
+                    string qPSW = "SELECT PersonScienceWork.Id, ScienceWorkType.Name, PersonScienceWork.WorkYear, ScienceWorkType.NameEng, PersonScienceWork.WorkInfo FROM PersonScienceWork " +
                         " INNER JOIN ScienceWorkType ON ScienceWorkType.Id=PersonScienceWork.WorkTypeId WHERE PersonScienceWork.PersonId=@Id";
                     DataTable tblPSW = Util.AbitDB.GetDataTable(qPSW, new SortedList<string, object>() { { "@Id", PersonId } });
 
@@ -513,7 +512,8 @@ namespace OnlineAbit2013.Controllers
                          {
                              Id = rw.Field<Guid>("Id"),
                              ScienceWorkType = rw.Field<string>(isEng ? "NameEng" : "Name"),
-                             ScienceWorkInfo = rw.Field<string>("WorkInfo")
+                             ScienceWorkInfo = rw.Field<string>("WorkInfo"),
+                             ScienceWorkYear = rw.Field<string>("WorkYear")
                          }).ToList();
 
                     string qPW = "SELECT Id, WorkPlace, Stage, WorkProfession, WorkSpecifications FROM PersonWork WHERE PersonId=@Id";
@@ -536,6 +536,7 @@ namespace OnlineAbit2013.Controllers
                         .Select(x => new OlympiadInformation()
                         {
                             Id = x.Id,
+                            OlympYear = x.OlympYear,
                             OlympType = x.OlympType.Name,
                             OlympName = x.OlympName.Name,
                             OlympSubject = x.OlympSubject.Name,
@@ -546,38 +547,14 @@ namespace OnlineAbit2013.Controllers
                         }).ToList();
 
                     #region PersonPrivileges
-                    query = "SELECT Id, Name FROM OlympName";
+                    query = "SELECT Distinct OlympYear FROM OlympBook";
                     DataTable _tbl = Util.AbitDB.GetDataTable(query, null);
-                    model.PrivelegeInfo.OlympNameList =
+                    model.PrivelegeInfo.OlympYearList =
                         (from DataRow rw in _tbl.Rows
                          select new SelectListItem()
                          {
-                             Value = rw.Field<int>("Id").ToString(),
-                             Text = rw.Field<string>("Name")
-                         }).ToList();
-
-                    query = "SELECT Id, Name, NameEng FROM OlympType";
-                    _tbl = Util.AbitDB.GetDataTable(query, null);
-                    model.PrivelegeInfo.OlympTypeList =
-                        (from DataRow rw in _tbl.Rows
-                         select new SelectListItem()
-                         {
-                             Value = rw.Field<int>("Id").ToString(),
-                             Text = (isEng ?
-                                        (string.IsNullOrEmpty(rw.Field<string>("NameEng")) ? rw.Field<string>("Name") : rw.Field<string>("NameEng"))
-                                        : rw.Field<string>("Name"))
-                         }).ToList();
-
-                    query = "SELECT Id, Name, NameEng FROM OlympSubject";
-                    _tbl = Util.AbitDB.GetDataTable(query, null);
-                    model.PrivelegeInfo.OlympSubjectList =
-                        (from DataRow rw in _tbl.Rows
-                         select new SelectListItem()
-                         {
-                             Value = rw.Field<int>("Id").ToString(),
-                             Text = (isEng ?
-                                        (string.IsNullOrEmpty(rw.Field<string>("NameEng")) ? rw.Field<string>("Name") : rw.Field<string>("NameEng"))
-                                        : rw.Field<string>("Name"))
+                             Value = rw.Field<int>("OlympYear").ToString(),
+                             Text = rw.Field<int>("OlympYear").ToString()
                          }).ToList();
 
                     query = "SELECT Id, Name, NameEng FROM OlympValue";
@@ -637,6 +614,14 @@ namespace OnlineAbit2013.Controllers
                         HostelEduc = AddInfo.HostelEduc,
                         ContactPerson = Server.HtmlDecode(AddInfo.Parents),
 
+                        VisibleParentBlock = (DateTime.Now.Year - Person.BirthDate.Value.Year) < 18,
+                        Parent_Surname = AddInfo.Parent_Surname,
+                        Parent_Name  = AddInfo.Parent_Name,
+                        Parent_SecondName = AddInfo.Parent_SecondName,
+                        Parent_Email = AddInfo.Parent_Email,
+                        Parent_Phone = AddInfo.Parent_Phone,
+                        Parent_Work = AddInfo.Parent_Work,
+                        Parent_WorkPosition = AddInfo.Parent_WorkPosition,
                         ReturnDocumentTypeId = Server.HtmlDecode((AddInfo.ReturnDocumentTypeId ?? 1).ToString()),
                         ReturnDocumentTypeList = isEng ?
                             context.ReturnDocumentType.Select(x => new { x.Id, x.NameEng }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.NameEng }).ToList() :
@@ -1245,6 +1230,14 @@ namespace OnlineAbit2013.Controllers
                     PersonAddInfo.HostelAbit = model.AddInfo.HostelAbit;
                     PersonAddInfo.HostelEduc = model.AddInfo.HostelEduc;
                     PersonAddInfo.ReturnDocumentTypeId = iReturnDocumentTypeId;
+                    PersonAddInfo.Parent_Surname = model.AddInfo.Parent_Surname;
+                    PersonAddInfo.Parent_Name = model.AddInfo.Parent_Name;
+                    PersonAddInfo.Parent_SecondName = model.AddInfo.Parent_SecondName;
+                    PersonAddInfo.Parent_Phone = model.AddInfo.Parent_Phone;
+                    PersonAddInfo.Parent_Email = model.AddInfo.Parent_Email;
+                    PersonAddInfo.Parent_Work = model.AddInfo.Parent_Work;
+                    PersonAddInfo.Parent_WorkPosition = model.AddInfo.Parent_WorkPosition;
+
 
                     if (Person.RegistrationStage <= 7)
                         Person.RegistrationStage = 100;
@@ -3750,15 +3743,21 @@ namespace OnlineAbit2013.Controllers
             }
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                int Cnt1 = (from App in context.Application
+                var cnt = (from App in context.Application
                             join block in context.ExamInEntryBlock on App.EntryId equals block.EntryId
                             join unit in context.ExamInEntryBlockUnit on block.Id equals unit.ExamInEntryBlockId
                             where App.PersonId == PersonId && App.CommitId == gCommitId && App.Enabled == true
+
                             select new
                             {
                                 appId = App.Id,
                                 blockId = block.Id,
-                            }).Distinct().Count();
+                                unitcoun = unit.Id,
+                            }).ToList();
+                int Cnt1 = (from c in cnt
+                            group c by c.blockId into ex
+                            where ex.Count() >1
+                            select ex).Count();
                 int Cnt2 = (from App in context.Application
                             join units in context.ApplicationSelectedExam on App.Id equals units.ApplicationId
                             where App.PersonId == PersonId && App.CommitId == gCommitId && App.Enabled == true
@@ -5028,7 +5027,7 @@ SELECT [User].Email
         }
 
         [OutputCache(NoStore = true, Duration = 0)]
-        public ActionResult UpdateScienceWorks(string ScWorkInfo, string ScWorkType)
+        public ActionResult UpdateScienceWorks(string ScWorkInfo, string ScWorkType, string ScWorkYear)
         {
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
@@ -5043,18 +5042,21 @@ SELECT [User].Email
 
             Guid wrkId = Guid.NewGuid();
 
-            string query = "INSERT INTO PersonScienceWork (Id, PersonId, WorkTypeId, WorkInfo) VALUES (@Id, @PersonId, @WorkTypeId, @WorkInfo)";
+            string query = "INSERT INTO PersonScienceWork (Id, PersonId, WorkTypeId, WorkInfo, WorkYear) VALUES (@Id, @PersonId, @WorkTypeId, @WorkInfo, @WorkYear)";
             SortedList<string, object> dic = new SortedList<string, object>();
             dic.Add("@Id", wrkId);
             dic.Add("@PersonId", PersonId);
             dic.Add("@WorkTypeId", iScWorkType);
             dic.Add("@WorkInfo", ScWorkInfo);
+            dic.Add("@WorkYear", ScWorkYear);
+
             try
             {
                 Util.AbitDB.ExecuteQuery(query, dic);
                 string scType = Util.ScienceWorkTypeAll[iScWorkType];
                 string scInfo = HttpUtility.HtmlEncode(ScWorkInfo);
-                var res = new { IsOk = true, Data = new { Id = wrkId.ToString("N"), Type = scType, Info = scInfo }, ErrorMsg = "" };
+                string scYear = HttpUtility.HtmlEncode(ScWorkYear);
+                var res = new { IsOk = true, Data = new { Id = wrkId.ToString("N"), Type = scType, Info = scInfo, Year = scYear }, ErrorMsg = "" };
                 return Json(res);
             }
             catch
@@ -5350,19 +5352,19 @@ Order by cnt desc";
         #endregion
 
         #region Olympiads_AJAX
-        public JsonResult GetOlympNameList(string OlympTypeId)
+        public JsonResult GetOlympTypeList(string OlympYear)
         {
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                 return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
 
-            int iOlympTypeId;
-            if (!int.TryParse(OlympTypeId, out iOlympTypeId))
+            int iOlympYear;
+            if (!int.TryParse(OlympYear, out iOlympYear))
                 return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                var OlData = context.OlympBook.Where(x => x.OlympTypeId == iOlympTypeId).Select(x => new { Id = x.OlympNameId, Name = x.OlympName.Name }).Distinct().ToList();
+                var OlData = context.OlympBook.Where(x => x.OlympYear == iOlympYear).Select(x => new { Id = x.OlympTypeId, Name = x.OlympType.Name }).Distinct().ToList();
 
                 return Json(new
                 {
@@ -5371,7 +5373,30 @@ Order by cnt desc";
                 });
             }
         }
-        public JsonResult GetOlympSubjectList(string OlympTypeId, string OlympNameId)
+        public JsonResult GetOlympNameList(string OlympTypeId, string OlympYear)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
+
+            int iOlympTypeId;
+            if (!int.TryParse(OlympTypeId, out iOlympTypeId))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
+            int iOlympYear;
+            if (!int.TryParse(OlympYear, out iOlympYear))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                var OlData = context.OlympBook.Where(x => x.OlympTypeId == iOlympTypeId && x.OlympYear == iOlympYear).Select(x => new { Id = x.OlympNameId, Name = x.OlympName.Name }).Distinct().ToList();
+
+                return Json(new
+                {
+                    IsOk = true,
+                    List = OlData
+                });
+            }
+        }
+        public JsonResult GetOlympSubjectList(string OlympTypeId, string OlympNameId, string OlympYear)
         {
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
@@ -5385,9 +5410,13 @@ Order by cnt desc";
             if (!int.TryParse(OlympNameId, out iOlympNameId))
                 return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
 
+            int iOlympYear;
+            if (!int.TryParse(OlympYear, out iOlympYear))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
+
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                var OlData = context.OlympBook.Where(x => x.OlympTypeId == iOlympTypeId && x.OlympNameId == iOlympNameId)
+                var OlData = context.OlympBook.Where(x => x.OlympTypeId == iOlympTypeId && x.OlympNameId == iOlympNameId && x.OlympYear == iOlympYear)
                     .Select(x => new { Id = x.OlympSubjectId, Name = x.OlympSubject.Name }).Distinct().ToList();
 
                 return Json(new
@@ -5398,11 +5427,15 @@ Order by cnt desc";
             }
         }
 
-        public JsonResult AddOlympiad(string OlympTypeId, string OlympNameId, string OlympSubjectId, string OlympValueId, string Series, string Number, string Date)
+        public JsonResult AddOlympiad(string OlympYear, string OlympTypeId, string OlympNameId, string OlympSubjectId, string OlympValueId, string Series, string Number, string Date)
         {
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                 return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
+
+            int iOlympYear;
+            if (!int.TryParse(OlympYear, out iOlympYear))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
 
             int iOlympTypeId;
             if (!int.TryParse(OlympTypeId, out iOlympTypeId))
@@ -5434,6 +5467,7 @@ Order by cnt desc";
                 context.Olympiads.AddObject(new Olympiads()
                 {
                     Id = Id,
+                    OlympYear = iOlympYear,
                     OlympNameId = iOlympNameId,
                     OlympSubjectId = iOlympSubjectId,
                     OlympTypeId = iOlympTypeId,
@@ -5450,7 +5484,8 @@ Order by cnt desc";
                     OlympName = x.OlympName.Name,
                     OlympSubject = x.OlympSubject.Name,
                     OlympType = x.OlympType.Name,
-                    OlympValue = x.OlympValue.Name
+                    OlympValue = x.OlympValue.Name,
+                    OlympYear = x.OlympYear
                 }).FirstOrDefault();
 
                 return Json(new
@@ -5461,6 +5496,7 @@ Order by cnt desc";
                     Name = Ol.OlympName,
                     Subject = Ol.OlympSubject,
                     Value = Ol.OlympValue,
+                    Year = Ol.OlympYear,
                     Doc = Series + " " + Number + " от " + (dtDate.HasValue ? dtDate.Value.ToShortDateString() : "-")
                 });
             }

@@ -346,6 +346,7 @@ namespace OnlineAbit2013.Models
         public Guid Id { get; set; }
         public string ScienceWorkType { get; set; }
         public string ScienceWorkInfo { get; set; }
+        public string ScienceWorkYear { get; set; }
     }
     public class WorkInformationModel
     {
@@ -374,9 +375,19 @@ namespace OnlineAbit2013.Models
 
         public string SocialStatus { get; set; }
         public string MaritalStatus { get; set; }
-
+        public bool VisibleParentBlock { get; set; }
         public string ReturnDocumentTypeId { get; set; }
         public List<SelectListItem> ReturnDocumentTypeList { get; set; }
+
+        public string Parent_Surname { get; set; }
+        public string Parent_Name { get; set; }
+        public string Parent_SecondName { get; set; }
+
+        public string Parent_Phone { get; set; }
+        public string Parent_Email { get; set; }
+        public string Parent_Work { get; set; }
+        public string Parent_WorkPosition { get; set; }
+
 
         [Required]
         public bool FZ_152Agree { get; set; }
@@ -419,16 +430,18 @@ namespace OnlineAbit2013.Models
         public List<SelectListItem> PrivilegesList { get; set; }
         public List<PrivilegeInformation> pPrivileges { get; set; }
 
-        public string OlympTypeId { get; set; }
-        public List<SelectListItem> OlympTypeList { get; set; }
+        //public string OlympTypeId { get; set; }
+        public List<SelectListItem> OlympYearList { get; set; }
+
+        //public List<SelectListItem> OlympTypeList { get; set; }
         
-        public string OlympNameId { get; set; }
-        public List<SelectListItem> OlympNameList { get; set; }
+        //public string OlympNameId { get; set; }
+        //public List<SelectListItem> OlympNameList { get; set; }
 
-        public string OlympSubjectId { get; set; }
-        public List<SelectListItem> OlympSubjectList { get; set; }
+        //public string OlympSubjectId { get; set; }
+        //public List<SelectListItem> OlympSubjectList { get; set; }
 
-        public string OlympValueId { get; set; }
+        //public string OlympValueId { get; set; }
         public List<SelectListItem> OlympValueList { get; set; }
 
         public List<OlympiadInformation> pOlympiads { get; set; }
@@ -447,6 +460,7 @@ namespace OnlineAbit2013.Models
     public class OlympiadInformation
     {
         public Guid Id { get; set; }
+        public int OlympYear { get; set; }
         public string OlympType { get; set; }
         public string OlympName { get; set; }
         public string OlympSubject { get; set; }

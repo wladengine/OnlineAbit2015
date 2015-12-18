@@ -394,6 +394,7 @@
           <Property Name="DocumentSeries" Type="nvarchar" MaxLength="50" />
           <Property Name="DocumentNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="DocumentDate" Type="date" />
+          <Property Name="OlympYear" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OlympLevel">
           <Key>
@@ -495,6 +496,13 @@
           <Property Name="StartEnglish" Type="bit" Nullable="false" />
           <Property Name="EnglishMark" Type="float" Nullable="false" />
           <Property Name="LanguageId" Type="int" />
+          <Property Name="Parent_Surname" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_SecondName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_Phone" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_Email" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_Work" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_WorkPosition" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="PersonChangeStudyFormReason">
           <Key>
@@ -652,6 +660,7 @@
           <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="WorkTypeId" Type="int" Nullable="false" />
           <Property Name="WorkInfo" Type="nvarchar(max)" />
+          <Property Name="WorkYear" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PersonSportQualification">
           <Key>
@@ -745,6 +754,14 @@
           <Property Name="FullName" Type="nvarchar" MaxLength="150" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="ScienceWorkType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Semester">
           <Key>
@@ -1962,6 +1979,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PersonScienceWork_ScienceWorkType">
+          <End Role="ScienceWorkType" Type="Self.ScienceWorkType" Multiplicity="1" />
+          <End Role="PersonScienceWork" Type="Self.PersonScienceWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScienceWorkType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonScienceWork">
+              <PropertyRef Name="WorkTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PersonSportQualification_Person">
           <End Role="Person" Type="Self.Person" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2157,6 +2186,7 @@
           <EntitySet Name="SchoolExitClass" EntityType="Self.SchoolExitClass" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SchoolExitClassToStudyLevel" EntityType="Self.SchoolExitClassToStudyLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SchoolTypeAll" EntityType="Self.SchoolTypeAll" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScienceWorkType" EntityType="Self.ScienceWorkType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SP_Faculty" EntityType="Self.SP_Faculty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SP_LicenseProgram" EntityType="Self.SP_LicenseProgram" Schema="dbo" store:Type="Tables" />
@@ -2604,6 +2634,10 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           </AssociationSet>
           <AssociationSet Name="FK_PersonScienceWork_Person" Association="Self.FK_PersonScienceWork_Person">
             <End Role="Person" EntitySet="Person" />
+            <End Role="PersonScienceWork" EntitySet="PersonScienceWork" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonScienceWork_ScienceWorkType" Association="Self.FK_PersonScienceWork_ScienceWorkType">
+            <End Role="ScienceWorkType" EntitySet="ScienceWorkType" />
             <End Role="PersonScienceWork" EntitySet="PersonScienceWork" />
           </AssociationSet>
           <AssociationSet Name="FK_PersonSportQualification_Person" Association="Self.FK_PersonSportQualification_Person">
@@ -3099,6 +3133,11 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             <End Role="ExamInEntryBlock" EntitySet="ExamInEntryBlock" />
             <End Role="ExamInEntryBlockUnit" EntitySet="ExamInEntryBlockUnit" />
           </AssociationSet>
+          <EntitySet Name="ScienceWorkType" EntityType="OnlinePriem2012Model.ScienceWorkType" />
+          <AssociationSet Name="FK_PersonScienceWork_ScienceWorkType" Association="OnlinePriem2012Model.FK_PersonScienceWork_ScienceWorkType">
+            <End Role="ScienceWorkType" EntitySet="ScienceWorkType" />
+            <End Role="PersonScienceWork" EntitySet="PersonScienceWork" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="PassportType">
           <Key>
@@ -3132,6 +3171,13 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Type="Double" Name="EnglishMark" Nullable="false" />
           <Property Type="Int32" Name="LanguageId" />
           <NavigationProperty Name="Language" Relationship="OnlinePriem2012Model.FK_PersonAddInfo_Language" FromRole="PersonAddInfo" ToRole="Language" />
+          <Property Name="Parent_Surname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_SecondName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_Phone" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_Work" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_WorkPosition" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PersonCurrentEducation">
           <Key>
@@ -3170,6 +3216,8 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <Property Type="Int32" Name="WorkTypeId" Nullable="false" />
           <Property Type="String" Name="WorkInfo" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Person" Relationship="OnlinePriem2012Model.FK_PersonScienceWork_Person" FromRole="PersonScienceWork" ToRole="Person" />
+          <Property Name="WorkYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ScienceWorkType" Relationship="OnlinePriem2012Model.FK_PersonScienceWork_ScienceWorkType" FromRole="PersonScienceWork" ToRole="ScienceWorkType" />
         </EntityType>
         <EntityType Name="PersonWork">
           <Key>
@@ -3889,6 +3937,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <NavigationProperty Name="OlympType" Relationship="OnlinePriem2012Model.FK_Olympiads_OlympType" FromRole="Olympiads" ToRole="OlympType" />
           <NavigationProperty Name="OlympValue" Relationship="OnlinePriem2012Model.FK_Olympiads_OlympValue" FromRole="Olympiads" ToRole="OlympValue" />
           <NavigationProperty Name="Person" Relationship="OnlinePriem2012Model.FK_Olympiads_Person" FromRole="Olympiads" ToRole="Person" />
+          <Property Name="OlympYear" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="OlympName">
           <Key>
@@ -5388,6 +5437,27 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ScienceWorkType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameEng" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PersonScienceWork" Relationship="OnlinePriem2012Model.FK_PersonScienceWork_ScienceWorkType" FromRole="ScienceWorkType" ToRole="PersonScienceWork" />
+        </EntityType>
+        <Association Name="FK_PersonScienceWork_ScienceWorkType">
+          <End Type="OnlinePriem2012Model.ScienceWorkType" Role="ScienceWorkType" Multiplicity="1" />
+          <End Type="OnlinePriem2012Model.PersonScienceWork" Role="PersonScienceWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScienceWorkType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonScienceWork">
+              <PropertyRef Name="WorkTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5407,6 +5477,13 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySetMapping Name="PersonAddInfo">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.PersonAddInfo">
               <MappingFragment StoreEntitySet="PersonAddInfo">
+                <ScalarProperty Name="Parent_WorkPosition" ColumnName="Parent_WorkPosition" />
+                <ScalarProperty Name="Parent_Work" ColumnName="Parent_Work" />
+                <ScalarProperty Name="Parent_Email" ColumnName="Parent_Email" />
+                <ScalarProperty Name="Parent_Phone" ColumnName="Parent_Phone" />
+                <ScalarProperty Name="Parent_SecondName" ColumnName="Parent_SecondName" />
+                <ScalarProperty Name="Parent_Name" ColumnName="Parent_Name" />
+                <ScalarProperty Name="Parent_Surname" ColumnName="Parent_Surname" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="EnglishMark" ColumnName="EnglishMark" />
                 <ScalarProperty Name="StartEnglish" ColumnName="StartEnglish" />
@@ -5450,6 +5527,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySetMapping Name="PersonScienceWork">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.PersonScienceWork">
               <MappingFragment StoreEntitySet="PersonScienceWork">
+                <ScalarProperty Name="WorkYear" ColumnName="WorkYear" />
                 <ScalarProperty Name="WorkInfo" ColumnName="WorkInfo" />
                 <ScalarProperty Name="WorkTypeId" ColumnName="WorkTypeId" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
@@ -5807,6 +5885,7 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
           <EntitySetMapping Name="Olympiads">
             <EntityTypeMapping TypeName="OnlinePriem2012Model.Olympiads">
               <MappingFragment StoreEntitySet="Olympiads">
+                <ScalarProperty Name="OlympYear" ColumnName="OlympYear" />
                 <ScalarProperty Name="DocumentDate" ColumnName="DocumentDate" />
                 <ScalarProperty Name="DocumentNumber" ColumnName="DocumentNumber" />
                 <ScalarProperty Name="DocumentSeries" ColumnName="DocumentSeries" />
@@ -6482,6 +6561,15 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
                 <ScalarProperty Name="MaximumQualificationId" ColumnName="MaximumQualificationId" />
                 <ScalarProperty Name="MaximumExitClassId" ColumnName="MaximumExitClassId" />
                 <ScalarProperty Name="MaximumOrderNumberSchoolTypeId" ColumnName="MaximumOrderNumberSchoolTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScienceWorkType">
+            <EntityTypeMapping TypeName="OnlinePriem2012Model.ScienceWorkType">
+              <MappingFragment StoreEntitySet="ScienceWorkType">
+                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7314,6 +7402,8 @@ FROM [dbo].[qAbitFiles_OnlyEssayMotivLetter] AS [qAbitFiles_OnlyEssayMotivLetter
         <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.SchoolExitClassToStudyLevel" Width="3.5" PointX="11.5" PointY="13" />
         <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ApplicationSelectedExam_ApplicationSelectedExam" />
         <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_ExamInEntryBlockUnit_ExamInEntryBlock" />
+        <edmx:EntityTypeShape EntityType="OnlinePriem2012Model.ScienceWorkType" Width="1.5" PointX="8.375" PointY="13.875" />
+        <edmx:AssociationConnector Association="OnlinePriem2012Model.FK_PersonScienceWork_ScienceWorkType" />
         </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

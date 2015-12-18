@@ -9,9 +9,9 @@
 
 using System;
 using System.ComponentModel;
-using System.Data.Entity.Core.EntityClient;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Core.Objects.DataClasses;
+using System.Data.EntityClient;
+using System.Data.Objects;
+using System.Data.Objects.DataClasses;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -19,92 +19,91 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region Метаданные связи EDM
 
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonContacts_Region", "Region", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Region), "PersonContacts", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonContacts), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonContacts_Country", "Country", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Country), "PersonContacts", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonContacts), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Application_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "Application", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Application), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_ForeignCountry", "Country", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Country), "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Person), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_PassportType", "PassportType", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PassportType), "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Person), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_User", "User", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.User), "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Person), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonAddInfo_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonAddInfo", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonAddInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonChangeStudyFormReason_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonChangeStudyFormReason", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonChangeStudyFormReason), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonContacts_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonContacts", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonContacts), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonCurrentEducation", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonDisorderInfo_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonDisorderInfo", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonDisorderInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonVisaInfo_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonVisaInfo", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonVisaInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_Semester", "Semester", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Semester), "PersonCurrentEducation", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_Qualification", "Qualification", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Qualification), "PersonHighEducationInfo", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonHighEducationInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonSchoolInfo_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonSchoolInfo", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonSchoolInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonSchoolInfo_SchoolExitClass", "SchoolExitClass", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SchoolExitClass), "PersonSchoolInfo", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonSchoolInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonWork_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonWork", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonWork), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonSportQualification_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonSportQualification", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonSportQualification), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonSportQualification_SportQualification", "SportQualification", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SportQualification), "PersonSportQualification", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonSportQualification), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_User1", "User", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.User), "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Person), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonScienceWork_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonScienceWork", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonScienceWork), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_User_User", "User", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.User), "User1", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.User), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_EgeMark_EgeCertificate", "EgeCertificate", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.EgeCertificate), "EgeMark", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.EgeMark), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_EgeMark_EgeExam", "EgeExam", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.EgeExam), "EgeMark", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.EgeMark), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonAddInfo_ReturnDocumentType", "ReturnDocumentType", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.ReturnDocumentType), "PersonAddInfo", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonAddInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_OlympBook_OlympLevel", "OlympLevel", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympLevel), "OlympBook", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.OlympBook), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_OlympBook_OlympName", "OlympName", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympName), "OlympBook", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.OlympBook), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_OlympBook_OlympSubject", "OlympSubject", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympSubject), "OlympBook", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.OlympBook), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_OlympBook_OlympType", "OlympType", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympType), "OlympBook", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.OlympBook), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Olympiads_OlympName", "OlympName", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympName), "Olympiads", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Olympiads), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Olympiads_OlympSubject", "OlympSubject", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympSubject), "Olympiads", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Olympiads), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Olympiads_OlympType", "OlympType", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympType), "Olympiads", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Olympiads), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Olympiads_OlympValue", "OlympValue", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympValue), "Olympiads", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Olympiads), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Olympiads_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "Olympiads", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Olympiads), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Entry_AG_EntryClass", "AG_EntryClass", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_EntryClass), "AG_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Entry_AG_ObrazProgram", "AG_ObrazProgram", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_ObrazProgram), "AG_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Entry_AG_Program", "AG_Program", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Program), "AG_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Entry_AG_Profile", "AG_Profile", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Profile), "AG_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Application_AG_Entry", "AG_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Entry), "AG_Application", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Application), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Application_AG_ManualExam", "AG_ManualExam", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.AG_ManualExam), "AG_Application", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Application), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationDetails_Application", "Application", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Application), "ApplicationDetails", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationDetails), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationVersionDetails_ApplicationVersion", "ApplicationVersion", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ApplicationVersion), "ApplicationVersionDetails", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationVersionDetails), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_AbiturientType", "AbiturientType", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AbiturientType), "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Person), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Application_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "AG_Application", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Application), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_ManualExamInAG_Entry_AG_Entry", "AG_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Entry), "AG_ManualExamInAG_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_ManualExamInAG_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_ManualExamInAG_Entry_AG_ManualExam", "AG_ManualExam", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_ManualExam), "AG_ManualExamInAG_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_ManualExamInAG_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Application_ApplicationCommit", "ApplicationCommit", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ApplicationCommit), "Application", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Application), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationFile_Application", "Application", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Application), "ApplicationFile", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationFile), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonChangeStudyFormReason_Application", "Application", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Application), "PersonChangeStudyFormReason", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonChangeStudyFormReason), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationCommitVersion_ApplicationCommit", "ApplicationCommit", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ApplicationCommit), "ApplicationCommitVersion", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationCommitVersion), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationFile_ApplicationCommit", "ApplicationCommit", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.ApplicationCommit), "ApplicationFile", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationFile), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonChangeStudyFormReason_ApplicationCommit", "ApplicationCommit", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.ApplicationCommit), "PersonChangeStudyFormReason", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonChangeStudyFormReason), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Country_Region", "Region", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Region), "Country", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Country), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonVisaInfo_Country", "Country", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Country), "PersonVisaInfo", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonVisaInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_EgeCertificate_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "EgeCertificate", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.EgeCertificate), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_Region", "Region", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Region), "PersonCurrentEducation", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_SP_LicenseProgram", "SP_LicenseProgram", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_LicenseProgram), "PersonCurrentEducation", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_SP_ObrazProgram", "SP_ObrazProgram", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.SP_ObrazProgram), "PersonCurrentEducation", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_SP_StudyLevel", "SP_StudyLevel", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_StudyLevel), "PersonCurrentEducation", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonFile_PersonFileType", "PersonFileType", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.PersonFileType), "PersonFile", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonFile), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_SP_LicenseProgram_SP_StudyLevel", "SP_StudyLevel", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_StudyLevel), "SP_LicenseProgram", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.SP_LicenseProgram), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_SP_ObrazProgram_SP_LicenseProgram", "SP_LicenseProgram", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_LicenseProgram), "SP_ObrazProgram", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.SP_ObrazProgram), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonOtherPassport_PassportType", "PassportType", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.PassportType), "PersonOtherPassport", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonOtherPassport), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonOtherPassport_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonOtherPassport", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonOtherPassport), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_Country", "Country", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Country), "PersonEducationDocument", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_Person", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonEducationDocument", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_Region", "Region", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Region), "PersonEducationDocument", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_SchoolExitClass", "SchoolExitClass", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.SchoolExitClass), "PersonEducationDocument", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_VuzAdditionalType", "VuzAdditionalType", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.VuzAdditionalType), "PersonEducationDocument", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonAddInfo_Language", "Language", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Language), "PersonAddInfo", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonAddInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_PersonEducationDocument", "PersonEducationDocument", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.PersonEducationDocument), "PersonHighEducationInfo", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonHighEducationInfo), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_Comission", "Comission", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Comission), "C_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_Semester", "Semester", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Semester), "C_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_Faculty", "SP_Faculty", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.SP_Faculty), "C_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_LicenseProgram", "SP_LicenseProgram", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_LicenseProgram), "C_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_ObrazProgram", "SP_ObrazProgram", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_ObrazProgram), "C_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_StudyLevel", "SP_StudyLevel", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_StudyLevel), "C_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Application__Entry", "C_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.C_Entry), "Application", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Application), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry__Entry", "C_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.C_Entry), "InnerEntryInEntry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.InnerEntryInEntry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationDetails_ObrazProgramInEntry", "InnerEntryInEntry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.InnerEntryInEntry), "ApplicationDetails", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationDetails), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry_SP_ObrazProgram", "SP_ObrazProgram", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_ObrazProgram), "InnerEntryInEntry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.InnerEntryInEntry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_InnerEntryInEntry_SP_Profile", "SP_Profile", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_Profile), "InnerEntryInEntry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.InnerEntryInEntry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_Profile", "SP_Profile", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_Profile), "C_Entry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationSelectedExam_ApplicationSelectedExam", "Application", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Application), "ApplicationSelectedExam", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationSelectedExam), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ExamInEntryBlockUnit_ExamInEntryBlock", "ExamInEntryBlock", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ExamInEntryBlock), "ExamInEntryBlockUnit", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ExamInEntryBlockUnit), true)]
-[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonScienceWork_ScienceWorkType", "ScienceWorkType", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ScienceWorkType), "PersonScienceWork", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonScienceWork), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonContacts_Region", "Region", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Region), "PersonContacts", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonContacts), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonContacts_Country", "Country", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Country), "PersonContacts", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonContacts), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Application_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Application), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_ForeignCountry", "Country", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Country), "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Person), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_PassportType", "PassportType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PassportType), "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Person), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.User), "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Person), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonAddInfo_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonAddInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonAddInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonChangeStudyFormReason_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonChangeStudyFormReason", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonChangeStudyFormReason), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonContacts_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonContacts", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonContacts), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonCurrentEducation", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonDisorderInfo_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonDisorderInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonDisorderInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonVisaInfo_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonVisaInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonVisaInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_Semester", "Semester", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Semester), "PersonCurrentEducation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_Qualification", "Qualification", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Qualification), "PersonHighEducationInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonHighEducationInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonSchoolInfo_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonSchoolInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonSchoolInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonSchoolInfo_SchoolExitClass", "SchoolExitClass", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SchoolExitClass), "PersonSchoolInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonSchoolInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonWork_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonWork", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonWork), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonSportQualification_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonSportQualification", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonSportQualification), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonSportQualification_SportQualification", "SportQualification", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SportQualification), "PersonSportQualification", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonSportQualification), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_User1", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.User), "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Person), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonScienceWork_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonScienceWork", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonScienceWork), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_User_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.User), "User1", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.User), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_EgeMark_EgeCertificate", "EgeCertificate", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.EgeCertificate), "EgeMark", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.EgeMark), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_EgeMark_EgeExam", "EgeExam", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.EgeExam), "EgeMark", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.EgeMark), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonAddInfo_ReturnDocumentType", "ReturnDocumentType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.ReturnDocumentType), "PersonAddInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonAddInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_OlympBook_OlympLevel", "OlympLevel", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympLevel), "OlympBook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.OlympBook), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_OlympBook_OlympName", "OlympName", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympName), "OlympBook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.OlympBook), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_OlympBook_OlympSubject", "OlympSubject", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympSubject), "OlympBook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.OlympBook), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_OlympBook_OlympType", "OlympType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympType), "OlympBook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.OlympBook), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Olympiads_OlympName", "OlympName", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympName), "Olympiads", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Olympiads), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Olympiads_OlympSubject", "OlympSubject", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympSubject), "Olympiads", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Olympiads), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Olympiads_OlympType", "OlympType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympType), "Olympiads", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Olympiads), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Olympiads_OlympValue", "OlympValue", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.OlympValue), "Olympiads", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Olympiads), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Olympiads_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "Olympiads", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Olympiads), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Entry_AG_EntryClass", "AG_EntryClass", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_EntryClass), "AG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Entry_AG_ObrazProgram", "AG_ObrazProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_ObrazProgram), "AG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Entry_AG_Program", "AG_Program", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Program), "AG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Entry_AG_Profile", "AG_Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Profile), "AG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Application_AG_Entry", "AG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Entry), "AG_Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Application), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Application_AG_ManualExam", "AG_ManualExam", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.AG_ManualExam), "AG_Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Application), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationDetails_Application", "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Application), "ApplicationDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationDetails), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationVersionDetails_ApplicationVersion", "ApplicationVersion", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ApplicationVersion), "ApplicationVersionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationVersionDetails), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Person_AbiturientType", "AbiturientType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AbiturientType), "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Person), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_Application_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "AG_Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_Application), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_ManualExamInAG_Entry_AG_Entry", "AG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_Entry), "AG_ManualExamInAG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_ManualExamInAG_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_AG_ManualExamInAG_Entry_AG_ManualExam", "AG_ManualExam", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.AG_ManualExam), "AG_ManualExamInAG_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.AG_ManualExamInAG_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Application_ApplicationCommit", "ApplicationCommit", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ApplicationCommit), "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Application), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationFile_Application", "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Application), "ApplicationFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationFile), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonChangeStudyFormReason_Application", "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Application), "PersonChangeStudyFormReason", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonChangeStudyFormReason), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationCommitVersion_ApplicationCommit", "ApplicationCommit", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ApplicationCommit), "ApplicationCommitVersion", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationCommitVersion), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationFile_ApplicationCommit", "ApplicationCommit", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.ApplicationCommit), "ApplicationFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationFile), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonChangeStudyFormReason_ApplicationCommit", "ApplicationCommit", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.ApplicationCommit), "PersonChangeStudyFormReason", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonChangeStudyFormReason), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Country_Region", "Region", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Region), "Country", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Country), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonVisaInfo_Country", "Country", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Country), "PersonVisaInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonVisaInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_EgeCertificate_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "EgeCertificate", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.EgeCertificate), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_Region", "Region", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Region), "PersonCurrentEducation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_SP_LicenseProgram", "SP_LicenseProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_LicenseProgram), "PersonCurrentEducation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_SP_ObrazProgram", "SP_ObrazProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.SP_ObrazProgram), "PersonCurrentEducation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonCurrentEducation_SP_StudyLevel", "SP_StudyLevel", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_StudyLevel), "PersonCurrentEducation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonCurrentEducation), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonFile_PersonFileType", "PersonFileType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.PersonFileType), "PersonFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonFile), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_SP_LicenseProgram_SP_StudyLevel", "SP_StudyLevel", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_StudyLevel), "SP_LicenseProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.SP_LicenseProgram), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_SP_ObrazProgram_SP_LicenseProgram", "SP_LicenseProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_LicenseProgram), "SP_ObrazProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.SP_ObrazProgram), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonOtherPassport_PassportType", "PassportType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.PassportType), "PersonOtherPassport", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonOtherPassport), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonOtherPassport_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonOtherPassport", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonOtherPassport), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_Country", "Country", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Country), "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_Person", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Person), "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_Region", "Region", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Region), "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_SchoolExitClass", "SchoolExitClass", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.SchoolExitClass), "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonEducationDocument_VuzAdditionalType", "VuzAdditionalType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.VuzAdditionalType), "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonEducationDocument), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonAddInfo_Language", "Language", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Language), "PersonAddInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.PersonAddInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_PersonHighEducationInfo_PersonEducationDocument", "PersonEducationDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.PersonEducationDocument), "PersonHighEducationInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.PersonHighEducationInfo), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_Comission", "Comission", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.Comission), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_Semester", "Semester", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Semester), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_Faculty", "SP_Faculty", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OnlineAbit2013.SP_Faculty), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_LicenseProgram", "SP_LicenseProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_LicenseProgram), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_ObrazProgram", "SP_ObrazProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_ObrazProgram), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_StudyLevel", "SP_StudyLevel", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_StudyLevel), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_Application__Entry", "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.C_Entry), "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.Application), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry__Entry", "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.C_Entry), "InnerEntryInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.InnerEntryInEntry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationDetails_ObrazProgramInEntry", "InnerEntryInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.InnerEntryInEntry), "ApplicationDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationDetails), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ObrazProgramInEntry_SP_ObrazProgram", "SP_ObrazProgram", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_ObrazProgram), "InnerEntryInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.InnerEntryInEntry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_InnerEntryInEntry_SP_Profile", "SP_Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_Profile), "InnerEntryInEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.InnerEntryInEntry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK__Entry_SP_Profile", "SP_Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.SP_Profile), "C_Entry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.C_Entry), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ApplicationSelectedExam_ApplicationSelectedExam", "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.Application), "ApplicationSelectedExam", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ApplicationSelectedExam), true)]
+[assembly: EdmRelationshipAttribute("OnlinePriem2012Model", "FK_ExamInEntryBlockUnit_ExamInEntryBlock", "ExamInEntryBlock", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OnlineAbit2013.ExamInEntryBlock), "ExamInEntryBlockUnit", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OnlineAbit2013.ExamInEntryBlockUnit), true)]
 
 #endregion
 
@@ -1387,22 +1386,6 @@ namespace OnlineAbit2013
             }
         }
         private ObjectSet<SchoolExitClassToStudyLevel> _SchoolExitClassToStudyLevel;
-    
-        /// <summary>
-        /// Нет доступной документации по метаданным.
-        /// </summary>
-        public ObjectSet<ScienceWorkType> ScienceWorkType
-        {
-            get
-            {
-                if ((_ScienceWorkType == null))
-                {
-                    _ScienceWorkType = base.CreateObjectSet<ScienceWorkType>("ScienceWorkType");
-                }
-                return _ScienceWorkType;
-            }
-        }
-        private ObjectSet<ScienceWorkType> _ScienceWorkType;
 
         #endregion
 
@@ -2022,14 +2005,6 @@ namespace OnlineAbit2013
         public void AddToSchoolExitClassToStudyLevel(SchoolExitClassToStudyLevel schoolExitClassToStudyLevel)
         {
             base.AddObject("SchoolExitClassToStudyLevel", schoolExitClassToStudyLevel);
-        }
-    
-        /// <summary>
-        /// Устаревший метод для добавления новых объектов в набор EntitySet ScienceWorkType. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
-        /// </summary>
-        public void AddToScienceWorkType(ScienceWorkType scienceWorkType)
-        {
-            base.AddObject("ScienceWorkType", scienceWorkType);
         }
 
         #endregion
@@ -21728,44 +21703,6 @@ namespace OnlineAbit2013
                 }
             }
         }
-    
-        /// <summary>
-        /// Нет доступной документации по метаданным.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_PersonScienceWork_ScienceWorkType", "ScienceWorkType")]
-        public ScienceWorkType ScienceWorkType
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ScienceWorkType>("OnlinePriem2012Model.FK_PersonScienceWork_ScienceWorkType", "ScienceWorkType").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ScienceWorkType>("OnlinePriem2012Model.FK_PersonScienceWork_ScienceWorkType", "ScienceWorkType").Value = value;
-            }
-        }
-        /// <summary>
-        /// Нет доступной документации по метаданным.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<ScienceWorkType> ScienceWorkTypeReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ScienceWorkType>("OnlinePriem2012Model.FK_PersonScienceWork_ScienceWorkType", "ScienceWorkType");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ScienceWorkType>("OnlinePriem2012Model.FK_PersonScienceWork_ScienceWorkType", "ScienceWorkType", value);
-                }
-            }
-        }
 
         #endregion
 
@@ -23920,136 +23857,6 @@ namespace OnlineAbit2013
         private Nullable<global::System.Int32> _OrderNumber;
         partial void OnOrderNumberChanging(Nullable<global::System.Int32> value);
         partial void OnOrderNumberChanged();
-
-        #endregion
-
-    }
-    
-    /// <summary>
-    /// Нет доступной документации по метаданным.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="OnlinePriem2012Model", Name="ScienceWorkType")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class ScienceWorkType : EntityObject
-    {
-        #region Фабричный метод
-    
-        /// <summary>
-        /// Создание нового объекта ScienceWorkType.
-        /// </summary>
-        /// <param name="id">Исходное значение свойства Id.</param>
-        public static ScienceWorkType CreateScienceWorkType(global::System.Int32 id)
-        {
-            ScienceWorkType scienceWorkType = new ScienceWorkType();
-            scienceWorkType.Id = id;
-            return scienceWorkType;
-        }
-
-        #endregion
-
-        #region Простые свойства
-    
-        /// <summary>
-        /// Нет доступной документации по метаданным.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, "Id");
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
-        /// <summary>
-        /// Нет доступной документации по метаданным.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-    
-        /// <summary>
-        /// Нет доступной документации по метаданным.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String NameEng
-        {
-            get
-            {
-                return _NameEng;
-            }
-            set
-            {
-                OnNameEngChanging(value);
-                ReportPropertyChanging("NameEng");
-                _NameEng = StructuralObject.SetValidValue(value, true, "NameEng");
-                ReportPropertyChanged("NameEng");
-                OnNameEngChanged();
-            }
-        }
-        private global::System.String _NameEng;
-        partial void OnNameEngChanging(global::System.String value);
-        partial void OnNameEngChanged();
-
-        #endregion
-
-        #region Свойства навигации
-    
-        /// <summary>
-        /// Нет доступной документации по метаданным.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("OnlinePriem2012Model", "FK_PersonScienceWork_ScienceWorkType", "PersonScienceWork")]
-        public EntityCollection<PersonScienceWork> PersonScienceWork
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PersonScienceWork>("OnlinePriem2012Model.FK_PersonScienceWork_ScienceWorkType", "PersonScienceWork");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PersonScienceWork>("OnlinePriem2012Model.FK_PersonScienceWork_ScienceWorkType", "PersonScienceWork", value);
-                }
-            }
-        }
 
         #endregion
 

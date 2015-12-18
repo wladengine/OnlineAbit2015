@@ -231,4 +231,10 @@
   <data name="validationMsgPersonWorksPlace" xml:space="preserve">
     <value>Введите место работы</value>
   </data>
+  <data name="ScWorksYear" xml:space="preserve">
+    <value>Год</value>
+  </data>
+  <data name="OlympiadsYear" xml:space="preserve">
+    <value>Год</value>
+  </data>
 </root>

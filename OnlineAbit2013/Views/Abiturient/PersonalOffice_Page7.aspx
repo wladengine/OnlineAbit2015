@@ -118,6 +118,39 @@
                         <span id="AddInfo_ContactPerson_Message" class="Red" style="display:none"> 
                         </span>
                     </div>
+                    <%if  (Model.AddInfo.VisibleParentBlock) { %>
+                    <div> 
+                       <h4><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Title").ToString()%></h4>
+                       <div> 
+                           <label for="Parent_Surname"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Surname") %></label>
+                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Surname) %>
+                       </div>
+                       <div> 
+                           <label for="Parent_Name"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Name") %></label>
+                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Name) %>
+                       </div>
+                        <div> 
+                           <label for="Parent_SecondName"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_SecondName") %></label>
+                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_SecondName) %>
+                       </div>
+                       <div> 
+                           <label for="Parent_Phone"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Phone") %></label>
+                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Phone) %>
+                       </div>
+                       <div> 
+                           <label for="Parent_Email"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Email") %></label>
+                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Email) %>
+                       </div>
+                       <div> 
+                           <label for="Parent_Work"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Work") %></label>
+                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Work) %>
+                       </div>
+                       <div> 
+                           <label for="Parent_WorkPosition"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_WorkPosition") %></label>
+                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_WorkPosition) %>
+                       </div>
+                    </div>
+                    <%} %>
                     <div class="clearfix">
                         <h4><%= GetGlobalResourceObject("PersonalOffice_Step6", "ExtraInfo").ToString()%></h4>
                         <!-- <textarea id="AddPerson_ExtraInfo" name="AddPerson.ExtraInfo" cols="40" rows="4" class="ui-widget-content ui-corner-all"></textarea> -->

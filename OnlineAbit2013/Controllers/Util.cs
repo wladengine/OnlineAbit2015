@@ -2162,6 +2162,7 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                  List<ExamsBlock> examsblock
                      = (from exams in Exams
                         group exams by exams.BlockId into ex
+                        where ex.Count() >1
                         select new ExamsBlock
                         {
                             Id = ex.Key,

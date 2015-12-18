@@ -54,6 +54,13 @@
             });
         });
         function UpdScWorks() {
+            if ($('#ScWorkYear').val() == '') {
+                $('#ScWorkYear').addClass('input-validation-error'); 
+                return false;
+            }
+            else {
+                $('#ScWorkYear').removeClass('input-validation-error'); 
+            }
             if ($('#ScWorkInfo').val() == '') {
                 $('#ScWorkInfo').addClass('input-validation-error');
                 $('#ScWorkInfo_Message').show();
@@ -66,12 +73,14 @@
             var params = new Object();
             params['ScWorkInfo'] = $('#ScWorkInfo').val();
             params['ScWorkType'] = $('#WorkInfo_ScWorkId').val();
+            params['ScWorkYear'] = $('#ScWorkYear').val();
             $.post('Abiturient/UpdateScienceWorks', params, function (res) {
                 if (res.IsOk) {
                     $('#ScWorks').show();
                     var output = '';
                     output += '<tr id=\'' + res.Data.Id + '\'><td>';
                     output += res.Data.Type + '</td>';
+                    output += '<td>'+res.Data.Year + '</td>';
                     output += '<td>' + res.Data.Info + '</td>';
                     output += '<td><span class="link" onclick="DeleteScWork(\'' + res.Data.Id + '\')" ><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить оценку" /><span></td>';
                     output += '</tr>';
@@ -177,6 +186,7 @@
                 changeYear: true,
                 showOn: "focus"
             });
+            $('#OlympYear').change(function () { setTimeout(UpdateAfterOlympYear); });
             $('#OlympType').change(function () { setTimeout(UpdateAfterOlympType); });
             $('#OlympName').change(function () { setTimeout(UpdateAfterOlympName); });
             $('#OlympSubject').change(function () { setTimeout(UpdateAfterOlympSubject); });
@@ -184,12 +194,31 @@
         });
 
         $.datepicker.regional["ru"];
+        function UpdateAfterOlympYear() {
+            $('#btnAddOlympiad').hide();
+            $('#_OlympType').hide();
+            $('#_OlympSubject').hide();
+            $('#_OlympValue').hide();
+            var param = new Object();
+            param['OlympYear'] = $('#OlympYear').val();
+            $.post('Abiturient/GetOlympTypeList', param, function (json_data) {
+                if (json_data.IsOk) {
+                    var output = '';
+                    for (var i = 0; i < json_data.List.length; i++) {
+                        output += '<option value="' + json_data.List[i].Id + '">' + json_data.List[i].Name + '</option>';
+                    }
+                    $('#OlympType').html(output);
+                    $('#_OlympType').show();
+                }
+            }, 'json');
+        }
         function UpdateAfterOlympType() {
             $('#btnAddOlympiad').hide();
             $('#_OlympSubject').hide();
             $('#_OlympValue').hide();
             var param = new Object();
             param['OlympTypeId'] = $('#OlympType').val();
+            param['OlympYear'] = $('#OlympYear').val();
             $.post('Abiturient/GetOlympNameList', param, function (json_data) {
                 if (json_data.IsOk) {
                     var output = '';
@@ -207,6 +236,7 @@
             var param = new Object();
             param['OlympTypeId'] = $('#OlympType').val();
             param['OlympNameId'] = $('#OlympName').val();
+            param['OlympYear'] = $('#OlympYear').val();
             $.post('Abiturient/GetOlympSubjectList', param, function (json_data) {
                 if (json_data.IsOk) {
                     var output = '';
@@ -271,6 +301,7 @@
             if (!ret)
                 return false;
             var param = new Object();
+            param['OlympYear'] = $('#OlympYear').val();
             param['OlympTypeId'] = $('#OlympType').val();
             param['OlympNameId'] = $('#OlympName').val();
             param['OlympSubjectId'] = $('#OlympSubject').val();
@@ -282,8 +313,9 @@
                 if (res.IsOk) {
                     $('#OlympBlock').show();
                     var output = '';
-                    output += '<tr id=\'' + res.Id + '\'><td style="vertical-align: middle;">';
-                    output += res.Type + '</td>';
+                    output += '<tr id=\'' + res.Id + '\'>';
+                    output += '<td style="vertical-align: middle;">' + res.Year + '</td>';
+                    output += '<td style="vertical-align: middle;">'+res.Type + '</td>';
                     output += '<td style="vertical-align: middle;">' + res.Name + '</td>';
                     output += '<td style="vertical-align: middle;">' + res.Subject + '</td>';
                     output += '<td style="vertical-align: middle;">' + res.Value + '</td>';
@@ -345,6 +377,9 @@
                     <div class="clearfix">
                         <%= Html.DropDownListFor(x => x.WorkInfo.ScWorkId, Model.WorkInfo.ScWorks)%>
                     </div>
+                    <div class="clearfix">Год <br />
+                        <input id="ScWorkYear" />
+                    </div>
                     <div class="clearfix">
                         <textarea class="noresize" id="ScWorkInfo" rows="5" cols="80"></textarea>
                     </div>
@@ -363,6 +398,7 @@
                         <thead>
                             <tr>
                                 <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "ScWorksType").ToString()%></th>
+                                <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "ScWorksYear").ToString()%></th>
                                 <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "ScWorksText").ToString()%></th>
                                 <th><%= GetGlobalResourceObject("PersonalOffice_Step5", "btnDelete").ToString()%></th>
                             </tr>
@@ -374,6 +410,7 @@
                             <tr>
                             <%= Html.Raw(string.Format(@"<tr id=""{0}"">", scWork.Id)) %>
                                 <td ><%= Html.Encode(scWork.ScienceWorkType) %></td>
+                                <td ><%= Html.Encode(scWork.ScienceWorkYear) %></td>
                                 <td><%= Html.Encode(scWork.ScienceWorkInfo) %></td>
                                 <td><%= Html.Raw("<span class=\"link\" onclick=\"DeleteScWork('" + scWork.Id.ToString() + "')\" ><img src=\"../../Content/themes/base/images/delete-icon.png\" alt=\"Удалить\" /></span>") %></td>
                             </tr>
@@ -446,20 +483,19 @@
                 <div class="form panel">
                 <h3><%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsHeader").ToString()%></h3>
                     <div class="clearfix">
-                        <%= Html.DropDownList("OlympType", Model.PrivelegeInfo.OlympTypeList, 
-                        new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "4"} }) %>
+                        <%= Html.DropDownList("OlympYear", Model.PrivelegeInfo.OlympYearList,  new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "4"} }) %>
+                    </div>
+                    <div class="clearfix" id="_OlympType" style="display:none">
+                        <select id ="OlympType" style="width:460px;" size="6"></select>
                     </div>
                     <div class="clearfix" id="_OlympName" style="display:none">
-                        <%= Html.DropDownList("OlympName", Model.PrivelegeInfo.OlympNameList, 
-                        new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "6"} }) %>
+                        <select id ="OlympName" style="width:460px;" size="6"></select>
                     </div>
                     <div class="clearfix" id="_OlympSubject" style="display:none">
-                        <%= Html.DropDownList("OlympSubject", Model.PrivelegeInfo.OlympSubjectList, 
-                        new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "6"} }) %>
+                        <select id ="OlympSubject" style="width:460px;" size="6"></select>
                     </div>
                     <div class="clearfix" id="_OlympValue" style="display:none">
-                        <%= Html.DropDownList("OlympValue", Model.PrivelegeInfo.OlympValueList,
-                        new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "4"} }) %>
+                        <%= Html.DropDownList("OlympValue", Model.PrivelegeInfo.OlympValueList, new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "4"} }) %>
                     </div>
                     <div>
                         <h4><%= GetGlobalResourceObject("PersonalOffice_Step5", "DocumentHeader").ToString()%></h4>
@@ -495,6 +531,7 @@
                             <table id="tblOlympiads" class="paginate" style="width:100%; text-align: center; vertical-align:middle; ">
                                 <thead>
                                     <tr>
+                                        <th style="text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsYear").ToString()%></th>
                                         <th style="text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsType").ToString()%></th>
                                         <th style="text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsName").ToString()%></th>
                                         <th style="text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "OlympiadsSubject").ToString()%></th>
@@ -508,6 +545,7 @@
                                     {
                                 %>
                                     <tr id='<%= olympiad.Id.ToString("N") %>'>
+                                        <td style="vertical-align: middle;"><%= Html.Encode(olympiad.OlympYear) %></td>
                                         <td style="vertical-align: middle;"><%= Html.Encode(olympiad.OlympType) %></td>
                                         <td style="vertical-align: middle;"><%= Html.Encode(olympiad.OlympName) %></td>
                                         <td style="vertical-align: middle;"><%= Html.Encode(olympiad.OlympSubject) %></td>

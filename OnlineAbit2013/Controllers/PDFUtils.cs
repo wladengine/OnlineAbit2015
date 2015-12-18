@@ -271,7 +271,7 @@ namespace OnlineAbit2013.Controllers
                                   x.PersonAddInfo.HasTRKI,
                                   x.PersonAddInfo.TRKICertificateNumber,
                               }).FirstOrDefault();
-
+               
                 var personEducationList =
                    (from x in context.PersonEducationDocument
                     join hx in context.PersonHighEducationInfo on x.Id equals hx.EducationDocumentId into gj
@@ -3073,7 +3073,9 @@ namespace OnlineAbit2013.Controllers
                      }).OrderBy(x => x.Priority).ToList();
 
                 Guid PersonId = abitList.FirstOrDefault().PersonId;
-
+                var PersonAddInfo = (from p in context.PersonAddInfo
+                                     where p.PersonId == PersonId
+                                     select p).First();
                 var person =
                     context.Person.Where(x => x.Id == PersonId).Select(x => new
                     {
@@ -3096,6 +3098,7 @@ namespace OnlineAbit2013.Controllers
                         x.PersonContacts.Mobiles,
                         x.PersonContacts.Country.IsRussia,
                         Country = x.PersonContacts.Country.Name,
+                        HasSportQualification = x.PersonSportQualification.SportQualificationId  != 0,
                         SportTypeName = x.PersonSportQualification.SportQualification1.Name,
                         SportTypeOtherName = x.PersonSportQualification.OtherSportQualification,
                         SportInfo = x.PersonSportQualification.SportQualificationLevel,
@@ -3104,16 +3107,22 @@ namespace OnlineAbit2013.Controllers
 
                 var Olympiads =
                     (from Ol in context.Olympiads
-                    where Ol.PersonId == PersonId
-                    select new
-                    {
+                     
+                     join olb in context.OlympBook on new { Ol.OlympYear, Ol.OlympTypeId, Ol.OlympSubjectId, Ol.OlympNameId } equals new { olb.OlympYear, olb.OlympTypeId, olb.OlympSubjectId, olb.OlympNameId} into _olb
+                     from olbook in _olb.DefaultIfEmpty()
+
+                     where Ol.PersonId == PersonId
+                     select new
+                     {
                         Ol.DocumentSeries,
                         Ol.DocumentNumber,
                         Ol.DocumentDate,
+                        Ol.OlympYear,
                         OlympName = Ol.OlympName.Name,
                         OlympSubject = Ol.OlympSubject.Name,
                         OlympValue = Ol.OlympValue.Name,
-                    }).ToList();
+                        OlympLevel = (olbook == null) ? "" : (olbook.OlympLevelId == 4 ? "" : olbook.OlympLevel.Name),
+                     }).ToList();
                 var personEduc = (from p in context.PersonEducationDocument
                                   join excl in context.SchoolExitClass on p.SchoolExitClassId equals excl.Id
                                   where p.PersonId == PersonId
@@ -3125,7 +3134,16 @@ namespace OnlineAbit2013.Controllers
                                       RegionName = p.Region.Name,
                                       p.SchoolCity, 
                                   }).OrderByDescending(x=>x.ExitClass).First();
-                                      
+
+                var ScienceInfo = (from p in context.PersonScienceWork
+                                   where p.PersonId == PersonId && (p.WorkTypeId == 2 || p.WorkTypeId == 7)
+                                   select new
+                                   {
+                                       TypeName = p.ScienceWorkType.Name,
+                                       WorkYear = p.WorkYear,
+                                       WorkInfo = p.WorkInfo,
+                                   }).ToList();
+   
                 MemoryStream ms = new MemoryStream();
                 string dotName = "ApplicationAG_2015.pdf";
                 byte[] templateBytes;
@@ -3225,6 +3243,8 @@ namespace OnlineAbit2013.Controllers
                     inc++;
                     acrFlds.SetField("Specialization" + inc.ToString(), abit.ObrazProgram);
                     acrFlds.SetField("Profile" + inc.ToString(), abit.Profession);
+                    if (inc == 2)
+                        break;
                 }
                 string Year = person.BirthDate.Value.Year.ToString();
                 string Month = person.BirthDate.Value.Month.ToString();
@@ -3244,7 +3264,7 @@ namespace OnlineAbit2013.Controllers
                     person.Korpus == string.Empty ? "" : "корп. " + person.Korpus,
                     person.Flat == string.Empty ? "" : "кв. " + person.Flat);
 
-                string[] splitStr = GetSplittedStrings(Address, 50, 70, 3);
+                string[] splitStr = GetSplittedStrings(Address, 50, 50, 2);
                 for (int i = 1; i <= 2; i++)
                     acrFlds.SetField("Address" + i, splitStr[i - 1]);
                 
@@ -3257,21 +3277,21 @@ namespace OnlineAbit2013.Controllers
                 for (int i = 0; i < Mobile.Length; i++)
                     acrFlds.SetField("Mobile" + (i + 1).ToString(), Mobile[i].ToString());
 
-                acrFlds.SetField("ParentSurname", "");
-                acrFlds.SetField("ParentName", "");
-                acrFlds.SetField("ParentSecondName", "");
-                acrFlds.SetField("ParentPhone", "");
-                acrFlds.SetField("ParentEmail", "");
-                acrFlds.SetField("ParentWork", "");
-                acrFlds.SetField("ParentPost", "");
+                acrFlds.SetField("ParentSurname", PersonAddInfo.Parent_Surname);
+                acrFlds.SetField("ParentName", PersonAddInfo.Parent_Name);
+                acrFlds.SetField("ParentSecondName", PersonAddInfo.Parent_SecondName);
+                acrFlds.SetField("ParentPhone", PersonAddInfo.Parent_Phone);
+                acrFlds.SetField("ParentEmail", PersonAddInfo.Parent_Email);
+                acrFlds.SetField("ParentWork", PersonAddInfo.Parent_Work);
+                acrFlds.SetField("ParentPost", PersonAddInfo.Parent_WorkPosition);
 
                 string SchName = string.Format(personEduc.SchoolName + " " + personEduc.SchoolNum);
-                splitStr = GetSplittedStrings(SchName, 60, 60, 2);
+                splitStr = GetSplittedStrings(SchName, 50, 50, 2);
                 for (int i = 1; i <= 2; i++)
                     acrFlds.SetField("SchoolNum" + i, splitStr[i - 1]);
 
                 string SchAddress = string.Format(personEduc.RegionName + " " + personEduc.SchoolCity);
-                splitStr = GetSplittedStrings(SchAddress, 60, 60, 2);
+                splitStr = GetSplittedStrings(SchAddress, 50, 50, 2);
                 for (int i = 1; i <= 2; i++)
                     acrFlds.SetField("SchoolAddress" + i, splitStr[i - 1]);
 
@@ -3281,27 +3301,30 @@ namespace OnlineAbit2013.Controllers
                 for (int i = 0; (i < 4)&&(i<Olympiads.Count()); i++)
                 {
                     acrFlds.SetField("OlympSubject"+(i+1).ToString(), Olympiads[i].OlympSubject.ToString());
-                    acrFlds.SetField("OlympYear" + (i + 1).ToString(), Olympiads[i].DocumentDate.HasValue ? Olympiads[i].DocumentDate.Value.Year.ToString(): "");
+                    acrFlds.SetField("OlympYear" + (i + 1).ToString(), Olympiads[i].OlympYear > 0 ? Olympiads[i].OlympYear.ToString(): "");
                     acrFlds.SetField("OlympName" + (i + 1).ToString(), Olympiads[i].OlympName);
                     acrFlds.SetField("OlympStep" + (i + 1).ToString(), "");
-                    acrFlds.SetField("OlympLevel" + (i + 1).ToString(), "");
-                    acrFlds.SetField("OlympDiploma" + (i + 1).ToString(), Olympiads[i].OlympValue);
+                    acrFlds.SetField("OlympLevel" + (i + 1).ToString(), Olympiads[i].OlympLevel);
+                    string DiplomNumber = Olympiads[i].DocumentSeries + " " + Olympiads[i].DocumentNumber + " от " + Olympiads[i].DocumentDate.Value.ToShortDateString();
+                    acrFlds.SetField("OlympDiploma" + (i + 1).ToString(), Olympiads[i].OlympValue );
                 }
-                for (int i = 0; i < 4; i++)
+
+                for (int i = 0; (i < 4) && (i < ScienceInfo.Count); i++)
                 {
-                    acrFlds.SetField("ConferenceName" + (i + 1).ToString(), "");
-                    acrFlds.SetField("ConferenceYear" + (i + 1).ToString(), "");
-                    acrFlds.SetField("ConferenceName2" + (i + 1).ToString(), "");
+                    acrFlds.SetField("ConferenceName" + (i + 1).ToString(), ScienceInfo[i].TypeName);
+                    acrFlds.SetField("ConferenceYear" + (i + 1).ToString(), ScienceInfo[i].WorkYear);
+                    acrFlds.SetField("ConferenceName2" + (i + 1).ToString(), ScienceInfo[i].WorkInfo);
                 }
                 for (int i = 0; i < 3; i++)
                 {
                     acrFlds.SetField("Add" + (i + 1).ToString(), "");
                 }
-                for (int i = 0; i < 1; i++)
-                {
-                    acrFlds.SetField("SportType" + (i + 1).ToString(), !String.IsNullOrEmpty(person.SportTypeName) ? person.SportTypeName : person.SportTypeOtherName);
-                    acrFlds.SetField("SportInfo" + (i + 1).ToString(), person.SportInfo);
-                }
+                if (person.HasSportQualification)
+                    for (int i = 0; i < 1; i++)
+                    {
+                        acrFlds.SetField("SportType" + (i + 1).ToString(), !String.IsNullOrEmpty(person.SportTypeName) ? person.SportTypeName : person.SportTypeOtherName);
+                        acrFlds.SetField("SportInfo" + (i + 1).ToString(), person.SportInfo);
+                    }
 
                 pdfStm.FormFlattening = true;
                 pdfStm.Close();
