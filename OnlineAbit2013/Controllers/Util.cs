@@ -1789,7 +1789,13 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
 
         public static List<SelectListItem> GetSemesterList()
         {
-            string query = "SELECT DISTINCT Semester.Id as Id, Semester.Name as Name FROM Semester INNER JOIN Entry ON Entry.SemesterId = Semester.Id WHERE Semester.Id > 1";
+            string query = @"
+SELECT DISTINCT Semester.Id as Id, 
+Semester.Name as Name 
+FROM Semester 
+INNER JOIN Entry ON Entry.SemesterId = Semester.Id 
+WHERE Semester.Id > 1
+ORDER by Semester.Id";
             /*if (bIsIGA)
                 query += " AND Semester.IsIGA=1 ";
             else
