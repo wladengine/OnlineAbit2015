@@ -680,6 +680,7 @@ namespace OnlineAbit2013.Models
         public List<SimpleApplication> Apps { get; set; }
         public List<string> lstApps { get; set; }
         public int StudyLevelGroupId { get; set; }
+        public int VuzAdditionalType { get; set; }
     }
 
     public enum EmailConfirmationStatus

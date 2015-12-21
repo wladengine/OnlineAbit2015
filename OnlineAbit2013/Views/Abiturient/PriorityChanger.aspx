@@ -72,7 +72,7 @@
     }
 </script>
 <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
-<% if (Model.StudyLevelGroupId == 2) { %>
+<% if (Model.StudyLevelGroupId == 2 && Model.VuzAdditionalType == 1) { %>
     <div class="message info">
         <b>Памятка  поступающим на программы магистратуры</b>
         <br /><br />

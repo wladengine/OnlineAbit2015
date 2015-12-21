@@ -179,6 +179,58 @@ namespace OnlineAbit2013.Controllers
             return Json(new { NoFree = OPs.Count() > 0 ? false : true, List = OPs });
         }
         [OutputCache(NoStore = true, Duration = 0)]
+        public ActionResult GetObrazProgramsAll(string prof, string studyform, string studybasis, string entry, string isParallel = "0", string isReduced = "0", string semesterId = "1")
+        {
+            Guid PersonId;
+            Util.CheckAuthCookies(Request.Cookies, out PersonId);
+
+            int iEntryId = 1;
+            if (!int.TryParse(entry, out iEntryId))
+                iEntryId = 1;
+
+            int iStudyLevelId = 0;
+            if (iEntryId == 8 || iEntryId == 10)
+            {
+                iStudyLevelId = iEntryId;
+                iEntryId = 3;
+            }
+            if (iEntryId == 1001 || iEntryId == 1002)
+            {
+                iStudyLevelId = iEntryId;
+                iEntryId = 6;
+            }
+            if (iEntryId == 1003)
+            {
+                iStudyLevelId = iEntryId;
+                iEntryId = 7;
+            }
+
+            int iProfessionId = 1;
+            if (!int.TryParse(prof, out iProfessionId))
+                iProfessionId = 1;
+
+            string query = "SELECT DISTINCT OP.Id, OP.Name, OP.NameEng FROM SP_ObrazProgram OP " +
+                " INNER JOIN SP_LicenseProgram LP ON OP.LicenseProgramId = LP.Id " +
+                " WHERE OP.LicenseProgramId=@LicenseProgramId AND LP.StudyLevelId=@StudyLevelId ";
+            SortedList<string, object> dic = new SortedList<string, object>();
+            dic.Add("@LicenseProgramId", iProfessionId);
+            dic.Add("@StudyLevelId", iEntryId);
+
+            bool isEng = Util.GetCurrentThreadLanguageIsEng();
+
+            DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
+            var OPs = from DataRow rw in tbl.Rows
+                      select new
+                      {
+                          Id = rw.Field<int>("Id"),
+                          Name = isEng ?
+                            (string.IsNullOrEmpty(rw.Field<string>("NameEng")) ? rw.Field<string>("Name") : rw.Field<string>("NameEng"))
+                            : rw.Field<string>("Name")
+                      };
+
+            return Json(new { NoFree = OPs.Count() > 0 ? false : true, List = OPs });
+        }
+        [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult GetSpecializations(string prof, string obrazprogram, string studyform, string studybasis, string entry, string isParallel = "0", string isReduced = "0", string semesterId = "1")
         {
             Guid PersonId;

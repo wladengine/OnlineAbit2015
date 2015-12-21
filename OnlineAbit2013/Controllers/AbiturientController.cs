@@ -403,10 +403,19 @@ namespace OnlineAbit2013.Controllers
                         model.CurrentEducation.EducationTypeList = Util.SchoolTypesAll
                                 .Select(x => new SelectListItem() { Value = x.Key.ToString(), Text = x.Value })
                                 .ToList();
-                        model.CurrentEducation.SemesterList = Util.GetSemesterList();
+
+                        query = "SELECT Id, Name FROM Semester WHERE IsIGA = 0";
+                        DataTable _tblT = Util.AbitDB.GetDataTable(query, null);
+                        model.CurrentEducation.SemesterList =
+                            (from DataRow rw in _tblT.Rows
+                             select new SelectListItem()
+                             {
+                                 Value = rw.Field<int>("Id").ToString(),
+                                 Text = rw.Field<string>("Name")
+                             }).ToList();
 
                         query = "SELECT Id, Name FROM SP_StudyLevel";
-                        DataTable _tblT = Util.AbitDB.GetDataTable(query, null);
+                        _tblT = Util.AbitDB.GetDataTable(query, null);
                         model.CurrentEducation.StudyLevelList =
                             (from DataRow rw in _tblT.Rows
                              select new SelectListItem()
@@ -3370,6 +3379,8 @@ namespace OnlineAbit2013.Controllers
                                     (sectype == null ? "" : (bisEng ? sectype.NameEng : sectype.Name))
                      }).ToList();
 
+                int iVuzAddType = context.PersonEducationDocument.Where(x => x.PersonId == PersonId).Select(x => x.VuzAdditionalTypeId ?? 1).ToList().DefaultIfEmpty(1).Max();
+
                 MotivateMailModel mdl = new MotivateMailModel()
                 {
                     CommitId = gComm.ToString(),
@@ -3377,7 +3388,8 @@ namespace OnlineAbit2013.Controllers
                     Apps = apps,
                     UILanguage = Util.GetUILang(PersonId),
                     VersionId = VersionId.ToString("N"),
-                    StudyLevelGroupId = apps.Select(x => x.StudyLevelGroupId).First()
+                    StudyLevelGroupId = apps.Select(x => x.StudyLevelGroupId).First(),
+                    VuzAdditionalType = iVuzAddType
                 };
                 return View(mdl);
             }
@@ -4518,6 +4530,83 @@ SELECT [User].Email
         }
 
         [OutputCache(NoStore = true, Duration = 0)]
+        public ActionResult GetProfsAll(string studyform, string studybasis, string entry, string isSecond = "0", string isParallel = "0",
+            string isReduced = "0", string semesterId = "1")
+        {
+            Guid PersonId;
+            Util.CheckAuthCookies(Request.Cookies, out PersonId);
+
+            int iStudyFormId;
+            int iStudyBasisId;
+            int iEntryId = 1;
+            int iSemesterId;
+            if (!int.TryParse(studyform, out iStudyFormId))
+                iStudyFormId = 1;
+            if (!int.TryParse(studybasis, out iStudyBasisId))
+                iStudyBasisId = 1;
+            if (!int.TryParse(entry, out iEntryId))
+                iEntryId = 1;
+
+            if (iEntryId == 8 || iEntryId == 10)
+            {
+                iEntryId = 3;
+            }
+            if (iEntryId == 16)
+            {
+                iEntryId = 1;
+            }
+            if (iEntryId == 18)
+            {
+                iEntryId = 1;
+            }
+            if (iEntryId == 17)
+            {
+                iEntryId = 2;
+            }
+            if (iEntryId == 15)
+            {
+                iEntryId = 4;
+            }
+            if (iEntryId == 1001)
+            {
+                iEntryId = 6;
+            }
+            if (iEntryId == 1002)
+            {
+                iEntryId = 6;
+            }
+            if (iEntryId == 1003)
+            {
+                iEntryId = 7;
+            }
+            if (!int.TryParse(semesterId, out iSemesterId))
+                iSemesterId = 1;
+
+            string query = "SELECT DISTINCT LP.Id, LP.Code, LP.Name, LP.NameEng FROM SP_LicenseProgram LP INNER JOIN SP_StudyLevel SL ON LP.StudyLevelId = SL.Id WHERE StudyLevelGroupId=@StudyLevelGroupId ";
+
+            SortedList<string, object> dic = new SortedList<string, object>();
+            dic.Add("@StudyLevelGroupId", iEntryId);//2 == mag, 1 == 1kurs, 3 - SPO, 4 - аспирант
+            bool isEng = Util.GetCurrentThreadLanguageIsEng();
+
+            DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
+            var profs =
+                (from DataRow rw in tbl.Rows
+                 select new
+                 {
+                     Id = rw.Field<int>("Id"),
+                     Name = (String.IsNullOrEmpty(rw.Field<string>("Code")) ? "" : "(" + rw.Field<string>("Code") + ") ") +
+                        (isEng ? (string.IsNullOrEmpty(rw.Field<string>("NameEng")) ? rw.Field<string>("Name") : rw.Field<string>("NameEng")) : rw.Field<string>("Name"))
+                 }).OrderBy(x => x.Name);
+
+            if (profs.Count() == 0)
+            {
+                return Json(new { NoFree = true });
+            }
+
+            return Json(profs);
+        }
+
+        [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult GetProfs(string studyform, string studybasis, string entry, string isSecond = "0", string isParallel = "0", 
             string isReduced = "0", string semesterId = "1")
         {
@@ -4706,6 +4795,8 @@ SELECT [User].Email
 
             return Json(new { NoFree = OPs.Count() > 0 ? false : true, List = OPs });
         }
+
+        
 
         [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult GetSpecializations(string prof, string obrazprogram, string studyform, string studybasis, string entry, string CommitId, string isParallel = "0", string isReduced = "0", string semesterId = "1")

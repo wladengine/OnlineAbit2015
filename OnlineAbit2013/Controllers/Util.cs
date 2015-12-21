@@ -1795,6 +1795,7 @@ Semester.Name as Name
 FROM Semester 
 INNER JOIN Entry ON Entry.SemesterId = Semester.Id 
 WHERE Semester.Id > 1
+AND Entry.IsUsedForPriem = 1
 ORDER by Semester.Id";
             /*if (bIsIGA)
                 query += " AND Semester.IsIGA=1 ";

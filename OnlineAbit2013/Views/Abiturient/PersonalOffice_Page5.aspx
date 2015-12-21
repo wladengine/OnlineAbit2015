@@ -138,7 +138,7 @@
             $('#CurrentEducation_ObrazProgramId').removeClass('input-validation-error');
             $('#CurrentEducation_ObrazProgramId_Message').hide();
 
-            $.post('/Abiturient/GetProfs', {
+            $.post('/Abiturient/GetProfsAll', {
                 studyform: sfId, studybasis: $('#CurrentEducation_StudyBasisId').val(),
                 entry: CurLevelId,
                 semesterId: curSemester
@@ -174,7 +174,7 @@
             $('#_ObrazProg').show();
             var CurLevelId = $('#CurrentEducation_StudyLevelId').val();
             var curSemester = $('#CurrentEducation_SemesterId').val();
-            $.post('/Transfer/GetObrazPrograms', {
+            $.post('/Transfer/GetObrazProgramsAll', {
                 prof: profId, studyform: sfId, studybasis: $('#CurrentEducation_StudyBasisId').val(),
                 entry: CurLevelId, semesterId: curSemester
             }, function (json_data) {
