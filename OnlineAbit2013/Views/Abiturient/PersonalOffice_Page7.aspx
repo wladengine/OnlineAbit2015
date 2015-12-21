@@ -112,8 +112,7 @@
                     <div class="clearfix">
                         <h4><%= GetGlobalResourceObject("PersonalOffice_Step6", "ContactPerson").ToString()%></h4>
                         <span><%= GetGlobalResourceObject("PersonalOffice_Step6", "ContactPerson_SubHeader").ToString()%></span><br />
-                        <!-- <textarea id="AddPerson_ContactPerson" name="AddPerson.ContactPerson" cols="40" rows="4" class="ui-widget-content ui-corner-all"></textarea> -->
-                        <%= Html.TextAreaFor(x => x.AddInfo.ContactPerson, 5, 85, new SortedList<string, object>() { { "class", "noresize" } }) %>
+                        <%= Html.TextAreaFor(x => x.AddInfo.ContactPerson, 5, 85, new SortedList<string, object>() { { "class", "noresize" }, {"style", "width: 437px"} }) %>
                         <br /><p></p>
                         <span id="AddInfo_ContactPerson_Message" class="Red" style="display:none"> 
                         </span>
@@ -153,8 +152,7 @@
                     <%} %>
                     <div class="clearfix">
                         <h4><%= GetGlobalResourceObject("PersonalOffice_Step6", "ExtraInfo").ToString()%></h4>
-                        <!-- <textarea id="AddPerson_ExtraInfo" name="AddPerson.ExtraInfo" cols="40" rows="4" class="ui-widget-content ui-corner-all"></textarea> -->
-                        <%= Html.TextAreaFor(x => x.AddInfo.ExtraInfo, 5, 85, new SortedList<string, object>() { { "class", "noresize" } })%>
+                        <%= Html.TextAreaFor(x => x.AddInfo.ExtraInfo, 5, 85, new SortedList<string, object>() { { "class", "noresize" }, {"style", "width: 437px"} })%>
                         <br /><p></p>
                         <span id="AddInfo_ExtraInfo_Message" class="Red" style="display:none"> 
                         </span>

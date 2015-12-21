@@ -197,6 +197,7 @@
         function UpdateAfterOlympYear() {
             $('#btnAddOlympiad').hide();
             $('#_OlympType').hide();
+            $('#OlympType').html('');
             $('#_OlympSubject').hide();
             $('#_OlympValue').hide();
             var param = new Object();
@@ -216,6 +217,7 @@
             $('#btnAddOlympiad').hide();
             $('#_OlympSubject').hide();
             $('#_OlympValue').hide();
+            $('#OlympName').html('');
             var param = new Object();
             param['OlympTypeId'] = $('#OlympType').val();
             param['OlympYear'] = $('#OlympYear').val();
@@ -233,6 +235,7 @@
         function UpdateAfterOlympName() {
             $('#btnAddOlympiad').hide();
             $('#_OlympValue').hide();
+            $('#OlympSubject').html('');
             var param = new Object();
             param['OlympTypeId'] = $('#OlympType').val();
             param['OlympNameId'] = $('#OlympName').val();
@@ -375,9 +378,11 @@
                 <hr />
                 <asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step5, ResearchWorkMessage %>"></asp:Literal>
                     <div class="clearfix">
+                        <label><%= GetGlobalResourceObject("PersonalOffice_Step5", "WorkInfo").ToString()%></label>
                         <%= Html.DropDownListFor(x => x.WorkInfo.ScWorkId, Model.WorkInfo.ScWorks)%>
                     </div>
-                    <div class="clearfix">Год <br />
+                    <div class="clearfix">
+                        <label><%= GetGlobalResourceObject("PersonalOffice_Step5", "WorkYear").ToString()%> </label>
                         <input id="ScWorkYear" />
                     </div>
                     <div class="clearfix">

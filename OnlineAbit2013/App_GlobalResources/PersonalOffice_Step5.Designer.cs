@@ -404,5 +404,23 @@ namespace Resources {
                 return ResourceManager.GetString("WorkExperienceHeader", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, такую же, как Вид деятельности.
+        /// </summary>
+        internal static string WorkInfo {
+            get {
+                return ResourceManager.GetString("WorkInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, такую же, как Год деятельности.
+        /// </summary>
+        internal static string WorkYear {
+            get {
+                return ResourceManager.GetString("WorkYear", resourceCulture);
+            }
+        }
     }
 }

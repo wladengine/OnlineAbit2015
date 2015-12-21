@@ -237,4 +237,10 @@
   <data name="OlympiadsYear" xml:space="preserve">
     <value>Год</value>
   </data>
+  <data name="WorkInfo" xml:space="preserve">
+    <value>Вид деятельности</value>
+  </data>
+  <data name="WorkYear" xml:space="preserve">
+    <value>Год деятельности</value>
+  </data>
 </root>
