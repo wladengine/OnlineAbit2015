@@ -13,8 +13,12 @@ namespace OnlineAbit2013.Controllers
         {
             _abitDB = new SQLClass();
             _abitDB.OpenDatabase(ConstClass.AbitDB);
-            _studDB = new SQLClass();
-            _studDB.OpenDatabase(ConstClass.StudDB);
+            try
+            {
+                _studDB = new SQLClass();
+                _studDB.OpenDatabase(ConstClass.StudDB);
+            }
+            catch { }
         }
     }
 }

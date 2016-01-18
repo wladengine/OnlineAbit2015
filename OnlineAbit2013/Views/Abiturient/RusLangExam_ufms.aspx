@@ -6,7 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-<% if (Model.Enable)
+<%--<% if (Model.Enable)
    { %>
 
 <h2>Поиск сертификата по номеру</h2>
@@ -84,9 +84,16 @@
 
 <% }
    else
-   { %>
-   Пользователь не определен. Для доступа к функциям перейдите по ссылке в виде "cabinet.spbu.ru/Abiturient/ufms?HiddenId=***", указанной в письме.
-   <%} %>
+   { %>--%>
+    <p>
+        Уважаемые пользователи!<br />
+        Для продолжения пользования сервисом, Вам необходимо связаться с Центром языкового тестирования СПбГУ. <br />
+        <br />
+        <b>(812) 325-11-24</b><br />
+        <b>testspb@mail.ru</b><br />
+    </p>
+   <%--Пользователь не определен. Для доступа к функциям перейдите по ссылке в виде "cabinet.spbu.ru/Abiturient/ufms?HiddenId=***", указанной в письме.--%>
+   <%--<%} %>--%>
 </asp:Content>
  
 <asp:Content ID="Content3" ContentPlaceHolderID="NavigationList" runat="server">
