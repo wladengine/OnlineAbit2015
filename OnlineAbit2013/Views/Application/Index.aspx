@@ -266,7 +266,7 @@
       { %> <p class="message info" style="font-size:12px;"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationMessage2")%></p> <%}
       else { %> <p class="message info" style="font-size:12px;"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationMessage1")%></p> <% }
       }%>
- <% if (Model.HasVersion)
+<% if (Model.HasVersion)
        {%>
        <p class="message info"><%= GetGlobalResourceObject("ApplicationInfo", "AppLastChanges")%> <% = Model.VersionDate %> </p>
     <% }
@@ -275,7 +275,11 @@
            if (!Model.IsPrinted) { %>
             <p class="message info"><%= GetGlobalResourceObject("ApplicationInfo", "AppNoLastChanges")%></p> 
             <%} 
- }%> 
+}%> 
+<% if (Model.HasNotSelectedExams)
+       {%>
+       <p class="message error"><b><%= GetGlobalResourceObject("ApplicationInfo", "AppHasNotSelectedExams")%></b></p>
+    <% } %>
 <% foreach (var Application in Model.Applications.OrderBy(x => x.Priority).ThenBy(x => x.ObrazProgram))
    { %>
 <table class="paginate" style="width: 679px;">

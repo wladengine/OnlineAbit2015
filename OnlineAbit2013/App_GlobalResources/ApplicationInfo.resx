@@ -308,4 +308,7 @@
   <data name="IsApprowedTitle" xml:space="preserve">
     <value>Решение комиссии</value>
   </data>
+  <data name="AppHasNotSelectedExams" xml:space="preserve">
+    <value>Не все экзамены по выбору указаны</value>
+  </data>
 </root>

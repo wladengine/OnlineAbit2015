@@ -649,6 +649,7 @@ namespace OnlineAbit2013.Models
         public Guid Id { get; set; }
         public string VersionDate { get; set; }
         public bool HasVersion { get; set; }
+        public bool HasNotSelectedExams { get; set; }
 
         public List<SimpleApplication> Applications { get; set; }
         public List<AppendedFile> Files { get; set; }

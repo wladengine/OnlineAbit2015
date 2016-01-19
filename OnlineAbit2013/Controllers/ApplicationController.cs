@@ -53,6 +53,7 @@ namespace OnlineAbit2013.Controllers
                                   (sectype == null ? "" : (isEng ? sectype.NameEng : sectype.Name)), 
                          AbiturientTypeId = App.SecondTypeId ?? 1,
                      }).ToList();
+                bool ExistNotSelectedExams = false;
                 foreach (SimpleApplication app in tblAppsMain)
                 {
                     var lst = Util.GetExamList(app.Id);
@@ -62,6 +63,10 @@ namespace OnlineAbit2013.Controllers
                         app.ManualExam = new List<string>();
                         foreach (var x in lst)
                             app.ManualExam.Add(x.ExamInBlockList.Where(e => e.Value.ToString() == x.SelectedExamInBlockId.ToString()).Select(e => e.Text.ToString()).FirstOrDefault());
+                        if (app.ManualExam.Where(x=>String.IsNullOrEmpty(x)).Count()>0)
+                        {
+                            ExistNotSelectedExams = true;
+                        }
                     }
                 }
                 
@@ -109,8 +114,10 @@ namespace OnlineAbit2013.Controllers
                     Enabled = true,
                     StudyLevelGroupId =(tblAppsMain.Count==0)?1:tblAppsMain.First().StudyLevelGroupId,
                     HasManualExams = tblAppsMain.Where(x=>x.HasManualExams).Count()>0,
+                    HasNotSelectedExams = ExistNotSelectedExams,
                     AbiturientTypeId = tblAppsMain.Count>0 ? tblAppsMain.Select(x => x.AbiturientTypeId).FirstOrDefault() : 1,
                 };
+
                 foreach (SimpleApplication s in tblAppsMain)
                 {
                     if (s.dateofClose != null)

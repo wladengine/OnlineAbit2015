@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, такую же, как Не все экзамены по выбору указаны.
+        /// </summary>
+        internal static string AppHasNotSelectedExams {
+            get {
+                return ResourceManager.GetString("AppHasNotSelectedExams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, такую же, как Для данного конкурса Вы должны указать приоритетность образовательных программ и профилей.
         /// </summary>
         internal static string AppInnerProirity {

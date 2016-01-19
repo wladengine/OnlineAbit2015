@@ -236,7 +236,7 @@
     <value>Name</value>
   </data>
   <data name="ExamsStage" xml:space="preserve">
-    <value>Состояние</value>
+    <value>Status</value>
   </data>
   <data name="HeaderEssay" xml:space="preserve">
     <value>Essay</value>
@@ -297,5 +297,8 @@
   </data>
   <data name="IsApprowedTitle" xml:space="preserve">
     <value>Decision</value>
+  </data>
+  <data name="AppHasNotSelectedExams" xml:space="preserve">
+    <value>Не все экзамены по выбору указаны</value>
   </data>
 </root>
