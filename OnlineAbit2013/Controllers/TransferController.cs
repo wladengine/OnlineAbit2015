@@ -188,6 +188,11 @@ namespace OnlineAbit2013.Controllers
             if (!int.TryParse(entry, out iEntryId))
                 iEntryId = 1;
 
+            int iStudyFormId;
+            int iSemesterId;
+            if (!int.TryParse(studyform, out iStudyFormId))
+                iStudyFormId = 1;
+
             int iStudyLevelId = 0;
             if (iEntryId == 8 || iEntryId == 10)
             {
@@ -208,13 +213,19 @@ namespace OnlineAbit2013.Controllers
             int iProfessionId = 1;
             if (!int.TryParse(prof, out iProfessionId))
                 iProfessionId = 1;
+            if (!int.TryParse(semesterId, out iSemesterId))
+                iSemesterId = 1;
 
-            string query = "SELECT DISTINCT OP.Id, OP.Name, OP.NameEng FROM SP_ObrazProgram OP " +
-                " INNER JOIN SP_LicenseProgram LP ON OP.LicenseProgramId = LP.Id " +
-                " WHERE OP.LicenseProgramId=@LicenseProgramId AND LP.StudyLevelId=@StudyLevelId ";
+            string query = @"SELECT DISTINCT OP.Id, OP.Name, OP.NameEng FROM SP_ObrazProgram OP
+INNER JOIN SP_StudyPlanHelp HLP ON HLP.ObrazProgramId = OP.Id
+INNER JOIN SP_LicenseProgram LP ON HLP.LicenseProgramId = LP.Id
+WHERE LP.Id=@LicenseProgramId AND LP.StudyLevelId=@StudyLevelId AND HLP.CampaignYear=@CampaignYear AND HLP.StudyFormId=@StudyFormId AND HLP.SemesterId=@SemesterId";
             SortedList<string, object> dic = new SortedList<string, object>();
             dic.Add("@LicenseProgramId", iProfessionId);
             dic.Add("@StudyLevelId", iEntryId);
+            dic.Add("@CampaignYear", Util.iPriemYear);
+            dic.Add("@StudyFormId", iStudyFormId);
+            dic.Add("@SemesterId", iSemesterId);
 
             bool isEng = Util.GetCurrentThreadLanguageIsEng();
 

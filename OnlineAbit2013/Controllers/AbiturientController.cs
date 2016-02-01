@@ -1958,28 +1958,29 @@ namespace OnlineAbit2013.Controllers
                     return RedirectToAction("Main", "Abiturient");
                 }
 
-                int? c = (int?)Util.AbitDB.GetValue("SELECT LicenseProgramId FROM PersonCurrentEducation WHERE PersonId=@PersonId ", new SortedList<string, object>() { { "@PersonId", PersonId } });
-                if (!c.HasValue)
+                var PersonCurrentEduc = context.PersonCurrentEducation.Where(x => x.PersonId == PersonId).FirstOrDefault();
+
+                if (PersonCurrentEduc == null)
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
-                c = (int?)Util.AbitDB.GetValue("SELECT ObrazProgramId FROM PersonCurrentEducation WHERE PersonId=@PersonId ", new SortedList<string, object>() { { "@PersonId", PersonId } });
-                if (!c.HasValue)
+                if (!PersonCurrentEduc.ObrazProgramId.HasValue)
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
+
+                int ActualSemesterId = Util.GetActualSemester(PersonCurrentEduc.SemesterId);
 
                 var EntryList =
                     (from Ent in context.Entry
                      join SPStudyLevel in context.SP_StudyLevel on Ent.StudyLevelId equals SPStudyLevel.Id
-                     join PersonCurrentEduc in context.PersonCurrentEducation on PersonId equals PersonCurrentEduc.PersonId
-                     join Semester in context.Semester on Ent.SemesterId equals Semester.Id
                      where  PersonCurrentEduc.LicenseProgramId == Ent.LicenseProgramId &&
                             Ent.ObrazProgramId == PersonCurrentEduc.ObrazProgramId &&
                             Ent.StudyFormId == PersonCurrentEduc.StudyFormId &&
-                            Ent.StudyBasisId == PersonCurrentEduc.StudyBasisId &&
+                            Ent.StudyBasisId == 1 &&
                             Ent.CampaignYear == Util.iPriemYear &&
                             Ent.StudyLevelId == PersonCurrentEduc.StudyLevelId &&
                             Ent.IsParallel == false &&
                             Ent.IsReduced == false &&
-                            Ent.IsSecond == false && 
-                            Ent.SemesterId == PersonCurrentEduc.SemesterId 
+                            Ent.IsSecond == false &&
+                            Ent.SemesterId == ActualSemesterId &&
+                            Ent.IsUsedForPriem
                      select new
                      {
                          EntryId = Ent.Id,
@@ -2246,27 +2247,25 @@ namespace OnlineAbit2013.Controllers
 
                 if (model.VuzAddType == 2)
                 {
-                    var CurEduc = (from x in context.PersonCurrentEducation
-                                   where x.PersonId == PersonId
-                                   select x).FirstOrDefault();
-                    if (CurEduc == null)
+                    var PersonCurrentEduc = context.PersonCurrentEducation.Where(x => x.PersonId == PersonId).FirstOrDefault();
+                    if (PersonCurrentEduc == null)
                         model.Message = "Данные некорректны (не найден учебный план). Вернитесь в анкету и проверьте правильность данных";
                     else
                     {
-                        int qw = CurEduc.LicenseProgramId;
+                        int qw = PersonCurrentEduc.LicenseProgramId;
                         model.LicenseProgramName = Util.AbitDB.GetStringValue("select top 1 LicenseProgramName from Entry where LicenseProgramId=@Id", new SortedList<string, object>() { { "@Id", qw } });
-                        if (!CurEduc.ObrazProgramId.HasValue)
+                        if (!PersonCurrentEduc.ObrazProgramId.HasValue)
                             model.Message = "Данные некорректны (не найден учебный план). Вернитесь в анкету и проверьте правильность данных";
                         else
                         {
-                            qw = CurEduc.ObrazProgramId.Value;
+                            qw = PersonCurrentEduc.ObrazProgramId.Value;
                             model.ObrazProgramName = Util.AbitDB.GetStringValue("select top 1 ObrazProgramName from Entry  where ObrazProgramId=@Id", new SortedList<string, object>() { { "@Id", qw } });
+
+                            int ActualSemesterId = Util.GetActualSemester(PersonCurrentEduc.SemesterId);
 
                             var EntryList =
                                 (from Ent in context.Entry
                                  join SPStudyLevel in context.SP_StudyLevel on Ent.StudyLevelId equals SPStudyLevel.Id
-                                 join PersonCurrentEduc in context.PersonCurrentEducation on PersonId equals PersonCurrentEduc.PersonId
-                                 join Semester in context.Semester on Ent.SemesterId equals Semester.Id
                                  where PersonCurrentEduc.LicenseProgramId == Ent.LicenseProgramId &&
                                         Ent.ObrazProgramId == PersonCurrentEduc.ObrazProgramId &&
                                         Ent.StudyFormId == PersonCurrentEduc.StudyFormId &&
@@ -2276,10 +2275,10 @@ namespace OnlineAbit2013.Controllers
                                         Ent.IsParallel == false &&
                                         Ent.IsReduced == false &&
                                         Ent.IsSecond == false &&
-                                        Ent.SemesterId == PersonCurrentEduc.SemesterId
+                                        Ent.SemesterId == ActualSemesterId
                                  select new
                                  {
-                                     EntryId = Ent.Id
+                                     EntryId = Ent.Id,
                                  }).FirstOrDefault();
 
                             if (EntryList == null)
@@ -4582,10 +4581,16 @@ SELECT [User].Email
             if (!int.TryParse(semesterId, out iSemesterId))
                 iSemesterId = 1;
 
-            string query = "SELECT DISTINCT LP.Id, LP.Code, LP.Name, LP.NameEng FROM SP_LicenseProgram LP INNER JOIN SP_StudyLevel SL ON LP.StudyLevelId = SL.Id WHERE StudyLevelGroupId=@StudyLevelGroupId ";
+            string query = @"SELECT DISTINCT LP.Id, LP.Code, LP.Name, LP.NameEng FROM SP_LicenseProgram LP 
+INNER JOIN SP_StudyLevel SL ON LP.StudyLevelId = SL.Id 
+INNER JOIN SP_StudyPlanHelp HLP ON HLP.LicenseProgramId = LP.Id
+WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AND HLP.StudyFormId=@StudyFormId AND HLP.SemesterId=@SemesterId";
 
             SortedList<string, object> dic = new SortedList<string, object>();
             dic.Add("@StudyLevelGroupId", iEntryId);//2 == mag, 1 == 1kurs, 3 - SPO, 4 - аспирант
+            dic.Add("@CampaignYear", Util.iPriemYear);
+            dic.Add("@StudyFormId", iStudyFormId);
+            dic.Add("@SemesterId", iSemesterId);
             bool isEng = Util.GetCurrentThreadLanguageIsEng();
 
             DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
@@ -6523,6 +6528,13 @@ Order by cnt desc";
         public ActionResult ufms(string HiddenId)
         {
             return View("RusLangExam_ufms");
+        }
+        #endregion
+
+        #region TechInfo
+        public ActionResult CacheCount()
+        {
+            return Json(Util.CacheSID_User.Count.ToString(), JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

@@ -193,7 +193,7 @@ namespace OnlineAbit2013.Controllers
             Guid id = Guid.Empty;
 
             if (CacheSID_User.ContainsKey(SID))
-                id = CacheSID_User[SID];
+                return CacheSID_User[SID];
 
             string sId = AbitDB.GetStringValue("SELECT Id FROM [User] WHERE SID=@SID", new SortedList<string, object>() { { "@SID", SID } });
             try
@@ -2196,7 +2196,10 @@ ORDER by Semester.Id";
                                                join scls in context.SchoolExitClass on p.SchoolExitClassId equals scls.Id into _scls
                                                from sclss in _scls.DefaultIfEmpty()
 
-                                               select new { p, sch.OrderNumber, SchoolExitClassId = (sclss == null)?-1:sclss.OrderNumber }).OrderByDescending(x => x.OrderNumber).FirstOrDefault();
+                                               join HEInfo in context.PersonHighEducationInfo on p.Id equals HEInfo.EducationDocumentId into HEInfo2
+                                               from HEInfo in HEInfo2.DefaultIfEmpty(new PersonHighEducationInfo() { QualificationId = 1 })
+
+                                               select new { QualificationId = (int?)HEInfo.QualificationId, sch.OrderNumber, SchoolExitClassId = (sclss == null) ? -1 : sclss.OrderNumber }).OrderByDescending(x => x.OrderNumber).FirstOrDefault();
 
                 if (StudyLevelGroupIdList == null)
                     StudyLevelGroupIdList = new List<int>();
@@ -2207,10 +2210,10 @@ ORDER by Semester.Id";
                                       where
                                       (sp.MaximumOrderNumberSchoolTypeId >= PersonEducationDocument.OrderNumber)
                                           && ((sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumExitClassId.HasValue) ? sp.MaximumExitClassId >= PersonEducationDocument.SchoolExitClassId : true)
-                                          && ((sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumQualificationId.HasValue) ? sp.MaximumQualificationId >= PersonEducationDocument.p.PersonHighEducationInfo.QualificationId : true)
+                                          && ((sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumQualificationId.HasValue) ? sp.MaximumQualificationId >= (PersonEducationDocument.QualificationId ?? 1) : true)
                                           && (sp.MinimumOrderNumberSchoolTypeId <= PersonEducationDocument.OrderNumber)
                                           && ((sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumExitClassId.HasValue) ? sp.MinimumExitClassId <= PersonEducationDocument.SchoolExitClassId : true)
-                                          && ((sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumQualificationId.HasValue) ? sp.MinimumQualificationId <= PersonEducationDocument.p.PersonHighEducationInfo.QualificationId : true)
+                                          && ((sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumQualificationId.HasValue) ? sp.MinimumQualificationId <= (PersonEducationDocument.QualificationId ?? 1) : true)
                                           
                                           && (StudyLevelGroupIdList.Count() == 0 ? true : StudyLevelGroupIdList.Contains(sp_l.StudyLevelGroupId))
                                           && isFor == sp.IsForeign
@@ -2233,6 +2236,15 @@ ORDER by Semester.Id";
                     }
                 return lst;
             }
+        }
+
+        public static int GetActualSemester(int SemesterId)
+        {
+            string query = @"SELECT CASE WHEN IsActive = 1 THEN Id ELSE NextSemesterId END
+FROM Semester
+WHERE Id = @Id";
+            int iRet = (int)Util.AbitDB.GetValue(query, new SortedList<string, object>() { { "@Id", SemesterId } });
+            return iRet;
         }
     }
 }
