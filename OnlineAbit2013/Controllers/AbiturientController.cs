@@ -1984,11 +1984,18 @@ namespace OnlineAbit2013.Controllers
                      select new
                      {
                          EntryId = Ent.Id,
-                         EntryTypeId = Ent.StudyLevelGroupId 
+                         EntryTypeId = Ent.StudyLevelGroupId,
+                         DateOfStart = Ent.DateOfStart,
+                         DateOfClose = Ent.DateOfClose
                      }).FirstOrDefault();
 
                 if (EntryList == null)
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
+
+                if (EntryList.DateOfClose.HasValue && EntryList.DateOfClose < DateTime.Now)
+                    return RedirectToAction("NewApplication", new RouteValueDictionary() { { "errors", "Приём заявлений уже закрыт" } });
+                if (EntryList.DateOfStart.HasValue && EntryList.DateOfStart > DateTime.Now)
+                    return RedirectToAction("NewApplication", new RouteValueDictionary() { { "errors", "Приём заявлений ещё не начался" } });
 
                 Guid appId = Guid.NewGuid();
                 context.Application.Add(new Application()
