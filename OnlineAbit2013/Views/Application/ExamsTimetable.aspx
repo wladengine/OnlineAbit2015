@@ -25,16 +25,19 @@
      </div>
     <form action="/Application/ExamsTimetableSave?id=<%=Model.gCommId %>" method="post">
     <% foreach (var app in Model.lst) {%>
-        <%=app.ExamInEntryBlockUnitName %> <br/>
+        <div>
+        <h4><%=app.ExamInEntryBlockUnitName %></h4>
         <%foreach (var exam in app.lstTimeTable) { %>
-        <div class ="info panel">
+        <div class ="info panel" style="margin:6px;">
             <input type="radio" value="<%=exam.Id%>" name ="app_<%=app.ExamInEntryBockUnitId.ToString()%>" <% if (app.SelectedTimeTableId == exam.Id) { %>checked ="checked"<% } %>/>
-            <b><% = exam.ExamDate.ToShortDateString() %></b><br/>
+            <b><% = exam.ExamDate.ToString("dd.MM.yyyy HH:mm") %></b><br/>
             <% = exam.Address%><br/>
         </div>
+        
     <% } %>
+       </div>
     <% } %>
-
+    <br/>
     <input id="btnSubmit" type="submit" value=<%= GetGlobalResourceObject("NewApplication", "btnSubmit")%> class="button button-green"/>
 </form>
 
