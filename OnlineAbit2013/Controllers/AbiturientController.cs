@@ -712,7 +712,7 @@ namespace OnlineAbit2013.Controllers
                     Person.HasRussianNationality = (NationalityId==193)? true :model.PersonInfo.HasRussianNationality;
 
                     if (bIns)
-                        context.PersonContacts.AddObject(PersonContacts);
+                        context.PersonContacts.Add(PersonContacts);
                     context.SaveChanges();
                     #endregion
                 }
@@ -769,7 +769,7 @@ namespace OnlineAbit2013.Controllers
                             PersonVisaInfo.Town = model.VisaInfo.Town;
                         }
                         if (bIns)
-                            context.PersonVisaInfo.AddObject(PersonVisaInfo);
+                            context.PersonVisaInfo.Add(PersonVisaInfo);
                     }
                     catch { }
 
@@ -838,7 +838,7 @@ namespace OnlineAbit2013.Controllers
                     PersonContacts.FlatReal = model.ContactsInfo.FlatReal;
 
                     if (bIns)
-                        context.PersonContacts.AddObject(PersonContacts);
+                        context.PersonContacts.Add(PersonContacts);
 
                     Person.RegistrationStage = iRegStage < 4 ? 4 : iRegStage;
 
@@ -1016,7 +1016,7 @@ namespace OnlineAbit2013.Controllers
 
                             if (bIns)
                             {
-                                context.PersonHighEducationInfo.AddObject(PersonHighEducationInfo);
+                                context.PersonHighEducationInfo.Add(PersonHighEducationInfo);
                                 bIns = false;
                             }
                         }
@@ -1054,7 +1054,7 @@ namespace OnlineAbit2013.Controllers
                     PersonAddInfo.TRKICertificateNumber = model.AddEducationInfo.TRKICertificateNumber;
                     
                     if (bIns)
-                        context.PersonAddInfo.AddObject(PersonAddInfo);
+                        context.PersonAddInfo.Add(PersonAddInfo);
                     #region PersonDisorderInfo
                     bool bHasDisorder = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 3)).Count() > 0;
                     if (bHasDisorder && model.DisorderInfo != null)
@@ -1071,7 +1071,7 @@ namespace OnlineAbit2013.Controllers
                         PersonDisorderEducation.YearOfDisorder = model.DisorderInfo.YearOfDisorder;
                         PersonDisorderEducation.EducationProgramName = model.DisorderInfo.EducationProgramName;
                         if (bIns)
-                            context.PersonDisorderInfo.AddObject(PersonDisorderEducation);
+                            context.PersonDisorderInfo.Add(PersonDisorderEducation);
                     }
                     #endregion
                     bool bHasCurrentEducation = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2 || x.VuzAdditionalTypeId == 4)).Count() > 0;
@@ -1135,7 +1135,7 @@ namespace OnlineAbit2013.Controllers
 
                         if (bIns)
                         {
-                            context.PersonCurrentEducation.AddObject(PersonCurrentEducation);
+                            context.PersonCurrentEducation.Add(PersonCurrentEducation);
                             bIns = false;
                         }
 
@@ -1154,7 +1154,7 @@ namespace OnlineAbit2013.Controllers
                             ChangeStudyFormReason.Reason = model.ChangeStudyFormReason.Reason;
                             if (bIns)
                             {
-                                context.PersonChangeStudyFormReason.AddObject(ChangeStudyFormReason);
+                                context.PersonChangeStudyFormReason.Add(ChangeStudyFormReason);
                                 bIns = false;
                             }
                         }
@@ -1174,7 +1174,7 @@ namespace OnlineAbit2013.Controllers
                         ChangeStudyFormReason.Reason = model.ChangeStudyFormReason.Reason;
 
                         if (bIns)
-                            context.PersonChangeStudyFormReason.AddObject(ChangeStudyFormReason);
+                            context.PersonChangeStudyFormReason.Add(ChangeStudyFormReason);
                     }
                     #endregion
 
@@ -1204,7 +1204,7 @@ namespace OnlineAbit2013.Controllers
                     PersonSportQualification.SportQualificationLevel = model.PrivelegeInfo.SportQualificationLevel;
 
                     if (bIns)
-                        context.PersonSportQualification.AddObject(PersonSportQualification);
+                        context.PersonSportQualification.Add(PersonSportQualification);
 
                     if (iRegStage < 7)
                         Person.RegistrationStage = 7;
@@ -1252,7 +1252,7 @@ namespace OnlineAbit2013.Controllers
                         Person.RegistrationStage = 100;
 
                     if (bIns)
-                        context.PersonAddInfo.AddObject(PersonAddInfo);
+                        context.PersonAddInfo.Add(PersonAddInfo);
 
                     context.SaveChanges();
                     #endregion
@@ -1991,7 +1991,7 @@ namespace OnlineAbit2013.Controllers
                     return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
 
                 Guid appId = Guid.NewGuid();
-                context.Application.AddObject(new Application()
+                context.Application.Add(new Application()
                 {
                     Id = appId,
                     PersonId = PersonId,
@@ -3524,7 +3524,7 @@ namespace OnlineAbit2013.Controllers
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
                 if (context.ApplicationVersion.Where(x => x.Id == model.ApplicationVersionId).Count() == 0)
-                    context.ApplicationVersion.AddObject(new ApplicationVersion() { Id = model.ApplicationVersionId, ApplicationId = model.ApplicationId, VersionDate = DateTime.Now });
+                    context.ApplicationVersion.Add(new ApplicationVersion() { Id = model.ApplicationVersionId, ApplicationId = model.ApplicationId, VersionDate = DateTime.Now });
 
                 var s = context.ApplicationDetails.Where(x => x.ApplicationId == model.ApplicationId).Select(x => new { x.Id, x.InnerEntryInEntryId }).ToList();
                 Guid EntryId = context.Application.Where(x => x.Id == model.ApplicationId).Select(x => x.EntryId).First();
@@ -3549,7 +3549,7 @@ namespace OnlineAbit2013.Controllers
                     var versDetails = s.Where(x => x.InnerEntryInEntryId == InnerEntryInEntryId).ToList();
                     if (versDetails.Count == 0) //ещё ничего не создано
                     {
-                        context.ApplicationDetails.AddObject(new ApplicationDetails()
+                        context.ApplicationDetails.Add(new ApplicationDetails()
                         {
                             Id = Guid.NewGuid(),
                             ApplicationId = model.ApplicationId,
@@ -3560,7 +3560,7 @@ namespace OnlineAbit2013.Controllers
                         if (context.ApplicationVersionDetails
                             .Where(x => x.ApplicationVersionId == model.ApplicationVersionId && x.InnerEntryInEntryId == InnerEntryInEntryId && x.InnerEntryInEntryPriority == prior).Count() == 0)
                         {
-                            context.ApplicationVersionDetails.AddObject(new ApplicationVersionDetails()
+                            context.ApplicationVersionDetails.Add(new ApplicationVersionDetails()
                             {
                                 ApplicationVersionId = model.ApplicationVersionId,
                                 InnerEntryInEntryId = InnerEntryInEntryId,
@@ -3575,7 +3575,7 @@ namespace OnlineAbit2013.Controllers
                             .FirstOrDefault();
                         if (avd == null)
                         {
-                            context.ApplicationDetails.AddObject(new ApplicationDetails()
+                            context.ApplicationDetails.Add(new ApplicationDetails()
                             {
                                 Id = Guid.NewGuid(),
                                 ApplicationId = model.ApplicationId,
@@ -3583,7 +3583,7 @@ namespace OnlineAbit2013.Controllers
                                 InnerEntryInEntryPriority = prior
                             });
                             //вставляем в логи
-                            context.ApplicationVersionDetails.AddObject(new ApplicationVersionDetails()
+                            context.ApplicationVersionDetails.Add(new ApplicationVersionDetails()
                             {
                                 ApplicationVersionId = model.ApplicationVersionId,
                                 InnerEntryInEntryId = InnerEntryInEntryId,
@@ -3699,7 +3699,7 @@ namespace OnlineAbit2013.Controllers
                 foreach (var app in apps)
                 {
                     app.Exams = Util.GetExamList(app.Id);
-                    app.HasManualExams = app.Exams.Count > 0;
+                    app.HasManualExams = app.Exams.Where(x=>x.isVisible).Count() > 0;
                 }
                 return apps;
             }
@@ -3744,10 +3744,19 @@ namespace OnlineAbit2013.Controllers
                             { continue; }
 
                             string query = @"
-                            Delete from dbo.ApplicationSelectedExam where ApplicationId = @AppId and ExamInEntryBlockUnitId IN
-                            (select Id from ExamInEntryBlockUnit where ExamInEntryBlockId=@BlockId)";
-                            Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@AppId", gAppId }, { "@BlockId", gBlockId } });
-                            query = @"insert into dbo.ApplicationSelectedExam (ApplicationId, ExamInEntryBlockUnitId) VALUES (@AppId, @UnitId)";
+                            Delete from dbo.ApplicationSelectedExam 
+where 
+ApplicationId = @AppId 
+and ExamInEntryBlockUnitId IN (select Id from ExamInEntryBlockUnit where ExamInEntryBlockId=@BlockId)
+and ExamInEntryBlockUnitId <> @UnitId";
+                            Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@AppId", gAppId }, { "@BlockId", gBlockId }, { "@UnitId", gUnitId } });
+
+                            query = @"
+if NOT EXISTS (Select * from ApplicationSelectedExam where
+ApplicationId=@AppId and ExamInEntryBlockUnitId=@UnitId)
+begin
+insert into dbo.ApplicationSelectedExam (ApplicationId, ExamInEntryBlockUnitId) VALUES (@AppId, @UnitId)
+end";
                             Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@AppId", gAppId }, { "@UnitId", gUnitId } });
                         }
                 }
@@ -5017,7 +5026,7 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
                     if (EgeCertificateId == Guid.Empty)
                     {
                         EgeCertificateId = Guid.NewGuid();
-                        context.EgeCertificate.AddObject(new EgeCertificate()
+                        context.EgeCertificate.Add(new EgeCertificate()
                         {
                             Id = EgeCertificateId,
                             Is2014 = bIs2014,
@@ -5028,7 +5037,7 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
                     }
 
                     Guid MarkId = Guid.NewGuid();
-                    context.EgeMark.AddObject(new EgeMark()
+                    context.EgeMark.Add(new EgeMark()
                     {
                         Id = MarkId,
                         EgeCertificateId = EgeCertificateId,
@@ -5560,7 +5569,7 @@ Order by cnt desc";
             Guid Id = Guid.NewGuid();
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                context.Olympiads.AddObject(new Olympiads()
+                context.Olympiads.Add(new Olympiads()
                 {
                     Id = Id,
                     OlympYear = iOlympYear,
@@ -5614,8 +5623,8 @@ Order by cnt desc";
         }
         #endregion
 
-        #region AG_Applications
-        [OutputCache(NoStore = true, Duration = 0)]
+        #region AG_Applications_OLD
+        /*[OutputCache(NoStore = true, Duration = 0)]
         public JsonResult GetProfs_AG(string classid, string profileId, string CommitId)
         {
             Guid PersonId;
@@ -5644,7 +5653,8 @@ Order by cnt desc";
                        });
             return Json(new { IsOk = true, Vals = res });
         }
-        [OutputCache(NoStore = true, Duration = 0)]
+        */
+        /* [OutputCache(NoStore = true, Duration = 0)]
         public JsonResult GetSpecializations_AG(string classid, string programid, string profileid, string CommitId)
         {
             Guid PersonId;
@@ -5682,12 +5692,12 @@ Order by cnt desc";
                     var lstCheckUsed = (from Ent in context.AG_Entry
                                         where Ent.ProgramId == iProgramId && Ent.EntryClassId == iEntryClassId
                                         select new { Ent.ProgramId, Ent.ProfileId, Ent.HasManualExams }).Except
-                              (
-                              from App in context.AG_Application
-                              where App.AG_Entry.ProgramId == iProgramId && App.AG_Entry.EntryClassId == iEntryClassId
-                              && App.PersonId == PersonId && App.Enabled == true && App.CommitId == gCommId
-                              select new { App.AG_Entry.ProgramId, App.AG_Entry.ProfileId, App.AG_Entry.HasManualExams }
-                              ).ToList();
+                                (
+                                from App in context.AG_Application
+                                where App.AG_Entry.ProgramId == iProgramId && App.AG_Entry.EntryClassId == iEntryClassId
+                                && App.PersonId == PersonId && App.Enabled == true && App.CommitId == gCommId
+                                select new { App.AG_Entry.ProgramId, App.AG_Entry.ProfileId, App.AG_Entry.HasManualExams }
+                                ).ToList();
                     if (lstCheckUsed.Count == 0)
                         return Json(new { IsOk = false, ErrorMessage = "Заявление уже подавалось" });
                 }
@@ -5701,16 +5711,16 @@ Order by cnt desc";
                     bool HasProfileExams = context.AG_Entry.Where(x => x.EntryClassId == iEntryClassId && x.ProgramId == iProgramId && x.ProfileId == iProfileId).Select(x => x.HasManualExams).FirstOrDefault();
 
                     var Exams = (from Ent in context.AG_Entry
-                                 join ManualExamsInEntry in context.AG_ManualExamInAG_Entry on Ent.Id equals ManualExamsInEntry.EntryId
-                                 join ManualExam in context.AG_ManualExam on ManualExamsInEntry.ExamId equals ManualExam.Id
-                                 where Ent.EntryClassId == iEntryClassId && Ent.ProgramId == iProgramId
-                                 select new { Value = ManualExam.Id, Name = ManualExam.Name }).ToList();
+                                    join ManualExamsInEntry in context.AG_ManualExamInAG_Entry on Ent.Id equals ManualExamsInEntry.EntryId
+                                    join ManualExam in context.AG_ManualExam on ManualExamsInEntry.ExamId equals ManualExam.Id
+                                    where Ent.EntryClassId == iEntryClassId && Ent.ProgramId == iProgramId
+                                    select new { Value = ManualExam.Id, Name = ManualExam.Name }).ToList();
 
                     return Json(new { IsOk = true, HasProfileExams = HasProfileExams, Exams = Exams });
                 }
             }
-        }
-        [OutputCache(NoStore = true, Duration = 0)]
+        }*/
+      /*  [OutputCache(NoStore = true, Duration = 0)]
         public JsonResult CheckSpecializations_AG(string classid, string programid, string specid, string CommitId)
         {
             Guid PersonId;
@@ -5754,7 +5764,8 @@ Order by cnt desc";
                 }
             }
         }
-        [HttpPost]
+      */
+ /*       [HttpPost]
         public JsonResult CheckApplication_AG(string profession, string Entryclass, string profileid, string manualExam, string NeedHostel, string CommitId)
         {
             Guid PersonId;
@@ -5842,7 +5853,8 @@ Order by cnt desc";
                 return Json(new { IsOk = true, FreeEntries = true });
             }
         }
-        [HttpPost]
+       */
+ /*       [HttpPost]
         public JsonResult AddApplication_AG(string Entryclass, string profession, string profileid, string manualExam, string NeedHostel, string CommitId)
         {
             Guid PersonId;
@@ -5963,7 +5975,8 @@ Order by cnt desc";
                 return Json(new { IsOk = true, Profession = Profession, Specialization = Specialization, ManualExam = ManualExamName, Id = appId.ToString("N") });
             }
         }
-        [HttpPost]
+   */
+    /*    [HttpPost]
         public JsonResult DeleteApplication_AG(string id, string CommitId)
         {
             Guid PersonId;
@@ -6003,6 +6016,7 @@ Order by cnt desc";
                 return Json(new { IsOk = true });
             }
         }
+      */
         #endregion
 
         #region Mag_Applications
@@ -6156,7 +6170,7 @@ Order by cnt desc";
                 // если в коммите уже есть закоммиченные заявления, то добавляемое тоже считаем закоммиченным
                 bool isCommited = context.Application.Where(x => x.PersonId == PersonId && x.IsCommited == true && x.CommitId == gCommId).Count() > 0;
                 Guid appId = Guid.NewGuid();
-                context.Application.AddObject(new Application()
+                context.Application.Add(new Application()
                 {
                     Id = appId,
                     PersonId = PersonId,
@@ -6439,7 +6453,7 @@ Order by cnt desc";
                 ins.PassportSeries = PassportSeries;
                 ins.PassportNumber = PassportNumber;
 
-                context.PersonOtherPassport.AddObject(ins);
+                context.PersonOtherPassport.Add(ins);
                 context.SaveChanges();
 
                 return Json(new
@@ -6501,7 +6515,7 @@ Order by cnt desc";
                     var ent = context.PersonOtherPassport.Where(x => x.Id == iId && x.PersonId == PersonId).FirstOrDefault();
                     if (ent != null)
                     {
-                        context.PersonOtherPassport.DeleteObject(ent);
+                        context.PersonOtherPassport.Remove(ent);
                         context.SaveChanges();
                         cnt = context.PersonOtherPassport.Where(x => x.PersonId == PersonId).Count();
                     }

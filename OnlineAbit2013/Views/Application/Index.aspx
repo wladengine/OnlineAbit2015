@@ -219,6 +219,11 @@
                 <img src="../../Content/themes/base/images/File_edit064.png" alt="Редактировать экзамены по выбору" />
             </a>
         </td>
+        <td>
+            <a href="<%= string.Format("../../Application/ExamsTimetable?Id={0}", Model.Id.ToString("N")) %>">
+                <img src="../../Content/themes/base/images/File_edit064.png" alt="Запись на экзамен" />
+            </a>
+        </td>
         <% } %> 
         <% } %> 
     </tr>
@@ -232,6 +237,8 @@
         <% if (Model.HasManualExams) { %>
 
         <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationExamenChange")%></td>
+        <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationExamenRegistration")%></td>
+
         <% } %>
         <% } %>
     </tr>
@@ -315,11 +322,7 @@
         {%>
     <tr>
         <td width="30%" align="right"><%= GetGlobalResourceObject("PriorityChangerForeign", "ManualExam").ToString()%></td>
-        <td align="left"><%for (int i = 0; i < Application.ManualExam.Count; i++)
-                           { %><%= Html.Encode(Application.ManualExam[i])%>
-        <% if (i < Application.ManualExam.Count - 1)
-           { %>,<%}
-                           } %></td>
+        <td align="left"><%for (int i = 0; i < Application.ManualExam.Count; i++) { %><%=Html.Encode(Application.ManualExam[i])%><% if (i < Application.ManualExam.Count - 1){ %>, <%}}%></td>
     </tr>
     <%  } %>
     <tr>

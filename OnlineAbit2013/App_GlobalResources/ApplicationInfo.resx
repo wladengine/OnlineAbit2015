@@ -311,4 +311,7 @@
   <data name="AppHasNotSelectedExams" xml:space="preserve">
     <value>Не все экзамены по выбору указаны</value>
   </data>
+  <data name="ApplicationExamenRegistration" xml:space="preserve">
+    <value>Регистрация на сдачу экзамена</value>
+  </data>
 </root>

@@ -1884,7 +1884,7 @@ ORDER by Semester.Id";
                     
                     if (lstI.Count() == 0)
                     {
-                        context.ApplicationDetails.AddObject(new ApplicationDetails()
+                        context.ApplicationDetails.Add(new ApplicationDetails()
                         {
                             Id = Guid.NewGuid(),
                             ApplicationId = AppId,
@@ -1908,7 +1908,7 @@ ORDER by Semester.Id";
             foreach (var AppId in Ids)
             {
                 var App = context.Application.Where(x => x.Id == AppId).FirstOrDefault();
-                context.Application.DeleteObject(App);
+                context.Application.Remove(App);
             }
 
             //всё, что удалено из коммита - удаляем
@@ -1916,7 +1916,7 @@ ORDER by Semester.Id";
             foreach (var AppId in Ids)
             {
                 var App = context.Application.Where(x => x.Id == AppId).FirstOrDefault();
-                context.Application.DeleteObject(App);
+                context.Application.Remove(App);
             }
             context.SaveChanges();
 
@@ -1994,7 +1994,7 @@ ORDER by Semester.Id";
                 foreach (var s in abitList)
                 {
                     Guid appId = Guid.NewGuid();
-                    context.Application.AddObject(new Application()
+                    context.Application.Add(new Application()
                     {
                         Id = appId,
                         PersonId = PersonId,
@@ -2028,7 +2028,7 @@ ORDER by Semester.Id";
 
                     foreach (var inner in innerPriorList)
                     {
-                        context.ApplicationDetails.AddObject(new ApplicationDetails()
+                        context.ApplicationDetails.Add(new ApplicationDetails()
                         {
                             Id = Guid.NewGuid(),
                             ApplicationId = appId,
@@ -2108,7 +2108,7 @@ ORDER by Semester.Id";
                     foreach (var AppId in Ids)
                     {
                         var App = context.Application.Where(x => x.Id == AppId).FirstOrDefault();
-                        context.Application.DeleteObject(App);
+                        context.Application.Remove(App);
                     }
                 }
                 context.SaveChanges();
@@ -2169,7 +2169,7 @@ ORDER by Semester.Id";
                  List<ExamsBlock> examsblock
                      = (from exams in Exams
                         group exams by exams.BlockId into ex
-                        where ex.Count() >1
+                        where ex.Count() >0
                         select new ExamsBlock
                         {
                             Id = ex.Key,
@@ -2177,6 +2177,7 @@ ORDER by Semester.Id";
                             ExamInBlockList = 
                                 ex.Select(m => new SelectListItem() { Value = m.ExamUnitId.ToString(), Text = m.ExamName, Selected = AppExams.Select(x=>x.ExamInEntryBlockUnitId).Contains(m.ExamUnitId)}).ToList(),
                             SelectedExamInBlockId = AppExams.Where(x=>x.ExamInEntryBlockId == ex.Key).Select(x=>x.ExamInEntryBlockUnitId).FirstOrDefault(),
+                            isVisible = ex.Count() >1,
                         }).ToList();
 
                  return examsblock;

@@ -107,7 +107,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, такую же, как Экзамен по выбору.
+        ///   Ищет локализованную строку, такую же, как Экзамены.
         /// </summary>
         internal static string ManualExam {
             get {

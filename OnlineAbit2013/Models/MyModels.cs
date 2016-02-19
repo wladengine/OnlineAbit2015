@@ -430,18 +430,7 @@ namespace OnlineAbit2013.Models
         public List<SelectListItem> PrivilegesList { get; set; }
         public List<PrivilegeInformation> pPrivileges { get; set; }
 
-        //public string OlympTypeId { get; set; }
         public List<SelectListItem> OlympYearList { get; set; }
-
-        //public List<SelectListItem> OlympTypeList { get; set; }
-        
-        //public string OlympNameId { get; set; }
-        //public List<SelectListItem> OlympNameList { get; set; }
-
-        //public string OlympSubjectId { get; set; }
-        //public List<SelectListItem> OlympSubjectList { get; set; }
-
-        //public string OlympValueId { get; set; }
         public List<SelectListItem> OlympValueList { get; set; }
 
         public List<OlympiadInformation> pOlympiads { get; set; }
@@ -577,24 +566,6 @@ namespace OnlineAbit2013.Models
         public List<SelectListItem> FileTypes { get; set; }
         public List<AppendedFile> Files { get; set; }
     }
-
-  /*  public class ShortFileInfo
-    {
-        public string Path { get; set; }
-        public string Id { get; set; }
-        public string FileName { get; set; }
-        public string FileSize { get; set; }
-    }
-    */
-   /* public class SPO_PersonPrivileges
-    {
-        public string Stag { get; set; }
-        public string WorkPlace { get; set; }
-        public string SportQualificationId { get; set; }
-        public string SportQualificationLevel { get; set; }
-        public string SportQualification { get; set; }
-        public List<SelectListItem> SportQualificationList { get; set; }
-    }*/
 
     public enum AbitType
     {
@@ -750,46 +721,36 @@ namespace OnlineAbit2013.Models
         public int Type { get; set; }
     }
 
-    public class AG_ApplicationModel
-    {
-        public bool Enabled { get; set; }
-        public string EntryClassName { get; set; }
-        public int EntryClassId { get; set; }
-        public bool HasError { get; set; }
-        public string ErrorMessage { get; set; }
-        public List<SelectListItem> Profiles { get; set; }
-        public List<int> PersonFilesId {get; set;}
-        public List<KeyValuePair<int, string>> RequiredFiles { get; set; }
-        public int MaxBlocks { get; set; }
-        public string CommitId { get; set; }
-        public List<AG_ApplicationSipleEntity> Applications { get; set; }
-    }
+    //public class AG_ApplicationModel
+    //{
+    //    public bool Enabled { get; set; }
+    //    public string EntryClassName { get; set; }
+    //    public int EntryClassId { get; set; }
+    //    public bool HasError { get; set; }
+    //    public string ErrorMessage { get; set; }
+    //    public List<SelectListItem> Profiles { get; set; }
+    //    public List<int> PersonFilesId {get; set;}
+    //    public List<KeyValuePair<int, string>> RequiredFiles { get; set; }
+    //    public int MaxBlocks { get; set; }
+    //    public string CommitId { get; set; }
+    //    public List<AG_ApplicationSipleEntity> Applications { get; set; }
+    //}
 
-    public class AG_ApplicationSipleEntity
-    {
-        public Guid Id { get; set; }
-        public int ProgramId { get; set; }
-        public string ProgramName { get; set; }
-        public List<SelectListItem> ProgramList { get; set; }
-        public int ProfileId { get; set; }
-        public string ProfileName { get; set; }
-        public List<SelectListItem> ProfileList { get; set; }
-        public int ManualExamId { get; set; }
-        public string ManualExamName { get; set; }
-        public List<SelectListItem> ManualExamList { get; set; }
-    }
+    //public class AG_ApplicationSipleEntity
+    //{
+    //    public Guid Id { get; set; }
+    //    public int ProgramId { get; set; }
+    //    public string ProgramName { get; set; }
+    //    public List<SelectListItem> ProgramList { get; set; }
+    //    public int ProfileId { get; set; }
+    //    public string ProfileName { get; set; }
+    //    public List<SelectListItem> ProfileList { get; set; }
+    //    public int ManualExamId { get; set; }
+    //    public string ManualExamName { get; set; }
+    //    public List<SelectListItem> ManualExamList { get; set; }
+    //}
 
     
-    /*public class SPO_NewApplicationModel
-    {
-        public bool CanChooseExitClass { get; set; }
-        public string ObrazProgramId { get; set; }
-        public string ObrazProgramName { get; set; }
-        public List<SelectListItem> ObrazPrograms { get; set; }
-        public int EntryClassId { get; set; }
-        public List<SelectListItem> Professions { get; set; }
-    }
-    */
     public class NewApplicationRectorScholarshipModel
     {
         public string Message { get; set; }
@@ -857,50 +818,11 @@ namespace OnlineAbit2013.Models
     {
         public Guid Id { get; set; }
         public string BlockName { get; set; }
+        public bool isVisible { get; set; }
         public Guid SelectedExamInBlockId { get; set; }
         public List<SelectListItem> ExamInBlockList { get; set; }
     }
- /*   public class SPO_ApplicationModel
-    {
-        public bool Enabled { get; set; } // доступно?
-        public int MaxBlocks { get; set; } // макс количество блоков
-        public string CommitId { get; set; } // коммит
-        public bool can11kl { get; set; } //можно ли подавать на 11 классов
 
-        public List<SelectListItem> StudyFormList { get; set; }
-        public List<SelectListItem> StudyBasisList { get; set; }
-
-        public List<SelectListItem> FacultyList { get; set; }
-
-        public List<SPO_ApplicationSipleEntity> Applications { get; set; }
-
-        public List<KeyValuePair<int, string>> RequiredFiles { get; set; }
-    }*/
-    
-   /* public class SPO_ApplicationSipleEntity
-    {
-        public Guid Id { get; set; }
-        public int StudyFormId { get; set; }
-        public string StudyFormName { get; set; }
-        public int StudyBasisId { get; set; }
-        public string StudyBasisName { get; set; }
-        public bool IsReduced { get; set; }
-        public bool IsParallel { get; set; }
-        public bool IsSecond { get; set; }
-        public int ProfessionId { get; set; }
-        public string ProfessionName { get; set; }
-        public int ObrazProgramId { get; set; }
-        public string ObrazProgramName { get; set; }
-        public Guid SpecializationId { get; set; }
-        public string SpecializationName { get; set; }
-        public List<SelectListItem> ProfessionList { get; set; }
-        public List<SelectListItem> ObrazProgramList { get; set; }
-        public List<SelectListItem> SpecializationList { get; set; }
-        public int FacultyId { get; set; }
-        public string FacultyName { get; set; }
-        public bool Hostel { get; set; }
-    }
-*/
     public class Constants
     {
         public int? Surname { get; set; }
@@ -949,5 +871,20 @@ namespace OnlineAbit2013.Models
         public string Name { get; set; }
         public int MaxBlocks { get; set; }
         public AbitType? type { get; set; }
+    }
+
+    public class ApplicationExamsTimeTableModel
+    {
+        public List<AppExamsTimeTable> lst;
+        public Guid gCommId;
+    }
+    public class AppExamsTimeTable
+    {
+        public Guid ApplicationId;
+        public Guid ExamInEntryBockUnitId;
+        public string ExamInEntryBlockUnitName;
+        public int? SelectedTimeTableId;
+
+        public List<ExamTimetable> lstTimeTable;
     }
 }

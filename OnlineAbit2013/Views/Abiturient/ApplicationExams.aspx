@@ -85,15 +85,26 @@
                {
                    var block = app.Exams[j]; 
                    %>
-                   <%= Html.HiddenFor(x=>x.Applications[i].Exams[j].Id)%>
-                    <b><%=Model.Applications[i].Exams[j].BlockName %></b>
-                    <% if (!app.Enabled) { %>
-                    <%=Html.DropDownListFor(x => x.Applications[i].Exams[j].SelectedExamInBlockId, Model.Applications[i].Exams[j].ExamInBlockList,
-                    new { style = "width:659px;" , size = app.Exams[j].ExamInBlockList.Count, disabled = "disabled"})%>
-                    <%} else {%>
-                    <%=Html.DropDownListFor(x => x.Applications[i].Exams[j].SelectedExamInBlockId, Model.Applications[i].Exams[j].ExamInBlockList,
-                    new { style = "width:659px;", size = app.Exams[j].ExamInBlockList.Count })%>
-                    <% }%>
+                   <%= Html.HiddenFor(x=>x.Applications[i].Exams[j].Id) %>
+                    <%if (block.isVisible) {%>
+                        <b><%=Model.Applications[i].Exams[j].BlockName %></b>
+                        <% if (!app.Enabled) 
+                           { %>
+                                <%=Html.DropDownListFor(x => x.Applications[i].Exams[j].SelectedExamInBlockId, Model.Applications[i].Exams[j].ExamInBlockList,
+                                new { style = "width:659px;" , size = app.Exams[j].ExamInBlockList.Count, disabled = "disabled"})%>
+                          <%} 
+                          else 
+                          {%>
+                                <%=Html.DropDownListFor(x => x.Applications[i].Exams[j].SelectedExamInBlockId, Model.Applications[i].Exams[j].ExamInBlockList,
+                                new { style = "width:659px;", size = app.Exams[j].ExamInBlockList.Count })%>
+                          <% }
+                   } else 
+                   {%> 
+                <div style="display:none;">
+                        <%=Html.DropDownListFor(x => x.Applications[i].Exams[j].SelectedExamInBlockId, Model.Applications[i].Exams[j].ExamInBlockList,
+                        new { style = "width:659px;" , size = app.Exams[j].ExamInBlockList.Count})%>
+                </div>
+                <% } %>
             <% } %>
         </li>
     <% } %>

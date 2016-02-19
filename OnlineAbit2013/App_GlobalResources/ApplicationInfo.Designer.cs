@@ -142,6 +142,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, такую же, как Регистрация на сдачу экзамена.
+        /// </summary>
+        internal static string ApplicationExamenRegistration {
+            get {
+                return ResourceManager.GetString("ApplicationExamenRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, такую же, как Основные сведения.
         /// </summary>
         internal static string ApplicationInfoHeader {
