@@ -23,6 +23,7 @@ namespace OnlineAbit2013.Controllers
         public static int iPriemYear { get; private set; }
         public static string sPriemYear { get; private set; }
 
+        public static int GlobalCommunicationGroupId = 1; 
 
         private static SQLClass _abitDB;
         private static SQLClass _studDB;

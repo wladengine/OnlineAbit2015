@@ -27,8 +27,16 @@ namespace OnlineAbit2013.Controllers
                 return Redirect(Request.Url.AbsoluteUri.Replace("http://", "https://"));
 
             Guid UserId;
+
             if (Util.CheckAuthCookies(Request.Cookies, out UserId))
+            {
+                DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
+                new SortedList<string, object>() { { "@PersonId", UserId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
+                if (tbl.Rows.Count > 0)
+                    return RedirectToAction("Index", "Communication");
+
                 return RedirectToAction("Main", "Abiturient");
+            }
 
             Util.SetThreadCultureByCookies(Request.Cookies);
             if (Request.Cookies["sid"] == null || string.IsNullOrEmpty(Request.Cookies["sid"].Value))
@@ -140,6 +148,11 @@ namespace OnlineAbit2013.Controllers
                     bool dorms = Usr.IsDormsAccount.HasValue ? Usr.IsDormsAccount.Value : false;
                     if (!dorms)
                     {
+                        DataTable tbl_comm = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
+                        new SortedList<string, object>() { { "@PersonId", Usr.Id }, { "@GroupId", Util.GlobalCommunicationGroupId } });
+                        if (tbl.Rows.Count > 0)
+                            return RedirectToAction("Index", "Communication");
+
                         return RedirectToAction("Main", "Abiturient");
                     }
                     else

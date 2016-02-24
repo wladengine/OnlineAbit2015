@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data;
+
 
 namespace OnlineAbit2013.Controllers
 {
@@ -18,7 +20,14 @@ namespace OnlineAbit2013.Controllers
             if (!Util.CheckAuthCookies(Request.Cookies, out g))
                 return RedirectToAction("LogOn", "Account");
             else
+            {
+                DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
+                new SortedList<string, object>() { { "@PersonId", g }, { "@GroupId", Util.GlobalCommunicationGroupId } });
+                if (tbl.Rows.Count > 0)
+                    return RedirectToAction("Index", "Communication");
+
                 return RedirectToAction("Main", "Abiturient");
+            }
         }
 
         public ActionResult About()
