@@ -858,6 +858,7 @@ namespace OnlineAbit2013.Models
         public string Comment { get; set; }
         public ApprovalStatus IsApproved { get; set; }
         public string FileType { get; set; }
+        public int FileTypeId { get; set; }
 
         public string Author { get; set; }
         public string AddInfo { get; set; }
@@ -888,5 +889,4 @@ namespace OnlineAbit2013.Models
         public List<ExamTimetable> lstTimeTable;
     }
 
-   
 }

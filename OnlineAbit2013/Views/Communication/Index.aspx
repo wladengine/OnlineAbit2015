@@ -29,38 +29,47 @@
    {
        width: 1290px;
    }
-</style>
-    <table>
+ </style>
+   
+    <script>
+        function AddSortOrder(ind, str) {
+            $("#" + ind + "d").hide();
+            $("#" + ind + "u").hide();
+            $("#" + ind + "n").hide();
+            $("#" + ind + str).show();
+            var val = $("#SortOrder").val() + "_"+ind + str+"_";
+            //$("#SortOrder").val(val);
+            location.href = ("../../Communication/Index?sort=" + val);
+            }
+    </script>
+    <%=Html.HiddenFor(x=>x.SortOrder) %>
+     <table style="width:100%;"> 
         <tr>
-            <th>Show card</th>
-
-            <th>Number</th>
-            <th>Surname</th>
-            <th>Name</th>
-            <th>SecondName</th>
-            <th>isComplete</th>
-            <th>Portfolio Assessment Ru</th>
-            <th>Portfolio Assessment De</th>
-            <th>Portfolio Assessment Common</th>
-            <th>Interview Assessment Ru</th>
-            <th>Interview Assessment De</th>
-            <th>Interview Assessment Common</th>
-            <th>Overall Results</th>
-            <th>Status</th>
-            <th>Print</th>
+            <% List<string> Collst = new List<string>() {
+                   "Number", "FIO",  
+                   "IsComplete", "RuPort", "DePort", "ComPort", "Interv",
+                   "RuInt", "DeInt", "ComInt", "Overall", "Status", "Print"
+               };
+               for (int i = 0; i<Collst.Count; i++){ %>
+             <th><a id= "<%=i.ToString() %>u" onclick="AddSortOrder(<%=i.ToString() %>, 'd' )" <%if (!Model.SortOrder.Contains("_"+i.ToString()+"u_")) 
+                                                                                                 {%>style="display:none;"<%} %> ><%=Collst[i] %> ▾</a>
+                 <a id= "<%=i.ToString() %>d" onclick="AddSortOrder(<%=i.ToString() %>, 'n' )" <%if (!Model.SortOrder.Contains("_" + i.ToString() + "d_"))
+                                                                                                 {%>style="display:none;"<%} %> ><%=Collst[i] %> ▴</a>
+                 <a id= "<%=i.ToString() %>n" onclick="AddSortOrder(<%=i.ToString() %>, 'u' )" <%if (Model.SortOrder.Contains("_" + i.ToString() + "d_") || Model.SortOrder.Contains("_" + i.ToString() + "u_"))
+                                                                                                 {%>style="display:none;"<%} %> ><%=Collst[i] %></a>
+             </th>
+            <%} %>
         </tr>
 <% int ind = 1;
     foreach (var x in Model.ApplicantList) {%>
     <tr>
-        <td><a href =<%=string.Format("../../Communication/ApplicantCard/{0}", x.Number.ToString()) %>><img src="../../Content/themes/base/images/open.ico" alt="Скачать файл" /></a></td>
-        <td><%=ind.ToString() %></td>
-        <td><%=x.Surname %></td>
-        <td><%=x.Name %></td>
-        <td><%=x.SecondName %></td>
+        <td><%=x.Number %></td>
+        <td><a href =<%=string.Format("../../Communication/ApplicantCard/{0}", x.Number.ToString()) %>><%=x.FIO %></a></td>
         <td><%=x.isComplete ? "Y" : "N" %></td>
         <td><%=x.PortfolioAssessmentRu %></td>
         <td><%=x.PortfolioAssessmentDe %></td>
         <td><%=x.PortfolioAssessmentCommon %></td>
+        <td><% = (x.Interview ? "Y":"N") %></td>
         <td><%=x.InterviewAssessmentRu %></td>
         <td><%=x.InterviewAssessmentDe %></td>
         <td><%=x.InterviewAssessmentCommon %></td>

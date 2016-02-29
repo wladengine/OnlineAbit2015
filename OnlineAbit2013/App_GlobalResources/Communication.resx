@@ -117,31 +117,97 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdminPanel" xml:space="preserve">
-    <value>Список абитуриентов</value>
+  <data name="BackToOverview" xml:space="preserve">
+    <value>Возврат к списку</value>
   </data>
-  <data name="InfoPersonSurname" xml:space="preserve">
-    <value>Фамилия</value>
+  <data name="Birthday" xml:space="preserve">
+    <value>Дата рождения</value>
   </data>
-  <data name="LeftMenuAbiturient" xml:space="preserve">
-    <value>Редактировать данные анкеты</value>
+  <data name="Complete" xml:space="preserve">
+    <value>Полный пакет документов</value>
   </data>
-  <data name="LeftMenuAbiturientMain" xml:space="preserve">
-    <value>Личный кабинет</value>
+  <data name="CV" xml:space="preserve">
+    <value>Резюме</value>
   </data>
-  <data name="LeftMenuAddSharedFiles" xml:space="preserve">
-    <value>Общие документы</value>
+  <data name="DeInterviewPts" xml:space="preserve">
+    <value>Интервью (De)</value>
   </data>
-  <data name="LeftMenuChangePassword" xml:space="preserve">
-    <value>Сменить пароль</value>
+  <data name="DeInvitation" xml:space="preserve">
+    <value>Приглашение (De)</value>
   </data>
-  <data name="LeftMenuNewApplication" xml:space="preserve">
-    <value>Подать новое заявление</value>
+  <data name="DePortfolioPts" xml:space="preserve">
+    <value>Потфолио (De)</value>
   </data>
-  <data name="LeftMenuPriorityChanger" xml:space="preserve">
-    <value>Изменить приоритеты</value>
+  <data name="Diploma" xml:space="preserve">
+    <value>Диплом об образовании</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EnglishCertificates" xml:space="preserve">
+    <value>Сертификаты ин.яз.</value>
+  </data>
+  <data name="HasFee" xml:space="preserve">
+    <value>Бюджет</value>
+  </data>
+  <data name="HasNoFee" xml:space="preserve">
+    <value>Договор</value>
+  </data>
+  <data name="Interview" xml:space="preserve">
+    <value>Интервью</value>
+  </data>
+  <data name="MotivationLetter" xml:space="preserve">
+    <value>Мотивационное письмо</value>
+  </data>
+  <data name="Nationality" xml:space="preserve">
+    <value>Гражданство</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="NoPhoto" xml:space="preserve">
+    <value>Фото не найдено</value>
+  </data>
+  <data name="OverallPts" xml:space="preserve">
+    <value>Общий балл</value>
+  </data>
+  <data name="PassportScan" xml:space="preserve">
+    <value>Скан паспорта</value>
+  </data>
+  <data name="PassportValid" xml:space="preserve">
+    <value>Срок действия паспорта</value>
+  </data>
+  <data name="PlaceOfBirth" xml:space="preserve">
+    <value>Место рождения</value>
+  </data>
+  <data name="PosstalAddress" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="PrintResults" xml:space="preserve">
+    <value>Распечатать анкету</value>
+  </data>
+  <data name="RuInterviewPts" xml:space="preserve">
+    <value>Интервью (Ru)</value>
+  </data>
+  <data name="RuInvitation" xml:space="preserve">
+    <value>Приглашение (Ru)</value>
+  </data>
+  <data name="RuPortfolioPts" xml:space="preserve">
+    <value>Портфолио (Ru)</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус анкеты</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="VisaApplicationPlace" xml:space="preserve">
+    <value>Виза</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
   </data>
   <data name="Statisctics" xml:space="preserve">
-    <value>Statistical Data</value>
+    <value>Статистика</value>
   </data>
 </root>

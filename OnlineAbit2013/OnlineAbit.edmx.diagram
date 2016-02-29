@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d1d67926c3bb4742a09d2480a106ff77" Name="Diagram1">
+      <Diagram DiagramId="d1d67926c3bb4742a09d2480a106ff77" Name="Diagram1" ZoomLevel="73">
         <EntityTypeShape EntityType="OnlinePriem2015Model.Application" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationCommit" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.PersonSportQualification" Width="3.25" PointX="2.75" PointY="3.75" IsExpanded="true" />
@@ -139,6 +139,13 @@
         <AssociationConnector Association="OnlinePriem2015Model.FK_EgeMark_EgeExam" />
         <AssociationConnector Association="OnlinePriem2015Model.FK_InnerEntryInEntry_SP_Profile" />
         <AssociationConnector Association="OnlinePriem2015Model.FK_ObrazProgramInEntry_SP_ObrazProgram" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_ApplicationSelectedExam_Application" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PortfolioFilesMark" Width="1.5" PointX="29.625" PointY="1" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PortfolioStatus" Width="1.5" PointX="27.375" PointY="1.5" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PortfolioFilesMark_PortfolioStatus" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PortfolioStatus_PortfolioStatus" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Groups" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.GroupUsers" Width="1.5" PointX="22.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

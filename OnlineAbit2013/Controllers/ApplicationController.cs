@@ -51,7 +51,7 @@ namespace OnlineAbit2013.Controllers
                          StudyLevelGroupId = Entry.StudyLevelGroupId,
                          StudyLevelGroupName = (isEng ? ((String.IsNullOrEmpty(Entry.StudyLevelGroupNameEng)) ? Entry.StudyLevelGroupNameRus : Entry.StudyLevelGroupNameEng) : Entry.StudyLevelGroupNameRus) +
                                   (sectype == null ? "" : (isEng ? sectype.NameEng : sectype.Name)), 
-                         AbiturientTypeId = App.SecondTypeId ?? 1,
+                         AbiturientTypeId = App.SecondTypeId,
                      }).ToList();
                 bool ExistNotSelectedExams = false;
                 foreach (SimpleApplication app in tblAppsMain)
@@ -480,21 +480,6 @@ namespace OnlineAbit2013.Controllers
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                 return Content("Authorization required");
-            /*
-            string query = @"SELECT 
-                            Person.Surname +' '+ Person.Name + (case when (Secondname is not null)then ' '+SecondName else '' end) +'_' +
-                            (case when (AllFiles.ApplicationId is not null or AllFiles.CommitId is not null) then '(к заявл.)' else '(общ.)' end) + AllFiles.FileName  as FileName,
-                            
-                            FileData, 
-                            MimeType, 
-                            FileExtention 
-                            FROM AllFiles 
-                            left join Application on Application.Id = AllFiles.ApplicationId or Application.CommitId = AllFiles.CommitId
-                            left join Person on Person.Id = AllFiles.PersonId or Person.Id = Application.PersonId
-                            WHERE AllFiles.Id=@Id
-                            ";
-            DataTable tbl = Util.AbitDB.GetDataTable(query,
-                new SortedList<string, object>() { { "@Id", FileId } });*/
 
             DataTable tbl = Util.AbitDB.GetDataTable("SELECT FileName, FileData, MimeType, FileExtention FROM AllFiles WHERE Id=@Id",
                 new SortedList<string, object>() { { "@Id", FileId } });

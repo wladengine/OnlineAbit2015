@@ -2048,7 +2048,7 @@ namespace OnlineAbit2013.Controllers
                     else
                         NewId = true;
                 }
-                int SecondTypeId = context.Application.Where(x => x.CommitId == gComm && x.PersonId == PersonId).Select(x => x.SecondTypeId).FirstOrDefault() ?? 1;
+                int SecondTypeId = context.Application.Where(x => x.CommitId == gComm && x.PersonId == PersonId).Select(x => x.SecondTypeId).FirstOrDefault();
                  // поступление
                 if (SecondTypeId == 1)
                 {
@@ -4125,9 +4125,6 @@ end";
             if (ext.IndexOf("png", StringComparison.OrdinalIgnoreCase) != -1)
                 openMenu = false;
 
-            //var file = Util.ABDB.PersonFile.Where(x => x.PersonId == PersonId && x.Id == FileId).
-            //    Select(x => new { RealName = x.FileName, x.FileData }).FirstOrDefault();
-
             try
             {
                 if (openMenu)
@@ -4372,31 +4369,6 @@ end";
             return RedirectToAction("NewApplicationRectorScholarship");
         }
 
-        //public ActionResult NewAppRectorScholarship()
-        //{
-        //    Guid PersonId;
-        //    if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-        //        return RedirectToAction("LogOn", "Account");
-
-        //    using (OnlinePriemEntities context = new OnlinePriemEntities())
-        //    {
-        //        if (context.RectorScholarshipApplication.Where(x => x.PersonId == PersonId).Count() > 0)
-        //        {
-        //            NewApplicationRectorScholarshipModel mdl = new NewApplicationRectorScholarshipModel();
-        //            mdl.Message = "Заявление уже подавалось";
-        //            mdl.Files = GetRectorScholarshipFileList(PersonId);
-        //            return View("NewApplicationRectorScholarship", mdl);
-        //        }
-
-        //        RectorScholarshipApplication app = new RectorScholarshipApplication();
-        //        app.PersonId = PersonId;
-        //        app.Id = Guid.NewGuid();
-
-        //        context.RectorScholarshipApplication.AddObject(app);
-        //        context.SaveChanges();
-        //        return View("NewApplicationRectorScholarshipSuccess");
-        //    }
-        //}
         #endregion
 
         #region EqualWithRussia
@@ -5114,28 +5086,6 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
                 var result = new { IsOk = false, ErrorMsg = "Ошибка при обновлении" };
                 return Json(result);
             }
-
-            //using (AbitDB db = new AbitDB())
-            //{
-
-            //    EgeMark Mark = db.EgeMark.Where(x => x.Id == markId).DefaultIfEmpty(null).First();
-
-            //    if (Mark != null)
-            //        db.EgeMark.DeleteObject(Mark);
-
-            //    try
-            //    {
-            //        db.SaveChanges(System.Data.Objects.SaveOptions.None);
-            //    }
-            //    catch
-            //    {
-            //        var result = new { IsOk = false, ErrorMsg = "Ошибка при обновлении" };
-            //        return Json(result);
-            //    }
-
-            //    var res = new { IsOk = true, ErrorMsg = "" };
-            //    return Json(res);
-            //}
         }
 
         [OutputCache(NoStore = true, Duration = 0)]
@@ -5176,31 +5126,6 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
                 var result = new { IsOk = false, ErrorMsg = "Ошибка при сохранении данных" };
                 return Json(result);
             }
-            //using (AbitDB db = new AbitDB())
-            //{
-            //    PersonScienceWork psw = new PersonScienceWork()
-            //    {
-            //        Id = Guid.NewGuid(),
-            //        PersonId = PersonId,
-            //        WorkTypeId = iScWorkType,
-            //        WorkInfo = ScWorkInfo
-            //    };
-
-            //    try
-            //    {
-            //        db.PersonScienceWork.AddObject(psw);
-            //        db.SaveChanges(System.Data.Objects.SaveOptions.None);
-            //    }
-            //    catch
-            //    {
-            //        var result = new { IsOk = false, ErrorMsg = "Ошибка при сохранении данных" };
-            //        return Json(result);
-            //    }
-            //    string scType = Util.ScienceWorkTypeAll[iScWorkType];
-            //    string scInfo = HttpUtility.HtmlEncode(ScWorkInfo);
-            //    var res = new { IsOk = true, Data = new { Id = psw.Id, Type = scType, Info = scInfo }, ErrorMsg = "" };
-            //    return Json(res);
-            //}
         }
 
         [OutputCache(NoStore = true, Duration = 0)]

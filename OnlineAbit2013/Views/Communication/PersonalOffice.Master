@@ -37,7 +37,7 @@
     <script type="text/javascript">
         function ChangeUI() {
             var lang = '<%= GetGlobalResourceObject("Common", "UILangSetCookie")%>';
-            document.cookie = "uilang=" + lang + "; path=/; expires=Mon, 01-Jan-2016 00:00:00 GMT";
+            document.cookie = "uilang=" + lang + "; path=/; expires=Mon, 01-Jan-<%=DateTime.Now.AddYears(1).Year.ToString()%> 00:00:00 GMT";
             location.reload(true);
         }
     </script>
@@ -171,6 +171,7 @@
                                 <ul style="list-style-type: none; padding-left: 0.7em; padding-right:0.7em;">
                                     <li><%= Html.ActionLink(GetGlobalResourceObject("Locales", "LeftMenuChangePassword").ToString(), "ChangePassword", "Account", null, new SortedList<string, object>() { { "class", "MenuButton" } })%></li>
                                     <li><%= Html.ActionLink(GetGlobalResourceObject("Locales", "AdminPanel").ToString(), "Index", "Communication", null, new SortedList<string, object>() { { "class", "MenuButton" } })%></li>
+                                    <li><%= Html.ActionLink(GetGlobalResourceObject("Locales", "Statisctics").ToString(), "Statistics", "Communication", null, new SortedList<string, object>() { { "class", "MenuButton" } })%></li>
                                     <hr />
                                     <li><%= Html.ActionLink(GetGlobalResourceObject("Locales", "LeftMenuAbiturientMain").ToString(), "Main", "Abiturient", null, new SortedList<string, object>() { { "class", "MenuButton" } })%></li>
                                 </ul>

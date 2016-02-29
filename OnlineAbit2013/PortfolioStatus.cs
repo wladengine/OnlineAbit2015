@@ -12,14 +12,19 @@ namespace OnlineAbit2013
     using System;
     using System.Collections.Generic;
     
-    public partial class ApplicationSelectedExam
+    public partial class PortfolioStatus
     {
-        public System.Guid ApplicationId { get; set; }
-        public System.Guid ExamInEntryBlockUnitId { get; set; }
-        public Nullable<int> ExamTimetableId { get; set; }
-        public Nullable<System.DateTime> RegistrationDate { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PortfolioStatus()
+        {
+            this.PortfolioFilesMark = new HashSet<PortfolioFilesMark>();
+        }
     
-        public virtual ExamTimetable ExamTimetable { get; set; }
-        public virtual Application Application { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string ShortName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PortfolioFilesMark> PortfolioFilesMark { get; set; }
     }
 }

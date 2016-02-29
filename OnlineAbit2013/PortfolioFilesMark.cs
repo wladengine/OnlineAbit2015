@@ -12,14 +12,17 @@ namespace OnlineAbit2013
     using System;
     using System.Collections.Generic;
     
-    public partial class ApplicationSelectedExam
+    public partial class PortfolioFilesMark
     {
-        public System.Guid ApplicationId { get; set; }
-        public System.Guid ExamInEntryBlockUnitId { get; set; }
-        public Nullable<int> ExamTimetableId { get; set; }
-        public Nullable<System.DateTime> RegistrationDate { get; set; }
+        public System.Guid PersonId { get; set; }
+        public bool IsComplete { get; set; }
+        public Nullable<double> RuPortfolioPts { get; set; }
+        public Nullable<double> DePortfolioPts { get; set; }
+        public Nullable<double> RuInterviewPts { get; set; }
+        public Nullable<double> DeInterviewPts { get; set; }
+        public Nullable<bool> Interview { get; set; }
+        public Nullable<int> StatusId { get; set; }
     
-        public virtual ExamTimetable ExamTimetable { get; set; }
-        public virtual Application Application { get; set; }
+        public virtual PortfolioStatus PortfolioStatus { get; set; }
     }
 }

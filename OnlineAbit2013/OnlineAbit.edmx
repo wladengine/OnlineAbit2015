@@ -56,7 +56,7 @@
           <Property Name="DateOfStart" Type="datetime" Nullable="false" />
           <Property Name="IsApprovedByComission" Type="bit" Nullable="false" />
           <Property Name="IsImported" Type="bit" Nullable="false" />
-          <Property Name="SecondTypeId" Type="int" />
+          <Property Name="SecondTypeId" Type="int" Nullable="false" />
           <Property Name="DateReviewDocs" Type="datetime" />
           <Property Name="CommitId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IsCommited" Type="bit" Nullable="false" />
@@ -243,11 +243,28 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ExamInEntryBlockUnitId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ExamDate" Type="datetime" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="DateOfClose" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Decription" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="GroupUsers">
+          <Key>
+            <PropertyRef Name="GroupId" />
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="InnerEntryInEntry">
           <Key>
@@ -579,6 +596,27 @@
           <Property Name="WorkPlace" Type="nvarchar" MaxLength="500" />
           <Property Name="WorkProfession" Type="nvarchar" MaxLength="500" />
           <Property Name="WorkSpecifications" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PortfolioFilesMark">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsComplete" Type="bit" Nullable="false" />
+          <Property Name="RuPortfolioPts" Type="float" />
+          <Property Name="DePortfolioPts" Type="float" />
+          <Property Name="RuInterviewPts" Type="float" />
+          <Property Name="DeInterviewPts" Type="float" />
+          <Property Name="Interview" Type="bit" />
+          <Property Name="StatusId" Type="int" />
+        </EntityType>
+        <EntityType Name="PortfolioStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Qualification">
           <Key>
@@ -1117,6 +1155,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ApplicationSelectedExam_Application">
+          <End Role="Application" Type="Self.Application" Multiplicity="1" />
+          <End Role="ApplicationSelectedExam" Type="Self.ApplicationSelectedExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationSelectedExam">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ApplicationSelectedExam_ExamTimetable">
           <End Role="ExamTimetable" Type="Self.ExamTimetable" Multiplicity="0..1" />
           <End Role="ApplicationSelectedExam" Type="Self.ApplicationSelectedExam" Multiplicity="*" />
@@ -1424,9 +1474,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PersonChangeStudyFormReason_Application">
-          <End Role="Application" Type="Self.Application" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
           <End Role="PersonChangeStudyFormReason" Type="Self.PersonChangeStudyFormReason" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Application">
@@ -1823,6 +1871,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PortfolioFilesMark_PortfolioStatus">
+          <End Role="PortfolioStatus" Type="Self.PortfolioStatus" Multiplicity="0..1" />
+          <End Role="PortfolioFilesMark" Type="Self.PortfolioFilesMark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PortfolioStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PortfolioFilesMark">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PortfolioStatus_PortfolioStatus">
+          <End Role="PortfolioStatus" Type="Self.PortfolioStatus" Multiplicity="1" />
+          <End Role="PortfolioStatus1" Type="Self.PortfolioStatus" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PortfolioStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PortfolioStatus1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SP_LicenseProgram_SP_StudyLevel">
           <End Role="SP_StudyLevel" Type="Self.SP_StudyLevel" Multiplicity="1" />
           <End Role="SP_LicenseProgram" Type="Self.SP_LicenseProgram" Multiplicity="*" />
@@ -1909,6 +1981,8 @@
           <EntitySet Name="ExamInEntryBlockUnit" EntityType="Self.ExamInEntryBlockUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamName" EntityType="Self.ExamName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamTimetable" EntityType="Self.ExamTimetable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroupUsers" EntityType="Self.GroupUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InnerEntryInEntry" EntityType="Self.InnerEntryInEntry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OlympBook" EntityType="Self.OlympBook" Schema="dbo" store:Type="Tables" />
@@ -1934,6 +2008,8 @@
           <EntitySet Name="PersonSportQualification" EntityType="Self.PersonSportQualification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonVisaInfo" EntityType="Self.PersonVisaInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonWork" EntityType="Self.PersonWork" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PortfolioFilesMark" EntityType="Self.PortfolioFilesMark" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PortfolioStatus" EntityType="Self.PortfolioStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Qualification" EntityType="Self.Qualification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReturnDocumentType" EntityType="Self.ReturnDocumentType" Schema="dbo" store:Type="Tables" />
@@ -2139,6 +2215,10 @@
           <AssociationSet Name="FK_ApplicationDetails_ObrazProgramInEntry" Association="Self.FK_ApplicationDetails_ObrazProgramInEntry">
             <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
             <End Role="ApplicationDetails" EntitySet="ApplicationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicationSelectedExam_Application" Association="Self.FK_ApplicationSelectedExam_Application">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="ApplicationSelectedExam" EntitySet="ApplicationSelectedExam" />
           </AssociationSet>
           <AssociationSet Name="FK_ApplicationSelectedExam_ExamTimetable" Association="Self.FK_ApplicationSelectedExam_ExamTimetable">
             <End Role="ExamTimetable" EntitySet="ExamTimetable" />
@@ -2364,6 +2444,14 @@
             <End Role="Person" EntitySet="Person" />
             <End Role="PersonWork" EntitySet="PersonWork" />
           </AssociationSet>
+          <AssociationSet Name="FK_PortfolioFilesMark_PortfolioStatus" Association="Self.FK_PortfolioFilesMark_PortfolioStatus">
+            <End Role="PortfolioStatus" EntitySet="PortfolioStatus" />
+            <End Role="PortfolioFilesMark" EntitySet="PortfolioFilesMark" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PortfolioStatus_PortfolioStatus" Association="Self.FK_PortfolioStatus_PortfolioStatus">
+            <End Role="PortfolioStatus" EntitySet="PortfolioStatus" />
+            <End Role="PortfolioStatus1" EntitySet="PortfolioStatus" />
+          </AssociationSet>
           <AssociationSet Name="FK_SP_LicenseProgram_SP_StudyLevel" Association="Self.FK_SP_LicenseProgram_SP_StudyLevel">
             <End Role="SP_StudyLevel" EntitySet="SP_StudyLevel" />
             <End Role="SP_LicenseProgram" EntitySet="SP_LicenseProgram" />
@@ -2393,7 +2481,7 @@
           <Property Name="DateOfStart" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsApprovedByComission" Type="Boolean" Nullable="false" />
           <Property Name="IsImported" Type="Boolean" Nullable="false" />
-          <Property Name="SecondTypeId" Type="Int32" />
+          <Property Name="SecondTypeId" Type="Int32" Nullable="false" />
           <Property Name="DateReviewDocs" Type="DateTime" Precision="3" />
           <Property Name="CommitId" Type="Guid" Nullable="false" />
           <Property Name="IsCommited" Type="Boolean" Nullable="false" />
@@ -2410,6 +2498,7 @@
           <NavigationProperty Name="Person" Relationship="OnlinePriem2015Model.FK_Application_Person" FromRole="Application" ToRole="Person" />
           <NavigationProperty Name="PersonChangeStudyFormReason" Relationship="OnlinePriem2015Model.FK_PersonChangeStudyFormReason_Application" FromRole="Application" ToRole="PersonChangeStudyFormReason" />
           <NavigationProperty Name="C_Entry" Relationship="OnlinePriem2015Model.FK_Application__Entry" FromRole="Application" ToRole="C_Entry" />
+          <NavigationProperty Name="ApplicationSelectedExam" Relationship="OnlinePriem2015Model.FK_ApplicationSelectedExam_Application" FromRole="Application" ToRole="ApplicationSelectedExam" />
         </EntityType>
         <EntityType Name="ApplicationCommit">
           <Key>
@@ -2826,6 +2915,22 @@
             <End Role="SP_ObrazProgram" EntitySet="SP_ObrazProgram" />
             <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
           </AssociationSet>
+          <AssociationSet Name="FK_ApplicationSelectedExam_Application" Association="OnlinePriem2015Model.FK_ApplicationSelectedExam_Application">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="ApplicationSelectedExam" EntitySet="ApplicationSelectedExam" />
+          </AssociationSet>
+          <EntitySet Name="PortfolioFilesMark" EntityType="OnlinePriem2015Model.PortfolioFilesMark" />
+          <EntitySet Name="PortfolioStatus" EntityType="OnlinePriem2015Model.PortfolioStatus" />
+          <AssociationSet Name="FK_PortfolioFilesMark_PortfolioStatus" Association="OnlinePriem2015Model.FK_PortfolioFilesMark_PortfolioStatus">
+            <End Role="PortfolioStatus" EntitySet="PortfolioStatus" />
+            <End Role="PortfolioFilesMark" EntitySet="PortfolioFilesMark" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PortfolioStatus_PortfolioStatus" Association="OnlinePriem2015Model.FK_PortfolioStatus_PortfolioStatus">
+            <End Role="PortfolioStatus" EntitySet="PortfolioStatus" />
+            <End Role="PortfolioStatus1" EntitySet="PortfolioStatus" />
+          </AssociationSet>
+          <EntitySet Name="Groups" EntityType="OnlinePriem2015Model.Groups" />
+          <EntitySet Name="GroupUsers" EntityType="OnlinePriem2015Model.GroupUsers" />
         </EntityContainer>
         <EntityType Name="PersonEducationDocument">
           <Key>
@@ -3539,6 +3644,7 @@
           <Property Name="ExamTimetableId" Type="Int32" />
           <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="ExamTimetable" Relationship="OnlinePriem2015Model.FK_ApplicationSelectedExam_ExamTimetable" FromRole="ApplicationSelectedExam" ToRole="ExamTimetable" />
+          <NavigationProperty Name="Application" Relationship="OnlinePriem2015Model.FK_ApplicationSelectedExam_Application" FromRole="ApplicationSelectedExam" ToRole="Application" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -4727,6 +4833,84 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ApplicationSelectedExam_Application">
+          <End Type="OnlinePriem2015Model.Application" Role="Application" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="OnlinePriem2015Model.ApplicationSelectedExam" Role="ApplicationSelectedExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationSelectedExam">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PortfolioFilesMark">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="Guid" Nullable="false" />
+          <Property Name="IsComplete" Type="Boolean" Nullable="false" />
+          <Property Name="RuPortfolioPts" Type="Double" />
+          <Property Name="DePortfolioPts" Type="Double" />
+          <Property Name="RuInterviewPts" Type="Double" />
+          <Property Name="DeInterviewPts" Type="Double" />
+          <Property Name="Interview" Type="Boolean" />
+          <Property Name="StatusId" Type="Int32" />
+          <NavigationProperty Name="PortfolioStatus" Relationship="OnlinePriem2015Model.FK_PortfolioFilesMark_PortfolioStatus" FromRole="PortfolioFilesMark" ToRole="PortfolioStatus" />
+        </EntityType>
+        <EntityType Name="PortfolioStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PortfolioFilesMark" Relationship="OnlinePriem2015Model.FK_PortfolioFilesMark_PortfolioStatus" FromRole="PortfolioStatus" ToRole="PortfolioFilesMark" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_PortfolioFilesMark_PortfolioStatus">
+          <End Type="OnlinePriem2015Model.PortfolioStatus" Role="PortfolioStatus" Multiplicity="0..1" />
+          <End Type="OnlinePriem2015Model.PortfolioFilesMark" Role="PortfolioFilesMark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PortfolioStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PortfolioFilesMark">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PortfolioStatus_PortfolioStatus">
+          <End Type="OnlinePriem2015Model.PortfolioStatus" Role="PortfolioStatus" Multiplicity="1" />
+          <End Type="OnlinePriem2015Model.PortfolioStatus" Role="PortfolioStatus1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PortfolioStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PortfolioStatus1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Decription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="GroupUsers">
+          <Key>
+            <PropertyRef Name="GroupId" />
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="PersonId" Type="Guid" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5717,7 +5901,48 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="PortfolioFilesMark">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.PortfolioFilesMark">
+              <MappingFragment StoreEntitySet="PortfolioFilesMark">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Interview" ColumnName="Interview" />
+                <ScalarProperty Name="DeInterviewPts" ColumnName="DeInterviewPts" />
+                <ScalarProperty Name="RuInterviewPts" ColumnName="RuInterviewPts" />
+                <ScalarProperty Name="DePortfolioPts" ColumnName="DePortfolioPts" />
+                <ScalarProperty Name="RuPortfolioPts" ColumnName="RuPortfolioPts" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PortfolioStatus">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.PortfolioStatus">
+              <MappingFragment StoreEntitySet="PortfolioStatus">
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.Groups">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="Decription" ColumnName="Decription" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupUsers">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.GroupUsers">
+              <MappingFragment StoreEntitySet="GroupUsers">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

@@ -3627,5 +3627,138 @@ namespace OnlineAbit2013.Controllers
 
             return ms.ToArray();
         }
+
+        public static byte[] GetCommunicationAppCard(string dirPath, Guid PersonId)
+        {
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                var abitList = (from x in context.Application
+                                where x.PersonId == PersonId
+                                select new
+                                {
+                                    HasFee = (x.C_Entry.StudyBasisId == 1),
+                                    HasNoFee = (x.C_Entry.StudyBasisId == 2),
+                                }).ToList();
+
+                var person = (from x in context.Person
+                              join us in context.User on x.Id equals us.Id
+                              join pCont in context.PersonContacts on x.Id equals pCont.PersonId
+
+                              join port in context.PortfolioFilesMark on x.Id equals port.PersonId into _prt
+                              from prt in _prt.DefaultIfEmpty()
+
+                              where x.Id == PersonId
+                              select new
+                              {
+                                  x.Surname,
+                                  x.Name,
+                                  x.SecondName,
+                                  x.Barcode,
+                                  us.Email,
+
+                                  RuPort = (prt != null) ? (prt.RuPortfolioPts ??0) : 0,
+                                  DePort = (prt != null) ? (prt.DePortfolioPts ?? 0) : 0,
+                                  RuInt = (prt != null) ? (prt.RuInterviewPts ?? 0) : 0,
+                                  DeInt = (prt != null) ? (prt.DeInterviewPts ?? 0) : 0,
+                                  Interview = (prt != null) ? (prt.Interview ?? false): false,
+
+                                  pCont.Code,
+                                  pCont.Country.IsRussia,
+                                  Country = pCont.Country.Name,
+                                  countryeng = pCont.Country.NameEng,
+                                  Region = pCont.Region.Name,
+                                  pCont.City,
+                                  pCont.Street,
+                                  pCont.House,
+                                  pCont.Korpus,
+                                  pCont.Flat,
+
+                                  x.Sex,
+                                  Nationality = x.Nationality.Name,
+                                  x.BirthPlace,
+                                  x.BirthDate,
+
+                                  VisaCountry = x.PersonVisaInfo.Country.Name,
+                                  VisaPostAddress = x.PersonVisaInfo.PostAddress,
+                                  VisaTown = x.PersonVisaInfo.Town,
+
+                                  x.PassportValid, 
+                              }).FirstOrDefault();
+
+                bool HasFee = abitList.Where(x => x.HasFee).Count() > 0;
+                bool HasNoFee = abitList.Where(x => x.HasNoFee).Count() > 0; 
+
+
+                MemoryStream ms = new MemoryStream();
+                string dotName = "CommunicationAppCard.pdf";
+
+                byte[] templateBytes;
+                using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
+                {
+                    templateBytes = new byte[fs.Length];
+                    fs.Read(templateBytes, 0, templateBytes.Length);
+                }
+
+                PdfReader pdfRd = new PdfReader(templateBytes);
+                PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
+                pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
+                AcroFields acrFlds = pdfStm.AcroFields;
+                string code = (800000 + person.Barcode).ToString();
+
+                //добавляем штрихкод
+                //Barcode128 barcode = new Barcode128();
+                //barcode.Code = code;
+                //PdfContentByte cb = pdfStm.GetOverContent(1);
+                //iTextSharp.text.Image img = barcode.CreateImageWithBarcode(cb, null, null);
+                //img.SetAbsolutePosition(70, 750);
+                //cb.AddImage(img);
+
+                acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
+
+                acrFlds.SetField("Sex", person.Sex ? "male" : "female");
+
+                acrFlds.SetField("DateOfBirth", person.BirthDate.Value.ToShortDateString());
+                acrFlds.SetField("PlaceOfBirth", person.BirthPlace);
+
+                acrFlds.SetField("Nationality", person.Nationality);
+
+                string Address = string.Format("{0} {1}{2}",
+                   (person.Code) ?? "",
+                   (person.IsRussia ? ((person.Region + ", ") ?? "") : person.Country + ", "),
+                   (person.City + ", ") ?? "")
+                   +
+                   string.Format("{0} {1} {2} {3}",
+                   person.Street ?? "",
+                   (person.House == string.Empty ? "" : "дом " + person.House),
+                   (person.Korpus == string.Empty ? "" : "корп. " + person.Korpus),
+                   (person.Flat == string.Empty ? "" : "кв. " + person.Flat));
+
+                acrFlds.SetField("PostalAddress1", Address);
+                acrFlds.SetField("Email", person.Email);
+                
+
+                acrFlds.SetField("HasFee", HasFee ? "yes" : "no");
+                acrFlds.SetField("HasNoFee", HasNoFee ? "yes" : "no");
+                acrFlds.SetField("ValidUntil", person.PassportValid.HasValue ? (person.PassportValid.Value == DateTime.MinValue ? "" : person.PassportValid.Value.ToShortDateString()) : "");
+                acrFlds.SetField("VisaAppPlace", person.VisaCountry + " "+person.VisaTown + " " + person.VisaPostAddress + " ");
+                acrFlds.SetField("PortRu", person.RuPort.ToString());
+                acrFlds.SetField("PortDe", person.DePort.ToString());
+                acrFlds.SetField("PortCom", ((person.RuPort+person.DePort)/2).ToString());
+
+                acrFlds.SetField("IntRu",person.RuInt.ToString());
+                acrFlds.SetField("IntDe", person.DeInt.ToString());
+                acrFlds.SetField("IntCom", ((person.RuInt+person.DeInt)/2).ToString());
+
+                acrFlds.SetField("Interview", person.Interview ? "yes":"no");
+                acrFlds.SetField("Overall", ((person.RuPort + person.DePort) / 2 + (person.RuInt+person.DeInt)/2).ToString());
+
+                pdfStm.FormFlattening = true;
+                pdfStm.Close();
+                pdfRd.Close();
+
+                return ms.ToArray();
+            }
+        }
+
     } 
 }
