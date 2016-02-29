@@ -132,6 +132,9 @@
   <data name="Country" xml:space="preserve">
     <value>Country of residence</value>
   </data>
+  <data name="CountryOfBirth" xml:space="preserve">
+    <value>Country of birth</value>
+  </data>
   <data name="FormHeader" xml:space="preserve">
     <value>Registration Form</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="NameEng" xml:space="preserve">
+    <value>Name  in latin</value>
   </data>
   <data name="Nationality" xml:space="preserve">
     <value>Citizenship</value>
@@ -167,6 +173,9 @@
   </data>
   <data name="SecondName" xml:space="preserve">
     <value>Father’s name (if available)</value>
+  </data>
+  <data name="SecondNameEng" xml:space="preserve">
+    <value>Father’s name (if available) in latin</value>
   </data>
   <data name="Sex" xml:space="preserve">
     <value>Sex</value>
@@ -191,6 +200,9 @@
   </data>
   <data name="Surname" xml:space="preserve">
     <value>Surname</value>
+  </data>
+  <data name="SurnameEng" xml:space="preserve">
+    <value>Surname  in latin</value>
   </data>
   <data name="ValidationSummaryHeader" xml:space="preserve">
     <value>There are errors while submit:</value>

@@ -162,6 +162,9 @@
   <data name="PersonInfo_Surname_Message" xml:space="preserve">
     <value>Введите фамилию</value>
   </data>
+  <data name="QuestionnaireData" xml:space="preserve">
+    <value>Анкета</value>
+  </data>
   <data name="RequiredField" xml:space="preserve">
     <value>Необходимое поле </value>
   </data>

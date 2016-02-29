@@ -620,6 +620,84 @@
                         <input id="Submit5" class="button button-green" type="submit" value="<%= GetGlobalResourceObject("PersonInfo", "ButtonSubmitText").ToString()%>" />
                     </div>
                 </form>
+
+                 <!-- /////////////////////////////////////////////////////////////////// -->
+                    <p class="message info">
+                     <asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:AddSharedFiles, PersonalOffice_Certificates %>"></asp:Literal>
+                    </p> 
+                    <h4><%= GetGlobalResourceObject("AddSharedFiles", "EnglishCertificatesLoad") %></h4>
+                    <form action="/Abiturient/AddSharedFile" method="post" class="form panel" enctype="multipart/form-data">
+                        <fieldset> 
+                            <input name="Stage" type="hidden" value="<%=Model.Stage %>" />
+                            <div class="clearfix" >
+                                <label for="fileAttachment"><%= GetGlobalResourceObject("AddSharedFiles", "File") %></label>
+                                <input id="fileAttachment" type="file" name="File"/>
+                            </div>
+                            <div class="clearfix" style="width: 100%;">
+                                <input name="FileTypeId" type="hidden" value="5"/>
+                                <%= Html.Label(GetGlobalResourceObject("AddSharedFiles", "FileType").ToString())%> 
+                                <div >
+                                     <%= Html.DropDownList("FileTypeId", Model.CertificatesTypes, new { disabled = "disabled"})%>
+                                </div> 
+                            </div>
+                            <div class="clearfix">
+                                <label for="fileComment"><%= GetGlobalResourceObject("AddSharedFiles", "Comment") %></label>
+                                <textarea id="fileComment"  style="width: 440px;" rows="5" class="noresize" name="Comment" ></textarea>
+                            </div>
+                            <hr />
+                            <div class="clearfix">
+                                <input id="btnSubmit" type="submit" class="button button-green" value="<%= GetGlobalResourceObject("AddSharedFiles", "Submit") %>" />
+                            </div>
+                        </fieldset>
+                    </form>
+                    <h4><%= GetGlobalResourceObject("AddSharedFiles", "LoadedFiles")%></h4>
+                    <% if (Model.Files.Count > 0)
+                       { %>
+                    <table id="tblFiles" class="paginate" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="width:10%;"><%= GetGlobalResourceObject("AddSharedFiles", "View")%></th>
+                                <th><%= GetGlobalResourceObject("AddSharedFiles", "FileName")%></th>
+                                <th><%= GetGlobalResourceObject("AddSharedFiles", "LoadDate")%></th>
+                                <th><%= GetGlobalResourceObject("AddSharedFiles", "Comment")%></th>
+                                <th><%= GetGlobalResourceObject("AddSharedFiles", "Size")%></th>
+                                <th style="width:10%;"><%= GetGlobalResourceObject("AddSharedFiles", "Delete")%></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    <% foreach (var file in Model.Files)
+                       { %>
+                            <tr id="<%= file.Id.ToString() %>">
+                                <td style="vertical-align:middle; text-align:center;"><a href="<%= "../../Abiturient/GetFile?id=" + file.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a></td>
+                                <td style="vertical-align:middle; text-align:center;"><%= Html.Encode(file.FileName)%></td>
+                                <td style="vertical-align:middle; text-align:center;"><%= Html.Encode(file.LoadDate)%></td>
+                                <td style="vertical-align:middle; text-align:center;"><%= Html.Encode(file.Comment)%></td>
+                                <td style="vertical-align:middle; text-align:center;"><%= file.FileSize > (2 * 1024 * 1024) ?
+                                    Math.Round(((double)file.FileSize / (1024.0 * 1024.0)), 2).ToString() + " Mb"
+                                    :
+                                    file.FileSize > 1024 ?
+                                    Math.Round(((double)file.FileSize / 1024.0), 2).ToString() + " Kb"
+                                    : file.FileSize.ToString()%></td>
+                                <td style="vertical-align:middle; text-align:center;">
+                                    <span class="link" onclick="DeleteFile('<%= file.Id.ToString() %>')">
+                                        <img src="../../Content/themes/base/images/delete-icon.png" alt="<%= GetGlobalResourceObject("AddSharedFiles", "Delete") %>" />
+                                    </span>
+                                </td>
+                            </tr>
+                    <% } %>
+                        </tbody>
+                    </table>
+                    <% }
+                       else
+                       { %>
+                       <table id="Table1" class="paginate" style="width:100%;"><tr><td>
+                    <h5><%= GetGlobalResourceObject("AddSharedFiles", "NoFiles") %></h5>
+                    </td></tr></table>
+                    <% } %>
+                    <br /> 
+                    
+<!-- /////////////////////////////////////////////////////////////////// -->       
+
             </div>
             <div class="grid_2">
                 <ol>
@@ -640,5 +718,5 @@
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="Subheader" runat="server">
-    <h2>Анкета</h2>
+        <h2><%= GetGlobalResourceObject("PersonInfo", "QuestionnaireData")%></h2>
 </asp:Content>

@@ -162,6 +162,9 @@
   <data name="PersonInfo_Surname_Message" xml:space="preserve">
     <value>Enter your surname</value>
   </data>
+  <data name="QuestionnaireData" xml:space="preserve">
+    <value>Questionnaire Data</value>
+  </data>
   <data name="RequiredField" xml:space="preserve">
     <value>Required field</value>
   </data>

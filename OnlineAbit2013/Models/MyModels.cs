@@ -69,6 +69,7 @@ namespace OnlineAbit2013.Models
         public WorkPerson WorkInfo { get; set; }
         // список файлов, типов, и тип файла
         public List<SelectListItem> FileTypes { get; set; }
+        public List<SelectListItem> CertificatesTypes { get; set; }
         public List<AppendedFile> Files { get; set; } 
         public PersonPrivileges PrivelegeInfo { get; set; }
         public Constants ConstInfo { get; set; }
@@ -86,8 +87,14 @@ namespace OnlineAbit2013.Models
         public string Name { get; set; }
         public string SecondName { get; set; }
 
+        public string SurnameEng { get; set; }
+        public string NameEng { get; set; }
+        public string SecondNameEng { get; set; }
+
         public string BirthPlace { get; set; }
         public string BirthDate { get; set; }
+
+        public string CountryOfBirth { get; set; }
 
         public string Nationality { get; set; }
         public bool HasRussianNationality {get; set;}

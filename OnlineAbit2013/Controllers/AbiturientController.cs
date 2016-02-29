@@ -123,9 +123,17 @@ namespace OnlineAbit2013.Controllers
                     model.PersonInfo.Surname = Server.HtmlDecode(Person.Surname);
                     model.PersonInfo.Name = Server.HtmlDecode(Person.Name);
                     model.PersonInfo.SecondName = Server.HtmlDecode(Person.SecondName);
+
+                    model.PersonInfo.SurnameEng = Server.HtmlDecode(Person.SurnameEng);
+                    model.PersonInfo.NameEng = Server.HtmlDecode(Person.NameEng);
+                    model.PersonInfo.SecondNameEng = Server.HtmlDecode(Person.SecondNameEng);
+
                     model.PersonInfo.Sex = Person.Sex ? "M" : "F";
+                    model.PersonInfo.CountryOfBirth = Person.CountryOfBirth.ToString();
                     model.PersonInfo.Nationality = Person.NationalityId.ToString();
+                    
                     model.ContactsInfo.CountryId = PersonContacts.CountryId.ToString();
+
                     model.PersonInfo.BirthPlace = Server.HtmlDecode(Person.BirthPlace);
                     model.PersonInfo.BirthDate = Person.BirthDate.HasValue ? Person.BirthDate.Value.ToString("dd.MM.yyyy") : "";
                     model.PersonInfo.NationalityList = Util.GetCountryList();
@@ -384,6 +392,9 @@ namespace OnlineAbit2013.Controllers
                         model.AddEducationInfo.HasForeignNationality = true;
                     else
                         model.AddEducationInfo.HasForeignNationality = false;
+
+                    model.CertificatesTypes = Util.GetPersonFileTypeList().Where(x => x.Value == "5").ToList();
+                    model.Files = Util.GetFileList(PersonId, "5");
 
                     #region CurrentEducation
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2 || x.VuzAdditionalTypeId == 4)).Count() > 0)
@@ -681,6 +692,10 @@ namespace OnlineAbit2013.Controllers
                     if (!int.TryParse(model.PersonInfo.Nationality, out NationalityId))
                         NationalityId = 193;
 
+                    int CountryOfBirthId = 193;
+                    if (!int.TryParse(model.PersonInfo.CountryOfBirth, out CountryOfBirthId))
+                        CountryOfBirthId = 193;
+
                     int iCountryId = 0;
                     if (!int.TryParse(model.ContactsInfo.CountryId, out iCountryId))
                         iCountryId = 193;//Russia
@@ -699,10 +714,15 @@ namespace OnlineAbit2013.Controllers
                     Person.SecondName = model.PersonInfo.SecondName;
                     Person.BirthDate = bdate;
                     Person.BirthPlace = model.PersonInfo.BirthPlace;
+                    Person.CountryOfBirth = CountryOfBirthId;
                     Person.NationalityId = NationalityId;
                     Person.Sex = model.PersonInfo.Sex == "M" ? true : false;
                     Person.RegistrationStage = iRegStage < 2 ? 2 : iRegStage;
                     PersonContacts.CountryId = iCountryId;
+
+                    Person.SurnameEng = model.PersonInfo.SurnameEng;
+                    Person.NameEng = model.PersonInfo.NameEng;
+                    Person.SecondNameEng = model.PersonInfo.SecondNameEng;
 
                     if (iCountryId != 193)
                     {

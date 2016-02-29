@@ -132,6 +132,9 @@
   <data name="Country" xml:space="preserve">
     <value>Страна проживания</value>
   </data>
+  <data name="CountryOfBirth" xml:space="preserve">
+    <value>Страна рождения</value>
+  </data>
   <data name="FormHeader" xml:space="preserve">
     <value>Анкета</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Имя</value>
+  </data>
+  <data name="NameEng" xml:space="preserve">
+    <value>Имя на латинице</value>
   </data>
   <data name="Nationality" xml:space="preserve">
     <value>Гражданство</value>
@@ -167,6 +173,9 @@
   </data>
   <data name="SecondName" xml:space="preserve">
     <value>Отчество</value>
+  </data>
+  <data name="SecondNameEng" xml:space="preserve">
+    <value>Отчество на латинице</value>
   </data>
   <data name="Sex" xml:space="preserve">
     <value>Пол</value>
@@ -194,6 +203,9 @@
   </data>
   <data name="Surname" xml:space="preserve">
     <value>Фамилия</value>
+  </data>
+  <data name="SurnameEng" xml:space="preserve">
+    <value>Фамилия на латинице</value>
   </data>
   <data name="ValidationSummaryHeader" xml:space="preserve">
     <value>При сохранении информации произошли следующие ошибки:</value>

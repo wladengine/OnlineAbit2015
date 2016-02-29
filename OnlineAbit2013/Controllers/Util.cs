@@ -1854,7 +1854,24 @@ ORDER by Semester.Id";
                     .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
                     .ToList();
         }
+        public static List<SelectListItem> GetEnglishCertificatesTypeList()
+        {
+            bool isEng = GetCurrentThreadLanguageIsEng();
 
+            string query = "SELECT Id, Name, NameEng FROM EnglishCertificatesType ORDER BY 1";
+            DataTable tbl = Util.AbitDB.GetDataTable(query, null);
+            return
+                (from DataRow rw in tbl.Rows
+                 select new
+                 {
+                     Value = rw.Field<int>("Id"),
+                     Text = isEng ?
+                     (string.IsNullOrEmpty(rw.Field<string>("NameEng")) ? rw.Field<string>("Name") : rw.Field<string>("NameEng"))
+                     : rw.Field<string>("Name")
+                 }).AsEnumerable()
+                    .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
+                    .ToList();
+        }
         public static void CommitApplication(Guid CommitId, Guid PersonId, OnlinePriemEntities context)
         {
             var Ids = context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => x.Id).ToList();

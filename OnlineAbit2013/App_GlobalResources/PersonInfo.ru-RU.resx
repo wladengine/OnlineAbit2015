@@ -153,6 +153,9 @@
   <data name="PersonInfo_Surname_Message" xml:space="preserve">
     <value>Введите фамилию</value>
   </data>
+  <data name="QuestionnaireData" xml:space="preserve">
+    <value>Анкета</value>
+  </data>
   <data name="SecondName" xml:space="preserve">
     <value>Отчество</value>
   </data>

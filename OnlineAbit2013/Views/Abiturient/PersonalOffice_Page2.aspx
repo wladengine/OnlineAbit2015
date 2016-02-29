@@ -573,5 +573,5 @@
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="Subheader" runat="server">
-    <h2>Анкета</h2>
+        <h2><%= GetGlobalResourceObject("PersonInfo", "QuestionnaireData")%></h2>
 </asp:Content>

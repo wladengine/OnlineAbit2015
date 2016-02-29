@@ -138,6 +138,10 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="EnglishCertificatesLoad" xml:space="preserve">
+    <value>Apload the copy of your english certificates. &lt;/br&gt;
+Other documents can be attached in the window "General documents".&lt;/br&gt;</value>
+  </data>
   <data name="File" xml:space="preserve">
     <value>File</value>
   </data>
@@ -186,6 +190,9 @@
   </data>
   <data name="PassportLoad" xml:space="preserve">
     <value>Apload the copy of your ID (document identifying personality and citizenship of the applicant)</value>
+  </data>
+  <data name="PersonalOffice_Certificates" xml:space="preserve">
+    <value>PersonalOffice_Certificates</value>
   </data>
   <data name="PersonalOffice_Passport" xml:space="preserve">
     <value>You can attach passport scans here &lt;/br&gt;

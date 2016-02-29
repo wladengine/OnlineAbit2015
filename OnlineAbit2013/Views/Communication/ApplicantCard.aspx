@@ -263,8 +263,9 @@
                             </td>
                             
                             <td class ="td_pts"><%=GetGlobalResourceObject("Communication", "DePortfolioPts")%></td> 
-                            <td> <%=Html.TextBoxFor(x=>x.DePortfolioPts, new {style="min-width : 98px; width: 98px;" + (Model.isGermany ? " disabled='disabled'" :"")}) %> </td>
-
+                            <td><% if (Model.isGermany) { %> <%=Html.TextBoxFor(x=>x.DePortfolioPts, new {style="min-width : 98px; width: 98px;"}) %>
+                            <% } else { %><%=Html.TextBoxFor(x=>x.DePortfolioPts, new {style="min-width : 98px; width: 98px;",  disabled="disabled"}) %>
+                            <%} %> </td>
                             <td> <%=Html.TextBoxFor(x=>x.CommonPortfolioPts, new {style="min-width : 98px; width: 98px;", disabled="disabled"}) %> </td>
                         </tr>
                           <tr> 
@@ -276,8 +277,18 @@
                             <td colspan="3"></td>
                         </tr>
                         <tr> 
-                            <td class ="td_pts"><%=GetGlobalResourceObject("Communication", "RuInterviewPts")%></td> <td><%=Html.TextBoxFor(x=>x.RuInterviewPts, new {style="min-width : 98px; width: 98px;"}) %></td>
-                            <td class ="td_pts"><%=GetGlobalResourceObject("Communication", "DeInterviewPts")%></td> <td><%=Html.TextBoxFor(x=>x.DeInterviewPts, new {style="min-width : 98px; width: 98px;"}) %></td>
+                            <td class ="td_pts"><%=GetGlobalResourceObject("Communication", "RuInterviewPts")%></td>
+                            <td>
+                                <% if (Model.isRussian) { %> <%=Html.TextBoxFor(x=>x.RuInterviewPts, new {style="min-width : 98px; width: 98px;"}) %>
+                                <% } else { %> <%=Html.TextBoxFor(x=>x.RuInterviewPts, new {style="min-width : 98px; width: 98px;", disabled="disabled"}) %>
+                                <%} %>  
+                            </td>
+                            <td class ="td_pts"> 
+                                <%=GetGlobalResourceObject("Communication", "DeInterviewPts")%></td>
+                            <td>
+                                <% if (Model.isGermany) { %>   <%=Html.TextBoxFor(x=>x.DeInterviewPts, new {style="min-width : 98px; width: 98px;"}) %>
+                            <% } else { %><%=Html.TextBoxFor(x=>x.DeInterviewPts, new {style="min-width : 98px; width: 98px;" , disabled="disabled"}) %>
+                            <%} %>  </td>
                             <td> <%=Html.TextBoxFor(x=>x.CommonInterviewPts, new {style="min-width : 98px; width: 98px;", disabled="disabled"}) %> </td>
                         </tr>
                         <tr> 

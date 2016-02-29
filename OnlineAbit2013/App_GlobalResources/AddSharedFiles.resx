@@ -138,6 +138,10 @@
   <data name="Delete" xml:space="preserve">
     <value>Удалить</value>
   </data>
+  <data name="EnglishCertificatesLoad" xml:space="preserve">
+    <value>Сюда вы можете прикрепить сканы языковых сертификатов&lt;/br&gt;
+Остальные документы можно прикрепить в окне Общие документы. &lt;/br&gt;</value>
+  </data>
   <data name="File" xml:space="preserve">
     <value>Файл</value>
   </data>
@@ -190,6 +194,9 @@
   </data>
   <data name="PassportLoad" xml:space="preserve">
     <value>Загрузите копию документа, удостоверяющего личность, гражданство и место регистрации поступающего</value>
+  </data>
+  <data name="PersonalOffice_Certificates" xml:space="preserve">
+    <value>PersonalOffice_Certificates</value>
   </data>
   <data name="PersonalOffice_Passport" xml:space="preserve">
     <value>Сюда вы можете прикрепить сканы паспорта. &lt;/br&gt;

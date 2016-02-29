@@ -523,61 +523,45 @@ namespace OnlineAbit2013.Controllers
             }
         }
 
-        public ActionResult Statistics()
+        public ActionResult Statistics(string id)
         {
             CommunicationStat model = new CommunicationStat();
             model.columns = new Dictionary<string, string>();
-            
-//            Number of applicants
-//Complete/Incomplete(%)
-//Male/Female(%)
-//Paid/Free(%)
-//List of nationalities and no. of applications
-//Russian(%)
-//German(%)
-//Other(%)
-//Average results of portfolio
-//Invitation to interviews(%)
-//Average results of interview
-//accepted applicants (status=a)
-//Male/Female(%)
-//Paid/Free(%)
-//Waiting list(status = w)
-//Male/Female(%) 
+
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
                 List<Guid> EntryList = GetEntryList();
                 bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
 
                 var lst_tmp = (from abit in context.Application
-                           join pers in context.Person on abit.PersonId equals pers.Id
+                               join pers in context.Person on abit.PersonId equals pers.Id
 
-                           join prt in context.PortfolioFilesMark on pers.Id equals prt.PersonId into _port
-                           from port in _port.DefaultIfEmpty()
+                               join prt in context.PortfolioFilesMark on pers.Id equals prt.PersonId into _port
+                               from port in _port.DefaultIfEmpty()
 
-                           where EntryList.Contains(abit.EntryId)
-                           select new
-                           {
-                               Number = pers.Barcode,
-                               isComplete = (port == null) ? false : port.IsComplete,
-                               male = pers.Sex,
+                               where EntryList.Contains(abit.EntryId) && abit.IsCommited
+                               select new
+                               {
+                                   Number = pers.Barcode,
+                                   isComplete = (port == null) ? false : port.IsComplete,
+                                   male = pers.Sex,
 
-                               isActive = (port == null) ? false : port.PortfolioStatus.ShortName == "A",
-                               isWaiting = (port == null) ? false : port.PortfolioStatus.ShortName == "W",
+                                   isActive = (port == null) ? false : port.PortfolioStatus.ShortName == "A",
+                                   isWaiting = (port == null) ? false : port.PortfolioStatus.ShortName == "W",
 
-                               isRusslian = pers.Nationality.IsRussia,
-                               nationality = bIsEng ? pers.Nationality.NameEng : pers.Nationality.Name,
-                               isGerman = pers.NationalityId == 90,
+                                   isRusslian = pers.Nationality.IsRussia,
+                                   nationality = bIsEng ? pers.Nationality.NameEng : pers.Nationality.Name,
+                                   isGerman = pers.NationalityId == 90,
 
-                               Interview = (port == null) ? false : port.Interview,
-                               RuPort = (port == null) ? 0 : port.RuPortfolioPts,
-                               DePort = (port == null) ? 0 : port.DePortfolioPts,
-                               RuInt = (port == null) ? 0 : port.RuInterviewPts,
-                               DeInt = (port == null) ? 0 : port.DeInterviewPts,
+                                   Interview = (port == null) ? false : port.Interview,
+                                   RuPort = (port == null) ? 0 : port.RuPortfolioPts,
+                                   DePort = (port == null) ? 0 : port.DePortfolioPts,
+                                   RuInt = (port == null) ? 0 : port.RuInterviewPts,
+                                   DeInt = (port == null) ? 0 : port.DeInterviewPts,
 
-                               HasFee = (abit.C_Entry.StudyBasisId == 1),
-                               HasNoFee = (abit.C_Entry.StudyBasisId == 2),
-                           }).Distinct().ToList();
+                                   HasFee = (abit.C_Entry.StudyBasisId == 1),
+                                   HasNoFee = (abit.C_Entry.StudyBasisId == 2),
+                               }).ToList();
 
                 var lst = (from ls in lst_tmp
                            group ls by ls.Number into l
@@ -600,20 +584,22 @@ namespace OnlineAbit2013.Controllers
                                HasNoFee = l.Where(x => x.HasNoFee).Count() > 0,
                            }).Distinct().ToList();
                 model.columns.Add("Number of applicants", lst.Count().ToString());
-                
-                int Compl = (lst.Count() != 0) ? (int)(100*lst.Where(x => x.isComplete).Count() / lst.Count()) : 0;
-                model.columns.Add("Complete/Incomplete(%)", Compl.ToString()+"% / "+(100-Compl).ToString()+"%" );
-                
-                int Male = (lst.Count() != 0) ? (int)(100 * lst.Where(x => x.male).Count() / lst.Count()): 0;
+
+                int Compl = (lst.Count() != 0) ? (int)(100 * lst.Where(x => x.isComplete).Count() / lst.Count()) : 0;
+                model.columns.Add("Complete/Incomplete(%)", Compl.ToString() + "% / " + (100 - Compl).ToString() + "%");
+
+                int Male = (lst.Count() != 0) ? (int)(100 * lst.Where(x => x.male).Count() / lst.Count()) : 0;
                 model.columns.Add("Male/Female(%)", Male.ToString() + "% / " + (100 - Male).ToString() + "%");
 
-                model.columns.Add("Paid/Free(%)", "???");
+                int PaidCnt = (lst_tmp.Count != 0) ? (int)(1.0 * lst_tmp.Where(x => x.HasNoFee).Count() / lst_tmp.Count()) : 0;
+                model.columns.Add("Paid/Free(%)", (lst_tmp.Count != 0) ? PaidCnt.ToString() + "% /" + (100 - PaidCnt).ToString() + "%" : "-");
+
                 var Nationalities = (from l in lst
                                      group l by l.nationality into ls
-                                     select new 
+                                     select new
                                          {
                                              Name = ls.Key,
-                                             Cnt =ls.Count(),
+                                             Cnt = ls.Count(),
                                          }).ToList();
                 string sNationlities = "";
                 foreach (var x in Nationalities)
@@ -627,7 +613,7 @@ namespace OnlineAbit2013.Controllers
 
                 int isGerman = (lst.Count() != 0) ? (int)(100 * lst.Where(x => x.isGerman).Count() / lst.Count()) : 0;
                 model.columns.Add("German(%)", isGerman.ToString() + "%");
-                model.columns.Add("Other(%)", (100-isRussian-isGerman).ToString() + "%");
+                model.columns.Add("Other(%)", (100 - isRussian - isGerman).ToString() + "%");
 
                 int PortAvg = (lst.Count() != 0) ? (int)(lst.Select(x => x.RuPort + x.DePort).Sum() / (2 * lst.Count())) : 0;
                 model.columns.Add("Average results of portfolio", PortAvg.ToString());
@@ -635,13 +621,13 @@ namespace OnlineAbit2013.Controllers
                 int Invitation = 0;
                 model.columns.Add("Invitation to interviews(%)", "???");
 
-                int IntAvg = (lst.Count() != 0) ?  (int)(lst.Select(x => x.RuInt + x.DeInt).Sum() / (2 * lst.Count())):0;
+                int IntAvg = (lst.Count() != 0) ? (int)(lst.Select(x => x.RuInt + x.DeInt).Sum() / (2 * lst.Count())) : 0;
                 model.columns.Add("Average results of interview", IntAvg.ToString());
 
-                int isAccpeted = lst.Where(x=>x.isAccepted).Count();
+                int isAccpeted = lst.Where(x => x.isAccepted).Count();
                 model.columns.Add("accepted applicants (status=a)", isAccpeted.ToString());
 
-                int AcceptedMale = (isAccpeted!=0) ? (int)(100 * lst.Where(x => x.male && x.isAccepted).Count() / isAccpeted) : 0;
+                int AcceptedMale = (isAccpeted != 0) ? (int)(100 * lst.Where(x => x.male && x.isAccepted).Count() / isAccpeted) : 0;
                 model.columns.Add("accepted: Male/Female(%)", (isAccpeted != 0) ? (AcceptedMale.ToString() + "% / " + (100 - AcceptedMale).ToString() + "%") : "-");
 
 
@@ -649,11 +635,10 @@ namespace OnlineAbit2013.Controllers
 
                 int isWaiting = lst.Where(x => x.isWaiting).Count();
                 model.columns.Add("Waiting list(status = w)", isWaiting.ToString());
-                int WaitingMale = (isWaiting!=0) ? (int)(100 * lst.Where(x => x.male && x.isWaiting).Count() / isWaiting): 0;
-                model.columns.Add("Waiting: Male/Female(%)", (isWaiting!=0) ? (WaitingMale.ToString() + "% / " + (100 - WaitingMale).ToString() + "%") : "-");
+                int WaitingMale = (isWaiting != 0) ? (int)(100 * lst.Where(x => x.male && x.isWaiting).Count() / isWaiting) : 0;
+                model.columns.Add("Waiting: Male/Female(%)", (isWaiting != 0) ? (WaitingMale.ToString() + "% / " + (100 - WaitingMale).ToString() + "%") : "-");
             }
             return View(model);
-
         }
  
         public ActionResult GetPrint(string Barcode)

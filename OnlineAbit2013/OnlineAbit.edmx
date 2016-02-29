@@ -119,8 +119,8 @@
           <Property Name="FileTypeId" Type="int" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.ApplicationSecondType" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ApplicationSecondType">
           <Key>
             <PropertyRef Name="Id" />
@@ -207,6 +207,14 @@
           <Property Name="Value" Type="int" Nullable="false" />
           <Property Name="IsInUniversity" Type="bit" Nullable="false" />
           <Property Name="IsSecondWave" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EnglishCertificatesType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="NameEng" Type="nvarchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <EntityType Name="Exam">
           <Key>
@@ -375,6 +383,7 @@
           <Property Name="Sex" Type="bit" Nullable="false" />
           <Property Name="BirthDate" Type="date" />
           <Property Name="BirthPlace" Type="nvarchar" MaxLength="500" />
+          <Property Name="CountryOfBirth" Type="int" />
           <Property Name="PassportTypeId" Type="int" />
           <Property Name="PassportSeries" Type="nvarchar" MaxLength="50" />
           <Property Name="PassportNumber" Type="nvarchar" MaxLength="50" />
@@ -392,6 +401,9 @@
           <Property Name="IsCreatedByComission" Type="bit" Nullable="false" />
           <Property Name="SNILS" Type="nvarchar" MaxLength="50" />
           <Property Name="HasRussianNationality" Type="bit" Nullable="false" />
+          <Property Name="SurnameEng" Type="nvarchar" MaxLength="150" />
+          <Property Name="NameEng" Type="nvarchar" MaxLength="150" />
+          <Property Name="SecondNameEng" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="PersonAddInfo">
           <Key>
@@ -505,6 +517,16 @@
           <Property Name="AvgMark" Type="float" />
           <Property Name="IsExcellent" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="PersonEnglishCertificates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EnglishCertificateTypeId" Type="int" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="150" />
+          <Property Name="Mark" Type="float" />
+        </EntityType>
         <EntityType Name="PersonFile">
           <Key>
             <PropertyRef Name="Id" />
@@ -608,7 +630,7 @@
           <Property Name="RuInterviewPts" Type="float" />
           <Property Name="DeInterviewPts" Type="float" />
           <Property Name="Interview" Type="bit" />
-          <Property Name="StatusId" Type="int" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PortfolioStatus">
           <Key>
@@ -816,8 +838,8 @@
           <Property Name="FullName" Type="nvarchar" MaxLength="150" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.Abiturient" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Abiturient">
           <Key>
             <PropertyRef Name="Id" />
@@ -920,8 +942,8 @@
           <Property Name="PersonBarcode" Type="int" Nullable="false" />
           <Property Name="IsUpdatedByComission" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.Entry" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OnlinePriem2015.dbo.Entry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Entry">
           <Key>
             <PropertyRef Name="Id" />
@@ -997,8 +1019,8 @@
           <Property Name="IsForeign" Type="bit" Nullable="false" />
           <Property Name="IsCrimea" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.extApplicationDetails" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OnlinePriem2015.dbo.extApplicationDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="extApplicationDetails">
           <Key>
             <PropertyRef Name="Id" />
@@ -1018,8 +1040,8 @@
           <Property Name="InnerEntryInEntryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="InnerEntryInEntryPriority" Type="int" Nullable="false" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.extDefaultEntryDetails" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OnlinePriem2015.dbo.extDefaultEntryDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="extDefaultEntryDetails">
           <Key>
             <PropertyRef Name="EntryId" />
@@ -1872,7 +1894,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PortfolioFilesMark_PortfolioStatus">
-          <End Role="PortfolioStatus" Type="Self.PortfolioStatus" Multiplicity="0..1" />
+          <End Role="PortfolioStatus" Type="Self.PortfolioStatus" Multiplicity="1" />
           <End Role="PortfolioFilesMark" Type="Self.PortfolioFilesMark" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PortfolioStatus">
@@ -1976,6 +1998,7 @@
           <EntitySet Name="EgeCertificate" EntityType="Self.EgeCertificate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EgeExam" EntityType="Self.EgeExam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EgeMark" EntityType="Self.EgeMark" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EnglishCertificatesType" EntityType="Self.EnglishCertificatesType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Exam" EntityType="Self.Exam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamInEntryBlock" EntityType="Self.ExamInEntryBlock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamInEntryBlockUnit" EntityType="Self.ExamInEntryBlockUnit" Schema="dbo" store:Type="Tables" />
@@ -2000,6 +2023,7 @@
           <EntitySet Name="PersonCurrentEducation" EntityType="Self.PersonCurrentEducation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonDisorderInfo" EntityType="Self.PersonDisorderInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonEducationDocument" EntityType="Self.PersonEducationDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonEnglishCertificates" EntityType="Self.PersonEnglishCertificates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonFile" EntityType="Self.PersonFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonHighEducationInfo" EntityType="Self.PersonHighEducationInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonOtherPassport" EntityType="Self.PersonOtherPassport" Schema="dbo" store:Type="Tables" />
@@ -2931,6 +2955,8 @@
           </AssociationSet>
           <EntitySet Name="Groups" EntityType="OnlinePriem2015Model.Groups" />
           <EntitySet Name="GroupUsers" EntityType="OnlinePriem2015Model.GroupUsers" />
+          <EntitySet Name="EnglishCertificatesType" EntityType="OnlinePriem2015Model.EnglishCertificatesType" />
+          <EntitySet Name="PersonEnglishCertificates" EntityType="OnlinePriem2015Model.PersonEnglishCertificates" />
         </EntityContainer>
         <EntityType Name="PersonEducationDocument">
           <Key>
@@ -3156,6 +3182,10 @@
           <NavigationProperty Name="Olympiads" Relationship="OnlinePriem2015Model.FK_Olympiads_Person" FromRole="Person" ToRole="Olympiads" />
           <NavigationProperty Name="EgeCertificate" Relationship="OnlinePriem2015Model.FK_EgeCertificate_Person" FromRole="Person" ToRole="EgeCertificate" />
           <NavigationProperty Name="User" Relationship="OnlinePriem2015Model.FK_Person_User" FromRole="Person" ToRole="User" />
+          <Property Name="SurnameEng" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="NameEng" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="SecondNameEng" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CountryOfBirth" Type="Int32" />
         </EntityType>
         <EntityType Name="PersonAddInfo">
           <Key>
@@ -4858,7 +4888,7 @@
           <Property Name="RuInterviewPts" Type="Double" />
           <Property Name="DeInterviewPts" Type="Double" />
           <Property Name="Interview" Type="Boolean" />
-          <Property Name="StatusId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="PortfolioStatus" Relationship="OnlinePriem2015Model.FK_PortfolioFilesMark_PortfolioStatus" FromRole="PortfolioFilesMark" ToRole="PortfolioStatus" />
         </EntityType>
         <EntityType Name="PortfolioStatus">
@@ -4910,6 +4940,24 @@
           <Property Name="GroupId" Type="Int32" Nullable="false" />
           <Property Name="PersonId" Type="Guid" Nullable="false" />
           <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EnglishCertificatesType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="NameEng" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PersonEnglishCertificates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonId" Type="Guid" Nullable="false" />
+          <Property Name="EnglishCertificateTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Mark" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -5111,6 +5159,10 @@
           <EntitySetMapping Name="Person">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="CountryOfBirth" ColumnName="CountryOfBirth" />
+                <ScalarProperty Name="SecondNameEng" ColumnName="SecondNameEng" />
+                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
+                <ScalarProperty Name="SurnameEng" ColumnName="SurnameEng" />
                 <ScalarProperty Name="HasRussianNationality" ColumnName="HasRussianNationality" />
                 <ScalarProperty Name="SNILS" ColumnName="SNILS" />
                 <ScalarProperty Name="IsCreatedByComission" ColumnName="IsCreatedByComission" />
@@ -5939,6 +5991,26 @@
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EnglishCertificatesType">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.EnglishCertificatesType">
+              <MappingFragment StoreEntitySet="EnglishCertificatesType">
+                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonEnglishCertificates">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonEnglishCertificates">
+              <MappingFragment StoreEntitySet="PersonEnglishCertificates">
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="EnglishCertificateTypeId" ColumnName="EnglishCertificateTypeId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

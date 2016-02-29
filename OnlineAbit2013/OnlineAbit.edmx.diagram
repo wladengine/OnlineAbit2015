@@ -146,6 +146,8 @@
         <AssociationConnector Association="OnlinePriem2015Model.FK_PortfolioStatus_PortfolioStatus" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.Groups" Width="1.5" PointX="22.375" PointY="0.75" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.GroupUsers" Width="1.5" PointX="22.375" PointY="3.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.EnglishCertificatesType" Width="1.5" PointX="22.375" PointY="6.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonEnglishCertificates" Width="1.5" PointX="11.375" PointY="22.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
