@@ -4,150 +4,165 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d1d67926c3bb4742a09d2480a106ff77" Name="Diagram1" ZoomLevel="73">
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Application" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationCommit" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonSportQualification" Width="3.25" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonVisaInfo" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonEducationDocument" Width="1.5" PointX="8" PointY="4.375" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonFile" Width="1.5" PointX="0.75" PointY="8.125" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonHighEducationInfo" Width="1.5" PointX="10.25" PointY="5.375" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonOtherPassport" Width="1.5" PointX="2.75" PointY="8.125" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonSchoolInfo" Width="1.5" PointX="4.75" PointY="9.125" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonScienceWork" Width="1.5" PointX="6.75" PointY="10.125" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonWork" Width="1.5" PointX="8.75" PointY="10.125" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Qualification" Width="1.5" PointX="8" PointY="0.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Region" Width="1.5" PointX="5.75" PointY="5.375" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonEducationDocument_Region" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonHighEducationInfo_PersonEducationDocument" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonHighEducationInfo_Qualification" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Person" Width="1.5" PointX="0.75" PointY="2.375" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonAddInfo" Width="1.5" PointX="3" PointY="16.625" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonChangeStudyFormReason" Width="1.5" PointX="13.25" PointY="1.625" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonContacts" Width="1.5" PointX="13.25" PointY="9.125" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonCurrentEducation" Width="1.5" PointX="16.25" PointY="4.25" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonDisorderInfo" Width="1.5" PointX="3" PointY="13.875" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Application_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonChangeStudyFormReason_Application" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonChangeStudyFormReason_ApplicationCommit" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonAddInfo_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonChangeStudyFormReason_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonContacts_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonDisorderInfo_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonEducationDocument_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonOtherPassport_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonSchoolInfo_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonScienceWork_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonSportQualification_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonVisaInfo_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonWork_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonContacts_Region" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_Region" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Entry" Width="1.5" PointX="5.375" PointY="13.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.C_Entry" Width="1.5" PointX="7.375" PointY="14.125" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Application__Entry" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationCommitVersion" Width="1.5" PointX="11" PointY="0.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationSelectedExam" Width="1.5" PointX="16.75" PointY="16.125" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Country" Width="1.5" PointX="8.625" PointY="22.125" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Exam" Width="1.5" PointX="13" PointY="4.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ExamInEntryBlock" Width="1.5" PointX="10" PointY="16.25" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ExamInEntryBlockUnit" Width="1.5" PointX="12.25" PointY="16" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ExamName" Width="1.5" PointX="10" PointY="13.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ExamTimetable" Width="1.5" PointX="14.5" PointY="16" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Language" Width="1.5" PointX="1.375" PointY="21.375" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympBook" Width="1.5" PointX="16" PointY="0.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PassportType" Width="1.5" PointX="1.375" PointY="17.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ScienceWorkType" Width="1.5" PointX="5.125" PointY="25.375" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Semester" Width="1.5" PointX="0.75" PointY="13.5" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_Semester" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_ApplicationSelectedExam_ExamTimetable" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Country_Region" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Person_Country" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonContacts_Country" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonEducationDocument_Country" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonVisaInfo_Country" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_ExamInEntryBlockUnit_ExamInEntryBlock" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_ExamTimetable_ExamInEntryBlockUnit" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonAddInfo_Language" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Person_PassportType" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonOtherPassport_PassportType" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_Semester" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonScienceWork_ScienceWorkType" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Olympiads" Width="1.5" PointX="25.125" PointY="4.875" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympLevel" Width="1.5" PointX="19.875" PointY="24.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympName" Width="1.5" PointX="19.875" PointY="3.5" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympSubject" Width="1.5" PointX="19.875" PointY="0.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympType" Width="1.5" PointX="16.875" PointY="2.625" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympValue" Width="1.5" PointX="22.875" PointY="16.625" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_Faculty" Width="1.5" PointX="11.25" PointY="34.125" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_LicenseProgram" Width="1.5" PointX="3" PointY="16.625" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_ObrazProgram" Width="1.5" PointX="5.25" PointY="23" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_Profile" Width="1.5" PointX="11.25" PointY="37.375" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_StudyLevel" Width="1.5" PointX="0.75" PointY="17.25" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_StudyPlanHelp" Width="1.5" PointX="24.5" PointY="10.25" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.SportQualification" Width="3.25" PointX="6.625" PointY="30.375" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Abiturient" Width="1.5" PointX="25.5" PointY="14.25" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_SP_Faculty" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_SP_LicenseProgram" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_SP_ObrazProgram" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_SP_Profile" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_SP_StudyLevel" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_OlympBook_OlympLevel" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_OlympBook_OlympName" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_OlympBook_OlympSubject" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_OlympBook_OlympType" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Olympiads_OlympName" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Olympiads_OlympSubject" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Olympiads_OlympType" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Olympiads_OlympValue" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Olympiads_Person" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_SP_LicenseProgram" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_SP_ObrazProgram" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_SP_StudyLevel" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonSportQualification_SportQualification" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_SP_LicenseProgram_SP_StudyLevel" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_SP_ObrazProgram_SP_LicenseProgram" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.SchoolExitClass" Width="1.5" PointX="15.375" PointY="10.875" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.SchoolExitClassToStudyLevel" Width="1.5" PointX="17.375" PointY="10.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.SchoolTypeAll" Width="1.5" PointX="18.375" PointY="6.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.VuzAdditionalType" Width="1.5" PointX="5.75" PointY="33.125" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonEducationDocument_SchoolExitClass" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonEducationDocument_VuzAdditionalType" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonSchoolInfo_SchoolExitClass" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationDetails" Width="1.5" PointX="19.375" PointY="9.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ReturnDocumentType" Width="1.5" PointX="11.375" PointY="19.875" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonAddInfo_ReturnDocumentType" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationFile" Width="1.5" PointX="19.375" PointY="12.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationSecondType" Width="1.5" PointX="13.375" PointY="19.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationVersion" Width="1.5" PointX="15.375" PointY="20" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationVersionDetails" Width="1.5" PointX="19.375" PointY="18" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.EgeCertificate" Width="1.5" PointX="3" PointY="28.125" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.EgeExam" Width="1.5" PointX="20.375" PointY="7" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_EgeCertificate_Person" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.User" Width="1.5" PointX="21.375" PointY="10" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_Person_User" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Comission" Width="1.5" PointX="5.125" PointY="37.5" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.EgeMark" Width="1.5" PointX="22.625" PointY="19.5" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.InnerEntryInEntry" Width="1.5" PointX="13.5" PointY="25.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.extApplicationDetails" Width="1.5" PointX="17.375" PointY="20.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.extDefaultEntryDetails" Width="1.5" PointX="19.375" PointY="20.75" />
+      <Diagram DiagramId="2f3f9394858a4aefa1218c72d572d6ba" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="OnlinePriem2015Model.C_Entry" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Application" Width="1.5" PointX="10.5" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationCommit" Width="1.5" PointX="13.5" PointY="50" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationCommitVersion" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationCommitVersonDetails" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationDetails" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationFile" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationSelectedExam" Width="1.5" PointX="15.75" PointY="31.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationVersion" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationVersionDetails" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Country" Width="1.5" PointX="3" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.EgeCertificate" Width="1.5" PointX="7.5" PointY="34.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.EgeExam" Width="1.5" PointX="10.5" PointY="49.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.EgeMark" Width="1.5" PointX="12.75" PointY="34.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.EnglishCertificatesType" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Exam" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ExamInEntryBlock" Width="1.5" PointX="9" PointY="46.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ExamInEntryBlockUnit" Width="1.5" PointX="11.25" PointY="46.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ExamName" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ExamTimetable" Width="1.5" PointX="13.5" PointY="46" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.FileType" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Groups" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.GroupUsers" Width="1.5" PointX="12.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Language" Width="1.5" PointX="11.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympBook" Width="1.5" PointX="15.5" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Olympiads" Width="1.5" PointX="7.5" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympLevel" Width="1.5" PointX="13.25" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympName" Width="1.5" PointX="5.25" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympSubject" Width="1.5" PointX="5.25" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympType" Width="1.5" PointX="5.25" PointY="40.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.OlympValue" Width="1.5" PointX="5.25" PointY="43.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PassportType" Width="1.5" PointX="3" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Person" Width="1.5" PointX="5.25" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonAddInfo" Width="1.5" PointX="13.5" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonChangeStudyFormReason" Width="1.5" PointX="15.75" PointY="37" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonContacts" Width="1.5" PointX="7.5" PointY="38.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonCurrentEducation" Width="1.5" PointX="13.5" PointY="38.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonDisorderInfo" Width="1.5" PointX="7.5" PointY="55" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonEducationDocument" Width="1.5" PointX="10.5" PointY="24.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonEnglishCertificates" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonFileType" Width="1.5" PointX="2.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonHighEducationInfo" Width="1.5" PointX="12.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonOtherPassport" Width="1.5" PointX="10.5" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonSchoolInfo" Width="1.5" PointX="7.5" PointY="74" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonScienceWork" Width="1.5" PointX="7.5" PointY="76.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonSportQualification" Width="1.5" PointX="7.5" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonVisaInfo" Width="1.5" PointX="15.5" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonWork" Width="1.5" PointX="7.5" PointY="85.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PortfolioFilesMark" Width="1.5" PointX="13" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PortfolioStatus" Width="1.5" PointX="10.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Qualification" Width="1.5" PointX="10.5" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Region" Width="1.5" PointX="0.75" PointY="32.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ReturnDocumentType" Width="1.5" PointX="11.25" PointY="42.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SchoolExitClassToStudyLevel" Width="1.5" PointX="13.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SchoolTypeAll" Width="1.5" PointX="14.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Semester" Width="1.5" PointX="6" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_Faculty" Width="1.5" PointX="6" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_LicenseProgram" Width="1.5" PointX="6" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_ObrazProgram" Width="1.5" PointX="6" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_Profile" Width="1.5" PointX="6" PointY="46.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_StudyLevel" Width="1.5" PointX="3.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SP_StudyPlanHelp" Width="1.5" PointX="14.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SportQualification" Width="1.5" PointX="5.25" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.StudyBasis" Width="1.5" PointX="6" PointY="49.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.StudyForm" Width="1.5" PointX="10.5" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.StudyLevel" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.User" Width="1.5" PointX="3" PointY="37" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.VuzAdditionalType" Width="1.5" PointX="8.25" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationSecondType" Width="1.5" PointX="15.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Abiturient" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Entry" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.extPerson" Width="1.5" PointX="17.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.qAbiturient" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.qObrazProgram" Width="1.5" PointX="2.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SchoolType" Width="1.5" PointX="7.75" PointY="18.75" IsExpanded="true" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_Semester" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_SP_Faculty" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_SP_LicenseProgram" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_SP_ObrazProgram" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_SP_Profile" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_SP_StudyLevel" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_StudyBasis" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_StudyForm" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Application__Entry" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Application_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_ApplicationSelectedExam_Application" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonChangeStudyFormReason_Application" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonChangeStudyFormReason_ApplicationCommit" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_ApplicationSelectedExam_ExamTimetable" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Country_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Person_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonContacts_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonEducationDocument_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonVisaInfo_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_EgeCertificate_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_EgeMark_EgeCertificate" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_EgeMark_EgeExam" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_ExamInEntryBlockUnit_ExamInEntryBlock" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_ExamTimetable_ExamInEntryBlockUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonAddInfo_Language" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_OlympBook_OlympLevel" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_OlympBook_OlympName" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_OlympBook_OlympSubject" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_OlympBook_OlympType" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Olympiads_OlympName" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Olympiads_OlympSubject" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Olympiads_OlympType" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Olympiads_OlympValue" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Olympiads_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Person_PassportType" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonOtherPassport_PassportType" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_Person_User" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonAddInfo_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonChangeStudyFormReason_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonContacts_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonDisorderInfo_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonEducationDocument_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonOtherPassport_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonSchoolInfo_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonScienceWork_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonSportQualification_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonVisaInfo_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonWork_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonAddInfo_ReturnDocumentType" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonContacts_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_Semester" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_SP_LicenseProgram" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_SP_ObrazProgram" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_SP_StudyLevel" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_StudyBasis" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonCurrentEducation_StudyForm" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonEducationDocument_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonEducationDocument_VuzAdditionalType" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonHighEducationInfo_PersonEducationDocument" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonHighEducationInfo_Qualification" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonHighEducationInfo_StudyForm" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonSportQualification_SportQualification" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PortfolioFilesMark_PortfolioStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PortfolioStatus_PortfolioStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_SP_LicenseProgram_SP_StudyLevel" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_SP_ObrazProgram_SP_LicenseProgram" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.Comission" Width="1.5" PointX="6" PointY="58.5" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.InnerEntryInEntry" Width="1.5" PointX="15.5" PointY="18.625" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.extApplicationDetails" Width="1.5" PointX="8.375" PointY="13.75" />
         <AssociationConnector Association="OnlinePriem2015Model.FK__Entry_Comission" />
         <AssociationConnector Association="OnlinePriem2015Model.FK_ObrazProgramInEntry__Entry" />
         <AssociationConnector Association="OnlinePriem2015Model.FK_ApplicationDetails_ObrazProgramInEntry" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_EgeMark_EgeCertificate" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_EgeMark_EgeExam" />
         <AssociationConnector Association="OnlinePriem2015Model.FK_InnerEntryInEntry_SP_Profile" />
         <AssociationConnector Association="OnlinePriem2015Model.FK_ObrazProgramInEntry_SP_ObrazProgram" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_ApplicationSelectedExam_Application" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PortfolioFilesMark" Width="1.5" PointX="29.625" PointY="1" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PortfolioStatus" Width="1.5" PointX="27.375" PointY="1.5" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PortfolioFilesMark_PortfolioStatus" />
-        <AssociationConnector Association="OnlinePriem2015Model.FK_PortfolioStatus_PortfolioStatus" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.Groups" Width="1.5" PointX="22.375" PointY="0.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.GroupUsers" Width="1.5" PointX="22.375" PointY="3.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.EnglishCertificatesType" Width="1.5" PointX="22.375" PointY="6.75" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonEnglishCertificates" Width="1.5" PointX="11.375" PointY="22.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonFile" Width="1.5" PointX="20.625" PointY="11.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.extDefaultEntryDetails" Width="1.5" PointX="20.625" PointY="16.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.SchoolExitClass" Width="1.5" PointX="20.375" PointY="19.875" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonEducationDocument_SchoolExitClass" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonSchoolInfo_SchoolExitClass" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ScienceWorkType" Width="1.5" PointX="22.375" PointY="0.875" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonScienceWork_ScienceWorkType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

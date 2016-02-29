@@ -297,7 +297,7 @@ namespace OnlineAbit2013.Controllers
                 model.CommonInterviewPts = (RuInt.HasValue && DeInt.HasValue) ? ((RuInt + DeInt) / 2).ToString() : "-";
 
                 model.OverallPts = ((RuPort + DePort) / 2 + ((RuInt + DeInt) / 2)).ToString() ?? "-";
-                model.StatusId =  (portf != null) ? (portf.StatusId ?? 7) : 7;
+                model.StatusId =  (portf != null) ? portf.StatusId : 7;
                 model.StatusList = context.PortfolioStatus.Select(m => new SelectListItem() { Value = m.Id.ToString(), Text = m.Name, Selected = (model.StatusId == m.Id) }).ToList();
                 model.IsComplete = (portf != null) ? portf.IsComplete : false;
                 #endregion
@@ -514,7 +514,19 @@ namespace OnlineAbit2013.Controllers
                     var Prtf = (from p in context.PortfolioFilesMark
                                 where p.PersonId == person.Id
                                 select p).FirstOrDefault();
+                    bool bIsNew = false;
+                    if (Prtf == null)
+                    {
+                        Prtf = new PortfolioFilesMark();
+                        Prtf.PersonId = person.Id;
+                        bIsNew = true;
+                    }
+
                     Prtf.StatusId = iStatus;
+
+                    if (bIsNew)
+                        context.PortfolioFilesMark.Add(Prtf);
+
                     context.SaveChanges();
                 }
                 else
@@ -525,6 +537,10 @@ namespace OnlineAbit2013.Controllers
 
         public ActionResult Statistics(string id)
         {
+            Guid personId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out personId))
+                return RedirectToAction("LogOn", "Account");
+
             CommunicationStat model = new CommunicationStat();
             model.columns = new Dictionary<string, string>();
 

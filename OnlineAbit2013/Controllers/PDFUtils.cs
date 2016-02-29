@@ -9,6 +9,7 @@ using System.Data;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using OnlineAbit2013.Models;
+using System.Drawing;
 
 namespace OnlineAbit2013.Controllers
 {
@@ -3701,17 +3702,25 @@ namespace OnlineAbit2013.Controllers
 
                 PdfReader pdfRd = new PdfReader(templateBytes);
                 PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
-                pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
                 AcroFields acrFlds = pdfStm.AcroFields;
-                string code = (800000 + person.Barcode).ToString();
 
                 //добавляем штрихкод
-                //Barcode128 barcode = new Barcode128();
-                //barcode.Code = code;
-                //PdfContentByte cb = pdfStm.GetOverContent(1);
-                //iTextSharp.text.Image img = barcode.CreateImageWithBarcode(cb, null, null);
-                //img.SetAbsolutePosition(70, 750);
-                //cb.AddImage(img);
+                PdfContentByte cb = pdfStm.GetOverContent(1);
+
+                byte[] imgBytes = (byte[])Util.AbitDB.GetValue("SELECT TOP 1 FileData FROM PersonFile WHERE PersonId=@PersonId and PersonFileTypeId=14",
+                new SortedList<string, object>() { { "@PersonId", PersonId } });
+                if (imgBytes != null)
+                {
+                    iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(imgBytes);
+                    img.ScaleToFit(125, 125);
+
+                    //img.Border = iTextSharp.text.Rectangle.BOX;
+                    //img.BorderColor = iTextSharp.text.BaseColor.BLACK;
+                    //img.BorderWidth = 5f;
+
+                    img.SetAbsolutePosition(420, 690);
+                    cb.AddImage(img);
+                }
 
                 acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
 
@@ -3753,12 +3762,59 @@ namespace OnlineAbit2013.Controllers
                 acrFlds.SetField("Overall", ((person.RuPort + person.DePort) / 2 + (person.RuInt+person.DeInt)/2).ToString());
 
                 pdfStm.FormFlattening = true;
+
                 pdfStm.Close();
                 pdfRd.Close();
 
-                return ms.ToArray();
+                //return ms.ToArray();
+
+                List<byte[]> lstFiles = new List<byte[]>();
+                lstFiles.Add(ms.ToArray());
+                lstFiles.AddRange(GetAdditionalFilesToCommunicationAppCard(PersonId));
+                return MergePdfFiles(lstFiles);
             }
         }
 
+        public static List<byte[]> GetAdditionalFilesToCommunicationAppCard(Guid PersonId)
+        {
+            List<byte[]> lstRet = new List<byte[]>();
+            string query = @"SELECT FileData FROM PersonFile 
+WHERE PersonId=@PersonId AND PersonFileTypeId = {0} AND FileExtention = '.pdf' AND IsDeleted = 0";
+
+            //dipl
+            DataTable tbl = Util.AbitDB.GetDataTable(string.Format(query, 2),
+                new SortedList<string, object>() { { "@PersonId", PersonId } });
+            foreach (DataRow rw in tbl.Rows)
+            {
+                lstRet.Add(rw.Field<byte[]>("FileData"));
+            }
+
+            //eng certs
+            tbl = Util.AbitDB.GetDataTable(string.Format(query, 5),
+                new SortedList<string, object>() { { "@PersonId", PersonId } });
+            foreach (DataRow rw in tbl.Rows)
+            {
+                lstRet.Add(rw.Field<byte[]>("FileData"));
+            }
+
+            //CV
+            tbl = Util.AbitDB.GetDataTable(string.Format(query, 15),
+                new SortedList<string, object>() { { "@PersonId", PersonId } });
+            foreach (DataRow rw in tbl.Rows)
+            {
+                lstRet.Add(rw.Field<byte[]>("FileData"));
+            }
+
+            //Mot.letter
+            tbl = Util.AbitDB.GetDataTable(string.Format(query, 10),
+                new SortedList<string, object>() { { "@PersonId", PersonId } });
+
+            foreach (DataRow rw in tbl.Rows)
+            {
+                lstRet.Add(rw.Field<byte[]>("FileData"));
+            }
+
+            return lstRet;
+        }
     } 
 }
