@@ -52,6 +52,10 @@ namespace OnlineAbit2013
         public bool IsCreatedByComission { get; set; }
         public string SNILS { get; set; }
         public bool HasRussianNationality { get; set; }
+        public Nullable<int> CountryOfBirth { get; set; }
+        public string SurnameEng { get; set; }
+        public string NameEng { get; set; }
+        public string SecondNameEng { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Application> Application { get; set; }
