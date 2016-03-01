@@ -395,6 +395,90 @@
                 $('#ChangeStudyFormReasonMessage').hide();
             }
         }
+        function UpdatAfterCertificatesType()
+        {
+            $.post('Abiturient/GetTypeCertificate', { typeid: $("#CertTypeId").val() }, function (res) {
+                if (res.IsOk) {
+                    if (res.IsBool)
+                    {
+                        $("#divCertValue").hide(); $('#IsBoolType').val(1);
+                    }
+                    else
+                    {
+                        $("#divCertValue").show(); $('#IsBoolType').val(0);
+                    }
+                }
+                else {
+                    alert(res.ErrorMessage);
+                }
+            }, 'json');
+        }
+        function CheckValueCertificate()
+        {
+            var val = $('#CertValue').val();
+            var regex = /^([0-9])+$/i;
+            if (val != '') {
+                if (!regex.test(val)) {
+                    $('#CertValue').addClass('input-validation-error');
+                    $('#validationMsgCertValue').show();
+                    return false;
+                }
+                else {
+                    $('#CertValue').removeClass('input-validation-error');
+                    $('#validationMsgCertValue').hide();
+                }
+            }
+            return true;
+        }
+        function AddCertificates() {
+            var ret = CheckValueCertificate();
+            if (!ret)
+                return false;
+            if ($('#CertTypeId').val() == null)
+                return false;
+
+            var param = new Object();
+            param['TypeId'] = $('#CertTypeId').val();
+            param['Number'] = $('#CertNumber').val();
+            param['BoolType'] = $('#IsBoolType').val();
+            param['Value'] = $('#CertValue').val();
+
+            $.post('Abiturient/AddCertificates', param, function (res) {
+                if (res.IsOk) {
+                    $('#CertBlock').show();
+                    var output = '';
+                    output += '<tr id=\'' + res.Id + '\'>';
+                    output += '<td style="vertical-align: middle;">' + res.Name + '</td>';
+                    output += '<td style="vertical-align: middle;">' + res.Number + '</td>';
+                    if (!res.IsBool) 
+                        output += '<td style="vertical-align: middle;">' + res.Value + '</td>';
+                    else
+                        output += '<td style="vertical-align: middle;">' + <%= '"'+GetGlobalResourceObject("PersonalOffice_Step5", "CertificatePassed").ToString()+'"'%> + '</td>';
+
+                    output += '<td style="width:10%; vertical-align: middle;"><span class="link" onclick="DeleteCertificate(\'' + res.Id + '\')" ><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить оценку" /><span></td>';
+                    output += '</tr>';
+                    $('#tblOlympiads tbody').append(output);
+                }
+                else {
+                    alert(res.ErrorMessage);
+                }
+            }, 'json');
+        }
+        function DeleteCertificate(id) {
+            var param = new Object();
+            param['id'] = id;
+            $.post('Abiturient/DeleteCertificate', param, function (res) {
+                if (res.IsOk) {
+                    $('#' + id).hide();
+                    if (res.Count == 0) {
+                        $('#CertBlock').hide();
+                    }
+                }
+                else {
+                    alert(res.ErrorMessage);
+                }
+            }, 'json');
+        }
 	</script>
     <div class="grid">
         <div class="wrapper">
@@ -427,17 +511,58 @@
                         <%= Html.LabelFor(x => x.AddEducationInfo.StartEnglish, GetGlobalResourceObject("PersonalOffice_Step4", "EnglishNull").ToString())%>
                         <%= Html.CheckBoxFor(x => x.AddEducationInfo.StartEnglish)%>
                     </div>
-                    <% if (Model.AddEducationInfo.HasForeignNationality)
+                    <% if (Model.CertificatesVisible)
                        { %>
                     <hr />
-                    <div id="_ForeignCountryEduc" class="clearfix">
+                    <h3><%=GetGlobalResourceObject("PersonalOffice_Step5", "CertificateHeader").ToString()%></h3>
+                    <div>
                         <div class="clearfix">
-                            <%= Html.LabelFor(x => x.AddEducationInfo.HasTRKI, GetGlobalResourceObject("PersonalOffice_Step4", "HasTRKI").ToString())%>
-                            <%= Html.CheckBoxFor(x => x.AddEducationInfo.HasTRKI)%>
+                        <%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificateType").ToString()%>:<br />
+                        <%= Html.DropDownList("CertTypeId", Model.Certificates.CertTypeList,  new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "4"} , {"onchange", "UpdatAfterCertificatesType()"}}) %>
+                        <br/><p></p>
+
                         </div>
-                        <div id="TRKI" class="clearfix" >
-                            <%= Html.LabelFor(x => x.AddEducationInfo.TRKICertificateNumber, GetGlobalResourceObject("PersonalOffice_Step4", "TRKICertificateNumber").ToString())%>
-                            <%= Html.TextBoxFor(x => x.AddEducationInfo.TRKICertificateNumber) %>
+                        <div class="clearfix">
+                            <label for="CertNumber"><%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificateNumber").ToString()%></label>
+                            <input id="CertNumber" type="text" /><br/><p></p>
+                        </div>
+                        <div class="clearfix" id ="divCertValue">
+                            <label for="CertValue"><%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificateValue").ToString()%></label>
+                            <input id="CertValue" type="text" />
+                            <br/><p></p>
+                            <span id="validationMsgCertValue" class="Red" style="display:none;"><%= GetGlobalResourceObject("PersonalOffice_Step5", "validationMsgCertValue").ToString()%></span>
+                        </div>
+                        <input type="hidden" id="IsBoolType" />
+                        <div class="clearfix" id="btnAddCertificates" >
+                            <input type = "button" onclick="AddCertificates()" class="button button-blue" value="<%= GetGlobalResourceObject("PersonalOffice_Step5", "btnAdd").ToString()%>"/>
+                        </div>
+                        <% if (Model.Certificates.Certs.Count==0) { %> 
+                            <div id = "CertBlock" style="width: 464px; overflow-x: scroll; display: none;"><% } else { %> 
+                            <div id = "CertBlock" style="width: 464px; overflow-x: scroll; "><% } %>
+                            <h4 > <%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificateAdded").ToString()%></h4>
+                            <table id="tblOlympiads" class="paginate" style="width:100%; text-align: center; vertical-align:middle; ">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificateType").ToString()%></th> 
+                                        <th style="text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificateNumber").ToString()%></th>
+                                        <th style="width:35%;text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificateValue").ToString()%></th>
+                                        <th style="width:10%;text-align:center;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "btnDelete").ToString()%></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <% foreach (var cert in Model.Certificates.Certs)
+                                    {
+                                %>
+                                    <tr id='<%= cert.Id.ToString() %>'>
+                                        <td style="vertical-align: middle;"><%= Html.Encode(cert.Name) %></td>
+                                        <td style="vertical-align: middle;"><%= Html.Encode(cert.Number) %></td>
+                                        <% if (cert.BoolType) { %><td style="vertical-align: middle;"> <%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificatePassed").ToString()%> <%} %></td> 
+                                        <% if (cert.ValueType){ %><td style="vertical-align: middle;"><%= cert.ValueResult.ToString()%><% }%></td> 
+                                        <td style="width:10%; vertical-align: middle;"><%= Html.Raw("<span class=\"link\" onclick=\"DeleteCertificate('" + cert.Id.ToString() + "')\" ><img src=\"../../Content/themes/base/images/delete-icon.png\" alt=\"Удалить\" /></span>")%></td>
+                                    </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <hr /> 
@@ -621,11 +746,12 @@
                     </div>
                 </form>
 
+                <% if (Model.CertificatesVisible) {%>
                  <!-- /////////////////////////////////////////////////////////////////// -->
                     <p class="message info">
-                     <asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:AddSharedFiles, PersonalOffice_Certificates %>"></asp:Literal>
+                     <asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:PersonalOffice_Step5, PersonalOffice_Certificates %>"></asp:Literal>
                     </p> 
-                    <h4><%= GetGlobalResourceObject("AddSharedFiles", "EnglishCertificatesLoad") %></h4>
+                    <h4><%= GetGlobalResourceObject("PersonalOffice_Step5", "EnglishCertificatesLoad") %></h4>
                     <form action="/Abiturient/AddSharedFile" method="post" class="form panel" enctype="multipart/form-data">
                         <fieldset> 
                             <input name="Stage" type="hidden" value="<%=Model.Stage %>" />
@@ -637,7 +763,7 @@
                                 <input name="FileTypeId" type="hidden" value="5"/>
                                 <%= Html.Label(GetGlobalResourceObject("AddSharedFiles", "FileType").ToString())%> 
                                 <div >
-                                     <%= Html.DropDownList("FileTypeId", Model.CertificatesTypes, new { disabled = "disabled"})%>
+                                     <%= Html.DropDownList("FileTypeId", Model.FileTypes, new { disabled = "disabled"})%>
                                 </div> 
                             </div>
                             <div class="clearfix">
@@ -695,7 +821,7 @@
                     </td></tr></table>
                     <% } %>
                     <br /> 
-                    
+                    <%} %>
 <!-- /////////////////////////////////////////////////////////////////// -->       
 
             </div>

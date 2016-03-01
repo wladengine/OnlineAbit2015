@@ -327,4 +327,10 @@
   <data name="CurrentEducation_ObrazProgramId_Message" xml:space="preserve">
     <value>Выберите образовательную программу</value>
   </data>
+  <data name="EducationInfo_AddOne" xml:space="preserve">
+    <value>Добавить еще</value>
+  </data>
+  <data name="EducationInfo_Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
 </root>

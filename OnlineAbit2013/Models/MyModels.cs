@@ -69,7 +69,8 @@ namespace OnlineAbit2013.Models
         public WorkPerson WorkInfo { get; set; }
         // список файлов, типов, и тип файла
         public List<SelectListItem> FileTypes { get; set; }
-        public List<SelectListItem> CertificatesTypes { get; set; }
+        public bool CertificatesVisible { get; set; }
+        public CertificatesInfo Certificates { get; set; }
         public List<AppendedFile> Files { get; set; } 
         public PersonPrivileges PrivelegeInfo { get; set; }
         public Constants ConstInfo { get; set; }
@@ -339,6 +340,23 @@ namespace OnlineAbit2013.Models
     public class ChangingAddInfo
     {
         public string Reason { get; set; }
+    } 
+    public class CertificatesInfo
+    {
+        public List<SelectListItem> CertTypeList;
+        public List<CertificateInfo> Certs;
+    }
+    public class CertificateInfo
+    {
+        public int Id; 
+        public string Name;
+        public string Number;
+
+        public bool BoolType;
+        public bool ValueType;
+
+        public bool? BoolResult;
+        public double? ValueResult;
     }
     public class WorkPerson
     {
@@ -347,7 +365,7 @@ namespace OnlineAbit2013.Models
         public List<ScienceWorkInformation> pScWorks { get; set; }
         public List<WorkInformationModel> pWorks { get; set; }
     }
-
+   
     public class ScienceWorkInformation
     {
         public Guid Id { get; set; }

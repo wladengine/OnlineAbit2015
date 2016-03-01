@@ -12,12 +12,15 @@ namespace OnlineAbit2013
     using System;
     using System.Collections.Generic;
     
-    public partial class PersonEnglishCertificates
+    public partial class PersonLanguageCertificates
     {
         public int Id { get; set; }
         public System.Guid PersonId { get; set; }
-        public int EnglishCertificateTypeId { get; set; }
         public string Number { get; set; }
-        public Nullable<double> Mark { get; set; }
+        public Nullable<double> ResultValue { get; set; }
+        public Nullable<bool> ResultBool { get; set; }
+        public int LanguageCertificateTypeId { get; set; }
+    
+        public virtual LanguageCertificatesType LanguageCertificatesType { get; set; }
     }
 }

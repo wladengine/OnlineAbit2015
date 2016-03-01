@@ -112,6 +112,7 @@ namespace OnlineAbit2013.Controllers
                 PersonalOffice model = new PersonalOffice() { Lang = "ru", Stage = stage != 0 ? stage : 1, Enabled = !Util.CheckPersonReadOnlyStatus(PersonId) };
                 model.ConstInfo = new Constants();
                 model.ConstInfo = Util.getConstInfo();
+
                 if (model.Stage == 1)
                 {
                     #region Stage 1
@@ -277,8 +278,8 @@ namespace OnlineAbit2013.Controllers
                         .Select(x => new SelectListItem() { Value = x.Key.ToString(), Text = x.Value }).ToList();
                     model.EducationInfo.SchoolTypeList = SchoolTypeList;
                     model.EducationInfo.SchoolExitClassList = context.SchoolExitClass.OrderBy(x => x.IntValue)
-                            .Select(x => new { x.Id, x.Name }).ToList()
-                            .Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name })
+                            .Select(x => new { x.Id, x.Name, x.NameEng }).ToList()
+                            .Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = isEng ? x.NameEng : x.Name })
                             .ToList();
                     model.EducationInfo.VuzAdditionalTypeList = context.VuzAdditionalType
                             .Select(x => new { x.Id, Name = isEng ? x.NameEng : x.Name }).ToList()
@@ -325,8 +326,8 @@ namespace OnlineAbit2013.Controllers
 
                         // добавить сортировку по Name
                         EPD.SchoolExitClassList = context.SchoolExitClass.OrderBy(x => x.IntValue)
-                            .Select(x => new { x.Id, x.Name }).ToList()
-                            .Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name })
+                            .Select(x => new { x.Id, x.Name, x.NameEng }).ToList()
+                            .Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = isEng ? x.NameEng : x.Name })
                             .ToList().SetValue(PersonEducationDocument.SchoolExitClassId.ToString());
                         EPD.SchoolExitClassId = Server.HtmlDecode(PersonEducationDocument.SchoolExitClassId.ToString());
 
@@ -393,8 +394,7 @@ namespace OnlineAbit2013.Controllers
                     else
                         model.AddEducationInfo.HasForeignNationality = false;
 
-                    model.CertificatesTypes = Util.GetPersonFileTypeList().Where(x => x.Value == "5").ToList();
-                    model.Files = Util.GetFileList(PersonId, "5");
+                    
 
                     #region CurrentEducation
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2 || x.VuzAdditionalTypeId == 4)).Count() > 0)
@@ -485,7 +485,7 @@ namespace OnlineAbit2013.Controllers
                     #region AddEducationInfo
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 1).Count() > 0)
                     {
-                        model.AddEducationInfo.HasEGE = true;
+                        model.AddEducationInfo.HasEGE = (Person.PersonEducationDocument.Where(x => x.SchoolExitClass.IntValue==11).Count() > 0);
                         string qEgeMarks = "SELECT EgeMark.Id, EgeCertificate.Number, EgeExam.Name, EgeMark.Value, EgeMark.IsSecondWave, EgeMark.IsInUniversity FROM Person " +
                             " INNER JOIN EgeCertificate ON EgeCertificate.PersonId = Person.Id INNER JOIN EgeMark ON EgeMark.EgeCertificateId=EgeCertificate.Id " +
                             " INNER JOIN EgeExam ON EgeExam.Id=EgeMark.EgeExamId WHERE Person.Id=@Id";
@@ -502,6 +502,26 @@ namespace OnlineAbit2013.Controllers
                                  Value = rw.Field<bool>("IsSecondWave") ? ("Сдаю во второй волне") : (rw.Field<bool>("IsInUniversity") ? "Сдаю в СПбГУ" : rw.Field<int?>("Value").ToString())
                              }).ToList();
                     }
+                    #endregion
+
+                    #region Certificates
+                    model.FileTypes = model.FileTypes = Util.GetPersonFileTypeList().Where(x => x.Value == "5").ToList();
+                    model.CertificatesVisible = !(model.AddEducationInfo.HasTransfer || model.AddEducationInfo.HasRecover);
+                    model.Certificates = new CertificatesInfo();
+                    model.Certificates.CertTypeList = Util.GetCertificatesTypeList();
+                    model.Files = Util.GetFileList(PersonId, "5");
+                    var certs = context.PersonLanguageCertificates.Where(x => x.PersonId == PersonId).Select(x => new CertificateInfo()
+                        {
+                            Id = x.Id,
+                            Name = isEng ? x.LanguageCertificatesType.NameEng : x.LanguageCertificatesType.Name ,
+                            Number = x.Number,
+                            BoolResult = x.ResultBool,
+                            ValueResult = x.ResultValue,
+                            BoolType = x.LanguageCertificatesType.BoolType,
+                            ValueType = x.LanguageCertificatesType.ValueType,
+                        }).ToList();
+                    model.Certificates.Certs = certs;
+
                     #endregion
                     #endregion
                     return View("PersonalOffice_Page5", model);
@@ -5131,11 +5151,12 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
             dic.Add("@WorkTypeId", iScWorkType);
             dic.Add("@WorkInfo", ScWorkInfo);
             dic.Add("@WorkYear", ScWorkYear);
+            bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
 
             try
             {
                 Util.AbitDB.ExecuteQuery(query, dic);
-                string scType = Util.ScienceWorkTypeAll[iScWorkType];
+                string scType = !bIsEng ? Util.ScienceWorkTypeAll[iScWorkType] : Util.ScienceWorkTypeEngAll[iScWorkType];
                 string scInfo = HttpUtility.HtmlEncode(ScWorkInfo);
                 string scYear = HttpUtility.HtmlEncode(ScWorkYear);
                 var res = new { IsOk = true, Data = new { Id = wrkId.ToString("N"), Type = scType, Info = scInfo, Year = scYear }, ErrorMsg = "" };
@@ -5255,37 +5276,6 @@ Order by cnt desc";
                 var result = new { IsOk = false, ErrorMessage = "Ошибка при сохранении данных" };
                 return Json(result);
             }
-            //using (AbitDB db = new AbitDB())
-            //{
-            //    PersonWork pw = new PersonWork()
-            //    {
-            //        Id = Guid.NewGuid(),
-            //        PersonId = PersonId,
-            //        Stage = WorkStag,
-            //        WorkPlace = WorkPlace,
-            //        WorkProfession = WorkProf,
-            //        WorkSpecifications = WorkSpec
-            //    };
-
-            //    try
-            //    {
-            //        Util.ABDB.PersonWork.AddObject(pw);
-            //        Util.ABDB.SaveChanges();
-            //    }
-            //    catch
-            //    {
-            //        var result = new { IsOk = false, ErrorMessage = "Ошибка при сохранении данных" };
-            //        return Json(result);
-            //    }
-
-            //    var res = new 
-            //    { 
-            //        IsOk = true,
-            //        Data = new { Id = pw.Id, Place = pw.WorkPlace, Stag = pw.Stage, Level = pw.WorkProfession, Duties = pw.WorkSpecifications },
-            //        ErrorMessage = ""
-            //    };
-            //    return Json(res);
-            //}
         }
 
         public ActionResult DeleteWorkPlace(string wrkId)
@@ -5408,6 +5398,93 @@ Order by cnt desc";
         }
         #endregion
 
+        #region Certificates_AJAX
+        public JsonResult GetTypeCertificate(string TypeId)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
+            int iTypeId;
+            if (!int.TryParse(TypeId, out iTypeId))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                var Cert = context.LanguageCertificatesType.Where(x => x.Id == iTypeId).Select(x => new { x.BoolType, x.ValueType }).FirstOrDefault();
+                if (Cert == null)
+                    return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
+                else  return Json(new { IsOk = true, IsBool = Cert.BoolType });
+            }
+
+        }
+        public JsonResult AddCertificates(string TypeId, string Number, string BoolType, string Value)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
+
+            bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
+
+            int iTypeId;
+            if (!int.TryParse(TypeId, out iTypeId))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
+
+            bool IsBoolType;
+            if (BoolType == "1") IsBoolType = true;
+            else if (BoolType == "0") IsBoolType = false;
+            else return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
+
+            double iValue;
+            if (!double.TryParse(Value, out iValue) && !IsBoolType)
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
+
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                var Cert = new PersonLanguageCertificates()
+                {
+                    PersonId = PersonId,
+                    LanguageCertificateTypeId = iTypeId,
+                    Number = Number,
+                    ResultBool = IsBoolType ? (bool?)true : null,
+                    ResultValue = !IsBoolType ? (double?)iValue : null,
+                };
+                context.PersonLanguageCertificates.Add(Cert);
+                context.SaveChanges();
+
+                var Ol = context.PersonLanguageCertificates.Where(x => x.Id == Cert.Id).Select(x => new
+                {
+                    Id = x.Id,
+                    Name = !bIsEng ? x.LanguageCertificatesType.Name : x.LanguageCertificatesType.NameEng,
+                    IsBool = x.LanguageCertificatesType.BoolType,
+                    Number = x.Number,
+                    Value = x.ResultValue,
+                }).FirstOrDefault();
+
+                return Json(new
+                {
+                    IsOk = true,
+                    Name = Ol.Name,
+                    IsBool = Ol.IsBool,
+                    Number = Ol.Number,
+                    Value = Ol.Value,
+                });
+            }
+        }
+        public JsonResult DeleteCertificate(string id)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
+
+            int Certid;
+            if (!int.TryParse(id, out Certid))
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
+
+            string query = "DELETE FROM PersonLanguageCertificates WHERE Id=@Id";
+            Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@Id", Certid } });
+            DataTable tbl = Util.AbitDB.GetDataTable("SELECT count(Id) as cnt FROM PersonLanguageCertificates WHERE PersonId=@Id", new SortedList<string, object>() { { "@Id", PersonId } });
+            return Json(new { IsOk = true, Count = tbl.Rows[0].Field<int>("cnt") });
+        }
+        #endregion
         #region Olympiads_AJAX
         public JsonResult GetOlympTypeList(string OlympYear)
         {
@@ -6384,7 +6461,7 @@ Order by cnt desc";
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                 return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
 
-            string UILang = Util.GetUILang(PersonId);
+            bool UILang = Util.GetCurrentThreadLanguageIsEng();
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
@@ -6393,7 +6470,7 @@ Order by cnt desc";
                     return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
 
                 string PassportTypeName = context.PassportType.Where(x => x.Id == iPassportTypeId)
-                    .Select(x => UILang == "en" ? x.NameEng : x.Name).FirstOrDefault();
+                    .Select(x => UILang ? x.NameEng : x.Name).FirstOrDefault();
 
                 if (string.IsNullOrEmpty(PassportSurname))
                     PassportSurname = context.Person.Where(x => x.Id == PersonId).Select(x => x.Surname).FirstOrDefault();
@@ -6425,7 +6502,8 @@ Order by cnt desc";
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                 return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
 
-            string UILang = Util.GetUILang(PersonId);
+            bool isEng = Util.GetCurrentThreadLanguageIsEng(); 
+
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
@@ -6433,7 +6511,7 @@ Order by cnt desc";
                     .Select(x => new
                     {
                         x.Id,
-                        PassportType = UILang == "en" ? x.PassportType.NameEng : x.PassportType.Name,
+                        PassportType = isEng ? x.PassportType.NameEng : x.PassportType.Name,
                         x.PassportSeries,
                         x.PassportNumber,
                         PassportSurname = x.Surname,

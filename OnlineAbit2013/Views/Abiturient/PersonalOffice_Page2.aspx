@@ -442,33 +442,33 @@
                         <hr />
                     </form>
                     <div class="form panel">
-                        <h5>Прочие паспорта</h5>
+                        <h5><%= GetGlobalResourceObject("PersonalOffice_Step2", "AnotherPassport").ToString()%></h5>
                         <div>
                             <label>Тип</label>
                             <%= Html.DropDownList("_frmPassportType", Model.PassportInfo.PassportTypeList, new Dictionary<string, object>() { { "id", "_frmPassportType" } })%>
                             <div class="clearfix">
-                                <label>Серия</label>
+                                <label><%= GetGlobalResourceObject("PersonalOffice_Step2", "PassportSeries").ToString()%></label>
                                 <input id="_frmPassportSeries" type="text" />
                             </div><br />
                             <div class="clearfix">
-                                <label>Номер</label>
+                                <label><%= GetGlobalResourceObject("PersonalOffice_Step2", "PassportNumber").ToString()%></label>
                                 <input id="_frmPassportNumber" type="text" />
                             </div><br />
                             <div class="clearfix">
-                                <label>Фамилия (если отличалась)</label>
+                                <label><%= GetGlobalResourceObject("PersonalOffice_Step2", "PassportAnotherSurname").ToString()%></label>
                                 <input id="_frmSurname" type="text" />
                             </div>
                             <br />
-                            <button onclick="SaveOtherPassport()" class="button button-blue">Сохранить</button>
+                            <button onclick="SaveOtherPassport()" class="button button-blue"><%= GetGlobalResourceObject("PersonInfo", "ButtonSaveText").ToString()%></button>
                         </div>
                         <br />
                         <table id="tblOtherPassports" class="paginate" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Тип паспорта</th>
-                                    <th>Серия</th>
-                                    <th>Номер</th>
-                                    <th style="width:50%">Фамилия</th>
+                                    <th><%= GetGlobalResourceObject("PersonalOffice_Step2", "PassportType").ToString()%></th>
+                                    <th><%= GetGlobalResourceObject("PersonalOffice_Step2", "PassportSeries").ToString()%></th>
+                                    <th><%= GetGlobalResourceObject("PersonalOffice_Step2", "PassportNumber").ToString()%></th>
+                                    <th style="width:50%"><%= GetGlobalResourceObject("PersonalOffice_Step2", "PassportSurname").ToString()%></th>
                                 </tr>
                             </thead>
                             <tbody id="tblPassportData">

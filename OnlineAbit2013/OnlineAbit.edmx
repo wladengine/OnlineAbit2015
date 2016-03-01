@@ -217,14 +217,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="IsInUniversity" Type="bit" Nullable="false" />
           <Property Name="IsSecondWave" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="EnglishCertificatesType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="NameEng" Type="nvarchar" MaxLength="150" Nullable="false" />
-        </EntityType>
         <EntityType Name="Exam">
           <Key>
             <PropertyRef Name="Id" />
@@ -309,6 +301,16 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="NameDat" Type="nvarchar" MaxLength="50" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="LanguageCertificatesType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="NameEng" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="BoolType" Type="bit" Nullable="false" />
+          <Property Name="ValueType" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="OlympBook">
           <Key>
@@ -534,16 +536,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="AvgMark" Type="float" />
           <Property Name="IsExcellent" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="PersonEnglishCertificates">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="EnglishCertificateTypeId" Type="int" Nullable="false" />
-          <Property Name="Number" Type="nvarchar" MaxLength="150" />
-          <Property Name="Mark" Type="float" />
-        </EntityType>
         <EntityType Name="PersonFile">
           <Key>
             <PropertyRef Name="Id" />
@@ -583,6 +575,17 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="QualificationId" Type="int" Nullable="false" />
           <Property Name="StudyFormId" Type="int" Nullable="false" />
           <Property Name="ProgramName" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="PersonLanguageCertificates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LanguageCertificateTypeId" Type="int" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="150" />
+          <Property Name="ResultValue" Type="float" />
+          <Property Name="ResultBool" Type="bit" />
         </EntityType>
         <EntityType Name="PersonOtherPassport">
           <Key>
@@ -704,6 +707,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IntValue" Type="int" Nullable="false" />
           <Property Name="OrderNumber" Type="int" />
+          <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SchoolExitClassToStudyLevel">
           <Key>
@@ -1765,9 +1769,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PersonChangeStudyFormReason_ApplicationCommit">
-          <End Role="ApplicationCommit" Type="Self.ApplicationCommit" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="ApplicationCommit" Type="Self.ApplicationCommit" Multiplicity="0..1" />
           <End Role="PersonChangeStudyFormReason" Type="Self.PersonChangeStudyFormReason" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ApplicationCommit">
@@ -2042,6 +2044,18 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PersonLanguageCertificates_LanguageCertificatesType">
+          <End Role="LanguageCertificatesType" Type="Self.LanguageCertificatesType" Multiplicity="1" />
+          <End Role="PersonLanguageCertificates" Type="Self.PersonLanguageCertificates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LanguageCertificatesType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonLanguageCertificates">
+              <PropertyRef Name="LanguageCertificateTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PersonOtherPassport_PassportType">
           <End Role="PassportType" Type="Self.PassportType" Multiplicity="1" />
           <End Role="PersonOtherPassport" Type="Self.PersonOtherPassport" Multiplicity="*" />
@@ -2292,7 +2306,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="EgeCertificate" EntityType="Self.EgeCertificate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EgeExam" EntityType="Self.EgeExam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EgeMark" EntityType="Self.EgeMark" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="EnglishCertificatesType" EntityType="Self.EnglishCertificatesType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Exam" EntityType="Self.Exam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamInEntryBlock" EntityType="Self.ExamInEntryBlock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamInEntryBlockUnit" EntityType="Self.ExamInEntryBlockUnit" Schema="dbo" store:Type="Tables" />
@@ -2303,6 +2316,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="GroupUsers" EntityType="Self.GroupUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InnerEntryInEntry" EntityType="Self.InnerEntryInEntry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LanguageCertificatesType" EntityType="Self.LanguageCertificatesType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OlympBook" EntityType="Self.OlympBook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Olympiads" EntityType="Self.Olympiads" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OlympLevel" EntityType="Self.OlympLevel" Schema="dbo" store:Type="Tables" />
@@ -2318,10 +2332,10 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="PersonCurrentEducation" EntityType="Self.PersonCurrentEducation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonDisorderInfo" EntityType="Self.PersonDisorderInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonEducationDocument" EntityType="Self.PersonEducationDocument" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PersonEnglishCertificates" EntityType="Self.PersonEnglishCertificates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonFile" EntityType="Self.PersonFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonFileType" EntityType="Self.PersonFileType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonHighEducationInfo" EntityType="Self.PersonHighEducationInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonLanguageCertificates" EntityType="Self.PersonLanguageCertificates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonOtherPassport" EntityType="Self.PersonOtherPassport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonSchoolInfo" EntityType="Self.PersonSchoolInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonScienceWork" EntityType="Self.PersonScienceWork" Schema="dbo" store:Type="Tables" />
@@ -2867,6 +2881,10 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             <End Role="StudyForm" EntitySet="StudyForm" />
             <End Role="PersonHighEducationInfo" EntitySet="PersonHighEducationInfo" />
           </AssociationSet>
+          <AssociationSet Name="FK_PersonLanguageCertificates_LanguageCertificatesType" Association="Self.FK_PersonLanguageCertificates_LanguageCertificatesType">
+            <End Role="LanguageCertificatesType" EntitySet="LanguageCertificatesType" />
+            <End Role="PersonLanguageCertificates" EntitySet="PersonLanguageCertificates" />
+          </AssociationSet>
           <AssociationSet Name="FK_PersonOtherPassport_PassportType" Association="Self.FK_PersonOtherPassport_PassportType">
             <End Role="PassportType" EntitySet="PassportType" />
             <End Role="PersonOtherPassport" EntitySet="PersonOtherPassport" />
@@ -3154,14 +3172,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="IsSecondWave" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="EgeCertificate" Relationship="Self.FK_EgeMark_EgeCertificate" FromRole="EgeMark" ToRole="EgeCertificate" />
           <NavigationProperty Name="EgeExam" Relationship="Self.FK_EgeMark_EgeExam" FromRole="EgeMark" ToRole="EgeExam" />
-        </EntityType>
-        <EntityType Name="EnglishCertificatesType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="NameEng" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Exam">
           <Key>
@@ -3528,16 +3538,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <NavigationProperty Name="VuzAdditionalType" Relationship="Self.FK_PersonEducationDocument_VuzAdditionalType" FromRole="PersonEducationDocument" ToRole="VuzAdditionalType" />
           <NavigationProperty Name="PersonHighEducationInfo" Relationship="Self.FK_PersonHighEducationInfo_PersonEducationDocument" FromRole="PersonEducationDocument" ToRole="PersonHighEducationInfo" />
           <NavigationProperty Name="SchoolExitClass" Relationship="OnlinePriem2015Model.FK_PersonEducationDocument_SchoolExitClass" FromRole="PersonEducationDocument" ToRole="SchoolExitClass" />
-        </EntityType>
-        <EntityType Name="PersonEnglishCertificates">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PersonId" Type="Guid" Nullable="false" />
-          <Property Name="EnglishCertificateTypeId" Type="Int32" Nullable="false" />
-          <Property Name="Number" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Mark" Type="Double" />
         </EntityType>
         <EntityType Name="PersonFileType">
           <Key>
@@ -5116,7 +5116,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="EgeCertificate" EntityType="Self.EgeCertificate" />
           <EntitySet Name="EgeExam" EntityType="Self.EgeExam" />
           <EntitySet Name="EgeMark" EntityType="Self.EgeMark" />
-          <EntitySet Name="EnglishCertificatesType" EntityType="Self.EnglishCertificatesType" />
           <EntitySet Name="Exam" EntityType="Self.Exam" />
           <EntitySet Name="ExamInEntryBlock" EntityType="Self.ExamInEntryBlock" />
           <EntitySet Name="ExamInEntryBlockUnit" EntityType="Self.ExamInEntryBlockUnit" />
@@ -5141,7 +5140,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="PersonCurrentEducation" EntityType="Self.PersonCurrentEducation" />
           <EntitySet Name="PersonDisorderInfo" EntityType="Self.PersonDisorderInfo" />
           <EntitySet Name="PersonEducationDocument" EntityType="Self.PersonEducationDocument" />
-          <EntitySet Name="PersonEnglishCertificates" EntityType="Self.PersonEnglishCertificates" />
           <EntitySet Name="PersonFileType" EntityType="Self.PersonFileType" />
           <EntitySet Name="PersonHighEducationInfo" EntityType="Self.PersonHighEducationInfo" />
           <EntitySet Name="PersonOtherPassport" EntityType="Self.PersonOtherPassport" />
@@ -5530,6 +5528,12 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             <End Role="ScienceWorkType" EntitySet="ScienceWorkType" />
             <End Role="PersonScienceWork" EntitySet="PersonScienceWork" />
           </AssociationSet>
+          <EntitySet Name="LanguageCertificatesType" EntityType="OnlinePriem2015Model.LanguageCertificatesType" />
+          <EntitySet Name="PersonLanguageCertificates" EntityType="OnlinePriem2015Model.PersonLanguageCertificates" />
+          <AssociationSet Name="FK_PersonLanguageCertificates_LanguageCertificatesType" Association="OnlinePriem2015Model.FK_PersonLanguageCertificates_LanguageCertificatesType">
+            <End Role="LanguageCertificatesType" EntitySet="LanguageCertificatesType" />
+            <End Role="PersonLanguageCertificates" EntitySet="PersonLanguageCertificates" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Comission">
           <Key>
@@ -5679,6 +5683,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="OrderNumber" Type="Int32" />
           <NavigationProperty Name="PersonEducationDocument" Relationship="OnlinePriem2015Model.FK_PersonEducationDocument_SchoolExitClass" FromRole="SchoolExitClass" ToRole="PersonEducationDocument" />
           <NavigationProperty Name="PersonSchoolInfo" Relationship="OnlinePriem2015Model.FK_PersonSchoolInfo_SchoolExitClass" FromRole="SchoolExitClass" ToRole="PersonSchoolInfo" />
+          <Property Name="NameEng" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_PersonEducationDocument_SchoolExitClass">
           <End Type="OnlinePriem2015Model.SchoolExitClass" Role="SchoolExitClass" Multiplicity="0..1" />
@@ -5722,6 +5727,41 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             </Principal>
             <Dependent Role="PersonScienceWork">
               <PropertyRef Name="WorkTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LanguageCertificatesType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="NameEng" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="BoolType" Type="Boolean" Nullable="false" />
+          <Property Name="ValueType" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PersonLanguageCertificates" Relationship="OnlinePriem2015Model.FK_PersonLanguageCertificates_LanguageCertificatesType" FromRole="LanguageCertificatesType" ToRole="PersonLanguageCertificates" />
+        </EntityType>
+        <EntityType Name="PersonLanguageCertificates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonId" Type="Guid" Nullable="false" />
+          <Property Name="Number" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ResultValue" Type="Double" />
+          <Property Name="ResultBool" Type="Boolean" />
+          <Property Name="LanguageCertificateTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LanguageCertificatesType" Relationship="OnlinePriem2015Model.FK_PersonLanguageCertificates_LanguageCertificatesType" FromRole="PersonLanguageCertificates" ToRole="LanguageCertificatesType" />
+        </EntityType>
+        <Association Name="FK_PersonLanguageCertificates_LanguageCertificatesType">
+          <End Type="OnlinePriem2015Model.LanguageCertificatesType" Role="LanguageCertificatesType" Multiplicity="1" />
+          <End Type="OnlinePriem2015Model.PersonLanguageCertificates" Role="PersonLanguageCertificates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LanguageCertificatesType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonLanguageCertificates">
+              <PropertyRef Name="LanguageCertificateTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5935,15 +5975,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="IsInUniversity" ColumnName="IsInUniversity" />
                 <ScalarProperty Name="IsSecondWave" ColumnName="IsSecondWave" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EnglishCertificatesType">
-            <EntityTypeMapping TypeName="OnlinePriem2015Model.EnglishCertificatesType">
-              <MappingFragment StoreEntitySet="EnglishCertificatesType">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6266,17 +6297,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
                 <ScalarProperty Name="EqualDocumentNumber" ColumnName="EqualDocumentNumber" />
                 <ScalarProperty Name="AvgMark" ColumnName="AvgMark" />
                 <ScalarProperty Name="IsExcellent" ColumnName="IsExcellent" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PersonEnglishCertificates">
-            <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonEnglishCertificates">
-              <MappingFragment StoreEntitySet="PersonEnglishCertificates">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
-                <ScalarProperty Name="EnglishCertificateTypeId" ColumnName="EnglishCertificateTypeId" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="Mark" ColumnName="Mark" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6956,6 +6976,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="SchoolExitClass">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.SchoolExitClass">
               <MappingFragment StoreEntitySet="SchoolExitClass">
+                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
                 <ScalarProperty Name="IntValue" ColumnName="IntValue" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -6968,6 +6989,29 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
               <MappingFragment StoreEntitySet="ScienceWorkType">
                 <ScalarProperty Name="NameEng" ColumnName="NameEng" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LanguageCertificatesType">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.LanguageCertificatesType">
+              <MappingFragment StoreEntitySet="LanguageCertificatesType">
+                <ScalarProperty Name="ValueType" ColumnName="ValueType" />
+                <ScalarProperty Name="BoolType" ColumnName="BoolType" />
+                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonLanguageCertificates">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonLanguageCertificates">
+              <MappingFragment StoreEntitySet="PersonLanguageCertificates">
+                <ScalarProperty Name="LanguageCertificateTypeId" ColumnName="LanguageCertificateTypeId" />
+                <ScalarProperty Name="ResultBool" ColumnName="ResultBool" />
+                <ScalarProperty Name="ResultValue" ColumnName="ResultValue" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

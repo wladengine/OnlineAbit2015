@@ -243,4 +243,32 @@
   <data name="WorkYear" xml:space="preserve">
     <value>Год деятельности</value>
   </data>
+  <data name="CertificateAdded" xml:space="preserve">
+    <value>Добавленные сертификаты</value>
+  </data>
+  <data name="CertificateHeader" xml:space="preserve">
+    <value>Языковые сертификаты</value>
+  </data>
+  <data name="CertificateNumber" xml:space="preserve">
+    <value>Номер сертификата</value>
+  </data>
+  <data name="CertificatePassed" xml:space="preserve">
+    <value>пройден</value>
+  </data>
+  <data name="CertificateType" xml:space="preserve">
+    <value>Тип сертификата</value>
+  </data>
+  <data name="CertificateValue" xml:space="preserve">
+    <value>Количество баллов</value>
+  </data>
+  <data name="EnglishCertificatesLoad" xml:space="preserve">
+    <value>Сюда вы можете прикрепить сканы языковых сертификатов&lt;/br&gt;
+Остальные документы можно прикрепить в окне Общие документы. &lt;/br&gt;</value>
+  </data>
+  <data name="PersonalOffice_Certificates" xml:space="preserve">
+    <value>Загрузите сканы языковых сертификатов</value>
+  </data>
+  <data name="validationMsgCertValue" xml:space="preserve">
+    <value>Введите целое число</value>
+  </data>
 </root>

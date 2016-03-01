@@ -321,4 +321,10 @@
   <data name="CurrentEducation_ObrazProgramId_Message" xml:space="preserve">
     <value>Select educational program</value>
   </data>
+  <data name="EducationInfo_AddOne" xml:space="preserve">
+    <value>Add another</value>
+  </data>
+  <data name="EducationInfo_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>

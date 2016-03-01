@@ -170,6 +170,8 @@ namespace OnlineAbit2013.Controllers
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
                 List<Guid> EntryList = GetEntryList();
+                bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
+
                 #region GetAccess
                 model.isRussian = (from x in context.GroupUsers
                                    where x.PersonId == personId && x.GroupId == Util.GlobalCommunicationGroupId_Ru
@@ -199,8 +201,7 @@ namespace OnlineAbit2013.Controllers
                                
                                pCont.Code,
                                pCont.Country.IsRussia,
-                               Country = pCont.Country.Name,
-                               countryeng = pCont.Country.NameEng,
+                               Country = bIsEng ? pCont.Country.NameEng : pCont.Country.Name,
                                Region = pCont.Region.Name,
                                pCont.City,
                                pCont.Street,
@@ -208,7 +209,7 @@ namespace OnlineAbit2013.Controllers
                                pCont.Korpus,
                                pCont.Flat, 
 
-                               VisaCountry = pers.PersonVisaInfo.Country.Name,
+                               VisaCountry = bIsEng ? pers.PersonVisaInfo.Country.NameEng : pers.PersonVisaInfo.Country.Name,
                                VisaPostAddress = pers.PersonVisaInfo.PostAddress,
                                VisaTown = pers.PersonVisaInfo.Town,
 
@@ -241,9 +242,9 @@ namespace OnlineAbit2013.Controllers
                     +
                     string.Format("{0} {1} {2} {3}", 
                     person.Street ?? "", 
-                    (person.House == string.Empty ? "" : "дом " + person.House),
-                    (person.Korpus == string.Empty ? "" : "корп. " + person.Korpus),
-                    (person.Flat == string.Empty ? "" : "кв. " + person.Flat));
+                    (person.House == string.Empty ? "" : (bIsEng ? "":"дом ") + person.House),
+                    (person.Korpus == string.Empty ? "" : (bIsEng ? "":"корп. ") + person.Korpus),
+                    (person.Flat == string.Empty ? "" : (bIsEng ? "":"кв. ") + person.Flat));
                   
                 model.Email = person.Email;
                 

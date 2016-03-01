@@ -41,7 +41,6 @@ namespace OnlineAbit2013
         public virtual DbSet<EgeCertificate> EgeCertificate { get; set; }
         public virtual DbSet<EgeExam> EgeExam { get; set; }
         public virtual DbSet<EgeMark> EgeMark { get; set; }
-        public virtual DbSet<EnglishCertificatesType> EnglishCertificatesType { get; set; }
         public virtual DbSet<Exam> Exam { get; set; }
         public virtual DbSet<ExamInEntryBlock> ExamInEntryBlock { get; set; }
         public virtual DbSet<ExamInEntryBlockUnit> ExamInEntryBlockUnit { get; set; }
@@ -66,7 +65,6 @@ namespace OnlineAbit2013
         public virtual DbSet<PersonCurrentEducation> PersonCurrentEducation { get; set; }
         public virtual DbSet<PersonDisorderInfo> PersonDisorderInfo { get; set; }
         public virtual DbSet<PersonEducationDocument> PersonEducationDocument { get; set; }
-        public virtual DbSet<PersonEnglishCertificates> PersonEnglishCertificates { get; set; }
         public virtual DbSet<PersonFileType> PersonFileType { get; set; }
         public virtual DbSet<PersonHighEducationInfo> PersonHighEducationInfo { get; set; }
         public virtual DbSet<PersonOtherPassport> PersonOtherPassport { get; set; }
@@ -109,6 +107,8 @@ namespace OnlineAbit2013
         public virtual DbSet<extDefaultEntryDetails> extDefaultEntryDetails { get; set; }
         public virtual DbSet<SchoolExitClass> SchoolExitClass { get; set; }
         public virtual DbSet<ScienceWorkType> ScienceWorkType { get; set; }
+        public virtual DbSet<LanguageCertificatesType> LanguageCertificatesType { get; set; }
+        public virtual DbSet<PersonLanguageCertificates> PersonLanguageCertificates { get; set; }
     
         public virtual int PersonEducationDocument_delete(Nullable<System.Guid> personId, Nullable<int> id)
         {

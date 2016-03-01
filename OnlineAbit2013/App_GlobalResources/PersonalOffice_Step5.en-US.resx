@@ -233,4 +233,38 @@ the theme of your report), published scientific articles, work in scientific lab
   <data name="validationMsgPersonWorksPlace" xml:space="preserve">
     <value>Enter work place</value>
   </data>
+  <data name="CertificateAdded" xml:space="preserve">
+    <value>Added certificates</value>
+  </data>
+  <data name="CertificateHeader" xml:space="preserve">
+    <value>Language certificates</value>
+  </data>
+  <data name="CertificateNumber" xml:space="preserve">
+    <value>Certificate number</value>
+  </data>
+  <data name="CertificatePassed" xml:space="preserve">
+    <value>passed</value>
+  </data>
+  <data name="CertificateType" xml:space="preserve">
+    <value>Certificate type</value>
+  </data>
+  <data name="CertificateValue" xml:space="preserve">
+    <value>Certificate result</value>
+  </data>
+  <data name="EnglishCertificatesLoad" xml:space="preserve">
+    <value>Apload the copy of your english certificates. &lt;/br&gt;
+Other documents can be attached in the window "General documents".&lt;/br&gt;</value>
+  </data>
+  <data name="PersonalOffice_Certificates" xml:space="preserve">
+    <value>PersonalOffice_Certificates</value>
+  </data>
+  <data name="validationMsgCertValue" xml:space="preserve">
+    <value>Enter integer figure</value>
+  </data>
+  <data name="WorkInfo" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="WorkYear" xml:space="preserve">
+    <value>Year</value>
+  </data>
 </root>

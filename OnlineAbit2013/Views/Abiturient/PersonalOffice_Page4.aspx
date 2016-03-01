@@ -542,13 +542,13 @@
                                 <% if (i < Model.EducationInfo.EducationDocumentsMaxCount - 1) { %>
                                 <span id="_linkAdd_<%= i %>" class="alink" onclick="AddNext(<%= i %>)">
                                     <img src="../../Content/themes/base/images/add-icon_16px.png" />
-                                    Добавить ещё
+                                     <%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationInfo_AddOne").ToString()%>
                                 </span>
                                 <% } %>
                                 <% if (i > 0) { %>
                                 <span id="_linkDelete_<%= i %>" class="alink" onclick="DeleteDoc(<%= i %>)">
                                     <img src="../../Content/themes/base/images/delete-icon.png" />
-                                    Удалить
+                                     <%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationInfo_Delete").ToString()%>
                                 </span>
                                 <% } %>
                             </div>

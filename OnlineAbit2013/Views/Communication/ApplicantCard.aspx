@@ -14,20 +14,19 @@
     <style> 
        .grid_2
        {
-           width: 100px;
-           display: none;
+           
        }
        .wrapper
        {
-           width: 1290px;
+           width: 1100px;
        }
        .grid_6
        {
-           width: 1290px;
+           width: 1100px;
        }
        .first 
        {
-           width: 1290px;
+           width: 1100px;
        }
        table
        {
@@ -177,7 +176,11 @@
                 </td>
             </tr>
         </table>
-        <hr /> <hr />
+        <hr /> 
+        <table>
+            <% %>
+        </table>
+        <hr />
         <table>
             <tr>
                 <td style="width:33%; text-align:center;"><%=GetGlobalResourceObject("Communication", "Complete")%></td>

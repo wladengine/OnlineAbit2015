@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AnotherPassport" xml:space="preserve">
+    <value>Another passport</value>
+  </data>
   <data name="HeaderPassport" xml:space="preserve">
     <value>Passport</value>
   </data>
@@ -125,6 +128,9 @@
   </data>
   <data name="LongValue_Message" xml:space="preserve">
     <value>Too long value</value>
+  </data>
+  <data name="PassportAnotherSurname" xml:space="preserve">
+    <value>Surname</value>
   </data>
   <data name="PassportAuthor" xml:space="preserve">
     <value>Issued by</value>
@@ -158,6 +164,9 @@
   </data>
   <data name="PassportSeries" xml:space="preserve">
     <value>Series</value>
+  </data>
+  <data name="PassportSurname" xml:space="preserve">
+    <value>Surname</value>
   </data>
   <data name="PassportType" xml:space="preserve">
     <value>Type</value>

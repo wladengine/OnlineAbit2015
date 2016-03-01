@@ -66,6 +66,8 @@ namespace OnlineAbit2013.Controllers
         /// Названия всех видов научной работы
         /// </summary>
         public static Dictionary<int, string> ScienceWorkTypeAll { get; set; }
+        public static Dictionary<int, string> ScienceWorkTypeEngAll { get; set; }
+
         /// <summary>
         /// Формы обучения
         /// </summary>
@@ -95,7 +97,7 @@ namespace OnlineAbit2013.Controllers
         static Util()
         {
             InitDB();
-            string query = "SELECT Id, Name  FROM {0} WHERE 1=@x ORDER BY Id";
+            string query = "SELECT Id, Name FROM {0} WHERE 1=@x ORDER BY Id";
             SortedList<string, object> dic = new SortedList<string, object>() { { "@x", 1 } };
             DataTable tbl = _abitDB.GetDataTable(string.Format(query, "EgeExam"), dic);
 
@@ -105,10 +107,13 @@ namespace OnlineAbit2013.Controllers
                 (from DataRow rw in tbl.Rows
                  select new { Id = rw.Field<int>("Id"), Name = rw.Field<string>("Name") }).ToDictionary(x => x.Id, x => x.Name);
 
-            tbl = _abitDB.GetDataTable(string.Format(query, "ScienceWorkType"), dic);
+            tbl = _abitDB.GetDataTable(string.Format("SELECT Id, Name, NameEng FROM {0} WHERE 1=@x ORDER BY Id", "ScienceWorkType"), dic);
             ScienceWorkTypeAll =
                 (from DataRow rw in tbl.Rows
                  select new { Id = rw.Field<int>("Id"), Name = rw.Field<string>("Name") }).ToDictionary(x => x.Id, x => x.Name);
+            ScienceWorkTypeEngAll =
+                (from DataRow rw in tbl.Rows
+                 select new { Id = rw.Field<int>("Id"), Name = rw.Field<string>("NameEng") }).ToDictionary(x => x.Id, x => x.Name);
 
             tbl = _abitDB.GetDataTable(string.Format(query, "StudyForm"), dic);
             StudyFormAll =
@@ -1470,9 +1475,9 @@ namespace OnlineAbit2013.Controllers
         public static List<AppendedFile> GetFileList(Guid PersonId, string FileType)
         {
             List<AppendedFile> lst = new List<AppendedFile>();
-
+            bool bisEng = Util.GetCurrentThreadLanguageIsEng();
             string query = @"
-SELECT PersonFile.Id, FileName, FileSize, Comment, IsApproved, IsReadOnly, LoadDate, ISNULL(PersonFileType.Name, 'нет') AS Name
+SELECT PersonFile.Id, FileName, FileSize, Comment, IsApproved, IsReadOnly, LoadDate, ISNULL(PersonFileType.Name" + (bisEng ?"Eng":"")+ @", 'нет') AS Name
 FROM PersonFile 
 LEFT JOIN PersonFileType ON PersonFile.PersonFileTypeId = PersonFileType.Id 
 WHERE PersonId=@PersonId AND IsDeleted=0 ";
@@ -1854,11 +1859,11 @@ ORDER by Semester.Id";
                     .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
                     .ToList();
         }
-        public static List<SelectListItem> GetEnglishCertificatesTypeList()
+        public static List<SelectListItem> GetCertificatesTypeList()
         {
             bool isEng = GetCurrentThreadLanguageIsEng();
 
-            string query = "SELECT Id, Name, NameEng FROM EnglishCertificatesType ORDER BY 1";
+            string query = "SELECT Id, Name, NameEng FROM LanguageCertificatesType ORDER BY 1";
             DataTable tbl = Util.AbitDB.GetDataTable(query, null);
             return
                 (from DataRow rw in tbl.Rows

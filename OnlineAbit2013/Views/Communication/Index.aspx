@@ -14,20 +14,19 @@
 <style> 
    .grid_2
    {
-       width: 100px;
-       /*display: none;*/
+       
    }
    .wrapper
    {
-       width: 1290px;
+       width: 1100px;
    }
    .grid_6
    {
-       width: 1290px;
+       width: 1100px;
    }
    .first 
    {
-       width: 1290px;
+       width: 1100px;
    }
  </style>
    

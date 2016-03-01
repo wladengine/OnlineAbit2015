@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="OnlinePriem2015Model.EgeCertificate" Width="1.5" PointX="7.5" PointY="34.875" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.EgeExam" Width="1.5" PointX="10.5" PointY="49.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.EgeMark" Width="1.5" PointX="12.75" PointY="34.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.EnglishCertificatesType" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.Exam" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ExamInEntryBlock" Width="1.5" PointX="9" PointY="46.375" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ExamInEntryBlockUnit" Width="1.5" PointX="11.25" PointY="46.125" IsExpanded="true" />
@@ -44,7 +43,6 @@
         <EntityTypeShape EntityType="OnlinePriem2015Model.PersonCurrentEducation" Width="1.5" PointX="13.5" PointY="38.375" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.PersonDisorderInfo" Width="1.5" PointX="7.5" PointY="55" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.PersonEducationDocument" Width="1.5" PointX="10.5" PointY="24.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonEnglishCertificates" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.PersonFileType" Width="1.5" PointX="2.75" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.PersonHighEducationInfo" Width="1.5" PointX="12.75" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.PersonOtherPassport" Width="1.5" PointX="10.5" PointY="38.75" IsExpanded="true" />
@@ -163,6 +161,9 @@
         <AssociationConnector Association="OnlinePriem2015Model.FK_PersonSchoolInfo_SchoolExitClass" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ScienceWorkType" Width="1.5" PointX="22.375" PointY="0.875" />
         <AssociationConnector Association="OnlinePriem2015Model.FK_PersonScienceWork_ScienceWorkType" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.LanguageCertificatesType" Width="1.5" PointX="22.375" PointY="3.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.PersonLanguageCertificates" Width="1.5" PointX="22.375" PointY="6.75" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonLanguageCertificates_LanguageCertificatesType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
