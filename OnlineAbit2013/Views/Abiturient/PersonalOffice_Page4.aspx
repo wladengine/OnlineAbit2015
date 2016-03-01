@@ -251,13 +251,13 @@
                     if (res.IsOk) {
                         VuzNamesCache = res.Values;
                         cachedVuzNames = true;
-                        if ($('#EducationInfo_SchoolTypeId').val() == 4) {
-                            $('#EducationInfo_SchoolName').autocomplete({
+                        if ($('#SchoolTypeId_'+ i).val() == 4) {
+                            $('#SchoolName_'+ i).autocomplete({
                                 source: res.Values
                             });
                         }
                         else {
-                            $('#EducationInfo_SchoolName').autocomplete({
+                            $('#SchoolName_'+ i).autocomplete({
                                 source: EmptySource
                             });
                         }

@@ -59,6 +59,12 @@
             $('#ContactsInfo_RegionId').change(function () { setTimeout(GetCities); });
             $('#ContactsInfo_City').blur(function () { setTimeout(GetStreets); });
             $('#ContactsInfo_Street').blur(function () { setTimeout(GetHouses); });
+            $('#ContactsInfo_House').blur(function () { setTimeout(GetPostIndex); });
+
+            $('#ContactsInfo_RegionRealId').change(function () { setTimeout(GetCitiesReal); });
+            $('#ContactsInfo_CityReal').blur(function () { setTimeout(GetStreetsReal); });
+            $('#ContactsInfo_StreetReal').blur(function () { setTimeout(GetHousesReal); });
+            $('#ContactsInfo_HouseReal').blur(function () { setTimeout(GetPostIndexReal); });
         });
     </script>
     <script type="text/javascript">
@@ -139,6 +145,8 @@
         }
     </script>
     <script type ="text/javascript">
+        var FoundPostIndex = '';
+        var FoundPostIndexReal = '';
         $(function () { setTimeout(GetCities, 50) });
         function GetCities() {
             if ($('#ContactsInfo_CountryId').val() == '193') {
@@ -152,22 +160,97 @@
             }
         }
         function GetStreets() {
-            $.post('../../Abiturient/GetStreetNames', { regionId: $('#ContactsInfo_RegionId').val(), cityName: $('#ContactsInfo_City').val() }, function (data) {
+            if ($('#ContactsInfo_CountryId').val() == '193') {
+                $.post('../../Abiturient/GetStreetNames', { regionId: $('#ContactsInfo_RegionId').val(), cityName: $('#ContactsInfo_City').val() }, function (data) {
+                    if (data.IsOk) {
+                        $('#ContactsInfo_Street').autocomplete({
+                            source: data.List
+                        });
+                    }
+                }, 'json');
+            }
+        }
+        function GetHouses() {
+            if ($('#ContactsInfo_CountryId').val() == '193') {
+                $.post('../../Abiturient/GetHouseNames', { regionId: $('#ContactsInfo_RegionId').val(), cityName: $('#ContactsInfo_City').val(), streetName: $('#ContactsInfo_Street').val() }, function (data) {
+                    if (data.IsOk) {
+                        $('#ContactsInfo_House').autocomplete({
+                            source: data.List
+                        });
+                    }
+                }, 'json');
+            }
+        }
+        function GetPostIndex() {
+            if ($('#ContactsInfo_CountryId').val() == '193') {
+                $('#ContactsInfo_PostIndex_MessageFoundOtherIndex').hide();
+                $.post('../../Abiturient/GetPostIndexByAddres', { regionId: $('#ContactsInfo_RegionId').val(), cityName: $('#ContactsInfo_City').val(), streetName: $('#ContactsInfo_Street').val(), houseName: $('#ContactsInfo_House').val() }, function (data) {
+                    if (data.IsOk) {
+                        FoundPostIndex = data.Index;
+                        if ($('#ContactsInfo_PostIndex').text == '') {
+                            $('#ContactsInfo_PostIndex').val(FoundPostIndex);
+                        }
+                        else if ($('#ContactsInfo_PostIndex').val() != FoundPostIndex) {
+                            $('#ContactsInfo_PostIndex_MessageFoundOtherIndex').show();
+                        }
+                    }
+                }, 'json');
+            }
+        }
+        function AdjustFoundPostIndex() {
+            if (FoundPostIndex != '') {
+                $('#ContactsInfo_PostIndex').val(FoundPostIndex);
+                $('#ContactsInfo_PostIndex_MessageFoundOtherIndex').hide();
+            }
+        }
+
+
+        function GetCitiesReal() {
+            $.post('../../Abiturient/GetCityNames', { regionId: $('#ContactsInfo_RegionRealId').val() }, function (data) {
                 if (data.IsOk) {
-                    $('#ContactsInfo_Street').autocomplete({
+                    $('#ContactsInfo_CityReal').autocomplete({
                         source: data.List
                     });
                 }
             }, 'json');
         }
-        function GetHouses() {
-            $.post('../../Abiturient/GetHouseNames', { regionId: $('#ContactsInfo_RegionId').val(), cityName: $('#ContactsInfo_City').val(), streetName: $('#ContactsInfo_Street').val() }, function (data) {
+        function GetStreetsReal() {
+            $.post('../../Abiturient/GetStreetNames', { regionId: $('#ContactsInfo_RegionRealId').val(), cityName: $('#ContactsInfo_CityReal').val() }, function (data) {
                 if (data.IsOk) {
-                    $('#ContactsInfo_House').autocomplete({
+                    $('#ContactsInfo_StreetReal').autocomplete({
                         source: data.List
                     });
                 }
             }, 'json');
+        }
+        function GetHousesReal() {
+            $.post('../../Abiturient/GetHouseNames', { regionId: $('#ContactsInfo_RegionRealId').val(), cityName: $('#ContactsInfo_CityReal').val(), streetName: $('#ContactsInfo_StreetReal').val() }, function (data) {
+                if (data.IsOk) {
+                    $('#ContactsInfo_HouseReal').autocomplete({
+                        source: data.List
+                    });
+                }
+            }, 'json');
+        }
+        function GetPostIndexReal() {
+            $('#ContactsInfo_PostIndex_MessageFoundOtherIndex').hide();
+            $.post('../../Abiturient/GetPostIndexByAddres', { regionId: $('#ContactsInfo_RegionRealId').val(), cityName: $('#ContactsInfo_CityReal').val(), streetName: $('#ContactsInfo_StreetReal').val(), houseName: $('#ContactsInfo_HouseReal').val() }, function (data) {
+                if (data.IsOk) {
+                    FoundPostIndexReal = data.Index;
+                    if ($('#ContactsInfo_PostIndexReal').text == '') {
+                        $('#ContactsInfo_PostIndexReal').val(FoundPostIndexReal);
+                    }
+                    else if ($('#ContactsInfo_PostIndexReal').val() != FoundPostIndexReal) {
+                        $('#ContactsInfo_PostIndexReal_MessageFoundOtherIndex').show();
+                    }
+                }
+            }, 'json');
+        }
+        function AdjustFoundPostIndexReal() {
+            if (FoundPostIndexReal != '') {
+                $('#ContactsInfo_PostIndexReal').val(FoundPostIndexReal);
+                $('#ContactsInfo_PostIndexReal_MessageFoundOtherIndex').hide();
+            }
         }
     </script>
     <div class="grid">
@@ -211,14 +294,6 @@
                         <%= Html.DropDownListFor(x => x.ContactsInfo.RegionId, Model.ContactsInfo.RegionList) %>
                     </div>
                     <div class="clearfix">
-                        <label for="ContactsInfo_PostIndex" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
-                        <asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step3, PostIndex %>"></asp:Literal><asp:Literal runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
-                        </label>
-                        <%= Html.TextBoxFor(x => x.ContactsInfo.PostIndex) %>
-                         <br /><p></p>
-                        <span id="ContactsInfo_PostIndex_Message" class="Red" style="display:none"> <%= GetGlobalResourceObject("PersonalOffice_Step3", "PostIndex_Message").ToString()%> </span> 
-                    </div>
-                    <div class="clearfix">
                         <label for="ContactsInfo_City" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
                         <asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step3, City %>"></asp:Literal><asp:Literal runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
                         </label>
@@ -242,21 +317,32 @@
                         <br /><p></p>
                         <span id="ContactsInfo_House_Message" class="Red" style="display:none"><%= GetGlobalResourceObject("PersonalOffice_Step3", "House_Message").ToString()%> </span> 
                     </div>
-                    <div class="clearfix">
+                    <%--<div class="clearfix">
                         <%= Html.LabelFor(x => x.ContactsInfo.Korpus, GetGlobalResourceObject("PersonalOffice_Step3", "Korpus").ToString())%>
                         <%= Html.TextBoxFor(x => x.ContactsInfo.Korpus) %>
-                    </div>
+                    </div>--%>
                     <div class="clearfix">
                         <%= Html.LabelFor(x => x.ContactsInfo.Flat, GetGlobalResourceObject("PersonalOffice_Step3", "Flat").ToString())%>
                         <%= Html.TextBoxFor(x => x.ContactsInfo.Flat) %>
+                    </div>
+                    <div class="clearfix">
+                        <label for="ContactsInfo_PostIndex" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
+                        <asp:Literal ID="Literal2" runat="server" Text="<%$Resources:PersonalOffice_Step3, PostIndex %>"></asp:Literal><asp:Literal ID="Literal3" runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
+                        </label>
+                        <%= Html.TextBoxFor(x => x.ContactsInfo.PostIndex) %>
+                         <br /><p></p>
+                        <span id="ContactsInfo_PostIndex_Message" class="Red" style="display:none"> <%= GetGlobalResourceObject("PersonalOffice_Step3", "PostIndex_Message").ToString()%> </span> 
+                        <span id="ContactsInfo_PostIndex_MessageFoundOtherIndex" class="Red" style="display:none" onclick="AdjustFoundPostIndex();"> <%= GetGlobalResourceObject("PersonalOffice_Step3", "PostIndex_MessageFoundOtherIndex").ToString()%> </span> 
                     </div>
                     <%--<% if ((Model.res == 1) || (Model.res == 3))
                        { %> --%>
                     <h4><%= GetGlobalResourceObject("PersonalOffice_Step3", "AdditionalAddress_Header").ToString()%> </h4>
                     <hr />
-                    <div class="clearfix">
-                        <%= Html.LabelFor(x => x.ContactsInfo.PostIndexReal, GetGlobalResourceObject("PersonalOffice_Step3", "PostIndex").ToString())%>
-                        <%= Html.TextBoxFor(x => x.ContactsInfo.PostIndexReal)%>
+                    <div class="clearfix" id="RegionReal">
+                        <label for="ContactsInfo_RegionRealId" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
+                        <asp:Literal ID="Literal4" runat="server" Text="<%$Resources:PersonalOffice_Step3, RegionId %>"></asp:Literal>
+                        </label>
+                        <%= Html.DropDownListFor(x => x.ContactsInfo.RegionRealId, Model.ContactsInfo.RegionList) %>
                     </div>
                     <div class="clearfix">
                         <%= Html.LabelFor(x => x.ContactsInfo.CityReal, GetGlobalResourceObject("PersonalOffice_Step3", "City").ToString())%>
@@ -270,13 +356,18 @@
                         <%= Html.LabelFor(x => x.ContactsInfo.HouseReal, GetGlobalResourceObject("PersonalOffice_Step3", "House").ToString())%>
                         <%= Html.TextBoxFor(x => x.ContactsInfo.HouseReal)%>
                     </div>
-                    <div class="clearfix">
+                    <%--<div class="clearfix">
                         <%= Html.LabelFor(x => x.ContactsInfo.KorpusReal, GetGlobalResourceObject("PersonalOffice_Step3", "Korpus").ToString())%>
                         <%= Html.TextBoxFor(x => x.ContactsInfo.KorpusReal)%>
-                    </div>
+                    </div>--%>
                     <div class="clearfix">
                         <%= Html.LabelFor(x => x.ContactsInfo.FlatReal, GetGlobalResourceObject("PersonalOffice_Step3", "Flat").ToString())%>
                         <%= Html.TextBoxFor(x => x.ContactsInfo.FlatReal)%>
+                    </div>
+                    <div class="clearfix">
+                        <%= Html.LabelFor(x => x.ContactsInfo.PostIndexReal, GetGlobalResourceObject("PersonalOffice_Step3", "PostIndex").ToString())%>
+                        <%= Html.TextBoxFor(x => x.ContactsInfo.PostIndexReal)%>
+                        <span id="ContactsInfo_PostIndexReal_MessageFoundOtherIndex" class="Red" style="display:none" onclick="AdjustFoundPostIndexReal();"> <%= GetGlobalResourceObject("PersonalOffice_Step3", "PostIndex_MessageFoundOtherIndex").ToString()%> </span> 
                     </div>
                     <%--<% } %>--%>
                     <hr />

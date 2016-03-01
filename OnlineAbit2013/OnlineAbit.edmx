@@ -474,6 +474,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="House" Type="nvarchar" MaxLength="20" />
           <Property Name="Korpus" Type="nvarchar" MaxLength="10" />
           <Property Name="Flat" Type="nvarchar" MaxLength="10" />
+          <Property Name="RegionRealId" Type="int" />
           <Property Name="CodeReal" Type="nvarchar" MaxLength="10" />
           <Property Name="CityReal" Type="nvarchar" MaxLength="250" />
           <Property Name="StreetReal" Type="nvarchar" MaxLength="250" />
@@ -482,6 +483,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="FlatReal" Type="nvarchar" MaxLength="10" />
           <Property Name="ForeignAddressInfo" Type="nvarchar" MaxLength="1000" />
           <Property Name="KladrCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="KladrCodeReal" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PersonCurrentEducation">
           <Key>
@@ -3470,6 +3472,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <NavigationProperty Name="Country" Relationship="Self.FK_PersonContacts_Country" FromRole="PersonContacts" ToRole="Country" />
           <NavigationProperty Name="Person" Relationship="Self.FK_PersonContacts_Person" FromRole="PersonContacts" ToRole="Person" />
           <NavigationProperty Name="Region" Relationship="Self.FK_PersonContacts_Region" FromRole="PersonContacts" ToRole="Region" />
+          <Property Name="RegionRealId" Type="Int32" />
+          <Property Name="KladrCodeReal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PersonCurrentEducation">
           <Key>
@@ -6222,6 +6226,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="PersonContacts">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonContacts">
               <MappingFragment StoreEntitySet="PersonContacts">
+                <ScalarProperty Name="KladrCodeReal" ColumnName="KladrCodeReal" />
+                <ScalarProperty Name="RegionRealId" ColumnName="RegionRealId" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="RegionId" ColumnName="RegionId" />

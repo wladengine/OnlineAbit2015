@@ -225,6 +225,7 @@ namespace OnlineAbit2013.Controllers
                     model.ContactsInfo.Korpus = Server.HtmlDecode(PersonContacts.Korpus);
                     model.ContactsInfo.Flat = Server.HtmlDecode(PersonContacts.Flat);
 
+                    model.ContactsInfo.RegionRealId = PersonContacts.RegionRealId.ToString();
                     model.ContactsInfo.PostIndexReal = Server.HtmlDecode(PersonContacts.CodeReal);
                     model.ContactsInfo.CityReal = Server.HtmlDecode(PersonContacts.CityReal);
                     model.ContactsInfo.StreetReal = Server.HtmlDecode(PersonContacts.StreetReal);
@@ -849,6 +850,23 @@ namespace OnlineAbit2013.Controllers
                         if (iCountryId != 193)
                             iRegionId = 11;//Далн. зарубеж.
 
+
+                    int iRegionRealId = 0;
+                    if (!int.TryParse(model.ContactsInfo.RegionRealId, out iRegionRealId))
+                        iRegionRealId = 0;//unnamed
+
+                    int? altRegionRealId = context.Country.Where(x => x.Id == iCountryId).Select(x => x.RegionId).FirstOrDefault();
+                    if (altRegionRealId.HasValue && iRegionRealId == 0)
+                    {
+                        if (iCountryId != 193)
+                            iRegionRealId = altRegionRealId.Value;//RegionValue
+                        else
+                            iRegionRealId = 3;//Russia
+                    }
+                    else
+                        if (iCountryId != 193)
+                            iRegionRealId = 11;//Далн. зарубеж.
+
                     bool bIns = false;
                     var PersonContacts = Person.PersonContacts;
                     if (PersonContacts == null)
@@ -880,6 +898,7 @@ namespace OnlineAbit2013.Controllers
                     PersonContacts.HouseReal = model.ContactsInfo.HouseReal;
                     PersonContacts.KorpusReal = model.ContactsInfo.KorpusReal;
                     PersonContacts.FlatReal = model.ContactsInfo.FlatReal;
+                    PersonContacts.RegionRealId = iRegionRealId;
 
                     if (bIns)
                         context.PersonContacts.Add(PersonContacts);
@@ -4833,8 +4852,6 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
             return Json(new { NoFree = OPs.Count() > 0 ? false : true, List = OPs });
         }
 
-        
-
         [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult GetSpecializations(string prof, string obrazprogram, string studyform, string studybasis, string entry, string CommitId, string isParallel = "0", string isReduced = "0", string semesterId = "1")
         {
@@ -5365,7 +5382,7 @@ Order by cnt desc";
                 string sRegionKladrCode = Util.GetRegionKladrCodeByRegionId(regionId);
                 var towns = Util.GetCityListByRegion(sRegionKladrCode);
 
-                return Json(new { IsOk = true, List = towns.Select(x => x.Value).Distinct().ToList() });
+                return Json(new { IsOk = true, List = towns });
             }
             catch
             {
@@ -5379,7 +5396,7 @@ Order by cnt desc";
                 string sRegionKladrCode = Util.GetRegionKladrCodeByRegionId(regionId);
                 var streets = Util.GetStreetListByRegion(sRegionKladrCode, cityName);
 
-                return Json(new { IsOk = true, List = streets.Select(x => x.Value).Distinct().ToList() });
+                return Json(new { IsOk = true, List = streets });
             }
             catch
             {
@@ -5394,6 +5411,20 @@ Order by cnt desc";
                 var streets = Util.GetHouseListByStreet(sRegionKladrCode, cityName, streetName);
 
                 return Json(new { IsOk = true, List = streets.Distinct().ToList() });
+            }
+            catch
+            {
+                return Json(new { IsOk = false, ErrorMessage = "Ошибка при выполнении запроса. Попробуйте обновить страницу" });
+            }
+        }
+        public JsonResult GetPostIndexByAddres(string regionId, string cityName, string streetName, string houseName)
+        {
+            try
+            {
+                string sRegionKladrCode = Util.GetRegionKladrCodeByRegionId(regionId);
+                var index = Util.GetPostIndexByAddress(sRegionKladrCode, cityName, streetName, houseName);
+
+                return Json(new { IsOk = true, Index = index });
             }
             catch
             {

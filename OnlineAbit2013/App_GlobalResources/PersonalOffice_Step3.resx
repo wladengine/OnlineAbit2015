@@ -165,6 +165,9 @@
   <data name="PostIndex_Message" xml:space="preserve">
     <value>Введите индекс</value>
   </data>
+  <data name="PostIndex_MessageFoundOtherIndex" xml:space="preserve">
+    <value>Найден другой почтовый индекс. Кликните для изменения</value>
+  </data>
   <data name="RegionId" xml:space="preserve">
     <value>Регион</value>
   </data>
