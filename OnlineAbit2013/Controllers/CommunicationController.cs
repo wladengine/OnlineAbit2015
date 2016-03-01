@@ -276,6 +276,17 @@ namespace OnlineAbit2013.Controllers
                     model.Photo = Convert.ToBase64String(content);
                 }
                 #endregion
+                #region Certificates
+                var cert_lst = (from x in context.PersonLanguageCertificates
+                                where x.PersonId == person.personId
+                                select new CommunicateCertificateInfo
+                                {
+                                    TypeName = bIsEng ? x.LanguageCertificatesType.NameEng : x.LanguageCertificatesType.Name,
+                                    BoolType = x.LanguageCertificatesType.BoolType,
+                                    Result = x.LanguageCertificatesType.BoolType ? Resources.PersonalOffice_Step5.CertificatePassed : x.ResultValue.ToString(),
+                                }).ToList();
+                model.Certificates = cert_lst;
+                #endregion
                 #region PortfolioMarks
                 var portf = (from x in context.PortfolioFilesMark
                             where x.PersonId == person.personId

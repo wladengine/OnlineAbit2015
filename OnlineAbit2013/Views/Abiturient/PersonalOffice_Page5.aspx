@@ -428,6 +428,10 @@
                     $('#validationMsgCertValue').hide();
                 }
             }
+            if ($('#IsBoolType').val() == "0" && val != '') {
+                $('#CertValue').addClass('input-validation-error');
+                return false;
+            }
             return true;
         }
         function AddCertificates() {
@@ -519,9 +523,7 @@
                         <div class="clearfix">
                         <%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificateType").ToString()%>:<br />
                         <%= Html.DropDownList("CertTypeId", Model.Certificates.CertTypeList,  new SortedList<string, object>() { {"style", "width:460px;"} , {"size", "4"} , {"onchange", "UpdatAfterCertificatesType()"}}) %>
-                        <br/><p></p>
-
-                        </div>
+                        </div><br/><p></p>
                         <div class="clearfix">
                             <label for="CertNumber"><%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificateNumber").ToString()%></label>
                             <input id="CertNumber" type="text" /><br/><p></p>

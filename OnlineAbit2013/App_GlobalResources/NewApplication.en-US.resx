@@ -303,4 +303,7 @@
   <data name="BlockData_IsForeign" xml:space="preserve">
     <value>Competition for Foreigners/Gosline</value>
   </data>
+  <data name="EnterCrimea" xml:space="preserve">
+    <value>Application for Crimea</value>
+  </data>
 </root>

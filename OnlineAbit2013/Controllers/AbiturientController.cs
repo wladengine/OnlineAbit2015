@@ -507,6 +507,10 @@ namespace OnlineAbit2013.Controllers
                     #region Certificates
                     model.FileTypes = model.FileTypes = Util.GetPersonFileTypeList().Where(x => x.Value == "5").ToList();
                     model.CertificatesVisible = !(model.AddEducationInfo.HasTransfer || model.AddEducationInfo.HasRecover);
+                    if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 1 && x.SchoolExitClass.IntValue < 10).Count() > 0)
+                    {
+                        model.CertificatesVisible = false;
+                    }
                     model.Certificates = new CertificatesInfo();
                     model.Certificates.CertTypeList = Util.GetCertificatesTypeList();
                     model.Files = Util.GetFileList(PersonId, "5");

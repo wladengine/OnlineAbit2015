@@ -84,6 +84,8 @@ namespace OnlineAbit2013.Models
 
         public bool isRussian;
         public bool isGermany;
+
+        public List<CommunicateCertificateInfo> Certificates;
     }
     public class CommunicationFile
     {
@@ -109,5 +111,12 @@ namespace OnlineAbit2013.Models
     public class CommunicationStat
     {
         public Dictionary<string, string> columns;
+    }
+
+    public class CommunicateCertificateInfo
+    {
+        public string TypeName;
+        public bool BoolType;
+        public string Result;
     }
 }
