@@ -3650,7 +3650,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="RuInterviewPts" Type="Double" />
           <Property Name="DeInterviewPts" Type="Double" />
           <Property Name="Interview" Type="Boolean" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" DefaultValue="7" />
           <NavigationProperty Name="PortfolioStatus" Relationship="Self.FK_PortfolioFilesMark_PortfolioStatus" FromRole="PortfolioFilesMark" ToRole="PortfolioStatus" />
         </EntityType>
         <EntityType Name="PortfolioStatus">

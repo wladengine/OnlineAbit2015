@@ -295,8 +295,8 @@ namespace OnlineAbit2013.Controllers
                 double? RuPort = (portf != null) ?  portf.RuPortfolioPts : null;
                 double? DePort = (portf != null) ? portf.DePortfolioPts : null;
 
-                model.RuPortfolioPts = (RuPort != null) ?  RuPort.ToString() : ""  ;
-                model.DePortfolioPts = (DePort != null) ?   DePort.ToString() : "" ; 
+                model.RuPortfolioPts = (RuPort != null) ?  RuPort.ToString() : "-"  ;
+                model.DePortfolioPts = (DePort != null) ?   DePort.ToString() : "-" ; 
                 model.CommonPortfolioPts = (RuPort.HasValue && DePort.HasValue) ? ((RuPort + DePort) / 2).ToString() :  "-";
 
                 model.Interview = (portf != null) ? (portf.Interview ?? false) : false;
@@ -698,6 +698,45 @@ namespace OnlineAbit2013.Controllers
                 }
             }
             return new FileContentResult(bindata, "application/pdf") { FileDownloadName = "ApplicationCard.pdf" };
+        }
+
+        public ActionResult PrintListToPDF(string sort)
+        {
+            Guid personId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out personId))
+                return RedirectToAction("LogOn", "Account");
+
+            DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
+                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
+            if (tbl.Rows.Count == 0)
+                return RedirectToAction("Main", "Abiturient");
+
+            List<string> sSortResult = new List<string>();
+
+            if (!String.IsNullOrEmpty(sort))
+            {
+                List<string> Sortlst = sort.Split('_').ToList();
+                Dictionary<string, string> SortResult = new Dictionary<string, string>();
+
+                for (int i = Sortlst.Count() - 1; i >= 0; i--)
+                {
+                    string s = Sortlst[i];
+
+                    if (String.IsNullOrEmpty(s))
+                        continue;
+
+                    string Number = s.Substring(0, s.Length - 1);
+                    if (!SortResult.ContainsKey(Number))
+                    {
+                        SortResult.Add(Number, s[s.Length - 1].ToString());
+                        if (s[s.Length - 1].ToString() != "n")
+                            sSortResult.Add(s);
+                    }
+                }
+            }
+            GlobalCommunicationModelApplicantList model = GetModelList(sSortResult);
+            
+            return View(model);
         }
     }
 }

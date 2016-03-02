@@ -3271,10 +3271,10 @@ namespace OnlineAbit2013.Controllers
                 
                 acrFlds.SetField("PostIndex", person.Code);
                 acrFlds.SetField("Email", person.Email);
-                string Phone = person.Phone;
+                string Phone = person.Phone??"";
                 for (int i = 0; i < Phone.Length; i++ )
                     acrFlds.SetField("Phone" + (i + 1).ToString(), Phone[i].ToString());
-                string Mobile = person.Mobiles;
+                string Mobile = person.Mobiles ?? "";
                 for (int i = 0; i < Mobile.Length; i++)
                     acrFlds.SetField("Mobile" + (i + 1).ToString(), Mobile[i].ToString());
 

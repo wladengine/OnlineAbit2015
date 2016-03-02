@@ -14,6 +14,12 @@ namespace OnlineAbit2013
     
     public partial class PortfolioFilesMark
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PortfolioFilesMark()
+        {
+            this.StatusId = 7;
+        }
+    
         public System.Guid PersonId { get; set; }
         public bool IsComplete { get; set; }
         public Nullable<double> RuPortfolioPts { get; set; }

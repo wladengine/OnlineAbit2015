@@ -28,6 +28,24 @@
    {
        width: 1100px;
    }
+   .YesNo
+       {
+           float:left; 
+           width: 50px; 
+           text-align:center;
+       }
+       .mini
+       {
+           padding: 2px;
+       }
+        .Checked
+       {
+           opacity: 1;
+       }
+       .NotChecked
+       {
+           opacity: 0.5;
+       }
  </style>
    
     <script>
@@ -39,8 +57,37 @@
             var val = $("#SortOrder").val() + "_"+ind + str+"_";
             //$("#SortOrder").val(val);
             location.href = ("../../Communication/Index?sort=" + val);
+        }
+
+        function YesNoClick(id1, id2, Number) {
+            var result;
+            var obj1 = $('#' + id1 + "_" + Number);
+            var obj2 = $('#' + id2 + "_" + Number);
+
+            if (obj1.hasClass('Checked')) {
+                obj1.removeClass("Checked");
+                obj1.addClass("NotChecked");
+                result = 0;
+                obj2.removeClass("NotChecked");
+                obj2.addClass("Checked");
             }
+            else {
+                obj1.removeClass("NotChecked");
+                obj1.addClass("Checked");
+                result = 1;
+                obj2.removeClass("Checked");
+                obj2.addClass("NotChecked");
+            }
+            $.post("../../Communication/ChangeBoolValue", { Barcode: Number, result: result, type: id1 }, function (data) { }, 'json');
+        }
+        function PrintList()
+        {
+            var val = $("#SortOrder").val();
+            $.post("../../Communication/PrintListToPDF", { sort: val  }, function (data) { }, 'json');
+        }
     </script>
+    <button value ="print" onclick ="PrintList()"> Print as PDF</button>
+
     <%=Html.HiddenFor(x=>x.SortOrder) %>
      <table style="width:100%;"> 
         <tr>
@@ -68,7 +115,10 @@
         <td><%=x.PortfolioAssessmentRu %></td>
         <td><%=x.PortfolioAssessmentDe %></td>
         <td><%=x.PortfolioAssessmentCommon %></td>
-        <td><% = (x.Interview ? "Y":"N") %></td>
+        <td>
+            <div id="Interview<%="_"+x.Number.ToString() %>" class="YesNo mini button button-blue  <%if (x.Interview) { %>Checked <%} else{%>NotChecked<%}%>" onclick="YesNoClick('Interview', 'Int', <%=x.Number.ToString() %>)"><%=GetGlobalResourceObject("Communication", "Yes")%></div>
+            <div id="Int<%="_"+x.Number.ToString() %>" class="YesNo mini button button-blue  <%if (!x.Interview) { %>Checked <%} else{%>NotChecked<%}%>" onclick="YesNoClick('Interview', 'Int', <%=x.Number.ToString() %>)"><%=GetGlobalResourceObject("Communication", "No")%></div>
+        </td>
         <td><%=x.InterviewAssessmentRu %></td>
         <td><%=x.InterviewAssessmentDe %></td>
         <td><%=x.InterviewAssessmentCommon %></td>
