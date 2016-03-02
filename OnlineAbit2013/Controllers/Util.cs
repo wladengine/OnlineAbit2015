@@ -2172,7 +2172,7 @@ ORDER by Semester.Id";
                          join app in context.Application on examblock.EntryId equals app.EntryId into _App
                          from App in _App.DefaultIfEmpty()
 
-                         where App.Id == AppId
+                         where App.Id == AppId && !examblock.ParentExamInEntryBlockId.HasValue 
                          select new
                          {
                              BlockId = examblock.Id,

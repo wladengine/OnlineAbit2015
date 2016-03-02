@@ -231,6 +231,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EntryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="ParentExamInEntryBlockId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ExamInEntryBlockUnit">
           <Key>
@@ -573,7 +574,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="EducationDocumentId" Type="int" Nullable="false" />
           <Property Name="EntryYear" Type="int" />
           <Property Name="ExitYear" Type="int" Nullable="false" />
-          <Property Name="DiplomaTheme" Type="nvarchar" MaxLength="1000" />
+          <Property Name="DiplomaTheme" Type="nvarchar" MaxLength="4000" />
           <Property Name="QualificationId" Type="int" Nullable="false" />
           <Property Name="StudyFormId" Type="int" Nullable="false" />
           <Property Name="ProgramName" Type="nvarchar" MaxLength="1000" />
@@ -1441,7 +1442,9 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ApplicationSelectedExam_Application">
-          <End Role="Application" Type="Self.Application" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ApplicationSelectedExam" Type="Self.ApplicationSelectedExam" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Application">
@@ -3190,6 +3193,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="EntryId" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ExamInEntryBlockUnit" Relationship="Self.FK_ExamInEntryBlockUnit_ExamInEntryBlock" FromRole="ExamInEntryBlock" ToRole="ExamInEntryBlockUnit" />
+          <Property Name="ParentExamInEntryBlockId" Type="Guid" />
         </EntityType>
         <EntityType Name="ExamInEntryBlockUnit">
           <Key>
@@ -3559,7 +3563,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="EducationDocumentId" Type="Int32" Nullable="false" />
           <Property Name="EntryYear" Type="Int32" />
           <Property Name="ExitYear" Type="Int32" Nullable="false" />
-          <Property Name="DiplomaTheme" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DiplomaTheme" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="QualificationId" Type="Int32" Nullable="false" />
           <Property Name="StudyFormId" Type="Int32" Nullable="false" />
           <Property Name="ProgramName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -5993,6 +5997,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="ExamInEntryBlock">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.ExamInEntryBlock">
               <MappingFragment StoreEntitySet="ExamInEntryBlock">
+                <ScalarProperty Name="ParentExamInEntryBlockId" ColumnName="ParentExamInEntryBlockId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

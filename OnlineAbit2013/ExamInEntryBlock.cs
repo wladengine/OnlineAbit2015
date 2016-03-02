@@ -23,6 +23,7 @@ namespace OnlineAbit2013
         public System.Guid Id { get; set; }
         public System.Guid EntryId { get; set; }
         public string Name { get; set; }
+        public Nullable<System.Guid> ParentExamInEntryBlockId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExamInEntryBlockUnit> ExamInEntryBlockUnit { get; set; }
