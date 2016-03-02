@@ -219,13 +219,16 @@
                 <img src="../../Content/themes/base/images/File_edit064.png" alt="Редактировать экзамены по выбору" />
             </a>
         </td>
+        <% } %> 
+        <% } %> 
+        <% if (Model.HasManualExams && Model.IsPrinted)
+           { %>
         <td>
             <a href="<%= string.Format("../../Application/ExamsTimetable?Id={0}", Model.Id.ToString("N")) %>">
                 <img src="../../Content/themes/base/images/File_edit064.png" alt="Запись на экзамен" />
             </a>
         </td>
-        <% } %> 
-        <% } %> 
+        <%} %>
     </tr>
     <tr>
         <td><%= GetGlobalResourceObject("ApplicationInfo", "Download")%></td>
@@ -237,10 +240,13 @@
         <% if (Model.HasManualExams) { %>
 
         <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationExamenChange")%></td>
+        <% } %>
+        <% } %>
+        <% if (Model.HasManualExams && Model.IsPrinted)
+           { %>
         <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationExamenRegistration")%></td>
-
-        <% } %>
-        <% } %>
+        <%} %>
+        
     </tr>
 
     <tr> 
