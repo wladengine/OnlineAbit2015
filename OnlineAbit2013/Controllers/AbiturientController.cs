@@ -486,7 +486,15 @@ namespace OnlineAbit2013.Controllers
                     #region AddEducationInfo
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 1).Count() > 0)
                     {
-                        model.AddEducationInfo.HasEGE = (Person.PersonEducationDocument.Where(x => x.SchoolExitClass.IntValue==11).Count() > 0);
+                        bool HasEge = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 1).Select(x =>
+                            new
+                            {
+                                ExitClass = x.SchoolExitClassId.HasValue ? (x.Country.IsRussia ?
+                                x.SchoolExitClass.IntValue > 10 :
+                                x.SchoolExitClass.IntValue > 9) : false,
+                            }).ToList().Where(x=>x.ExitClass).Count() >0;
+
+                        model.AddEducationInfo.HasEGE = HasEge;
                         string qEgeMarks = "SELECT EgeMark.Id, EgeCertificate.Number, EgeExam.Name, EgeMark.Value, EgeMark.IsSecondWave, EgeMark.IsInUniversity FROM Person " +
                             " INNER JOIN EgeCertificate ON EgeCertificate.PersonId = Person.Id INNER JOIN EgeMark ON EgeMark.EgeCertificateId=EgeCertificate.Id " +
                             " INNER JOIN EgeExam ON EgeExam.Id=EgeMark.EgeExamId WHERE Person.Id=@Id";
