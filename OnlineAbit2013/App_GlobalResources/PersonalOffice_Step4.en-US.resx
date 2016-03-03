@@ -307,7 +307,7 @@
     <value>Please, list those documents, which originals you will need to provide during Admission procedure</value>
   </data>
   <data name="EducationBlockAdd" xml:space="preserve">
-    <value>Add another</value>
+    <value>Additional education</value>
   </data>
   <data name="EducationBlockDelete" xml:space="preserve">
     <value>Delete</value>

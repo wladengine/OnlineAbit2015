@@ -151,7 +151,7 @@
     <value>Name</value>
   </data>
   <data name="NameEng" xml:space="preserve">
-    <value>Name  in latin</value>
+    <value>Name in Roman letters</value>
   </data>
   <data name="Nationality" xml:space="preserve">
     <value>Citizenship</value>
@@ -175,7 +175,7 @@
     <value>Father’s name (if available)</value>
   </data>
   <data name="SecondNameEng" xml:space="preserve">
-    <value>Father’s name (if available) in latin</value>
+    <value>Father’s name in Roman letters</value>
   </data>
   <data name="Sex" xml:space="preserve">
     <value>Sex</value>
@@ -202,7 +202,7 @@
     <value>Surname</value>
   </data>
   <data name="SurnameEng" xml:space="preserve">
-    <value>Surname  in latin</value>
+    <value>Surname  in Roman letters</value>
   </data>
   <data name="ValidationSummaryHeader" xml:space="preserve">
     <value>There are errors while submit:</value>

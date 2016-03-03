@@ -240,23 +240,22 @@ the theme of your report), published scientific articles, work in scientific lab
     <value>Language certificates</value>
   </data>
   <data name="CertificateNumber" xml:space="preserve">
-    <value>Certificate number</value>
+    <value>No. of certificate</value>
   </data>
   <data name="CertificatePassed" xml:space="preserve">
     <value>passed</value>
   </data>
   <data name="CertificateType" xml:space="preserve">
-    <value>Certificate type</value>
+    <value>Type of language certificate</value>
   </data>
   <data name="CertificateValue" xml:space="preserve">
-    <value>Certificate result</value>
+    <value>Points (or results)</value>
   </data>
   <data name="EnglishCertificatesLoad" xml:space="preserve">
-    <value>Apload the copy of your english certificates. &lt;/br&gt;
-Other documents can be attached in the window "General documents".&lt;/br&gt;</value>
+    <value>Upload here scans of language certificates. &lt;br/&gt;Other documents are to be uploaded in General documents section &lt;br/&gt;</value>
   </data>
   <data name="PersonalOffice_Certificates" xml:space="preserve">
-    <value>Appload language certificates</value>
+    <value>Please upload language certificates</value>
   </data>
   <data name="validationMsgCertValue" xml:space="preserve">
     <value>Enter integer figure</value>
