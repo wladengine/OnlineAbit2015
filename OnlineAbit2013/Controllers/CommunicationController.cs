@@ -96,7 +96,7 @@ namespace OnlineAbit2013.Controllers
                                ? ((port.RuPortfolioPts + port.DePortfolioPts + port.RuInterviewPts + port.DeInterviewPts) / 2).ToString() : "-"),
 
                                Status = (port == null) ? "X" : port.PortfolioStatus.ShortName,
-
+                               StatusAlt = (port == null) ? "X – incomplete application" : port.PortfolioStatus.Name,
                            }).Distinct().ToList();
                 for (int i = SortOrder.Count - 1; i >= 0; i-- )
                 {
@@ -195,7 +195,7 @@ namespace OnlineAbit2013.Controllers
                                Name = pers.Name,
                                SecondName = pers.SecondName,
                                pers.Sex,
-                               Nationality = pers.Nationality.Name,
+                               Nationality = bIsEng ?  pers.Nationality.NameEng : pers.Nationality.Name,
                                pers.BirthPlace,
                                pers.BirthDate,
                                
@@ -282,6 +282,7 @@ namespace OnlineAbit2013.Controllers
                                 select new CommunicateCertificateInfo
                                 {
                                     TypeName = bIsEng ? x.LanguageCertificatesType.NameEng : x.LanguageCertificatesType.Name,
+                                    Number = x.Number,
                                     BoolType = x.LanguageCertificatesType.BoolType,
                                     Result = x.LanguageCertificatesType.BoolType ? Resources.PersonalOffice_Step5.CertificatePassed : x.ResultValue.ToString(),
                                 }).ToList();
@@ -308,7 +309,8 @@ namespace OnlineAbit2013.Controllers
                 model.DeInterviewPts = (DeInt != null) ? DeInt.ToString() : "-";
                 model.CommonInterviewPts = (RuInt.HasValue && DeInt.HasValue) ? ((RuInt + DeInt) / 2).ToString() : "-";
 
-                model.OverallPts = ((RuPort + DePort) / 2 + ((RuInt + DeInt) / 2)).ToString() ?? "-";
+                double? Overall = ((RuPort + DePort) / 2 + ((RuInt + DeInt) / 2));
+                model.OverallPts = (Overall!= null) ? Overall.ToString() : "-";
                 model.StatusId =  (portf != null) ? portf.StatusId : 7;
                 model.StatusList = context.PortfolioStatus.Select(m => new SelectListItem() { Value = m.Id.ToString(), Text = m.Name, Selected = (model.StatusId == m.Id) }).ToList();
                 model.IsComplete = (portf != null) ? portf.IsComplete : false;
@@ -431,7 +433,7 @@ namespace OnlineAbit2013.Controllers
 
             }
         }
-        public ActionResult UpdatePts(string Barcode, string RuPort, string DePort, string RuInt, string DeInt)
+        public ActionResult UpdateRuPts(string Barcode, string RuPort, string RuInt)
         {
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
@@ -442,22 +444,66 @@ namespace OnlineAbit2013.Controllers
                 return Json("Некорректное значение");
 
             double tmp;
-            double? iRuPort, iDePort, iRuInt, iDeInt;
+            double? iRuPort, iRuInt;
 
             if (double.TryParse(RuPort, out tmp))
                 iRuPort =  tmp;
             else
                 iRuPort = null;
 
-            if (double.TryParse(DePort, out tmp))
-                iDePort = tmp;
-            else
-                iDePort = null;
-
             if (double.TryParse(RuInt, out tmp))
                 iRuInt = tmp;
             else
                 iRuInt = null;
+
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                var person = (from per in context.Person
+                              where per.Barcode == pBarcode
+                              select per).FirstOrDefault();
+                if (person != null)
+                {
+                    var Prtf = (from p in context.PortfolioFilesMark
+                                where p.PersonId == person.Id
+                                select p).FirstOrDefault();
+                    if (Prtf != null)
+                    {
+                        Prtf.RuPortfolioPts = iRuPort;
+                        Prtf.RuInterviewPts = iRuInt;
+                    }
+                    else
+                    {
+                        context.PortfolioFilesMark.Add(new PortfolioFilesMark()
+                        {
+                            PersonId = person.Id,
+                            RuPortfolioPts = iRuPort,
+                            RuInterviewPts = iRuInt,
+                        });
+                    }
+                    context.SaveChanges();
+                }
+                else
+                    return Json("Некорректное значение");
+                return Json("");
+            }
+        }
+        public ActionResult UpdateDePts(string Barcode, string DePort, string DeInt)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                return Json("Ошибка авторизации");
+
+            int pBarcode;
+            if (!int.TryParse(Barcode, out pBarcode))
+                return Json("Некорректное значение");
+
+            double tmp;
+            double?  iDePort, iDeInt;
+
+            if (double.TryParse(DePort, out tmp))
+                iDePort = tmp;
+            else
+                iDePort = null;
 
             if (double.TryParse(DeInt, out tmp))
                 iDeInt = tmp;
@@ -476,10 +522,7 @@ namespace OnlineAbit2013.Controllers
                                 select p).FirstOrDefault();
                     if (Prtf != null)
                     {
-                        Prtf.RuPortfolioPts = iRuPort;
                         Prtf.DePortfolioPts = iDePort;
-
-                        Prtf.RuInterviewPts = iRuInt;
                         Prtf.DeInterviewPts = iDeInt;
                     }
                     else
@@ -487,10 +530,7 @@ namespace OnlineAbit2013.Controllers
                         context.PortfolioFilesMark.Add(new PortfolioFilesMark()
                         {
                             PersonId = person.Id,
-
-                            RuPortfolioPts = iRuPort,
                             DePortfolioPts = iDePort,
-                            RuInterviewPts = iRuInt,
                             DeInterviewPts = iDeInt,
                         });
                     }
@@ -501,6 +541,7 @@ namespace OnlineAbit2013.Controllers
                 return Json("");
             }
         }
+
         public ActionResult UpdateStatus(string Barcode, string StatusId)
         {
             Guid PersonId;
@@ -735,8 +776,19 @@ namespace OnlineAbit2013.Controllers
                 }
             }
             GlobalCommunicationModelApplicantList model = GetModelList(sSortResult);
-            
-            return View(model);
+            byte[] bindata;
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                try
+                {
+                    bindata = PDFUtils.GetCommunicationAbitList(Server.MapPath("~/Templates/"), model);
+                }
+                catch
+                {
+                    return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Ошибка при печати заявления"), "text/plain");
+                }
+            }
+            return new FileContentResult(bindata, "application/pdf") { FileDownloadName = "ApplicationCard.pdf" };
         }
     }
 }

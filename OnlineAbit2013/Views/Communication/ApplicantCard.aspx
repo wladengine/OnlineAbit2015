@@ -103,16 +103,22 @@
             }
             $.post("../../Communication/ChangeBoolValue", { Barcode: '<%=Model.Number %>', result: result, type: id1.id }, function (data) { }, 'json');
         }
-        function UpdatePts()
+        function UpdateRuPts()
         {
-            $.post("../../Communication/UpdatePts", {
+            $.post("../../Communication/UpdateRuPts", {
                 Barcode: '<%=Model.Number %>',
                 RuPort: $('#RuPortfolioPts').val(),
-                DePort: $('#DePortfolioPts').val(),
                 RuInt: $('#RuInterviewPts').val(),
-                DeInt: $('#DeInterviewPts').val(),
             }, function (data) { location.reload();}, 'json');
             
+        }
+        function UpdateDePts() {
+            $.post("../../Communication/UpdateDePts", {
+                Barcode: '<%=Model.Number %>',
+                DePort: $('#DePortfolioPts').val(),
+                DeInt: $('#DeInterviewPts').val(),
+            }, function (data) { location.reload(); }, 'json');
+
         }
 
         function ShowHide(obj, down, up)
@@ -177,9 +183,27 @@
             </tr>
         </table>
         <hr /> 
-        <table>
-            <% %>
+        <% if (Model.Certificates.Count>0) { %>
+        <table style="width: 50%; text-align:center;">
+            <tr>
+                <th><%=GetGlobalResourceObject("PersonalOffice_Step5", "CertificateType")%></th>
+                <th><%=GetGlobalResourceObject("PersonalOffice_Step5", "CertificateNumber")%></th>
+                <th><%=GetGlobalResourceObject("PersonalOffice_Step5", "CertificateValue")%></th>
+            </tr>
+            <% foreach (var x in Model.Certificates) {%>
+            <tr> 
+                <td> <%=x.TypeName %></td>
+                <td > <%=x.Number %></td> 
+                <td><%if (x.BoolType) { %>
+                    <%=GetGlobalResourceObject("PersonalOffice_Step5", "CertificatePassed") %>
+                    <%} else {%>
+                    <%=x.Result.ToString() %>
+                    <% } %>
+                </td>
+            </tr>
+            <% } %>
         </table>
+        <%} %>
         <hr />
         <table>
             <tr>
@@ -300,7 +324,11 @@
                             <td colspan="3"></td>
                         </tr>
                         <tr>
-                            <td colspan="5" style="text-align:right;"> <input type="button" value ="<%=GetGlobalResourceObject("Communication", "Submit")%>" onclick="UpdatePts()" class="button button-green"/></td>
+                            <% if (Model.isRussian) {  %>
+                            <td colspan="5" style="text-align:right;"> <input type="button" value ="<%=GetGlobalResourceObject("Communication", "Submit")%>" onclick="UpdateRuPts()" class="button button-green"/></td>
+                            <% } else { %>
+                            <td colspan="5" style="text-align:right;"> <input type="button" value ="<%=GetGlobalResourceObject("Communication", "Submit")%>" onclick="UpdateDePts()" class="button button-green"/></td>
+                            <%} %>
                         </tr>
                     </table>
                    

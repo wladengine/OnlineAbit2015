@@ -18,9 +18,7 @@ namespace OnlineAbit2013.Models
         public int Number; //1
 
         public string FIO; //2
-        //public string Surname;
-        //public string Name;//3
-        //public string SecondName ;//4
+        public string FIOEng;
 
         public bool isComplete ;//3
         
@@ -35,6 +33,7 @@ namespace OnlineAbit2013.Models
 
         public string OverallResults;//11
         public string Status; //12
+        public string StatusAlt;
     }
     public class GlobalCommunicationApplicant
     {
@@ -59,8 +58,6 @@ namespace OnlineAbit2013.Models
 
         public bool HasFee;
         public bool HasNoFee;
-
-        public string CertificateDetails;
 
         public bool IsComplete;
         public string Status;
@@ -116,6 +113,7 @@ namespace OnlineAbit2013.Models
     public class CommunicateCertificateInfo
     {
         public string TypeName;
+        public string Number;
         public bool BoolType;
         public string Result;
     }

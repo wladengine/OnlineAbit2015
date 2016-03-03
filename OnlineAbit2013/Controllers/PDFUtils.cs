@@ -3205,17 +3205,18 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("ObrazProgram" + i, abit.ObrazProgram);
 
                     var Exams = Util.GetExamList(abit.Id);
-                    if (Exams.Count == 0)
-                        acrFlds.SetField("ManualExam" + i, "нет");
-                    else
+                    string ExamNames = "";
+                    foreach (var x in Exams)
                     {
-                        string ExamNames = "";
-                        foreach (var x in Exams)
+                        if (x.ExamInBlockList.Count > 1)
                             ExamNames += (x.ExamInBlockList.Where(ex => ex.Value.ToString() == x.SelectedExamInBlockId.ToString()).Select(ex => ex.Text).FirstOrDefault()) + ", ";
-                        if (ExamNames.Length > 2)
-                            ExamNames = ExamNames.Substring(0, ExamNames.Length - 2);
-                        acrFlds.SetField("ManualExam" + i, ExamNames);
                     }
+                    if (ExamNames.Length > 2)
+                        ExamNames = ExamNames.Substring(0, ExamNames.Length - 2);
+                    if (!string.IsNullOrEmpty(ExamNames))
+                        acrFlds.SetField("ManualExam" + i, ExamNames);
+                    else
+                        acrFlds.SetField("ManualExam" + i, "нет");
                 }
 
                 pdfStm.FormFlattening = true;
@@ -3654,9 +3655,13 @@ namespace OnlineAbit2013.Controllers
                                   x.Surname,
                                   x.Name,
                                   x.SecondName,
-                                  x.Barcode,
+                                  x.SecondNameEng,
+                                  x.NameEng,
+                                  x.SurnameEng,
+                                  Number = x.Barcode,
                                   us.Email,
 
+                                  Status = (prt != null) ? prt.PortfolioStatus.ShortName : "X",
                                   RuPort = (prt != null) ? (prt.RuPortfolioPts ??0) : 0,
                                   DePort = (prt != null) ? (prt.DePortfolioPts ?? 0) : 0,
                                   RuInt = (prt != null) ? (prt.RuInterviewPts ?? 0) : 0,
@@ -3665,8 +3670,7 @@ namespace OnlineAbit2013.Controllers
 
                                   pCont.Code,
                                   pCont.Country.IsRussia,
-                                  Country = pCont.Country.Name,
-                                  countryeng = pCont.Country.NameEng,
+                                  Country = pCont.Country.NameEng,
                                   Region = pCont.Region.Name,
                                   pCont.City,
                                   pCont.Street,
@@ -3675,17 +3679,26 @@ namespace OnlineAbit2013.Controllers
                                   pCont.Flat,
 
                                   x.Sex,
-                                  Nationality = x.Nationality.Name,
+                                  Nationality = x.Nationality.NameEng,
                                   x.BirthPlace,
                                   x.BirthDate,
 
-                                  VisaCountry = x.PersonVisaInfo.Country.Name,
+                                  VisaCountry = x.PersonVisaInfo.Country.NameEng,
                                   VisaPostAddress = x.PersonVisaInfo.PostAddress,
                                   VisaTown = x.PersonVisaInfo.Town,
 
                                   x.PassportValid, 
                               }).FirstOrDefault();
-
+                var Certs = (from x in context.PersonLanguageCertificates
+                             where x.PersonId == PersonId
+                             select new
+                             {
+                                 x.LanguageCertificatesType.NameEng,
+                                 x.LanguageCertificatesType.BoolType,
+                                 x.Number,
+                                 x.ResultBool,
+                                 x.ResultValue
+                             }).ToList();
                 bool HasFee = abitList.Where(x => x.HasFee).Count() > 0;
                 bool HasNoFee = abitList.Where(x => x.HasNoFee).Count() > 0; 
 
@@ -3722,9 +3735,11 @@ namespace OnlineAbit2013.Controllers
                     cb.AddImage(img);
                 }
 
-                acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
+                acrFlds.SetField("FIO", (person.Number+ " " + (person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
+                acrFlds.SetField("FIOEng", ((person.SurnameEng ?? "") + " " + (person.NameEng ?? "") + " " + (person.SecondNameEng ?? "")).Trim());
 
                 acrFlds.SetField("Sex", person.Sex ? "male" : "female");
+                acrFlds.SetField("Status", person.Status);
 
                 acrFlds.SetField("DateOfBirth", person.BirthDate.Value.ToShortDateString());
                 acrFlds.SetField("PlaceOfBirth", person.BirthPlace);
@@ -3738,11 +3753,11 @@ namespace OnlineAbit2013.Controllers
                    +
                    string.Format("{0} {1} {2} {3}",
                    person.Street ?? "",
-                   (person.House == string.Empty ? "" : "дом " + person.House),
-                   (person.Korpus == string.Empty ? "" : "корп. " + person.Korpus),
-                   (person.Flat == string.Empty ? "" : "кв. " + person.Flat));
+                   (person.House == string.Empty ? "" : person.House),
+                   (person.Korpus == string.Empty ? "" : person.Korpus),
+                   (person.Flat == string.Empty ? "" : person.Flat));
 
-                acrFlds.SetField("PostalAddress1", Address);
+                acrFlds.SetField("PostalAddress", Address);
                 acrFlds.SetField("Email", person.Email);
                 
 
@@ -3760,6 +3775,20 @@ namespace OnlineAbit2013.Controllers
 
                 acrFlds.SetField("Interview", person.Interview ? "yes":"no");
                 acrFlds.SetField("Overall", ((person.RuPort + person.DePort) / 2 + (person.RuInt+person.DeInt)/2).ToString());
+
+                string sCerts = "";
+                foreach (var x in Certs)
+                {
+                    sCerts += x.NameEng;
+                    if (!String.IsNullOrEmpty(x.Number))
+                        sCerts +=  " (" + x.Number + ")";
+                    if (x.BoolType)
+                        sCerts += " passed";
+                    else sCerts += (x.ResultValue != null ? " - " + x.ResultValue.ToString() : "");
+                    sCerts += ";";
+                    sCerts += Environment.NewLine;
+                }
+                acrFlds.SetField("Certificates", sCerts);
 
                 pdfStm.FormFlattening = true;
 
@@ -3816,5 +3845,88 @@ WHERE PersonId=@PersonId AND PersonFileTypeId = {0} AND FileExtention = '.pdf' A
 
             return lstRet;
         }
+
+        public static byte[] GetCommunicationAbitList(string dirPath, GlobalCommunicationModelApplicantList model)
+        {
+            
+            string dotName = "CommunicationAbitList.pdf";
+
+            List<byte[]> lstFiles = new List<byte[]>();
+            
+            for (int page = 0; page < (model.ApplicantList.Count() / 20 ) + 1; page++)
+            {
+                byte[] templateBytes;
+                MemoryStream ms = new MemoryStream();
+                using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
+                {
+                    templateBytes = new byte[fs.Length];
+                    fs.Read(templateBytes, 0, templateBytes.Length);
+                }
+
+                PdfReader pdfRd = new PdfReader(templateBytes);
+                PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
+                AcroFields acrFlds = pdfStm.AcroFields;
+                int iS = 0;
+                for (int i = page*20; i < (page+1)*20 && i< model.ApplicantList.Count; i++)
+                {
+                    var person = model.ApplicantList[i];
+                    string s = iS.ToString();
+
+                    acrFlds.SetField("Number" + s, person.Number.ToString());
+                    acrFlds.SetField("FIO" + s, person.FIO.Trim());
+                    acrFlds.SetField("IsComplete" + s, person.isComplete ? "yes" : "no");
+
+                    acrFlds.SetField("PortRu" + s, person.PortfolioAssessmentRu);
+                    acrFlds.SetField("PortDe" + s, person.PortfolioAssessmentDe);
+                    acrFlds.SetField("PortCommon" + s, person.PortfolioAssessmentCommon);
+
+                    acrFlds.SetField("Interview" + s, person.Interview ? "yes" : "no");
+
+                    acrFlds.SetField("IntRu" + s, person.InterviewAssessmentRu);
+                    acrFlds.SetField("IntDe" + s, person.InterviewAssessmentDe);
+                    acrFlds.SetField("IntCommon" + s, person.InterviewAssessmentCommon);
+
+                    acrFlds.SetField("Overall" + s, person.OverallResults.ToString());
+                    iS++;
+                }
+                acrFlds.SetField("PageNum", (page+1).ToString());
+                pdfStm.FormFlattening = true;
+
+                pdfStm.Close();
+                pdfRd.Close();
+
+                lstFiles.Add(ms.ToArray());
+            }
+
+            MemoryStream ms2 = new MemoryStream();
+            Document document = new Document(PageSize.A4_LANDSCAPE);
+            PdfWriter writer = PdfWriter.GetInstance(document, ms2);
+
+            document.Open();
+
+            foreach (byte[] doc in lstFiles)
+            {
+                PdfReader reader = new PdfReader(doc);
+                int n = reader.NumberOfPages;
+
+                PdfContentByte cb = writer.DirectContent;
+                PdfImportedPage page;
+
+                for (int i = 0; i < n; i++)
+                {
+                    document.SetPageSize(PageSize.A4_LANDSCAPE);
+                    document.NewPage();
+                    page = writer.GetImportedPage(reader, i + 1);
+
+                    cb.AddTemplate(page, 0, 1f, -1f, 0,
+                                      2 * reader.GetPageSizeWithRotation(i + 1).Width / 3 + 50,
+                                    0);
+                }
+            }
+
+            document.Close();
+            return ms2.ToArray();
+        }
+
     } 
 }
