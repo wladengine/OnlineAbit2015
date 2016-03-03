@@ -57,7 +57,8 @@ namespace OnlineAbit2013.Controllers
                 foreach (SimpleApplication app in tblAppsMain)
                 {
                     var lst = Util.GetExamList(app.Id);
-                    app.HasExamsForRegistration = lst.Count > 0;
+                    app.HasExamsForRegistration = lst.Where(x=>x.HasExamTimeTable).Count() > 0;
+
                     if (lst.Count>0)
                     {
                         app.ManualExam = new List<string>();

@@ -847,6 +847,7 @@ namespace OnlineAbit2013.Models
         public Guid Id { get; set; }
         public string BlockName { get; set; }
         public bool isVisible { get; set; }
+        public bool HasExamTimeTable { get; set; }
         public Guid SelectedExamInBlockId { get; set; }
         public List<SelectListItem> ExamInBlockList { get; set; }
     }

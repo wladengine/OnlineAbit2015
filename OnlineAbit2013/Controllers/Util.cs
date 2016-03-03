@@ -2202,8 +2202,17 @@ ORDER by Semester.Id";
                             ExamInBlockList = 
                                 ex.Select(m => new SelectListItem() { Value = m.ExamUnitId.ToString(), Text = m.ExamName, Selected = AppExams.Select(x=>x.ExamInEntryBlockUnitId).Contains(m.ExamUnitId)}).ToList(),
                             SelectedExamInBlockId = AppExams.Where(x=>x.ExamInEntryBlockId == ex.Key).Select(x=>x.ExamInEntryBlockUnitId).FirstOrDefault(),
-                            isVisible = ex.Count() >1,
-                        }).ToList();
+                            isVisible = ex.Count() >1, 
+                        }).ToList().Select(x=>
+                            new ExamsBlock 
+                            {
+                                Id = x.Id,
+                                BlockName = x.BlockName,
+                                ExamInBlockList = x.ExamInBlockList,
+                                SelectedExamInBlockId = x.SelectedExamInBlockId,
+                                isVisible = x.isVisible,
+                                HasExamTimeTable = context.ExamTimetable.Where(t=>t.ExamInEntryBlockUnitId == x.SelectedExamInBlockId).Count()>0,
+                            }).ToList();
 
                  return examsblock;
             }
