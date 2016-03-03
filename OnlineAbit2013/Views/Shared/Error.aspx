@@ -4,7 +4,12 @@
     <%= GetGlobalResourceObject("ErrorPage", "Header")  %>
 </asp:Content>
 
-
+<asp:Content ID="Content1" ContentPlaceHolderID="NavigationList" runat="server">
+    <ul class="clearfix">
+        <li><a href="../../Abiturient/Main"><%= GetGlobalResourceObject("Common", "MainNavLogon").ToString()%></a></li>
+        <li class="active">Ошибка</li>
+    </ul>
+</asp:Content>
 
 <asp:Content ID="errorContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
