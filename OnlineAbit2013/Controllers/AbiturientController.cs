@@ -3844,7 +3844,7 @@ end";
                 var cnt = (from App in context.Application
                             join block in context.ExamInEntryBlock on App.EntryId equals block.EntryId
                             join unit in context.ExamInEntryBlockUnit on block.Id equals unit.ExamInEntryBlockId
-                            where App.PersonId == PersonId && App.CommitId == gCommitId && App.Enabled == true
+                            where App.PersonId == PersonId && App.CommitId == gCommitId && App.Enabled == true && (block.ParentExamInEntryBlockId == null)
 
                             select new
                             {
