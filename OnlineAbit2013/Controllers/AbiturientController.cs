@@ -3726,7 +3726,7 @@ namespace OnlineAbit2013.Controllers
                 var apps = GetAppsWithExams(PersonId, gComm, bisEng);
 
                 var ExamsList = apps.SelectMany(x => x.Exams).ToList();
-                if (ExamsList.Count == 0)
+                if (ExamsList.Count == 0 || ExamsList.Where(x=>x.ExamInBlockList.Count>1).Count()==0)
                 {
                     return RedirectToAction("PriorityChanger", new RouteValueDictionary() { { "ComId", gComm.ToString() } });
                 }

@@ -57,17 +57,21 @@ namespace OnlineAbit2013.Controllers
                 foreach (SimpleApplication app in tblAppsMain)
                 {
                     var lst = Util.GetExamList(app.Id);
-                    app.HasManualExams = lst.Count > 0;
+                    
                     if (lst.Count>0)
                     {
                         app.ManualExam = new List<string>();
                         foreach (var x in lst)
-                            app.ManualExam.Add(x.ExamInBlockList.Where(e => e.Value.ToString() == x.SelectedExamInBlockId.ToString()).Select(e => e.Text.ToString()).FirstOrDefault());
+                        {
+                            if (x.ExamInBlockList.Count > 1)
+                                app.ManualExam.Add(x.ExamInBlockList.Where(e => e.Value.ToString() == x.SelectedExamInBlockId.ToString()).Select(e => e.Text.ToString()).FirstOrDefault());
+                        }
                         if (app.ManualExam.Where(x=>String.IsNullOrEmpty(x)).Count()>0)
                         {
                             ExistNotSelectedExams = true;
                         }
                     }
+                    app.HasManualExams = app.ManualExam.Count > 0;
                 }
                 
                 string query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM ApplicationFile WHERE CommitId=@CommitId and IsDeleted = 0";
