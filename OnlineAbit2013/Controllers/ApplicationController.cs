@@ -57,7 +57,7 @@ namespace OnlineAbit2013.Controllers
                 foreach (SimpleApplication app in tblAppsMain)
                 {
                     var lst = Util.GetExamList(app.Id);
-                    
+                    app.HasExamsForRegistration = lst.Count > 0;
                     if (lst.Count>0)
                     {
                         app.ManualExam = new List<string>();
@@ -118,6 +118,7 @@ namespace OnlineAbit2013.Controllers
                     Enabled = true,
                     StudyLevelGroupId =(tblAppsMain.Count==0)?1:tblAppsMain.First().StudyLevelGroupId,
                     HasManualExams = tblAppsMain.Where(x=>x.HasManualExams).Count()>0,
+                    HasExamsForRegistration = tblAppsMain.Where(x=>x.HasExamsForRegistration).Count()>0,
                     HasNotSelectedExams = ExistNotSelectedExams,
                     AbiturientTypeId = tblAppsMain.Count>0 ? tblAppsMain.Select(x => x.AbiturientTypeId).FirstOrDefault() : 1,
                 };

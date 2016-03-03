@@ -221,7 +221,7 @@
         </td>
         <% } %> 
         <% } %> 
-        <% if (Model.HasManualExams && Model.IsPrinted)
+        <% if (Model.HasExamsForRegistration && Model.IsPrinted)
            { %>
         <td>
             <a href="<%= string.Format("../../Application/ExamsTimetable?Id={0}", Model.Id.ToString("N")) %>">
@@ -242,7 +242,7 @@
         <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationExamenChange")%></td>
         <% } %>
         <% } %>
-        <% if (Model.HasManualExams && Model.IsPrinted)
+        <% if (Model.HasExamsForRegistration && Model.IsPrinted)
            { %>
         <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationExamenRegistration")%></td>
         <%} %>

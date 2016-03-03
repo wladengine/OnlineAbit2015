@@ -511,6 +511,7 @@ namespace OnlineAbit2013.Models
         public string StudyForm { get; set; }
         public string StudyBasis { get; set; }
         public string StudyLevel { get; set; }
+        public bool HasExamsForRegistration { get; set; }
         public bool HasManualExams { get; set; }
         public List<string> ManualExam { get; set; }
         public bool Enabled { get; set; }
@@ -663,6 +664,7 @@ namespace OnlineAbit2013.Models
         public bool NotEnabled { get; set; }
 
         public bool HasManualExams { get; set; }
+        public bool HasExamsForRegistration { get; set; }
 
         public List<SelectListItem> FileType { get; set; }
 
