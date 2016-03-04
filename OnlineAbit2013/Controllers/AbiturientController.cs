@@ -6624,5 +6624,10 @@ Order by cnt desc";
             return Json(Util.CacheSID_User.Count.ToString(), JsonRequestBehavior.AllowGet);
         }
         #endregion
+
+        public ActionResult GetErrorPage()
+        {
+            return View("Error");
+        }
     }
 }

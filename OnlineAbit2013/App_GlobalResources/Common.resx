@@ -210,4 +210,10 @@
   <data name="UILangSetCookie" xml:space="preserve">
     <value>en</value>
   </data>
+  <data name="ErrorPageHeader" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="ErrorPageMessage" xml:space="preserve">
+    <value>Во время запроса произошла ошибка. Приносим свои извинения за доставленные неудобства.</value>
+  </data>
 </root>

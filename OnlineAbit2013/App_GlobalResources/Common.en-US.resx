@@ -210,4 +210,10 @@
   <data name="AG" xml:space="preserve">
     <value>Academic Gymnasium</value>
   </data>
+  <data name="ErrorPageHeader" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorPageMessage" xml:space="preserve">
+    <value>An error occurred during the request</value>
+  </data>
 </root>
