@@ -14,9 +14,8 @@
 <asp:Content ID="errorContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
         <%= GetGlobalResourceObject("Common", "ErrorPageMessage").ToString()%>
-        
     </h2>
-
+    <br />
     <h4>
         Попробуйте выполнить запрос снова. <br />
         Если данная ошибка повторяется, напишите нам на электронную почту: <a href="mailto:abiturient@priem.pu.ru">abiturient@priem.pu.ru</a>, указав последовательность действий и скриншот последней страницы с введёнными данными.

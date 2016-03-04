@@ -134,7 +134,7 @@
         }
     </script>
     <div>
-       <%=GetGlobalResourceObject("Communication", "BackToOverview")%>: <a href = "../../Communication/Index?sort=<%=Model.SortOrder%>#<%=Model.Number.ToString() %>>"><%="#"+Model.Number.ToString() %></a>
+       <%=GetGlobalResourceObject("Communication", "BackToOverview")%>: <a href = "../../Communication/Index?sort=<%=Model.SortOrder%>#<%=Model.Number.ToString() %>"><%="#"+Model.Number.ToString() %></a>
     </div>
     <hr />
     <div>
@@ -146,7 +146,7 @@
                             {%><img src="../../Content/themes/base/images/male.png" alt="male" /><%}else
                             {%><img src="../../Content/themes/base/images/female.png" alt="female" /><%}%> 
                         </div> 
-                        <div  style="display: table-cell; vertical-align: top; height:50px; " >
+                        <div style="display: table-cell; vertical-align: top; height:50px; " >
                              <span style="color: #0095CD; font: bold 19px Verdana;"><%=Model.Surname + " " + Model.Name + " " + Model.SecondName%></span>
                         <br />
                             <span style="color: #0095CD; font: bold 17px Verdana; vertical-align: top; height:25px; ""><%=Model.FioEng%></span>
