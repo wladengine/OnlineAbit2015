@@ -3734,8 +3734,9 @@ namespace OnlineAbit2013.Controllers
                     img.SetAbsolutePosition(420, 690);
                     cb.AddImage(img);
                 }
+                acrFlds.SetField("Number", person.Number.ToString());
 
-                acrFlds.SetField("FIO", (person.Number+ " " + (person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
+                acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
                 acrFlds.SetField("FIOEng", ((person.SurnameEng ?? "") + " " + (person.NameEng ?? "") + " " + (person.SecondNameEng ?? "")).Trim());
 
                 acrFlds.SetField("Sex", person.Sex ? "male" : "female");
@@ -3847,8 +3848,7 @@ WHERE PersonId=@PersonId AND PersonFileTypeId = {0} AND FileExtention = '.pdf' A
         }
 
         public static byte[] GetCommunicationAbitList(string dirPath, GlobalCommunicationModelApplicantList model)
-        {
-            
+        { 
             string dotName = "CommunicationAbitList.pdf";
 
             List<byte[]> lstFiles = new List<byte[]>();
@@ -3890,6 +3890,8 @@ WHERE PersonId=@PersonId AND PersonFileTypeId = {0} AND FileExtention = '.pdf' A
                     iS++;
                 }
                 acrFlds.SetField("PageNum", (page+1).ToString());
+                acrFlds.SetField("DateTime", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+
                 pdfStm.FormFlattening = true;
 
                 pdfStm.Close();

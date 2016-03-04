@@ -12,10 +12,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <style> 
-       .grid_2
-       {
-           
-       }
        .wrapper
        {
            width: 1100px;
@@ -152,8 +148,11 @@
                         </div> 
                         <div  style="display: table-cell; vertical-align: top; height:50px; " >
                              <span style="color: #0095CD; font: bold 19px Verdana;"><%=Model.Surname + " " + Model.Name + " " + Model.SecondName%></span>
+                        <br />
+                            <span style="color: #0095CD; font: bold 17px Verdana; vertical-align: top; height:25px; ""><%=Model.FioEng%></span>
                         </div> 
                     </div>
+                    
                     <div class="table-div">
                          <%=GetGlobalResourceObject("Communication", "Birthday")%>: <%=Model.DateOfBirth%>
                     </div> 

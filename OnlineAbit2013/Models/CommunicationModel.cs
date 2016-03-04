@@ -43,6 +43,7 @@ namespace OnlineAbit2013.Models
         public string Surname;
         public string Name;
         public string SecondName;
+        public string FioEng;
 
         public string Photo;
 

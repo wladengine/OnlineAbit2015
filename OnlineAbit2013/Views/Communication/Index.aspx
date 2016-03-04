@@ -12,10 +12,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 <style> 
-   .grid_2
-   {
-       
-   }
    .wrapper
    {
        width: 1100px;
@@ -92,9 +88,16 @@
             var val = $("#SortOrder").val();
             window.open('../../Communication/PrintListToPDF?sort='+val,'');
         }
+        function PrintListXLS() {
+            var val = $("#SortOrder").val();
+            window.open('../../Communication/PrintListToXLS?sort=' + val, '');
+        }
     </script>
-    <div>
+    <div style="float:left; padding:5px;">
         <button value ="print" onclick ="PrintList()" class="button button-green"> Print as PDF</button>
+    </div>
+    <div style="padding:5px;">
+        <button value ="print" onclick ="PrintListXLS()" class="button button-green"> Print (Interview=Y) as XLS</button>
     </div>
     <hr /> 
     <%=Html.HiddenFor(x=>x.SortOrder) %>

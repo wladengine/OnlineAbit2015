@@ -79,6 +79,7 @@ namespace OnlineAbit2013.Controllers
                                Number = pers.Barcode,
 
                                FIO = pers.Surname + " " + pers.Name + (String.IsNullOrEmpty(pers.SecondName)? "" : " " + pers.SecondName),
+                               FIOEng = (pers.SurnameEng ?? "") + " " + (pers.NameEng ?? "") + " " + (pers.SecondNameEng ?? ""),
                                
                                isComplete = (port == null) ? false : port.IsComplete,
 
@@ -194,6 +195,8 @@ namespace OnlineAbit2013.Controllers
                                Surname = pers.Surname,
                                Name = pers.Name,
                                SecondName = pers.SecondName,
+
+                               FIOEng = (pers.SurnameEng ?? "") + " " + (pers.NameEng ?? "") + " " + (pers.SecondNameEng ?? ""),
                                pers.Sex,
                                Nationality = bIsEng ?  pers.Nationality.NameEng : pers.Nationality.Name,
                                pers.BirthPlace,
@@ -229,7 +232,7 @@ namespace OnlineAbit2013.Controllers
                 model.Surname = person.Surname;
                 model.Name = person.Name;
                 model.SecondName = person.SecondName;
-
+                model.FioEng = person.FIOEng;
                 model.Nationality = person.Nationality;
                 model.DateOfBirth = person.BirthDate.Value.ToShortDateString();
                 model.PlaceOfBirth = person.BirthPlace;
@@ -790,5 +793,58 @@ namespace OnlineAbit2013.Controllers
             }
             return new FileContentResult(bindata, "application/pdf") { FileDownloadName = "ApplicationCard.pdf" };
         }
+
+        public ActionResult PrintListToXLS(string sort)
+        {
+            Guid personId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out personId))
+                return RedirectToAction("LogOn", "Account");
+
+            DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
+                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
+            if (tbl.Rows.Count == 0)
+                return RedirectToAction("Main", "Abiturient");
+
+            List<string> sSortResult = new List<string>();
+
+            if (!String.IsNullOrEmpty(sort))
+            {
+                List<string> Sortlst = sort.Split('_').ToList();
+                Dictionary<string, string> SortResult = new Dictionary<string, string>();
+
+                for (int i = Sortlst.Count() - 1; i >= 0; i--)
+                {
+                    string s = Sortlst[i];
+
+                    if (String.IsNullOrEmpty(s))
+                        continue;
+
+                    string Number = s.Substring(0, s.Length - 1);
+                    if (!SortResult.ContainsKey(Number))
+                    {
+                        SortResult.Add(Number, s[s.Length - 1].ToString());
+                        if (s[s.Length - 1].ToString() != "n")
+                            sSortResult.Add(s);
+                    }
+                }
+            }
+            GlobalCommunicationModelApplicantList model = GetModelList(sSortResult);
+            model.ApplicantList = model.ApplicantList.Where(x => x.Interview).ToList();
+
+            byte[] bindata;
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                try
+                {
+                    bindata = XLSUtils.PrintAllToExcel2007(model, "list", "AbiturientList.xlsx");
+                }
+                catch
+                {
+                    return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Ошибка при печати заявления"), "text/plain");
+                }
+            }
+            return new FileContentResult(bindata, "application/xlsx") { FileDownloadName = "AbiturientList.xlsx" };
+        }
+
     }
 }
