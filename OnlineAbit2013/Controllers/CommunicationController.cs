@@ -21,16 +21,8 @@ namespace OnlineAbit2013.Controllers
                 return EntryList;
             }
         }
-        public ActionResult Index(string sort)
+        public List<string> GetSortOrder(string sort)
         {
-            Guid personId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out personId))
-                return RedirectToAction("LogOn", "Account");
-
-            DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
-                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
-            if (tbl.Rows.Count == 0)
-                return RedirectToAction("Main", "Abiturient");
             List<string> sSortResult = new List<string>();
 
             if (!String.IsNullOrEmpty(sort))
@@ -54,6 +46,19 @@ namespace OnlineAbit2013.Controllers
                     }
                 }
             }
+            return sSortResult;
+        }
+        public ActionResult Index(string sort)
+        {
+            Guid personId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out personId))
+                return RedirectToAction("LogOn", "Account");
+
+            DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
+                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
+            if (tbl.Rows.Count == 0)
+                return RedirectToAction("Main", "Abiturient");
+            List<string> sSortResult = GetSortOrder(sort);
             GlobalCommunicationModelApplicantList model = GetModelList(sSortResult);
             return View(model);
         }
@@ -96,6 +101,7 @@ namespace OnlineAbit2013.Controllers
                                OverallResults = (port == null) ? "-" : ((port.RuPortfolioPts.HasValue && port.DePortfolioPts.HasValue && port.RuInterviewPts.HasValue && port.DeInterviewPts.HasValue)
                                ? ((port.RuPortfolioPts + port.DePortfolioPts + port.RuInterviewPts + port.DeInterviewPts) / 2).ToString() : "-"),
 
+                               StatusId = (port == null) ? 7: port.StatusId,
                                Status = (port == null) ? "X" : port.PortfolioStatus.ShortName,
                                StatusAlt = (port == null) ? "X – incomplete application" : port.PortfolioStatus.Name,
                            }).Distinct().ToList();
@@ -137,8 +143,8 @@ namespace OnlineAbit2013.Controllers
                         case "11d": { lst = lst.OrderByDescending(x => x.OverallResults).ToList(); break; }
                         case "11u": { lst = lst.OrderBy(x => x.OverallResults).ToList(); break; }
 
-                        case "12d": { lst = lst.OrderByDescending(x => x.Status).ToList(); break; }
-                        case "12u": { lst = lst.OrderBy(x => x.Status).ToList(); break; }
+                        case "12d": { lst = lst.OrderByDescending(x => x.StatusId).ToList(); break; }
+                        case "12u": { lst = lst.OrderBy(x => x.StatusId).ToList(); break; }
                     }
                 }
                 model.ApplicantList = lst;
@@ -151,7 +157,7 @@ namespace OnlineAbit2013.Controllers
             return model;
         }
 
-        public ActionResult ApplicantCard(string id)
+        public ActionResult ApplicantCard(string id, string sort)
         {
             Guid personId;
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
@@ -163,6 +169,7 @@ namespace OnlineAbit2013.Controllers
                 return RedirectToAction("Main", "Abiturient");
 
             GlobalCommunicationApplicant model = new GlobalCommunicationApplicant();
+            model.SortOrder = sort;
             int iNumber;
             if (!int.TryParse(id, out iNumber))
             {

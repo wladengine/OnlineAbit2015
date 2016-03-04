@@ -134,7 +134,7 @@
         }
     </script>
     <div>
-       <%=GetGlobalResourceObject("Communication", "BackToOverview")%>: <a href = "../../Communication/Index"><%="#"+Model.Number.ToString() %></a>
+       <%=GetGlobalResourceObject("Communication", "BackToOverview")%>: <a href = "../../Communication/Index?sort=<%=Model.SortOrder%>#<%=Model.Number.ToString() %>>"><%="#"+Model.Number.ToString() %></a>
     </div>
     <hr />
     <div>

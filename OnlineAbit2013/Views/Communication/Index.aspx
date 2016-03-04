@@ -58,10 +58,13 @@
             $("#" + ind + "n").hide();
             $("#" + ind + str).show();
             var val = $("#SortOrder").val() + "_"+ind + str+"_";
-            //$("#SortOrder").val(val);
             location.href = ("../../Communication/Index?sort=" + val);
         }
-
+        function OpenCard(Num)
+        {
+            var val = $("#SortOrder").val();
+            location.href = ("../../Communication/ApplicantCard?sort=" + val+"&id="+Num);
+        }
         function YesNoClick(id1, id2, Number) {
             var result;
             var obj1 = $('#' + id1 + "_" + Number);
@@ -113,16 +116,16 @@
                {
                    if ( i == Collst.Count - 1)
                    { %>
-            <th ><a id= "<%=i.ToString()%>n" onclick="AddSortOrder(<%=i.ToString()%>, 'u' )" ><%=Collst[i]%></a>
+            <th ><a id= "<%=(i+1).ToString()%>n" onclick="AddSortOrder(<%=(i+1).ToString()%>, 'u' )" ><%=Collst[i]%></a>
             </th>
             <% }
                    else
                    { %>               
-             <th ><a id= "<%=i.ToString()%>u" onclick="AddSortOrder(<%=i.ToString()%>, 'd' )" <%if (!Model.SortOrder.Contains("_" + i.ToString() + "u_"))
+             <th ><a id= "<%=(i+1).ToString()%>u" onclick="AddSortOrder(<%=(i+1).ToString()%>, 'd' )" <%if (!Model.SortOrder.Contains("_" + (i + 1).ToString() + "u_"))
                                                                                                   {%>style="display:none;"<%} %> ><%=Collst[i]%> ▾</a>
-                 <a id= "<%=i.ToString()%>d" onclick="AddSortOrder(<%=i.ToString()%>, 'n' )" <%if (!Model.SortOrder.Contains("_" + i.ToString() + "d_"))
+                 <a id= "<%=(i+1).ToString()%>d" onclick="AddSortOrder(<%=(i+1).ToString()%>, 'n' )" <%if (!Model.SortOrder.Contains("_" + (i + 1).ToString() + "d_"))
                                                                                                  {%>style="display:none;"<%} %> ><%=Collst[i]%> ▴</a>
-                 <a id= "<%=i.ToString()%>n" onclick="AddSortOrder(<%=i.ToString()%>, 'u' )" <%if (Model.SortOrder.Contains("_" + i.ToString() + "d_") || Model.SortOrder.Contains("_" + i.ToString() + "u_"))
+                 <a id= "<%=(i+1).ToString()%>n" onclick="AddSortOrder(<%=(i+1).ToString()%>, 'u' )" <%if (Model.SortOrder.Contains("_" + (i + 1).ToString() + "d_") || Model.SortOrder.Contains("_" + (i + 1).ToString() + "u_"))
                                                                                                  {%>style="display:none;"<%} %> ><%=Collst[i]%></a>
              </th>
             <%}
@@ -130,9 +133,9 @@
         </tr>
 <% int ind = 1;
     foreach (var x in Model.ApplicantList) {%>
-    <tr>
+    <tr id="<%=x.Number.ToString()%>">
         <td  style="text-align:left;"><%=x.Number %></td>
-        <td  style="text-align:left;"><a href =<%=string.Format("../../Communication/ApplicantCard/{0}", x.Number.ToString()) %>><%=x.FIO %></a></td>
+        <td  style="text-align:left;"><a onclick="OpenCard(<%=x.Number.ToString()%>)"><%=x.FIO %></a></td>
         <td><% if (x.isComplete) { %><img src="../../Content/themes/base/images/isComplete.png" alt="is complete" /><% }else{ %><img src="../../Content/themes/base/images/isNotComplete.png" alt="Is not complete" /><%} %></td>
         <td><%=x.PortfolioAssessmentRu %></td>
         <td><%=x.PortfolioAssessmentDe %></td>

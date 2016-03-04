@@ -32,6 +32,7 @@ namespace OnlineAbit2013.Models
         public string InterviewAssessmentCommon;//10
 
         public string OverallResults;//11
+        public int StatusId;
         public string Status; //12
         public string StatusAlt;
     }
@@ -84,6 +85,7 @@ namespace OnlineAbit2013.Models
         public bool isGermany;
 
         public List<CommunicateCertificateInfo> Certificates;
+        public string SortOrder;
     }
     public class CommunicationFile
     {
