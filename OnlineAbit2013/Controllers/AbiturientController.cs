@@ -3729,6 +3729,15 @@ namespace OnlineAbit2013.Controllers
                 var ExamsList = apps.SelectMany(x => x.Exams).ToList();
                 if (ExamsList.Count == 0 || ExamsList.Where(x=>x.ExamInBlockList.Count>1).Count()==0)
                 {
+                    foreach (var app in apps)
+                        foreach (var ex in app.Exams)
+                        {
+                            context.ApplicationSelectedExam.Add(new ApplicationSelectedExam()
+                            {
+                                ApplicationId = app.Id,
+                                ExamInEntryBlockUnitId = (ex.SelectedExamInBlockId == Guid.Empty) ? ex.FirstUnitId : ex.SelectedExamInBlockId,
+                            });
+                        }
                     return RedirectToAction("PriorityChanger", new RouteValueDictionary() { { "ComId", gComm.ToString() } });
                 }
 
