@@ -2211,7 +2211,7 @@ ORDER by Semester.Id";
                                 ExamInBlockList = x.ExamInBlockList,
                                 SelectedExamInBlockId = x.SelectedExamInBlockId,
                                 isVisible = x.isVisible,
-                                HasExamTimeTable = context.ExamTimetable.Where(t=>t.ExamInEntryBlockUnitId == x.SelectedExamInBlockId).Count()>0,
+                                HasExamTimeTable = context.ExamTimetable.Where(t=>t.ExamInEntryBlockUnitId == x.SelectedExamInBlockId && t.DateOfClose >= DateTime.Now).Count()>0,
                             }).ToList();
 
                  return examsblock;
