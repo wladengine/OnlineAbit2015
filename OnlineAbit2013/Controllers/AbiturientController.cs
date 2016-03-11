@@ -15,6 +15,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Net.Mail;
 using System.Data.Entity.Core.Objects;
+using OnlineAbit2013.EMDX;
 
 namespace OnlineAbit2013.Controllers
 {
@@ -340,7 +341,7 @@ namespace OnlineAbit2013.Controllers
 
                         var PersonHighEducationInfo = PersonEducationDocument.PersonHighEducationInfo;
                         if (PersonHighEducationInfo == null)
-                            PersonHighEducationInfo = new OnlineAbit2013.PersonHighEducationInfo();
+                            PersonHighEducationInfo = new OnlineAbit2013.EMDX.PersonHighEducationInfo();
 
                         EPD.HEExitYear = Server.HtmlDecode(PersonHighEducationInfo.ExitYear.ToString());
                         EPD.HEEntryYear = Server.HtmlDecode(PersonHighEducationInfo.EntryYear.ToString());
@@ -637,7 +638,7 @@ namespace OnlineAbit2013.Controllers
 
                     PersonSportQualification PersonSportQualification = Person.PersonSportQualification;
                     if (PersonSportQualification == null)
-                        PersonSportQualification = new OnlineAbit2013.PersonSportQualification();
+                        PersonSportQualification = new OnlineAbit2013.EMDX.PersonSportQualification();
                     else
                     {
                         model.PrivelegeInfo.SportQualificationId = PersonSportQualification.SportQualificationId.ToString();
@@ -811,7 +812,7 @@ namespace OnlineAbit2013.Controllers
                         var PersonVisaInfo = Person.PersonVisaInfo;
                         if (PersonVisaInfo == null)
                         {
-                            PersonVisaInfo = new OnlineAbit2013.PersonVisaInfo();
+                            PersonVisaInfo = new OnlineAbit2013.EMDX.PersonVisaInfo();
                             PersonVisaInfo.PersonId = PersonId;
                             bIns = true;
                         }

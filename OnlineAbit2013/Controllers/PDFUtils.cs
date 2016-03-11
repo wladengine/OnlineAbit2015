@@ -10,6 +10,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using OnlineAbit2013.Models;
 using System.Drawing;
+using OnlineAbit2013.EMDX;
 
 namespace OnlineAbit2013.Controllers
 {

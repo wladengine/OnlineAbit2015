@@ -13,6 +13,7 @@ using System.Web.UI;
 using Recaptcha;
 using System.IO;
 using BDClassLib;
+using OnlineAbit2013.EMDX;
 
 namespace OnlineAbit2013.Controllers
 {
