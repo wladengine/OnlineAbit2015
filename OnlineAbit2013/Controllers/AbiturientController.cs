@@ -3738,6 +3738,7 @@ namespace OnlineAbit2013.Controllers
                                 ExamInEntryBlockUnitId = (ex.SelectedExamInBlockId == Guid.Empty) ? ex.FirstUnitId : ex.SelectedExamInBlockId,
                             });
                         }
+                    context.SaveChanges();
                     return RedirectToAction("PriorityChanger", new RouteValueDictionary() { { "ComId", gComm.ToString() } });
                 }
 
