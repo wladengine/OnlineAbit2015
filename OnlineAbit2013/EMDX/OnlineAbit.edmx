@@ -71,6 +71,14 @@
           <Property Name="UpdaterName" Type="nvarchar" MaxLength="500" />
           <Property Name="IsViewed" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="ApplicationAddedToProtocol">
+          <Key>
+            <PropertyRef Name="OrdId" />
+          </Key>
+          <Property Name="OrdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Barcode" Type="int" Nullable="false" />
+          <Property Name="DateImported" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="ApplicationCommit">
           <Key>
             <PropertyRef Name="Id" />
@@ -2298,6 +2306,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
         <EntityContainer Name="OnlinePriem2015ModelStoreContainer">
           <EntitySet Name="_Entry" EntityType="Self._Entry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationAddedToProtocol" EntityType="Self.ApplicationAddedToProtocol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationCommit" EntityType="Self.ApplicationCommit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationCommitVersion" EntityType="Self.ApplicationCommitVersion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationCommitVersonDetails" EntityType="Self.ApplicationCommitVersonDetails" Schema="dbo" store:Type="Tables" />
@@ -5542,6 +5551,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             <End Role="LanguageCertificatesType" EntitySet="LanguageCertificatesType" />
             <End Role="PersonLanguageCertificates" EntitySet="PersonLanguageCertificates" />
           </AssociationSet>
+          <EntitySet Name="ApplicationAddedToProtocol" EntityType="OnlinePriem2015Model.ApplicationAddedToProtocol" />
         </EntityContainer>
         <EntityType Name="Comission">
           <Key>
@@ -5773,6 +5783,14 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ApplicationAddedToProtocol">
+          <Key>
+            <PropertyRef Name="OrdId" />
+          </Key>
+          <Property Name="OrdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Barcode" Type="Int32" Nullable="false" />
+          <Property Name="DateImported" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7024,6 +7042,15 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationAddedToProtocol">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.ApplicationAddedToProtocol">
+              <MappingFragment StoreEntitySet="ApplicationAddedToProtocol">
+                <ScalarProperty Name="DateImported" ColumnName="DateImported" />
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="OrdId" ColumnName="OrdId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -221,7 +221,7 @@
         </td>
         <% } %> 
         <% } %> 
-        <% if (Model.HasExamsForRegistration && Model.IsPrinted)
+        <% if (Model.HasExamsForRegistration && Model.IsPrinted && Model.Applications.Where(x => x.IsAddedToProtocol).Count() > 0)
            { %>
         <td>
             <a href="<%= string.Format("../../Application/ExamsTimetable?Id={0}", Model.Id.ToString("N")) %>">
@@ -242,7 +242,7 @@
         <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationExamenChange")%></td>
         <% } %>
         <% } %>
-        <% if (Model.HasExamsForRegistration && Model.IsPrinted)
+        <% if (Model.HasExamsForRegistration && Model.IsPrinted && Model.Applications.Where(x => x.IsAddedToProtocol).Count() > 0)
            { %>
         <td><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationExamenRegistration")%></td>
         <%} %>
@@ -304,10 +304,24 @@
     <% } %>
     <% if (Application.IsApprowed) { %>
     <tr >
-        <!--<td width="30%" align="right"><%= GetGlobalResourceObject("ApplicationInfo", "IsApprowedTitle").ToString()%></td>-->
+        <!--<td width="30%" align="right"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationStatusTitle").ToString()%></td>-->
         <td align="left" colspan="2" style="text-align:center;"><div class="message success"><%= GetGlobalResourceObject("ApplicationInfo", "IsApprowed").ToString()%></div></td>
     </tr>
+    <% } 
+       else if (Application.IsAddedToProtocol) { %>
+    <tr >
+        <!--<td width="30%" align="right"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationStatusTitle").ToString()%></td>-->
+        <td align="left" colspan="2" style="text-align:center;"><div class="message success"><%= GetGlobalResourceObject("ApplicationInfo", "IsAddedToProtocol").ToString()%></div></td>
+    </tr>
+    <% }
+       else if (Application.IsImported)
+       { %>
+    <tr >
+        <!--<td width="30%" align="right"><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationStatusTitle").ToString()%></td>-->
+        <td align="left" colspan="2" style="text-align:center;"><div class="message success"><%= GetGlobalResourceObject("ApplicationInfo", "IsImported").ToString()%></div></td>
+    </tr>
     <% } %>
+
     <tr>
         <td width="30%" align="right"><%= GetGlobalResourceObject("NewApplication", "ApplicationLevel").ToString()%></td>
         <td align="left"><%= Html.Encode(Application.StudyLevelGroupName) %></td>

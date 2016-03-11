@@ -164,6 +164,7 @@
         <EntityTypeShape EntityType="OnlinePriem2015Model.LanguageCertificatesType" Width="1.5" PointX="22.375" PointY="3.75" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.PersonLanguageCertificates" Width="1.5" PointX="22.375" PointY="6.75" />
         <AssociationConnector Association="OnlinePriem2015Model.FK_PersonLanguageCertificates_LanguageCertificatesType" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationAddedToProtocol" Width="1.5" PointX="22.375" PointY="19.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

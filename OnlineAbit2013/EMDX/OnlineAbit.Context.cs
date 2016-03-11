@@ -109,6 +109,7 @@ namespace OnlineAbit2013.EMDX
         public virtual DbSet<ScienceWorkType> ScienceWorkType { get; set; }
         public virtual DbSet<LanguageCertificatesType> LanguageCertificatesType { get; set; }
         public virtual DbSet<PersonLanguageCertificates> PersonLanguageCertificates { get; set; }
+        public virtual DbSet<ApplicationAddedToProtocol> ApplicationAddedToProtocol { get; set; }
     
         public virtual int PersonEducationDocument_delete(Nullable<System.Guid> personId, Nullable<int> id)
         {

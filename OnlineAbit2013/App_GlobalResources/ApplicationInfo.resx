@@ -305,13 +305,19 @@
   <data name="IsApprowed" xml:space="preserve">
     <value>Заявление одобрено</value>
   </data>
-  <data name="IsApprowedTitle" xml:space="preserve">
-    <value>Решение комиссии</value>
+  <data name="ApplicationStatusTitle" xml:space="preserve">
+    <value>Статус заявления</value>
   </data>
   <data name="AppHasNotSelectedExams" xml:space="preserve">
     <value>Не все экзамены по выбору указаны</value>
   </data>
   <data name="ApplicationExamenRegistration" xml:space="preserve">
     <value>Регистрация на сдачу экзамена</value>
+  </data>
+  <data name="IsAddedToProtocol" xml:space="preserve">
+    <value>Допущено к участию в конкурсе</value>
+  </data>
+  <data name="IsImported" xml:space="preserve">
+    <value>Поступило в работу</value>
   </data>
 </root>

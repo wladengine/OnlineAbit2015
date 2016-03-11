@@ -295,10 +295,16 @@
   <data name="IsApprowed" xml:space="preserve">
     <value>Application is approwed by comission</value>
   </data>
-  <data name="IsApprowedTitle" xml:space="preserve">
-    <value>Decision</value>
-  </data>
   <data name="AppHasNotSelectedExams" xml:space="preserve">
     <value>Не все экзамены по выбору указаны</value>
+  </data>
+  <data name="ApplicationStatusTitle" xml:space="preserve">
+    <value>Application status</value>
+  </data>
+  <data name="IsAddedToProtocol" xml:space="preserve">
+    <value>Eligible to participate in the competition</value>
+  </data>
+  <data name="IsImported" xml:space="preserve">
+    <value>In progress</value>
   </data>
 </root>

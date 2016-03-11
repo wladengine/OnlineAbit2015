@@ -29,9 +29,12 @@ namespace OnlineAbit2013.Controllers
                     (from App in context.Application
                      join Entry in context.Entry on App.EntryId equals Entry.Id
                      join Semester in context.Semester on Entry.SemesterId equals Semester.Id
-
+                     join Commit in context.ApplicationCommit on App.CommitId equals Commit.Id
                      join apstype in context.ApplicationSecondType on App.SecondTypeId equals apstype.Id into _sectype
                      from sectype in _sectype.DefaultIfEmpty()
+
+                     join AppInProtocol in context.ApplicationAddedToProtocol on App.Barcode equals AppInProtocol.Barcode into AppInProtocol2
+                     from AppInProtocol in AppInProtocol2.DefaultIfEmpty()
 
                      where App.CommitId == CommitId && App.IsCommited == true && App.Enabled == true
                      select new SimpleApplication()
@@ -53,6 +56,9 @@ namespace OnlineAbit2013.Controllers
                          StudyLevelGroupName = (isEng ? ((String.IsNullOrEmpty(Entry.StudyLevelGroupNameEng)) ? Entry.StudyLevelGroupNameRus : Entry.StudyLevelGroupNameEng) : Entry.StudyLevelGroupNameRus) +
                                   (sectype == null ? "" : (isEng ? sectype.NameEng : sectype.Name)), 
                          AbiturientTypeId = App.SecondTypeId,
+
+                         IsImported = Commit.IsImported,
+                         IsAddedToProtocol = AppInProtocol != null
                      }).ToList();
                 bool ExistNotSelectedExams = false;
                 foreach (SimpleApplication app in tblAppsMain)

@@ -527,6 +527,9 @@ namespace OnlineAbit2013.Models
         public DateTime? dateofClose { get; set; }
         public Guid? InnerEntryInEntryId { get; set; }
         public List<string> InnerProfiles { get; set; }
+
+        public bool IsImported { get; set; }
+        public bool IsAddedToProtocol { get; set; }
     }
     public class SimpleApplicationWithExams : SimpleApplication
     {
