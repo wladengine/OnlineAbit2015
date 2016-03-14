@@ -3308,7 +3308,7 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("OlympName" + (i + 1).ToString(), Olympiads[i].OlympName);
                     acrFlds.SetField("OlympStep" + (i + 1).ToString(), "");
                     acrFlds.SetField("OlympLevel" + (i + 1).ToString(), Olympiads[i].OlympLevel);
-                    string DiplomNumber = Olympiads[i].DocumentSeries + " " + Olympiads[i].DocumentNumber + " от " + Olympiads[i].DocumentDate.Value.ToShortDateString();
+                    string DiplomNumber = Olympiads[i].DocumentSeries + " " + Olympiads[i].DocumentNumber + (Olympiads[i].DocumentDate.HasValue ? (" от " + Olympiads[i].DocumentDate.Value.ToShortDateString()) : "");
                     acrFlds.SetField("OlympDiploma" + (i + 1).ToString(), Olympiads[i].OlympValue );
                 }
 
