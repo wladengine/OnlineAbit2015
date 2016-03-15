@@ -1344,7 +1344,7 @@ namespace OnlineAbit2013.Controllers
                 }
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new RouteValueDictionary() { { "id", gCommitId.ToString("N") } });
         }
    
         

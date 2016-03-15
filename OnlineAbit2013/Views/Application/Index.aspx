@@ -209,7 +209,7 @@
             </a>
         </td>
         <td>
-            <a href="<%= string.Format("../../Abiturient/ChangeApplication?Id={0}", Model.Id.ToString("N")) %>">
+            <a href="<%= string.Format("../../Abiturient/ChangeApplication/{0}", Model.Id.ToString("N")) %>">
                 <img src="../../Content/themes/base/images/File_edit064.png" alt="Редактировать заявление" />
             </a>
         </td>
@@ -224,7 +224,7 @@
         <% if (Model.HasExamsForRegistration && Model.IsPrinted && Model.Applications.Where(x => x.IsAddedToProtocol).Count() > 0)
            { %>
         <td>
-            <a href="<%= string.Format("../../Application/ExamsTimetable?Id={0}", Model.Id.ToString("N")) %>">
+            <a href="<%= string.Format("../../Application/ExamsTimetable/{0}", Model.Id.ToString("N")) %>">
                 <img src="../../Content/themes/base/images/File_edit064.png" alt="Запись на экзамен" />
             </a>
         </td>
