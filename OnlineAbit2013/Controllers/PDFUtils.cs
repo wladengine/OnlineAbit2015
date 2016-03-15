@@ -369,6 +369,9 @@ namespace OnlineAbit2013.Controllers
                     }
                 }
 
+                if (isMag)
+                    lstAppendixes.Add(GetApplicationPDF_Agreement_Mag(FIO, person.Sex, dirPath, sVersion));
+
                 List<ShortAppcation> lstAppsFirst = new List<ShortAppcation>();
                 for (int u = 0; u < 3; u++)
                 {
@@ -709,6 +712,31 @@ namespace OnlineAbit2013.Controllers
                 bool bShowObrazProgram = lst.Where(x => x.ObrazProgramName != Prof.ObrazProgramName).Count() > 0;
                 acrFlds.SetField("Profile" + i.ToString(), (bShowObrazProgram ? Prof.ObrazProgramName + " /\n" : "") + Prof.ProfileName);
             }
+
+            pdfStm.FormFlattening = true;
+            pdfStm.Close();
+            pdfRd.Close();
+
+            return ms.ToArray();
+        }
+
+        public static byte[] GetApplicationPDF_Agreement_Mag(string FIO, bool bSex, string dirPath, string sVersion)
+        {
+            MemoryStream ms = new MemoryStream();
+            string dotName = string.Format("ApplicationAgreement_MagSex{0}.pdf", bSex ? "1" : "0");
+
+            byte[] templateBytes;
+            using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
+            {
+                templateBytes = new byte[fs.Length];
+                fs.Read(templateBytes, 0, templateBytes.Length);
+            }
+
+            PdfReader pdfRd = new PdfReader(templateBytes);
+            PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
+            AcroFields acrFlds = pdfStm.AcroFields;
+
+            acrFlds.SetField("FIO", FIO);
 
             pdfStm.FormFlattening = true;
             pdfStm.Close();
