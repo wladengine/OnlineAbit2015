@@ -3840,7 +3840,7 @@ and ExamInEntryBlockUnitId IN
     (select Id from ExamInEntryBlockUnit where ExamInEntryBlockId IN (
         select Id from ExamInEntryBlock 
         where Id = @BlockId
-        or ParentExamInEntryBlockId = (Select ParentExamInEntryBlockId from ExamInEntryBlock where Id = @BlockId)
+        or ParentExamInEntryBlockId = (Select ParentExamInEntryBlockId from ExamInEntryBlock where Id = @BlockId))
     )
 and ExamInEntryBlockUnitId <> @UnitId";
                             Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@AppId", gAppId }, { "@BlockId", gBlockId }, { "@UnitId", gUnitId } });
