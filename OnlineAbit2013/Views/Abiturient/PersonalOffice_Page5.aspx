@@ -764,7 +764,7 @@
                             <div class="clearfix" style="width: 100%;">
                                 <input name="FileTypeId" type="hidden" value="5"/>
                                 <%= Html.Label(GetGlobalResourceObject("AddSharedFiles", "FileType").ToString())%> 
-                                <div >
+                                <div style="width:200px; height:30px; overflow: hidden;">
                                      <%= Html.DropDownList("FileTypeId", Model.FileTypes, new { disabled = "disabled"})%>
                                 </div> 
                             </div>

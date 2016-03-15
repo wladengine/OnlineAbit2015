@@ -147,9 +147,14 @@
                             {%><img src="../../Content/themes/base/images/female.png" alt="female" /><%}%> 
                         </div> 
                         <div style="display: table-cell; vertical-align: top; height:50px; " >
-                             <span style="color: #0095CD; font: bold 19px Verdana;"><%=Model.Surname + " " + Model.Name + " " + Model.SecondName%></span>
+                             <span style="color: #0095CD; font: bold 19px Verdana;">
+                                 <%if (String.IsNullOrEmpty(Model.FioEng)) {%><%=Model.Surname + " " + Model.Name + " " + Model.SecondName%>
+                                 <% } else { %><%=Model.FioEng%> <%} %>
+                             </span>
                         <br />
-                            <span style="color: #0095CD; font: bold 17px Verdana; vertical-align: top; height:25px; ""><%=Model.FioEng%></span>
+                            <span style="color: #0095CD; font: bold 17px Verdana; vertical-align: top; height:25px; "">
+                                <%if (!String.IsNullOrEmpty(Model.FioEng)) {%><%=Model.Surname + " " + Model.Name + " " + Model.SecondName%>
+                                 <% } else { %><%=Model.FioEng%> <%} %></span>
                         </div> 
                     </div>
                     

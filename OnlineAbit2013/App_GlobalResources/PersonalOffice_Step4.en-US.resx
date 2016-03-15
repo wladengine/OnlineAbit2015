@@ -133,7 +133,7 @@
     <value>Country of your previous education</value>
   </data>
   <data name="CurrentYear" xml:space="preserve">
-    <value>2015 year</value>
+    <value>2016 year</value>
   </data>
   <data name="DiplomNumber" xml:space="preserve">
     <value>Number</value>
@@ -247,10 +247,10 @@
     <value>Entry type</value>
   </data>
   <data name="EnglishNull" xml:space="preserve">
-    <value>I would like to learn Enlish from "zero" level</value>
+    <value>I would like to learn English from "zero" level</value>
   </data>
   <data name="RedDiploma" xml:space="preserve">
-    <value>Dimploma with distinction</value>
+    <value>Diploma with distinction</value>
   </data>
   <data name="VuzExitYear" xml:space="preserve">
     <value>Expected year graduation</value>

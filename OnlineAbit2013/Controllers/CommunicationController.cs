@@ -75,6 +75,7 @@ namespace OnlineAbit2013.Controllers
 
                 var lst = (from abit in context.Abiturient
                            join pers in context.Person on abit.PersonId equals pers.Id
+                           join us in context.User on abit.PersonId equals us.Id
 
                            join prt in context.PortfolioFilesMark on pers.Id equals prt.PersonId into _port
                            from port in _port.DefaultIfEmpty()
@@ -84,9 +85,16 @@ namespace OnlineAbit2013.Controllers
                            {
                                Number = pers.Barcode,
 
-                               FIO = pers.Surname + " " + pers.Name + (String.IsNullOrEmpty(pers.SecondName)? "" : " " + pers.SecondName),
-                               FIOEng = (pers.SurnameEng ?? "") + " " + (pers.NameEng ?? "") + " " + (pers.SecondNameEng ?? ""),
+                               FIO = String.IsNullOrEmpty(pers.SurnameEng) ? 
+                               (pers.Surname + " " + pers.Name + (String.IsNullOrEmpty(pers.SecondName)? "" : " " + pers.SecondName)).Trim() : 
+                               ((pers.SurnameEng ?? "") + " " + (pers.NameEng ?? "") + " " + (pers.SecondNameEng ?? "")).Trim(),
                                
+                               FIOEng = !String.IsNullOrEmpty(pers.SurnameEng) ? 
+                               (pers.Surname + " " + pers.Name + (String.IsNullOrEmpty(pers.SecondName)? "" : " " + pers.SecondName)).Trim(): 
+                               ((pers.SurnameEng ?? "") + " " + (pers.NameEng ?? "") + " " + (pers.SecondNameEng ?? "")).Trim(),
+
+                               Email = us.Email,
+
                                isComplete = (port == null) ? false : port.IsComplete,
 
                                PortfolioAssessmentRu = (port==null)? "-" : (port.RuPortfolioPts.HasValue ? port.RuPortfolioPts.ToString() : "-"),
@@ -204,7 +212,7 @@ namespace OnlineAbit2013.Controllers
                                Name = pers.Name,
                                SecondName = pers.SecondName,
 
-                               FIOEng = (pers.SurnameEng ?? "") + " " + (pers.NameEng ?? "") + " " + (pers.SecondNameEng ?? ""),
+                               FIOEng = ((pers.SurnameEng ?? "") + " " + (pers.NameEng ?? "") + " " + (pers.SecondNameEng ?? "")).Trim(),
                                pers.Sex,
                                Nationality = bIsEng ?  pers.Nationality.NameEng : pers.Nationality.Name,
                                pers.BirthPlace,
@@ -347,7 +355,7 @@ namespace OnlineAbit2013.Controllers
                              }).ToList().Union(
                              (from x in context.ApplicationFile
                              join ap in context.Application on x.ApplicationId equals ap.Id
-                             where x.FileTypeId == 2 && EntryList.Contains(ap.EntryId)
+                              where x.FileTypeId == 2 && EntryList.Contains(ap.EntryId) && ap.PersonId == person.personId
                              select new CommunicationFile()
                              {
                                  Id = x.Id,
@@ -358,7 +366,7 @@ namespace OnlineAbit2013.Controllers
                              }).ToList()).Union(
                              (from x in context.ApplicationFile
                               join ap in context.Application on x.CommitId equals ap.CommitId
-                              where x.FileTypeId == 2 && EntryList.Contains(ap.EntryId)
+                              where x.FileTypeId == 2 && EntryList.Contains(ap.EntryId) && ap.PersonId == person.personId
                               select new CommunicationFile()
                               {
                                   Id = x.Id,
@@ -671,7 +679,7 @@ namespace OnlineAbit2013.Controllers
                 int Male = (lst.Count() != 0) ? (int)(100 * lst.Where(x => x.male).Count() / lst.Count()) : 0;
                 model.columns.Add("Male/Female(%)", Male.ToString() + "% / " + (100 - Male).ToString() + "%");
 
-                int PaidCnt = (lst_tmp.Count != 0) ? (int)(1.0 * lst_tmp.Where(x => x.HasNoFee).Count() / lst_tmp.Count()) : 0;
+                int PaidCnt = (lst_tmp.Count != 0) ? (int)(100.0 * lst_tmp.Where(x => x.HasNoFee).Count() / lst_tmp.Count()) : 0;
                 model.columns.Add("Paid/Free(%)", (lst_tmp.Count != 0) ? PaidCnt.ToString() + "% /" + (100 - PaidCnt).ToString() + "%" : "-");
 
                 var Nationalities = (from l in lst
@@ -731,25 +739,26 @@ namespace OnlineAbit2013.Controllers
             if (!int.TryParse(Barcode, out iBarcode))
                 return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Ошибка идентификатора"), "text/plain");
 
-            byte[] bindata; 
+            byte[] bindata;
+            string filename = "ApplicationCard";
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
                 try
                 {
-                    Guid PersonId = context.Person.Where(x => x.Barcode == iBarcode).Select(x => x.Id).FirstOrDefault();
-                    if (PersonId == null)
+                    var Abiturient = context.Person.Where(x => x.Barcode == iBarcode).Select(x => x).FirstOrDefault();
+                    if (Abiturient == null)
                         return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Ошибка идентификатора"), "text/plain");
-                    if (PersonId == Guid.Empty)
-                        return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Ошибка идентификатора"), "text/plain");
-
-                    bindata = PDFUtils.GetCommunicationAppCard(Server.MapPath("~/Templates/"), PersonId);
+                    filename = Abiturient.Surname + " " + Abiturient.Name + " " + Abiturient.Barcode.ToString();
+                    if (!String.IsNullOrEmpty(Abiturient.SurnameEng))
+                        filename = Abiturient.SurnameEng + " " + Abiturient.NameEng + " " + Abiturient.Barcode.ToString();
+                    bindata = PDFUtils.GetCommunicationAppCard(Server.MapPath("~/Templates/"), Abiturient.Id);
                 }
                 catch
                 {
                     return new FileContentResult(System.Text.Encoding.ASCII.GetBytes("Ошибка при печати заявления"), "text/plain");
                 }
             }
-            return new FileContentResult(bindata, "application/pdf") { FileDownloadName = "ApplicationCard.pdf" };
+            return new FileContentResult(bindata, "application/pdf") { FileDownloadName = filename + ".pdf" };
         }
 
         public ActionResult PrintListToPDF(string sort)

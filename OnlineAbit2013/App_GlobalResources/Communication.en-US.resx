@@ -184,7 +184,7 @@
     <value>PosstalAddress</value>
   </data>
   <data name="PrintResults" xml:space="preserve">
-    <value>Print Results as PDF</value>
+    <value>Print Application as PDF</value>
   </data>
   <data name="RuInterviewPts" xml:space="preserve">
     <value>RU Interview Pts</value>

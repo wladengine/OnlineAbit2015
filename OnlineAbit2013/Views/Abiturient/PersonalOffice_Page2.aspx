@@ -41,7 +41,7 @@
                     yearRange: '2014:2034', 
                     defaultDate: '-3y'
                 });
-                $.datepicker.regional["ru"];
+                $.datepicker.setDefaults($.datepicker.regional['<%= GetGlobalResourceObject("Common", "DatetimePicker").ToString()%>']);
                 <% } %>
 
                 $("form").submit(function () {
@@ -444,7 +444,7 @@
                     <div class="form panel">
                         <h5><%= GetGlobalResourceObject("PersonalOffice_Step2", "AnotherPassport").ToString()%></h5>
                         <div>
-                            <label>Тип</label>
+                            <label><%= GetGlobalResourceObject("PersonalOffice_Step2", "PassportType").ToString()%></label>
                             <%= Html.DropDownList("_frmPassportType", Model.PassportInfo.PassportTypeList, new Dictionary<string, object>() { { "id", "_frmPassportType" } })%>
                             <div class="clearfix">
                                 <label><%= GetGlobalResourceObject("PersonalOffice_Step2", "PassportSeries").ToString()%></label>
@@ -487,17 +487,16 @@
                                 <label for="fileAttachment"><%= GetGlobalResourceObject("AddSharedFiles", "File") %></label>
                                 <input id="fileAttachment" type="file" name="File" />
                             </div>
-                            <div class="clearfix" style="width: 100%;">
+                            <div class="clearfix" style="width: 100%; vertical-align : top; ">
                                 <input name="FileTypeId" type="hidden" value="1"/>
                                 <%= Html.Label(GetGlobalResourceObject("AddSharedFiles", "FileType").ToString())%> 
-                                <br/><p></p>
-                                <div style="float: right;">
+                                <div style="width:200px; height:30px; overflow: hidden;">
                                      <%= Html.DropDownList("FileTypeId", Model.FileTypes, new { disabled = "disabled"})%>
                                 </div> 
                             </div>
                             <div class="clearfix">
                                 <label for="fileComment"><%= GetGlobalResourceObject("AddSharedFiles", "Comment") %></label>
-                                <textarea id="fileComment" cols="80" rows="5" class="noresize" name="Comment" ></textarea>
+                                <textarea id="fileComment" cols="80" rows="5" class="noresize" name="Comment" style="width: 437px;"></textarea>
                             </div>
                             <hr />
                             <div class="clearfix">

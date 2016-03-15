@@ -216,4 +216,7 @@
   <data name="ErrorPageMessage" xml:space="preserve">
     <value>Во время запроса произошла ошибка. Приносим свои извинения за доставленные неудобства.</value>
   </data>
+  <data name="DatetimePicker" xml:space="preserve">
+    <value>ru</value>
+  </data>
 </root>

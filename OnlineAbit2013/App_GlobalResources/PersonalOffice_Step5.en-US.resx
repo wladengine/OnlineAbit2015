@@ -180,7 +180,7 @@ the theme of your report), published scientific articles, work in scientific lab
     <value>Document</value>
   </data>
   <data name="OlympiadsMessage" xml:space="preserve">
-    <value>Please, do not forget to attach a copy of the scanned document in the section "general documents".</value>
+    <value>Please, do not forget to attach a copy of the scanned document in the section "General documents".</value>
   </data>
   <data name="OlympiadsName" xml:space="preserve">
     <value>Name</value>

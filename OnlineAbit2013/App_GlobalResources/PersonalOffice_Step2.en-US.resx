@@ -124,7 +124,7 @@
     <value>Passport</value>
   </data>
   <data name="HeaderVisa" xml:space="preserve">
-    <value>Ambassy where you are going to recieve visa</value>
+    <value>Russian embassy (consulate) where you are going to recieve visa</value>
   </data>
   <data name="LongValue_Message" xml:space="preserve">
     <value>Too long value</value>

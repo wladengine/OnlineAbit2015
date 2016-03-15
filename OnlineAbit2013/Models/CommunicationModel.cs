@@ -19,7 +19,7 @@ namespace OnlineAbit2013.Models
 
         public string FIO; //2
         public string FIOEng;
-
+        public string Email;
         public bool isComplete ;//3
         
         public string PortfolioAssessmentRu; //4

@@ -34,7 +34,7 @@
                 yearRange: '1920:2001',
                 defaultDate: '-17y',
             });
-            $.datepicker.regional["ru"];
+            $.datepicker.setDefaults($.datepicker.regional['<%= GetGlobalResourceObject("Common", "DatetimePicker").ToString()%>']);
             <% } %>
             
             $('#PersonInfo_Nationality').change(function () { setTimeout(ChangeNationality) });

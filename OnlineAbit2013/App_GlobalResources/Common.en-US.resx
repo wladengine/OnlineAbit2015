@@ -216,4 +216,7 @@
   <data name="ErrorPageMessage" xml:space="preserve">
     <value>An error occurred during the request</value>
   </data>
+  <data name="DatetimePicker" xml:space="preserve">
+    <value>en</value>
+  </data>
 </root>

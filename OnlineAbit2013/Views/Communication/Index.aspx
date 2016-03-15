@@ -135,7 +135,7 @@
     foreach (var x in Model.ApplicantList) {%>
     <tr id="<%=x.Number.ToString()%>">
         <td  style="text-align:left;"><%=x.Number %></td>
-        <td  style="text-align:left;"><a onclick="OpenCard(<%=x.Number.ToString()%>)"><%=x.FIO %></a></td>
+        <td  style="text-align:left;"><a onclick="OpenCard(<%=x.Number.ToString()%>)"><%= x.FIO %></a></td>
         <td><% if (x.isComplete) { %><img src="../../Content/themes/base/images/isComplete.png" alt="is complete" /><% }else{ %><img src="../../Content/themes/base/images/isNotComplete.png" alt="Is not complete" /><%} %></td>
         <td><%=x.PortfolioAssessmentRu %></td>
         <td><%=x.PortfolioAssessmentDe %></td>
