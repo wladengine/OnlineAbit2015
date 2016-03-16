@@ -156,6 +156,9 @@
   <data name="Nationality" xml:space="preserve">
     <value>Гражданство</value>
   </data>
+  <data name="PassportLatinWarning" xml:space="preserve">
+    <value>Укажите ФИО в соответствии с заграничным паспортом (при наличии)</value>
+  </data>
   <data name="PersonInfo_BirthDate_Message" xml:space="preserve">
     <value>Введите дату рождения</value>
   </data>

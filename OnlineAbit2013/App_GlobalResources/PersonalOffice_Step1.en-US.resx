@@ -156,6 +156,9 @@
   <data name="Nationality" xml:space="preserve">
     <value>Citizenship</value>
   </data>
+  <data name="PassportLatinWarning" xml:space="preserve">
+    <value>Surname in Roman letters as shown in foreign passport</value>
+  </data>
   <data name="PersonInfo_BirthDate_Message" xml:space="preserve">
     <value>Enter date of birth</value>
   </data>

@@ -264,7 +264,9 @@
                         <span id="PersonInfo_SecondName_Message" class="Red" style="display:none"> 
                         </span>
                     </div>
-                    <br /><p></p>
+                    <hr /><hr />
+                    <div class="message info"><%=GetGlobalResourceObject("PersonalOffice_Step1", "PassportLatinWarning").ToString() %></div>
+                    
                     <div class="clearfix">
                         <%= Html.LabelFor(x => x.PersonInfo.SurnameEng, GetGlobalResourceObject("PersonalOffice_Step1", "SurnameEng").ToString())%>
                         <%= Html.TextBoxFor(x => x.PersonInfo.SurnameEng)%>
