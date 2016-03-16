@@ -454,12 +454,17 @@
             <form action="/Application/AddFileInCommit" method="post" enctype="multipart/form-data" class="form" id="">
                 <input type="hidden" name="id" value="<%= Model.Id.ToString("N") %>" />
                 <div class="clearfix">
+                    <label for="fileAttachment"><%= GetGlobalResourceObject("AddSharedFiles", "File") %></label>
                     <input id="fileAttachment" type="file" name="File" />
                 </div><br />
-                <div style="width:300px; height:30px; overflow: hidden;">
-                    <%= Html.DropDownList("FileTypeId", Model.FileType)%>
+                <div class="clearfix">
+                    <label for="FileTypeId"><%=GetGlobalResourceObject("AddSharedFiles", "FileType").ToString()%></label> 
+                    <div style="width:300px; height:30px; overflow: hidden; float:left;">
+                        <%= Html.DropDownList("FileTypeId", Model.FileType)%>
+                    </div>
                 </div>
                 <div class="clearfix">
+                    <label for="fileComment"><%= GetGlobalResourceObject("AddSharedFiles", "Comment") %></label>
                     <textarea id="fileComment" class="noresize" name="Comment" maxlength="1000" cols="80" rows="5"></textarea>
                 </div><br />
                 <div class="clearfix">

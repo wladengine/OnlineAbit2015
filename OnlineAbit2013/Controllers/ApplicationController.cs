@@ -964,7 +964,7 @@ namespace OnlineAbit2013.Controllers
         {
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return Json(new { IsOk = false, ErrorMessage = "Ошибка авторизации" });
+                return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired });
 
             Guid ApplicationId;
             if (!Guid.TryParse(id, out ApplicationId))
@@ -988,7 +988,7 @@ namespace OnlineAbit2013.Controllers
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
             {
-                var res = new { IsOk = false, ErrorMessage = "Authorization required" };
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired };
                 return Json(res);
             }
 
@@ -1346,8 +1346,6 @@ namespace OnlineAbit2013.Controllers
 
             return RedirectToAction("Index", new RouteValueDictionary() { { "id", gCommitId.ToString("N") } });
         }
-   
-        
     }
 }
 

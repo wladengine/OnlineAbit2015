@@ -133,7 +133,7 @@
     <value>Некорректный идентификатор</value>
   </data>
   <data name="ReadOnlyFile" xml:space="preserve">
-    <value>Файл защищён от записи</value>
+    <value>Файл защищён от удаления</value>
   </data>
   <data name="SizeFileError" xml:space="preserve">
     <value>Загрузите файл большего размера (800х600)</value>

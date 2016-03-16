@@ -4243,7 +4243,7 @@ end";
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
             {
-                var res = new { IsOk = false, ErrorMessage = "Ошибка авторизации" };
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired };
                 return Json(res);
             }
 
@@ -4283,7 +4283,7 @@ end";
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
             {
-                var res = new { IsOk = false, ErrorMessage = "Ошибка авторизации" };
+                var res = new { IsOk = false, ErrorMessage = Resources.ServerMessages.AuthorizationRequired };
                 return Json(res);
             }
 

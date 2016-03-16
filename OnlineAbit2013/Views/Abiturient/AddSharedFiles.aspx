@@ -120,7 +120,7 @@
         <br/> 
         <div class="clearfix">
         <label for="FileTypeId"><%=GetGlobalResourceObject("AddSharedFiles", "FileType").ToString()%></label> 
-        <div style="width:300px; height:30px; overflow: hidden;">
+        <div style="width:300px; height:30px; overflow: hidden; float:left;">
          <%= Html.DropDownList("FileTypeId", Model.FileTypes)%>
         </div>
         </div>
