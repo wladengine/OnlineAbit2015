@@ -155,7 +155,7 @@ Other documents can be attached in the window "General documents".&lt;/br&gt;</v
     <value>Type of the document</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value>Shared files</value>
+    <value>General Documents</value>
   </data>
   <data name="HeaderLoadFile" xml:space="preserve">
     <value>Load file</value>
@@ -166,7 +166,8 @@ Other documents can be attached in the window "General documents".&lt;/br&gt;</v
   </data>
   <data name="HelpMessage_AG" xml:space="preserve">
     <value>This is the &lt;b&gt;shared files&lt;/b&gt; folder. &lt;br /&gt;
-    Here you can attach the documents that are required for all applications, for example, scans the passport, educational documents, translations, etc.</value>
+    Here you can attach the documents that are required for all applications, for example, scans of the passport, educational documents, translations, etc.
+Please note, that the documents required to upload depend on the program you are applyinf for. Check the program website or ask the program coordinator for details.</value>
   </data>
   <data name="HelpMessage_Aspirant" xml:space="preserve">
     <value>Это папка общих файлов. &lt;br /&gt;
@@ -189,7 +190,7 @@ Other documents can be attached in the window "General documents".&lt;/br&gt;</v
     <value>No files</value>
   </data>
   <data name="PassportLoad" xml:space="preserve">
-    <value>Apload the copy of your ID (document identifying personality and citizenship of the applicant)</value>
+    <value>Upload the copy of your ID (document identifying personality and citizenship of the applicant)</value>
   </data>
   <data name="PersonalOffice_Certificates" xml:space="preserve">
     <value>PersonalOffice_Certificates</value>

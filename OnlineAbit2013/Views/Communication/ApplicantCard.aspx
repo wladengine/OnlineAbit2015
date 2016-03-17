@@ -1,10 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Communication/PersonalOffice.Master" Inherits="System.Web.Mvc.ViewPage<OnlineAbit2013.Models.GlobalCommunicationApplicant>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%= GetGlobalResourceObject("ApplicationInfo", "Title")%>
+    <%= GetGlobalResourceObject("Communication", "ApplicationCard")%>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Subheader" runat="server">
-    <h2><%= GetGlobalResourceObject("ApplicationInfo", "Title")%></h2>
+    <h2><%= GetGlobalResourceObject("Communication", "ApplicationCard")%></h2>
 </asp:Content>
 
 <asp:Content ID="HeaderScripts" ContentPlaceHolderID="HeaderScriptsContent" runat="server">

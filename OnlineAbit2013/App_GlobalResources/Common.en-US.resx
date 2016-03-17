@@ -151,7 +151,7 @@
     <value>Education program</value>
   </data>
   <data name="PersonalOfficeHeaderName" xml:space="preserve">
-    <value>Applicant's personal account</value>
+    <value>Applicant's Personal Account</value>
   </data>
   <data name="Profession" xml:space="preserve">
     <value>Direction</value>
@@ -190,13 +190,13 @@
     <value>St. Petersburg, Volkhovsky Pereulok, 3</value>
   </data>
   <data name="PersonalOfficeHeaderName_Foreign" xml:space="preserve">
-    <value>Applicant's personal account for foreigners</value>
+    <value>Applicant's Personal Account for foreigners</value>
   </data>
   <data name="PersonalOfficeHeaderName_SPO" xml:space="preserve">
-    <value>Personal account for college applicants</value>
+    <value>Personal Account for college applicants</value>
   </data>
   <data name="PersonalOfficeHeaderName_Aspirant" xml:space="preserve">
-    <value>Personal account for graduate school applicants</value>
+    <value>Personal Account for graduate school applicants</value>
   </data>
   <data name="StartPageNav" xml:space="preserve">
     <value> </value>

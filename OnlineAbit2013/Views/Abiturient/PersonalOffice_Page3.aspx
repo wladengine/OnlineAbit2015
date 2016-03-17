@@ -264,8 +264,8 @@
             <% } %>
                 <form id="form" class="form panel" action="Abiturient/NextStep" method="post" onsubmit="return CheckForm();">
                     <input name="Stage" type="hidden" value="<%= Model.Stage %>" />
-                    <h3><%= GetGlobalResourceObject("PersonalOffice_Step3", "PhonesHeader").ToString()%></h3>
-                    <hr />
+                    <h3>3. <%= GetGlobalResourceObject("PersonalOffice_Step3", "PhonesHeader").ToString()%></h3>
+                    <hr /><hr />
                     <div class="clearfix">
                         <label for="ContactsInfo_MainPhone" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
                         <asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step3, MainPhone%>"></asp:Literal><asp:Literal runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
@@ -278,7 +278,7 @@
                         <%= Html.LabelFor(x => x.ContactsInfo.SecondPhone, GetGlobalResourceObject("PersonalOffice_Step3", "SecondPhone").ToString())%>
                         <%= Html.TextBoxFor(x => x.ContactsInfo.SecondPhone)%>
                     </div>
-                    <h3><%= GetGlobalResourceObject("PersonalOffice_Step3", "RegistrationHeader").ToString()%></h3>
+                    <h4><%= GetGlobalResourceObject("PersonalOffice_Step3", "RegistrationHeader").ToString()%></h4>
                     <hr />
                     <div class="clearfix">
                         <input type="hidden" name="CountryId" value=" <%=Model.ContactsInfo.CountryId %> "/>
@@ -383,7 +383,7 @@
                 <ol>
                     <li><a href="../../Abiturient?step=1"><%= GetGlobalResourceObject("PersonInfo", "Step1")%></a></li>
                     <li><a href="../../Abiturient?step=2"><%= GetGlobalResourceObject("PersonInfo", "Step2")%></a></li>
-                    <li><a href="../../Abiturient?step=3"><%= GetGlobalResourceObject("PersonInfo", "Step3")%></a></li>
+                    <li><a href="../../Abiturient?step=3"><b><%= GetGlobalResourceObject("PersonInfo", "Step3")%></b></a></li>
                     <li><a href="../../Abiturient?step=4"><%= GetGlobalResourceObject("PersonInfo", "Step4")%></a></li>
                     <li><a href="../../Abiturient?step=5"><%= GetGlobalResourceObject("PersonInfo", "Step5")%></a></li>
                     <li><a href="../../Abiturient?step=6"><%= GetGlobalResourceObject("PersonInfo", "Step6")%></a></li>

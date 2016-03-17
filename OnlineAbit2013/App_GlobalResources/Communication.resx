@@ -210,4 +210,7 @@
   <data name="Statisctics" xml:space="preserve">
     <value>Статистика</value>
   </data>
+  <data name="ApplicationCard" xml:space="preserve">
+    <value>Абитуриент</value>
+  </data>
 </root>

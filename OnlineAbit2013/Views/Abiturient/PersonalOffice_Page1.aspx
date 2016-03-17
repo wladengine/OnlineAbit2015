@@ -31,7 +31,7 @@
                 changeMonth: true,
                 changeYear: true,
                 showOn: "focus",
-                yearRange: '1920:2001',
+                yearRange: '1920:2006',
                 defaultDate: '-17y',
             });
             $.datepicker.setDefaults($.datepicker.regional['<%= GetGlobalResourceObject("Common", "DatetimePicker").ToString()%>']);
@@ -227,8 +227,8 @@
             <span id = "MessageMaxLength" style="display: none;"><%= GetGlobalResourceObject("PersonInfo", "MessageMaxLength").ToString()%></span>
 
             <form id="form" class="form panel" action="Abiturient/NextStep" method="post" onsubmit="return CheckForm();">
-                <h3><%= GetGlobalResourceObject("PersonalOffice_Step1", "HeaderPersonalInfo").ToString()%></h3>
-                <hr />
+                <h3>1. <%= GetGlobalResourceObject("PersonalOffice_Step1", "HeaderPersonalInfo").ToString()%></h3>
+                <hr /><hr />
                 <%= Html.ValidationSummary(GetGlobalResourceObject("PersonInfo", "ValidationSummaryHeader").ToString())%>
                 <input name="Stage" type="hidden" value="<%= Model.Stage %>" />
                 <input name="Enabled" type="hidden" value="<%= Model.Enabled %>" />
@@ -264,7 +264,7 @@
                         <span id="PersonInfo_SecondName_Message" class="Red" style="display:none"> 
                         </span>
                     </div>
-                    <hr /><hr />
+                    <hr />  
                     <div class="message info"><%=GetGlobalResourceObject("PersonalOffice_Step1", "PassportLatinWarning").ToString() %></div>
                     
                     <div class="clearfix">
@@ -346,7 +346,7 @@
             </div>
             <div class="grid_2">
                     <ol>
-                        <li><a href="../../Abiturient?step=1"><%= GetGlobalResourceObject("PersonInfo", "Step1")%></a></li>
+                        <li><a href="../../Abiturient?step=1"><b><%= GetGlobalResourceObject("PersonInfo", "Step1")%></b></a></li>
                         <li><a href="../../Abiturient?step=2"><%= GetGlobalResourceObject("PersonInfo", "Step2")%></a></li>
                         <li><a href="../../Abiturient?step=3"><%= GetGlobalResourceObject("PersonInfo", "Step3")%></a></li>
                         <li><a href="../../Abiturient?step=4"><%= GetGlobalResourceObject("PersonInfo", "Step4")%></a></li>

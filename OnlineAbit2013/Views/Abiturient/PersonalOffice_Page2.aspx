@@ -323,8 +323,8 @@
                     <span id = "MessageLatinSymbols" style="display: none;"><%= GetGlobalResourceObject("PersonInfo", "MessageLatinSymbols").ToString()%></span>
                     <span id = "MessageMaxLength" style="display: none;"><%= GetGlobalResourceObject("PersonInfo", "MessageMaxLength").ToString()%></span>
                     <form id="form" class="form panel" action="Abiturient/NextStep" method="post" onsubmit="return CheckForm();">
-                        <h3><%= GetGlobalResourceObject("PersonalOffice_Step2", "HeaderPassport").ToString()%></h3>
-                        <hr />
+                        <h3>2. <%= GetGlobalResourceObject("PersonalOffice_Step2", "HeaderPassport").ToString()%></h3>
+                        <hr /><hr />
                         <%= Html.ValidationSummary(GetGlobalResourceObject("PersonInfo", "ValidationSummaryHeader").ToString())%>
                         <input name="Stage" type="hidden" value="<%= Model.Stage %>" />
                         <input name="Enabled" type="hidden" value="<%= Model.Enabled %>" />
@@ -556,7 +556,7 @@
                 <div class="grid_2">
                     <ol>
                         <li><a href="../../Abiturient?step=1"><%= GetGlobalResourceObject("PersonInfo", "Step1")%></a></li>
-                        <li><a href="../../Abiturient?step=2"><%= GetGlobalResourceObject("PersonInfo", "Step2")%></a></li>
+                        <li><a href="../../Abiturient?step=2"><b><%= GetGlobalResourceObject("PersonInfo", "Step2")%></b></a></li>
                         <li><a href="../../Abiturient?step=3"><%= GetGlobalResourceObject("PersonInfo", "Step3")%></a></li>
                         <li><a href="../../Abiturient?step=4"><%= GetGlobalResourceObject("PersonInfo", "Step4")%></a></li>
                         <li><a href="../../Abiturient?step=5"><%= GetGlobalResourceObject("PersonInfo", "Step5")%></a></li>

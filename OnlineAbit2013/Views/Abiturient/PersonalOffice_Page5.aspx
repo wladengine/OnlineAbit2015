@@ -501,6 +501,8 @@
                     </div>
                 <% } %>
                 <form class="panel form" action="Abiturient/NextStep" method="post" onsubmit="return CheckForm();">
+                    <h3>5. <%= GetGlobalResourceObject("PersonalOffice_Step5", "PageHeader").ToString()%></h3>
+                    <hr /><hr />
                     <%= Html.ValidationSummary() %>
                     <%= Html.HiddenFor(x => x.Stage) %>
                     <div class="clearfix">
@@ -518,7 +520,7 @@
                     <% if (Model.CertificatesVisible)
                        { %>
                     <hr />
-                    <h3><%=GetGlobalResourceObject("PersonalOffice_Step5", "CertificateHeader").ToString()%></h3>
+                    <h4><%=GetGlobalResourceObject("PersonalOffice_Step5", "CertificateHeader").ToString()%></h4>
                     <div>
                         <div class="clearfix">
                         <%= GetGlobalResourceObject("PersonalOffice_Step5", "CertificateType").ToString()%>:<br />
@@ -833,7 +835,7 @@
                     <li><a href="../../Abiturient?step=2"><%= GetGlobalResourceObject("PersonInfo", "Step2")%></a></li>
                     <li><a href="../../Abiturient?step=3"><%= GetGlobalResourceObject("PersonInfo", "Step3")%></a></li>
                     <li><a href="../../Abiturient?step=4"><%= GetGlobalResourceObject("PersonInfo", "Step4")%></a></li>
-                    <li><a href="../../Abiturient?step=5"><%= GetGlobalResourceObject("PersonInfo", "Step5")%></a></li>
+                    <li><a href="../../Abiturient?step=5"><b><%= GetGlobalResourceObject("PersonInfo", "Step5")%></b></a></li>
                     <li><a href="../../Abiturient?step=6"><%= GetGlobalResourceObject("PersonInfo", "Step6")%></a></li>
                     <li><a href="../../Abiturient?step=7"><%= GetGlobalResourceObject("PersonInfo", "Step7")%></a></li>
                 </ol>

@@ -154,7 +154,7 @@
     <value>Document of Education</value>
   </data>
   <data name="EducationHeader" xml:space="preserve">
-    <value>Educational Data</value>
+    <value>Education</value>
   </data>
   <data name="EducationInfo_SchoolExitYear_MessageFormat" xml:space="preserve">
     <value>Enter year in 4-digit format</value>

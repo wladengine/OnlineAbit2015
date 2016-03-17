@@ -183,4 +183,10 @@
   <data name="Parent_WorkPosition" xml:space="preserve">
     <value>Должность</value>
   </data>
+  <data name="PageHeader" xml:space="preserve">
+    <value>Опыт работы</value>
+  </data>
+  <data name="ParentsPageHeader" xml:space="preserve">
+    <value>Родители и льготы</value>
+  </data>
 </root>

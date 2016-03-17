@@ -374,7 +374,10 @@
                 </div>
             <% } %> 
                 <div class="form panel">
-                <h3><%= GetGlobalResourceObject("PersonalOffice_Step5", "ResearchWorkHeader").ToString()%></h3>
+                    <h3>6. <%= GetGlobalResourceObject("PersonalOffice_Step6", "PageHeader").ToString()%></h3>
+                    <hr /><hr />
+
+                <h4><%= GetGlobalResourceObject("PersonalOffice_Step5", "ResearchWorkHeader").ToString()%></h4>
                 <hr />
                 <asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step5, ResearchWorkMessage %>"></asp:Literal>
                     <div class="clearfix">
@@ -423,7 +426,7 @@
                         </tbody>
                     </table>
                 </div>
-                <br /><br /> 
+                <br />
 
                 <div class="form panel">
                 <h3><%= GetGlobalResourceObject("PersonalOffice_Step5", "WorkExperienceHeader").ToString()%></h3>
@@ -566,11 +569,12 @@
                         </div>
                     </div>
                 </div> 
-                <hr style="color:#A6C9E2;" />
+                <%--<hr style="color:#A6C9E2;" />--%>
 
                 <% using (Html.BeginForm("NextStep", "Abiturient", FormMethod.Post))
                    {
                 %>
+                    <div class="form panel">
                     <h3><%= GetGlobalResourceObject("PersonalOffice_Step5", "SportValue").ToString()%></h3>
                     <hr />
                     <div class="form">
@@ -588,6 +592,7 @@
                         </div>
                     </div>
                     <input name="Stage" type="hidden" value="<%= Model.Stage %>" />
+                    </div>
                     <input id="Submit4" class="button button-green" type="submit" value="<%= GetGlobalResourceObject("PersonInfo", "ButtonSubmitText").ToString()%>" />
                 <% } %>
             </div>
@@ -598,7 +603,7 @@
                     <li><a href="../../Abiturient?step=3"><%= GetGlobalResourceObject("PersonInfo", "Step3")%></a></li>
                     <li><a href="../../Abiturient?step=4"><%= GetGlobalResourceObject("PersonInfo", "Step4")%></a></li>
                     <li><a href="../../Abiturient?step=5"><%= GetGlobalResourceObject("PersonInfo", "Step5")%></a></li>
-                    <li><a href="../../Abiturient?step=6"><%= GetGlobalResourceObject("PersonInfo", "Step6")%></a></li>
+                    <li><a href="../../Abiturient?step=6"><b><%= GetGlobalResourceObject("PersonInfo", "Step6")%></b></a></li>
                     <li><a href="../../Abiturient?step=7"><%= GetGlobalResourceObject("PersonInfo", "Step7")%></a></li>
                 </ol>
             </div>

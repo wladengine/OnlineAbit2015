@@ -157,9 +157,15 @@
     <value>Right for privilege</value>
   </data>
   <data name="PrivilegesFull" xml:space="preserve">
-    <value>I claim my right for privilege (disability, pariticipant of militray actions, orphan...)</value>
+    <value>I claim my right for privilege (disability, pariticipant of military actions, orphan, or others)</value>
   </data>
   <data name="HostelEduc" xml:space="preserve">
     <value>I need dormitory for the period of study</value>
+  </data>
+  <data name="PageHeader" xml:space="preserve">
+    <value>Professional Experience</value>
+  </data>
+  <data name="ParentsPageHeader" xml:space="preserve">
+    <value>Parents and Privileges</value>
   </data>
 </root>

@@ -93,6 +93,9 @@
                 </div>
             <% } %>
                 <form class="panel form" action="Abiturient/NextStep" method="post">
+                    <h3>7. <%= GetGlobalResourceObject("PersonalOffice_Step6", "ParentsPageHeader").ToString()%></h3>
+                    <hr /><hr />
+
                     <%= Html.ValidationSummary() %>
                     <%= Html.HiddenFor(x => x.Stage) %>
                     <div class="clearfix">
@@ -188,7 +191,7 @@
                     <li><a href="../../Abiturient?step=4"><%= GetGlobalResourceObject("PersonInfo", "Step4")%></a></li>
                     <li><a href="../../Abiturient?step=5"><%= GetGlobalResourceObject("PersonInfo", "Step5")%></a></li>
                     <li><a href="../../Abiturient?step=6"><%= GetGlobalResourceObject("PersonInfo", "Step6")%></a></li>
-                    <li><a href="../../Abiturient?step=7"><%= GetGlobalResourceObject("PersonInfo", "Step7")%></a></li>
+                    <li><a href="../../Abiturient?step=7"><b><%= GetGlobalResourceObject("PersonInfo", "Step7")%></b></a></li>
                 </ol>
             </div>
         </div>

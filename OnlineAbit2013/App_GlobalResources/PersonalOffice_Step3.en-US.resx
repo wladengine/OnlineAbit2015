@@ -154,7 +154,7 @@
     <value>Enter main phone</value>
   </data>
   <data name="PhonesHeader" xml:space="preserve">
-    <value>Contact Telephone Numbers</value>
+    <value>Contact Information</value>
   </data>
   <data name="PostIndex" xml:space="preserve">
     <value>Postal Code</value>

@@ -181,7 +181,7 @@
     <value>Passport</value>
   </data>
   <data name="Step3" xml:space="preserve">
-    <value>Contact information</value>
+    <value>Contact Information</value>
   </data>
   <data name="Step4" xml:space="preserve">
     <value>Education</value>
@@ -190,7 +190,7 @@
     <value>Additional Comments</value>
   </data>
   <data name="Step6" xml:space="preserve">
-    <value>Work Experience</value>
+    <value>Professional Experience</value>
   </data>
   <data name="Step7" xml:space="preserve">
     <value>Parents and Privileges</value>

@@ -378,9 +378,9 @@
                     </div>
                 <% } %>
                 <form id="form" action="Abiturient/NextStep" method="post" onsubmit="return CheckForm();">
-                    <h3><%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationHeader")%></h3>
+                    <h3>4. <%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationHeader")%></h3>
                     <h6><%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationDocumentsHeader")%></h6>
-                    <hr />
+                    <hr /><hr />
                     <input name="Stage" type="hidden" value="<%= Model.Stage %>" />
                     <fieldset>
                     <% for (int i = 0; i < Model.EducationInfo.EducationDocuments.Count; i++ )
@@ -736,7 +736,7 @@
                     <li><a href="../../Abiturient?step=1"><%= GetGlobalResourceObject("PersonInfo", "Step1")%></a></li>
                     <li><a href="../../Abiturient?step=2"><%= GetGlobalResourceObject("PersonInfo", "Step2")%></a></li>
                     <li><a href="../../Abiturient?step=3"><%= GetGlobalResourceObject("PersonInfo", "Step3")%></a></li>
-                    <li><a href="../../Abiturient?step=4"><%= GetGlobalResourceObject("PersonInfo", "Step4")%></a></li>
+                    <li><a href="../../Abiturient?step=4"><b><%= GetGlobalResourceObject("PersonInfo", "Step4")%></b></a></li>
                     <li><a href="../../Abiturient?step=5"><%= GetGlobalResourceObject("PersonInfo", "Step5")%></a></li>
                     <li><a href="../../Abiturient?step=6"><%= GetGlobalResourceObject("PersonInfo", "Step6")%></a></li>
                     <li><a href="../../Abiturient?step=7"><%= GetGlobalResourceObject("PersonInfo", "Step7")%></a></li>

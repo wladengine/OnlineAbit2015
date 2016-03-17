@@ -271,4 +271,7 @@
   <data name="validationMsgCertValue" xml:space="preserve">
     <value>Введите целое число</value>
   </data>
+  <data name="PageHeader" xml:space="preserve">
+    <value>Дополнительные сведения</value>
+  </data>
 </root>

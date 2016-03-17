@@ -210,4 +210,7 @@
   <data name="Statisctics" xml:space="preserve">
     <value>Statistical Data</value>
   </data>
+  <data name="ApplicationCard" xml:space="preserve">
+    <value>Applicant</value>
+  </data>
 </root>

@@ -332,6 +332,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дополнительные сведения.
+        /// </summary>
+        internal static string PageHeader {
+            get {
+                return ResourceManager.GetString("PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Загрузите сканы языковых сертификатов.
         /// </summary>
         internal static string PersonalOffice_Certificates {

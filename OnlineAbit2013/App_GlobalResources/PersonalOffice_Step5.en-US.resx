@@ -133,17 +133,15 @@
     <value>Position</value>
   </data>
   <data name="ResearchWorkHeader" xml:space="preserve">
-    <value>Participation in research work</value>
+    <value>Participation in Research Activities and Conferences</value>
   </data>
   <data name="ResearchWorkMessage" xml:space="preserve">
-    <value>               &lt;p&gt; Participation in scientific conferences (indicate topic of the conference, date and place where it was held; 
-the theme of your report), published scientific articles, work in scientific laboratories, work on group projects.
-&lt;/p&gt;
-                &lt;p&gt;(We remind you that) You should provide certificates, &lt;b&gt;confirming :&lt;/b&gt; &lt;/p&gt;
-                &lt;ul&gt;
-                    &lt;li&gt;your participation in conferences, seminars, round tables and other scientific and  theoretical and practical events. Such as published report thesis and officcial event program.&lt;/li&gt;
-                    &lt;li&gt;your participation in research projects, supported by grants, also confirming your findings.&lt;/li&gt;
-                    &lt;li&gt;your work (including effectiveness of your activitirs)&lt;/li&gt;
+    <value>&lt;p&gt;Participation in scientific conferences (indicate the name of the conference, date and place where it took place, topic of your report), published scientific articles, work in scientific laboratories, work on group projects. &lt;/p&gt;
+                &lt;p&gt;(Please be reminded to upload certificates, &lt;b&gt;confirming&lt;/b&gt; &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;your participation in conferences, seminars, round tables, and other scientific and theoretical and practical events by including published report thesis and/or the official event program&lt;/li&gt;
+&lt;li&gt;your participation in research projects, supported by grants, also confirming your results&lt;/li&gt;
+&lt;li&gt;your work, including effectiveness of your activities&lt;/li&gt;
                 &lt;/ul&gt;</value>
   </data>
   <data name="ScWorksText" xml:space="preserve">
@@ -153,7 +151,7 @@ the theme of your report), published scientific articles, work in scientific lab
     <value>Type</value>
   </data>
   <data name="WorkExperienceHeader" xml:space="preserve">
-    <value>Work experience (internship)</value>
+    <value>Work Experience (Internship)</value>
   </data>
   <data name="DocumentDate" xml:space="preserve">
     <value>Date</value>
@@ -168,7 +166,7 @@ the theme of your report), published scientific articles, work in scientific lab
     <value>Series</value>
   </data>
   <data name="OlympiadsHeader" xml:space="preserve">
-    <value>Academic competitions</value>
+    <value>Academic Competitions</value>
   </data>
   <data name="OlympiadsAdded" xml:space="preserve">
     <value>Added academic competitions</value>
@@ -219,7 +217,7 @@ the theme of your report), published scientific articles, work in scientific lab
     <value>Sport qualificatin (category)</value>
   </data>
   <data name="SportValue" xml:space="preserve">
-    <value>Sport achievments</value>
+    <value>Sport Achievments</value>
   </data>
   <data name="validationMsgPersonWorksDuties" xml:space="preserve">
     <value>Enter work duties</value>
@@ -265,5 +263,8 @@ the theme of your report), published scientific articles, work in scientific lab
   </data>
   <data name="WorkYear" xml:space="preserve">
     <value>Year</value>
+  </data>
+  <data name="PageHeader" xml:space="preserve">
+    <value>Additional Comments</value>
   </data>
 </root>
