@@ -867,6 +867,16 @@ namespace OnlineAbit2013.Models
         public int? PassportAuthor { get; set; }
         public int? Parents { get; set; }
         public int? AddInfo { get; set; }
+
+        public int? DiplomTheme { get; set; }
+        public int? ProgramName { get; set; }
+        public int? SchoolLocation { get; set; }
+        public int? SchoolName { get; set; }
+        public int? SchoolNumber { get; set; }
+        public int? DocSeries { get; set; }
+        public int? DocNumber { get; set; }
+        public int? EqualDocNumber { get; set; }
+
         /// <summary>
         /// максимальное число прикреплённых документов об образовании
         /// </summary>

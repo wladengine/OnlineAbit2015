@@ -45,7 +45,7 @@
                 }, 'json');
             }
         }
-        function CheckSchoolName(i) {
+        function CheckSchoolName(i, id, idspan, length) {
             var ret = true;
             if ($('#SchoolName_' + i).val() == '') {
                 ret = false;
@@ -70,7 +70,7 @@
                     $('#SchoolCity_' + i).val("Санкт-Петербург"); 
                     }
             }
-            return ret;
+            return ret && CheckLength(id, idspan, length);
         }
         function CheckSchoolExitYear(i) {
             var ret = true; 
@@ -360,6 +360,30 @@
             $('#div_' + i).hide(250);
             $('#_isEnabled_' + i).val('0');
         }
+        function CheckLength(id, idspan, length)
+        {
+            var ret = true;
+            var val = $('#'+id).val(); 
+            if (val.length > length) { 
+                var len = val.length-length ;
+                $('#'+idspan).text('<%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart1").ToString()%> '+len+' <%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart2").ToString()%>');
+                $('#'+idspan).show();
+                $('#'+id).addClass('input-validation-error');
+                ret = false;
+            } 
+            else {  
+                if ((val.length < length*0.9 && length<1000)||(val.length < length-100 && length>=1000)) { 
+                    $('#'+idspan).hide();
+                    $('#'+id).removeClass('input-validation-error'); 
+                } else { 
+                    var len = length - val.length;
+                    $('#'+idspan).text(len+' <%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart3").ToString()%>');
+                    $('#'+idspan).show();  
+                    $('#'+id).removeClass('input-validation-error'); 
+                }    
+            } 
+            return ret;
+        }
     </script>
     <div class="grid">
         <div class="wrapper">
@@ -422,7 +446,7 @@
                                 <label id="LabelEducationInfo_SchoolName_<%= i %>" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
                                     <asp:Literal ID="Literal15" runat="server" Text="<%$Resources:PersonalOffice_Step4, SchoolName %>"></asp:Literal><asp:Literal ID="Literal16" runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
                                 </label>  
-                                <%= Html.TextBox("SchoolName_"+ i, Doc.SchoolName, new Dictionary<string, object> { { "id", "SchoolName_" + i }, { "onchange", "CheckSchoolName(" + i + ")" }, { "onkeyup", "CheckSchoolName(" + i + ")" }, { "onblur", "CheckSchoolName(" + i + ")" } })%>
+                                <%= Html.TextBox("SchoolName_"+ i, Doc.SchoolName, new Dictionary<string, object> { { "id", "SchoolName_" + i }, { "onchange", "CheckSchoolName(" + i + ", 'SchoolName_" + i + "', 'SchoolName_Message_" + i + "', "+Model.ConstInfo.SchoolName + ")" }, { "onkeyup", "CheckSchoolName(" + i + ", 'SchoolName_" + i + "', 'SchoolName_Message_" + i + "', "+Model.ConstInfo.SchoolName + ")" }, { "onblur", "CheckSchoolName(" + i + ", 'SchoolName_" + i + "', 'SchoolName_Message_" + i + "', "+Model.ConstInfo.SchoolName + ")" } })%>
                                 <br /><p></p>
                                 <span id="SchoolName_Message_<%= i %>" class="Red" style="display:none">  
                                     <%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationInfo_SchoolName_Message").ToString()%> 
@@ -430,7 +454,10 @@
                             </div>
                             <div id="_SchoolNumber_<%= i %>" class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "SchoolNumber").ToString(), new Dictionary<string, object> { { "for", "SchoolNumber_" + i } })%>
-                                <%= Html.TextBox("SchoolNumber_" + i, Doc.SchoolNumber, new Dictionary<string, object> { { "id", "SchoolNumber_" + i } }) %>
+                                <%= Html.TextBox("SchoolNumber_"+ i,  Doc.SchoolNumber, new Dictionary<string, object> { { "id", "SchoolNumber_" + i }, { "onchange", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber+ ")" }, { "onkeyup", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber + ")" }, { "onblur", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber + ")" } })%>
+                                <br /><p></p>
+                                <span id="SchoolNumber_Message_<%= i %>" class="Red" style="display:none">  
+                                </span>
                             </div>
 
                             <div id="_CountryEduc_<%= i %>" class="clearfix">
@@ -455,7 +482,10 @@
                             </div>
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "ResidentialPlace").ToString(), new Dictionary<string, object> { { "for", "SchoolCity_" + i } } )%>
-                                <%= Html.TextBox("SchoolCity_" + i, Doc.SchoolCity, new Dictionary<string, object> { { "id", "SchoolCity_" + i } }) %>
+                                <%= Html.TextBox("SchoolCity_"+ i,  Doc.SchoolCity, new Dictionary<string, object> { { "id", "SchoolCity_" + i }, { "onchange", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation+ ")" }, { "onkeyup", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" }, { "onblur", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" } })%>
+                                <br /><p></p>
+                                <span id="SchoolCity_Message_<%= i %>" class="Red" style="display:none">  
+                                </span>
                             </div>
                             <div class="clearfix">
                                 <label id="LabelEducationInfo_VuzExitYear_<%= i %>" style="display: none;" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
@@ -478,7 +508,11 @@
                             <hr />
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomSeries").ToString(), new Dictionary<string, object> { { "for", "Series_" + i } })%>
+<<<<<<< HEAD
                                 <%= Html.TextBox("Series_" + i, Doc.Series, new Dictionary<string, object> { { "id", "Series_" + i }, { "maxlength", "30" } }) %>
+=======
+                                <%= Html.TextBox("Series_"+ i,  Doc.Series, new Dictionary<string, object> { { "id", "Series_" + i }, { "onchange", "CheckLength('Series_" + i + "', 'EducationInfo_DiplomSeries_Message_" + i + "', "+Model.ConstInfo.DocSeries+ ")" }, { "onkeyup", "CheckLength('Series_" + i + "', 'EducationInfo_DiplomSeries_Message_" + i + "', "+Model.ConstInfo.DocSeries + ")" }, { "onblur", "CheckLength('Series_" + i + "', 'EducationInfo_DiplomSeries_Message_" + i + "', "+Model.ConstInfo.DocSeries + ")" } })%>
+>>>>>>> origin/master
                                 <br /><p></p>
                                 <span id="EducationInfo_DiplomSeries_Message_<%= i %>" class="Red" style="display:none">
                                     <%=GetGlobalResourceObject("PersonalOffice_Step4", "DiplomSeries_Message").ToString()%>
@@ -486,7 +520,11 @@
                             </div>
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomNumber").ToString(), new Dictionary<string, object> { { "for", "Number_" + i } })%>
+<<<<<<< HEAD
                                 <%= Html.TextBox("Number_" + i, Doc.Number, new Dictionary<string, object> { { "id", "Number_" + i }, { "maxlength", "30" } })%>
+=======
+                                <%= Html.TextBox("Number_"+ i,  Doc.Number, new Dictionary<string, object> { { "id", "Number_" + i }, { "onchange", "CheckLength('Number_" + i + "', 'EducationInfo_DiplomNumber_Message_" + i + "', "+Model.ConstInfo.DocNumber+ ")" }, { "onkeyup", "CheckLength('Number_" + i + "', 'EducationInfo_DiplomNumber_Message_" + i + "', "+Model.ConstInfo.DocNumber + ")" }, { "onblur", "CheckLength('Number_" + i + "', 'EducationInfo_DiplomNumber_Message_" + i + "', "+Model.ConstInfo.DocNumber+ ")" } })%>
+>>>>>>> origin/master
                                 <br /><p></p>
                                 <span id="EducationInfo_DiplomNumber_Message_<%= i %>" class="Red" style="display:none">
                                     <%=GetGlobalResourceObject("PersonalOffice_Step4", "DiplomNumber_Message").ToString()%>
@@ -509,7 +547,10 @@
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "EqualityDocumentNumber").ToString(), new Dictionary<string, object> { { "for", "EqualityDocumentNumber_" + i } })%>
-                                    <%= Html.TextBox("EqualityDocumentNumber_" + i, Doc.EqualityDocumentNumber, new Dictionary<string, object> { { "id", "EqualityDocumentNumber_" + i } }) %>
+                                    <%= Html.TextBox("EqualityDocumentNumber_"+ i,  Doc.EqualityDocumentNumber, new Dictionary<string, object> { { "id", "EqualityDocumentNumber_" + i }, { "onchange", "CheckLength('EqualityDocumentNumber_" + i + "', 'EqualityDocumentNumber_Message_" + i + "', "+Model.ConstInfo.EqualDocNumber+ ")" }, { "onkeyup", "CheckLength('EqualityDocumentNumber_" + i + "', 'EqualityDocumentNumber_Message_" + i + "', "+Model.ConstInfo.EqualDocNumber + ")" }, { "onblur", "CheckLength('EqualityDocumentNumber_" + i + "', 'EqualityDocumentNumber_Message_" + i + "', "+Model.ConstInfo.EqualDocNumber+ ")" } })%>
+                                    <br /><p></p>
+                                        <span id="EqualityDocumentNumber_Message_<%= i %>" class="Red" style="display:none">
+                                        </span>
                                 </div>
                             </div>
 
@@ -518,7 +559,14 @@
                                 <hr />
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "PersonSpecialization").ToString(), new Dictionary<string, object> { { "for", "ProgramName_" + i } })%>
+<<<<<<< HEAD
                                     <%= Html.TextBox("ProgramName_" + i, Doc.ProgramName, new Dictionary<string, object> { { "id", "ProgramName_" + i }, { "maxlength", "1000" } })%>
+=======
+                                    <%= Html.TextBox("ProgramName_"+ i,  Doc.ProgramName, new Dictionary<string, object> { { "id", "ProgramName_" + i }, { "onchange", "CheckLength('ProgramName_" + i + "', 'ProgramName_Message_" + i + "', "+Model.ConstInfo.ProgramName+ ")" }, { "onkeyup", "CheckLength('ProgramName_" + i + "', 'ProgramName_Message_" + i + "', "+Model.ConstInfo.ProgramName + ")" }, { "onblur", "CheckLength('ProgramName_" + i + "', 'ProgramName_Message_" + i + "', "+Model.ConstInfo.ProgramName+ ")" } })%>
+                                    <br /><p></p>
+                                        <span id="ProgramName_Message_<%= i %>" class="Red" style="display:none">
+                                        </span>
+>>>>>>> origin/master
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudyForm").ToString(), new Dictionary<string, object> { { "for", "PersonStudyForm_" + i } })%>
@@ -530,7 +578,14 @@
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomTheme").ToString(), new Dictionary<string, object> { { "for", "DiplomTheme_" + i } })%>
+<<<<<<< HEAD
                                     <%= Html.TextArea("DiplomTheme_" + i, Doc.DiplomTheme, 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i }, { "maxlength", "4000" } }) %>
+=======
+                                    <%= Html.TextArea("DiplomTheme_"+ i,  Doc.ProgramName, 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i }, { "onchange", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" }, { "onkeyup", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme + ")" }, { "onblur", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" } })%>
+                                    <br /><p></p>
+                                        <span id="DiplomTheme_Message_<%= i %>" class="Red" style="display:none">
+                                        </span>
+>>>>>>> origin/master
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "HEEntryYear").ToString(), new Dictionary<string, object> { { "for", "HEEntryYear_" + i } })%>
@@ -590,8 +645,8 @@
                                 </label>  
                                 <label id="LabelEducationInfo_SchoolName_<%= i %>" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
                                     <asp:Literal ID="Literal35" runat="server" Text="<%$Resources:PersonalOffice_Step4, SchoolName %>"></asp:Literal><asp:Literal ID="Literal36" runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
-                                </label>  
-                                <%= Html.TextBox("SchoolName_"+ i, "", new Dictionary<string, object> { { "id", "SchoolName_" + i }, { "onchange", "CheckSchoolName(" + i + ")" }, { "onkeyup", "CheckSchoolName(" + i + ")" }, { "onblur", "CheckSchoolName(" + i + ")" } })%>
+                                </label> 
+                                <%= Html.TextBox("SchoolName_"+ i, "", new Dictionary<string, object> { { "id", "SchoolName_" + i }, { "onchange", "CheckSchoolName(" + i + ", 'SchoolName_" + i + "', 'SchoolName_Message_" + i + "', "+Model.ConstInfo.SchoolName + ")" }, { "onkeyup", "CheckSchoolName(" + i + ", 'SchoolName_" + i + "', 'SchoolName_Message_" + i + "', "+Model.ConstInfo.SchoolName + ")" }, { "onblur", "CheckSchoolName(" + i + ", 'SchoolName_" + i + "', 'SchoolName_Message_" + i + "', "+Model.ConstInfo.SchoolName + ")" } })%>
                                 <br /><p></p>
                                 <span id="SchoolName_Message_<%= i %>" class="Red" style="display:none">  
                                     <%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationInfo_SchoolName_Message").ToString()%> 
@@ -599,7 +654,10 @@
                             </div>
                             <div id="_SchoolNumber_<%= i %>" class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "SchoolNumber").ToString(), new Dictionary<string, object> { { "for", "SchoolNumber_" + i } })%>
-                                <%= Html.TextBox("SchoolNumber_" + i, "", new Dictionary<string, object> { { "id", "SchoolNumber_" + i } }) %>
+                                <%= Html.TextBox("SchoolNumber_"+ i,  "", new Dictionary<string, object> { { "id", "SchoolNumber_" + i }, { "onchange", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber+ ")" }, { "onkeyup", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber + ")" }, { "onblur", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber + ")" } })%>
+                                <br /><p></p>
+                                <span id="SchoolNumber_Message_<%= i %>" class="Red" style="display:none">  
+                                </span>
                             </div>
 
                             <div id="_CountryEduc_<%= i %>" class="clearfix">
@@ -625,7 +683,10 @@
 
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "ResidentialPlace").ToString(), new Dictionary<string, object> { { "for", "SchoolCity_" + i } } )%>
-                                <%= Html.TextBox("SchoolCity_" + i, "", new Dictionary<string, object> { { "id", "SchoolCity_" + i } }) %>
+                                <%= Html.TextBox("SchoolCity_"+ i,  "", new Dictionary<string, object> { { "id", "SchoolCity_" + i }, { "onchange", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation+ ")" }, { "onkeyup", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" }, { "onblur", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" } })%>
+                                <br /><p></p>
+                                <span id="SchoolCity_Message_<%= i %>" class="Red" style="display:none">  
+                                </span>
                             </div>
                             <div class="clearfix">
                                 <label id="LabelEducationInfo_VuzExitYear_<%= i %>" style="display: none;" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
@@ -648,7 +709,11 @@
                             <hr />
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomSeries").ToString(), new Dictionary<string, object> { { "for", "Series_" + i } })%>
+<<<<<<< HEAD
                                 <%= Html.TextBox("Series_" + i, "", new Dictionary<string, object> { { "id", "Series_" + i }, { "maxlength", "30" } }) %>
+=======
+                                <%= Html.TextBox("Series_"+ i,  "", new Dictionary<string, object> { { "id", "Series_" + i }, { "onchange", "CheckLength('Series_" + i + "', 'EducationInfo_DiplomSeries_Message_" + i + "', "+Model.ConstInfo.DocSeries+ ")" }, { "onkeyup", "CheckLength('Series_" + i + "', 'EducationInfo_DiplomSeries_Message_" + i + "', "+Model.ConstInfo.DocSeries + ")" }, { "onblur", "CheckLength('Series_" + i + "', 'EducationInfo_DiplomSeries_Message_" + i + "', "+Model.ConstInfo.DocSeries + ")" } })%>
+>>>>>>> origin/master
                                 <br /><p></p>
                                 <span id="EducationInfo_DiplomSeries_Message_<%= i %>" class="Red" style="display:none">
                                     <%=GetGlobalResourceObject("PersonalOffice_Step4", "DiplomSeries_Message").ToString()%>
@@ -656,7 +721,11 @@
                             </div>
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomNumber").ToString(), new Dictionary<string, object> { { "for", "Number_" + i } })%>
+<<<<<<< HEAD
                                 <%= Html.TextBox("Number_" + i, "", new Dictionary<string, object> { { "id", "Number_" + i }, { "maxlength", "30" } })%>
+=======
+                                <%= Html.TextBox("Number_"+ i,  "", new Dictionary<string, object> { { "id", "Number_" + i }, { "onchange", "CheckLength('Number_" + i + "', 'EducationInfo_DiplomNumber_Message_" + i + "', "+Model.ConstInfo.DocNumber+ ")" }, { "onkeyup", "CheckLength('Number_" + i + "', 'EducationInfo_DiplomNumber_Message_" + i + "', "+Model.ConstInfo.DocNumber + ")" }, { "onblur", "CheckLength('Number_" + i + "', 'EducationInfo_DiplomNumber_Message_" + i + "', "+Model.ConstInfo.DocNumber+ ")" } })%>
+>>>>>>> origin/master
                                 <br /><p></p>
                                 <span id="EducationInfo_DiplomNumber_Message_<%= i %>" class="Red" style="display:none">
                                     <%=GetGlobalResourceObject("PersonalOffice_Step4", "DiplomNumber_Message").ToString()%>
@@ -679,7 +748,10 @@
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "EqualityDocumentNumber").ToString(), new Dictionary<string, object> { { "for", "EqualityDocumentNumber_" + i } })%>
-                                    <%= Html.TextBox("EqualityDocumentNumber_" + i, "", new Dictionary<string, object> { { "id", "EqualityDocumentNumber_" + i } }) %>
+                                    <%= Html.TextBox("EqualityDocumentNumber_"+ i,  "", new Dictionary<string, object> { { "id", "EqualityDocumentNumber_" + i }, { "onchange", "CheckLength('EqualityDocumentNumber_" + i + "', 'EqualityDocumentNumber_Message_" + i + "', "+Model.ConstInfo.EqualDocNumber+ ")" }, { "onkeyup", "CheckLength('EqualityDocumentNumber_" + i + "', 'EqualityDocumentNumber_Message_" + i + "', "+Model.ConstInfo.EqualDocNumber + ")" }, { "onblur", "CheckLength('EqualityDocumentNumber_" + i + "', 'EqualityDocumentNumber_Message_" + i + "', "+Model.ConstInfo.EqualDocNumber+ ")" } })%>
+                                    <br /><p></p>
+                                        <span id="EqualityDocumentNumber__Message_<%= i %>" class="Red" style="display:none">
+                                        </span>
                                 </div>
                             </div>
 
@@ -688,7 +760,14 @@
                                 <hr />
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "PersonSpecialization").ToString(), new Dictionary<string, object> { { "for", "ProgramName_" + i } })%>
+<<<<<<< HEAD
                                     <%= Html.TextBox("ProgramName_" + i, "", new Dictionary<string, object> { { "id", "ProgramName_" + i }, { "maxlength", "1000" } })%>
+=======
+                                    <%= Html.TextBox("ProgramName_"+ i,  "", new Dictionary<string, object> { { "id", "ProgramName_" + i }, { "onchange", "CheckLength('ProgramName_" + i + "', 'ProgramName_Message_" + i + "', "+Model.ConstInfo.ProgramName+ ")" }, { "onkeyup", "CheckLength('ProgramName_" + i + "', 'ProgramName_Message_" + i + "', "+Model.ConstInfo.ProgramName + ")" }, { "onblur", "CheckLength('ProgramName_" + i + "', 'ProgramName_Message_" + i + "', "+Model.ConstInfo.ProgramName+ ")" } })%>
+                                    <br /><p></p>
+                                        <span id="ProgramName_Message_<%= i %>" class="Red" style="display:none">
+                                        </span>
+>>>>>>> origin/master
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudyForm").ToString(), new Dictionary<string, object> { { "for", "PersonStudyForm_" + i } })%>
@@ -700,7 +779,14 @@
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomTheme").ToString(), new Dictionary<string, object> { { "for", "DiplomTheme_" + i } })%>
+<<<<<<< HEAD
                                     <%= Html.TextArea("DiplomTheme_" + i, "", 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i }, { "maxlength", "4000" } }) %>
+=======
+                                    <%= Html.TextArea("DiplomTheme_"+ i,  "", 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i }, { "onchange", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" }, { "onkeyup", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme + ")" }, { "onblur", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" } })%>
+                                    <br /><p></p>
+                                        <span id="DiplomTheme_Message_<%= i %>" class="Red" style="display:none">
+                                        </span>
+>>>>>>> origin/master
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "HEEntryYear").ToString(), new Dictionary<string, object> { { "for", "HEEntryYear_" + i } })%>
