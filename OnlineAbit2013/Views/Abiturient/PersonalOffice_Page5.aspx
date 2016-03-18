@@ -750,7 +750,7 @@
                     </div>
                 </form>
 
-                <% if (Model.CertificatesVisible) {%>
+                <%--<% if (Model.CertificatesVisible) {%>
                  <!-- /////////////////////////////////////////////////////////////////// -->
                     <p class="message info">
                      <asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:PersonalOffice_Step5, PersonalOffice_Certificates %>"></asp:Literal>
@@ -825,7 +825,7 @@
                     </td></tr></table>
                     <% } %>
                     <br /> 
-                    <%} %>
+                    <%} %>--%>
 <!-- /////////////////////////////////////////////////////////////////// -->       
 
             </div>

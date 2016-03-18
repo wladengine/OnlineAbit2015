@@ -154,6 +154,9 @@ Other documents can be attached in the window "General documents".&lt;/br&gt;</v
   <data name="FileType" xml:space="preserve">
     <value>Type of the document</value>
   </data>
+  <data name="FileTypeRecommend" xml:space="preserve">
+    <value>Upload documents in &lt;b&gt;PDF&lt;/b&gt; format.</value>
+  </data>
   <data name="Header" xml:space="preserve">
     <value>General Documents</value>
   </data>
@@ -162,20 +165,13 @@ Other documents can be attached in the window "General documents".&lt;/br&gt;</v
   </data>
   <data name="HelpMessage" xml:space="preserve">
     <value>This is the shared files folder. &lt;br /&gt;
-    Here you can attach the documents that are required for all applications, for example, scans the passport, educational documents, translations, etc.</value>
-  </data>
-  <data name="HelpMessage_AG" xml:space="preserve">
-    <value>This is the &lt;b&gt;shared files&lt;/b&gt; folder. &lt;br /&gt;
-    Here you can attach the documents that are required for all applications, for example, scans of the passport, educational documents, translations, etc.
+    Here you can attach the documents that are required for all applications, for example, scans the passport, educational documents, translations, etc.
 Please note, that the documents required to upload depend on the program you are applyinf for. Check the program website or ask the program coordinator for details.</value>
   </data>
-  <data name="HelpMessage_Aspirant" xml:space="preserve">
-    <value>Это папка общих файлов. &lt;br /&gt;
-    Сюда вы можете прикрепить те документы, которые необходимы для всех заявлений: &lt;br /&gt; 1. Документ, удостоверяющий личность.&lt;br /&gt; 2. Документ об образовании.&lt;br /&gt; 3. Фотографии. &lt;br /&gt; 4. Список опубликованных научных работ.&lt;br /&gt; 5. Удостоверение о сдаче кандидатских экзаменов.&lt;br /&gt; 6. Удостоверение об окончании клинической ординатуры или интернатуры&lt;br /&gt; 7. Прочие документы&lt;br /&gt; </value>
-  </data>
   <data name="HelpMessage_Foreign" xml:space="preserve">
-    <value>This is the &lt;b&gt;shared files&lt;/b&gt; folder. &lt;br /&gt;
-    Here you can attach the documents that are required for all applications, for example, scans the passport, educational documents, translations, etc.</value>
+    <value>This is the &lt;b&gt;General Documents&lt;/b&gt; folder. &lt;br /&gt;
+    Here you can attach the documents that are required for all applications, for example, scans the passport, educational documents, translations, etc.
+Please note, that the documents required to upload depend on the program you are applyinf for. Check the program website or ask the program coordinator for details.</value>
   </data>
   <data name="HideSomeFiles" xml:space="preserve">
     <value>Hide all read-only files </value>

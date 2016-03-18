@@ -117,7 +117,9 @@
             <label for="fileAttachment"><%= GetGlobalResourceObject("AddSharedFiles", "File") %></label>
             <input id="fileAttachment" type="file" name="File" />
         </div>
-        <br/> 
+        <div class ="message info" style="text-align: center;">
+            <%=GetGlobalResourceObject("AddSharedFiles", "FileTypeRecommend").ToString()%>
+        </div>
         <div class="clearfix">
         <label for="FileTypeId"><%=GetGlobalResourceObject("AddSharedFiles", "FileType").ToString()%></label> 
         <div style="width:300px; height:30px; overflow: hidden; float:left;">

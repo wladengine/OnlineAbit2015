@@ -574,6 +574,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="Name" Type="nvarchar" MaxLength="500" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="500" />
           <Property Name="FileNameTemplate" Type="nvarchar" MaxLength="50" />
+          <Property Name="IndexInAppCard" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PersonHighEducationInfo">
           <Key>
@@ -3564,6 +3565,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="NameEng" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FileNameTemplate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IndexInAppCard" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="PersonHighEducationInfo">
           <Key>
@@ -6332,6 +6334,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="PersonFileType">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonFileType">
               <MappingFragment StoreEntitySet="PersonFileType">
+                <ScalarProperty Name="IndexInAppCard" ColumnName="IndexInAppCard" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="NameEng" ColumnName="NameEng" />

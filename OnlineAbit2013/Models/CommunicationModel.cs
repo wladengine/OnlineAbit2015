@@ -74,9 +74,9 @@ namespace OnlineAbit2013.Models
         public string DeInterviewPts;
         public string CommonInterviewPts;
 
-        public string OverallPts; 
+        public string OverallPts;
 
-        public List<CommunicationFile> lstFiles;
+        public List<CommunicationFilesBlock> lstFiles;
 
         public int StatusId;
         public List<SelectListItem> StatusList;
@@ -87,25 +87,20 @@ namespace OnlineAbit2013.Models
         public List<CommunicateCertificateInfo> Certificates;
         public string SortOrder;
     }
+    public class CommunicationFilesBlock
+    {
+        public string BlockName;
+        public int BlockIndex;
+        public List<CommunicationFile> lst;
+    }
     public class CommunicationFile
     {
         public Guid Id;
         public string FileName;
         public bool IsPersonFile;
         public string Comment;
-        public CommunicationFileType type;
-    }
-
-    public enum CommunicationFileType
-    {
-        PassportScan,
-        Diploma,
-        EnglishCertificates,
-        MotivationLetter,
-        CV,
-        Portfolio,
-        Photo,
-        etc
+        public string filetype;
+        public int index;
     }
 
     public class CommunicationStat

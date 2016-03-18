@@ -337,21 +337,18 @@ namespace OnlineAbit2013.Controllers
                 #region Files
                 List<int> FileTypes = new List<int>() {1,2,5,10,14,15};
                 var files = (from x in context.PersonFile
+                             join type in context.PersonFileType on x.PersonFileTypeId equals type.Id
                              where x.PersonId == person.personId
                              && FileTypes.Contains(x.PersonFileTypeId)
+                             && type.IndexInAppCard >0
                              select new CommunicationFile()
                              {
                                  Id = x.Id,
                                  FileName = x.FileName,
                                  IsPersonFile = true,
                                  Comment = x.Comment,
-                                 type = (x.PersonFileTypeId == 1) ? CommunicationFileType.PassportScan :
-                                        (x.PersonFileTypeId == 2) ? CommunicationFileType.Diploma :
-                                        (x.PersonFileTypeId == 5) ? CommunicationFileType.EnglishCertificates :
-                                        (x.PersonFileTypeId == 10) ? CommunicationFileType.MotivationLetter :
-                                        (x.PersonFileTypeId == 15) ? CommunicationFileType.CV :
-                                        (x.PersonFileTypeId == 14) ? CommunicationFileType.Photo
-                                        : CommunicationFileType.etc,
+                                 filetype = bIsEng ? type.NameEng : type.Name,
+                                 index = type.IndexInAppCard,
                              }).ToList().Union(
                              (from x in context.ApplicationFile
                              join ap in context.Application on x.ApplicationId equals ap.Id
@@ -362,7 +359,8 @@ namespace OnlineAbit2013.Controllers
                                  FileName = x.FileName,
                                  IsPersonFile = false,
                                  Comment = x.Comment,
-                                 type = CommunicationFileType.MotivationLetter,
+                                 filetype = context.PersonFileType.Where(t => t.Id == 10).Select(t => bIsEng ? t.NameEng : t.Name).FirstOrDefault(),
+                                 index = context.PersonFileType.Where(t => t.Id == 10).Select(t => t.IndexInAppCard).FirstOrDefault(),
                              }).ToList()).Union(
                              (from x in context.ApplicationFile
                               join ap in context.Application on x.CommitId equals ap.CommitId
@@ -373,9 +371,20 @@ namespace OnlineAbit2013.Controllers
                                   FileName = x.FileName,
                                   IsPersonFile = false,
                                   Comment = x.Comment,
-                                  type = CommunicationFileType.MotivationLetter,
+                                  filetype = context.PersonFileType.Where(t => t.Id == 10).Select(t => bIsEng ? t.NameEng : t.Name).FirstOrDefault(),
+                                  index = context.PersonFileType.Where(t => t.Id == 10).Select(t => t.IndexInAppCard).FirstOrDefault(),
                               }).ToList()).Distinct().ToList();
-                model.lstFiles = files;
+
+                var blockFiles =
+                    (from f in files
+                     group f by f.filetype into block
+                     select new CommunicationFilesBlock
+                     {
+                          BlockIndex = block.Select(x=>x.index).First(),
+                          BlockName = block.Select(x=>x.filetype).First(),
+                          lst = block.ToList(),
+                     }).ToList();
+                model.lstFiles = blockFiles;
                 #endregion
             }
             return View(model);

@@ -230,57 +230,28 @@
         <table>
             <tr>
                 <td style="width:50%;">
-                    <div id ="Files1Header" onclick="ShowHide(Files1Body, down1, up1)" class ="button-blue"> 
-                        <%=GetGlobalResourceObject("Communication", "PassportScan")%>  <span id ="down1">▾</span><span id="up1">▴</span>
-                    </div>
-                    <div id ="Files1Body" class ="filesbody">
-                        <%foreach (var x in Model.lstFiles.Where(x=>x.type == OnlineAbit2013.Models.CommunicationFileType.PassportScan)) { %>
-                        <a href="<%= "../../Application/GetFile?id=" + x.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a>
-                        <%=x.FileName %><br />
-                        <%} %>
-                    <hr />
-                    </div>
-                    <br />
-                    <div id ="Files2Header" onclick="ShowHide(Files2Body, down2, up2)" class ="button-blue"> 
-                       <%=GetGlobalResourceObject("Communication", "Diploma")%> <span id ="down2">▾</span><span id="up2">▴</span>
-                    </div>
-                    <div id ="Files2Body" class ="filesbody">
-                        <%foreach (var x in Model.lstFiles.Where(x=>x.type == OnlineAbit2013.Models.CommunicationFileType.Diploma)) { %>
-                        <a href="<%= "../../Application/GetFile?id=" + x.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a>
-                        <%=x.FileName %><br />
-                        <%} %>
-                    <hr /></div>
-                    <br />
-                    <div id ="Files3Header" onclick="ShowHide(Files3Body, down3, up3)" class ="button-blue"> 
-                       <%=GetGlobalResourceObject("Communication", "EnglishCertificates")%>  <span id ="down3">▾</span><span id="up3">▴</span>
-                    </div>
-                    <div id ="Files3Body" class ="filesbody">
-                        <%foreach (var x in Model.lstFiles.Where(x=>x.type == OnlineAbit2013.Models.CommunicationFileType.EnglishCertificates)) { %>
-                        <a href="<%= "../../Application/GetFile?id=" + x.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a>
-                        <%=x.FileName %><br />
-                        <%} %>
-                    <hr /></div>
-                    <br />
-                    <div id ="Files4Header" onclick="ShowHide(Files4Body, down4, up4)" class ="button-blue"> 
-                       <%=GetGlobalResourceObject("Communication", "MotivationLetter")%>  <span id ="down4">▾</span><span id="up4">▴</span>
-                    </div>
-                    <div id ="Files4Body" class ="filesbody">
-                        <%foreach (var x in Model.lstFiles.Where(x=>x.type == OnlineAbit2013.Models.CommunicationFileType.MotivationLetter)) { %>
-                        <a href="<%= "../../Application/GetFile?id=" + x.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a>
-                        <%=x.FileName %><br />
-                        <%} %>
-                    <hr /></div>
-                    <br />
-                    <div id ="Files5Header" onclick="ShowHide(Files5Body, down5, up5)" class ="button-blue"> 
-                       <%=GetGlobalResourceObject("Communication", "CV")%> <span id ="down5">▾</span><span id="up5">▴</span>
-                    </div>
-                    <div id ="Files5Body" class ="filesbody">
-                        <%foreach (var x in Model.lstFiles.Where(x=>x.type == OnlineAbit2013.Models.CommunicationFileType.CV)) { %>
-                        <a href="<%= "../../Application/GetFile?id=" + x.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a>
-                        <%=x.FileName %><br />
-                        <%} %>
-                    <hr /></div>
-                    <br />
+                    <% 
+                        int ind = 1;
+                        foreach (var block in Model.lstFiles.OrderBy(x=>x.BlockIndex)) {  
+                           %>
+                        <div id ="Files<%=ind.ToString()%>Header" onclick="ShowHide(Files<%=ind.ToString()%>Body, down<%=ind.ToString()%>, up<%=ind.ToString()%>)" class ="button-blue"> 
+                            <%=block.BlockName%><span id ="down<%=ind.ToString()%>">▾</span><span id="up<%=ind.ToString()%>">▴</span>
+                        </div>
+                        <div id ="Files<%=ind.ToString()%>Body" class ="filesbody">
+                            <%foreach (var x in block.lst) { %>
+                            <a href="<%= "../../Application/GetFile?id=" + x.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a>
+                            <%=x.FileName %><br />
+                            <%} %>
+                        <hr />
+                        </div>
+                        <br />
+                    <% ind++;
+                        } 
+                        if (Model.lstFiles.Count == 0)
+                        {%>
+                    <div class ="message info" style ="width: 400px;"><%=GetGlobalResourceObject("Communication", "NoFiles")%></div>
+                    <%} %>
+
                 </td>
                 <td style="width:50%;">
                     <table> 

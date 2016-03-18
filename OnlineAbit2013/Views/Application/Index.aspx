@@ -216,7 +216,7 @@
         <% if (Model.HasManualExams) { %>
         <td>
             <a href="<%= string.Format("../../Abiturient/ApplicationExams?ComId={0}", Model.Id.ToString("N")) %>">
-                <img src="../../Content/themes/base/images/File_edit064.png" alt="Редактировать экзамены по выбору" />
+                <img src="../../Content/themes/base/images/changeexams.png" alt="Редактировать экзамены по выбору" />
             </a>
         </td>
         <% } %> 
