@@ -482,7 +482,7 @@
                             </div>
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "ResidentialPlace").ToString(), new Dictionary<string, object> { { "for", "SchoolCity_" + i } } )%>
-                                <%= Html.TextBox("SchoolCity_"+ i,  Doc.SchoolCity, new Dictionary<string, object> { { "id", "SchoolCity_" + i }, { "onchange", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation+ ")" }, { "onkeyup", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" }, { "onblur", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" } })%>
+                                <%= Html.TextBox("SchoolCity_"+ i,  Doc.SchoolCity, new Dictionary<string, object> { { "id", "SchoolCity_" + i }, { "maxlength", "500" },  { "onchange", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation+ ")" }, { "onkeyup", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" }, { "onblur", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" } })%>
                                 <br /><p></p>
                                 <span id="SchoolCity_Message_<%= i %>" class="Red" style="display:none">  
                                 </span>
@@ -566,7 +566,7 @@
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomTheme").ToString(), new Dictionary<string, object> { { "for", "DiplomTheme_" + i } })%>
-                                    <%= Html.TextArea("DiplomTheme_"+ i,  Doc.ProgramName, 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i },, { "maxlength", "4000" } { "onchange", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" }, { "onkeyup", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme + ")" }, { "onblur", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" } })%>
+                                    <%= Html.TextArea("DiplomTheme_"+ i,  Doc.ProgramName, 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i }, { "maxlength", "4000" }, { "onchange", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" }, { "onkeyup", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme + ")" }, { "onblur", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" } })%>
                                     <br /><p></p>
                                         <span id="DiplomTheme_Message_<%= i %>" class="Red" style="display:none">
                                         </span>
@@ -667,7 +667,7 @@
 
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "ResidentialPlace").ToString(), new Dictionary<string, object> { { "for", "SchoolCity_" + i } } )%>
-                                <%= Html.TextBox("SchoolCity_"+ i,  "", new Dictionary<string, object> { { "id", "SchoolCity_" + i }, { "onchange", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation+ ")" }, { "onkeyup", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" }, { "onblur", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" } })%>
+                                <%= Html.TextBox("SchoolCity_"+ i,  "", new Dictionary<string, object> { { "id", "SchoolCity_" + i }, { "maxlength", "500" }, { "onchange", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation+ ")" }, { "onkeyup", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" }, { "onblur", "CheckLength('SchoolCity_" + i + "', 'SchoolCity_Message_" + i + "', "+Model.ConstInfo.SchoolLocation + ")" } })%>
                                 <br /><p></p>
                                 <span id="SchoolCity_Message_<%= i %>" class="Red" style="display:none">  
                                 </span>
