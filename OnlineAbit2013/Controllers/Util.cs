@@ -1988,6 +1988,15 @@ ORDER by Semester.Id";
 
             constant.EducationDocumentsMaxCount = 4;
 
+            constant.DiplomTheme = 4000;
+            constant.ProgramName = 1000;
+            constant.SchoolLocation = 500;
+            constant.SchoolName = 500;
+            constant.SchoolNumber = 10;
+            constant.DocSeries = 30;
+            constant.DocNumber = 30;
+            constant.EqualDocNumber = 50;
+
             return constant;
         }
 

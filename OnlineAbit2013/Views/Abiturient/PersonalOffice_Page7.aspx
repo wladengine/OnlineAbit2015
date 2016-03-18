@@ -41,7 +41,7 @@
             var val = $('#AddInfo_ExtraInfo').val(); 
             if (val.length > <%=Model.ConstInfo.AddInfo %>) { 
                 var len = val.length-<%=Model.ConstInfo.AddInfo %> ;
-                $('#AddInfo_ExtraInfo_Message').text('Максимальная допустимая длина превышена на '+len+' символов');
+                $('#AddInfo_ExtraInfo_Message').text('<%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart1").ToString()%> '+len+' <%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart2").ToString()%> ');
                 $('#AddInfo_ExtraInfo_Message').show();
                 $('#AddInfo_ExtraInfo').addClass('input-validation-error');
                 ret = false;
@@ -52,7 +52,7 @@
                     $('#AddInfo_ExtraInfo').removeClass('input-validation-error'); 
                 } else { 
                     var len = <%=Model.ConstInfo.AddInfo %> - val.length;
-                    $('#AddInfo_ExtraInfo_Message').text('Осталось ' +len+' символов'); 
+                    $('#AddInfo_ExtraInfo_Message').text(len+' <%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart3").ToString()%>');
                     $('#AddInfo_ExtraInfo_Message').show();  
                     $('#AddInfo_ExtraInfo').removeClass('input-validation-error'); 
                 } 
@@ -64,7 +64,7 @@
             var val = $('#AddInfo_ContactPerson').val(); 
             if (val.length > <%=Model.ConstInfo.Parents %>) { 
                 var len = val.length-<%=Model.ConstInfo.Parents %> ;
-                $('#AddInfo_ContactPerson_Message').text('Максимальная допустимая длина превышена на '+len+' символов');
+                $('#AddInfo_ContactPerson_Message').text('<%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart1").ToString()%> '+len+' <%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart2").ToString()%>');
                 $('#AddInfo_ContactPerson_Message').show();
                 $('#AddInfo_ContactPerson').addClass('input-validation-error');
                 ret = false;
@@ -75,7 +75,7 @@
                     $('#AddInfo_ContactPerson').removeClass('input-validation-error'); 
                 } else { 
                     var len = <%=Model.ConstInfo.AddInfo %> - val.length;
-                    $('#AddInfo_ContactPerson_Message').text('Осталось ' +len+' символов');
+                    $('#AddInfo_ContactPerson_Message').text(len+' <%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart3").ToString()%>');
                     $('#AddInfo_ContactPerson_Message').show();  
                     $('#AddInfo_ContactPerson').removeClass('input-validation-error'); 
                 } 

@@ -138,6 +138,15 @@
   <data name="IsEqualWithRussian" xml:space="preserve">
     <value>I wish to participate in equal competition with the citizens of the Russian Federation</value>
   </data>
+  <data name="MaxLengthLimitPart1" xml:space="preserve">
+    <value>The allowed size has been exceeded by</value>
+  </data>
+  <data name="MaxLengthLimitPart2" xml:space="preserve">
+    <value>characters</value>
+  </data>
+  <data name="MaxLengthLimitPart3" xml:space="preserve">
+    <value>characters remaining</value>
+  </data>
   <data name="MessageLatinSymbols" xml:space="preserve">
     <value>No symbols except Latin and Cyrilic letters are allowed </value>
   </data>
