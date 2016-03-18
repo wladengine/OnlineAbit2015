@@ -478,7 +478,7 @@
                             <hr />
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomSeries").ToString(), new Dictionary<string, object> { { "for", "Series_" + i } })%>
-                                <%= Html.TextBox("Series_" + i, Doc.Series, new Dictionary<string, object> { { "id", "Series_" + i } }) %>
+                                <%= Html.TextBox("Series_" + i, Doc.Series, new Dictionary<string, object> { { "id", "Series_" + i }, { "maxlength", "30" } }) %>
                                 <br /><p></p>
                                 <span id="EducationInfo_DiplomSeries_Message_<%= i %>" class="Red" style="display:none">
                                     <%=GetGlobalResourceObject("PersonalOffice_Step4", "DiplomSeries_Message").ToString()%>
@@ -486,7 +486,7 @@
                             </div>
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomNumber").ToString(), new Dictionary<string, object> { { "for", "Number_" + i } })%>
-                                <%= Html.TextBox("Number_" + i, Doc.Number, new Dictionary<string, object> { { "id", "Number_" + i } })%>
+                                <%= Html.TextBox("Number_" + i, Doc.Number, new Dictionary<string, object> { { "id", "Number_" + i }, { "maxlength", "30" } })%>
                                 <br /><p></p>
                                 <span id="EducationInfo_DiplomNumber_Message_<%= i %>" class="Red" style="display:none">
                                     <%=GetGlobalResourceObject("PersonalOffice_Step4", "DiplomNumber_Message").ToString()%>
@@ -518,7 +518,7 @@
                                 <hr />
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "PersonSpecialization").ToString(), new Dictionary<string, object> { { "for", "ProgramName_" + i } })%>
-                                    <%= Html.TextBox("ProgramName_" + i, Doc.ProgramName, new Dictionary<string, object> { { "id", "ProgramName_" + i } })%>
+                                    <%= Html.TextBox("ProgramName_" + i, Doc.ProgramName, new Dictionary<string, object> { { "id", "ProgramName_" + i }, { "maxlength", "1000" } })%>
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudyForm").ToString(), new Dictionary<string, object> { { "for", "PersonStudyForm_" + i } })%>
@@ -530,7 +530,7 @@
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomTheme").ToString(), new Dictionary<string, object> { { "for", "DiplomTheme_" + i } })%>
-                                    <%= Html.TextArea("DiplomTheme_" + i, Doc.DiplomTheme, 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i } }) %>
+                                    <%= Html.TextArea("DiplomTheme_" + i, Doc.DiplomTheme, 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i }, { "maxlength", "4000" } }) %>
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "HEEntryYear").ToString(), new Dictionary<string, object> { { "for", "HEEntryYear_" + i } })%>
@@ -648,7 +648,7 @@
                             <hr />
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomSeries").ToString(), new Dictionary<string, object> { { "for", "Series_" + i } })%>
-                                <%= Html.TextBox("Series_" + i, "", new Dictionary<string, object> { { "id", "Series_" + i } }) %>
+                                <%= Html.TextBox("Series_" + i, "", new Dictionary<string, object> { { "id", "Series_" + i }, { "maxlength", "30" } }) %>
                                 <br /><p></p>
                                 <span id="EducationInfo_DiplomSeries_Message_<%= i %>" class="Red" style="display:none">
                                     <%=GetGlobalResourceObject("PersonalOffice_Step4", "DiplomSeries_Message").ToString()%>
@@ -656,7 +656,7 @@
                             </div>
                             <div class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomNumber").ToString(), new Dictionary<string, object> { { "for", "Number_" + i } })%>
-                                <%= Html.TextBox("Number_" + i, "", new Dictionary<string, object> { { "id", "Number_" + i } })%>
+                                <%= Html.TextBox("Number_" + i, "", new Dictionary<string, object> { { "id", "Number_" + i }, { "maxlength", "30" } })%>
                                 <br /><p></p>
                                 <span id="EducationInfo_DiplomNumber_Message_<%= i %>" class="Red" style="display:none">
                                     <%=GetGlobalResourceObject("PersonalOffice_Step4", "DiplomNumber_Message").ToString()%>
@@ -688,7 +688,7 @@
                                 <hr />
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "PersonSpecialization").ToString(), new Dictionary<string, object> { { "for", "ProgramName_" + i } })%>
-                                    <%= Html.TextBox("ProgramName_" + i, "", new Dictionary<string, object> { { "id", "ProgramName_" + i } })%>
+                                    <%= Html.TextBox("ProgramName_" + i, "", new Dictionary<string, object> { { "id", "ProgramName_" + i }, { "maxlength", "1000" } })%>
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "PersonStudyForm").ToString(), new Dictionary<string, object> { { "for", "PersonStudyForm_" + i } })%>
@@ -700,7 +700,7 @@
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomTheme").ToString(), new Dictionary<string, object> { { "for", "DiplomTheme_" + i } })%>
-                                    <%= Html.TextArea("DiplomTheme_" + i, "", 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i } }) %>
+                                    <%= Html.TextArea("DiplomTheme_" + i, "", 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i }, { "maxlength", "4000" } }) %>
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "HEEntryYear").ToString(), new Dictionary<string, object> { { "for", "HEEntryYear_" + i } })%>

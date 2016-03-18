@@ -48,6 +48,19 @@
                     }
                 }
                 ValidateCountry();
+
+                $('#ContactsInfo_CountryRealId').change(function () { setTimeout(ValidateCountryReal); });
+                function ValidateCountryReal() {
+                    var countryid = $('#ContactsInfo_CountryRealId').val();
+                    if (countryid == '193') {
+                        $('#RegionReal').show();
+                    }
+                    else {
+                        $('#RegionReal').hide();
+                    }
+                }
+                ValidateCountryReal();
+
                 <% } %>
 
             $('#ContactsInfo_MainPhone').change(function () { setTimeout(CheckPhone); }); 
@@ -338,6 +351,12 @@
                        { %> --%>
                     <h4><%= GetGlobalResourceObject("PersonalOffice_Step3", "AdditionalAddress_Header").ToString()%> </h4>
                     <hr />
+                    <div class="clearfix" id="CountryReal">
+                        <label for="ContactsInfo_CountryRealId" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
+                        <asp:Literal ID="Literal5" runat="server" Text="<%$Resources:PersonalOffice_Step3, CountryId %>"></asp:Literal>
+                        </label>
+                        <%= Html.DropDownListFor(x => x.ContactsInfo.CountryRealId, Model.ContactsInfo.CountryList) %>
+                    </div>
                     <div class="clearfix" id="RegionReal">
                         <label for="ContactsInfo_RegionRealId" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
                         <asp:Literal ID="Literal4" runat="server" Text="<%$Resources:PersonalOffice_Step3, RegionId %>"></asp:Literal>

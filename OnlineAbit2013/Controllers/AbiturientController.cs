@@ -226,6 +226,7 @@ namespace OnlineAbit2013.Controllers
                     model.ContactsInfo.Korpus = Server.HtmlDecode(PersonContacts.Korpus);
                     model.ContactsInfo.Flat = Server.HtmlDecode(PersonContacts.Flat);
 
+                    model.ContactsInfo.CountryRealId = PersonContacts.CountryRealId.ToString();
                     model.ContactsInfo.RegionRealId = PersonContacts.RegionRealId.ToString();
                     model.ContactsInfo.PostIndexReal = Server.HtmlDecode(PersonContacts.CodeReal);
                     model.ContactsInfo.CityReal = Server.HtmlDecode(PersonContacts.CityReal);
@@ -860,20 +861,24 @@ namespace OnlineAbit2013.Controllers
                             iRegionId = 11;//Далн. зарубеж.
 
 
+                    int iCountryRealId = 0;
+                    if (!int.TryParse(model.ContactsInfo.CountryRealId, out iCountryRealId))
+                        iCountryRealId = 193;//Russia
+
                     int iRegionRealId = 0;
                     if (!int.TryParse(model.ContactsInfo.RegionRealId, out iRegionRealId))
                         iRegionRealId = 0;//unnamed
 
-                    int? altRegionRealId = context.Country.Where(x => x.Id == iCountryId).Select(x => x.RegionId).FirstOrDefault();
+                    int? altRegionRealId = context.Country.Where(x => x.Id == iCountryRealId).Select(x => x.RegionId).FirstOrDefault();
                     if (altRegionRealId.HasValue && iRegionRealId == 0)
                     {
-                        if (iCountryId != 193)
+                        if (iCountryRealId != 193)
                             iRegionRealId = altRegionRealId.Value;//RegionValue
                         else
                             iRegionRealId = 3;//Russia
                     }
                     else
-                        if (iCountryId != 193)
+                        if (iCountryRealId != 193)
                             iRegionRealId = 11;//Далн. зарубеж.
 
                     bool bIns = false;
@@ -908,6 +913,7 @@ namespace OnlineAbit2013.Controllers
                     PersonContacts.KorpusReal = model.ContactsInfo.KorpusReal;
                     PersonContacts.FlatReal = model.ContactsInfo.FlatReal;
                     PersonContacts.RegionRealId = iRegionRealId;
+                    PersonContacts.CountryRealId = iCountryRealId;
 
                     if (bIns)
                         context.PersonContacts.Add(PersonContacts);
@@ -1069,8 +1075,12 @@ namespace OnlineAbit2013.Controllers
 
                             int iHEEntryYear;
                             int.TryParse(sHEEntryYear, out iHEEntryYear);
-
+                            if (!string.IsNullOrEmpty(DiplomTheme) && DiplomTheme.Length > 4000)
+                                DiplomTheme = DiplomTheme.Substring(0, 4000);
                             PersonHighEducationInfo.DiplomaTheme = DiplomTheme;
+                            if (!string.IsNullOrEmpty(ProgramName) && ProgramName.Length > 1000)
+                                ProgramName = ProgramName.Substring(0, 1000);
+
                             PersonHighEducationInfo.ProgramName = ProgramName;
                             PersonHighEducationInfo.EntryYear = (iHEEntryYear == 0 ? null : (int?)iHEEntryYear);
                             if (iPersonStudyForm != 0)
@@ -1096,7 +1106,14 @@ namespace OnlineAbit2013.Controllers
                     }
                     //--------------------------------------
                     Person.RegistrationStage = iRegStage < 5 ? 5 : iRegStage;
-                    context.SaveChanges();
+                    try
+                    {
+                        context.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        //return View(ex.ToString());
+                    }
                     #endregion
                 }
                 else if (model.Stage == 5)

@@ -217,7 +217,7 @@
     <value>Select the region</value>
   </data>
   <data name="ResidentialPlace" xml:space="preserve">
-    <value>Residential place</value>
+    <value>City</value>
   </data>
   <data name="SchoolExitClass" xml:space="preserve">
     <value>Graduate class</value>

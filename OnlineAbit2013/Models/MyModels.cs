@@ -146,6 +146,7 @@ namespace OnlineAbit2013.Models
         public string Korpus { get; set; }
         public string Flat { get; set; }
 
+        public string CountryRealId { get; set; }
         public string RegionRealId { get; set; }
         public string PostIndexReal { get; set; }
         public string CityReal { get; set; }
