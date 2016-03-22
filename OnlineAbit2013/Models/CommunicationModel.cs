@@ -11,6 +11,8 @@ namespace OnlineAbit2013.Models
     {
         public List<GlobalCommunicationApplicantShort> ApplicantList;
         public string SortOrder;
+
+        public string BarcodeList;
         
     }
     public class GlobalCommunicationApplicantShort
@@ -38,7 +40,12 @@ namespace OnlineAbit2013.Models
     }
     public class GlobalCommunicationApplicant
     {
+        
         public string Number;
+        public string NexNumber;
+        public string PrevNumber;
+
+        public string BarcodeList;
 
         public bool Sex;
         public string Surname;

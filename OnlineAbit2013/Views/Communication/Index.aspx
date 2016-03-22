@@ -62,8 +62,8 @@
         }
         function OpenCard(Num)
         {
-            var val = $("#SortOrder").val();
-            location.href = ("../../Communication/ApplicantCard?sort=" + val+"&id="+Num);
+            $("#Barcode").val(Num);
+            document.fOpenCard.submit();
         }
         function YesNoClick(id1, id2, Number) {
             var result;
@@ -103,7 +103,11 @@
         <button value ="print" onclick ="PrintListXLS()" class="button button-green"> Print (Interview=Y) as XLS</button>
     </div>
     <hr /> 
+    <form id="fOpenCard" name ="fOpenCard" action="../../Communication/ApplicantCard" method="post" >
     <%=Html.HiddenFor(x=>x.SortOrder) %>
+    <%=Html.HiddenFor(x=>x.BarcodeList) %>
+    <input type="hidden" id="Barcode" name="Barcode"/>
+    </form>
      <table style="width:100%;"> 
         <tr>
             <% List<string> Collst = new List<string>() {

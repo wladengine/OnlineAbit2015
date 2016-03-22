@@ -162,11 +162,12 @@ namespace OnlineAbit2013.Controllers
                 {
                     model.SortOrder += "_"+SortOrder[i] + "_";
                 }
+                model.BarcodeList = string.Join(",", model.ApplicantList.Select(x => x.Number).ToList());
             }
             return model;
         }
 
-        public ActionResult ApplicantCard(string id, string sort)
+        public ActionResult ApplicantCard(string id)
         {
             Guid personId;
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
@@ -176,6 +177,25 @@ namespace OnlineAbit2013.Controllers
                 new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
             if (tblGroup.Rows.Count == 0)
                 return RedirectToAction("Main", "Abiturient");
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult ApplicantCard()
+        {
+            Guid personId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out personId))
+                return RedirectToAction("LogOn", "Account");
+
+            DataTable tblGroup = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
+                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
+            if (tblGroup.Rows.Count == 0)
+                return RedirectToAction("Main", "Abiturient");
+
+            string sort = Request.Form["SortOrder"];
+            string id = Request.Form["Barcode"];
+            string BarcodeList = Request.Form["BarcodeList"];
 
             GlobalCommunicationApplicant model = new GlobalCommunicationApplicant();
             model.SortOrder = sort;
@@ -335,11 +355,10 @@ namespace OnlineAbit2013.Controllers
                 model.IsComplete = (portf != null) ? portf.IsComplete : false;
                 #endregion
                 #region Files
-                List<int> FileTypes = new List<int>() {1,2,5,10,14,15};
+                
                 var files = (from x in context.PersonFile
                              join type in context.PersonFileType on x.PersonFileTypeId equals type.Id
                              where x.PersonId == person.personId
-                             && FileTypes.Contains(x.PersonFileTypeId)
                              && type.IndexInAppCard >0
                              select new CommunicationFile()
                              {
@@ -385,6 +404,29 @@ namespace OnlineAbit2013.Controllers
                           lst = block.ToList(),
                      }).ToList();
                 model.lstFiles = blockFiles;
+                #endregion
+                #region BarcodeList
+                model.NexNumber = null; 
+                model.PrevNumber = null;
+                model.BarcodeList = BarcodeList;
+                if (!String.IsNullOrEmpty(BarcodeList))
+                {
+                    List<int> lstBarcode = new List<int>();
+                    List<string> Sortlst = BarcodeList.Split(',').ToList();
+                    foreach (string s in Sortlst)
+                        lstBarcode.Add(int.Parse(s));
+                    int index = lstBarcode.IndexOf(iNumber);
+
+                    if (index == 0)
+                        model.PrevNumber = lstBarcode[lstBarcode.Count - 1].ToString();
+                    else
+                        model.PrevNumber = lstBarcode[index - 1].ToString();
+
+                    if (index == lstBarcode.Count - 1)
+                        model.NexNumber = lstBarcode[0].ToString();
+                    else
+                        model.NexNumber = lstBarcode[index + 1].ToString();
+                }
                 #endregion
             }
             return View(model);

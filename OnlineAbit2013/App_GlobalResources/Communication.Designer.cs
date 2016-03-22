@@ -205,6 +205,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to След. анкета.
+        /// </summary>
+        internal static string NextApplicant {
+            get {
+                return ResourceManager.GetString("NextApplicant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нет.
         /// </summary>
         internal static string No {
@@ -273,6 +282,15 @@ namespace Resources {
         internal static string PosstalAddress {
             get {
                 return ResourceManager.GetString("PosstalAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пред. анкета.
+        /// </summary>
+        internal static string PrevApplicant {
+            get {
+                return ResourceManager.GetString("PrevApplicant", resourceCulture);
             }
         }
         

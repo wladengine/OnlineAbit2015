@@ -75,7 +75,7 @@
        {
            display:none;
        }
-       #down1, #down2, #down3, #down4, #down5
+       .down
        {
            display:none;
        }
@@ -108,6 +108,10 @@
             }, function (data) { location.reload();}, 'json');
             
         }
+        function OpenCard(Num) {
+            $("#Barcode").val(Num);
+            document.fOpenCard.submit();
+        }
         function UpdateDePts() {
             $.post("../../Communication/UpdateDePts", {
                 Barcode: '<%=Model.Number %>',
@@ -133,11 +137,24 @@
 
         }
     </script>
-    <div>
-       <%=GetGlobalResourceObject("Communication", "BackToOverview")%>: <a href = "../../Communication/Index?sort=<%=Model.SortOrder%>#<%=Model.Number.ToString() %>"><%="#"+Model.Number.ToString() %></a>
+    <div class="clearfix" style="width:100%;">
+        <div style=" width: 300px;" class="clearfix" >
+           <%=GetGlobalResourceObject("Communication", "BackToOverview")%>: <a href = "../../Communication/Index?sort=<%=Model.SortOrder%>#<%=Model.Number.ToString() %>"><%="#"+Model.Number.ToString() %></a>
+        </div>
+        <div style=" float: right;">
+            <%if (!String.IsNullOrEmpty(Model.NexNumber) && !String.IsNullOrEmpty(Model.PrevNumber))
+              { %><input type="button" class="button button-gray" onclick="OpenCard(<%=Model.PrevNumber.ToString()%>)" value="<%=GetGlobalResourceObject("Communication", "PrevApplicant")%>" />
+            <input type="button" class="button button-gray" onclick="OpenCard(<%=Model.NexNumber.ToString()%>)" value="<%=GetGlobalResourceObject("Communication", "NextApplicant")%>" />
+            <%} %>
+        </div>
     </div>
     <hr />
     <div>
+    <form id="fOpenCard" name ="fOpenCard" method="post" >
+    <%=Html.HiddenFor(x=>x.SortOrder) %>
+    <%=Html.HiddenFor(x=>x.BarcodeList) %>
+    <input type="hidden" id="Barcode" name="Barcode"/>
+    </form>
         <table>
             <tr>
                 <td style="vertical-align:top;">
@@ -235,7 +252,7 @@
                         foreach (var block in Model.lstFiles.OrderBy(x=>x.BlockIndex)) {  
                            %>
                         <div id ="Files<%=ind.ToString()%>Header" onclick="ShowHide(Files<%=ind.ToString()%>Body, down<%=ind.ToString()%>, up<%=ind.ToString()%>)" class ="button-blue"> 
-                            <%=block.BlockName%><span id ="down<%=ind.ToString()%>">▾</span><span id="up<%=ind.ToString()%>">▴</span>
+                            <%=block.BlockName%><span id ="down<%=ind.ToString()%>" class="down">▾</span><span id="up<%=ind.ToString()%>" class="up">▴</span>
                         </div>
                         <div id ="Files<%=ind.ToString()%>Body" class ="filesbody">
                             <%foreach (var x in block.lst) { %>

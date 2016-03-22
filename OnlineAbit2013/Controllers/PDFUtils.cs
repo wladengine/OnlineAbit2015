@@ -3557,7 +3557,7 @@ namespace OnlineAbit2013.Controllers
                                             VALUES (@Id, @PersonId,
                                                     @FileName, @FileExtention, @FileData, @FileSize,
                                                     @Comment, @LoadDate, @MimeType,
-                                                    @IsReadOnly, 7)";
+                                                    @IsReadOnly, 17)";
                 SortedList<string, object> prms = new SortedList<string, object>();
                 int ? SecTypeId = abitList.FirstOrDefault().SecondTypeId;
                 string SecondType = (SecTypeId.HasValue ?
@@ -3753,15 +3753,19 @@ namespace OnlineAbit2013.Controllers
                 new SortedList<string, object>() { { "@PersonId", PersonId } });
                 if (imgBytes != null)
                 {
-                    iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(imgBytes);
-                    img.ScaleToFit(125, 125);
+                    try
+                    {
+                        iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(imgBytes);
+                        img.ScaleToFit(125, 125);
 
-                    //img.Border = iTextSharp.text.Rectangle.BOX;
-                    //img.BorderColor = iTextSharp.text.BaseColor.BLACK;
-                    //img.BorderWidth = 5f;
+                        //img.Border = iTextSharp.text.Rectangle.BOX;
+                        //img.BorderColor = iTextSharp.text.BaseColor.BLACK;
+                        //img.BorderWidth = 5f;
 
-                    img.SetAbsolutePosition(420, 690);
-                    cb.AddImage(img);
+                        img.SetAbsolutePosition(420, 690);
+                        cb.AddImage(img);
+                    }
+                    catch { }
                 }
                 acrFlds.SetField("Number", person.Number.ToString());
 
@@ -3838,36 +3842,11 @@ namespace OnlineAbit2013.Controllers
         {
             List<byte[]> lstRet = new List<byte[]>();
             string query = @"SELECT FileData FROM PersonFile 
-WHERE PersonId=@PersonId AND PersonFileTypeId = {0} AND FileExtention = '.pdf' AND IsDeleted = 0";
+join PersonFileType on PersonFile.PersonFileTypeId = PersonFileType.Id
+WHERE PersonId=@PersonId AND PersonFileType.IndexInAppCard > 0 AND FileExtention = '.pdf' AND IsDeleted = 0
+order by IndexInAppCard ";
 
-            //dipl
-            DataTable tbl = Util.AbitDB.GetDataTable(string.Format(query, 2),
-                new SortedList<string, object>() { { "@PersonId", PersonId } });
-            foreach (DataRow rw in tbl.Rows)
-            {
-                lstRet.Add(rw.Field<byte[]>("FileData"));
-            }
-
-            //eng certs
-            tbl = Util.AbitDB.GetDataTable(string.Format(query, 5),
-                new SortedList<string, object>() { { "@PersonId", PersonId } });
-            foreach (DataRow rw in tbl.Rows)
-            {
-                lstRet.Add(rw.Field<byte[]>("FileData"));
-            }
-
-            //CV
-            tbl = Util.AbitDB.GetDataTable(string.Format(query, 15),
-                new SortedList<string, object>() { { "@PersonId", PersonId } });
-            foreach (DataRow rw in tbl.Rows)
-            {
-                lstRet.Add(rw.Field<byte[]>("FileData"));
-            }
-
-            //Mot.letter
-            tbl = Util.AbitDB.GetDataTable(string.Format(query, 10),
-                new SortedList<string, object>() { { "@PersonId", PersonId } });
-
+            DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", PersonId } });
             foreach (DataRow rw in tbl.Rows)
             {
                 lstRet.Add(rw.Field<byte[]>("FileData"));

@@ -216,4 +216,10 @@
   <data name="NoFiles" xml:space="preserve">
     <value>No files</value>
   </data>
+  <data name="NextApplicant" xml:space="preserve">
+    <value>Next Applicant</value>
+  </data>
+  <data name="PrevApplicant" xml:space="preserve">
+    <value>Prev. Applicant</value>
+  </data>
 </root>
