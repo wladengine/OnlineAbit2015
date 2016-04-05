@@ -416,7 +416,7 @@
         function CheckValueCertificate()
         {
             var val = $('#CertValue').val();
-            var regex = /^([0-9])+$/i;
+            var regex = /^([0-9,.])+$/i;
             if (val != '') {
                 if (!regex.test(val)) {
                     $('#CertValue').addClass('input-validation-error');
@@ -428,7 +428,7 @@
                     $('#validationMsgCertValue').hide();
                 }
             }
-            if ($('#IsBoolType').val() == "0" && val != '') {
+            if ($('#IsBoolType').val() != "0" && val != '') {
                 $('#CertValue').addClass('input-validation-error');
                 return false;
             }
