@@ -1337,8 +1337,22 @@ namespace OnlineAbit2013.Controllers
                     if (int.TryParse(val, out TTid))
                     {
                         var SelExam = context.ApplicationSelectedExam.Where(x => x.ApplicationId == ap.AppId && x.ExamInEntryBlockUnitId == ap.UnitId).FirstOrDefault();
+
+                        bool bExamExists = true;
+                        if (SelExam == null)
+                        {
+                            bExamExists = false;
+                            SelExam = new ApplicationSelectedExam();
+                            SelExam.ApplicationId = ap.AppId;
+                            SelExam.ExamInEntryBlockUnitId = ap.UnitId;
+                        }
+
                         SelExam.ExamTimetableId = TTid;
                         SelExam.RegistrationDate = DateTime.Now;
+
+                        if (!bExamExists)
+                            context.ApplicationSelectedExam.Add(SelExam);
+
                         context.SaveChanges();
                     }
                 }
