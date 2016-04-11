@@ -2050,6 +2050,24 @@ ORDER by Semester.Id";
                         DateReviewDocs = s.DateReviewDocs
                     });
 
+                    var SelExams = (from sel in context.ApplicationSelectedExam
+                                    where sel.ApplicationId == s.Id
+                                    select new
+                                    {
+                                        sel.ExamInEntryBlockUnitId,
+                                        sel.ExamTimetableId,
+                                        sel.RegistrationDate,
+                                    }).ToList();
+                     foreach (var inner in SelExams)
+                    {
+                        context.ApplicationSelectedExam.Add(
+                            new ApplicationSelectedExam()
+                            {
+                                ApplicationId = s.Id,
+                                ExamInEntryBlockUnitId = inner.ExamInEntryBlockUnitId,
+                                ExamTimetableId = inner.ExamTimetableId,
+                            });
+                     }
                     var innerPriorList =
                         (
                         from appDet in context.ApplicationDetails
