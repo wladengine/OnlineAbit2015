@@ -897,7 +897,7 @@ namespace OnlineAbit2013.Controllers
                 }
             }
             GlobalCommunicationModelApplicantList model = GetModelList(sSortResult);
-            model.ApplicantList = model.ApplicantList.Where(x => x.Interview).ToList();
+            model.ApplicantList = model.ApplicantList.ToList();
 
             byte[] bindata;
             using (OnlinePriemEntities context = new OnlinePriemEntities())

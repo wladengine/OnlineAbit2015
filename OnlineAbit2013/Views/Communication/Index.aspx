@@ -100,7 +100,7 @@
         <button value ="print" onclick ="PrintList()" class="button button-green"> Print as PDF</button>
     </div>
     <div style="padding:5px;">
-        <button value ="print" onclick ="PrintListXLS()" class="button button-green"> Print (Interview=Y) as XLS</button>
+        <button value ="print" onclick ="PrintListXLS()" class="button button-green"> Print as XLS</button>
     </div>
     <hr /> 
     <form id="fOpenCard" name ="fOpenCard" action="../../Communication/ApplicantCard" method="post" >
