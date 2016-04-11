@@ -1997,6 +1997,10 @@ ORDER by Semester.Id";
             constant.DocNumber = 30;
             constant.EqualDocNumber = 50;
 
+            constant.City = 250;
+            constant.House = 20;
+            constant.Street = 250;
+            constant.Flat = 10;
             return constant;
         }
 
@@ -2050,6 +2054,24 @@ ORDER by Semester.Id";
                         DateReviewDocs = s.DateReviewDocs
                     });
 
+                    var SelExams = (from sel in context.ApplicationSelectedExam
+                                    where sel.ApplicationId == s.Id
+                                    select new
+                                    {
+                                        sel.ExamInEntryBlockUnitId,
+                                        sel.ExamTimetableId,
+                                        sel.RegistrationDate,
+                                    }).ToList();
+                     foreach (var inner in SelExams)
+                    {
+                        context.ApplicationSelectedExam.Add(
+                            new ApplicationSelectedExam()
+                            {
+                                ApplicationId = s.Id,
+                                ExamInEntryBlockUnitId = inner.ExamInEntryBlockUnitId,
+                                ExamTimetableId = inner.ExamTimetableId,
+                            });
+                     }
                     var innerPriorList =
                         (
                         from appDet in context.ApplicationDetails

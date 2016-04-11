@@ -1337,7 +1337,6 @@ namespace OnlineAbit2013.Controllers
                     if (int.TryParse(val, out TTid))
                     {
                         var SelExam = context.ApplicationSelectedExam.Where(x => x.ApplicationId == ap.AppId && x.ExamInEntryBlockUnitId == ap.UnitId).FirstOrDefault();
-
                         bool bExamExists = true;
                         if (SelExam == null)
                         {

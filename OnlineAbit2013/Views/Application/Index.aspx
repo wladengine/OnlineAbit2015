@@ -138,6 +138,7 @@
                         else{
                             tbody +='<span title="Данный файл можно удалить в разделе \'Общие файлы\'"><img src="../../Content/myimg/icon_shared3.png" /></span>';
                         }
+                        tbody += "</td>";
                         tbody += '</tr>';
                     }
                 }
