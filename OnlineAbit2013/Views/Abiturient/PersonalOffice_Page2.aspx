@@ -30,7 +30,7 @@
                     changeMonth: true,
                     changeYear: true,
                     showOn: "focus",
-                    yearRange: '1968:2015',
+                    yearRange: '1968:<%= DateTime.Now.Year.ToString() %>',
                     maxDate: "+1D",
                     defaultDate: '-3y'
                 });
@@ -38,7 +38,7 @@
                     changeMonth: true,
                     changeYear: true,
                     showOn: "focus",
-                    yearRange: '2014:2034', 
+                    yearRange: '<%= DateTime.Now.Year.ToString() %>:<%= DateTime.Now.AddYears(20).Year.ToString() %>', 
                     defaultDate: '-3y'
                 });
                 $.datepicker.setDefaults($.datepicker.regional['<%= GetGlobalResourceObject("Common", "DatetimePicker").ToString()%>']);

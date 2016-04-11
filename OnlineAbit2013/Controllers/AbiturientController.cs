@@ -5510,7 +5510,7 @@ Order by cnt desc";
             else return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
 
             double iValue;
-            if (!double.TryParse(Value, out iValue) && !IsBoolType)
+            if (!double.TryParse(Value.Replace('.', ','), out iValue) && !IsBoolType)
                 return Json(new { IsOk = false, ErrorMessage = Resources.ServerMessages.IncorrectGUID });
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
@@ -5537,6 +5537,7 @@ Order by cnt desc";
 
                 return Json(new
                 {
+                    Id = Ol.Id,
                     IsOk = true,
                     Name = Ol.Name,
                     IsBool = Ol.IsBool,
