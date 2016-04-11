@@ -108,45 +108,17 @@
             return ret;
         }
         function CheckCity() {
-            var ret = true;
-            if ($('#ContactsInfo_City').val() == '') {
-                ret = false;
-                $('#ContactsInfo_City').addClass('input-validation-error');
-                $('#ContactsInfo_City_Message').show();
-            }
-            else {
-                $('#ContactsInfo_City').removeClass('input-validation-error');
-                $('#ContactsInfo_City_Message').hide();
-            }
-            return ret;
+            return CheckLength('ContactsInfo_City','ContactsInfo_City_Message', <%=Model.ConstInfo.City%>, 1, '<%=GetGlobalResourceObject("PersonalOffice_Step3", "City_Message").ToString()%>');
         }
-        function CheckStreet() {
-            var ret = true;
-            if ($('#ContactsInfo_Street').val() == '') {
-                ret = false;
-                $('#ContactsInfo_Street').addClass('input-validation-error');
-                $('#ContactsInfo_Street_Message').show();
-            }
-            else {
-                $('#ContactsInfo_Street').removeClass('input-validation-error');
-                $('#ContactsInfo_Street_Message').hide();
-            }
-            return ret;
+        function CheckStreet() { 
+            return CheckLength('ContactsInfo_Street','ContactsInfo_Street_Message', <%=Model.ConstInfo.Street%>, 1, '<%=GetGlobalResourceObject("PersonalOffice_Step3", "Street_Message").ToString()%>');
         }
         function CheckHouse() {
-            var ret = true;
-            if ($('#ContactsInfo_House').val() == '') {
-                ret = false;
-                $('#ContactsInfo_House').addClass('input-validation-error');
-                $('#ContactsInfo_House_Message').show();
-            }
-            else {
-                $('#ContactsInfo_House').removeClass('input-validation-error');
-                $('#ContactsInfo_House_Message').hide();
-            }
-            return ret;
+            return CheckLength('ContactsInfo_House','ContactsInfo_House_Message', <%=Model.ConstInfo.House%>, 1, '<%=GetGlobalResourceObject("PersonalOffice_Step3", "House_Message").ToString()%>');
         }
-
+        function CheckFlat() {
+            return CheckLength('ContactsInfo_Flat','ContactsInfo_Flat_Message', <%=Model.ConstInfo.Flat%>, 0, '');
+        }
         function CheckForm() {
             var res = true;
             if (!CheckPhone()) { res = false; }
@@ -154,6 +126,7 @@
             if (!CheckCity()) { res = false; }
             if (!CheckStreet()) { res = false; }
             if (!CheckHouse()) { res = false; }
+            if (!CheckFlat())  { res = false; }
             return res;
         }
     </script>
@@ -265,6 +238,35 @@
                 $('#ContactsInfo_PostIndexReal_MessageFoundOtherIndex').hide();
             }
         }
+        function CheckLength(id, idspan, length, minlength, text) {
+            var ret = true;
+            var val = $('#' + id).val();
+            if (val.length < minlength) {
+                $('#' + idspan).text(text);
+                $('#' + idspan).show();
+                $('#' + id).addClass('input-validation-error');
+                ret = false;
+            }
+            else if (val.length > length) {
+                var len = val.length - length;
+                $('#' + idspan).text('<%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart1").ToString()%> ' + len + ' <%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart2").ToString()%>');
+                $('#' + idspan).show();
+                $('#' + id).addClass('input-validation-error');
+                ret = false;
+            }
+            else {
+                if ((val.length < length * 0.9 && length < 1000) || (val.length < length - 100 && length >= 1000)) {
+                    $('#' + idspan).hide();
+                    $('#' + id).removeClass('input-validation-error');
+                } else {
+                    var len = length - val.length;
+                    $('#' + idspan).text(len + ' <%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart3").ToString()%>');
+                    $('#' + idspan).show();
+                    $('#' + id).removeClass('input-validation-error');
+                }
+            }
+            return ret;
+        }
     </script>
     <div class="grid">
         <div class="wrapper">
@@ -310,15 +312,17 @@
                         <label for="ContactsInfo_City" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
                         <asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step3, City %>"></asp:Literal><asp:Literal runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
                         </label>
-                        <%= Html.TextBoxFor(x => x.ContactsInfo.City) %> 
+                        <%= Html.TextBoxFor(x => x.ContactsInfo.City, new Dictionary<string, object> { 
+{ "onchange", "CheckCity()"}, { "onkeyup",  "CheckCity()"}, { "onblur",  "CheckCity()"} })%> 
                         <br /><p></p>
                         <span id="ContactsInfo_City_Message" class="Red" style="display:none"><%= GetGlobalResourceObject("PersonalOffice_Step3", "City_Message").ToString()%> </span> 
                     </div>
                     <div class="clearfix">
                         <label for="ContactsInfo_Street" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
-                        <asp:Literal  runat="server" Text="<%$Resources:PersonalOffice_Step3, Street %>"></asp:Literal><asp:Literal runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal></asp:Literal><asp:Literal ID="Literal1" runat="server" Text="<%$Resources:PersonalOffice_Step3, Street_1 %>"></asp:Literal>
+                        <asp:Literal  runat="server" Text="<%$Resources:PersonalOffice_Step3, Street %>"></asp:Literal><asp:Literal runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal><asp:Literal ID="Literal1" runat="server" Text="<%$Resources:PersonalOffice_Step3, Street_1 %>"></asp:Literal>
                         </label>
-                        <%= Html.TextBoxFor(x => x.ContactsInfo.Street)%>
+                       <%= Html.TextBoxFor(x => x.ContactsInfo.Street, new Dictionary<string, object> { 
+{ "onchange", "CheckSteet()"}, { "onkeyup", "CheckSteet()"}, { "onblur", "CheckSteet()"}})%> 
                         <br /><p></p>
                         <span id="ContactsInfo_Street_Message" class="Red" style="display:none"><%= GetGlobalResourceObject("PersonalOffice_Step3", "Street_Message").ToString()%> </span>
                     </div>
@@ -326,7 +330,8 @@
                         <label for="ContactsInfo_House" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
                         <asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step3, House %>"></asp:Literal><asp:Literal runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
                         </label>
-                        <%= Html.TextBoxFor(x => x.ContactsInfo.House) %> 
+                        <%= Html.TextBoxFor(x => x.ContactsInfo.House, new Dictionary<string, object> { 
+{ "onchange", "CheckHouse()"}, { "onkeyup", "CheckHouse()"}, { "onblur", "CheckHouse()"}})%> 
                         <br /><p></p>
                         <span id="ContactsInfo_House_Message" class="Red" style="display:none"><%= GetGlobalResourceObject("PersonalOffice_Step3", "House_Message").ToString()%> </span> 
                     </div>
@@ -336,7 +341,10 @@
                     </div>--%>
                     <div class="clearfix">
                         <%= Html.LabelFor(x => x.ContactsInfo.Flat, GetGlobalResourceObject("PersonalOffice_Step3", "Flat").ToString())%>
-                        <%= Html.TextBoxFor(x => x.ContactsInfo.Flat) %>
+                        <%= Html.TextBoxFor(x => x.ContactsInfo.Flat, new Dictionary<string, object> { 
+{ "onchange", "CheckFlat()"}, { "onkeyup", "CheckFlat()"}, { "onblur", "CheckFlat()"}})%>
+                        <br /><p></p>
+                        <span id="ContactsInfo_Flat_Message" class="Red" style="display:none"> </span> 
                     </div>
                     <div class="clearfix">
                         <label for="ContactsInfo_PostIndex" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 

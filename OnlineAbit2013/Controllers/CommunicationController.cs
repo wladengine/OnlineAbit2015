@@ -280,10 +280,10 @@ namespace OnlineAbit2013.Controllers
                     (person.City + ", ") ?? "") 
                     +
                     string.Format("{0} {1} {2} {3}", 
-                    person.Street ?? "", 
-                    (person.House == string.Empty ? "" : (bIsEng ? "":"дом ") + person.House),
-                    (person.Korpus == string.Empty ? "" : (bIsEng ? "":"корп. ") + person.Korpus),
-                    (person.Flat == string.Empty ? "" : (bIsEng ? "":"кв. ") + person.Flat));
+                    person.Street ?? "",
+                    (string.IsNullOrEmpty(person.House) ? "" : (bIsEng ? "" : "дом ") + person.House),
+                    (string.IsNullOrEmpty(person.Korpus) ? "" : (bIsEng ? "":"корп. ") + person.Korpus),
+                    (string.IsNullOrEmpty(person.Flat) ? "" : (bIsEng ? "" : "кв. ") + person.Flat));
                   
                 model.Email = person.Email;
                 

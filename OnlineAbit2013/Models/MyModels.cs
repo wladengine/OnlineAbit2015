@@ -868,6 +868,11 @@ namespace OnlineAbit2013.Models
         public int? Parents { get; set; }
         public int? AddInfo { get; set; }
 
+        public int? Street { get; set; }
+        public int? House { get; set; }
+        public int? City { get; set; }
+        public int? Flat { get; set; }
+
         public int? DiplomTheme { get; set; }
         public int? ProgramName { get; set; }
         public int? SchoolLocation { get; set; }

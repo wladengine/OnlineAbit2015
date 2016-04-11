@@ -3843,7 +3843,7 @@ namespace OnlineAbit2013.Controllers
             List<byte[]> lstRet = new List<byte[]>();
             string query = @"SELECT FileData FROM PersonFile 
 join PersonFileType on PersonFile.PersonFileTypeId = PersonFileType.Id
-WHERE PersonId=@PersonId AND PersonFileType.IndexInAppCard > 0 AND FileExtention = '.pdf' AND IsDeleted = 0
+WHERE PersonId=@PersonId AND PersonFileType.IndexInAppCard > 0 AND PersonFileType.Id <>1 AND FileExtention = '.pdf' AND IsDeleted = 0
 order by IndexInAppCard ";
 
             DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", PersonId } });
