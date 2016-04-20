@@ -25,6 +25,7 @@ namespace OnlineAbit2013.EMDX
         public System.DateTime ExamDate { get; set; }
         public string Address { get; set; }
         public System.DateTime DateOfClose { get; set; }
+        public Nullable<int> BaseExamTimeTableId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ApplicationSelectedExam> ApplicationSelectedExam { get; set; }

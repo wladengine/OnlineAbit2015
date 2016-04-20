@@ -936,7 +936,16 @@ namespace OnlineAbit2013.Models
         public string ExamInEntryBlockUnitName;
         public int? SelectedTimeTableId;
 
-        public List<ExamTimetable> lstTimeTable;
+        public List<ExamTtable> lstTimeTable;
     }
-
+    public class ExamTtable
+    {
+        public int Id { get; set; }
+        public Guid ExamInEntryBlockUnitId { get; set; }
+        public DateTime ExamDate { get; set; }
+        public string Address { get; set; }
+        public DateTime DateOfClose { get; set; }
+        public int? BaseExamTimeTableId { get; set; }
+        public bool isEnable { get; set; }
+    }
 }

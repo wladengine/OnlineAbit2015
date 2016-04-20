@@ -18,20 +18,28 @@
         });
         $("#sortable").disableSelection();
     });
+    function Send()
+    {
+        document.examssave.submit();
+    }
 </script>
 <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
      <div class="message info">
          Регистрация на экзамены
      </div>
-    <form action="/Application/ExamsTimetableSave?id=<%=Model.gCommId %>" method="post">
+    <form action="/Application/ExamsTimetableSave?id=<%=Model.gCommId %>" method="post" name ="examssave">
     <% foreach (var app in Model.lst) {%>
         <div>
         <h4><%=app.ExamInEntryBlockUnitName %></h4>
         <%foreach (var exam in app.lstTimeTable) { %>
         <div class ="info panel" style="margin:6px;">
-            <input type="radio" value="<%=exam.Id%>" name ="app_<%=app.ExamInEntryBockUnitId.ToString()%>" <% if (app.SelectedTimeTableId == exam.Id) { %>checked ="checked"<% } %>/>
-            <b><% = exam.ExamDate.ToString("dd.MM.yyyy HH:mm") %></b><br/>
-            <% = exam.Address%><br/>
+            <input type="radio" value="<%=exam.Id%>" name ="app_<%=app.ExamInEntryBockUnitId.ToString()%>" <% if (app.SelectedTimeTableId == exam.Id) { %>checked ="checked"<% }  %>
+              <% if (!exam.isEnable) { %>disabled ="disabled"<% }  %> 
+                onchange="Send();"  />
+            <% if (!exam.isEnable) { %><span style="opacity: 0.6;"> <%} %>
+            <b><% = exam.ExamDate.ToString("dd.MM.yyyy HH:mm") %></b>
+            <br/> <% = exam.Address%><br/> 
+           <% if (!exam.isEnable) { %></span> <%} %>
         </div>
         
     <% } %>

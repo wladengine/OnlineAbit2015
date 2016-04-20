@@ -1273,8 +1273,9 @@ namespace OnlineAbit2013.Controllers
                                UnitId = a.UnitId,
                                ExamName = a.ExamName,
                                TimeTableId = a.TimeTableId,
-                               lstTimeTable = context.ExamTimetable.Where(t => t.ExamInEntryBlockUnitId == a.UnitId && t.DateOfClose >= DateTime.Now).Select(t => new { Id = t.Id, DateOfClose = t.DateOfClose, Address = t.Address, ExamDate = t.ExamDate }).ToList(),
+                               lstTimeTable = context.ExamTimetable.Where(t => t.ExamInEntryBlockUnitId == a.UnitId && t.DateOfClose >= DateTime.Now).Select(t => new { Id = t.Id, DateOfClose = t.DateOfClose, Address = t.Address, ExamDate = t.ExamDate, Base = t.BaseExamTimeTableId}).ToList(),
                            }).ToList();
+
                 ApplicationExamsTimeTableModel model = new ApplicationExamsTimeTableModel();
                 model.gCommId = ApplicationId;
                 model.lst = lst.Where(x=>x.lstTimeTable.Count>0).Select(x => new AppExamsTimeTable
@@ -1283,9 +1284,59 @@ namespace OnlineAbit2013.Controllers
                                ExamInEntryBockUnitId = x.UnitId,
                                ExamInEntryBlockUnitName = x.ExamName,
                                SelectedTimeTableId = x.TimeTableId,
-                               lstTimeTable = x.lstTimeTable.Select(t => new ExamTimetable { Id = t.Id, DateOfClose = t.DateOfClose, Address = t.Address, ExamDate = t.ExamDate }).ToList(),
+                               lstTimeTable = x.lstTimeTable.Select(t => new ExamTtable { Id = t.Id, DateOfClose = t.DateOfClose, Address = t.Address, ExamDate = t.ExamDate, isEnable = true, BaseExamTimeTableId = t.Base }).OrderBy(t=>t.ExamDate).ToList(),
                            }).ToList();
+                foreach (var tt in model.lst)
+                {
+                    foreach (ExamTtable t in tt.lstTimeTable)
+                    {
+                        if (t.BaseExamTimeTableId == null)
+                        {
+                            t.isEnable = true;
+                            foreach (var x in model.lst.Select(e=>e.SelectedTimeTableId).ToList())
+                            {
+                                int cnt = (from e in context.ExamTimeTableOneDayRestriction
+                                           where (e.ExamTimeTableId1 == x && e.ExamTimeTableId2 == t.Id)
+                                           || (e.ExamTimeTableId2 == x && e.ExamTimeTableId1 == t.Id)
+                                           select e).Count();
+                                if (cnt > 0)
+                                {
+                                    t.isEnable = false;
+                                    break;
+                                }
+                            }
+                            if (!t.isEnable)
+                            {
+                                var l = model.lst.Where(x => x.SelectedTimeTableId == t.Id).FirstOrDefault();
+                                if (l != null)
+                                    l.SelectedTimeTableId = -1;
+                            }
+                        }
+                        else
+                        {
+                            t.isEnable = false;
+                            foreach (var x in model.lst.Select(e => e.SelectedTimeTableId).ToList())
+                            {
+                                int cnt = (from e in context.ExamTimeTableOneDayRestriction
+                                           where (e.ExamTimeTableId1 == x && e.ExamTimeTableId2 == t.BaseExamTimeTableId)
+                                           || (e.ExamTimeTableId2 == x && e.ExamTimeTableId1 == t.BaseExamTimeTableId)
+                                           select e).Count();
+                                if (cnt > 0)
+                                {
+                                    t.isEnable = true;
+                                    break;
+                                }
+                            }
+                            if (!t.isEnable)
+                            {
+                                var l = model.lst.Where(x => x.SelectedTimeTableId == t.Id).FirstOrDefault();
+                                if (l != null)
+                                    l.SelectedTimeTableId = -1;
+                            }
+                        }
+                    }
 
+                }
                 return View(model);
             }
         }
@@ -1356,8 +1407,8 @@ namespace OnlineAbit2013.Controllers
                     }
                 }
             }
-
-            return RedirectToAction("Index", new RouteValueDictionary() { { "id", gCommitId.ToString("N") } });
+            return RedirectToAction("ExamsTimetable", new RouteValueDictionary() { { "id", gCommitId.ToString("N") } });
+            //return RedirectToAction("Index", new RouteValueDictionary() { { "id", gCommitId.ToString("N") } });
         }
     }
 }
