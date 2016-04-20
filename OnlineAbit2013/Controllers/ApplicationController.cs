@@ -1278,6 +1278,7 @@ namespace OnlineAbit2013.Controllers
 
                 ApplicationExamsTimeTableModel model = new ApplicationExamsTimeTableModel();
                 model.gCommId = ApplicationId;
+                model.Comment = "";
                 model.lst = lst.Where(x=>x.lstTimeTable.Count>0).Select(x => new AppExamsTimeTable
                            {
                                ApplicationId = x.AppId,
@@ -1293,7 +1294,7 @@ namespace OnlineAbit2013.Controllers
                         if (t.BaseExamTimeTableId == null)
                         {
                             t.isEnable = true;
-                            foreach (var x in model.lst.Select(e=>e.SelectedTimeTableId).ToList())
+                            foreach (var x in model.lst.Select(e => e.SelectedTimeTableId).ToList())
                             {
                                 int cnt = (from e in context.ExamTimeTableOneDayRestriction
                                            where (e.ExamTimeTableId1 == x && e.ExamTimeTableId2 == t.Id)
@@ -1309,7 +1310,10 @@ namespace OnlineAbit2013.Controllers
                             {
                                 var l = model.lst.Where(x => x.SelectedTimeTableId == t.Id).FirstOrDefault();
                                 if (l != null)
+                                {
                                     l.SelectedTimeTableId = -1;
+                                    model.Comment = "Некоторые из выбранных регистраций являлись некорректными и были сброшены";
+                                }
                             }
                         }
                         else
@@ -1331,7 +1335,11 @@ namespace OnlineAbit2013.Controllers
                             {
                                 var l = model.lst.Where(x => x.SelectedTimeTableId == t.Id).FirstOrDefault();
                                 if (l != null)
+                                {
                                     l.SelectedTimeTableId = -1;
+                                    model.Comment = "Некоторые из выбранных регистраций являлись некорректными и были сброшены";
+
+                                }
                             }
                         }
                     }
@@ -1409,6 +1417,32 @@ namespace OnlineAbit2013.Controllers
             }
             return RedirectToAction("ExamsTimetable", new RouteValueDictionary() { { "id", gCommitId.ToString("N") } });
             //return RedirectToAction("Index", new RouteValueDictionary() { { "id", gCommitId.ToString("N") } });
+        
+        }
+        public ActionResult ExamsRegistrationClear(string id)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                return RedirectToAction("LogOn", "Account");
+
+            Guid gCommitId;
+            if (!Guid.TryParse(id.ToString(), out gCommitId))
+                return Json(Resources.ServerMessages.IncorrectGUID, JsonRequestBehavior.AllowGet);
+
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                var apps = (from app in context.Application
+                            join se in context.ApplicationSelectedExam on  app.Id equals se.ApplicationId 
+                            where app.CommitId == gCommitId
+                            select se).ToList();
+                foreach (var exam in apps)
+                {
+                    exam.ExamTimetableId = null;
+                    exam.RegistrationDate = null;
+                    context.SaveChanges();
+                }
+            }
+            return RedirectToAction("ExamsTimetable", new RouteValueDictionary() { { "id", gCommitId.ToString("N") } });
         }
     }
 }

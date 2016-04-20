@@ -927,6 +927,7 @@ namespace OnlineAbit2013.Models
     public class ApplicationExamsTimeTableModel
     {
         public List<AppExamsTimeTable> lst;
+        public string Comment;
         public Guid gCommId;
     }
     public class AppExamsTimeTable

@@ -22,11 +22,19 @@
     {
         document.examssave.submit();
     }
+    function ClearReg() {
+        window.open('../../Application/ExamsRegistrationClear/<%=Model.gCommId %>');
+    }
 </script>
 <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
      <div class="message info">
          Регистрация на экзамены
      </div>
+    <%if (!string.IsNullOrEmpty(Model.Comment)){ %>
+    <div class="message red">
+         <%=Model.Comment.ToString() %>
+     </div>
+    <%} %>
     <form action="/Application/ExamsTimetableSave?id=<%=Model.gCommId %>" method="post" name ="examssave">
     <% foreach (var app in Model.lst) {%>
         <div>
@@ -47,6 +55,8 @@
     <% } %>
     <br/>
     <input id="btnSubmit" type="submit" value=<%= GetGlobalResourceObject("NewApplication", "btnSubmit")%> class="button button-green"/>
+    <input type="submit" value="Отменить регистрацию" onclick ="ClearReg()"  class="button button-blue"/>
+
 </form>
 
 
