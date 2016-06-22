@@ -295,7 +295,17 @@ namespace OnlineAbit2013.Controllers
 
                 #endregion
                 #region Photo
-                DataTable tbl = Util.AbitDB.GetDataTable("SELECT top 1 FileName, FileData, MimeType, FileExtention FROM PersonFile WHERE PersonId=@PersonId and PersonFileTypeId=14",
+                DataTable tbl = Util.AbitDB.GetDataTable(@"
+SELECT top 1 FileName, FileData, MimeType, FileExtention FROM PersonFile WHERE PersonId=@PersonId and PersonFileTypeId=14 
+UNION ALL
+SELECT top 1 FileName, FileData, MimeType, FileExtention FROM ApplicationFile 
+INNER JOIN Application AP ON AP.Id = ApplicationFile.ApplicationId
+WHERE AP.PersonId=@PersonId and FileTypeId=18
+UNION ALL
+SELECT top 1 FileName, FileData, MimeType, FileExtention FROM ApplicationFile 
+INNER JOIN Application AP ON AP.CommitId = ApplicationFile.CommitId
+WHERE AP.PersonId=@PersonId and FileTypeId=18 
+",
                 new SortedList<string, object>() { { "@PersonId", person.personId } });
 
                 if (tbl.Rows.Count > 0)
@@ -355,44 +365,86 @@ namespace OnlineAbit2013.Controllers
                 model.IsComplete = (portf != null) ? portf.IsComplete : false;
                 #endregion
                 #region Files
-                
-                var files = (from x in context.PersonFile
-                             join type in context.PersonFileType on x.PersonFileTypeId equals type.Id
-                             where x.PersonId == person.personId
-                             && type.IndexInAppCard >0
-                             select new CommunicationFile()
-                             {
-                                 Id = x.Id,
-                                 FileName = x.FileName,
-                                 IsPersonFile = true,
-                                 Comment = x.Comment,
-                                 filetype = bIsEng ? type.NameEng : type.Name,
-                                 index = type.IndexInAppCard,
-                             }).ToList().Union(
-                             (from x in context.ApplicationFile
-                             join ap in context.Application on x.ApplicationId equals ap.Id
-                              where x.FileTypeId == 2 && EntryList.Contains(ap.EntryId) && ap.PersonId == person.personId
-                             select new CommunicationFile()
-                             {
-                                 Id = x.Id,
-                                 FileName = x.FileName,
-                                 IsPersonFile = false,
-                                 Comment = x.Comment,
-                                 filetype = context.PersonFileType.Where(t => t.Id == 10).Select(t => bIsEng ? t.NameEng : t.Name).FirstOrDefault(),
-                                 index = context.PersonFileType.Where(t => t.Id == 10).Select(t => t.IndexInAppCard).FirstOrDefault(),
-                             }).ToList()).Union(
-                             (from x in context.ApplicationFile
-                              join ap in context.Application on x.CommitId equals ap.CommitId
-                              where x.FileTypeId == 2 && EntryList.Contains(ap.EntryId) && ap.PersonId == person.personId
-                              select new CommunicationFile()
-                              {
-                                  Id = x.Id,
-                                  FileName = x.FileName,
-                                  IsPersonFile = false,
-                                  Comment = x.Comment,
-                                  filetype = context.PersonFileType.Where(t => t.Id == 10).Select(t => bIsEng ? t.NameEng : t.Name).FirstOrDefault(),
-                                  index = context.PersonFileType.Where(t => t.Id == 10).Select(t => t.IndexInAppCard).FirstOrDefault(),
-                              }).ToList()).Distinct().ToList();
+
+                var lstFiles_PersonFile =
+                    (from x in context.PersonFile
+                     join type in context.PersonFileType on x.PersonFileTypeId equals type.Id
+                     where x.PersonId == person.personId
+                     && type.IndexInAppCard > 0
+                     
+                     select new CommunicationFile()
+                     {
+                         Id = x.Id,
+                         FileName = (x.IsDeleted ? (bIsEng ? "DELETED " : "ФАЙЛ УДАЛЁН ") : "") + x.FileName,
+                         IsPersonFile = true,
+                         Comment = x.Comment,
+                         filetype = bIsEng ? type.NameEng : type.Name,
+                         index = type.IndexInAppCard,
+                     }).ToList();
+
+                //var lstFiles_InApplication =
+                //    (from x in context.ApplicationFile
+                //     join ap in context.Application on x.ApplicationId equals ap.Id
+                //     where x.FileTypeId == 2 && EntryList.Contains(ap.EntryId) && ap.PersonId == person.personId
+                //     select new CommunicationFile()
+                //     {
+                //         Id = x.Id,
+                //         FileName = x.FileName,
+                //         IsPersonFile = false,
+                //         Comment = x.Comment,
+                //         filetype = context.PersonFileType.Where(t => t.Id == 10).Select(t => bIsEng ? t.NameEng : t.Name).FirstOrDefault(),
+                //         index = context.PersonFileType.Where(t => t.Id == 10).Select(t => t.IndexInAppCard).FirstOrDefault(),
+                //     }).ToList();
+
+                //var lstFiles_InCommit =
+                //    (from x in context.ApplicationFile
+                //     join ap in context.Application on x.CommitId equals ap.CommitId
+                //     where x.FileTypeId == 2 && EntryList.Contains(ap.EntryId) && ap.PersonId == person.personId
+                //     select new CommunicationFile()
+                //     {
+                //         Id = x.Id,
+                //         FileName = x.FileName,
+                //         IsPersonFile = false,
+                //         Comment = x.Comment,
+                //         filetype = context.PersonFileType.Where(t => t.Id == 10).Select(t => bIsEng ? t.NameEng : t.Name).FirstOrDefault(),
+                //         index = context.PersonFileType.Where(t => t.Id == 10).Select(t => t.IndexInAppCard).FirstOrDefault(),
+                //     }).ToList();
+
+                var lstAppFiles_InApplication =
+                    (from x in context.ApplicationFile
+                     join ap in context.Application on x.ApplicationId equals ap.Id
+                     join AppFileType in context.FileType on x.FileTypeId equals AppFileType.Id
+                     join PFT in context.PersonFileType on AppFileType.Id equals PFT.ApplicationFileTypeId
+                     where PFT.IndexInAppCard > 0 && EntryList.Contains(ap.EntryId) && ap.PersonId == person.personId
+                     
+                     select new CommunicationFile()
+                     {
+                         Id = x.Id,
+                         FileName = (x.IsDeleted ? (bIsEng ? "DELETED " : "ФАЙЛ УДАЛЁН ") : "") + x.FileName,
+                         IsPersonFile = false,
+                         Comment = x.Comment,
+                         filetype = bIsEng ? PFT.NameEng : PFT.Name,
+                         index = PFT.IndexInAppCard,
+                     }).ToList();
+
+                var lstAppFiles_InCommit =
+                    (from x in context.ApplicationFile
+                     join ap in context.Application on x.CommitId equals ap.CommitId
+                     join AppFileType in context.FileType on x.FileTypeId equals AppFileType.Id
+                     join PFT in context.PersonFileType on AppFileType.Id equals PFT.ApplicationFileTypeId
+                     where PFT.IndexInAppCard > 0 && EntryList.Contains(ap.EntryId) && ap.PersonId == person.personId
+                     
+                     select new CommunicationFile()
+                     {
+                         Id = x.Id,
+                         FileName = (x.IsDeleted ? (bIsEng ? "DELETED " : "ФАЙЛ УДАЛЁН ") : "") + x.FileName,
+                         IsPersonFile = false,
+                         Comment = x.Comment,
+                         filetype = bIsEng ? PFT.NameEng : PFT.Name,
+                         index = PFT.IndexInAppCard,
+                     }).ToList();
+
+                var files = lstFiles_PersonFile.Union(lstAppFiles_InApplication).Union(lstAppFiles_InCommit).Distinct().ToList();
 
                 var blockFiles =
                     (from f in files
@@ -515,6 +567,11 @@ namespace OnlineAbit2013.Controllers
 
             double tmp;
             double? iRuPort, iRuInt;
+
+            if (!string.IsNullOrEmpty(RuPort))
+                RuPort = RuPort.Replace('.', ',');
+            if (!string.IsNullOrEmpty(RuInt))
+                RuInt = RuInt.Replace('.', ',');
 
             if (double.TryParse(RuPort, out tmp))
                 iRuPort =  tmp;

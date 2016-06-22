@@ -371,6 +371,8 @@ namespace OnlineAbit2013.Controllers
 
                 if (isMag)
                     lstAppendixes.Add(GetApplicationPDF_Agreement_Mag(FIO, person.Sex, dirPath, sVersion));
+                else
+                    lstAppendixes.Add(GetApplicationPDF_Agreement_1k(FIO, person.Sex, dirPath, sVersion));
 
                 List<ShortAppcation> lstAppsFirst = new List<ShortAppcation>();
                 for (int u = 0; u < 3; u++)
@@ -641,7 +643,16 @@ namespace OnlineAbit2013.Controllers
             int rwind = 1;
             foreach (var xxxx in lst.OrderBy(x => x.InnerEntryInEntryPriority))
             {
-                acrFlds.SetField("Profile" + rwind, xxxx.ProfileName);
+                string sVal = "";
+                bool bNeedSeparatorInVal = false;
+                if (xxxx.ObrazProgramName != ObrazProgramName)
+                {
+                    sVal += xxxx.ObrazProgramName;
+                    bNeedSeparatorInVal = true;
+                }
+                if (xxxx.ProfileName != "нет")
+                    sVal += (bNeedSeparatorInVal ? "; Профиль: " : "") + xxxx.ProfileName;
+                acrFlds.SetField("Profile" + rwind, sVal);
                 rwind++;
             }
 
@@ -724,6 +735,30 @@ namespace OnlineAbit2013.Controllers
         {
             MemoryStream ms = new MemoryStream();
             string dotName = string.Format("ApplicationAgreement_MagSex{0}.pdf", bSex ? "1" : "0");
+
+            byte[] templateBytes;
+            using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
+            {
+                templateBytes = new byte[fs.Length];
+                fs.Read(templateBytes, 0, templateBytes.Length);
+            }
+
+            PdfReader pdfRd = new PdfReader(templateBytes);
+            PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
+            AcroFields acrFlds = pdfStm.AcroFields;
+
+            acrFlds.SetField("FIO", FIO);
+
+            pdfStm.FormFlattening = true;
+            pdfStm.Close();
+            pdfRd.Close();
+
+            return ms.ToArray();
+        }
+        public static byte[] GetApplicationPDF_Agreement_1k(string FIO, bool bSex, string dirPath, string sVersion)
+        {
+            MemoryStream ms = new MemoryStream();
+            string dotName = string.Format("ApplicationAgreement_1kSex{0}.pdf", bSex ? "1" : "0");
 
             byte[] templateBytes;
             using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
@@ -3400,23 +3435,71 @@ namespace OnlineAbit2013.Controllers
             MemoryStream ms = new MemoryStream();
             Document document = new Document(PageSize.A4);
             PdfWriter writer = PdfWriter.GetInstance(document, ms);
-
             document.Open();
 
             foreach (byte[] doc in lstFilesBinary)
             {
-                PdfReader reader = new PdfReader(doc);
-                int n = reader.NumberOfPages;
-                //writer.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
+                if (doc == null)
+                    continue;
 
-                PdfContentByte cb = writer.DirectContent;
-                PdfImportedPage page;
-
-                for (int i = 0; i < n; i++)
+                using (MemoryStream mstr = new MemoryStream())
                 {
-                    document.NewPage();
-                    page = writer.GetImportedPage(reader, i + 1);
-                    cb.AddTemplate(page, 1f, 0, 0, 1f, 0, 0);
+                    PdfReader reader = new PdfReader(doc);
+                    int n = reader.NumberOfPages;
+                    //for (int i = 0; i < n; i++)
+                    //{
+                    //    PdfDictionary ppd = reader.GetPageN(i + 1);
+                    //    PdfNumber rotate = ppd.GetAsNumber(PdfName.ROTATE);
+                    //    if (rotate == null)
+                    //        ppd.Put(PdfName.ROTATE, new PdfNumber(90));
+                    //    else
+                    //        ppd.Put(PdfName.ROTATE, new PdfNumber((rotate.IntValue + 90) % 360));
+                    //}
+
+                    //PdfStamper stamper = new PdfStamper(reader, mstr);
+                    //stamper.Close();
+
+                    PdfContentByte cb = writer.DirectContent;
+                    PdfImportedPage page;
+
+                    for (int i = 0; i < n; i++)
+                    {
+                        document.NewPage();
+                        try
+                        {
+                            page = writer.GetImportedPage(reader, i + 1);
+                            writer.SetPageSize(reader.GetPageSize(i + 1));
+                            cb.AddTemplate(page, 1f, 0, 0, 1f, 0, 0);
+                        }
+                        catch 
+                        {
+                            string sFileInfo = "";
+                            try
+                            { sFileInfo = reader.Info.Select(x => x.Key + ":" + x.Value + "\n").Aggregate((x, tail) => x + tail); }
+                            catch { }
+
+                            BaseFont bfTimes = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, "utf-8", false);
+                            iTextSharp.text.Font font = new iTextSharp.text.Font(bfTimes, 10);
+
+                            //Paragraph p = new Paragraph("bad file:" + sFileInfo, font);
+                            ColumnText ct = new ColumnText(writer.DirectContent);
+                            Phrase myText = new Phrase("bad file:" + sFileInfo, new iTextSharp.text.Font(bfTimes, 9));
+                            /*the phrase
+                            lower-left-x
+                            lower-left-y
+                            upper-right-x (llx + width)
+                            upper-right-y (lly + height)
+                            leading (The amount of blank space between lines of print)
+                            alignment.*/
+                            float llx = 210f;
+                            float lly = 393f;
+                            float height = 300;
+                            ct.SetSimpleColumn(myText, llx, lly, llx + 200, lly + height, 10, Element.ALIGN_LEFT);
+                            ct.Go();
+
+                            //cb.Stroke();
+                        }
+                    }
                 }
             }
 
@@ -3834,6 +3917,7 @@ namespace OnlineAbit2013.Controllers
                 List<byte[]> lstFiles = new List<byte[]>();
                 lstFiles.Add(ms.ToArray());
                 lstFiles.AddRange(GetAdditionalFilesToCommunicationAppCard(PersonId));
+                lstFiles.Add(GetImageFileToCommunicationAppCard(PersonId));
                 return MergePdfFiles(lstFiles);
             }
         }
@@ -3841,18 +3925,74 @@ namespace OnlineAbit2013.Controllers
         public static List<byte[]> GetAdditionalFilesToCommunicationAppCard(Guid PersonId)
         {
             List<byte[]> lstRet = new List<byte[]>();
-            string query = @"SELECT FileData FROM PersonFile 
-join PersonFileType on PersonFile.PersonFileTypeId = PersonFileType.Id
-WHERE PersonId=@PersonId AND PersonFileType.IndexInAppCard > 0 AND PersonFileType.Id <>1 AND FileExtention = '.pdf' AND IsDeleted = 0
-order by IndexInAppCard ";
+            string query = @"SELECT FileData
+FROM extAbitFiles_All
+WHERE extAbitFiles_All.PersonId=@PersonId AND IndexInAppCard > 0 
+AND extAbitFiles_All.FileName NOT LIKE '%pasport%'
+AND FileExtention = '.pdf' 
+AND IsDeleted = 0
+order by IndexInAppCard";
 
             DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", PersonId } });
             foreach (DataRow rw in tbl.Rows)
             {
+                byte[] pdf = rw.Field<byte[]>("FileData");
+                //PdfReader pr = new PdfReader(pdf);
+                //pr.page
                 lstRet.Add(rw.Field<byte[]>("FileData"));
             }
 
             return lstRet;
+        }
+        public static byte[] GetImageFileToCommunicationAppCard(Guid PersonId)
+        {
+            List<byte[]> lstRet = new List<byte[]>();
+            string query = @"SELECT FileData
+FROM extAbitFiles_All
+WHERE extAbitFiles_All.PersonId=@PersonId AND IndexInAppCard > 0 
+AND extAbitFiles_All.FileName NOT LIKE '%pasport%'
+AND FileExtention IN ('.jpg', '.jpeg', '.png', '.bmp')
+AND IsDeleted = 0
+order by IndexInAppCard";
+
+            DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", PersonId } });
+            if (tbl.Rows.Count == 0)
+                return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Document doc = new Document(PageSize.A4, 50, 50, 50, 50);
+                PdfWriter pw = PdfWriter.GetInstance(doc, ms);
+                doc.Open();
+                
+                //добавляем штрихкод
+                PdfContentByte cb = pw.DirectContent;
+                foreach (DataRow rw in tbl.Rows)
+                {
+                    try
+                    {
+                        doc.NewPage();
+                        byte[] imgBytes = rw.Field<byte[]>(0);
+                        iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(imgBytes);
+
+                        float fMaxSizeX = 520f;
+                        float fMaxSizeY = 770f;
+                        if (img.PlainWidth > fMaxSizeX || img.PlainHeight > fMaxSizeY)
+                        {
+                            //float fPlainWidth = img.PlainWidth;
+                            //if (img.PlainWidth > fMaxSizeX)
+                            img.ScaleToFit(fMaxSizeX, fMaxSizeY);
+                        }
+                        img.SetAbsolutePosition(25, 25);
+                        cb.AddImage(img);
+                    }
+                    catch { }
+                }
+
+                doc.Close();
+                doc.Dispose();
+                return ms.ToArray();
+            }
         }
 
         public static byte[] GetCommunicationAbitList(string dirPath, GlobalCommunicationModelApplicantList model)

@@ -6413,9 +6413,11 @@ Order by cnt desc";
                              Ent.IsReduced == bIsReduced &&
                              Ent.IsSecond == bIsSecond &&
                             (gSpecialization == 0 ? true : Ent.ProfileId == gSpecialization) &&
-                             Ent.SemesterId == iSemesterId &&
-                             Ent.IsCrimea == bIsCrimea && 
-                             Ent.IsForeign == Ent.IsForeign
+                             Ent.SemesterId == iSemesterId 
+                             //&&
+                             //Ent.IsCrimea == bIsCrimea 
+                             //&& 
+                             //Ent.IsForeign == bIsForeign
                        select new
                        {
                            EntryId = Ent.Id,
@@ -6425,11 +6427,32 @@ Order by cnt desc";
                            StudyBasisName = Ent.StudyBasisName,
                            Profession = Ent.LicenseProgramName,
                            ObrazProgram = Ent.ObrazProgramName,
-                           Specialization = Ent.ProfileName
+                           Specialization = Ent.ProfileName,
+                           IsForeign = Ent.IsForeign,
+                           IsCrimea = Ent.IsCrimea
                        }).ToList();
 
                 if (EntryList.Count > 1)
-                    return Json(new { IsOk = false, ErrorMessage = Resources.NewApplication.NewApp_2MoreEntry + " (" + EntryList.Count.ToString() + ")" });
+                {
+                    //если при разбиении на группы везде по 1 конкурсу, то не считается
+                    var GroupedView = EntryList.Select(x => new { x.StudyFormName, x.StudyBasisName, x.Profession, x.ObrazProgram, x.Specialization, x.IsCrimea, x.IsForeign })
+                        .Select(x => new
+                        {
+                            //x.StudyFormName,
+                            //x.StudyBasisName,
+                            //x.Profession,
+                            //x.ObrazProgram,
+                            //x.Specialization,
+                            //x.IsCrimea,
+                            //x.IsForeign,
+                            //число конкурсов по разбиению
+                            CNT = EntryList.Where(z => z.StudyFormName == x.StudyFormName && x.StudyBasisName == z.StudyBasisName 
+                                && x.Profession == z.Profession && x.ObrazProgram == z.ObrazProgram && x.Specialization == z.Specialization && x.IsCrimea == z.IsCrimea && x.IsForeign == z.IsForeign).Count()
+                        }).ToList();
+
+                    if (GroupedView.Where(x => x.CNT > 1).Count() > 0)
+                        return Json(new { IsOk = false, ErrorMessage = Resources.NewApplication.NewApp_2MoreEntry + " (" + EntryList.Count.ToString() + ")" });
+                }
                 if (EntryList.Count == 0)
                     return Json(new { IsOk = false, ErrorMessage = Resources.NewApplication.NewApp_NoEntry });
 

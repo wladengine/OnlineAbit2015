@@ -24,7 +24,6 @@
         <EntityTypeShape EntityType="OnlinePriem2015Model.ExamInEntryBlockUnit" Width="1.5" PointX="11.25" PointY="46.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ExamName" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ExamTimetable" Width="1.5" PointX="13.5" PointY="46" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.FileType" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.Groups" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.GroupUsers" Width="1.5" PointX="12.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.Language" Width="1.5" PointX="11.25" PointY="15" IsExpanded="true" />
@@ -166,6 +165,7 @@
         <AssociationConnector Association="OnlinePriem2015Model.FK_PersonLanguageCertificates_LanguageCertificatesType" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationAddedToProtocol" Width="1.5" PointX="22.375" PointY="19.75" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ExamTimeTableOneDayRestriction" Width="1.5" PointX="22.375" PointY="22.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.FileType" Width="1.5" PointX="10.625" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

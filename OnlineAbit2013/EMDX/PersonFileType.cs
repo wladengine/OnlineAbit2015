@@ -19,5 +19,6 @@ namespace OnlineAbit2013.EMDX
         public string NameEng { get; set; }
         public string FileNameTemplate { get; set; }
         public int IndexInAppCard { get; set; }
+        public Nullable<int> ApplicationFileTypeId { get; set; }
     }
 }

@@ -462,7 +462,7 @@ namespace OnlineAbit2013.Controllers
             try
             {
                 string query = "INSERT INTO ApplicationFile (Id, CommitId, FileName, FileData, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, [FileTypeId]) " +
-                    " VALUES (@Id, @CommitId, @FileName, @FileData, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, 1)";
+                    " VALUES (@Id, @CommitId, @FileName, @FileData, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, @FileTypeId)";
                 SortedList<string, object> dic = new SortedList<string, object>();
                 dic.Add("@Id", Guid.NewGuid());
                 dic.Add("@CommitId", CommitId);
@@ -474,6 +474,9 @@ namespace OnlineAbit2013.Controllers
                 dic.Add("@LoadDate", DateTime.Now);
                 dic.Add("@Comment", fileComment);
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
+
+                int iFileTypeId = (int)Util.AbitDB.GetValue("SELECT ISNULL(ApplicationFileTypeId, 1) FROM PersonFileType where Id=" + PersonFileTypeId);
+                dic.Add("@FileTypeId", iFileTypeId);
 
                 Util.AbitDB.ExecuteQuery(query, dic);
                 Util.AbitDB.ExecuteQuery(@"update dbo.Application set IsViewed=0 where CommitId=@CommitId", dic);

@@ -23,7 +23,7 @@
         document.examssave.submit();
     }
     function ClearReg() {
-        window.open('../../Application/ExamsRegistrationClear/<%=Model.gCommId %>');
+        document.location.href = '../../Application/ExamsRegistrationClear/<%=Model.gCommId %>';
     }
 </script>
 <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
@@ -31,7 +31,7 @@
          Регистрация на экзамены
      </div>
     <%if (!string.IsNullOrEmpty(Model.Comment)){ %>
-    <div class="message red">
+    <div class="message error">
          <%=Model.Comment.ToString() %>
      </div>
     <%} %>
@@ -43,7 +43,7 @@
         <div class ="info panel" style="margin:6px;">
             <input type="radio" value="<%=exam.Id%>" name ="app_<%=app.ExamInEntryBockUnitId.ToString()%>" <% if (app.SelectedTimeTableId == exam.Id) { %>checked ="checked"<% }  %>
               <% if (!exam.isEnable) { %>disabled ="disabled"<% }  %> 
-                onchange="Send();"  />
+                onclick="Send();" />
             <% if (!exam.isEnable) { %><span style="opacity: 0.6;"> <%} %>
             <b><% = exam.ExamDate.ToString("dd.MM.yyyy HH:mm") %></b>
             <br/> <% = exam.Address%><br/> 
@@ -55,7 +55,7 @@
     <% } %>
     <br/>
     <input id="btnSubmit" type="submit" value=<%= GetGlobalResourceObject("NewApplication", "btnSubmit")%> class="button button-green"/>
-    <input type="submit" value="Отменить регистрацию" onclick ="ClearReg()"  class="button button-blue"/>
+    <input type="button" value="Отменить регистрацию" onclick ="ClearReg()"  class="button button-blue"/>
 
 </form>
 

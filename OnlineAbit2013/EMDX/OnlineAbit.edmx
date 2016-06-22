@@ -282,7 +282,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -587,6 +587,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="NameEng" Type="nvarchar" MaxLength="500" />
           <Property Name="FileNameTemplate" Type="nvarchar" MaxLength="50" />
           <Property Name="IndexInAppCard" Type="int" Nullable="false" />
+          <Property Name="ApplicationFileTypeId" Type="int" />
         </EntityType>
         <EntityType Name="PersonHighEducationInfo">
           <Key>
@@ -3256,14 +3257,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <NavigationProperty Name="ExamInEntryBlockUnit" Relationship="Self.FK_ExamTimetable_ExamInEntryBlockUnit" FromRole="ExamTimetable" ToRole="ExamInEntryBlockUnit" />
           <Property Name="BaseExamTimeTableId" Type="Int32" />
         </EntityType>
-        <EntityType Name="FileType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NameEng" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Groups">
           <Key>
             <PropertyRef Name="Id" />
@@ -3588,6 +3581,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="NameEng" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FileNameTemplate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IndexInAppCard" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationFileTypeId" Type="Int32" />
         </EntityType>
         <EntityType Name="PersonHighEducationInfo">
           <Key>
@@ -5162,7 +5156,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="ExamInEntryBlockUnit" EntityType="Self.ExamInEntryBlockUnit" />
           <EntitySet Name="ExamName" EntityType="Self.ExamName" />
           <EntitySet Name="ExamTimetable" EntityType="Self.ExamTimetable" />
-          <EntitySet Name="FileType" EntityType="Self.FileType" />
           <EntitySet Name="Groups" EntityType="Self.Groups" />
           <EntitySet Name="GroupUsers" EntityType="Self.GroupUsers" />
           <EntitySet Name="Language" EntityType="Self.Language" />
@@ -5577,6 +5570,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           </AssociationSet>
           <EntitySet Name="ApplicationAddedToProtocol" EntityType="OnlinePriem2015Model.ApplicationAddedToProtocol" />
           <EntitySet Name="ExamTimeTableOneDayRestriction" EntityType="OnlinePriem2015Model.ExamTimeTableOneDayRestriction" />
+          <EntitySet Name="FileType" EntityType="OnlinePriem2015Model.FileType" />
         </EntityContainer>
         <EntityType Name="Comission">
           <Key>
@@ -5823,6 +5817,14 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           </Key>
           <Property Name="ExamTimeTableId1" Type="Int32" Nullable="false" />
           <Property Name="ExamTimeTableId2" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameEng" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -6082,15 +6084,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
                 <ScalarProperty Name="ExamDate" ColumnName="ExamDate" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="DateOfClose" ColumnName="DateOfClose" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FileType">
-            <EntityTypeMapping TypeName="OnlinePriem2015Model.FileType">
-              <MappingFragment StoreEntitySet="FileType">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6367,6 +6360,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="PersonFileType">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonFileType">
               <MappingFragment StoreEntitySet="PersonFileType">
+                <ScalarProperty Name="ApplicationFileTypeId" ColumnName="ApplicationFileTypeId" />
                 <ScalarProperty Name="IndexInAppCard" ColumnName="IndexInAppCard" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -7095,6 +7089,15 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
               <MappingFragment StoreEntitySet="ExamTimeTableOneDayRestriction">
                 <ScalarProperty Name="ExamTimeTableId2" ColumnName="ExamTimeTableId2" />
                 <ScalarProperty Name="ExamTimeTableId1" ColumnName="ExamTimeTableId1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileType">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.FileType">
+              <MappingFragment StoreEntitySet="FileType">
+                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

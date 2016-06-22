@@ -566,7 +566,7 @@
                                 </div>
                                 <div class="clearfix">
                                     <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "DiplomTheme").ToString(), new Dictionary<string, object> { { "for", "DiplomTheme_" + i } })%>
-                                    <%= Html.TextArea("DiplomTheme_"+ i,  Doc.ProgramName, 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i }, { "maxlength", "4000" }, { "onchange", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" }, { "onkeyup", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme + ")" }, { "onblur", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" } })%>
+                                    <%= Html.TextArea("DiplomTheme_"+ i,  Doc.DiplomTheme, 3, 70, new Dictionary<string, object> { { "id", "DiplomTheme_" + i }, { "maxlength", "4000" }, { "onchange", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" }, { "onkeyup", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme + ")" }, { "onblur", "CheckLength('DiplomTheme_" + i + "', 'DiplomTheme_Message_" + i + "', "+Model.ConstInfo.DiplomTheme+ ")" } })%>
                                     <br /><p></p>
                                         <span id="DiplomTheme_Message_<%= i %>" class="Red" style="display:none">
                                         </span>

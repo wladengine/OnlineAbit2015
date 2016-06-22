@@ -169,7 +169,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Распечатайте заявление. &lt;b&gt;Подписанное&lt;/b&gt; и отсканированное заявление отнесите в приемную комиссию, чтобы изменения вступили в силу.
+        ///   Looks up a localized string similar to Распечатайте заявление. &lt;b&gt;Подписанное&lt;/b&gt; заявление отнесите в приемную комиссию, чтобы изменения вступили в силу.
         /// </summary>
         internal static string ApplicationMessage2 {
             get {

@@ -46,7 +46,6 @@ namespace OnlineAbit2013.EMDX
         public virtual DbSet<ExamInEntryBlockUnit> ExamInEntryBlockUnit { get; set; }
         public virtual DbSet<ExamName> ExamName { get; set; }
         public virtual DbSet<ExamTimetable> ExamTimetable { get; set; }
-        public virtual DbSet<FileType> FileType { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
         public virtual DbSet<GroupUsers> GroupUsers { get; set; }
         public virtual DbSet<Language> Language { get; set; }
@@ -111,6 +110,7 @@ namespace OnlineAbit2013.EMDX
         public virtual DbSet<PersonLanguageCertificates> PersonLanguageCertificates { get; set; }
         public virtual DbSet<ApplicationAddedToProtocol> ApplicationAddedToProtocol { get; set; }
         public virtual DbSet<ExamTimeTableOneDayRestriction> ExamTimeTableOneDayRestriction { get; set; }
+        public virtual DbSet<FileType> FileType { get; set; }
     
         public virtual int PersonEducationDocument_delete(Nullable<System.Guid> personId, Nullable<int> id)
         {
