@@ -29,8 +29,11 @@
    {
        width: 1290px;
    }
+   td{
+       padding:3px;
+   }
  </style>
-    <table> 
+    <table style="margin:2px;padding:5px;"> 
         <%foreach (var x in Model.columns ) {%>
         <tr>
             <td><%=x.Key.ToString() %></td>

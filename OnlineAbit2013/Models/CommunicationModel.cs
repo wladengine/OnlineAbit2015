@@ -112,8 +112,17 @@ namespace OnlineAbit2013.Models
 
     public class CommunicationStat
     {
-        public Dictionary<string, string> columns;
+        public List<KeyValuePair<string, string>> columns;
+        public CommunicationStat()
+        {
+            columns = new List<KeyValuePair<string, string>>();
+        }
+        public void Add(string key, string value)
+        {
+            columns.Add(new KeyValuePair<string, string>(key, value));
+        }
     }
+    
 
     public class CommunicateCertificateInfo
     {

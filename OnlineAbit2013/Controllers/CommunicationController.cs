@@ -722,7 +722,6 @@ WHERE AP.PersonId=@PersonId and FileTypeId=18
                 return RedirectToAction("LogOn", "Account");
 
             CommunicationStat model = new CommunicationStat();
-            model.columns = new Dictionary<string, string>();
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
@@ -779,16 +778,19 @@ WHERE AP.PersonId=@PersonId and FileTypeId=18
                                HasFee = l.Where(x => x.HasFee).Count() > 0,
                                HasNoFee = l.Where(x => x.HasNoFee).Count() > 0,
                            }).Distinct().ToList();
-                model.columns.Add("Number of applicants", lst.Count().ToString());
+                model.Add("Number of applicants", lst.Count().ToString());
+                model.Add("Number of countries", lst.Select(x=>x.nationality).Distinct().Count().ToString());
+                model.Add("<hr/>", "<hr/>");
 
                 int Compl = (lst.Count() != 0) ? (int)(100 * lst.Where(x => x.isComplete).Count() / lst.Count()) : 0;
-                model.columns.Add("Complete/Incomplete(%)", Compl.ToString() + "% / " + (100 - Compl).ToString() + "%");
+                model.Add("Complete/Incomplete(%)", Compl.ToString() + "% / " + (100 - Compl).ToString() + "%");
 
                 int Male = (lst.Count() != 0) ? (int)(100 * lst.Where(x => x.male).Count() / lst.Count()) : 0;
-                model.columns.Add("Male/Female(%)", Male.ToString() + "% / " + (100 - Male).ToString() + "%");
+                model.Add("Male/Female(%)", Male.ToString() + "% / " + (100 - Male).ToString() + "%");
 
                 int PaidCnt = (lst_tmp.Count != 0) ? (int)(100.0 * lst_tmp.Where(x => x.HasNoFee).Count() / lst_tmp.Count()) : 0;
-                model.columns.Add("Paid/Free(%)", (lst_tmp.Count != 0) ? PaidCnt.ToString() + "% /" + (100 - PaidCnt).ToString() + "%" : "-");
+                model.Add("Paid/Free(%)", (lst_tmp.Count != 0) ? PaidCnt.ToString() + "% /" + (100 - PaidCnt).ToString() + "%" : "-");
+                model.Add("<hr/>", "<hr/>");
 
                 var Nationalities = (from l in lst
                                      group l by l.nationality into ls
@@ -796,43 +798,51 @@ WHERE AP.PersonId=@PersonId and FileTypeId=18
                                          {
                                              Name = ls.Key,
                                              Cnt = ls.Count(),
+                                             isComplete = ls.Where(x=>x.isComplete).Count(),
+                                             isNotComplete= ls.Where(x=>!x.isComplete).Count(),
                                          }).ToList();
-                string sNationlities = "";
+                string sNationlities = "<table> <tr> <td>Country</td><td>Complete</td><td>Incomplete</td><td>Total</td></tr>";
                 foreach (var x in Nationalities)
                 {
-                    sNationlities += x.Name + ": " + x.Cnt.ToString() + "<br>";
+                    sNationlities += "<tr><td>" + x.Name + "</td><td> " + x.isComplete.ToString() + "</td><td> " + x.isNotComplete.ToString() + "</td><td> " + x.Cnt.ToString() + "</tr>";
                 }
-                model.columns.Add("List of nationalities and no. of applications", sNationlities);
+                sNationlities += "</table>";
+                model.Add("List of nationalities and no. of applications", sNationlities);
+                model.Add("<hr/>", "<hr/>");
 
                 int isRussian = (lst.Count() != 0) ? (int)(100 * lst.Where(x => x.isRusslian).Count() / lst.Count()) : 0;
-                model.columns.Add("Russian(%)", isRussian.ToString() + "%");
+                model.Add("Russian(%)", isRussian.ToString() + "%");
 
                 int isGerman = (lst.Count() != 0) ? (int)(100 * lst.Where(x => x.isGerman).Count() / lst.Count()) : 0;
-                model.columns.Add("German(%)", isGerman.ToString() + "%");
-                model.columns.Add("Other(%)", (100 - isRussian - isGerman).ToString() + "%");
+                model.Add("German(%)", isGerman.ToString() + "%");
+                model.Add("Other(%)", (100 - isRussian - isGerman).ToString() + "%");
+                model.Add("<hr/>", "<hr/>");
 
                 int PortAvg = (lst.Count() != 0) ? (int)(lst.Select(x => x.RuPort + x.DePort).Sum() / (2 * lst.Count())) : 0;
-                model.columns.Add("Average results of portfolio", PortAvg.ToString());
+                model.Add("Average results of portfolio", PortAvg.ToString());
+                model.Add("<hr/>", "<hr/>");
 
-                int Invitation = 0;
-                model.columns.Add("Invitation to interviews(%)", "???");
+                int Invitation = (lst.Count() != 0) ? (int)(100 * lst.Where(x => x.Interview??false).Count() / lst.Count()) : 0;
+                model.Add("Invitation to interviews(%)", Invitation.ToString() + "%");
 
                 int IntAvg = (lst.Count() != 0) ? (int)(lst.Select(x => x.RuInt + x.DeInt).Sum() / (2 * lst.Count())) : 0;
-                model.columns.Add("Average results of interview", IntAvg.ToString());
+                model.Add("Average results of interview", (Invitation == 0) ? "-" : IntAvg.ToString());
+                model.Add("<hr/>", "<hr/>");
 
                 int isAccpeted = lst.Where(x => x.isAccepted).Count();
-                model.columns.Add("accepted applicants (status=a)", isAccpeted.ToString());
+                model.Add("accepted applicants (status=a)", isAccpeted.ToString());
 
                 int AcceptedMale = (isAccpeted != 0) ? (int)(100 * lst.Where(x => x.male && x.isAccepted).Count() / isAccpeted) : 0;
-                model.columns.Add("accepted: Male/Female(%)", (isAccpeted != 0) ? (AcceptedMale.ToString() + "% / " + (100 - AcceptedMale).ToString() + "%") : "-");
+                model.Add("accepted: Male/Female(%)", (isAccpeted != 0) ? (AcceptedMale.ToString() + "% / " + (100 - AcceptedMale).ToString() + "%") : "-");
 
-
-                model.columns.Add("accepted: Paid/Free(%)", lst.Count().ToString());
+                int AcceptedFree = (isAccpeted != 0) ? (int)(100 * lst.Where(x => x.HasFee && x.isAccepted).Count() / isAccpeted) : 0;
+                model.Add("accepted: Free/Paid(%)", (isAccpeted != 0) ? (AcceptedFree.ToString() + "% / " + (100 - AcceptedFree).ToString() + "%") : "-");
+                model.Add("<hr/>", "<hr/>");
 
                 int isWaiting = lst.Where(x => x.isWaiting).Count();
-                model.columns.Add("Waiting list(status = w)", isWaiting.ToString());
+                model.Add("Waiting list(status = w)", isWaiting.ToString());
                 int WaitingMale = (isWaiting != 0) ? (int)(100 * lst.Where(x => x.male && x.isWaiting).Count() / isWaiting) : 0;
-                model.columns.Add("Waiting: Male/Female(%)", (isWaiting != 0) ? (WaitingMale.ToString() + "% / " + (100 - WaitingMale).ToString() + "%") : "-");
+                model.Add("Waiting: Male/Female(%)", (isWaiting != 0) ? (WaitingMale.ToString() + "% / " + (100 - WaitingMale).ToString() + "%") : "-");
             }
             return View(model);
         }
