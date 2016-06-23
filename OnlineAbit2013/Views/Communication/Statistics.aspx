@@ -33,7 +33,7 @@
        padding:3px;
    }
  </style>
-    <table style="margin:2px;padding:5px;"> 
+    <table> 
         <%foreach (var x in Model.columns ) {%>
         <tr>
             <td><%=x.Key.ToString() %></td>
