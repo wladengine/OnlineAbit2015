@@ -320,4 +320,9 @@
   <data name="IsImported" xml:space="preserve">
     <value>Поступило в работу</value>
   </data>
+  <data name="Opros" xml:space="preserve">
+    <value>Центр социологических и Интернет-исследований Санкт-Петербургского университета проводит онлайн опрос абитуриентов, подавших документы в наш университет в 2016 году, и их родителей. Просим Вас принять участие в опросе.&lt;br/&gt;
+&lt;a href = 'https://opros.spbu.ru/Account/RegisterWithTicket?TicketGuid=98194da8-3f39-4a1b-b72b-8d91b8824925' target="_blank"&gt;&lt;b&gt;Анкета абитуриента СПбГУ&lt;/b&gt;&lt;/a&gt; &lt;br/&gt;
+&lt;a href = 'https://opros.spbu.ru/Account/RegisterWithTicket?TicketGuid=892f130c-4240-4c98-a44d-ff7dfc5e463f' target="_blank"&gt;&lt;b&gt;Анкета родителя абитуриента&lt;/b&gt;&lt;/a&gt;</value>
+  </data>
 </root>

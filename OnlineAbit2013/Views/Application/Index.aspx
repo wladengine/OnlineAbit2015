@@ -180,7 +180,10 @@
             }
         }, 'json');
     }
-    </script>
+    function DeleteMsg() { 
+        $('#msg01').hide(250).html(""); 
+        }  
+</script>
     <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
 <style>
    td {
@@ -194,6 +197,13 @@
         <b><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationCanceled")%></b>
     </div>
 <% } else { %>
+    <% if (Model.StudyLevelGroupId <3 && Model.AbiturientTypeId == 1)
+       { %>
+    <div id="msg01" class="message info" style="padding:5px">
+        <span class="ui-icon ui-icon-alert"></span><%= GetGlobalResourceObject("ApplicationInfo", "Opros")%>
+        <div style="float:right;"><span class="link" onclick="DeleteMsg()"><img src="../../Content/themes/base/images/delete-icon.png" alt="Закрыть" /></span></div>
+    </div>
+    <%} %>
 <table>
     <tr>
         <td>
