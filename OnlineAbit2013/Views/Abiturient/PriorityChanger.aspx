@@ -175,6 +175,13 @@
                         <td><%= GetGlobalResourceObject("NewApplication", "Yes").ToString()%></td>
                     </tr>
                 <% } %>
+                <% if (s.IsCrimea)
+                   { %>
+                    <tr>
+                        <td style="width:12em"><%= GetGlobalResourceObject("NewApplication", "BlockData_IsCrimea").ToString()%></td>
+                        <td><%= GetGlobalResourceObject("NewApplication", "Yes").ToString()%></td>
+                    </tr>
+                <% } %>
                 <tr>
                     <td style="width:12em"><%= GetGlobalResourceObject("PriorityChangerForeign", "StudyForm").ToString()%></td>
                     <td><%=s.StudyForm%></td>

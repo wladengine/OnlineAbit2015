@@ -377,6 +377,13 @@
         <td align="left"><%= GetGlobalResourceObject("NewApplication", "Yes").ToString()%></td>
     </tr>
     <% } %>
+    <% if (Application.IsCrimea)
+       { %>
+    <tr>
+        <td width="30%" align="right"></td>
+        <td align="left"><%= GetGlobalResourceObject("NewApplication", "EnterCrimea").ToString()%></td>
+    </tr>
+    <% } %>
     <tr>
         <td width="30%" align="right"></td>
         <td align="left"><a class="button button-orange" href="../../Application/AppIndex/<%= Application.Id.ToString("N") %>"><%= GetGlobalResourceObject("ApplicationInfo", "ViewAddFiles")%>  </a></td>

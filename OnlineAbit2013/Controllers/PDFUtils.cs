@@ -2687,7 +2687,35 @@ namespace OnlineAbit2013.Controllers
                 string Attestat = personEducation.SchoolTypeId == 1 ? ("аттестат серия " + (personEducation.EducationDocumentSeries ?? "") + " №" + (personEducation.EducationDocumentNumber ?? "")) :
                         ("диплом серия " + (personEducation.EducationDocumentSeries ?? "") + " №" + (personEducation.EducationDocumentNumber ?? ""));
                 acrFlds.SetField("Attestat", Attestat);
-                acrFlds.SetField("Extra", person.AddInfo ?? "");
+
+                string AddInfo = person.AddInfo ?? "";
+
+                var certificaties = context.PersonLanguageCertificates
+                    .Where(x => x.PersonId == PersonId)
+                    .Select(x => new 
+                    { 
+                        CertificateType = x.LanguageCertificatesType.Name,
+                        x.LanguageCertificatesType.BoolType,
+                        x.LanguageCertificatesType.ValueType,
+                        x.Number,
+                        x.ResultBool,
+                        x.ResultValue
+                    }).ToList();
+
+                if (certificaties.Count > 0)
+                    AddInfo += "Языковые сертификаты:\n";
+                foreach (var langCert in certificaties)
+                {
+                    string Mrk = "";
+                    if (langCert.BoolType)
+                        Mrk = (langCert.ResultBool ?? false) ? "зачёт" : "";
+                    else
+                        Mrk = langCert.ResultValue.HasValue ? langCert.ResultValue.Value.ToString() : "нет результата";
+
+                    AddInfo += langCert.CertificateType + ": #" + langCert.Number + " (" + Mrk + ")\n";
+                }
+
+                acrFlds.SetField("Extra", AddInfo);
 
                 if (personEducation.IsEqual && personEducation.CountryEducId != 193)
                 {

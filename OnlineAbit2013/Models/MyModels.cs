@@ -518,6 +518,7 @@ namespace OnlineAbit2013.Models
         public List<string> ManualExam { get; set; }
         public bool Enabled { get; set; }
         public bool IsGosLine { get; set; }
+        public bool IsCrimea { get; set; }
         public bool IsApprowed { get; set; }
         public string SemesterName { get; set; }
         public int AbiturientTypeId { get; set; }
