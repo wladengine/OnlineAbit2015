@@ -178,7 +178,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вход для зарегистрированых.
+        ///   Looks up a localized string similar to Вход для зарегистрированных.
         /// </summary>
         internal static string MainNavLogon {
             get {

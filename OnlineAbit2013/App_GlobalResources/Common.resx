@@ -202,7 +202,7 @@
     <value>Электронная регистрация на поселение</value>
   </data>
   <data name="MainNavLogon" xml:space="preserve">
-    <value>Вход для зарегистрированых</value>
+    <value>Вход для зарегистрированных</value>
   </data>
   <data name="MainNavRegister" xml:space="preserve">
     <value>Регистрация</value>
