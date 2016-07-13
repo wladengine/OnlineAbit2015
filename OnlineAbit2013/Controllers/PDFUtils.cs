@@ -640,21 +640,33 @@ namespace OnlineAbit2013.Controllers
             acrFlds.SetField("ObrazProgramHead2", tmp[1]);
             acrFlds.SetField("LicenseProgram", LicenseProgramName);
             acrFlds.SetField("ObrazProgram", ObrazProgramName);
-            int rwind = 1;
-            foreach (var xxxx in lst.OrderBy(x => x.InnerEntryInEntryPriority))
+
+            int i = 0;
+            foreach (var Prof in lst.OrderBy(x => x.InnerEntryInEntryPriority))
             {
-                string sVal = "";
-                bool bNeedSeparatorInVal = false;
-                if (xxxx.ObrazProgramName != ObrazProgramName)
-                {
-                    sVal += xxxx.ObrazProgramName;
-                    bNeedSeparatorInVal = true;
-                }
-                if (xxxx.ProfileName != "нет")
-                    sVal += (bNeedSeparatorInVal ? "; Профиль: " : "") + xxxx.ProfileName;
-                acrFlds.SetField("Profile" + rwind, sVal);
-                rwind++;
+                i++;
+                //если других программ нет, то нет смысла показывать её название.
+                bool bShowObrazProgram = lst.Where(x => x.ObrazProgramName != Prof.ObrazProgramName).Count() > 0;
+                acrFlds.SetField("Profile" + i.ToString(), (bShowObrazProgram ? Prof.ObrazProgramName + " /\n" : "") + Prof.ProfileName);
             }
+
+            //int rwind = 1;
+            //foreach (var xxxx in lst.OrderBy(x => x.InnerEntryInEntryPriority))
+            //{
+            //    string sVal = "";
+            //    bool bNeedSeparatorInVal = false;
+            //    if (xxxx.ObrazProgramName != ObrazProgramName)
+            //    {
+            //        sVal += xxxx.ObrazProgramName;
+            //        bNeedSeparatorInVal = true;
+            //    }
+            //    if (xxxx.ProfileName != "нет")
+            //    {
+            //        sVal += (bNeedSeparatorInVal ? "; Профиль: " : "") + xxxx.ProfileName;
+            //    }
+            //    acrFlds.SetField("Profile" + rwind, sVal);
+            //    rwind++;
+            //}
 
             pdfStm.FormFlattening = true;
             pdfStm.Close();

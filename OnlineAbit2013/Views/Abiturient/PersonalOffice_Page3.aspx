@@ -68,6 +68,7 @@
             $('#ContactsInfo_City').change(function () { setTimeout(CheckCity); });
             $('#ContactsInfo_Street').change(function () { setTimeout(CheckStreet); });
             $('#ContactsInfo_House').change(function () { setTimeout(CheckHouse); });
+            $('#ContactsInfo_PostIndex').change(function () { setTimeout(CheckCode); });
             //get list of names
             $('#ContactsInfo_RegionId').change(function () { setTimeout(GetCities); });
             $('#ContactsInfo_City').blur(function () { setTimeout(GetStreets); });
@@ -108,16 +109,22 @@
             return ret;
         }
         function CheckCity() {
-            return CheckLength('ContactsInfo_City','ContactsInfo_City_Message', <%=Model.ConstInfo.City%>, 1, '<%=GetGlobalResourceObject("PersonalOffice_Step3", "City_Message").ToString()%>');
+            return CheckLength('ContactsInfo_City','ContactsInfo_City_Message', <%= Model.ConstInfo.City %>, 1, '<%=GetGlobalResourceObject("PersonalOffice_Step3", "City_Message").ToString()%>');
         }
         function CheckStreet() { 
-            return CheckLength('ContactsInfo_Street','ContactsInfo_Street_Message', <%=Model.ConstInfo.Street%>, 1, '<%=GetGlobalResourceObject("PersonalOffice_Step3", "Street_Message").ToString()%>');
+            return CheckLength('ContactsInfo_Street','ContactsInfo_Street_Message', <%= Model.ConstInfo.Street %>, 1, '<%=GetGlobalResourceObject("PersonalOffice_Step3", "Street_Message").ToString()%>');
         }
         function CheckHouse() {
-            return CheckLength('ContactsInfo_House','ContactsInfo_House_Message', <%=Model.ConstInfo.House%>, 1, '<%=GetGlobalResourceObject("PersonalOffice_Step3", "House_Message").ToString()%>');
+            return CheckLength('ContactsInfo_House','ContactsInfo_House_Message', <%= Model.ConstInfo.House %>, 1, '<%=GetGlobalResourceObject("PersonalOffice_Step3", "House_Message").ToString()%>');
         }
         function CheckFlat() {
-            return CheckLength('ContactsInfo_Flat','ContactsInfo_Flat_Message', <%=Model.ConstInfo.Flat%>, 0, '');
+            return CheckLength('ContactsInfo_Flat','ContactsInfo_Flat_Message', <%= Model.ConstInfo.Flat %>, 0, '');
+        }
+        function CheckCode() {
+            return CheckLength('ContactsInfo_PostIndex','ContactsInfo_PostIndex_Message', <%= Model.ConstInfo.Code %>, 0, '');
+        }
+        function CheckCodeReal() {
+            return CheckLength('ContactsInfo_PostIndexReal','ContactsInfo_PostIndexReal_Message', <%= Model.ConstInfo.Code %>, 0, '');
         }
         function CheckForm() {
             var res = true;
@@ -127,6 +134,8 @@
             if (!CheckStreet()) { res = false; }
             if (!CheckHouse()) { res = false; }
             if (!CheckFlat())  { res = false; }
+            if (!CheckCode())  { res = false; }
+            if (!CheckCodeReal())  { res = false; }
             return res;
         }
     </script>
@@ -190,7 +199,6 @@
             }
         }
 
-
         function GetCitiesReal() {
             $.post('../../Abiturient/GetCityNames', { regionId: $('#ContactsInfo_RegionRealId').val() }, function (data) {
                 if (data.IsOk) {
@@ -249,7 +257,7 @@
             }
             else if (val.length > length) {
                 var len = val.length - length;
-                $('#' + idspan).text('<%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart1").ToString()%> ' + len + ' <%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart2").ToString()%>');
+                $('#' + idspan).text('<%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart1").ToString() %> ' + len + ' <%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimitPart2").ToString() %>');
                 $('#' + idspan).show();
                 $('#' + id).addClass('input-validation-error');
                 ret = false;

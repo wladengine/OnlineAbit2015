@@ -2001,6 +2001,7 @@ ORDER by Semester.Id";
             constant.House = 20;
             constant.Street = 250;
             constant.Flat = 10;
+            constant.Code = 10;
             return constant;
         }
 
