@@ -2512,6 +2512,7 @@ namespace OnlineAbit2013.Controllers
                                 where x.CommitId == appId
                                 select new
                                 {
+                                    x.Id,
                                     x.PersonId,
                                     x.Barcode,
                                     Faculty = Entry.FacultyName,
@@ -2526,7 +2527,8 @@ namespace OnlineAbit2013.Controllers
                                     Entry.StudyLevelId,
                                     CommitIntNumber = Commit.IntNumber,
                                     x.Priority,
-                                    x.IsGosLine
+                                    Entry.IsForeign,
+                                    Entry.IsCrimea,
                                 }).ToList();
 
                 string query = "SELECT Email, IsForeign FROM [User] WHERE Id=@Id";
@@ -2605,7 +2607,7 @@ namespace OnlineAbit2013.Controllers
                 var personEducation = personEducationList.OrderByDescending(x => x.QualificationId).First();
 
                 MemoryStream ms = new MemoryStream();
-                string dotName = "ApplicationAsp_2015.pdf";
+                string dotName = "ApplicationAsp_page3.pdf";
 
                 byte[] templateBytes;
                 using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
@@ -2613,11 +2615,59 @@ namespace OnlineAbit2013.Controllers
                     templateBytes = new byte[fs.Length];
                     fs.Read(templateBytes, 0, templateBytes.Length);
                 }
-
+                List<byte[]> lstFiles = new List<byte[]>();
                 PdfReader pdfRd = new PdfReader(templateBytes);
                 PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
                 pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
                 AcroFields acrFlds = pdfStm.AcroFields;
+
+                var Version = context.ApplicationCommitVersion.Where(x => x.CommitId == appId).Select(x => new { x.VersionDate, x.Id }).ToList().LastOrDefault();
+                string sVersion = "";
+                if (Version != null)
+                    sVersion = "Версия №" + Version.Id + " от " + Version.VersionDate.ToString("dd.MM.yyyy HH:mm");
+                string FIO = ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim();
+
+                List<ShortAppcation> lstApps = abitList
+                    .Select(x => new ShortAppcation()
+                    {
+                        ApplicationId = x.Id,
+                        LicenseProgramName = x.ProfessionCode + " " + x.Profession,
+                        ObrazProgramName = x.ObrazProgram,
+                        ProfileName = x.Specialization,
+                        Priority = x.Priority,
+                        StudyBasisId = x.StudyBasisId,
+                        StudyFormId = x.StudyFormId,
+                        HasInnerPriorities = false,
+                        IsCrimea = x.IsCrimea,
+                        IsForeign = x.IsForeign
+                    }).ToList();
+
+                List<ShortAppcation> lstAppsFirst = new List<ShortAppcation>();
+                for (int u = 0; u < 3; u++)
+                {
+                    if (lstApps.Count > u)
+                        lstAppsFirst.Add(lstApps[u]);
+                }
+                int multiplyer = 3;
+                string code = ((multiplyer * 100000) + abitList.First().CommitIntNumber).ToString();
+
+                lstFiles.Add(GetApplicationPDF_FirstPage(lstAppsFirst, lstApps, dirPath, "ApplicationAsp_page1.pdf", FIO, sVersion, code, true));
+                acrFlds.SetField("Version", sVersion);
+
+                int appcount = 3;
+                while (appcount < lstApps.Count)
+                {
+                    lstAppsFirst = new List<ShortAppcation>();
+                    for (int u = 0; u < 4; u++)
+                    {
+                        if (lstApps.Count > appcount)
+                            lstAppsFirst.Add(lstApps[appcount]);
+                        else
+                            break;
+                        appcount++;
+                    } 
+                    lstFiles.Add(GetApplicationPDF_NextPage(lstAppsFirst, lstApps, dirPath, "ApplicationAsp_page2.pdf", FIO));
+                }
 
                 acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
 
@@ -2626,7 +2676,7 @@ namespace OnlineAbit2013.Controllers
                 else
                     acrFlds.SetField("HostelEducNo", "1");
 
-                if (abitList.Where(x => x.IsGosLine).Count() > 0)
+                if (abitList.Where(x => x.IsForeign).Count() > 0)
                     acrFlds.SetField("IsGosLine", "1");
 
                 acrFlds.SetField("HostelAbitYes", (person.HostelAbit ?? false) ? "1" : "0");
@@ -2800,43 +2850,14 @@ namespace OnlineAbit2013.Controllers
                 }
                 else
                     acrFlds.SetField("NoStag", "1");
-
-                var Comm = context.ApplicationCommit.Where(x => x.Id == appId).FirstOrDefault();
-                if (Comm != null)
-                {
-                    int multiplyer = 3;
-                    string code = ((multiplyer * 100000) + Comm.IntNumber).ToString();
-
-                    //добавляем штрихкод
-                    Barcode128 barcode = new Barcode128();
-                    barcode.Code = code;
-                    PdfContentByte cb = pdfStm.GetOverContent(1);
-                    iTextSharp.text.Image img = barcode.CreateImageWithBarcode(cb, null, null);
-                    img.SetAbsolutePosition(440, 740);
-                    cb.AddImage(img);
-                }
-
-                int rwInd = 1;
-                foreach (var abit in abitList.OrderBy(x => x.Priority))
-                {
-                    acrFlds.SetField("Profession" + rwInd, abit.ProfessionCode + " " + abit.Profession);
-                    acrFlds.SetField("Specialization" + rwInd, abit.Specialization);
-                    acrFlds.SetField("ObrazProgram" + rwInd, abit.ObrazProgram);
-                    acrFlds.SetField("Priority" + rwInd, abit.Priority.ToString());
-
-                    acrFlds.SetField("StudyForm" + abit.StudyFormId + rwInd, "1");
-                    acrFlds.SetField("StudyBasis" + abit.StudyBasisId + rwInd, "1");
-
-                    if (abitList.Where(x => x.Profession == abit.Profession && x.ObrazProgram == abit.ObrazProgram && x.Specialization == abit.Specialization && x.StudyFormId == abit.StudyFormId).Count() > 1)
-                        acrFlds.SetField("IsPriority" + rwInd, "1");
-                    rwInd++;
-                }
+                 
 
                 pdfStm.FormFlattening = true;
                 pdfStm.Close();
                 pdfRd.Close();
 
-                return ms.ToArray();
+                lstFiles.Add(ms.ToArray());
+                return MergePdfFiles(lstFiles.ToList());
             }
         }
 
