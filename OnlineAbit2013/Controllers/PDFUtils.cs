@@ -2618,7 +2618,7 @@ namespace OnlineAbit2013.Controllers
                 List<byte[]> lstFiles = new List<byte[]>();
                 PdfReader pdfRd = new PdfReader(templateBytes);
                 PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
-                pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
+                //pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
                 AcroFields acrFlds = pdfStm.AcroFields;
 
                 var Version = context.ApplicationCommitVersion.Where(x => x.CommitId == appId).Select(x => new { x.VersionDate, x.Id }).ToList().LastOrDefault();
@@ -2643,7 +2643,7 @@ namespace OnlineAbit2013.Controllers
                     }).ToList();
 
                 List<ShortAppcation> lstAppsFirst = new List<ShortAppcation>();
-                for (int u = 0; u < 3; u++)
+                for (int u = 0; u < 4; u++)
                 {
                     if (lstApps.Count > u)
                         lstAppsFirst.Add(lstApps[u]);
@@ -2654,7 +2654,7 @@ namespace OnlineAbit2013.Controllers
                 lstFiles.Add(GetApplicationPDF_FirstPage(lstAppsFirst, lstApps, dirPath, "ApplicationAsp_page1.pdf", FIO, sVersion, code, true));
                 acrFlds.SetField("Version", sVersion);
 
-                int appcount = 3;
+                int appcount = 4;
                 while (appcount < lstApps.Count)
                 {
                     lstAppsFirst = new List<ShortAppcation>();
@@ -2665,8 +2665,8 @@ namespace OnlineAbit2013.Controllers
                         else
                             break;
                         appcount++;
-                    } 
-                    lstFiles.Add(GetApplicationPDF_NextPage(lstAppsFirst, lstApps, dirPath, "ApplicationAsp_page2.pdf", FIO));
+                    }
+                    lstFiles.Add(GetApplicationPDF_NextPage(lstAppsFirst, lstApps, dirPath, "ApplicationMag_page2.pdf", FIO));
                 }
 
                 acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
@@ -3532,7 +3532,7 @@ namespace OnlineAbit2013.Controllers
                             writer.SetPageSize(reader.GetPageSize(i + 1));
                             cb.AddTemplate(page, 1f, 0, 0, 1f, 0, 0);
                         }
-                        catch 
+                        catch (Exception ex)
                         {
                             string sFileInfo = "";
                             try
