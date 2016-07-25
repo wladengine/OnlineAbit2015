@@ -214,7 +214,7 @@
    </div><br />
    <div id="map" style="width:600px;height:300px"></div>
 <% } %>
-<% else if (Model.EntryTypeId == 2)
+<% else if (Model.EntryTypeId == 2 || Model.EntryTypeId == 4)
    { %>
     <div class="panel">
     <h4 style="cursor:pointer;" onclick="HideMotivationMail()"> <%= GetGlobalResourceObject("ApplicationInfo", "HeaderMotivationalMail")%></h4>
