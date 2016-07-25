@@ -3481,7 +3481,7 @@ namespace OnlineAbit2013.Controllers
                 {
                     CommitId = gComm.ToString(),
                     OldCommitId = (gComm.Equals(gCommitId))?"": gCommitId.ToString(),
-                    Apps = apps,
+                    Apps = apps.OrderBy(x=>x.Priority).ToList(),
                     UILanguage = Util.GetUILang(PersonId),
                     VersionId = VersionId.ToString("N"),
                     StudyLevelGroupId = apps.Select(x => x.StudyLevelGroupId).First(),
