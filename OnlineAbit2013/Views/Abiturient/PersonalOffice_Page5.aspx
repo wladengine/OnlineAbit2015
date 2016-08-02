@@ -15,6 +15,7 @@
     <script type="text/javascript" src="../../Scripts/jquery.validate-vsdoc.js"></script>
 <% } %>
     <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
+    <script type="text/javascript" src="../../Scripts/jquery.ui.datepicker-ru.js"></script>
     <script type="text/javascript"> 
         $(function () {
             $('#CurrentEducation_StudyLevelId').change(function () { setTimeout(GetProfessions) });
@@ -259,16 +260,16 @@
                 $('select').attr('disabled', 'disabled');
                 <% } %>
 
-                <% if (Model.Enabled)
+            <% if (Model.Enabled)
                  { %>
-                $("#CurrentEducation_AccreditationDate").datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    showOn: "focus",
-                    yearRange: '1990:2015',
-                    defaultDate: '-1y',
-                });
-                $.datepicker.regional["ru"];
+            $("#CurrentEducation_AccreditationDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: "focus",
+                yearRange: '1990:2016',
+                defaultDate: '-1y',
+            });
+            $.datepicker.setDefaults($.datepicker.regional['<%= GetGlobalResourceObject("Common", "DatetimePicker").ToString()%>']);
                 <% } %>
 
             var certificateNumber = $("#EgeCert"),
