@@ -263,7 +263,7 @@ namespace OnlineAbit2013.Controllers
         public static Guid CreateNewUser(string password, string email)
         {
             Guid id = Guid.NewGuid();
-            string sid = MD5Str(id.ToByteArray());
+            string sid = MD5Byte(id.ToByteArray());
             string md5pwd = MD5Str(password);
 
             string query = "INSERT INTO [User] (Id, Password, SID, Email, IsApproved, EmailTicket) VALUES (@Id, @Password, @SID, @Email, @IsApproved, @EmailTicket)";
@@ -293,7 +293,7 @@ namespace OnlineAbit2013.Controllers
             {
                 try
                 {
-                    string sid = MD5Str(id.ToByteArray());
+                    string sid = MD5Byte(id.ToByteArray());
                     string md5pwd = MD5Str(password);
 
                     string query = "INSERT INTO [User] (Id, Password, SID, Email, IsApproved, EmailTicket, IsForeign, IsDormsAccount) VALUES (@Id, @Password, @SID, @Email, @IsApproved, @EmailTicket, @IsForeign, @IsDormsAccount)";
@@ -462,9 +462,26 @@ namespace OnlineAbit2013.Controllers
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string MD5Str(byte[] source)
+        public static string MD5Byte(byte[] source)
         {
             byte[] md5 = MD5.Create().ComputeHash(source);
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in md5)
+            {
+                sb.Append(b.ToString("x2"));
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Возвращает SHA1-строку от byte[] источника
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string SHA1Byte(byte[] source)
+        {
+            byte[] md5 = System.Security.Cryptography.SHA1.Create().ComputeHash(source);
             StringBuilder sb = new StringBuilder();
             foreach (byte b in md5)
             {
@@ -2149,7 +2166,6 @@ ORDER by Semester.Id";
         {
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-
                 var abitList = (from x in context.Application
                                 join Commit in context.ApplicationCommit on x.CommitId equals Commit.Id
                                 join Entry in context.Entry on x.EntryId equals Entry.Id

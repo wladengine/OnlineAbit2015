@@ -4166,10 +4166,11 @@ end";
 
             try
             {
+                Guid FileId = Guid.NewGuid();
                 string query = "INSERT INTO PersonFile (Id, PersonId, FileName, FileData, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, PersonFileTypeId) " +
                     " VALUES (@Id, @PersonId, @FileName, @FileData, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, @PersonFileTypeId)";
                 SortedList<string, object> dic = new SortedList<string, object>();
-                dic.Add("@Id", Guid.NewGuid());
+                dic.Add("@Id", FileId);
                 dic.Add("@PersonId", PersonId);
                 dic.Add("@FileName", fileName);
                 dic.Add("@FileData", fileData);
@@ -4181,8 +4182,13 @@ end";
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
                 dic.Add("@PersonFileTypeId", PersonFileTypeId);
 
+                string sFileHash = Util.SHA1Byte(fileData);
+                dic.Add("@FileHash", sFileHash);
+
                 Util.AbitDB.ExecuteQuery(query, dic);
                 Util.AbitDB.ExecuteQuery(@"update dbo.Application set IsViewed=0 where PersonId=@PersonId", dic);
+
+                query = "INSERT INTO FileStorage (Id, FileData) VALUES (@Id, @FileData)";
             }
             catch
             {
