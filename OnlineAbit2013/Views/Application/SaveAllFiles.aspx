@@ -123,7 +123,6 @@
                 <th><%= GetGlobalResourceObject("SaveAllFiles", "Comment").ToString()%></th>
                 <th><%= GetGlobalResourceObject("SaveAllFiles", "FileType").ToString()%></th>
                 <th><%= GetGlobalResourceObject("SaveAllFiles", "FileLocation").ToString()%></th>
-                <th><%= GetGlobalResourceObject("SaveAllFiles", "ApprovalStatus_Header").ToString()%></th>
                 <th><%= GetGlobalResourceObject("SaveAllFiles", "FileMark").ToString()%></th>
                 <th><%= GetGlobalResourceObject("SaveAllFiles", "SaveMark").ToString()%></th>
             </thead>    
@@ -153,15 +152,7 @@
                     <td style="text-align:center; vertical-align:middle; width: 450px;"><%= file.Comment%></td>
                     <td style="text-align:center; vertical-align:middle; width: 325px;"><%= file.FileType%></td>
                     <td style="text-align:center; vertical-align:middle; width: 110px;" ><%= file.AddInfo%></td>
-                    <td style="text-align:center; vertical-align:middle; width: 50px;" <%= file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Approved ? "class=\"Green\"" : file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Rejected ? "class=\"Red\"" : "class=\"Blue\"" %>  >
-                        <span style="font-weight:bold">
-                        <%= file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Approved ?
-                                    GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_Approved") :
-                                            file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Rejected ? GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_Rejected") :
-                                            GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_NotSet")
-                        %>
-                        </span>
-                    </td>
+                    
                     <td style="text-align:center; vertical-align:middle; width: 15px;"><input type='text' id='Mark<%=i.ToString()%>' value='<%= file.Mark%>' style="min-width: 15px; width: 20px;"/></td>
                     <td style="text-align:center; vertical-align:middle; width: 15px;"><button value="save" onclick ="SaveMark(<%=i.ToString()%>)">Save</button> </td>
                 </tr>

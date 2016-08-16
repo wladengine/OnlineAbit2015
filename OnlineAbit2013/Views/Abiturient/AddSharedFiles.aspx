@@ -74,19 +74,7 @@
                             if (res.Data[i].FileSize > 1024)
                                 tbody += " " + parseFloat(res.Data[i].FileSize / 1024.0).toFixed(2) + " Kb";
                             else tbody += res.Data[i].FileSize + '</td>';
-                        }
-                        tbody += '<td style="vertical-align:middle; text-align:center;"><span style="font-weight:bold" ';
-                        if (res.Data[i].IsApproved == 0) {
-                            tbody += ' class="Green" >' + '<%=GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_Approved")%>';
-                        }
-                        else {
-                            if (res.Data[i].IsApproved == 1) {
-                                tbody += ' class="Red" >' + '<%=GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_Rejected")%>';
-                            }
-                            else
-                                tbody += ' class="Blue" >' + '<%=GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_NotSet")%>';
-                        }
-                        tbody += "</td>";
+                        } 
                         tbody += '<td style="vertical-align:middle; text-align:center;"><span class="link" onclick="DeleteFile(\'' + res.Data[i].Id + '\')"><img src="../../Content/themes/base/images/delete-icon.png" alt="<%= GetGlobalResourceObject("AddSharedFiles", "Delete") %>" /></span></td>';
                         tbody += '</tr>';
                     }
@@ -153,7 +141,6 @@
             <th><%= GetGlobalResourceObject("AddSharedFiles", "FileType") %></th>
             <th><%= GetGlobalResourceObject("AddSharedFiles", "Comment") %></th>
             <th><%= GetGlobalResourceObject("AddSharedFiles", "Size") %></th>
-            <th><%= GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_Header")%></th>
             <th style="width:10%;"><%= GetGlobalResourceObject("AddSharedFiles", "Delete") %></th>
         </tr>
     </thead>
@@ -172,16 +159,6 @@
                 file.FileSize > 1024 ?
                 Math.Round(((double)file.FileSize / 1024.0), 2).ToString() + " Kb"
                 : file.FileSize.ToString() %></td>
-            <td style="vertical-align:middle; text-align:center;">
-                <span style="font-weight:bold" <%= file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Approved ? "class=\"Green\"" : file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Rejected ? "class=\"Red\"" : "class=\"Blue\"" %>>
-                <%= file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Approved ?
-                       GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_Approved") :
-                       file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Rejected ? 
-                       GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_Rejected") :
-                       GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_NotSet")
-                %>
-                </span>
-            </td>
             <td style="vertical-align:middle; text-align:center;">
                 <span class="link" onclick="DeleteFile('<%= file.Id.ToString() %>')">
                     <img src="../../Content/themes/base/images/delete-icon.png" alt="<%= GetGlobalResourceObject("AddSharedFiles", "Delete") %>" />

@@ -267,7 +267,6 @@
             <th><%= GetGlobalResourceObject("AddSharedFiles", "FileName")%></th>
             <th><%= GetGlobalResourceObject("AddSharedFiles", "Size")%></th>
             <th><%= GetGlobalResourceObject("AddSharedFiles", "Comment")%></th>
-            <th><%= GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_Header")%></th>
             <th><%= GetGlobalResourceObject("AddSharedFiles", "Delete")%></th>
         </tr>    
     <% }
@@ -295,15 +294,6 @@
                         : file.FileSize.ToString()%>
             </td>
             <td style="text-align:center; vertical-align:middle;"><%= file.Comment%></td>
-            <td style="text-align:center; vertical-align:middle;" <%= file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Approved ? "class=\"Green\"" : file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Rejected ? "class=\"Red\"" : "class=\"Blue\"" %>  >
-                <span style="font-weight:bold">
-                <%= file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Approved ?
-                           GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_Approved") :
-                                  file.IsApproved == OnlineAbit2013.Models.ApprovalStatus.Rejected ? GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_Rejected") :
-                                  GetGlobalResourceObject("AddSharedFiles", "ApprovalStatus_NotSet")
-                %>
-                </span>
-            </td>
             <td  style="text-align:center; vertical-align:middle;">
             <% if (!file.IsShared)
                { %>
