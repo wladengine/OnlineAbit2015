@@ -13,7 +13,7 @@ namespace OnlineAbit2013.Models
         public string SortOrder;
 
         public string BarcodeList;
-        
+        public bool RFPriem;
     }
     public class GlobalCommunicationApplicantShort
     {
@@ -93,6 +93,7 @@ namespace OnlineAbit2013.Models
 
         public List<CommunicateCertificateInfo> Certificates;
         public string SortOrder;
+        public string RFPriem;
     }
     public class CommunicationFilesBlock
     {

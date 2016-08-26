@@ -12,12 +12,13 @@ namespace OnlineAbit2013.Controllers
 {
     public class CommunicationController : Controller
     {
-        public List<Guid> GetEntryList()
+        public List<Guid> GetEntryList(bool rf)
         {
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
                 List<Guid> EntryList = (from En in context.Entry
                                         where En.LicenseProgramId == 971 && En.ObrazProgramId == 2500 && En.SemesterId == 1
+                                        && (rf ? !En.IsForeign : true)
                                         select En.Id).ToList();
                 return EntryList;
             }
@@ -49,29 +50,35 @@ namespace OnlineAbit2013.Controllers
             }
             return sSortResult;
         }
-        public ActionResult Index(string sort)
+        public ActionResult Index(string sort, string rf)
         {
             Guid personId;
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
                 return RedirectToAction("LogOn", "Account");
-
+            
             DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
                 new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
             if (tbl.Rows.Count == 0)
                 return RedirectToAction("Main", "Abiturient");
             List<string> sSortResult = GetSortOrder(sort);
-            GlobalCommunicationModelApplicantList model = GetModelList(sSortResult);
+            GlobalCommunicationModelApplicantList model = GetModelList(sSortResult, rf);
             return View(model);
         }
 
-        public GlobalCommunicationModelApplicantList GetModelList(List<string> SortOrder )
+        public GlobalCommunicationModelApplicantList GetModelList(List<string> SortOrder, string rf)
         {
+            bool RFPriem;
+            if (String.IsNullOrEmpty(rf) || (rf.ToLower() != Boolean.TrueString.ToLower() && rf.ToLower() != Boolean.FalseString.ToLower()))
+                RFPriem = false;
+            else
+                RFPriem = bool.Parse(rf);
+
             GlobalCommunicationModelApplicantList model = new GlobalCommunicationModelApplicantList();
             model.ApplicantList = new List<GlobalCommunicationApplicantShort>();
-
+            model.RFPriem = RFPriem;
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                List<Guid> EntryList = GetEntryList();
+                List<Guid> EntryList = GetEntryList(RFPriem);
 
                 var lst = (from abit in context.Abiturient
                            join pers in context.Person on abit.PersonId equals pers.Id
@@ -81,6 +88,7 @@ namespace OnlineAbit2013.Controllers
                            from port in _port.DefaultIfEmpty()
 
                            where EntryList.Contains(abit.EntryId) && abit.IsCommited 
+                          
                            select new GlobalCommunicationApplicantShort
                            {
                                Number = pers.Barcode,
@@ -194,11 +202,14 @@ namespace OnlineAbit2013.Controllers
                 return RedirectToAction("Main", "Abiturient");
 
             string sort = Request.Form["SortOrder"];
+            string rfpriem = Request.Form["rfpriem"];
+
             string id = Request.Form["Barcode"];
             string BarcodeList = Request.Form["BarcodeList"];
 
             GlobalCommunicationApplicant model = new GlobalCommunicationApplicant();
             model.SortOrder = sort;
+            model.RFPriem = rfpriem;
             int iNumber;
             if (!int.TryParse(id, out iNumber))
             {
@@ -206,7 +217,7 @@ namespace OnlineAbit2013.Controllers
             }
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                List<Guid> EntryList = GetEntryList();
+                List<Guid> EntryList = GetEntryList(false);
                 bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
 
                 #region GetAccess
@@ -725,7 +736,7 @@ WHERE AP.PersonId=@PersonId and FileTypeId=18
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                List<Guid> EntryList = GetEntryList();
+                List<Guid> EntryList = GetEntryList(false);
                 bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
 
                 var lst_tmp = (from abit in context.Application
@@ -879,7 +890,7 @@ WHERE AP.PersonId=@PersonId and FileTypeId=18
             return new FileContentResult(bindata, "application/pdf") { FileDownloadName = filename + ".pdf" };
         }
 
-        public ActionResult PrintListToPDF(string sort)
+        public ActionResult PrintListToPDF(string sort, string rf)
         {
             Guid personId;
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
@@ -913,7 +924,7 @@ WHERE AP.PersonId=@PersonId and FileTypeId=18
                     }
                 }
             }
-            GlobalCommunicationModelApplicantList model = GetModelList(sSortResult);
+            GlobalCommunicationModelApplicantList model = GetModelList(sSortResult, rf);
             byte[] bindata;
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
@@ -929,7 +940,7 @@ WHERE AP.PersonId=@PersonId and FileTypeId=18
             return new FileContentResult(bindata, "application/pdf") { FileDownloadName = "ApplicationCard.pdf" };
         }
 
-        public ActionResult PrintListToXLS(string sort)
+        public ActionResult PrintListToXLS(string sort, string rf)
         {
             Guid personId;
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
@@ -963,7 +974,7 @@ WHERE AP.PersonId=@PersonId and FileTypeId=18
                     }
                 }
             }
-            GlobalCommunicationModelApplicantList model = GetModelList(sSortResult);
+            GlobalCommunicationModelApplicantList model = GetModelList(sSortResult, rf);
             model.ApplicantList = model.ApplicantList.ToList();
 
             byte[] bindata;

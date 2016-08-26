@@ -139,7 +139,7 @@
     </script>
     <div class="clearfix" style="width:100%;">
         <div style=" width: 300px;" class="clearfix" >
-           <%=GetGlobalResourceObject("Communication", "BackToOverview")%>: <a href = "../../Communication/Index?sort=<%=Model.SortOrder%>#<%=Model.Number.ToString() %>"><%="#"+Model.Number.ToString() %></a>
+           <%=GetGlobalResourceObject("Communication", "BackToOverview")%>: <a href = "../../Communication/Index?sort=<%=Model.SortOrder%>&rf=<%=Model.RFPriem.ToString()%>#<%=Model.Number.ToString() %>"><%="#"+Model.Number.ToString() %></a>
         </div>
         <div style=" float: right;">
             <%if (!String.IsNullOrEmpty(Model.NexNumber) && !String.IsNullOrEmpty(Model.PrevNumber))
@@ -152,6 +152,7 @@
     <div>
     <form id="fOpenCard" name ="fOpenCard" method="post" >
     <%=Html.HiddenFor(x=>x.SortOrder) %>
+    <%=Html.HiddenFor(x=>x.RFPriem) %>
     <%=Html.HiddenFor(x=>x.BarcodeList) %>
     <input type="hidden" id="Barcode" name="Barcode"/>
     </form>

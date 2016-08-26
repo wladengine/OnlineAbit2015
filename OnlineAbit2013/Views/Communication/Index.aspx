@@ -57,8 +57,9 @@
             $("#" + ind + "u").hide();
             $("#" + ind + "n").hide();
             $("#" + ind + str).show();
-            var val = $("#SortOrder").val() + "_"+ind + str+"_";
-            location.href = ("../../Communication/Index?sort=" + val);
+            var val = $("#SortOrder").val() + "_" + ind + str + "_";
+            var rf = $("#rfpriem").is(':checked');
+            location.href = ("../../Communication/Index?sort=" + val + "&rf=" + rf);
         }
         function OpenCard(Num)
         {
@@ -89,11 +90,21 @@
         function PrintList()
         {
             var val = $("#SortOrder").val();
-            window.open('../../Communication/PrintListToPDF?sort='+val,'');
+            var rf = $("#rfpriem").is(':checked');
+
+            window.open('../../Communication/PrintListToPDF?sort=' + val + "&rf=" + rf, '');
         }
         function PrintListXLS() {
             var val = $("#SortOrder").val();
-            window.open('../../Communication/PrintListToXLS?sort=' + val, '');
+            var rf = $("#rfpriem").is(':checked');
+
+            window.open('../../Communication/PrintListToXLS?sort=' + val + "&rf=" + rf, '');
+        }
+        function RFPriem()
+        {
+            var rf = $("#rfpriem").is(':checked');
+            var val = $("#SortOrder").val();
+            location.href = ("../../Communication/Index?sort=" + val+"&rf="+rf);
         }
     </script>
     <div style="float:left; padding:5px;">
@@ -103,8 +114,10 @@
         <button value ="print" onclick ="PrintListXLS()" class="button button-green"> Print as XLS</button>
     </div>
     <hr /> 
+    <input type ="checkbox" onchange ="RFPriem()" id ="rfpriem" <%if (Model.RFPriem) { %>checked<% } %> /> Равный прием (equal rights with Russian citizens)
     <form id="fOpenCard" name ="fOpenCard" action="../../Communication/ApplicantCard" method="post" >
     <%=Html.HiddenFor(x=>x.SortOrder) %>
+    <%=Html.HiddenFor(x=>x.RFPriem) %>
     <%=Html.HiddenFor(x=>x.BarcodeList) %>
     <input type="hidden" id="Barcode" name="Barcode"/>
     </form>
