@@ -532,6 +532,8 @@ namespace OnlineAbit2013.Models
 
         public bool IsImported { get; set; }
         public bool IsAddedToProtocol { get; set; }
+        public List<string> ApplicationValidationErrors { get; set; }
+        public List<string> ApplicationValidationSuccess { get; set; }
     }
     public class SimpleApplicationWithExams : SimpleApplication
     {
@@ -673,7 +675,8 @@ namespace OnlineAbit2013.Models
         public bool HasExamsForRegistration { get; set; }
 
         public List<SelectListItem> FileType { get; set; }
-
+        public List<string> CommitValidationErrors { get; set; }
+        public List<string> CommitValidationSuccess { get; set; }
     }
 
     //-------------------------------------------

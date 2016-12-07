@@ -4052,8 +4052,9 @@ end";
 
             try
             {
-                string query = "INSERT INTO PersonFile (Id, PersonId, FileName, FileData, FileSize, FileExtention, LoadDate, Comment, MimeType, PersonFileTypeId) " +
-                    " VALUES (@Id, @PersonId, @FileName, @FileData, @FileSize, @FileExtention, @LoadDate, @Comment, @MimeType, @PersonFileTypeId)";
+                string query = " INSERT INTO FileStorage(Id, FileData) VALUES (@Id, @FileData);" +
+                    "\n INSERT INTO PersonFile (Id, PersonId, FileName, FileSize, FileExtention, LoadDate, Comment, MimeType, PersonFileTypeId, FileHash) " +
+                    "\n VALUES (@Id, @PersonId, @FileName,  @FileSize, @FileExtention, @LoadDate, @Comment, @MimeType, @PersonFileTypeId, @FileHash);";
                 SortedList<string, object> dic = new SortedList<string, object>();
                 dic.Add("@Id", Guid.NewGuid());
                 dic.Add("@PersonId", PersonId);
@@ -4065,6 +4066,10 @@ end";
                 dic.Add("@Comment", fileComment);
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
                 dic.Add("@PersonFileTypeId", PersonFileTypeId);
+
+                string sFileHash = Util.SHA1Byte(fileData);
+                dic.Add("@FileHash", sFileHash);
+
                 Util.AbitDB.ExecuteQuery(query, dic);
 
                 Util.AbitDB.ExecuteQuery(@"update dbo.Application set IsViewed=0 where PersonId=@PersonId", dic);
@@ -4167,8 +4172,9 @@ end";
             try
             {
                 Guid FileId = Guid.NewGuid();
-                string query = "INSERT INTO PersonFile (Id, PersonId, FileName, FileData, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, PersonFileTypeId) " +
-                    " VALUES (@Id, @PersonId, @FileName, @FileData, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, @PersonFileTypeId)";
+                string query = "INSERT INTO PersonFile (Id, PersonId, FileName, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, PersonFileTypeId, FileHash) " +
+                    " VALUES (@Id, @PersonId, @FileName, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, @PersonFileTypeId, @FileHash);"
+                    + "\n INSERT INTO FileStorage(Id, FileData) VALUES (@Id, @FileData);";
                 SortedList<string, object> dic = new SortedList<string, object>();
                 dic.Add("@Id", FileId);
                 dic.Add("@PersonId", PersonId);
@@ -4207,17 +4213,22 @@ end";
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                 return Content("Authorization required");
 
-            DataTable tbl = Util.AbitDB.GetDataTable("SELECT FileName, FileData, MimeType, FileExtention FROM PersonFile WHERE PersonId=@PersonId AND Id=@Id",
-                new SortedList<string, object>() { { "@PersonId", PersonId }, { "@Id", FileId } });
+            SortedList<string, object> slParams = new SortedList<string, object>();
+            slParams.Add("@PersonId", PersonId);
+            slParams.Add("@Id", FileId);
+
+            DataTable tbl = Util.AbitDB.GetDataTable("SELECT FileName, MimeType, FileExtention FROM PersonFile WHERE PersonId=@PersonId AND Id=@Id", slParams);
 
             if (tbl.Rows.Count == 0)
                 return Content("Файл не найден");
 
             string fileName = tbl.Rows[0].Field<string>("FileName");
             string contentType = tbl.Rows[0].Field<string>("MimeType");
-            byte[] content = tbl.Rows[0].Field<byte[]>("FileData");
             string ext = tbl.Rows[0].Field<string>("FileExtention");
 
+            byte[] content = (byte[])Util.AbitDB.GetValue("SELECT FileData FROM FileStorage WHERE Id=@Id", slParams);
+            if (content == null)
+                return Content("Файл не найден");
 
             if (string.IsNullOrEmpty(contentType))
             {

@@ -127,7 +127,7 @@ namespace OnlineAbit2013.Controllers
                     Files = AllFiles,
                     IsPrinted = bIsPrinted,
                     Enabled = true,
-                    StudyLevelGroupId =(tblAppsMain.Count==0)?1:tblAppsMain.First().StudyLevelGroupId,
+                    StudyLevelGroupId = (tblAppsMain.Count == 0) ? 1 : tblAppsMain.First().StudyLevelGroupId,
                     HasManualExams = tblAppsMain.Where(x=>x.HasManualExams).Count()>0,
                     HasExamsForRegistration = tblAppsMain.Where(x=>x.HasExamsForRegistration).Count()>0,
                     HasNotSelectedExams = ExistNotSelectedExams,
@@ -355,8 +355,9 @@ namespace OnlineAbit2013.Controllers
 
             try
             {
-                string query = "INSERT INTO ApplicationFile (Id, ApplicationId, FileName, FileData, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, [FileTypeId]) " +
-                    " VALUES (@Id, @ApplicationId, @FileName, @FileData, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, 1)";
+                string query = "INSERT INTO FileStorage(Id, FileData) VALUES (@Id, @FileData);" +
+                    "\n INSERT INTO ApplicationFile (Id, ApplicationId, FileName, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, [FileTypeId], FileHash) " +
+                    " VALUES (@Id, @ApplicationId, @FileName, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, 1, @FileHash)";
                 SortedList<string, object> dic = new SortedList<string, object>();
                 dic.Add("@Id", Guid.NewGuid());
                 dic.Add("@ApplicationId", ApplicationId);
@@ -368,6 +369,9 @@ namespace OnlineAbit2013.Controllers
                 dic.Add("@LoadDate", DateTime.Now);
                 dic.Add("@Comment", fileComment);
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
+
+                string sFileHash = Util.SHA1Byte(fileData);
+                dic.Add("@FileHash", sFileHash);
 
                 Util.AbitDB.ExecuteQuery(query, dic);
                 Util.AbitDB.ExecuteQuery(@"update dbo.Application set IsViewed=0 where Id=@ApplicationId", dic);
@@ -462,8 +466,9 @@ namespace OnlineAbit2013.Controllers
 
             try
             {
-                string query = "INSERT INTO ApplicationFile (Id, CommitId, FileName, FileData, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, [FileTypeId]) " +
-                    " VALUES (@Id, @CommitId, @FileName, @FileData, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, @FileTypeId)";
+                string query = "INSERT INTO FileStorage(Id, FileData) VALUES (@Id, @FileData);" +
+                    "\n INSERT INTO ApplicationFile (Id, CommitId, FileName, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, [FileTypeId], FileHash) " +
+                    " VALUES (@Id, @CommitId, @FileName, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, @FileTypeId, @FileHash);";
                 SortedList<string, object> dic = new SortedList<string, object>();
                 dic.Add("@Id", Guid.NewGuid());
                 dic.Add("@CommitId", CommitId);
@@ -475,6 +480,9 @@ namespace OnlineAbit2013.Controllers
                 dic.Add("@LoadDate", DateTime.Now);
                 dic.Add("@Comment", fileComment);
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
+
+                string sFileHash = Util.SHA1Byte(fileData);
+                dic.Add("@FileHash", sFileHash);
 
                 int iFileTypeId = (int)Util.AbitDB.GetValue("SELECT ISNULL(ApplicationFileTypeId, 1) FROM PersonFileType where Id=" + PersonFileTypeId);
                 dic.Add("@FileTypeId", iFileTypeId);
@@ -500,17 +508,19 @@ namespace OnlineAbit2013.Controllers
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
                 return Content("Authorization required");
 
-            DataTable tbl = Util.AbitDB.GetDataTable("SELECT FileName, FileData, MimeType, FileExtention FROM AllFiles WHERE Id=@Id",
-                new SortedList<string, object>() { { "@Id", FileId } });
+            SortedList<string, object> slParams = new SortedList<string, object>();
+            slParams.Add("@Id", FileId);
+
+            DataTable tbl = Util.AbitDB.GetDataTable("SELECT FileName, MimeType, FileExtention FROM AllFiles WHERE Id=@Id", slParams);
 
             if (tbl.Rows.Count == 0)
                 return Content("Файл не найден");
 
             string fileName = tbl.Rows[0].Field<string>("FileName");
             string contentType = tbl.Rows[0].Field<string>("MimeType");
-            byte[] content = tbl.Rows[0].Field<byte[]>("FileData");
             string ext = tbl.Rows[0].Field<string>("FileExtention");
 
+            byte[] content = (byte[])Util.AbitDB.GetValue("SELECT FileData FROM FileStorage WHERE Id=@Id", slParams);
 
             if (string.IsNullOrEmpty(contentType))
             {
@@ -837,8 +847,9 @@ namespace OnlineAbit2013.Controllers
 
             try
             {
-                string query = "INSERT INTO ApplicationFile (Id, ApplicationId, FileName, FileData, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, [FileTypeId]) " +
-                    " VALUES (@Id, @ApplicationId, @FileName, @FileData, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, 2)";
+                string query = " INSERT INTO FileStorage(Id, FileData) VALUES (@Id, @FileData);" +
+                    "\n INSERT INTO ApplicationFile (Id, ApplicationId, FileName, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, [FileTypeId], FileHash) " +
+                    "\n VALUES (@Id, @ApplicationId, @FileName, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, 2, @FileHash);";
                 SortedList<string, object> dic = new SortedList<string, object>();
                 dic.Add("@Id", Guid.NewGuid());
                 dic.Add("@ApplicationId", ApplicationId);
@@ -850,6 +861,9 @@ namespace OnlineAbit2013.Controllers
                 dic.Add("@LoadDate", DateTime.Now);
                 dic.Add("@Comment", "Мотивационное письмо");
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
+
+                string sFileHash = Util.SHA1Byte(fileData);
+                dic.Add("@FileHash", sFileHash);
 
                 Util.AbitDB.ExecuteQuery(query, dic);
             }
@@ -940,8 +954,9 @@ namespace OnlineAbit2013.Controllers
 
             try
             {
-                string query = "INSERT INTO ApplicationFile (Id, ApplicationId, FileName, FileData, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, [FileTypeId]) " +
-                    " VALUES (@Id, @ApplicationId, @FileName, @FileData, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, 3)";
+                string query = " INSERT INTO FileStorage(Id, FileData) VALUES (@Id, @FileData);" +
+                    "\n INSERT INTO ApplicationFile (Id, ApplicationId, FileName, FileSize, FileExtention, IsReadOnly, LoadDate, Comment, MimeType, [FileTypeId], FileHash) " +
+                    "\n VALUES (@Id, @ApplicationId, @FileName, @FileSize, @FileExtention, @IsReadOnly, @LoadDate, @Comment, @MimeType, 3, @FileHash);";
                 SortedList<string, object> dic = new SortedList<string, object>();
                 dic.Add("@Id", Guid.NewGuid());
                 dic.Add("@ApplicationId", ApplicationId);
@@ -953,6 +968,9 @@ namespace OnlineAbit2013.Controllers
                 dic.Add("@LoadDate", DateTime.Now);
                 dic.Add("@Comment", "Эссе");
                 dic.Add("@MimeType", Util.GetMimeFromExtention(fileext));
+
+                string sFileHash = Util.SHA1Byte(fileData);
+                dic.Add("@FileHash", sFileHash);
 
                 Util.AbitDB.ExecuteQuery(query, dic);
             }
