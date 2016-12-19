@@ -59,7 +59,8 @@ namespace OnlineAbit2013.Controllers
                          AbiturientTypeId = App.SecondTypeId,
 
                          IsImported = Commit.IsImported,
-                         IsAddedToProtocol = AppInProtocol != null
+                         IsAddedToProtocol = AppInProtocol != null,
+                         CampaignYear = Entry.CampaignYear
                      }).ToList();
                 bool ExistNotSelectedExams = false;
                 foreach (SimpleApplication app in tblAppsMain)
@@ -136,6 +137,9 @@ namespace OnlineAbit2013.Controllers
 
                 foreach (SimpleApplication s in tblAppsMain)
                 {
+                    if (s.CampaignYear < Util.iPriemYear)
+                        continue;
+
                     if (s.dateofClose != null)
                         if (s.dateofClose < DateTime.Now)
                         {

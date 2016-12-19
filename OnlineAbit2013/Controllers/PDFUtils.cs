@@ -3694,15 +3694,24 @@ namespace OnlineAbit2013.Controllers
                 byte[] pdfData = MergePdfFiles(lstFiles.ToList());
                 DateTime dateTime = DateTime.Now;
 
+                //add File data in storage
+                Guid FileId = Guid.NewGuid();
+                query = "INSERT INTO FileStorage (Id, FileData) VALUES (@Id, @FileData)";
+                SortedList<string, object> prms = new SortedList<string, object>();
+                prms.Add("@Id", FileId);
+                prms.Add("@FileData", pdfData);
+                Util.AbitDB.ExecuteQuery(query, prms);
+
+                //add info in table
                 query = @"INSERT INTO PersonFile (  [Id],[PersonId],
-                                                    [FileName],[FileExtention],[FileData],[FileSize],
+                                                    [FileName],[FileExtention],[FileSize],
                                                     [Comment],[LoadDate],[MimeType],
                                                     [IsReadOnly],[PersonFileTypeId])  
                                             VALUES (@Id, @PersonId,
-                                                    @FileName, @FileExtention, @FileData, @FileSize,
+                                                    @FileName, @FileExtention, @FileSize,
                                                     @Comment, @LoadDate, @MimeType,
                                                     @IsReadOnly, 17)";
-                SortedList<string, object> prms = new SortedList<string, object>();
+                
                 int ? SecTypeId = abitList.FirstOrDefault().SecondTypeId;
                 string SecondType = (SecTypeId.HasValue ?
                                         ((SecTypeId == 3) ? (" (восстановление)") : 
@@ -3711,11 +3720,10 @@ namespace OnlineAbit2013.Controllers
                                         ((SecTypeId == 6) ? (" (смена образовательной программы)") : 
                                         "")))) : "");
                 prms.Clear();
-                prms.Add("@Id", Guid.NewGuid());
+                prms.Add("@Id", FileId);
                 prms.Add("@PersonId", PersonId);
                 prms.Add("@FileName", person.Surname + " " + person.Name.FirstOrDefault() + ". (Отказ от заявления штрих-код " + code + ").pdf");
                 prms.Add("@FileExtention", ".pdf");
-                prms.Add("@FileData", pdfData);
                 prms.Add("@FileSize", pdfData.Length);
                 prms.Add("@IsReadOnly", true);
                 prms.Add("@LoadDate", dateTime);
