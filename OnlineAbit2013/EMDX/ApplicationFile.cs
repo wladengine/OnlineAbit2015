@@ -20,7 +20,6 @@ namespace OnlineAbit2013.EMDX
         public string FileName { get; set; }
         public int FileSize { get; set; }
         public string FileExtention { get; set; }
-        public byte[] FileData { get; set; }
         public string Comment { get; set; }
         public System.DateTime LoadDate { get; set; }
         public bool IsReadOnly { get; set; }
@@ -29,5 +28,6 @@ namespace OnlineAbit2013.EMDX
         public string FailReason { get; set; }
         public int FileTypeId { get; set; }
         public bool IsDeleted { get; set; }
+        public string FileHash { get; set; }
     }
 }

@@ -484,7 +484,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Иностранный язык.
+        ///   Looks up a localized string similar to Иностранный язык для вступительного испытания.
         /// </summary>
         internal static string LanguageId {
             get {

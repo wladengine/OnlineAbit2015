@@ -29,12 +29,12 @@
           <Property Name="CampaignYear" Type="int" Nullable="false" />
           <Property Name="QualificationId" Type="int" />
           <Property Name="ProgramModeId" Type="int" />
-          <Property Name="DateOfClose" Type="datetime" />
-          <Property Name="DateOfStart" Type="datetime" />
-          <Property Name="DateOfClose_Foreign" Type="datetime" />
-          <Property Name="DateOfStart_Foreign" Type="datetime" />
-          <Property Name="DateOfClose_GosLine" Type="datetime" />
-          <Property Name="DateOfStart_GosLine" Type="datetime" />
+          <Property Name="DateOfClose" Type="smalldatetime" />
+          <Property Name="DateOfStart" Type="smalldatetime" />
+          <Property Name="DateOfClose_Foreign" Type="smalldatetime" />
+          <Property Name="DateOfStart_Foreign" Type="smalldatetime" />
+          <Property Name="DateOfClose_GosLine" Type="smalldatetime" />
+          <Property Name="DateOfStart_GosLine" Type="smalldatetime" />
           <Property Name="IsUsedForPriem" Type="bit" Nullable="false" />
           <Property Name="ComissionId" Type="int" />
           <Property Name="IsForeign" Type="bit" Nullable="false" />
@@ -126,7 +126,6 @@
           <Property Name="FileName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="FileSize" Type="int" Nullable="false" />
           <Property Name="FileExtention" Type="nvarchar" MaxLength="50" />
-          <Property Name="FileData" Type="varbinary(max)" />
           <Property Name="Comment" Type="nvarchar" MaxLength="1000" />
           <Property Name="LoadDate" Type="datetime" Nullable="false" />
           <Property Name="IsReadOnly" Type="bit" Nullable="false" />
@@ -135,6 +134,7 @@
           <Property Name="FailReason" Type="nvarchar(max)" />
           <Property Name="FileTypeId" Type="int" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="FileHash" Type="nchar" MaxLength="40" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -231,6 +231,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="ExamNameId" Type="int" Nullable="false" />
+          <Property Name="IsPortfolio" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ExamInEntryBlock">
           <Key>
@@ -285,6 +286,20 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FZ_152_AgreeLog">
+          <Key>
+            <PropertyRef Name="OrdId" />
+          </Key>
+          <Property Name="OrdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime" Nullable="false" />
+          <Property Name="Request-Agent" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Request-IP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="SecondName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="BirthDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Groups">
           <Key>
@@ -342,6 +357,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="OlympSubjectId" Type="int" Nullable="false" />
           <Property Name="OlympTypeId" Type="int" Nullable="false" />
           <Property Name="OlympYear" Type="int" Nullable="false" />
+          <Property Name="OlympProfileId" Type="int" />
         </EntityType>
         <EntityType Name="Olympiads">
           <Key>
@@ -469,6 +485,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="Parent_Email" Type="nvarchar" MaxLength="250" />
           <Property Name="Parent_Work" Type="nvarchar" MaxLength="250" />
           <Property Name="Parent_WorkPosition" Type="nvarchar" MaxLength="250" />
+          <Property Name="NeedSpecialConditions" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PersonChangeStudyFormReason">
           <Key>
@@ -568,7 +585,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="FileName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="FileSize" Type="int" Nullable="false" />
           <Property Name="FileExtention" Type="nvarchar" MaxLength="50" />
-          <Property Name="FileData" Type="varbinary(max)" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="1000" />
           <Property Name="LoadDate" Type="datetime" Nullable="false" />
           <Property Name="MimeType" Type="nvarchar" MaxLength="150" />
@@ -577,6 +593,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="FailReason" Type="nvarchar(max)" />
           <Property Name="PersonFileTypeId" Type="int" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="FileHash" Type="nchar" MaxLength="40" />
         </EntityType>
         <EntityType Name="PersonFileType">
           <Key>
@@ -943,6 +960,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
             <PropertyRef Name="StudyFormId" />
             <PropertyRef Name="StudyLevelId" />
             <PropertyRef Name="IsApprovedByComission" />
+            
             <PropertyRef Name="IsSecond" />
             <PropertyRef Name="IsReduced" />
             <PropertyRef Name="SemesterId" />
@@ -961,6 +979,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
             <PropertyRef Name="IsCrimea" />
             <PropertyRef Name="PersonBarcode" />
             <PropertyRef Name="IsUpdatedByComission" />
+            <PropertyRef Name="Sex" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
@@ -991,7 +1010,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
           <Property Name="StudyLevelId" Type="int" Nullable="false" />
           <Property Name="StudyLevelName" Type="nvarchar" MaxLength="50" />
           <Property Name="IsApprovedByComission" Type="bit" Nullable="false" />
-          <Property Name="SecondTypeId" Type="int" />
+          <Property Name="SecondTypeId" Type="int" Nullable="false" />
           <Property Name="IsSecond" Type="bit" Nullable="false" />
           <Property Name="IsReduced" Type="bit" Nullable="false" />
           <Property Name="DateReviewDocs" Type="datetime" />
@@ -1024,6 +1043,11 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
           <Property Name="IsCrimea" Type="bit" Nullable="false" />
           <Property Name="PersonBarcode" Type="int" Nullable="false" />
           <Property Name="IsUpdatedByComission" Type="bit" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="150" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="SecondName" Type="nvarchar" MaxLength="150" />
+          <Property Name="Sex" Type="bit" Nullable="false" />
+          <Property Name="BirthDate" Type="date" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'OnlinePriem2015.dbo.Entry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1233,6 +1257,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbiturient' does not have a p
             <PropertyRef Name="StudyFormId" />
             <PropertyRef Name="StudyLevelId" />
             <PropertyRef Name="IsApprovedByComission" />
+            
             <PropertyRef Name="IsSecond" />
             <PropertyRef Name="IsReduced" />
             <PropertyRef Name="StudyLevelGroupId" />
@@ -1248,6 +1273,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbiturient' does not have a p
             <PropertyRef Name="IsCrimea" />
             <PropertyRef Name="IsPrinted" />
             <PropertyRef Name="PersonBarcode" />
+            <PropertyRef Name="CampaignYear" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
@@ -1267,7 +1293,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbiturient' does not have a p
           <Property Name="LicenseProgramCode" Type="nvarchar" MaxLength="10" />
           <Property Name="LicenseProgramName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="ObrazProgramId" Type="int" Nullable="false" />
-          <Property Name="ObrazProgramCrypt" Type="nvarchar" MaxLength="84" />
+          <Property Name="ObrazProgramCrypt" Type="nvarchar" MaxLength="92" />
           <Property Name="ObrazProgramName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="ProfileId" Type="int" Nullable="false" />
           <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" />
@@ -1278,7 +1304,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbiturient' does not have a p
           <Property Name="StudyLevelId" Type="int" Nullable="false" />
           <Property Name="StudyLevelName" Type="nvarchar" MaxLength="50" />
           <Property Name="IsApprovedByComission" Type="bit" Nullable="false" />
-          <Property Name="SecondTypeId" Type="int" />
+          <Property Name="SecondTypeId" Type="int" Nullable="false" />
           <Property Name="IsSecond" Type="bit" Nullable="false" />
           <Property Name="IsReduced" Type="bit" Nullable="false" />
           <Property Name="DateReviewDocs" Type="datetime" />
@@ -1295,6 +1321,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbiturient' does not have a p
           <Property Name="IsCrimea" Type="bit" Nullable="false" />
           <Property Name="IsPrinted" Type="bit" Nullable="false" />
           <Property Name="PersonBarcode" Type="int" Nullable="false" />
+          <Property Name="CampaignYear" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'OnlinePriem2015.dbo.qObrazProgram' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1366,18 +1393,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             </Principal>
             <Dependent Role="_Entry">
               <PropertyRef Name="LicenseProgramId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Entry_SP_ObrazProgram">
-          <End Role="SP_ObrazProgram" Type="Self.SP_ObrazProgram" Multiplicity="1" />
-          <End Role="_Entry" Type="Self._Entry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SP_ObrazProgram">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="_Entry">
-              <PropertyRef Name="ObrazProgramId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2342,6 +2357,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="ExamName" EntityType="Self.ExamName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamTimetable" EntityType="Self.ExamTimetable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FileType" EntityType="Self.FileType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FZ_152_AgreeLog" EntityType="Self.FZ_152_AgreeLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupUsers" EntityType="Self.GroupUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InnerEntryInEntry" EntityType="Self.InnerEntryInEntry" Schema="dbo" store:Type="Tables" />
@@ -2470,7 +2486,12 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
     [Abiturient].[IsForeign] AS [IsForeign], 
     [Abiturient].[IsCrimea] AS [IsCrimea], 
     [Abiturient].[PersonBarcode] AS [PersonBarcode], 
-    [Abiturient].[IsUpdatedByComission] AS [IsUpdatedByComission]
+    [Abiturient].[IsUpdatedByComission] AS [IsUpdatedByComission], 
+    [Abiturient].[Surname] AS [Surname], 
+    [Abiturient].[Name] AS [Name], 
+    [Abiturient].[SecondName] AS [SecondName], 
+    [Abiturient].[Sex] AS [Sex], 
+    [Abiturient].[BirthDate] AS [BirthDate]
     FROM [dbo].[Abiturient] AS [Abiturient]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Entry" EntityType="Self.Entry" store:Type="Views" store:Schema="dbo">
@@ -2655,7 +2676,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
     [qAbiturient].[IsForeign] AS [IsForeign], 
     [qAbiturient].[IsCrimea] AS [IsCrimea], 
     [qAbiturient].[IsPrinted] AS [IsPrinted], 
-    [qAbiturient].[PersonBarcode] AS [PersonBarcode]
+    [qAbiturient].[PersonBarcode] AS [PersonBarcode], 
+    [qAbiturient].[CampaignYear] AS [CampaignYear]
     FROM [dbo].[qAbiturient] AS [qAbiturient]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="qObrazProgram" EntityType="Self.qObrazProgram" store:Type="Views" store:Schema="dbo">
@@ -2687,10 +2709,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           </AssociationSet>
           <AssociationSet Name="FK__Entry_SP_LicenseProgram" Association="Self.FK__Entry_SP_LicenseProgram">
             <End Role="SP_LicenseProgram" EntitySet="SP_LicenseProgram" />
-            <End Role="_Entry" EntitySet="_Entry" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Entry_SP_ObrazProgram" Association="Self.FK__Entry_SP_ObrazProgram">
-            <End Role="SP_ObrazProgram" EntitySet="SP_ObrazProgram" />
             <End Role="_Entry" EntitySet="_Entry" />
           </AssociationSet>
           <AssociationSet Name="FK__Entry_SP_Profile" Association="Self.FK__Entry_SP_Profile">
@@ -3010,12 +3028,12 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="CampaignYear" Type="Int32" Nullable="false" />
           <Property Name="QualificationId" Type="Int32" />
           <Property Name="ProgramModeId" Type="Int32" />
-          <Property Name="DateOfClose" Type="DateTime" Precision="3" />
-          <Property Name="DateOfStart" Type="DateTime" Precision="3" />
-          <Property Name="DateOfClose_Foreign" Type="DateTime" Precision="3" />
-          <Property Name="DateOfStart_Foreign" Type="DateTime" Precision="3" />
-          <Property Name="DateOfClose_GosLine" Type="DateTime" Precision="3" />
-          <Property Name="DateOfStart_GosLine" Type="DateTime" Precision="3" />
+          <Property Name="DateOfClose" Type="DateTime" Precision="0" />
+          <Property Name="DateOfStart" Type="DateTime" Precision="0" />
+          <Property Name="DateOfClose_Foreign" Type="DateTime" Precision="0" />
+          <Property Name="DateOfStart_Foreign" Type="DateTime" Precision="0" />
+          <Property Name="DateOfClose_GosLine" Type="DateTime" Precision="0" />
+          <Property Name="DateOfStart_GosLine" Type="DateTime" Precision="0" />
           <Property Name="IsUsedForPriem" Type="Boolean" Nullable="false" />
           <Property Name="ComissionId" Type="Int32" />
           <Property Name="IsForeign" Type="Boolean" Nullable="false" />
@@ -3106,26 +3124,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="InnerEntryInEntryPriority" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InnerEntryInEntry" Relationship="OnlinePriem2015Model.FK_ApplicationDetails_ObrazProgramInEntry" FromRole="ApplicationDetails" ToRole="InnerEntryInEntry" />
         </EntityType>
-        <EntityType Name="ApplicationFile">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="ApplicationId" Type="Guid" />
-          <Property Name="CommitId" Type="Guid" />
-          <Property Name="FileName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FileSize" Type="Int32" Nullable="false" />
-          <Property Name="FileExtention" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FileData" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Comment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="LoadDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsReadOnly" Type="Boolean" Nullable="false" />
-          <Property Name="MimeType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="IsApproved" Type="Boolean" />
-          <Property Name="FailReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FileTypeId" Type="Int32" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-        </EntityType>
         <EntityType Name="ApplicationSelectedExam">
           <Key>
             <PropertyRef Name="ApplicationId" />
@@ -3215,6 +3213,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="ExamNameId" Type="Int32" Nullable="false" />
+          <Property Name="IsPortfolio" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ExamInEntryBlock">
           <Key>
@@ -3298,6 +3297,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <NavigationProperty Name="OlympName" Relationship="Self.FK_OlympBook_OlympName" FromRole="OlympBook" ToRole="OlympName" />
           <NavigationProperty Name="OlympSubject" Relationship="Self.FK_OlympBook_OlympSubject" FromRole="OlympBook" ToRole="OlympSubject" />
           <NavigationProperty Name="OlympType" Relationship="Self.FK_OlympBook_OlympType" FromRole="OlympBook" ToRole="OlympType" />
+          <Property Name="OlympProfileId" Type="Int32" />
         </EntityType>
         <EntityType Name="Olympiads">
           <Key>
@@ -3461,6 +3461,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <NavigationProperty Name="Language" Relationship="Self.FK_PersonAddInfo_Language" FromRole="PersonAddInfo" ToRole="Language" />
           <NavigationProperty Name="Person" Relationship="Self.FK_PersonAddInfo_Person" FromRole="PersonAddInfo" ToRole="Person" />
           <NavigationProperty Name="ReturnDocumentType" Relationship="Self.FK_PersonAddInfo_ReturnDocumentType" FromRole="PersonAddInfo" ToRole="ReturnDocumentType" />
+          <Property Name="NeedSpecialConditions" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="PersonChangeStudyFormReason">
           <Key>
@@ -3980,6 +3981,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             <PropertyRef Name="IsCrimea" />
             <PropertyRef Name="PersonBarcode" />
             <PropertyRef Name="IsUpdatedByComission" />
+            <PropertyRef Name="Sex" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="PersonId" Type="Guid" Nullable="false" />
@@ -4010,7 +4012,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="StudyLevelId" Type="Int32" Nullable="false" />
           <Property Name="StudyLevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsApprovedByComission" Type="Boolean" Nullable="false" />
-          <Property Name="SecondTypeId" Type="Int32" />
+          <Property Name="SecondTypeId" Type="Int32" Nullable="false" />
           <Property Name="IsSecond" Type="Boolean" Nullable="false" />
           <Property Name="IsReduced" Type="Boolean" Nullable="false" />
           <Property Name="DateReviewDocs" Type="DateTime" Precision="3" />
@@ -4043,6 +4045,11 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="IsCrimea" Type="Boolean" Nullable="false" />
           <Property Name="PersonBarcode" Type="Int32" Nullable="false" />
           <Property Name="IsUpdatedByComission" Type="Boolean" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="SecondName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="Boolean" Nullable="false" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Entry">
           <Key>
@@ -4223,6 +4230,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             <PropertyRef Name="IsCrimea" />
             <PropertyRef Name="IsPrinted" />
             <PropertyRef Name="PersonBarcode" />
+            <PropertyRef Name="CampaignYear" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="PersonId" Type="Guid" Nullable="false" />
@@ -4242,7 +4250,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="LicenseProgramCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="LicenseProgramName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ObrazProgramId" Type="Int32" Nullable="false" />
-          <Property Name="ObrazProgramCrypt" Type="String" MaxLength="84" FixedLength="false" Unicode="true" />
+          <Property Name="ObrazProgramCrypt" Type="String" MaxLength="92" FixedLength="false" Unicode="true" />
           <Property Name="ObrazProgramName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ProfileId" Type="Int32" Nullable="false" />
           <Property Name="ProfileName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -4253,7 +4261,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="StudyLevelId" Type="Int32" Nullable="false" />
           <Property Name="StudyLevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsApprovedByComission" Type="Boolean" Nullable="false" />
-          <Property Name="SecondTypeId" Type="Int32" />
+          <Property Name="SecondTypeId" Type="Int32" Nullable="false" />
           <Property Name="IsSecond" Type="Boolean" Nullable="false" />
           <Property Name="IsReduced" Type="Boolean" Nullable="false" />
           <Property Name="DateReviewDocs" Type="DateTime" Precision="3" />
@@ -4270,6 +4278,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="IsCrimea" Type="Boolean" Nullable="false" />
           <Property Name="IsPrinted" Type="Boolean" Nullable="false" />
           <Property Name="PersonBarcode" Type="Int32" Nullable="false" />
+          <Property Name="CampaignYear" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="qObrazProgram">
           <Key>
@@ -5143,7 +5152,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="ApplicationCommitVersion" EntityType="Self.ApplicationCommitVersion" />
           <EntitySet Name="ApplicationCommitVersonDetails" EntityType="Self.ApplicationCommitVersonDetails" />
           <EntitySet Name="ApplicationDetails" EntityType="Self.ApplicationDetails" />
-          <EntitySet Name="ApplicationFile" EntityType="Self.ApplicationFile" />
           <EntitySet Name="ApplicationSelectedExam" EntityType="Self.ApplicationSelectedExam" />
           <EntitySet Name="ApplicationVersion" EntityType="Self.ApplicationVersion" />
           <EntitySet Name="ApplicationVersionDetails" EntityType="Self.ApplicationVersionDetails" />
@@ -5571,6 +5579,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="ApplicationAddedToProtocol" EntityType="OnlinePriem2015Model.ApplicationAddedToProtocol" />
           <EntitySet Name="ExamTimeTableOneDayRestriction" EntityType="OnlinePriem2015Model.ExamTimeTableOneDayRestriction" />
           <EntitySet Name="FileType" EntityType="OnlinePriem2015Model.FileType" />
+          <EntitySet Name="ApplicationFile" EntityType="OnlinePriem2015Model.ApplicationFile" />
+          <EntitySet Name="FZ_152_AgreeLog" EntityType="OnlinePriem2015Model.FZ_152_AgreeLog" />
         </EntityContainer>
         <EntityType Name="Comission">
           <Key>
@@ -5685,7 +5695,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="FileName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="FileSize" Type="Int32" Nullable="false" />
           <Property Name="FileExtention" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FileData" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="Comment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="LoadDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="MimeType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -5694,6 +5703,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="FailReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PersonFileTypeId" Type="Int32" Nullable="false" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="FileHash" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="extDefaultEntryDetails">
           <Key>
@@ -5826,6 +5836,40 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NameEng" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="ApplicationFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ApplicationId" Type="Guid" />
+          <Property Name="CommitId" Type="Guid" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="FileSize" Type="Int32" Nullable="false" />
+          <Property Name="FileExtention" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LoadDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsReadOnly" Type="Boolean" Nullable="false" />
+          <Property Name="MimeType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IsApproved" Type="Boolean" />
+          <Property Name="FailReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileTypeId" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="FileHash" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FZ_152_AgreeLog">
+          <Key>
+            <PropertyRef Name="OrdId" />
+          </Key>
+          <Property Name="OrdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonId" Type="Guid" Nullable="false" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Request_Agent" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Request_IP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="SecondName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5941,27 +5985,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ApplicationFile">
-            <EntityTypeMapping TypeName="OnlinePriem2015Model.ApplicationFile">
-              <MappingFragment StoreEntitySet="ApplicationFile">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
-                <ScalarProperty Name="CommitId" ColumnName="CommitId" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
-                <ScalarProperty Name="FileExtention" ColumnName="FileExtention" />
-                <ScalarProperty Name="FileData" ColumnName="FileData" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="LoadDate" ColumnName="LoadDate" />
-                <ScalarProperty Name="IsReadOnly" ColumnName="IsReadOnly" />
-                <ScalarProperty Name="MimeType" ColumnName="MimeType" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-                <ScalarProperty Name="FailReason" ColumnName="FailReason" />
-                <ScalarProperty Name="FileTypeId" ColumnName="FileTypeId" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ApplicationSelectedExam">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.ApplicationSelectedExam">
               <MappingFragment StoreEntitySet="ApplicationSelectedExam">
@@ -6042,6 +6065,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="Exam">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.Exam">
               <MappingFragment StoreEntitySet="Exam">
+                <ScalarProperty Name="IsPortfolio" ColumnName="IsPortfolio" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ExamNameId" ColumnName="ExamNameId" />
               </MappingFragment>
@@ -6118,6 +6142,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="OlympBook">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.OlympBook">
               <MappingFragment StoreEntitySet="OlympBook">
+                <ScalarProperty Name="OlympProfileId" ColumnName="OlympProfileId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OlympLevelId" ColumnName="OlympLevelId" />
                 <ScalarProperty Name="OlympNameId" ColumnName="OlympNameId" />
@@ -6239,6 +6264,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="PersonAddInfo">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonAddInfo">
               <MappingFragment StoreEntitySet="PersonAddInfo">
+                <ScalarProperty Name="NeedSpecialConditions" ColumnName="NeedSpecialConditions" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="MaritalStatus" ColumnName="MaritalStatus" />
                 <ScalarProperty Name="SocialStatus" ColumnName="SocialStatus" />
@@ -6710,6 +6736,11 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="Abiturient">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.Abiturient">
               <MappingFragment StoreEntitySet="Abiturient">
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
@@ -6894,6 +6925,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="qAbiturient">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.qAbiturient">
               <MappingFragment StoreEntitySet="qAbiturient">
+                <ScalarProperty Name="CampaignYear" ColumnName="CampaignYear" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
@@ -7000,6 +7032,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="PersonFile">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonFile">
               <MappingFragment StoreEntitySet="PersonFile">
+                <ScalarProperty Name="FileHash" ColumnName="FileHash" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="PersonFileTypeId" ColumnName="PersonFileTypeId" />
                 <ScalarProperty Name="FailReason" ColumnName="FailReason" />
@@ -7008,7 +7041,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
                 <ScalarProperty Name="MimeType" ColumnName="MimeType" />
                 <ScalarProperty Name="LoadDate" ColumnName="LoadDate" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="FileData" ColumnName="FileData" />
                 <ScalarProperty Name="FileExtention" ColumnName="FileExtention" />
                 <ScalarProperty Name="FileSize" ColumnName="FileSize" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
@@ -7098,6 +7130,42 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
                 <ScalarProperty Name="NameEng" ColumnName="NameEng" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationFile">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.ApplicationFile">
+              <MappingFragment StoreEntitySet="ApplicationFile">
+                <ScalarProperty Name="FileHash" ColumnName="FileHash" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="FileTypeId" ColumnName="FileTypeId" />
+                <ScalarProperty Name="FailReason" ColumnName="FailReason" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="MimeType" ColumnName="MimeType" />
+                <ScalarProperty Name="IsReadOnly" ColumnName="IsReadOnly" />
+                <ScalarProperty Name="LoadDate" ColumnName="LoadDate" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="FileExtention" ColumnName="FileExtention" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="CommitId" ColumnName="CommitId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FZ_152_AgreeLog">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.FZ_152_AgreeLog">
+              <MappingFragment StoreEntitySet="FZ_152_AgreeLog">
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Request_IP" ColumnName="Request-IP" />
+                <ScalarProperty Name="Request_Agent" ColumnName="Request-Agent" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="OrdId" ColumnName="OrdId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -33,7 +33,6 @@ namespace OnlineAbit2013.EMDX
         public virtual DbSet<ApplicationCommitVersion> ApplicationCommitVersion { get; set; }
         public virtual DbSet<ApplicationCommitVersonDetails> ApplicationCommitVersonDetails { get; set; }
         public virtual DbSet<ApplicationDetails> ApplicationDetails { get; set; }
-        public virtual DbSet<ApplicationFile> ApplicationFile { get; set; }
         public virtual DbSet<ApplicationSelectedExam> ApplicationSelectedExam { get; set; }
         public virtual DbSet<ApplicationVersion> ApplicationVersion { get; set; }
         public virtual DbSet<ApplicationVersionDetails> ApplicationVersionDetails { get; set; }
@@ -111,6 +110,8 @@ namespace OnlineAbit2013.EMDX
         public virtual DbSet<ApplicationAddedToProtocol> ApplicationAddedToProtocol { get; set; }
         public virtual DbSet<ExamTimeTableOneDayRestriction> ExamTimeTableOneDayRestriction { get; set; }
         public virtual DbSet<FileType> FileType { get; set; }
+        public virtual DbSet<ApplicationFile> ApplicationFile { get; set; }
+        public virtual DbSet<FZ_152_AgreeLog> FZ_152_AgreeLog { get; set; }
     
         public virtual int PersonEducationDocument_delete(Nullable<System.Guid> personId, Nullable<int> id)
         {

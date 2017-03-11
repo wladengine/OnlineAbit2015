@@ -12,10 +12,16 @@ namespace OnlineAbit2013.EMDX
     using System;
     using System.Collections.Generic;
     
-    public partial class Exam
+    public partial class FZ_152_AgreeLog
     {
-        public int Id { get; set; }
-        public int ExamNameId { get; set; }
-        public bool IsPortfolio { get; set; }
+        public int OrdId { get; set; }
+        public System.Guid PersonId { get; set; }
+        public System.DateTime TimeStamp { get; set; }
+        public string Request_Agent { get; set; }
+        public string Request_IP { get; set; }
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string SecondName { get; set; }
+        public System.DateTime BirthDate { get; set; }
     }
 }

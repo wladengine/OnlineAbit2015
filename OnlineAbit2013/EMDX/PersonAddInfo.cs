@@ -35,6 +35,7 @@ namespace OnlineAbit2013.EMDX
         public string Parent_Email { get; set; }
         public string Parent_Work { get; set; }
         public string Parent_WorkPosition { get; set; }
+        public bool NeedSpecialConditions { get; set; }
     
         public virtual Language Language { get; set; }
         public virtual Person Person { get; set; }

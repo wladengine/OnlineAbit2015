@@ -28,9 +28,9 @@
     <% } %>
     <a href="../Abiturient/PriorityChanger?ComId=<%= Model.CommitId.ToString("N") %>"><%= Model.CommitName %></a>
     -> 
-    <span><%= GetGlobalResourceObject("PriorityChangerForeign", "ObrazPr_Message1").ToString()%></span>
+    <span><%= GetGlobalResourceObject("PriorityChangerForeign", "ObrazPr_Message1").ToString() %></span>
     <p class="message info">
-        <%= GetGlobalResourceObject("PriorityChangerForeign", "ObrazPr_Message2").ToString()%>
+        <%= GetGlobalResourceObject("PriorityChangerForeign", "ObrazPr_Message2").ToString() %>
     </p>
     <form action="../Abiturient/PriorityChangeApplication" method="post">
         <%= Html.HiddenFor(x => x.ApplicationId) %>

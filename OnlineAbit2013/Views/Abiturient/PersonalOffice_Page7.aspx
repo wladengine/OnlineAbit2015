@@ -113,6 +113,11 @@
                         <span><%= GetGlobalResourceObject("PersonalOffice_Step6", "PrivilegesFull").ToString()%></span>
                     </div>
                     <div class="clearfix">
+                        <h4><%= GetGlobalResourceObject("PersonalOffice_Step6", "NeedSpecialConditions").ToString()%></h4>
+                        <%= Html.CheckBoxFor(x => x.AddInfo.NeedSpecialConditions) %>
+                        <span><%= GetGlobalResourceObject("PersonalOffice_Step6", "NeedSpecialConditionsFull").ToString()%></span>
+                    </div>
+                    <div class="clearfix">
                         <h4><%= GetGlobalResourceObject("PersonalOffice_Step6", "ContactPerson").ToString()%></h4>
                         <span><%= GetGlobalResourceObject("PersonalOffice_Step6", "ContactPerson_SubHeader").ToString()%></span><br />
                         <%= Html.TextAreaFor(x => x.AddInfo.ContactPerson, 5, 85, new SortedList<string, object>() { { "class", "noresize" }, {"style", "width: 437px"} }) %>

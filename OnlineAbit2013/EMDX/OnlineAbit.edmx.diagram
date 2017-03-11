@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationCommitVersion" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationCommitVersonDetails" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationDetails" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationFile" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationSelectedExam" Width="1.5" PointX="15.75" PointY="31.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationVersion" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationVersionDetails" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
@@ -166,6 +165,8 @@
         <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationAddedToProtocol" Width="1.5" PointX="22.375" PointY="19.75" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ExamTimeTableOneDayRestriction" Width="1.5" PointX="22.375" PointY="22.75" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.FileType" Width="1.5" PointX="10.625" PointY="4.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationFile" Width="1.5" PointX="23.375" PointY="10.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.FZ_152_AgreeLog" Width="1.5" PointX="0.75" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

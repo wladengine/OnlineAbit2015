@@ -54,51 +54,51 @@ namespace OnlineAbit2013.Controllers
                      select PF).ToList();
             }
 
-            foreach (var PF in lstPF)
-            {
-                string fName = "D:\\DOC_TO_PDF\\" + PF.FileName;
-                StreamWriter sw = new StreamWriter(fName);
-                BinaryWriter bw = new BinaryWriter(sw.BaseStream);
-                bw.Write(PF.FileData);
-                bw.Flush();
-                bw.Close();
+            //foreach (var PF in lstPF)
+            //{
+            //    string fName = "D:\\DOC_TO_PDF\\" + PF.FileName;
+            //    StreamWriter sw = new StreamWriter(fName);
+            //    BinaryWriter bw = new BinaryWriter(sw.BaseStream);
+            //    bw.Write(PF.FileData);
+            //    bw.Flush();
+            //    bw.Close();
 
-                string outFileName = Convert(new System.IO.FileInfo(fName));
+            //    string outFileName = Convert(new System.IO.FileInfo(fName));
 
-                byte[] data = System.IO.File.ReadAllBytes(outFileName);
-                lstOut.Add(new PersonFile()
-                {
-                    Id = Guid.NewGuid(),
-                    Comment = PF.Comment,
-                    FileData = data,
-                    FileName = PF.FileName.Replace(".docx", ".pdf").Replace(".doc", ".pdf"),
-                    FileExtention = ".pdf",
-                    FileSize = data.Length,
-                    IsDeleted = false,
-                    IsReadOnly = true,
-                    LoadDate = DateTime.Now,
-                    MimeType = Util.GetMimeFromExtention(".pdf"),
-                    PersonFileTypeId = PF.PersonFileTypeId,
-                    PersonId = PF.PersonId,
-                });
+            //    byte[] data = System.IO.File.ReadAllBytes(outFileName);
+            //    lstOut.Add(new PersonFile()
+            //    {
+            //        Id = Guid.NewGuid(),
+            //        Comment = PF.Comment,
+            //        FileData = data,
+            //        FileName = PF.FileName.Replace(".docx", ".pdf").Replace(".doc", ".pdf"),
+            //        FileExtention = ".pdf",
+            //        FileSize = data.Length,
+            //        IsDeleted = false,
+            //        IsReadOnly = true,
+            //        LoadDate = DateTime.Now,
+            //        MimeType = Util.GetMimeFromExtention(".pdf"),
+            //        PersonFileTypeId = PF.PersonFileTypeId,
+            //        PersonId = PF.PersonId,
+            //    });
 
-                System.IO.File.Delete(fName);
-                System.IO.File.Delete(outFileName);
-            }
+            //    System.IO.File.Delete(fName);
+            //    System.IO.File.Delete(outFileName);
+            //}
 
-            using (TransactionScope tran = new TransactionScope())
-            {
-                using (OnlinePriemEntities ctx = new OnlinePriemEntities())
-                {
-                    foreach (var PF in lstOut)
-                    {
-                        ctx.PersonFile.Add(PF);
-                        ctx.SaveChanges();
-                    }
-                }
+            //using (TransactionScope tran = new TransactionScope())
+            //{
+            //    using (OnlinePriemEntities ctx = new OnlinePriemEntities())
+            //    {
+            //        foreach (var PF in lstOut)
+            //        {
+            //            ctx.PersonFile.Add(PF);
+            //            ctx.SaveChanges();
+            //        }
+            //    }
 
-                tran.Complete();
-            }
+            //    tran.Complete();
+            //}
         }
         private void ConvertApplicationFiles()
         {
@@ -123,52 +123,52 @@ namespace OnlineAbit2013.Controllers
                       select PF).ToList()).ToList();
             }
 
-            foreach (var PF in lstPF)
-            {
-                string fName = "D:\\DOC_TO_PDF\\" + PF.FileName;
-                StreamWriter sw = new StreamWriter(fName);
-                BinaryWriter bw = new BinaryWriter(sw.BaseStream);
-                bw.Write(PF.FileData);
-                bw.Flush();
-                bw.Close();
+            //foreach (var PF in lstPF)
+            //{
+            //    string fName = "D:\\DOC_TO_PDF\\" + PF.FileName;
+            //    StreamWriter sw = new StreamWriter(fName);
+            //    BinaryWriter bw = new BinaryWriter(sw.BaseStream);
+            //    bw.Write(PF.FileData);
+            //    bw.Flush();
+            //    bw.Close();
 
-                string outFileName = Convert(new System.IO.FileInfo(fName));
+            //    string outFileName = Convert(new System.IO.FileInfo(fName));
 
-                byte[] data = System.IO.File.ReadAllBytes(outFileName);
-                lstOut.Add(new ApplicationFile()
-                {
-                    Id = Guid.NewGuid(),
-                    Comment = PF.Comment,
-                    FileData = data,
-                    FileName = PF.FileName.Replace(".docx", ".pdf").Replace(".doc", ".pdf"),
-                    FileExtention = ".pdf",
-                    FileSize = data.Length,
-                    IsDeleted = false,
-                    IsReadOnly = true,
-                    LoadDate = DateTime.Now,
-                    MimeType = Util.GetMimeFromExtention(".pdf"),
-                    ApplicationId = PF.ApplicationId,
-                    CommitId = PF.CommitId,
-                    FileTypeId = PF.FileTypeId,
-                });
+            //    byte[] data = System.IO.File.ReadAllBytes(outFileName);
+            //    lstOut.Add(new ApplicationFile()
+            //    {
+            //        Id = Guid.NewGuid(),
+            //        Comment = PF.Comment,
+            //        FileData = data,
+            //        FileName = PF.FileName.Replace(".docx", ".pdf").Replace(".doc", ".pdf"),
+            //        FileExtention = ".pdf",
+            //        FileSize = data.Length,
+            //        IsDeleted = false,
+            //        IsReadOnly = true,
+            //        LoadDate = DateTime.Now,
+            //        MimeType = Util.GetMimeFromExtention(".pdf"),
+            //        ApplicationId = PF.ApplicationId,
+            //        CommitId = PF.CommitId,
+            //        FileTypeId = PF.FileTypeId,
+            //    });
 
-                System.IO.File.Delete(fName);
-                System.IO.File.Delete(outFileName);
-            }
+            //    System.IO.File.Delete(fName);
+            //    System.IO.File.Delete(outFileName);
+            //}
 
-            using (TransactionScope tran = new TransactionScope())
-            {
-                using (OnlinePriemEntities ctx = new OnlinePriemEntities())
-                {
-                    foreach (var PF in lstOut)
-                    {
-                        ctx.ApplicationFile.Add(PF);
-                        ctx.SaveChanges();
-                    }
-                }
+            //using (TransactionScope tran = new TransactionScope())
+            //{
+            //    using (OnlinePriemEntities ctx = new OnlinePriemEntities())
+            //    {
+            //        foreach (var PF in lstOut)
+            //        {
+            //            ctx.ApplicationFile.Add(PF);
+            //            ctx.SaveChanges();
+            //        }
+            //    }
 
-                tran.Complete();
-            }
+            //    tran.Complete();
+            //}
         }
 
         private string Convert(System.IO.FileInfo wordFile)

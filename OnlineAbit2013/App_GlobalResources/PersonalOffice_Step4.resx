@@ -190,7 +190,7 @@
     <value>Свидетельство об эквивалентности</value>
   </data>
   <data name="LanguageId" xml:space="preserve">
-    <value>Иностранный язык</value>
+    <value>Иностранный язык для вступительного испытания</value>
   </data>
   <data name="PersonQualification" xml:space="preserve">
     <value>Квалификация</value>

@@ -398,6 +398,7 @@ namespace OnlineAbit2013.Models
         public bool HostelAbit { get; set; }
         public bool HostelEduc { get; set; }
         public bool HasPrivileges { get; set; }
+        public bool NeedSpecialConditions { get; set; }
         public string ContactPerson { get; set; }
         public string ExtraInfo { get; set; }
 

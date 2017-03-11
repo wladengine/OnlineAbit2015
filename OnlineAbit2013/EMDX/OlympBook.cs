@@ -20,6 +20,7 @@ namespace OnlineAbit2013.EMDX
         public int OlympSubjectId { get; set; }
         public int OlympTypeId { get; set; }
         public int OlympYear { get; set; }
+        public Nullable<int> OlympProfileId { get; set; }
     
         public virtual OlympLevel OlympLevel { get; set; }
         public virtual OlympName OlympName { get; set; }

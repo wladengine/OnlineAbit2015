@@ -3213,6 +3213,7 @@ namespace OnlineAbit2013.Controllers
                         Language = x.PersonAddInfo.Language.Name,
                         x.PersonAddInfo.HasPrivileges,
                         x.PersonAddInfo.HostelEduc,
+                        x.PersonAddInfo.NeedSpecialConditions,
                         x.PersonContacts.City,
                         Region = x.PersonContacts.Region.Name,
                         x.PersonContacts.Code,
@@ -3271,7 +3272,7 @@ namespace OnlineAbit2013.Controllers
                                    }).ToList();
    
                 MemoryStream ms = new MemoryStream();
-                string dotName = "ApplicationAG_2016.pdf";
+                string dotName = "ApplicationAG_2017.pdf";
                 byte[] templateBytes;
                 using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
                 {
@@ -3307,6 +3308,11 @@ namespace OnlineAbit2013.Controllers
                     acrFlds.SetField("HostelAbitYes", "1");
                 else
                     acrFlds.SetField("HostelAbitNo", "1");
+
+                if (person.NeedSpecialConditions)
+                    acrFlds.SetField("SpecialConditionsYes", "1");
+                else
+                    acrFlds.SetField("SpecialConditionsNo", "1");
 
                 int inc = 0;
                 bool hasSecondApp = abitList.Count() > 1;
@@ -3344,21 +3350,6 @@ namespace OnlineAbit2013.Controllers
                         acrFlds.SetField("ManualExam" + i, "нет");
                 }
 
-                pdfStm.FormFlattening = true;
-                pdfStm.Close();
-                pdfRd.Close();
-
-                MemoryStream ms_ank = new MemoryStream();
-                dotName = "AnketaAG2016.pdf";
-                using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
-                {
-                    templateBytes = new byte[fs.Length];
-                    fs.Read(templateBytes, 0, templateBytes.Length);
-                }
-                pdfRd = new PdfReader(templateBytes);
-                pdfStm = new PdfStamper(pdfRd, ms_ank);
-                acrFlds = pdfStm.AcroFields;
-
                 acrFlds.SetField("ClassNum", abitList.First().ClassNum.ToString());
 
                 acrFlds.SetField("Surname", person.Surname);
@@ -3385,37 +3376,82 @@ namespace OnlineAbit2013.Controllers
                 for (int i = 0; i < 2; i++)
                     acrFlds.SetField("Day" + (i + 1).ToString(), Day[i].ToString());
 
+                string sRegionName = (person.IsRussia ? (string.IsNullOrEmpty(person.Region) ? "" : person.Region + ",") : person.Country + ", ");
+                string sCity = (string.IsNullOrEmpty(person.City) ? "" : person.City.Trim());
+                string sAddress = string.Format("{0}{1}{2}{3}",
+                    string.IsNullOrEmpty(person.Street) ? "" : person.Street + ", ",
+                    string.IsNullOrEmpty(person.House) ? "" : "д." + person.House + ", ",
+                    string.IsNullOrEmpty(person.Korpus) ? "" : "корп." + person.Korpus + ", ",
+                    string.IsNullOrEmpty(person.Flat) ? "" : "кв." + person.Flat);
 
-                string Address = string.Format("{0} {1}{2},", (person.Code) ?? "", (person.IsRussia ? (person.Region + ", ") ?? "" : person.Country + ", "), (person.City + ", ") ?? "") +
-                    string.Format("{0} {1} {2} {3}", person.Street ?? "", person.House == string.Empty ? "" : "дом " + person.House,
-                    person.Korpus == string.Empty ? "" : "корп. " + person.Korpus,
-                    person.Flat == string.Empty ? "" : "кв. " + person.Flat);
+                string[] Address = GetSplittedStringByCell(sAddress);
+                string[] City = GetSplittedStringByCell(sCity);
 
-                string[] splitStr = GetSplittedStrings(Address, 50, 50, 2);
-                for (int i = 1; i <= 2; i++)
-                    acrFlds.SetField("Address" + i, splitStr[i - 1]);
-                
-                acrFlds.SetField("PostIndex", person.Code);
-                acrFlds.SetField("Email", person.Email);
-                string Phone = person.Phone??"";
+                for (int i = 0; i < City.Length; i++)
+                    acrFlds.SetField("City" + (i + 1), City[i].ToString());
+
+                string PostIndex = (person.Code) ?? "";
+                for (int i = 0; i < PostIndex.Length && i < 6; i++)
+                    acrFlds.SetField("Code" + (i + 1), PostIndex[i].ToString());
+
+                for (int i = 0; i < Address.Length && i < 40; i++)
+                    acrFlds.SetField("Address" + (i + 1), Address[i].ToString());
+
+                //string[] splitStr = GetSplittedStrings(Address, 50, 50, 2);
+                //for (int i = 1; i <= 2; i++)
+                //    acrFlds.SetField("Address" + i, splitStr[i - 1]);
+
+                string[] Email = GetSplittedStringByCell(person.Email);
+                for (int i = 0; i < Email.Length; i++)
+                    acrFlds.SetField("Email" + (i + 1), Email[i].ToString());
+                string[] Phone = GetSplittedStringByCell(person.Phone ?? "");
                 for (int i = 0; i < Phone.Length; i++ )
                     acrFlds.SetField("Phone" + (i + 1).ToString(), Phone[i].ToString());
                 string Mobile = person.Mobiles ?? "";
                 for (int i = 0; i < Mobile.Length; i++)
                     acrFlds.SetField("Mobile" + (i + 1).ToString(), Mobile[i].ToString());
 
-                acrFlds.SetField("ParentSurname", PersonAddInfo.Parent_Surname);
-                acrFlds.SetField("ParentName", PersonAddInfo.Parent_Name);
-                acrFlds.SetField("ParentSecondName", PersonAddInfo.Parent_SecondName);
-                acrFlds.SetField("ParentPhone", PersonAddInfo.Parent_Phone);
-                acrFlds.SetField("ParentEmail", PersonAddInfo.Parent_Email);
-                acrFlds.SetField("ParentWork", PersonAddInfo.Parent_Work);
-                acrFlds.SetField("ParentPost", PersonAddInfo.Parent_WorkPosition);
+                if (!string.IsNullOrEmpty(PersonAddInfo.Parent_Surname))
+                {
+                    string[] Parent_Surname = GetSplittedStringByCell(PersonAddInfo.Parent_Surname);
+                    for (int i = 0; i < Parent_Surname.Length; i++)
+                        acrFlds.SetField("ParentSurname" + (i + 1), Parent_Surname[i].ToString());
+                }
+                if (!string.IsNullOrEmpty(PersonAddInfo.Parent_Name))
+                {
+                    string[] Parent_Name = GetSplittedStringByCell(PersonAddInfo.Parent_Name);
+                    for (int i = 0; i < Parent_Name.Length; i++)
+                        acrFlds.SetField("ParentName" + (i + 1), Parent_Name[i].ToString());
+                }
+                if (!string.IsNullOrEmpty(PersonAddInfo.Parent_SecondName))
+                {
+                    string[] Parent_SecondName = GetSplittedStringByCell(PersonAddInfo.Parent_SecondName);
+                    for (int i = 0; i < Parent_SecondName.Length; i++)
+                        acrFlds.SetField("ParentSecondName" + (i + 1), Parent_SecondName[i].ToString());
+                }
+                if (!string.IsNullOrEmpty(PersonAddInfo.Parent_Phone))
+                {
+                    string[] Parent_Phone = GetSplittedStringByCell(PersonAddInfo.Parent_Phone);
+                    for (int i = 0; i < Parent_Phone.Length; i++)
+                        acrFlds.SetField("ParentPhone" + (i + 1), Parent_Phone[i].ToString());
+                }
+                if (!string.IsNullOrEmpty(PersonAddInfo.Parent_Email))
+                {
+                    string[] Parent_Email = GetSplittedStringByCell(PersonAddInfo.Parent_Email);
+                    for (int i = 0; i < Parent_Email.Length; i++)
+                        acrFlds.SetField("ParentEmail" + (i + 1), Parent_Email[i].ToString());
+                }
+                if (!string.IsNullOrEmpty(PersonAddInfo.Parent_Work))
+                {
+                    string[] Parent_Work = GetSplittedStringByCell(PersonAddInfo.Parent_Work);
+                    for (int i = 0; i < Parent_Work.Length; i++)
+                        acrFlds.SetField("ParentWork" + (i + 1), Parent_Work[i].ToString());
+                }
 
                 string SchName = string.Format(personEduc.SchoolName + " " + personEduc.SchoolNum);
-                splitStr = GetSplittedStrings(SchName, 50, 50, 2);
+                string[] splitStr = GetSplittedStrings(SchName, 50, 50, 2);
                 for (int i = 1; i <= 2; i++)
-                    acrFlds.SetField("SchoolNum" + i, splitStr[i - 1]);
+                    acrFlds.SetField("SchoolName" + i, splitStr[i - 1]);
 
                 string SchAddress = string.Format(personEduc.RegionName + " " + personEduc.SchoolCity);
                 splitStr = GetSplittedStrings(SchAddress, 50, 50, 2);
@@ -3425,15 +3461,15 @@ namespace OnlineAbit2013.Controllers
                 acrFlds.SetField("English1", person.Language);
                 acrFlds.SetField("English2", "");
 
-                for (int i = 0; (i < 4)&&(i<Olympiads.Count()); i++)
+                for (int i = 0; (i < 4) && (i < Olympiads.Count()); i++)
                 {
-                    acrFlds.SetField("OlympSubject"+(i+1).ToString(), Olympiads[i].OlympSubject.ToString());
-                    acrFlds.SetField("OlympYear" + (i + 1).ToString(), Olympiads[i].OlympYear > 0 ? Olympiads[i].OlympYear.ToString(): "");
+                    acrFlds.SetField("OlympSubject" + (i + 1).ToString(), Olympiads[i].OlympSubject.ToString());
+                    acrFlds.SetField("OlympYear" + (i + 1).ToString(), Olympiads[i].OlympYear > 0 ? Olympiads[i].OlympYear.ToString() : "");
                     acrFlds.SetField("OlympName" + (i + 1).ToString(), Olympiads[i].OlympName);
                     acrFlds.SetField("OlympStep" + (i + 1).ToString(), "");
                     acrFlds.SetField("OlympLevel" + (i + 1).ToString(), Olympiads[i].OlympLevel);
                     string DiplomNumber = Olympiads[i].DocumentSeries + " " + Olympiads[i].DocumentNumber + (Olympiads[i].DocumentDate.HasValue ? (" от " + Olympiads[i].DocumentDate.Value.ToShortDateString()) : "");
-                    acrFlds.SetField("OlympDiploma" + (i + 1).ToString(), Olympiads[i].OlympValue );
+                    acrFlds.SetField("OlympDiploma" + (i + 1).ToString(), Olympiads[i].OlympValue);
                 }
 
                 for (int i = 0; (i < 4) && (i < ScienceInfo.Count); i++)
@@ -3457,10 +3493,7 @@ namespace OnlineAbit2013.Controllers
                 pdfStm.Close();
                 pdfRd.Close();
 
-                List<byte[]> ms_arr = new List<byte[]>();
-                ms_arr.Add(ms.ToArray());
-                ms_arr.Add(ms_ank.ToArray());
-                return MergePdfFiles(ms_arr);
+                return ms.ToArray();
             }
         }
 
@@ -4146,6 +4179,36 @@ order by IndexInAppCard";
             document.Close();
             return ms2.ToArray();
         }
+        public static string[] GetSplittedStringByCell(string sInput)
+        {
+            if (string.IsNullOrEmpty(sInput))
+                return new string[1];
 
+            string[] sTmp = new string[sInput.Length];
+            int iOutPos = 0;
+
+            for (int i = 0; i < sInput.Length; i++)
+            {
+                char currChar = sInput[i];
+                char nextChar = (i + 1) == sInput.Length ? ' ' : sInput[i + 1];
+
+                List<char> lstToOneCell = new List<char>() { '.', ',', ';', ':', '(', ')', '!', '-' };
+                if (lstToOneCell.Contains(currChar) || lstToOneCell.Contains(nextChar))
+                {
+                    sTmp[iOutPos] = currChar.ToString() + ' ' + nextChar.ToString();
+                    i++;
+                }
+                else
+                    sTmp[iOutPos] = currChar.ToString();
+                    
+                iOutPos++;
+            }
+
+            string[] sOut = new string[iOutPos];
+            for (int i = 0; i < iOutPos; i++)
+                sOut[i] = sTmp[i];
+
+            return sOut;
+        }
     } 
 }

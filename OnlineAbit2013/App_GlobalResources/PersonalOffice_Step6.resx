@@ -189,4 +189,10 @@
   <data name="ParentsPageHeader" xml:space="preserve">
     <value>Родители и льготы</value>
   </data>
+  <data name="NeedSpecialConditions" xml:space="preserve">
+    <value>Особые условия</value>
+  </data>
+  <data name="NeedSpecialConditionsFull" xml:space="preserve">
+    <value>Нуждаюсь в создании особых условий при прохождении вступительных испытаний</value>
+  </data>
 </root>

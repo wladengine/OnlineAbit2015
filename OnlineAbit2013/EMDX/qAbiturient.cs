@@ -43,7 +43,7 @@ namespace OnlineAbit2013.EMDX
         public int StudyLevelId { get; set; }
         public string StudyLevelName { get; set; }
         public bool IsApprovedByComission { get; set; }
-        public Nullable<int> SecondTypeId { get; set; }
+        public int SecondTypeId { get; set; }
         public bool IsSecond { get; set; }
         public bool IsReduced { get; set; }
         public Nullable<System.DateTime> DateReviewDocs { get; set; }
@@ -60,5 +60,6 @@ namespace OnlineAbit2013.EMDX
         public bool IsCrimea { get; set; }
         public bool IsPrinted { get; set; }
         public int PersonBarcode { get; set; }
+        public int CampaignYear { get; set; }
     }
 }

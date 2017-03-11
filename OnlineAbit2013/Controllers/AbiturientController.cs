@@ -680,7 +680,8 @@ namespace OnlineAbit2013.Controllers
                         ReturnDocumentTypeId = Server.HtmlDecode((AddInfo.ReturnDocumentTypeId ?? 1).ToString()),
                         ReturnDocumentTypeList = isEng ?
                             context.ReturnDocumentType.Select(x => new { x.Id, x.NameEng }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.NameEng }).ToList() :
-                            context.ReturnDocumentType.Select(x => new { x.Id, x.Name }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList()
+                            context.ReturnDocumentType.Select(x => new { x.Id, x.Name }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList(),
+                        NeedSpecialConditions = AddInfo.NeedSpecialConditions,
                     };
                     #endregion
                     return View("PersonalOffice_Page7", model);
@@ -1325,6 +1326,7 @@ namespace OnlineAbit2013.Controllers
                     PersonAddInfo.AddInfo = model.AddInfo.ExtraInfo;
                     PersonAddInfo.Parents = model.AddInfo.ContactPerson;
                     PersonAddInfo.HasPrivileges = model.AddInfo.HasPrivileges;
+                    PersonAddInfo.NeedSpecialConditions = model.AddInfo.NeedSpecialConditions;
                     PersonAddInfo.HostelAbit = model.AddInfo.HostelAbit;
                     PersonAddInfo.HostelEduc = model.AddInfo.HostelEduc;
                     PersonAddInfo.ReturnDocumentTypeId = iReturnDocumentTypeId;
@@ -1336,9 +1338,19 @@ namespace OnlineAbit2013.Controllers
                     PersonAddInfo.Parent_Work = model.AddInfo.Parent_Work;
                     PersonAddInfo.Parent_WorkPosition = model.AddInfo.Parent_WorkPosition;
 
-
                     if (Person.RegistrationStage <= 7)
                         Person.RegistrationStage = 100;
+
+                    FZ_152_AgreeLog logEntry = new FZ_152_AgreeLog();
+                    logEntry.PersonId = Person.Id;
+                    logEntry.Surname = Person.Surname;
+                    logEntry.Name = Person.Name;
+                    logEntry.SecondName = Person.SecondName;
+                    logEntry.BirthDate = Person.BirthDate ?? DateTime.Now;
+                    logEntry.TimeStamp = DateTime.Now;
+                    logEntry.Request_Agent = Request.UserAgent;
+                    logEntry.Request_IP = Request.UserHostAddress;
+                    context.FZ_152_AgreeLog.Add(logEntry);
 
                     if (bIns)
                         context.PersonAddInfo.Add(PersonAddInfo);
@@ -1400,7 +1412,7 @@ namespace OnlineAbit2013.Controllers
                 model.Surname = Server.HtmlEncode(PersonInfo.Surname);
                 model.SecondName = Server.HtmlEncode(PersonInfo.SecondName);
 
-                var Applications = context.Abiturient.Where(x => x.PersonId == PersonID && x.Enabled == true && x.IsCommited == true)
+                var Applications = context.Abiturient.Where(x => x.PersonId == PersonID && x.Enabled == true && x.IsCommited == true && x.CampaignYear == Util.iPriemYear)
                     .Select(x => new { x.CommitId, x.StudyLevelGroupNameRus, x.StudyLevelGroupNameEng, x.EntryType, x.SecondTypeId, x.IsApprovedByComission }).Distinct();
                 var SecondTypeList = context.ApplicationSecondType.Select(x => new { x.Id, Name = bIsEng ? x.NameEng : x.Name });
 
@@ -2042,7 +2054,7 @@ namespace OnlineAbit2013.Controllers
                 else
                     model.Enabled = false;
 
-                if (context.Application.Where(x => x.PersonId == PersonId && x.IsCommited == true && x.SecondTypeId == 5).Count() > 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.IsCommited == true && x.SecondTypeId == 5 && x.C_Entry.CampaignYear == Util.iPriemYear).Count() > 0)
                 {
                     return RedirectToAction("Main", "Abiturient");
                 }
@@ -2325,7 +2337,7 @@ namespace OnlineAbit2013.Controllers
 
                 //выборка активных заявлений
                 model.Applications = new List<SimpleApplicationPackage>();
-                var Applications = context.Abiturient.Where(x => x.PersonId == PersonId && x.Enabled == true && x.IsCommited == true)
+                var Applications = context.Abiturient.Where(x => x.PersonId == PersonId && x.Enabled == true && x.IsCommited == true && x.CampaignYear == Util.iPriemYear)
                     .Select(x => new { x.CommitId, x.StudyLevelGroupNameEng, x.StudyLevelGroupNameRus, x.EntryType, x.SecondTypeId,  x.IsApprovedByComission }).Distinct();
 
                 var SecondTypeList = context.ApplicationSecondType.Select(x => new { x.Id, Name = bIsEng ? x.NameEng : x.Name });
@@ -2357,6 +2369,7 @@ namespace OnlineAbit2013.Controllers
                             qw = PersonCurrentEduc.ObrazProgramId.Value;
                             model.ObrazProgramName = Util.AbitDB.GetStringValue("select top 1 ObrazProgramName from Entry  where ObrazProgramId=@Id", new SortedList<string, object>() { { "@Id", qw } });
 
+                            //Выбираем следующий семестр относительно указанного в данных
                             int ActualSemesterId = Util.GetActualSemester(PersonCurrentEduc.SemesterId);
 
                             var EntryList =
@@ -2371,7 +2384,7 @@ namespace OnlineAbit2013.Controllers
                                         Ent.IsParallel == false &&
                                         Ent.IsReduced == false &&
                                         Ent.IsSecond == false &&
-                                        Ent.SemesterId == ActualSemesterId
+                                        (Ent.SemesterId == ActualSemesterId || Ent.SemesterId == ActualSemesterId - 1)
                                  select new
                                  {
                                      EntryId = Ent.Id,
@@ -2541,8 +2554,8 @@ namespace OnlineAbit2013.Controllers
 
             bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
 
-            //20 июня 2015 года 17:00 - закрытие конкурсов
-            if (DateTime.Now >= new DateTime(2016, 6, 20, 17, 0, 0))
+            //20 июня 2017 года 17:00 - закрытие конкурсов
+            if (DateTime.Now >= new DateTime(2017, 6, 20, 17, 0, 0))
             {
                 if (!bIsEng)
                     return RedirectToAction("NewApplication_AG", new RouteValueDictionary() { { "errors", "Приём документов в АГ СПбГУ ЗАКРЫТ" } });
@@ -2600,7 +2613,7 @@ namespace OnlineAbit2013.Controllers
                     Util.CommitApplication(CommitId, PersonId, context);
                 }
 
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true).Count() > 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.C_Entry.CampaignYear == Util.iPriemYear).Count() > 0)
                 {
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
@@ -2695,7 +2708,7 @@ namespace OnlineAbit2013.Controllers
                     Util.CommitApplication(CommitId, PersonId, context);
                 }
 
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.C_Entry.StudyLevelId == 17).Count() > 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.C_Entry.StudyLevelId == 17 && x.C_Entry.CampaignYear == Util.iPriemYear).Count() > 0)
                 {
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
@@ -2787,7 +2800,7 @@ namespace OnlineAbit2013.Controllers
                     // печать заявления об отзыве (проверить isDeleted и возможно переставить код выше)
                     Util.CommitApplication(CommitId, PersonId, context);
                 }
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.C_Entry.StudyLevelId == 15).Count() > 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.C_Entry.StudyLevelId == 15 && x.C_Entry.CampaignYear == Util.iPriemYear).Count() > 0)
                 {
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
@@ -2880,7 +2893,7 @@ namespace OnlineAbit2013.Controllers
                     // печать заявления об отзыве (проверить isDeleted и возможно переставить код выше)
                     Util.CommitApplication(CommitId, PersonId, context);
                 }
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.C_Entry.StudyLevelId == 15).Count() > 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.C_Entry.StudyLevelId == 15 && x.C_Entry.CampaignYear == Util.iPriemYear).Count() > 0)
                 {
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
@@ -2975,7 +2988,7 @@ namespace OnlineAbit2013.Controllers
                     Util.CommitApplication(CommitId, PersonId, context);
                 }
 
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && (x.C_Entry.StudyLevelId == 16 || x.C_Entry.StudyLevelId == 18)).Count() > 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && (x.C_Entry.StudyLevelId == 16 || x.C_Entry.StudyLevelId == 18) && x.C_Entry.CampaignYear == Util.iPriemYear).Count() > 0)
                 {
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
@@ -3065,7 +3078,7 @@ namespace OnlineAbit2013.Controllers
                     // печать заявления об отзыве (проверить isDeleted и возможно переставить код выше)
                     Util.CommitApplication(CommitId, PersonId, context);
                 }
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && (x.C_Entry.StudyLevelId == 10 || x.C_Entry.StudyLevelId == 8)).Count() > 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && (x.C_Entry.StudyLevelId == 10 || x.C_Entry.StudyLevelId == 8) && x.C_Entry.CampaignYear == Util.iPriemYear).Count() > 0)
                 {
                     model.StudyFormList = Util.GetStudyFormList();
                     model.StudyBasisList = Util.GetStudyBasisList();
@@ -3238,7 +3251,7 @@ namespace OnlineAbit2013.Controllers
                     return View("NewApplication_Transfer", model);
                 }
 
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.SecondTypeId == 4).Count() > 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.SecondTypeId == 4 && x.C_Entry.CampaignYear == Util.iPriemYear).Count() > 0)
                 {
                     model.SemestrList = Util.GetSemesterList();
                     model.StudyFormList = Util.GetStudyFormList();
@@ -3364,7 +3377,7 @@ namespace OnlineAbit2013.Controllers
                         "Change your previous education degree (or Change your Entry Type) in Questionnaire Data";
                     return View("NewApplication_ChangeObrazProgram", model);
                 }
-                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.SecondTypeId == 5).Count() > 0)
+                if (context.Application.Where(x => x.PersonId == PersonId && x.CommitId != CommitId && x.IsCommited == true && x.SecondTypeId == 5 && x.C_Entry.CampaignYear == Util.iPriemYear).Count() > 0)
                 {
                     model.SemestrList = Util.GetSemesterList();
                     model.StudyFormList = Util.GetStudyFormList();
@@ -6313,13 +6326,12 @@ Order by cnt desc";
                 var Applications = context.Abiturient.Where(x => x.PersonId == PersonId && x.CommitId == gCommId && x.IsCommited == isCommited)
                     .Select(x => new { x.StudyLevelGroupNameRus, x.StudyLevelGroupNameEng, x.SecondTypeId}).FirstOrDefault();
                 string LevelGroupName = bisEng ? Applications.StudyLevelGroupNameEng : Applications.StudyLevelGroupNameRus +
-                                    (Applications.SecondTypeId.HasValue ?
                                         ((Applications.SecondTypeId == 3) ? (bisEng ? " (recovery)" : " (восстановление)") :
                                         ((Applications.SecondTypeId == 2) ? (bisEng ? " (transfer)" : " (перевод)") :
                                         ((Applications.SecondTypeId == 4) ? (bisEng ? " (changing form of education)" : " (смена формы обучения)") :
                                         ((Applications.SecondTypeId == 5) ? (bisEng ? " (changing basis of education)" : " (смена основы обучения)") :
                                         ((Applications.SecondTypeId == 6) ? (bisEng ? " (changing educational program)" : " (смена образовательной программы)") :
-                                        ""))))) : "");
+                                        "")))));
 
                 return Json(new { IsOk = true, StudyLevelGroupName = LevelGroupName, StudyFormName = StudyFormName, StudyBasisName = StudyBasisName, Profession = Profession, Specialization = Specialization, ObrazProgram = ObrazProgram, Id = appId.ToString("N"), Faculty = faculty, isgosline = IsForeign, isCrimea = IsCrimea, semesterId = SemesterName, Reason = reason });
             }
