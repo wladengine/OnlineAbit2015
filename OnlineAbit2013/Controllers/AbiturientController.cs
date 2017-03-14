@@ -1345,7 +1345,7 @@ namespace OnlineAbit2013.Controllers
                     logEntry.PersonId = Person.Id;
                     logEntry.Surname = Person.Surname;
                     logEntry.Name = Person.Name;
-                    logEntry.SecondName = Person.SecondName;
+                    logEntry.SecondName = Person.SecondName ?? "";
                     logEntry.BirthDate = Person.BirthDate ?? DateTime.Now;
                     logEntry.TimeStamp = DateTime.Now;
                     logEntry.Request_Agent = Request.UserAgent;
@@ -1355,7 +1355,14 @@ namespace OnlineAbit2013.Controllers
                     if (bIns)
                         context.PersonAddInfo.Add(PersonAddInfo);
 
-                    context.SaveChanges();
+                    try
+                    {
+                        context.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
                     #endregion
                 }
 
