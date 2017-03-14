@@ -296,10 +296,43 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="TimeStamp" Type="datetime" Nullable="false" />
           <Property Name="Request-Agent" Type="nvarchar" MaxLength="4000" Nullable="false" />
           <Property Name="Request-IP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Request-Path" Type="nvarchar" MaxLength="500" />
           <Property Name="Surname" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="SecondName" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="BirthDate" Type="date" Nullable="false" />
+          <Property Name="BirthPlace" Type="nvarchar" MaxLength="500" />
+          <Property Name="PassportSeries" Type="nvarchar" MaxLength="50" />
+          <Property Name="PassportNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="PassportDate" Type="date" />
+          <Property Name="PassportAuthor" Type="nvarchar" MaxLength="2500" />
+          <Property Name="SNILS" Type="nvarchar" MaxLength="50" />
+          <Property Name="SurnameEng" Type="nvarchar" MaxLength="150" />
+          <Property Name="NameEng" Type="nvarchar" MaxLength="150" />
+          <Property Name="SecondNameEng" Type="nvarchar" MaxLength="150" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="150" />
+          <Property Name="Mobiles" Type="nvarchar" MaxLength="150" />
+          <Property Name="Code" Type="nvarchar" MaxLength="10" />
+          <Property Name="City" Type="nvarchar" MaxLength="250" />
+          <Property Name="Street" Type="nvarchar" MaxLength="250" />
+          <Property Name="House" Type="nvarchar" MaxLength="20" />
+          <Property Name="Korpus" Type="nvarchar" MaxLength="10" />
+          <Property Name="Flat" Type="nvarchar" MaxLength="10" />
+          <Property Name="CodeReal" Type="nvarchar" MaxLength="10" />
+          <Property Name="CityReal" Type="nvarchar" MaxLength="250" />
+          <Property Name="StreetReal" Type="nvarchar" MaxLength="250" />
+          <Property Name="HouseReal" Type="nvarchar" MaxLength="20" />
+          <Property Name="KorpusReal" Type="nvarchar" MaxLength="10" />
+          <Property Name="FlatReal" Type="nvarchar" MaxLength="10" />
+          <Property Name="Parents" Type="nvarchar(max)" />
+          <Property Name="AddInfo" Type="nvarchar(max)" />
+          <Property Name="Parent_Surname" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_SecondName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_Phone" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_Email" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_Work" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent_WorkPosition" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="Groups">
           <Key>
@@ -5869,6 +5902,39 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="SecondName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BirthPlace" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PassportSeries" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PassportNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PassportDate" Type="DateTime" Precision="0" />
+          <Property Name="PassportAuthor" Type="String" MaxLength="2500" FixedLength="false" Unicode="true" />
+          <Property Name="SNILS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SurnameEng" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="NameEng" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="SecondNameEng" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Mobiles" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Street" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="House" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Korpus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Flat" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CodeReal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CityReal" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="StreetReal" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="HouseReal" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="KorpusReal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FlatReal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Parents" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_Surname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_SecondName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_Phone" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_Work" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_WorkPosition" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Request_Path" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -7157,6 +7223,39 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="FZ_152_AgreeLog">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.FZ_152_AgreeLog">
               <MappingFragment StoreEntitySet="FZ_152_AgreeLog">
+                <ScalarProperty Name="Request_Path" ColumnName="Request-Path" />
+                <ScalarProperty Name="Parent_WorkPosition" ColumnName="Parent_WorkPosition" />
+                <ScalarProperty Name="Parent_Work" ColumnName="Parent_Work" />
+                <ScalarProperty Name="Parent_Email" ColumnName="Parent_Email" />
+                <ScalarProperty Name="Parent_Phone" ColumnName="Parent_Phone" />
+                <ScalarProperty Name="Parent_SecondName" ColumnName="Parent_SecondName" />
+                <ScalarProperty Name="Parent_Name" ColumnName="Parent_Name" />
+                <ScalarProperty Name="Parent_Surname" ColumnName="Parent_Surname" />
+                <ScalarProperty Name="AddInfo" ColumnName="AddInfo" />
+                <ScalarProperty Name="Parents" ColumnName="Parents" />
+                <ScalarProperty Name="FlatReal" ColumnName="FlatReal" />
+                <ScalarProperty Name="KorpusReal" ColumnName="KorpusReal" />
+                <ScalarProperty Name="HouseReal" ColumnName="HouseReal" />
+                <ScalarProperty Name="StreetReal" ColumnName="StreetReal" />
+                <ScalarProperty Name="CityReal" ColumnName="CityReal" />
+                <ScalarProperty Name="CodeReal" ColumnName="CodeReal" />
+                <ScalarProperty Name="Flat" ColumnName="Flat" />
+                <ScalarProperty Name="Korpus" ColumnName="Korpus" />
+                <ScalarProperty Name="House" ColumnName="House" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Mobiles" ColumnName="Mobiles" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="SecondNameEng" ColumnName="SecondNameEng" />
+                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
+                <ScalarProperty Name="SurnameEng" ColumnName="SurnameEng" />
+                <ScalarProperty Name="SNILS" ColumnName="SNILS" />
+                <ScalarProperty Name="PassportAuthor" ColumnName="PassportAuthor" />
+                <ScalarProperty Name="PassportDate" ColumnName="PassportDate" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="PassportSeries" ColumnName="PassportSeries" />
+                <ScalarProperty Name="BirthPlace" ColumnName="BirthPlace" />
                 <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
                 <ScalarProperty Name="SecondName" ColumnName="SecondName" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

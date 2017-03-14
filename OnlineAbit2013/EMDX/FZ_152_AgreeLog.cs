@@ -23,5 +23,38 @@ namespace OnlineAbit2013.EMDX
         public string Name { get; set; }
         public string SecondName { get; set; }
         public System.DateTime BirthDate { get; set; }
+        public string BirthPlace { get; set; }
+        public string PassportSeries { get; set; }
+        public string PassportNumber { get; set; }
+        public Nullable<System.DateTime> PassportDate { get; set; }
+        public string PassportAuthor { get; set; }
+        public string SNILS { get; set; }
+        public string SurnameEng { get; set; }
+        public string NameEng { get; set; }
+        public string SecondNameEng { get; set; }
+        public string Phone { get; set; }
+        public string Mobiles { get; set; }
+        public string Code { get; set; }
+        public string City { get; set; }
+        public string Street { get; set; }
+        public string House { get; set; }
+        public string Korpus { get; set; }
+        public string Flat { get; set; }
+        public string CodeReal { get; set; }
+        public string CityReal { get; set; }
+        public string StreetReal { get; set; }
+        public string HouseReal { get; set; }
+        public string KorpusReal { get; set; }
+        public string FlatReal { get; set; }
+        public string Parents { get; set; }
+        public string AddInfo { get; set; }
+        public string Parent_Surname { get; set; }
+        public string Parent_Name { get; set; }
+        public string Parent_SecondName { get; set; }
+        public string Parent_Phone { get; set; }
+        public string Parent_Email { get; set; }
+        public string Parent_Work { get; set; }
+        public string Parent_WorkPosition { get; set; }
+        public string Request_Path { get; set; }
     }
 }

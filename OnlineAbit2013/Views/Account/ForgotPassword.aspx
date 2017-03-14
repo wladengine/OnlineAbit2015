@@ -17,7 +17,7 @@
                 changeMonth: true,
                 changeYear: true,
                 showOn: "focus",
-                yearRange: '1920:2000',
+                yearRange: '1930:<%= DateTime.Now.AddYears(-10).Year %>',
                 defaultDate: '-17y',
             });
     });

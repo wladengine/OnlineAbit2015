@@ -770,6 +770,10 @@ namespace OnlineAbit2013.Controllers
                     if (bIns)
                         context.PersonContacts.Add(PersonContacts);
                     context.SaveChanges();
+
+                    if (Person.RegistrationStage == 100)
+                        UpdateFZ152Log(Person, context);
+
                     #endregion
                 }
                 else if (model.Stage == 2)
@@ -836,6 +840,10 @@ namespace OnlineAbit2013.Controllers
                     {
                         return RedirectToAction("Index", "Abiturient", new RouteValueDictionary() { { "step", model.Stage } });
                     }
+
+                    if (Person.RegistrationStage == 100)
+                        UpdateFZ152Log(Person, context);
+
                     #endregion
                 }
                 else if (model.Stage == 3)
@@ -922,6 +930,10 @@ namespace OnlineAbit2013.Controllers
                     Person.RegistrationStage = iRegStage < 4 ? 4 : iRegStage;
 
                     context.SaveChanges();
+
+                    if (Person.RegistrationStage == 100)
+                        UpdateFZ152Log(Person, context);
+
                     #endregion
                 }
                 else if (model.Stage == 4)//образование
@@ -1272,6 +1284,7 @@ namespace OnlineAbit2013.Controllers
                         Person.RegistrationStage = 6;
 
                     context.SaveChanges();
+
                     #endregion
                 }
                 else if (model.Stage == 6)
@@ -1300,6 +1313,7 @@ namespace OnlineAbit2013.Controllers
                         Person.RegistrationStage = 7;
 
                     context.SaveChanges();
+
                     #endregion
                 }
                 else if (model.Stage == 7)
@@ -1341,16 +1355,7 @@ namespace OnlineAbit2013.Controllers
                     if (Person.RegistrationStage <= 7)
                         Person.RegistrationStage = 100;
 
-                    FZ_152_AgreeLog logEntry = new FZ_152_AgreeLog();
-                    logEntry.PersonId = Person.Id;
-                    logEntry.Surname = Person.Surname;
-                    logEntry.Name = Person.Name;
-                    logEntry.SecondName = Person.SecondName ?? "";
-                    logEntry.BirthDate = Person.BirthDate ?? DateTime.Now;
-                    logEntry.TimeStamp = DateTime.Now;
-                    logEntry.Request_Agent = Request.UserAgent;
-                    logEntry.Request_IP = Request.UserHostAddress;
-                    context.FZ_152_AgreeLog.Add(logEntry);
+                    UpdateFZ152Log(Person, context);
 
                     if (bIns)
                         context.PersonAddInfo.Add(PersonAddInfo);
@@ -1374,6 +1379,65 @@ namespace OnlineAbit2013.Controllers
                 else
                     return RedirectToAction("Main", "Abiturient");
             }
+        }
+
+        private void UpdateFZ152Log(Person Person, OnlinePriemEntities context)
+        {
+            FZ_152_AgreeLog logEntry = new FZ_152_AgreeLog();
+            //Личные сведения
+            logEntry.PersonId = Person.Id;
+            logEntry.Surname = Person.Surname;
+            logEntry.Name = Person.Name;
+            logEntry.SecondName = Person.SecondName ?? "";
+            logEntry.BirthDate = Person.BirthDate ?? DateTime.Now;
+            logEntry.BirthPlace = Person.BirthPlace;
+            logEntry.SurnameEng = Person.SurnameEng;
+            logEntry.NameEng = Person.NameEng;
+            logEntry.SecondNameEng = Person.SecondNameEng;
+
+            //Документы
+            logEntry.PassportSeries = Person.PassportSeries;
+            logEntry.PassportNumber = Person.PassportNumber;
+            logEntry.PassportDate = Person.PassportDate;
+            logEntry.PassportAuthor = Person.PassportAuthor;
+            logEntry.SNILS = Person.SNILS;
+
+            //Контактные данные
+            logEntry.Phone = Person.PersonContacts.Phone;
+            logEntry.Mobiles = Person.PersonContacts.Mobiles;
+            logEntry.Code = Person.PersonContacts.Code;
+            logEntry.City = Person.PersonContacts.City;
+            logEntry.Street = Person.PersonContacts.Street;
+            logEntry.House = Person.PersonContacts.House;
+            logEntry.Korpus = Person.PersonContacts.Korpus;
+            logEntry.Flat = Person.PersonContacts.Flat;
+
+            logEntry.CodeReal = Person.PersonContacts.CodeReal;
+            logEntry.CityReal = Person.PersonContacts.CityReal;
+            logEntry.StreetReal = Person.PersonContacts.StreetReal;
+            logEntry.HouseReal = Person.PersonContacts.HouseReal;
+            logEntry.KorpusReal = Person.PersonContacts.KorpusReal;
+            logEntry.FlatReal = Person.PersonContacts.FlatReal;
+            
+            //Прочие личные данные
+            logEntry.Parents = Person.PersonAddInfo.Parents;
+            logEntry.AddInfo = Person.PersonAddInfo.AddInfo;
+            logEntry.Parent_Surname = Person.PersonAddInfo.Parent_Surname;
+            logEntry.Parent_Name = Person.PersonAddInfo.Parent_Name;
+            logEntry.Parent_SecondName = Person.PersonAddInfo.Parent_SecondName;
+            logEntry.Parent_Phone = Person.PersonAddInfo.Parent_Phone;
+            logEntry.Parent_Email = Person.PersonAddInfo.Parent_Email;
+            logEntry.Parent_Work = Person.PersonAddInfo.Parent_Work;
+            logEntry.Parent_WorkPosition = Person.PersonAddInfo.Parent_WorkPosition;
+
+            //Служебные поля
+            logEntry.TimeStamp = DateTime.Now;
+            logEntry.Request_Agent = Request.UserAgent;
+            logEntry.Request_IP = Request.UserHostAddress;
+            logEntry.Request_Path = Request.Path;
+            
+            context.FZ_152_AgreeLog.Add(logEntry);
+            context.SaveChanges();
         }
 
         public ActionResult Main()
