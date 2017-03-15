@@ -501,7 +501,6 @@ namespace OnlineAbit2013.Models
         public List<AppendedFile> Files { get; set; }
         public List<PersonalMessage> Messages { get; set; }
     }
-    
 
     public class SimpleApplication
     {
@@ -570,7 +569,6 @@ namespace OnlineAbit2013.Models
     }
  
     //-------------------------------------------
-
     public class ApplicationModel : BaseModel
     {
         public List<SelectListItem> StudyForms { get; set; }
@@ -759,36 +757,6 @@ namespace OnlineAbit2013.Models
     {
         public int Type { get; set; }
     }
-
-    //public class AG_ApplicationModel
-    //{
-    //    public bool Enabled { get; set; }
-    //    public string EntryClassName { get; set; }
-    //    public int EntryClassId { get; set; }
-    //    public bool HasError { get; set; }
-    //    public string ErrorMessage { get; set; }
-    //    public List<SelectListItem> Profiles { get; set; }
-    //    public List<int> PersonFilesId {get; set;}
-    //    public List<KeyValuePair<int, string>> RequiredFiles { get; set; }
-    //    public int MaxBlocks { get; set; }
-    //    public string CommitId { get; set; }
-    //    public List<AG_ApplicationSipleEntity> Applications { get; set; }
-    //}
-
-    //public class AG_ApplicationSipleEntity
-    //{
-    //    public Guid Id { get; set; }
-    //    public int ProgramId { get; set; }
-    //    public string ProgramName { get; set; }
-    //    public List<SelectListItem> ProgramList { get; set; }
-    //    public int ProfileId { get; set; }
-    //    public string ProfileName { get; set; }
-    //    public List<SelectListItem> ProfileList { get; set; }
-    //    public int ManualExamId { get; set; }
-    //    public string ManualExamName { get; set; }
-    //    public List<SelectListItem> ManualExamList { get; set; }
-    //}
-
     
     public class NewApplicationRectorScholarshipModel
     {
@@ -904,7 +872,7 @@ namespace OnlineAbit2013.Models
         public int DefaultPriority { get; set; }
     }
 
-    public class FileListChecker 
+    public class FileListChecker
     {
         public List<FileInfo> Files { get; set; }
     }

@@ -3997,7 +3997,6 @@ end";
                 }
             }
         }
-  
         
         #endregion
         #endregion
@@ -4981,6 +4980,8 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
             dic.Add("@SemesterId", iSemesterId);
 
             bool isEng = Util.GetCurrentThreadLanguageIsEng();
+
+            query += " ORDER BY ObrazProgramName, ObrazProgramNameEng";
 
             DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
             var OPs = from DataRow rw in tbl.Rows

@@ -215,7 +215,6 @@ namespace OnlineAbit2013.Controllers
 
             return id;
         }
-
         /// <summary>
         /// Возвращает SID пользователя по указанному Guid. Если такого не найдено, возвращается пустая строка
         /// </summary>
@@ -286,7 +285,6 @@ namespace OnlineAbit2013.Controllers
 
             return id;
         }
-
         public static bool CreateNewSimpleUser(string password, string email, Guid id)
         {
             using (System.Transactions.TransactionScope tran = new System.Transactions.TransactionScope())
@@ -352,7 +350,6 @@ namespace OnlineAbit2013.Controllers
             else
                 return true;
         }
-
         public static bool CheckIsForeign(Guid PersonId)
         {
             string query = "SELECT IsForeign FROM [User] WHERE Id=@Id";
@@ -363,7 +360,6 @@ namespace OnlineAbit2013.Controllers
             }
             return false;
         }
-
         public static int CheckAbitType(Guid PersonId)
         {
             string query = "SELECT [AbiturientTypeId] FROM [Person] WHERE Id=@Id";
@@ -373,7 +369,6 @@ namespace OnlineAbit2013.Controllers
             else
                 return 1;
         }
-
         public static bool CheckIsNew(Guid PersonId)
         {
             string query = "SELECT Id FROM [Person] WHERE Id=@Id";
@@ -383,7 +378,6 @@ namespace OnlineAbit2013.Controllers
             else
                 return false;
         }
-
         public static bool CreateNew(Guid PersonId)
         {
             string query = "INSERT INTO [Person] (Id, UserId, RegistrationStage, AbiturientTypeId) VALUES (@Id, @Id, 1, 1)";
@@ -421,7 +415,6 @@ namespace OnlineAbit2013.Controllers
             else
                 return false;
         }
-
         /// <summary>
         /// Проверяет пользователя на необходимость блокировки
         /// </summary>
@@ -457,7 +450,6 @@ namespace OnlineAbit2013.Controllers
 
             return sb.ToString();
         }
-
         /// <summary>
         /// Возвращает MD5-строку от byte[] источника
         /// </summary>
@@ -474,7 +466,6 @@ namespace OnlineAbit2013.Controllers
 
             return sb.ToString();
         }
-
         /// <summary>
         /// Возвращает SHA1-строку от byte[] источника
         /// </summary>
@@ -551,7 +542,6 @@ namespace OnlineAbit2013.Controllers
             //Оптимистичное блокирование - только проверка ограничений
             return true;
         }
-
         public static bool CheckAdminRights(Guid personId)
         {
             string query = "SELECT Id, Approved FROM Admins WHERE Id=@Id AND Approved='True'";
@@ -583,7 +573,6 @@ namespace OnlineAbit2013.Controllers
                     = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
             }
         }
-
         public static string GetCurrentThreadLanguage()
         {
             if (System.Threading.Thread.CurrentThread.CurrentUICulture ==
@@ -596,7 +585,6 @@ namespace OnlineAbit2013.Controllers
                 return "ru";
             }
         }
-
         public static bool GetCurrentThreadLanguageIsEng()
         {
             return GetCurrentThreadLanguage() == "en";
@@ -620,7 +608,6 @@ namespace OnlineAbit2013.Controllers
                 return false;
             }
         }
-
         public static string GetUILang(Guid PersonId)
         {
             string query = "SELECT UILanguage, IsForeign FROM [User] WHERE Id=@Id";
@@ -640,7 +627,6 @@ namespace OnlineAbit2013.Controllers
 
             return UILang;
         }
-
         public static string StrictUILang(string lang)
         {
             if (string.IsNullOrEmpty(lang))
@@ -1252,18 +1238,14 @@ namespace OnlineAbit2013.Controllers
         /// <param name="createPersistCookie"></param>
         public static void SetAuthCookies(this HttpCookieCollection outCookies, Guid userId, DateTime usrTime, bool createPersistCookie)
         {
-            //User person = ABDB.User.Where(x => x.Id == userId).FirstOrDefault();
             string query = "SELECT SID, Ticket, UILanguage FROM [User] LEFT JOIN AuthTicket ON AuthTicket.UserId=[User].Id " +
                 "WHERE [User].Id=@Id";
             DataTable tbl = AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@Id", userId } });
             string sid = tbl.Rows[0].Field<string>("SID");
-            //AbitDB.GetStringValue("SELECT SID FROM [User] WHERE Id=@Id", new SortedList<string, object>() { { "@Id", userId } });
             if (string.IsNullOrEmpty(sid))
                 return;
 
             string ticket = tbl.Rows[0].Field<string>("Ticket");
-            //AbitDB.GetStringValue("SELECT Ticket FROM AuthTicket WHERE UserId=@Id", new SortedList<string, object>() { { "@Id", userId } });
-            //AuthTicket ticket = ABDB.AuthTicket.Where(x => x.UserId == userId).FirstOrDefault();
             if (string.IsNullOrEmpty(ticket))
                 return;
 
@@ -1319,7 +1301,6 @@ namespace OnlineAbit2013.Controllers
 
         public static bool CheckCaptcha(HttpRequestBase request, out string errMsg)
         {
-
             string ChallengeFieldKey = "recaptcha_challenge_field";
             string ResponseFieldKey = "recaptcha_response_field";
 
@@ -1392,22 +1373,6 @@ namespace OnlineAbit2013.Controllers
             return lst;
         }
 
-        public static List<SelectListItem> GetCountryList()
-        {
-            bool isEng = GetCurrentThreadLanguageIsEng();
-            string query = string.Format("SELECT Id, Name, NameEng FROM [Country] ORDER BY LevelOfUsing DESC, {0}", isEng ? "NameEng" : "Name");
-            DataTable tbl = Util.AbitDB.GetDataTable(query, null);
-            List<SelectListItem> lst =
-                (from DataRow rw in tbl.Rows
-                 select new SelectListItem()
-                 {
-                     Value = rw.Field<int>("Id").ToString(),
-                     Text = isEng ? rw.Field<string>("NameEng") : rw.Field<string>("Name")
-                 }).ToList();
-
-            return lst;
-        }
-
         public static string GetMailBody(string path)
         {
             string rVal = null;
@@ -1432,7 +1397,6 @@ namespace OnlineAbit2013.Controllers
                 LogToFile(e.Message);
             }
         }
-
         public static void LogToFile(string message)
         {
             using (StreamWriter sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "log.txt", true))
@@ -1490,7 +1454,6 @@ namespace OnlineAbit2013.Controllers
         {
             return GetFileList(PersonId, null);
         }
-
         public static List<AppendedFile> GetFileList(Guid PersonId, string FileType)
         {
             List<AppendedFile> lst = new List<AppendedFile>();
@@ -1629,7 +1592,8 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
         }
         public static int IsCrimea(Guid PersonId)
         {
-            return GetCrimea(PersonId);
+            return 0;//КРЫМ более не используется
+            //return GetCrimea(PersonId);
         }
 
         public static List<Mag_ApplicationSipleEntity> GetApplicationListInCommit(Guid CommitId, Guid PersonId)
@@ -1728,6 +1692,21 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
             }
         }
 
+        public static List<SelectListItem> GetCountryList()
+        {
+            bool isEng = GetCurrentThreadLanguageIsEng();
+            string query = string.Format("SELECT Id, Name, NameEng FROM [Country] ORDER BY LevelOfUsing DESC, {0}", isEng ? "NameEng" : "Name");
+            DataTable tbl = Util.AbitDB.GetDataTable(query, null);
+            List<SelectListItem> lst =
+                (from DataRow rw in tbl.Rows
+                 select new SelectListItem()
+                 {
+                     Value = rw.Field<int>("Id").ToString(),
+                     Text = isEng ? rw.Field<string>("NameEng") : rw.Field<string>("Name")
+                 }).ToList();
+
+            return lst;
+        }
         public static List<SelectListItem> GetStudyLevelGroupList()
         {
             string query = "SELECT Id, NameRus FROM StudyLevelGroup ORDER BY 1";
@@ -1742,7 +1721,6 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                     .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
                     .ToList();
         }
-
         public static List<SelectListItem> GetStudyBasisList()
         {
             bool isEng = GetCurrentThreadLanguageIsEng();
@@ -1761,7 +1739,6 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                     .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
                     .ToList();
         }
-
         public static List<SelectListItem> GetQualificationList(bool IsEng)
         {
             string query = "SELECT Id, Name, NameEng FROM Qualification ORDER BY 1";
@@ -1776,7 +1753,6 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                     .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
                     .ToList();
         }
-
         public static List<SelectListItem> GetStudyFormList()
         {
             bool isEng = GetCurrentThreadLanguageIsEng();
@@ -1813,7 +1789,6 @@ WHERE PersonId=@PersonId AND IsDeleted=0 ";
                     .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
                     .ToList();
         }
-
         public static List<SelectListItem> GetSemesterList()
         {
             string query = @"
@@ -1840,7 +1815,6 @@ ORDER by Semester.Id";
                     .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
                     .ToList();
         }
-
         public static List<SelectListItem> GetLanguageList()
         {
             bool isEng = GetCurrentThreadLanguageIsEng();
@@ -1859,7 +1833,6 @@ ORDER by Semester.Id";
                     .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
                     .ToList();
         }
-
         public static List<SelectListItem> GetPersonFileTypeList()
         {
             bool isEng = GetCurrentThreadLanguageIsEng();
@@ -1896,6 +1869,7 @@ ORDER by Semester.Id";
                     .Select(x => new SelectListItem() { Text = x.Text, Value = x.Value.ToString() })
                     .ToList();
         }
+
         public static void CommitApplication(Guid CommitId, Guid PersonId, OnlinePriemEntities context)
         {
             var Ids = context.Application.Where(x => x.PersonId == PersonId && x.CommitId == CommitId && !x.IsDeleted).Select(x => x.Id).ToList();
@@ -2276,40 +2250,44 @@ ORDER by Semester.Id";
         {
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                var PersonEducationDocument = (from p in PersonInfo.PersonEducationDocument
-                                               join sch in context.SchoolTypeAll on p.SchoolTypeId equals sch.Id
+                var PersonEducationDocument =
+                    (from p in PersonInfo.PersonEducationDocument
+                     join sch in context.SchoolTypeAll on p.SchoolTypeId equals sch.Id
 
-                                               join scls in context.SchoolExitClass on p.SchoolExitClassId equals scls.Id into _scls
-                                               from sclss in _scls.DefaultIfEmpty()
+                     join scls in context.SchoolExitClass on p.SchoolExitClassId equals scls.Id into _scls
+                     from sclss in _scls.DefaultIfEmpty()
 
-                                               join HEInfo in context.PersonHighEducationInfo on p.Id equals HEInfo.EducationDocumentId into HEInfo2
-                                               from HEInfo in HEInfo2.DefaultIfEmpty(new PersonHighEducationInfo() { QualificationId = 1 })
+                     join HEInfo in context.PersonHighEducationInfo on p.Id equals HEInfo.EducationDocumentId into HEInfo2
+                     from HEInfo in HEInfo2.DefaultIfEmpty(new PersonHighEducationInfo() { QualificationId = 1 })
 
-                                               select new { QualificationId = (int?)HEInfo.QualificationId, sch.OrderNumber, SchoolExitClassId = (sclss == null) ? -1 : sclss.OrderNumber }).OrderByDescending(x => x.OrderNumber).FirstOrDefault();
+                     select new
+                     {
+                         QualificationId = (int?)HEInfo.QualificationId,
+                         sch.OrderNumber,
+                         SchoolExitClassId = (sclss == null) ? -1 : sclss.OrderNumber
+                     }).OrderByDescending(x => x.OrderNumber).FirstOrDefault();
 
                 if (StudyLevelGroupIdList == null)
                     StudyLevelGroupIdList = new List<int>();
 
-
-                List<sp_level> lst = (from sp in context.SchoolExitClassToStudyLevel
-                                      join sp_l in context.SP_StudyLevel on sp.StudyLeveId equals sp_l.Id
-                                      where
-                                      (sp.MaximumOrderNumberSchoolTypeId >= PersonEducationDocument.OrderNumber)
-                                          && ((sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumExitClassId.HasValue) ? sp.MaximumExitClassId >= PersonEducationDocument.SchoolExitClassId : true)
-                                          && ((sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumQualificationId.HasValue) ? sp.MaximumQualificationId >= (PersonEducationDocument.QualificationId ?? 1) : true)
-                                          && (sp.MinimumOrderNumberSchoolTypeId <= PersonEducationDocument.OrderNumber)
-                                          && ((sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumExitClassId.HasValue) ? sp.MinimumExitClassId <= PersonEducationDocument.SchoolExitClassId : true)
-                                          && ((sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumQualificationId.HasValue) ? sp.MinimumQualificationId <= (PersonEducationDocument.QualificationId ?? 1) : true)
-                                          
-                                          && (StudyLevelGroupIdList.Count() == 0 ? true : StudyLevelGroupIdList.Contains(sp_l.StudyLevelGroupId))
-                                          && isFor == sp.IsForeign
-                                       select new sp_level
-                                       {
-                                           Id = sp_l.Id,
-                                           GroupId = sp_l.StudyLevelGroupId,
-                                           Name = sp_l.Name,
-                                           MaxBlocks = sp.MaxBlocks ?? 1, 
-                                       }).ToList();
+                List<sp_level> lst =
+                    (from sp in context.SchoolExitClassToStudyLevel
+                     join sp_l in context.SP_StudyLevel on sp.StudyLeveId equals sp_l.Id
+                     where sp.MaximumOrderNumberSchoolTypeId >= PersonEducationDocument.OrderNumber
+                        && ((sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumExitClassId.HasValue) ? sp.MaximumExitClassId >= PersonEducationDocument.SchoolExitClassId : true)
+                        && ((sp.MaximumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MaximumQualificationId.HasValue) ? sp.MaximumQualificationId >= (PersonEducationDocument.QualificationId ?? 1) : true)
+                        && (sp.MinimumOrderNumberSchoolTypeId <= PersonEducationDocument.OrderNumber)
+                        && ((sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumExitClassId.HasValue) ? sp.MinimumExitClassId <= PersonEducationDocument.SchoolExitClassId : true)
+                        && ((sp.MinimumOrderNumberSchoolTypeId == PersonEducationDocument.OrderNumber && sp.MinimumQualificationId.HasValue) ? sp.MinimumQualificationId <= (PersonEducationDocument.QualificationId ?? 1) : true)
+                        && (StudyLevelGroupIdList.Count() == 0 ? true : StudyLevelGroupIdList.Contains(sp_l.StudyLevelGroupId))
+                        && isFor == sp.IsForeign
+                     select new sp_level
+                     {
+                         Id = sp_l.Id,
+                         GroupId = sp_l.StudyLevelGroupId,
+                         Name = sp_l.Name,
+                         MaxBlocks = sp.MaxBlocks ?? 1,
+                     }).ToList();
                 foreach (var l in lst)
                     switch (l.GroupId)
                     {
@@ -2320,6 +2298,7 @@ ORDER by Semester.Id";
                         case 5: { l.type = AbitType.Ord; break; }
                         case 6:case 7: { l.type = AbitType.AG; break; }
                     }
+
                 return lst;
             }
         }
