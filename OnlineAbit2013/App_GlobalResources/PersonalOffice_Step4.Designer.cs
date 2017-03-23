@@ -394,6 +394,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Год.
+        /// </summary>
+        internal static string EGEyear {
+            get {
+                return ResourceManager.GetString("EGEyear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Итоговая оценка по английскому языку (если изучался).
         /// </summary>
         internal static string EnglishMark {

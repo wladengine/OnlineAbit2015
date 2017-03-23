@@ -333,4 +333,7 @@
   <data name="EducationInfo_Delete" xml:space="preserve">
     <value>Удалить</value>
   </data>
+  <data name="EGEyear" xml:space="preserve">
+    <value>Год</value>
+  </data>
 </root>
