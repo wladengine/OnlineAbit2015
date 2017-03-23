@@ -3405,6 +3405,13 @@ namespace OnlineAbit2013.Controllers
                 acrFlds.SetField("ParentEmail", PersonAddInfo.Parent_Email ?? "");
                 acrFlds.SetField("ParentWork", PersonAddInfo.Parent_Work ?? "");
 
+                acrFlds.SetField("ParentSurname2", PersonAddInfo.Parent2_Surname ?? "");
+                acrFlds.SetField("ParentName2", PersonAddInfo.Parent2_Name ?? "");
+                acrFlds.SetField("ParentSecondName2", PersonAddInfo.Parent2_SecondName ?? "");
+                acrFlds.SetField("ParentPhone2", PersonAddInfo.Parent2_Phone ?? "");
+                acrFlds.SetField("ParentEmail2", PersonAddInfo.Parent2_Email ?? "");
+                acrFlds.SetField("ParentWork2", PersonAddInfo.Parent2_Work ?? "");
+
                 string SchName = string.Format(personEduc.SchoolName + " " + personEduc.SchoolNum);
                 string[] splitStr = GetSplittedStrings(SchName, 50, 50, 2);
                 for (int i = 1; i <= 2; i++)

@@ -677,6 +677,13 @@ namespace OnlineAbit2013.Controllers
                         Parent_Phone = AddInfo.Parent_Phone,
                         Parent_Work = AddInfo.Parent_Work,
                         Parent_WorkPosition = AddInfo.Parent_WorkPosition,
+                        Parent2_Surname = AddInfo.Parent2_Surname,
+                        Parent2_Name = AddInfo.Parent2_Name,
+                        Parent2_SecondName = AddInfo.Parent2_SecondName,
+                        Parent2_Email = AddInfo.Parent2_Email,
+                        Parent2_Phone = AddInfo.Parent2_Phone,
+                        Parent2_Work = AddInfo.Parent2_Work,
+                        Parent2_WorkPosition = AddInfo.Parent2_WorkPosition,
                         ReturnDocumentTypeId = Server.HtmlDecode((AddInfo.ReturnDocumentTypeId ?? 1).ToString()),
                         ReturnDocumentTypeList = isEng ?
                             context.ReturnDocumentType.Select(x => new { x.Id, x.NameEng }).ToList().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.NameEng }).ToList() :
@@ -1351,6 +1358,13 @@ namespace OnlineAbit2013.Controllers
                     PersonAddInfo.Parent_Email = model.AddInfo.Parent_Email;
                     PersonAddInfo.Parent_Work = model.AddInfo.Parent_Work;
                     PersonAddInfo.Parent_WorkPosition = model.AddInfo.Parent_WorkPosition;
+                    PersonAddInfo.Parent2_Surname = model.AddInfo.Parent2_Surname;
+                    PersonAddInfo.Parent2_Name = model.AddInfo.Parent2_Name;
+                    PersonAddInfo.Parent2_SecondName = model.AddInfo.Parent2_SecondName;
+                    PersonAddInfo.Parent2_Phone = model.AddInfo.Parent2_Phone;
+                    PersonAddInfo.Parent2_Email = model.AddInfo.Parent2_Email;
+                    PersonAddInfo.Parent2_Work = model.AddInfo.Parent2_Work;
+                    PersonAddInfo.Parent2_WorkPosition = model.AddInfo.Parent2_WorkPosition;
 
                     if (Person.RegistrationStage <= 7)
                         Person.RegistrationStage = 100;
@@ -5115,7 +5129,7 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
         }
 
         [OutputCache(NoStore = true, Duration = 0)]
-        public ActionResult AddMark(string certNumber, string examName, string examValue, string Is2014, string IsInUniversity, string IsSecondWave)
+        public ActionResult AddMark(string examName, string examValue, string IsInUniversity, string IsSecondWave)
         {
 
             Guid PersonId;
@@ -5133,10 +5147,7 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
             if (!int.TryParse(examValue, out iExamValue))
                 iExamValue = 0;
 
-            bool bIs2014 = (Is2014 == "true");
-            /*if (bool.TryParse(Is2014, out bIs2014))
-                bIs2014 = false;*/
-
+           
             bool bIsInUniversity = (IsInUniversity == "true");  
            /* if (bool.TryParse(IsInUniversity, out bIsInUniversity))
                 bIsInUniversity = false;*/
@@ -5150,34 +5161,7 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
             
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                
-                if (!String.IsNullOrEmpty(certNumber))
-                {
-                    var certs = context.EgeCertificate.Where(x => x.Number == certNumber).Select(x => new { x.Id, x.PersonId, x.Is2014, x.Number }).ToList();
-                    if (certs.Count() > 1)
-                        return Json(new { IsOk = false, ErrorMessage = "Данный сертификат в базе данных принадлежит другому лицу" });//Это косяк, двух не может быть!!!
-                    if (certs.Count() == 1)
-                    {
-                        if (certs[0].PersonId != PersonId)
-                            return Json(new { IsOk = false, ErrorMessage = "Данный сертификат в базе данных принадлежит другому лицу" });
-                        else
-                            EgeCertificateId = certs[0].Id;
-                    }
-                }
-                else
-                {
-                    var certs = context.EgeCertificate.Where(x => x.Is2014 == true && x.PersonId == PersonId).Select(x => new { x.Id, x.PersonId, x.Is2014, x.Number }).ToList();
-                    if (certs.Count() > 1)
-                        return Json(new { IsOk = false, ErrorMessage = "Данный сертификат в базе данных принадлежит другому лицу" });//Это косяк, двух не может быть!!!
-                    if (certs.Count() == 1)
-                    {
-                        if (certs[0].PersonId != PersonId)
-                            return Json(new { IsOk = false, ErrorMessage = "Данный сертификат в базе данных принадлежит другому лицу" });
-                        else
-                            EgeCertificateId = certs[0].Id;
-                    }
-                }
-                 
+            
                 //номер должен быть уникальным
                /*if (certs.Count() > 1)
                     return Json(new { IsOk = false, ErrorMessage = "Данный сертификат в базе данных принадлежит другому лицу" });//Это косяк, двух не может быть!!!
@@ -5213,8 +5197,8 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
                         context.EgeCertificate.Add(new EgeCertificate()
                         {
                             Id = EgeCertificateId,
-                            Is2014 = bIs2014,
-                            Number = certNumber,
+                            Is2014 = false,
+                            Number = "нет свидетельства",
                             PersonId = PersonId
                         });
                         context.SaveChanges();
@@ -5246,7 +5230,6 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
                         Data = new
                         {
                             Id = MarkId.ToString(),
-                            CertificateNumber = certNumber,
                             ExamName = exName,
                             ExamMark = exValue//iExamValue.ToString()
                         },

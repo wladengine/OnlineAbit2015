@@ -197,56 +197,29 @@
     </script>
     <!-- ниже кусок JS для ЕГЭ -->
     <script type="text/javascript">
-        function updateIs2014() {
-            if ($("#Is2014").is(':checked')) {
-                $('#EgeCert').attr('disabled', 'disabled');
-            }
-            else {
-                $('#EgeCert').removeAttr('disabled');
-            }
-        }
         function updateIsSecondWave() {
             if (($("#IsInUniversity").is(':checked')) || ($("#IsSecondWave").is(':checked'))) {
-                $('#EgeCert').attr('disabled', 'disabled');
                 $('#_EgeMark').hide();
             }
             else {
-                if ($("#Is2014").is(':checked')) {
-                    $('#EgeCert').attr('disabled', 'disabled');
-                }
-                else {
-                    $('#EgeCert').removeAttr('disabled');
-                }
                 $('#_EgeMark').show();
             }
         }
         function updateIsInUniversity() {
             if (($("#IsInUniversity").is(':checked')) || ($("#IsSecondWave").is(':checked'))) {
-                $('#EgeCert').attr('disabled', 'disabled');
                 $('#_EgeMark').hide();
             }
             else {
-                if ($("#Is2014").is(':checked')) {
-                    $('#EgeCert').attr('disabled', 'disabled');
-                }
-                else {
-                    $('#EgeCert').removeAttr('disabled');
-                }
                 $('#_EgeMark').show();
             }
         }
         function loadFormValues() {
-            var existingCerts = '';
             var exams_html = '';
             $.getJSON("Abiturient/GetAbitCertsAndExams", null, function (res) {
-                existingCerts = res.Certs;
                 for (var i = 0; i < res.Exams.length; i++) {
                     exams_html += '<option value="' + res.Exams[i].Key + '">' + res.Exams[i].Value + '</option>';
                 }
                 $("#EgeExam").html(exams_html);
-                $("#EgeCert").autocomplete({
-                    source: existingCerts
-                });
             });
         }
 
@@ -266,20 +239,18 @@
                 changeMonth: true,
                 changeYear: true,
                 showOn: "focus",
-                yearRange: '1990:2016',
+                yearRange: '1990:2017',
                 defaultDate: '-1y',
             });
             $.datepicker.setDefaults($.datepicker.regional['<%= GetGlobalResourceObject("Common", "DatetimePicker").ToString()%>']);
                 <% } %>
 
-            var certificateNumber = $("#EgeCert"),
-			examName = $("#EgeExam"),
+            var examName = $("#EgeExam"),
 			examMark = $("#EgeMark"),
-            Is2014 = $("#Is2014"),
             IsSecondWave = $("#IsSecondWave"),
             IsInUniversity = $("#IsInUniversity"),
 
-			allFields = $([]).add(certificateNumber).add(examName).add(examMark),
+			allFields = $([]).add(examName).add(examMark),
 			tips = $(".validateTips");
 
             function updateTips(t) {
@@ -288,15 +259,7 @@
                     tips.removeClass("ui-state-highlight", 1500);
                 }, 500);
             }
-            function checkLength() {
-                if ((certificateNumber.val().length > 15 || certificateNumber.val().length < 15) && (!$("#Is2014").is(':checked'))) {
-                    certificateNumber.addClass("ui-state-error");
-                    updateTips("Номер сертификата должен быть 15-значным в формате РР-ХХХХХХХХ-ГГ");
-                    return false;
-                } else {
-                    return true;
-                }
-            }
+           
             function checkVal() {
                 var val = examMark.val();
                 if ((val < 1 || val > 100) && (!$("#IsSecondWave").is(':checked')) && (!$("#IsInUniversity").is(':checked'))) {
@@ -327,16 +290,13 @@
                         var bValid = true;
                         allFields.removeClass("ui-state-error");
 
-                        bValid = bValid && checkLength();
                         bValid = bValid && checkVal();
 
                         if (bValid) {
                             //add to DB
                             var parm = new Object();
-                            parm["certNumber"] = certificateNumber.val();
                             parm["examName"] = examName.val();
                             parm["examValue"] = examMark.val();
-                            parm["Is2014"] = $("#Is2014").is(':checked');
                             parm["IsInUniversity"] = $("#IsInUniversity").is(':checked');
                             parm["IsSecondWave"] = $("#IsSecondWave").is(':checked');
 
@@ -344,13 +304,13 @@
                                 //add to table if ok
                                 if (res.IsOk) {
                                     $("#tblEGEData tbody").append('<tr id="' + res.Data.Id + '">' +
-							        '<td>' + res.Data.CertificateNumber + '</td>' +
 							        '<td>' + res.Data.ExamName + '</td>' +
 							        '<td>' + res.Data.ExamMark + '</td>' +
                                     '<td><span class="link" onclick="DeleteMrk(\'' + res.Data.Id + '\')"><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить оценку" /></span></td>' +
 						            '</tr>');
                                     $("#noMarks").html("").hide();
                                     $("#dialog-form").dialog("close");
+                                    $("#tblEGEData").show();
                                 }
                                 else {
                                     updateTips(res.ErrorMessage);
@@ -681,13 +641,10 @@
                             <h6 id="noMarks"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEnomarks").ToString()%></h6>
                         <%
                             }
-                            else
-                            {
                         %>
-                        <table id="tblEGEData" class="paginate" style="width:400px">
+                        <table id="tblEGEData" class="paginate" style="width:400px; <% if (Model.EducationInfo.EgeMarks.Count == 0) {%> display:none;<%}%>">
                             <thead>
                             <tr>
-                                <th><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsert").ToString()%></th>
                                 <th><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsubject").ToString()%></th>
                                 <th><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEball").ToString()%></th>
                                 <th></th>
@@ -699,7 +656,6 @@
                                 {
                         %>
                             <tr id="<%= mark.Id.ToString() %>">
-                                <td><span><%= mark.CertificateNum%></span></td>
                                 <td><span><%= mark.ExamName%></span></td>
                                 <td><span><%= mark.Value%></span></td>
                                 <td><%= Html.Raw("<span class=\"link\" onclick=\"DeleteMrk('" + mark.Id.ToString() + "')\"><img src=\"../../Content/themes/base/images/delete-icon.png\" alt=\"Удалить оценку\" /></span>")%></td>
@@ -709,21 +665,22 @@
                         %>
                             </tbody>
                         </table>
-                        <% } %>
                         <br />
-                        <button type="button" id="create-ege" class="button button-blue"><%=GetGlobalResourceObject("PersonalOffice_Step4", "AddMark").ToString()%></button>
+                        <div class="clearfix">
+                        <input type="button" id="create-ege" class="button button-blue" value='<%=GetGlobalResourceObject("PersonalOffice_Step4", "AddMark").ToString()%>'/>
+                        </div>
                         <div id="dialog-form">
                             <p id="validation_info">Все поля обязательны для заполнения</p>
 	                        <hr />
-                            <fieldset>
-                                <div id="_CertNum" class="clearfix">
+                            <tag><fieldset>
+                               <!--<div id="_CertNum" class="clearfix">
                                     <label for="EgeCert"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsert").ToString()%></label><br />
 		                            <input type="text" id="EgeCert" disabled="disabled"/><br />
                                 </div>
                                 <div class="clearfix">
                                     <label for="Is2014"><%=GetGlobalResourceObject("PersonalOffice_Step4", "CurrentYear").ToString()%></label><br />
 		                            <input type="checkbox" id="Is2014" checked="checked" onchange="updateIs2014()" /><br />
-                                </div>
+                                </div>-->
                                 <div class="clearfix">
                                     <label for="EgeExam"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsubject").ToString()%></label><br />
 		                            <select id="EgeExam" ></select><br />
@@ -741,7 +698,7 @@
                                     <label for="IsInUniversity"><%=GetGlobalResourceObject("PersonalOffice_Step4", "PassInSPbSU").ToString()%></label><br />
 		                            <input type="checkbox" id="IsInUniversity" onchange="updateIsInUniversity()" /><br />
                                 </div>
-	                        </fieldset>
+	                        </fieldset></tag>
                         </div>
                     </div>
                     <% } %>
@@ -750,84 +707,6 @@
                         <input id="Submit5" class="button button-green" type="submit" value="<%= GetGlobalResourceObject("PersonInfo", "ButtonSubmitText").ToString()%>" />
                     </div>
                 </form>
-
-                <%--<% if (Model.CertificatesVisible) {%>
-                 <!-- /////////////////////////////////////////////////////////////////// -->
-                    <p class="message info">
-                     <asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:PersonalOffice_Step5, PersonalOffice_Certificates %>"></asp:Literal>
-                    </p> 
-                    <h4><%= GetGlobalResourceObject("PersonalOffice_Step5", "EnglishCertificatesLoad") %></h4>
-                    <form action="/Abiturient/AddSharedFile" method="post" class="form panel" enctype="multipart/form-data">
-                        <fieldset> 
-                            <input name="Stage" type="hidden" value="<%=Model.Stage %>" />
-                            <div class="clearfix" >
-                                <label for="fileAttachment"><%= GetGlobalResourceObject("AddSharedFiles", "File") %></label>
-                                <input id="fileAttachment" type="file" name="File"/>
-                            </div>
-                            <div class="clearfix" style="width: 100%;">
-                                <input name="FileTypeId" type="hidden" value="5"/>
-                                <%= Html.Label(GetGlobalResourceObject("AddSharedFiles", "FileType").ToString())%> 
-                                <div style="width:200px; height:30px; overflow: hidden;">
-                                     <%= Html.DropDownList("FileTypeId", Model.FileTypes, new { disabled = "disabled"})%>
-                                </div> 
-                            </div>
-                            <div class="clearfix">
-                                <label for="fileComment"><%= GetGlobalResourceObject("AddSharedFiles", "Comment") %></label>
-                                <textarea id="fileComment"  style="width: 440px;" rows="5" class="noresize" name="Comment" ></textarea>
-                            </div>
-                            <hr />
-                            <div class="clearfix">
-                                <input id="btnSubmit" type="submit" class="button button-green" value="<%= GetGlobalResourceObject("AddSharedFiles", "Submit") %>" />
-                            </div>
-                        </fieldset>
-                    </form>
-                    <h4><%= GetGlobalResourceObject("AddSharedFiles", "LoadedFiles")%></h4>
-                    <% if (Model.Files.Count > 0)
-                       { %>
-                    <table id="tblFiles" class="paginate" style="width:100%;">
-                        <thead>
-                            <tr>
-                                <th style="width:10%;"><%= GetGlobalResourceObject("AddSharedFiles", "View")%></th>
-                                <th><%= GetGlobalResourceObject("AddSharedFiles", "FileName")%></th>
-                                <th><%= GetGlobalResourceObject("AddSharedFiles", "LoadDate")%></th>
-                                <th><%= GetGlobalResourceObject("AddSharedFiles", "Comment")%></th>
-                                <th><%= GetGlobalResourceObject("AddSharedFiles", "Size")%></th>
-                                <th style="width:10%;"><%= GetGlobalResourceObject("AddSharedFiles", "Delete")%></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                    <% foreach (var file in Model.Files)
-                       { %>
-                            <tr id="<%= file.Id.ToString() %>">
-                                <td style="vertical-align:middle; text-align:center;"><a href="<%= "../../Abiturient/GetFile?id=" + file.Id.ToString("N") %>" target="_blank"><img src="../../Content/themes/base/images/downl1.png" alt="Скачать файл" /></a></td>
-                                <td style="vertical-align:middle; text-align:center;"><%= Html.Encode(file.FileName)%></td>
-                                <td style="vertical-align:middle; text-align:center;"><%= Html.Encode(file.LoadDate)%></td>
-                                <td style="vertical-align:middle; text-align:center;"><%= Html.Encode(file.Comment)%></td>
-                                <td style="vertical-align:middle; text-align:center;"><%= file.FileSize > (2 * 1024 * 1024) ?
-                                    Math.Round(((double)file.FileSize / (1024.0 * 1024.0)), 2).ToString() + " Mb"
-                                    :
-                                    file.FileSize > 1024 ?
-                                    Math.Round(((double)file.FileSize / 1024.0), 2).ToString() + " Kb"
-                                    : file.FileSize.ToString()%></td>
-                                <td style="vertical-align:middle; text-align:center;">
-                                    <span class="link" onclick="DeleteFile('<%= file.Id.ToString() %>')">
-                                        <img src="../../Content/themes/base/images/delete-icon.png" alt="<%= GetGlobalResourceObject("AddSharedFiles", "Delete") %>" />
-                                    </span>
-                                </td>
-                            </tr>
-                    <% } %>
-                        </tbody>
-                    </table>
-                    <% }
-                       else
-                       { %>
-                       <table id="Table1" class="paginate" style="width:100%;"><tr><td>
-                    <h5><%= GetGlobalResourceObject("AddSharedFiles", "NoFiles") %></h5>
-                    </td></tr></table>
-                    <% } %>
-                    <br /> 
-                    <%} %>--%>
-<!-- /////////////////////////////////////////////////////////////////// -->       
 
             </div>
             <div class="grid_2">

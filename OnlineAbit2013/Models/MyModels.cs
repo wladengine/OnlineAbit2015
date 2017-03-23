@@ -417,11 +417,18 @@ namespace OnlineAbit2013.Models
         public string Parent_Work { get; set; }
         public string Parent_WorkPosition { get; set; }
 
+        public string Parent2_Surname { get; set; }
+        public string Parent2_Name { get; set; }
+        public string Parent2_SecondName { get; set; }
 
+        public string Parent2_Phone { get; set; }
+        public string Parent2_Email { get; set; }
+        public string Parent2_Work { get; set; }
+        public string Parent2_WorkPosition { get; set; }
         [Required]
         public bool FZ_152Agree { get; set; }
     }
-
+   
     public class AdditionalEducationInfoPerson
     {
         /// <summary>

@@ -419,7 +419,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
           <Property Name="Number" Type="int" />
           <Property Name="IsOpen" Type="bit" Nullable="false" />
           <Property Name="Holder" Type="nvarchar" MaxLength="150" />
@@ -518,6 +518,13 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="Parent_Email" Type="nvarchar" MaxLength="250" />
           <Property Name="Parent_Work" Type="nvarchar" MaxLength="250" />
           <Property Name="Parent_WorkPosition" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent2_Surname" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent2_Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent2_SecondName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent2_Phone" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent2_Email" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent2_Work" Type="nvarchar" MaxLength="250" />
+          <Property Name="Parent2_WorkPosition" Type="nvarchar" MaxLength="250" />
           <Property Name="NeedSpecialConditions" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PersonChangeStudyFormReason">
@@ -3365,7 +3372,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Number" Type="Int32" />
           <Property Name="IsOpen" Type="Boolean" Nullable="false" />
           <Property Name="Holder" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -3495,6 +3502,13 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <NavigationProperty Name="Person" Relationship="Self.FK_PersonAddInfo_Person" FromRole="PersonAddInfo" ToRole="Person" />
           <NavigationProperty Name="ReturnDocumentType" Relationship="Self.FK_PersonAddInfo_ReturnDocumentType" FromRole="PersonAddInfo" ToRole="ReturnDocumentType" />
           <Property Name="NeedSpecialConditions" Type="Boolean" Nullable="false" />
+          <Property Name="Parent2_Surname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent2_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent2_SecondName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent2_Phone" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent2_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent2_Work" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Parent2_WorkPosition" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PersonChangeStudyFormReason">
           <Key>
@@ -6330,6 +6344,13 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="PersonAddInfo">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonAddInfo">
               <MappingFragment StoreEntitySet="PersonAddInfo">
+                <ScalarProperty Name="Parent2_WorkPosition" ColumnName="Parent2_WorkPosition" />
+                <ScalarProperty Name="Parent2_Work" ColumnName="Parent2_Work" />
+                <ScalarProperty Name="Parent2_Email" ColumnName="Parent2_Email" />
+                <ScalarProperty Name="Parent2_Phone" ColumnName="Parent2_Phone" />
+                <ScalarProperty Name="Parent2_SecondName" ColumnName="Parent2_SecondName" />
+                <ScalarProperty Name="Parent2_Name" ColumnName="Parent2_Name" />
+                <ScalarProperty Name="Parent2_Surname" ColumnName="Parent2_Surname" />
                 <ScalarProperty Name="NeedSpecialConditions" ColumnName="NeedSpecialConditions" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="MaritalStatus" ColumnName="MaritalStatus" />

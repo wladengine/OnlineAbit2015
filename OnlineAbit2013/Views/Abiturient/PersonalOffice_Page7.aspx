@@ -126,36 +126,69 @@
                         </span>
                     </div>
                     <%if  (Model.AddInfo.VisibleParentBlock) { %>
-                    <div> 
+                    <div  class="clearfix"> 
                        <h4><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Title").ToString()%></h4>
-                       <div> 
-                           <label for="Parent_Surname"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Surname") %></label>
-                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Surname) %>
-                       </div>
-                       <div> 
-                           <label for="Parent_Name"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Name") %></label>
-                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Name) %>
-                       </div>
-                        <div> 
-                           <label for="Parent_SecondName"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_SecondName") %></label>
-                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_SecondName) %>
-                       </div>
-                       <div> 
-                           <label for="Parent_Phone"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Phone") %></label>
-                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Phone) %>
-                       </div>
-                       <div> 
-                           <label for="Parent_Email"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Email") %></label>
-                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Email) %>
-                       </div>
-                       <div> 
-                           <label for="Parent_Work"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Work") %></label>
-                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Work) %>
-                       </div>
-                       <div> 
-                           <label for="Parent_WorkPosition"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_WorkPosition") %></label>
-                           <%=Html.TextBoxFor(x=>x.AddInfo.Parent_WorkPosition) %>
-                       </div>
+                        <div class="clearfix"> 
+                               <div> 
+                                   <label for="Parent_Surname"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Surname") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Surname) %>
+                               </div>
+                               <div> 
+                                   <label for="Parent_Name"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Name") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Name) %>
+                               </div>
+                                <div> 
+                                   <label for="Parent_SecondName"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_SecondName") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent_SecondName) %>
+                               </div>
+                               <div> 
+                                   <label for="Parent_Phone"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Phone") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Phone) %>
+                               </div>
+                               <div> 
+                                   <label for="Parent_Email"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Email") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Email) %>
+                               </div>
+                               <div> 
+                                   <label for="Parent_Work"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Work") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent_Work) %>
+                               </div>
+                               <div> 
+                                   <label for="Parent_WorkPosition"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_WorkPosition") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent_WorkPosition) %>
+                               </div>
+                        </div>
+                    <hr />
+                        <div class="clearfix">
+                               <div> 
+                                   <label for="Parent2_Surname"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Surname") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent2_Surname) %>
+                               </div>
+                               <div> 
+                                   <label for="Parent2_Name"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Name") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent2_Name) %>
+                               </div>
+                                <div> 
+                                   <label for="Parent2_SecondName"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_SecondName") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent2_SecondName) %>
+                               </div>
+                               <div> 
+                                   <label for="Parent2_Phone"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Phone") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent2_Phone) %>
+                               </div>
+                               <div> 
+                                   <label for="Parent2_Email"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Email") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent2_Email) %>
+                               </div>
+                               <div> 
+                                   <label for="Parent2_Work"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_Work") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent2_Work) %>
+                               </div>
+                               <div> 
+                                   <label for="Parent2_WorkPosition"><%= GetGlobalResourceObject("PersonalOffice_Step6", "Parent_WorkPosition") %></label>
+                                   <%=Html.TextBoxFor(x=>x.AddInfo.Parent2_WorkPosition) %>
+                               </div>
+                        </div> 
                     </div>
                     <%} %>
                     <div class="clearfix">
