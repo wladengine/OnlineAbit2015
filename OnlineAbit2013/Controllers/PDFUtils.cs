@@ -3384,12 +3384,6 @@ namespace OnlineAbit2013.Controllers
                     string.IsNullOrEmpty(person.Korpus) ? "" : "корп." + person.Korpus + ", ",
                     string.IsNullOrEmpty(person.Flat) ? "" : "кв." + person.Flat);
 
-                //string[] Address = GetSplittedStringByCell(sAddress);
-                //string[] City = GetSplittedStringByCell(sCity);
-
-                //for (int i = 0; i < City.Length; i++)
-                //    acrFlds.SetField("City" + (i + 1), City[i].ToString());
-
                 string PostIndex = (person.Code) ?? "";
                 for (int i = 0; i < PostIndex.Length && i < 6; i++)
                     acrFlds.SetField("Code" + (i + 1), PostIndex[i].ToString());
@@ -3400,60 +3394,9 @@ namespace OnlineAbit2013.Controllers
                 for (int i = 0; i < Address.Length; i++)
                     acrFlds.SetField("Address" + (i + 1), Address[i] ?? "");
 
-                //string[] splitStr = GetSplittedStrings(Address, 50, 50, 2);
-                //for (int i = 1; i <= 2; i++)
-                //    acrFlds.SetField("Address" + i, splitStr[i - 1]);
-
-                //string[] Email = GetSplittedStringByCell(person.Email);
-                //for (int i = 0; i < Email.Length; i++)
-                //    acrFlds.SetField("Email" + (i + 1), Email[i].ToString());
-                //string[] Phone = GetSplittedStringByCell(person.Phone ?? "");
-                //for (int i = 0; i < Phone.Length; i++ )
-                //    acrFlds.SetField("Phone" + (i + 1).ToString(), Phone[i].ToString());
-                //string Mobile = person.Mobiles ?? "";
-                //for (int i = 0; i < Mobile.Length; i++)
-                //    acrFlds.SetField("Mobile" + (i + 1).ToString(), Mobile[i].ToString());
-
                 acrFlds.SetField("Email", person.Email ?? "");
                 acrFlds.SetField("Phone", person.Phone ?? "");
                 acrFlds.SetField("Mobile", person.Mobiles ?? "");
-
-                //if (!string.IsNullOrEmpty(PersonAddInfo.Parent_Surname))
-                //{
-                //    string[] Parent_Surname = GetSplittedStringByCell(PersonAddInfo.Parent_Surname);
-                //    for (int i = 0; i < Parent_Surname.Length; i++)
-                //        acrFlds.SetField("ParentSurname" + (i + 1), Parent_Surname[i].ToString());
-                //}
-                //if (!string.IsNullOrEmpty(PersonAddInfo.Parent_Name))
-                //{
-                //    string[] Parent_Name = GetSplittedStringByCell(PersonAddInfo.Parent_Name);
-                //    for (int i = 0; i < Parent_Name.Length; i++)
-                //        acrFlds.SetField("ParentName" + (i + 1), Parent_Name[i].ToString());
-                //}
-                //if (!string.IsNullOrEmpty(PersonAddInfo.Parent_SecondName))
-                //{
-                //    string[] Parent_SecondName = GetSplittedStringByCell(PersonAddInfo.Parent_SecondName);
-                //    for (int i = 0; i < Parent_SecondName.Length; i++)
-                //        acrFlds.SetField("ParentSecondName" + (i + 1), Parent_SecondName[i].ToString());
-                //}
-                //if (!string.IsNullOrEmpty(PersonAddInfo.Parent_Phone))
-                //{
-                //    string[] Parent_Phone = GetSplittedStringByCell(PersonAddInfo.Parent_Phone);
-                //    for (int i = 0; i < Parent_Phone.Length; i++)
-                //        acrFlds.SetField("ParentPhone" + (i + 1), Parent_Phone[i].ToString());
-                //}
-                //if (!string.IsNullOrEmpty(PersonAddInfo.Parent_Email))
-                //{
-                //    string[] Parent_Email = GetSplittedStringByCell(PersonAddInfo.Parent_Email);
-                //    for (int i = 0; i < Parent_Email.Length; i++)
-                //        acrFlds.SetField("ParentEmail" + (i + 1), Parent_Email[i].ToString());
-                //}
-                //if (!string.IsNullOrEmpty(PersonAddInfo.Parent_Work))
-                //{
-                //    string[] Parent_Work = GetSplittedStringByCell(PersonAddInfo.Parent_Work);
-                //    for (int i = 0; i < Parent_Work.Length; i++)
-                //        acrFlds.SetField("ParentWork" + (i + 1), Parent_Work[i].ToString());
-                //}
 
                 acrFlds.SetField("ParentSurname", PersonAddInfo.Parent_Surname ?? "");
                 acrFlds.SetField("ParentName", PersonAddInfo.Parent_Name ?? "");
