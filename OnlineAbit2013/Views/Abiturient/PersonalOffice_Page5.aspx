@@ -213,15 +213,6 @@
                 $('#_EgeMark').show();
             }
         }
-        function loadFormValues() {
-            var exams_html = '';
-            $.getJSON("Abiturient/GetAbitCertsAndExams", null, function (res) {
-                for (var i = 0; i < res.Exams.length; i++) {
-                    exams_html += '<option value="' + res.Exams[i].Key + '">' + res.Exams[i].Value + '</option>';
-                }
-                $("#EgeExam").html(exams_html);
-            });
-        }
 
         function fStart() {
             $('form').submit(function () {
@@ -295,6 +286,7 @@
                         if (bValid) {
                             //add to DB
                             var parm = new Object();
+                            parm["egeYear"] = $("#EgeYear").val();
                             parm["examName"] = examName.val();
                             parm["examValue"] = examMark.val();
                             parm["IsInUniversity"] = $("#IsInUniversity").is(':checked');
@@ -304,9 +296,10 @@
                                 //add to table if ok
                                 if (res.IsOk) {
                                     $("#tblEGEData tbody").append('<tr id="' + res.Data.Id + '">' +
-							        '<td>' + res.Data.ExamName + '</td>' +
-							        '<td>' + res.Data.ExamMark + '</td>' +
-                                    '<td><span class="link" onclick="DeleteMrk(\'' + res.Data.Id + '\')"><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить оценку" /></span></td>' +
+                                        '<td>' + res.Data.EgeYear + '</td>' +
+							            '<td>' + res.Data.ExamName + '</td>' +
+							            '<td>' + res.Data.ExamMark + '</td>' +
+                                        '<td><span class="link" onclick="DeleteMrk(\'' + res.Data.Id + '\')"><img src="../../Content/themes/base/images/delete-icon.png" alt="Удалить оценку" /></span></td>' +
 						            '</tr>');
                                     $("#noMarks").html("").hide();
                                     $("#dialog-form").dialog("close");
@@ -329,7 +322,6 @@
 
             $("#dialog:ui-dialog").dialog("destroy");
             $("#create-ege").button().click(function () {
-                loadFormValues();
                 $("#dialog-form").dialog("open");
             });
         }
@@ -642,12 +634,13 @@
                         <%
                             }
                         %>
-                        <table id="tblEGEData" class="paginate" style="width:400px; <% if (Model.EducationInfo.EgeMarks.Count == 0) {%> display:none;<%}%>">
+                        <table id="tblEGEData" class="paginate" style="width:450px; vertical-align:middle; text-align:center; <% if (Model.EducationInfo.EgeMarks.Count == 0) {%> display:none;<%}%>">
                             <thead>
                             <tr>
-                                <th><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsubject").ToString()%></th>
-                                <th><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEball").ToString()%></th>
-                                <th></th>
+                                <th style="width:10%"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEyear").ToString()%></th>
+                                <th style="width:60%"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsubject").ToString()%></th>
+                                <th style="width:20%"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEball").ToString()%></th>
+                                <th style="width:10%"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -656,8 +649,9 @@
                                 {
                         %>
                             <tr id="<%= mark.Id.ToString() %>">
-                                <td><span><%= mark.ExamName%></span></td>
-                                <td><span><%= mark.Value%></span></td>
+                                <td><span><%= mark.Year %></span></td>
+                                <td><span><%= mark.ExamName %></span></td>
+                                <td><span><%= mark.Value %></span></td>
                                 <td><%= Html.Raw("<span class=\"link\" onclick=\"DeleteMrk('" + mark.Id.ToString() + "')\"><img src=\"../../Content/themes/base/images/delete-icon.png\" alt=\"Удалить оценку\" /></span>")%></td>
                             </tr>
                         <%
@@ -672,18 +666,14 @@
                         <div id="dialog-form">
                             <p id="validation_info">Все поля обязательны для заполнения</p>
 	                        <hr />
-                            <tag><fieldset>
-                               <!--<div id="_CertNum" class="clearfix">
-                                    <label for="EgeCert"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsert").ToString()%></label><br />
-		                            <input type="text" id="EgeCert" disabled="disabled"/><br />
+                            <fieldset>
+                               <div class="clearfix">
+                                    <label for="EgeExam"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEyear").ToString()%></label><br />
+		                            <%= Html.DropDownList("EgeYear", Model.EducationInfo.EgeYearList) %>
                                 </div>
                                 <div class="clearfix">
-                                    <label for="Is2014"><%=GetGlobalResourceObject("PersonalOffice_Step4", "CurrentYear").ToString()%></label><br />
-		                            <input type="checkbox" id="Is2014" checked="checked" onchange="updateIs2014()" /><br />
-                                </div>-->
-                                <div class="clearfix">
                                     <label for="EgeExam"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEsubject").ToString()%></label><br />
-		                            <select id="EgeExam" ></select><br />
+		                            <%= Html.DropDownList("EgeExam", Model.EducationInfo.EgeSubjectList) %>
                                 </div>
                                 <div id="_EgeMark" class="clearfix" >
                                     <label for="EgeMark"><%=GetGlobalResourceObject("PersonalOffice_Step4", "EGEball").ToString()%></label><br />
@@ -698,7 +688,7 @@
                                     <label for="IsInUniversity"><%=GetGlobalResourceObject("PersonalOffice_Step4", "PassInSPbSU").ToString()%></label><br />
 		                            <input type="checkbox" id="IsInUniversity" onchange="updateIsInUniversity()" /><br />
                                 </div>
-	                        </fieldset></tag>
+	                        </fieldset>
                         </div>
                     </div>
                     <% } %>

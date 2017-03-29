@@ -399,8 +399,6 @@ namespace OnlineAbit2013.Controllers
                     else
                         model.AddEducationInfo.HasForeignNationality = false;
 
-                    
-
                     #region CurrentEducation
                     if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 4 && (x.VuzAdditionalTypeId == 2 || x.VuzAdditionalTypeId == 4)).Count() > 0)
                     {
@@ -499,9 +497,9 @@ namespace OnlineAbit2013.Controllers
                             }).ToList().Where(x=>x.ExitClass).Count() >0;
 
                         model.AddEducationInfo.HasEGE = HasEge;
-                        string qEgeMarks = "SELECT EgeMark.Id, EgeCertificate.Number, EgeExam.Name, EgeMark.Value, EgeMark.IsSecondWave, EgeMark.IsInUniversity FROM Person " +
+                        string qEgeMarks = "SELECT EgeMark.Id, EgeCertificate.Number, EgeExam.Name, EgeMark.Value, EgeMark.IsSecondWave, EgeMark.IsInUniversity, EgeCertificate.Year FROM Person " +
                             " INNER JOIN EgeCertificate ON EgeCertificate.PersonId = Person.Id INNER JOIN EgeMark ON EgeMark.EgeCertificateId=EgeCertificate.Id " +
-                            " INNER JOIN EgeExam ON EgeExam.Id=EgeMark.EgeExamId WHERE Person.Id=@Id";
+                            " INNER JOIN EgeExam ON EgeExam.Id=EgeMark.EgeExamId WHERE Person.Id=@Id ORDER BY EgeMark.OrdId";
                         DataTable tblEge = Util.AbitDB.GetDataTable(qEgeMarks, new SortedList<string, object>() { { "@Id", PersonId } });
 
                         model.EducationInfo.EgeMarks = new List<EgeMarkModel>();
@@ -512,8 +510,17 @@ namespace OnlineAbit2013.Controllers
                                  Id = rw.Field<Guid>("Id"),
                                  CertificateNum = rw.Field<string>("Number"),
                                  ExamName = rw.Field<string>("Name"),
-                                 Value = rw.Field<bool>("IsSecondWave") ? ("Сдаю во второй волне") : (rw.Field<bool>("IsInUniversity") ? "Сдаю в СПбГУ" : rw.Field<int?>("Value").ToString())
+                                 Value = rw.Field<bool>("IsSecondWave") ? ("Сдаю во второй волне") : (rw.Field<bool>("IsInUniversity") ? "Сдаю в СПбГУ" : rw.Field<int?>("Value").ToString()),
+                                 Year = rw.Field<int>("Year").ToString()
                              }).ToList();
+
+                        model.EducationInfo.EgeSubjectList = new List<SelectListItem>();
+                        context.EgeExam.Select(x => new { x.Id, x.Name }).ToList()
+                            .ForEach(x => model.EducationInfo.EgeSubjectList.Add(new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }));
+
+                        model.EducationInfo.EgeYearList = new List<SelectListItem>();
+                        for (int i = DateTime.Now.Year; i > DateTime.Now.AddYears(-4).Year; i--)
+                            model.EducationInfo.EgeYearList.Add(new SelectListItem() { Value = i.ToString(), Text = i.ToString(), Selected = (i == DateTime.Now.Year) } );
                     }
                     #endregion
 
@@ -5132,9 +5139,8 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
         }
 
         [OutputCache(NoStore = true, Duration = 0)]
-        public ActionResult AddMark(string examName, string examValue, string IsInUniversity, string IsSecondWave)
+        public ActionResult AddMark(string examName, string examValue, string IsInUniversity, string IsSecondWave, string egeYear)
         {
-
             Guid PersonId;
             if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
             {
@@ -5150,40 +5156,19 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
             if (!int.TryParse(examValue, out iExamValue))
                 iExamValue = 0;
 
+            int iEgeYear = 0;
+            if (!int.TryParse(egeYear, out iEgeYear))
+                iEgeYear = DateTime.Now.Year;
            
             bool bIsInUniversity = (IsInUniversity == "true");  
-           /* if (bool.TryParse(IsInUniversity, out bIsInUniversity))
-                bIsInUniversity = false;*/
-
             bool bIsSecondWave = (IsSecondWave == "true");
-            /*if (bool.TryParse(IsSecondWave, out bIsSecondWave))
-                bIsSecondWave = false;*/
              
             SortedList<string, object> dic = new SortedList<string, object>();
             Guid EgeCertificateId = Guid.Empty;
             
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-            
-                //номер должен быть уникальным
-               /*if (certs.Count() > 1)
-                    return Json(new { IsOk = false, ErrorMessage = "Данный сертификат в базе данных принадлежит другому лицу" });//Это косяк, двух не может быть!!!
-                if (certs.Count() == 1)
-                {
-                    if (certs[0].PersonId != PersonId)
-                        return Json(new { IsOk = false, ErrorMessage = "Данный сертификат в базе данных принадлежит другому лицу" });
-                    else
-                        EgeCertificateId = certs[0].Id;
-                }*/
-
-                //query = "SELECT EgeMark.Value FROM EgeMark INNER JOIN EgeCertificate ON EgeCertificate.Id=EgeMark.EgeCertificateId " +
-                //    " WHERE EgeCertificate.PersonId=@PersonId AND EgeMark.EgeExamId=@ExamId";
-                //dic.Clear();
-                //dic.Add("@PersonId", PersonId);
-                //dic.Add("@ExamId", iExamId);
-                //string MarkVal = Util.AbitDB.GetStringValue(query, dic);
-
-                string MarkVal = context.EgeMark.Where(x => x.EgeCertificate.PersonId == PersonId && x.EgeExamId == iExamId)
+                string MarkVal = context.EgeMark.Where(x => x.EgeCertificate.PersonId == PersonId && x.EgeExamId == iExamId && x.EgeCertificate.Year == iEgeYear)
                     .Select(x => new { x.IsInUniversity, x.IsSecondWave, x.Value })
                     .ToList()
                     .Select(x => x.IsSecondWave ? "Сдаю во второй волне" : (x.IsInUniversity ? "Сдаю в СПбГУ" : x.Value.ToString()))
@@ -5194,6 +5179,10 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
 
                 try
                 {
+                    EgeCertificateId = context.EgeCertificate.Where(x => x.PersonId == PersonId && x.Year == iEgeYear)
+                        .Select(x => x.Id)
+                        .DefaultIfEmpty(Guid.Empty).First();
+
                     if (EgeCertificateId == Guid.Empty)
                     {
                         EgeCertificateId = Guid.NewGuid();
@@ -5202,7 +5191,8 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
                             Id = EgeCertificateId,
                             Is2014 = false,
                             Number = "нет свидетельства",
-                            PersonId = PersonId
+                            PersonId = PersonId,
+                            Year = iEgeYear,
                         });
                         context.SaveChanges();
                     }
@@ -5234,9 +5224,10 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
                         {
                             Id = MarkId.ToString(),
                             ExamName = exName,
-                            ExamMark = exValue//iExamValue.ToString()
+                            ExamMark = exValue,
+                            EgeYear = iEgeYear,
                         },
-                        ErrorMessage = ""
+                        ErrorMessage = "",
                     };
                     return Json(res);
                 }

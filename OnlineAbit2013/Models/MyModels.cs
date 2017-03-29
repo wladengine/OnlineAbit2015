@@ -178,6 +178,8 @@ namespace OnlineAbit2013.Models
         public List<SelectListItem> VuzAdditionalTypeList { get; set; }
 
         public List<EgeMarkModel> EgeMarks { get; set; }
+        public List<SelectListItem> EgeYearList { get; set; }
+        public List<SelectListItem> EgeSubjectList { get; set; }
     }
     /// <summary>
     /// Данные документа об образовании
@@ -393,6 +395,7 @@ namespace OnlineAbit2013.Models
         public string CertificateNum { get; set; }
         public string ExamName { get; set; }
         public string Value { get; set; }
+        public string Year { get; set; }
     }
 
     public class AdditionalInfoPerson
