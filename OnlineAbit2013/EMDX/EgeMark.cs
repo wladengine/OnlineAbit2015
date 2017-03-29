@@ -20,6 +20,7 @@ namespace OnlineAbit2013.EMDX
         public int Value { get; set; }
         public bool IsInUniversity { get; set; }
         public bool IsSecondWave { get; set; }
+        public int OrdId { get; set; }
     
         public virtual EgeCertificate EgeCertificate { get; set; }
         public virtual EgeExam EgeExam { get; set; }

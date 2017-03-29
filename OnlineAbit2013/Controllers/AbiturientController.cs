@@ -216,6 +216,8 @@ namespace OnlineAbit2013.Controllers
                     model.res = Util.GetRess(PersonId);
                     model.ContactsInfo.MainPhone = Server.HtmlDecode(PersonContacts.Phone);
                     model.ContactsInfo.SecondPhone = Server.HtmlDecode(PersonContacts.Mobiles);
+                    model.ContactsInfo.AddEmail = Server.HtmlDecode(PersonContacts.AddEmail);
+
                     model.ContactsInfo.CountryId = PersonContacts.CountryId.ToString();
                     model.ContactsInfo.RegionId = PersonContacts.RegionId.ToString();
 
@@ -914,6 +916,7 @@ namespace OnlineAbit2013.Controllers
 
                     PersonContacts.Phone = model.ContactsInfo.MainPhone;
                     PersonContacts.Mobiles = model.ContactsInfo.SecondPhone;
+                    PersonContacts.AddEmail = model.ContactsInfo.AddEmail;
 
                     PersonContacts.RegionId = iRegionId;
                     PersonContacts.Code = model.ContactsInfo.PostIndex;

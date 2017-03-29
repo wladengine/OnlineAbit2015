@@ -36,6 +36,7 @@ namespace OnlineAbit2013.EMDX
         public Nullable<int> RegionRealId { get; set; }
         public string KladrCodeReal { get; set; }
         public Nullable<int> CountryRealId { get; set; }
+        public string AddEmail { get; set; }
     
         public virtual Country Country { get; set; }
         public virtual Person Person { get; set; }

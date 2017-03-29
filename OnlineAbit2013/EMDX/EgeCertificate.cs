@@ -25,6 +25,7 @@ namespace OnlineAbit2013.EMDX
         public string Number { get; set; }
         public bool IsGIA { get; set; }
         public bool Is2014 { get; set; }
+        public int Year { get; set; }
     
         public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

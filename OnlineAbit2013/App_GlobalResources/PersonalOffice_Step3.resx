@@ -120,6 +120,12 @@
   <data name="AdCity" xml:space="preserve">
     <value>Город</value>
   </data>
+  <data name="AddEmail" xml:space="preserve">
+    <value>Дополнительный Email</value>
+  </data>
+  <data name="AddEmail_Message" xml:space="preserve">
+    <value>Введите дополнительный Email</value>
+  </data>
   <data name="AdditionalAddress_Header" xml:space="preserve">
     <value>Адрес проживания/почтовый адрес (если отличается):</value>
   </data>
@@ -176,6 +182,9 @@
   </data>
   <data name="SecondPhone" xml:space="preserve">
     <value>Дополнительный</value>
+  </data>
+  <data name="SecondPhone_Message" xml:space="preserve">
+    <value>Введите дополнительный номер </value>
   </data>
   <data name="Street" xml:space="preserve">
     <value>Улица</value>

@@ -206,6 +206,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="Number" Type="nvarchar" MaxLength="50" />
           <Property Name="IsGIA" Type="bit" Nullable="false" />
           <Property Name="Is2014" Type="bit" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EgeExam">
           <Key>
@@ -224,6 +225,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="Value" Type="int" Nullable="false" />
           <Property Name="IsInUniversity" Type="bit" Nullable="false" />
           <Property Name="IsSecondWave" Type="bit" Nullable="false" />
+          <Property Name="OrdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Exam">
           <Key>
@@ -562,6 +564,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="ForeignAddressInfo" Type="nvarchar" MaxLength="1000" />
           <Property Name="KladrCode" Type="nvarchar" MaxLength="50" />
           <Property Name="KladrCodeReal" Type="nvarchar" MaxLength="50" />
+          <Property Name="AddEmail" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="PersonCurrentEducation">
           <Key>
@@ -1555,18 +1558,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             </Principal>
             <Dependent Role="Country">
               <PropertyRef Name="RegionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EgeCertificate_Person">
-          <End Role="Person" Type="Self.Person" Multiplicity="1" />
-          <End Role="EgeCertificate" Type="Self.EgeCertificate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EgeCertificate">
-              <PropertyRef Name="PersonId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2791,10 +2782,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             <End Role="Region" EntitySet="Region" />
             <End Role="Country" EntitySet="Country" />
           </AssociationSet>
-          <AssociationSet Name="FK_EgeCertificate_Person" Association="Self.FK_EgeCertificate_Person">
-            <End Role="Person" EntitySet="Person" />
-            <End Role="EgeCertificate" EntitySet="EgeCertificate" />
-          </AssociationSet>
           <AssociationSet Name="FK_EgeMark_EgeCertificate" Association="Self.FK_EgeMark_EgeCertificate">
             <End Role="EgeCertificate" EntitySet="EgeCertificate" />
             <End Role="EgeMark" EntitySet="EgeMark" />
@@ -3225,6 +3212,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="Is2014" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Person" Relationship="Self.FK_EgeCertificate_Person" FromRole="EgeCertificate" ToRole="Person" />
           <NavigationProperty Name="EgeMark" Relationship="Self.FK_EgeMark_EgeCertificate" FromRole="EgeCertificate" ToRole="EgeMark" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="EgeExam">
           <Key>
@@ -3246,6 +3234,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="IsSecondWave" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="EgeCertificate" Relationship="Self.FK_EgeMark_EgeCertificate" FromRole="EgeMark" ToRole="EgeCertificate" />
           <NavigationProperty Name="EgeExam" Relationship="Self.FK_EgeMark_EgeExam" FromRole="EgeMark" ToRole="EgeExam" />
+          <Property Name="OrdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="Exam">
           <Key>
@@ -3551,6 +3540,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="RegionRealId" Type="Int32" />
           <Property Name="KladrCodeReal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CountryRealId" Type="Int32" />
+          <Property Name="AddEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PersonCurrentEducation">
           <Key>
@@ -6114,6 +6104,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="EgeCertificate">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.EgeCertificate">
               <MappingFragment StoreEntitySet="EgeCertificate">
+                <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
@@ -6133,6 +6124,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="EgeMark">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.EgeMark">
               <MappingFragment StoreEntitySet="EgeMark">
+                <ScalarProperty Name="OrdId" ColumnName="OrdId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="EgeCertificateId" ColumnName="EgeCertificateId" />
                 <ScalarProperty Name="EgeExamId" ColumnName="EgeExamId" />
@@ -6389,6 +6381,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="PersonContacts">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonContacts">
               <MappingFragment StoreEntitySet="PersonContacts">
+                <ScalarProperty Name="AddEmail" ColumnName="AddEmail" />
                 <ScalarProperty Name="CountryRealId" ColumnName="CountryRealId" />
                 <ScalarProperty Name="KladrCodeReal" ColumnName="KladrCodeReal" />
                 <ScalarProperty Name="RegionRealId" ColumnName="RegionRealId" />

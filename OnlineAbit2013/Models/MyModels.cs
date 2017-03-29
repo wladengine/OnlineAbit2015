@@ -131,6 +131,8 @@ namespace OnlineAbit2013.Models
     {
         public string MainPhone { get; set; }
         public string SecondPhone { get; set; }
+        public string AddEmail { get; set; }
+
 
         public string CountryId { get; set; }
         public List<SelectListItem> CountryList { get; set; }

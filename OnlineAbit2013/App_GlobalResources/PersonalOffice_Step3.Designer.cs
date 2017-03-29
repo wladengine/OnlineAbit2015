@@ -19,7 +19,7 @@ namespace Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option or rebuild the Visual Studio project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Web.Application.StronglyTypedResourceProxyBuilder", "11.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Web.Application.StronglyTypedResourceProxyBuilder", "12.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class PersonalOffice_Step3 {
@@ -66,6 +66,24 @@ namespace Resources {
         internal static string AdCity {
             get {
                 return ResourceManager.GetString("AdCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дополнительный Email.
+        /// </summary>
+        internal static string AddEmail {
+            get {
+                return ResourceManager.GetString("AddEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Введите дополнительный Email.
+        /// </summary>
+        internal static string AddEmail_Message {
+            get {
+                return ResourceManager.GetString("AddEmail_Message", resourceCulture);
             }
         }
         
@@ -237,6 +255,15 @@ namespace Resources {
         internal static string SecondPhone {
             get {
                 return ResourceManager.GetString("SecondPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Введите дополнительный номер .
+        /// </summary>
+        internal static string SecondPhone_Message {
+            get {
+                return ResourceManager.GetString("SecondPhone_Message", resourceCulture);
             }
         }
         

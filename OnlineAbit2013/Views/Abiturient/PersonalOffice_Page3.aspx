@@ -64,6 +64,8 @@
                 <% } %>
 
             $('#ContactsInfo_MainPhone').change(function () { setTimeout(CheckPhone); }); 
+            $('#ContactsInfo_SecondPhone').change(function () { setTimeout(CheckSecondPhone); }); 
+            $('#ContactsInfo_AddEmail').change(function () { setTimeout(CheckAddEmail); }); 
             $('#ContactsInfo_PostIndex').change(function () { setTimeout(CheckIndex); }); 
             $('#ContactsInfo_City').change(function () { setTimeout(CheckCity); });
             $('#ContactsInfo_Street').change(function () { setTimeout(CheckStreet); });
@@ -83,15 +85,26 @@
     </script>
     <script type="text/javascript">
         function CheckPhone() {
+            return CheckField("MainPhone");
+        }
+        function CheckSecondPhone() {
+            return CheckField("SecondPhone");
+        }
+        function CheckAddEmail() {
+            return CheckField("AddEmail");
+        }
+        function CheckField(fieldname) {
             var ret = true;
-            if ($('#ContactsInfo_MainPhone').val() == '') {
+            fieldname = "#ContactsInfo_"+fieldname;
+            var Field_message = fieldname+"_Message";
+            if ($(fieldname).val() == '') {
                 ret = false;
-                $('#ContactsInfo_MainPhone').addClass('input-validation-error');
-                $('#ContactsInfo_MainPhone_Message').show();
+                $(fieldname).addClass('input-validation-error');
+                $(Field_message).show();
             }
             else {
-                $('#ContactsInfo_MainPhone').removeClass('input-validation-error');
-                $('#ContactsInfo_MainPhone_Message').hide();
+                $(fieldname).removeClass('input-validation-error');
+                $(Field_message).hide();
             }
             return ret;
         }
@@ -129,6 +142,8 @@
         function CheckForm() {
             var res = true;
             if (!CheckPhone()) { res = false; }
+            if (!CheckSecondPhone()) { res = false; }
+            if (!CheckAddEmail()) { res = false; }
             if (!CheckIndex()) { res = false; }
             if (!CheckCity()) { res = false; }
             if (!CheckStreet()) { res = false; }
@@ -296,10 +311,22 @@
                         <%= Html.TextBoxFor(x => x.ContactsInfo.MainPhone) %>
                          <br /><p></p>
                          <span id="ContactsInfo_MainPhone_Message" class="Red" style="display:none"><%= GetGlobalResourceObject("PersonalOffice_Step3", "MainPhone_Message")%></span>
+                    </div> 
+                    <div class="clearfix">
+                        <label for="ContactsInfo_SecondPhone" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
+                        <asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step3, SecondPhone%>"></asp:Literal><asp:Literal runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
+                        </label>
+                        <%= Html.TextBoxFor(x => x.ContactsInfo.SecondPhone) %>
+                         <br /><p></p>
+                         <span id="ContactsInfo_SecondPhone_Message" class="Red" style="display:none"><%= GetGlobalResourceObject("PersonalOffice_Step3", "SecondPhone_Message")%></span>
                     </div>
                     <div class="clearfix">
-                        <%= Html.LabelFor(x => x.ContactsInfo.SecondPhone, GetGlobalResourceObject("PersonalOffice_Step3", "SecondPhone").ToString())%>
-                        <%= Html.TextBoxFor(x => x.ContactsInfo.SecondPhone)%>
+                        <label for="ContactsInfo_AddEmail" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
+                        <asp:Literal runat="server" Text="<%$Resources:PersonalOffice_Step3, AddEmail%>"></asp:Literal><asp:Literal runat="server" Text="<%$Resources:PersonInfo, Star %>"></asp:Literal>
+                        </label>
+                        <%= Html.TextBoxFor(x => x.ContactsInfo.AddEmail) %>
+                         <br /><p></p>
+                         <span id="ContactsInfo_AddEmail_Message" class="Red" style="display:none"><%= GetGlobalResourceObject("PersonalOffice_Step3", "AddEmail_Message")%></span>
                     </div>
                     <h4><%= GetGlobalResourceObject("PersonalOffice_Step3", "RegistrationHeader").ToString()%></h4>
                     <hr />
