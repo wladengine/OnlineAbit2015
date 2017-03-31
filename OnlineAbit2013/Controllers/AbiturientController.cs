@@ -3570,7 +3570,6 @@ namespace OnlineAbit2013.Controllers
                          Specialization = (bisEng ? ((String.IsNullOrEmpty(Entry.ProfileNameEng)) ? Entry.ProfileName : Entry.ProfileNameEng) : Entry.ProfileName),
                          HasManualExams = false,
                          HasSeparateObrazPrograms = context.InnerEntryInEntry.Where(x => x.EntryId == App.EntryId).Count() > 0,
-                         InnerEntryInEntryId = context.InnerEntryInEntry.Where(x => x.EntryId == App.EntryId).Count() == 1 ? context.InnerEntryInEntry.Where(x => x.EntryId == App.EntryId).Select(x => x.Id).FirstOrDefault() : Guid.Empty,
                          EntryId = App.EntryId,
                          IsGosLine = Entry.IsForeign && Entry.StudyBasisId == 1,
                          IsCrimea = Entry.IsCrimea,
@@ -3670,48 +3669,32 @@ namespace OnlineAbit2013.Controllers
                 if (!Guid.TryParse(key, out appId))
                     continue;
 
-                SortedList<string, object> dic = new SortedList<string, object>(); 
+                SortedList<string, object> dic = new SortedList<string, object>();
                 dic.AddItem("@Id", appId);
 
-                bool bIsAG = (int)Util.AbitDB.GetValue("Select COUNT(*) FROM AG_Application WHERE Id=@Id", dic) > 0;
-                if (!bIsAG)
-                {
-                    string query = "Select DateOfClose, Priority from Application inner join Entry on Entry.Id = EntryId where Application.Id = @Id";
-                    DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
-                    DataRow r = tbl.Rows[0];
-                    int priority = r.Field<int>("Priority");
-                    DateTime? dateofClose = r.Field<DateTime?>("DateOfClose");
-                    if (dateofClose != null)
-                        if (dateofClose < DateTime.Now)
-                            prior = priority - 1;
 
-                    query = "UPDATE [Application] SET IsViewed=0, Priority=@Priority WHERE Id=@Id AND PersonId=@PersonId AND CommitId=@CommitId;" +
-                        " INSERT INTO [ApplicationCommitVersonDetails] (ApplicationCommitVersionId, ApplicationId, Priority) VALUES (@ApplicationCommitVersionId, @Id, @Priority)";
-                    dic.AddItem("@Priority", ++prior);
-                    dic.AddItem("@PersonId", PersonId);
-                    dic.AddItem("@CommitId", gCommId);
-                    dic.AddItem("@ApplicationCommitVersionId", iCommitVersionId);
+                string query = "Select DateOfClose, Priority from Application inner join Entry on Entry.Id = EntryId where Application.Id = @Id";
+                DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
+                DataRow r = tbl.Rows[0];
+                int priority = r.Field<int>("Priority");
+                DateTime? dateofClose = r.Field<DateTime?>("DateOfClose");
+                if (dateofClose != null)
+                    if (dateofClose < DateTime.Now)
+                        prior = priority - 1;
 
-                    try
-                    {
-                        Util.AbitDB.ExecuteQuery(query, dic);
-                    }
-                    catch { }
-                }
-                else
+                query = "UPDATE [Application] SET IsViewed=0, Priority=@Priority WHERE Id=@Id AND PersonId=@PersonId AND CommitId=@CommitId;" +
+                    " INSERT INTO [ApplicationCommitVersonDetails] (ApplicationCommitVersionId, ApplicationId, Priority) VALUES (@ApplicationCommitVersionId, @Id, @Priority)";
+                dic.AddItem("@Priority", ++prior);
+                dic.AddItem("@PersonId", PersonId);
+                dic.AddItem("@CommitId", gCommId);
+                dic.AddItem("@ApplicationCommitVersionId", iCommitVersionId);
+
+                try
                 {
-                    string query = "UPDATE [AG_Application] SET Priority=@Priority WHERE Id=@Id AND PersonId=@PersonId AND CommitId=@CommitId" +
-                        " INSERT INTO [ApplicationCommitVersonDetails] (ApplicationCommitVersionId, ApplicationId, Priority) VALUES (@ApplicationCommitVersionId, @Id, @Priority)";
-                    try
-                    {
-                        dic.AddItem("@Priority", ++prior);
-                        dic.AddItem("@PersonId", PersonId);
-                        dic.AddItem("@CommitId", gCommId);
-                        dic.AddItem("@ApplicationCommitVersionId", iCommitVersionId);
-                        Util.AbitDB.ExecuteQuery(query, dic);
-                    }
-                    catch { }
+                    Util.AbitDB.ExecuteQuery(query, dic);
                 }
+                catch { }
+
             }
             return RedirectToAction("Index", "Application", new RouteValueDictionary() { { "id", model.CommitId } });
         }
@@ -3760,6 +3743,7 @@ namespace OnlineAbit2013.Controllers
                             ApplicationId = model.ApplicationId,
                             InnerEntryInEntryId = InnerEntryInEntryId,
                             InnerEntryInEntryPriority = prior,
+                            ByUser = true,
                         });
                         //вставляем в логи
                         if (context.ApplicationVersionDetails
@@ -3785,7 +3769,8 @@ namespace OnlineAbit2013.Controllers
                                 Id = Guid.NewGuid(),
                                 ApplicationId = model.ApplicationId,
                                 InnerEntryInEntryId = InnerEntryInEntryId,
-                                InnerEntryInEntryPriority = prior
+                                InnerEntryInEntryPriority = prior,
+                                ByUser = true,
                             });
                             //вставляем в логи
                             context.ApplicationVersionDetails.Add(new ApplicationVersionDetails()
@@ -3798,6 +3783,7 @@ namespace OnlineAbit2013.Controllers
                         else // если есть - обновить только приоритет
                         {
                             avd.InnerEntryInEntryPriority = prior;
+                            avd.ByUser = true;
                         }
                     }
 
@@ -3900,7 +3886,6 @@ namespace OnlineAbit2013.Controllers
                          Specialization = (bisEng ? ((String.IsNullOrEmpty(Entry.ProfileNameEng)) ? Entry.ProfileName : Entry.ProfileNameEng) : Entry.ProfileName),
                          HasManualExams = false,
                          HasSeparateObrazPrograms = context.InnerEntryInEntry.Where(x => x.EntryId == App.EntryId).Count() > 0,
-                         InnerEntryInEntryId = context.InnerEntryInEntry.Where(x => x.EntryId == App.EntryId).Count() == 1 ? context.InnerEntryInEntry.Where(x => x.EntryId == App.EntryId).Select(x => x.Id).FirstOrDefault() : Guid.Empty,
                          EntryId = App.EntryId,
                          IsGosLine = App.IsGosLine,
                          dateofClose = Entry.DateOfClose,

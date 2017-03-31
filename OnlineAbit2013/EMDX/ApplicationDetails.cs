@@ -18,6 +18,7 @@ namespace OnlineAbit2013.EMDX
         public System.Guid ApplicationId { get; set; }
         public System.Guid InnerEntryInEntryId { get; set; }
         public int InnerEntryInEntryPriority { get; set; }
+        public Nullable<bool> ByUser { get; set; }
     
         public virtual InnerEntryInEntry InnerEntryInEntry { get; set; }
     }

@@ -27,9 +27,12 @@
             $("#printBtn")
                 //.button()
                 .click(function () {
-                    <% if (!Model.IsPrinted) { %>
+                    <% if (!Model.IsPrinted) {
+                           if (Model.Applications.Where(x => x.HasSeparateObrazPrograms && x.HasNotSpecifiedInnerPriorities).Count() > 0)
+                           { %> $("#dialog-form-stop-print-app").dialog("open");<%  }
+                           else {%>
                     $("#dialog-form-print-app").dialog("open");
-                    <%} else {%>
+                    <%} } else {%>
                     window.open('<%= string.Format("/Application/GetPrint/{0}", Model.Id.ToString("N")) %>', '');
                     <%} %>
                 });
@@ -97,6 +100,19 @@
                         }
                     }
                 });
+        $("#dialog-form-stop-print-app").dialog(
+               {
+                   autoOpen: false,
+                   height: 400,
+                   width: 350,
+                   modal: true,
+                   buttons:
+                   { 
+                       "Закрыть (close)": function () {
+                           $(this).dialog("close");
+                       }
+                   }
+               });
         }); 
 
         function GetList() {
@@ -267,6 +283,10 @@
     <%} %>
 </div>
 
+<div id="dialog-form-stop-print-app">
+    <p class="errMessage"></p>
+    <p><%= GetGlobalResourceObject("ApplicationInfo", "AppHasNotSpecifiedExams")%></p>
+</div>
 <div id="dialog-form-print-app">
     <p class="errMessage"></p>
     <p><%= GetGlobalResourceObject("ApplicationInfo", "PrintApplicationWarning")%></p>
@@ -292,6 +312,10 @@
 <% if (Model.HasNotSelectedExams)
        {%>
        <p class="message error"><b><%= GetGlobalResourceObject("ApplicationInfo", "AppHasNotSelectedExams")%></b></p>
+    <% } %>
+<% if (Model.Applications.Where(x => x.HasSeparateObrazPrograms && x.HasNotSpecifiedInnerPriorities).Count() > 0)
+       {%>
+       <p class="message error"><b><%= GetGlobalResourceObject("ApplicationInfo", "AppHasNotSpecifiedExams")%></b></p>
     <% } %>
 <% foreach (var Application in Model.Applications.OrderBy(x => x.Priority).ThenBy(x => x.ObrazProgram))
    { %>
@@ -373,6 +397,23 @@
         <td align="left"><%= GetGlobalResourceObject("NewApplication", "EnterCrimea").ToString()%></td>
     </tr>
     <% } %>
+    <% if (Application.HasSeparateObrazPrograms)
+       {
+           if (Application.HasNotSpecifiedInnerPriorities)
+           { %>
+                <tr>
+                    <td width="30%" align="right"><%= GetGlobalResourceObject("ApplicationInfo", "InnerPriorities").ToString()%></td>
+                    <td align="left"><span class ="message error">Укажите  <a href="/Abiturient/PriorityChangerApplication?AppId=<%=Application.Id.ToString("N")%>&V=<%=Guid.NewGuid().ToString("N")%>">приоритетность программ и профилей</a></span></td>
+                </tr>
+              <%}
+           else
+           {
+               %>
+                <tr>
+                    <td width="30%" align="right"><%= GetGlobalResourceObject("ApplicationInfo", "InnerPriorities").ToString()%></td>
+                    <td align="left"><%= Html.Encode(Application.InnerPrioritiesMessage) %></td>
+                </tr>
+    <% } } %>
     <tr>
         <td width="30%" align="right"></td>
         <td align="left"><a class="button button-orange" href="../../Application/AppIndex/<%= Application.Id.ToString("N") %>"><%= GetGlobalResourceObject("ApplicationInfo", "ViewAddFiles")%>  </a></td>

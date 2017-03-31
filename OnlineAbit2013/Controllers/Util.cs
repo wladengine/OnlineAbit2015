@@ -1908,6 +1908,7 @@ ORDER by Semester.Id";
                             ApplicationId = AppId,
                             InnerEntryInEntryId = Details.InnerEntryInEntryId,
                             InnerEntryInEntryPriority = prior++,
+                            ByUser = false,
                         });
                     }
                 }
@@ -2074,6 +2075,7 @@ ORDER by Semester.Id";
                                 appDet.ApplicationId,
                                 appDet.InnerEntryInEntryId,
                                 appDet.InnerEntryInEntryPriority,
+                                appDet.ByUser,
                             }).ToList();
 
                     foreach (var inner in innerPriorList)
@@ -2084,6 +2086,7 @@ ORDER by Semester.Id";
                             ApplicationId = appId,
                             InnerEntryInEntryId = inner.InnerEntryInEntryId,
                             InnerEntryInEntryPriority = inner.InnerEntryInEntryPriority,
+                            ByUser = inner.ByUser,
                         });
                     } 
                     context.SaveChanges();

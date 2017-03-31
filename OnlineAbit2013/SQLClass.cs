@@ -111,14 +111,18 @@ namespace OnlineAbit2013
     {
         public static DataTable GetDataTable(this SQLClass bdc, string query, SortedList<string, object> slParams)
         {
-            if (!bdc.IsOpen)
-                bdc.OpenDatabase(OnlineAbit2013.Controllers.ConstClass.StudDB);
+            try
+            {
+                if (!bdc.IsOpen)
+                    bdc.OpenDatabase(OnlineAbit2013.Controllers.ConstClass.StudDB);
 
-            DataSet ds = slParams == null ? bdc.GetDataSet(query) : bdc.GetDataSet(query, slParams);
-            DataTable tbl = new DataTable();
-            if (ds.Tables.Count > 0)
-                tbl = ds.Tables[0];
-            return tbl;
+                DataSet ds = slParams == null ? bdc.GetDataSet(query) : bdc.GetDataSet(query, slParams);
+                DataTable tbl = new DataTable();
+                if (ds.Tables.Count > 0)
+                    tbl = ds.Tables[0];
+                return tbl;
+            }
+            catch { return new DataTable(); }
         }
     }
 }

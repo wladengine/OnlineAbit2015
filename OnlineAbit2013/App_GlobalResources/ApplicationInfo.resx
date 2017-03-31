@@ -325,4 +325,10 @@
 &lt;a href = 'https://opros.spbu.ru/Account/RegisterWithTicket?TicketGuid=98194da8-3f39-4a1b-b72b-8d91b8824925' target="_blank"&gt;&lt;b&gt;Анкета абитуриента СПбГУ&lt;/b&gt;&lt;/a&gt; &lt;br/&gt;
 &lt;a href = 'https://opros.spbu.ru/Account/RegisterWithTicket?TicketGuid=892f130c-4240-4c98-a44d-ff7dfc5e463f' target="_blank"&gt;&lt;b&gt;Анкета родителя абитуриента&lt;/b&gt;&lt;/a&gt;</value>
   </data>
+  <data name="AppHasNotSpecifiedExams" xml:space="preserve">
+    <value>Для одного или нескольких заявлений не указаны приоритеты образовательных программ или профилей</value>
+  </data>
+  <data name="InnerPriorities" xml:space="preserve">
+    <value>Приоритетность обр.программ и профилей</value>
+  </data>
 </root>

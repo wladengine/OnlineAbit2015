@@ -69,5 +69,7 @@ namespace OnlineAbit2013.EMDX
         public int AbiturientTypeId { get; set; }
         public Nullable<bool> HasTRKI { get; set; }
         public string TRKICertificateNumber { get; set; }
+        public Nullable<int> ReturnDocumentTypeId { get; set; }
+        public string AddEmail { get; set; }
     }
 }

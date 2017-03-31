@@ -57,22 +57,52 @@ namespace OnlineAbit2013.Controllers
                          StudyLevelGroupName = (isEng ? ((String.IsNullOrEmpty(Entry.StudyLevelGroupNameEng)) ? Entry.StudyLevelGroupNameRus : Entry.StudyLevelGroupNameEng) : Entry.StudyLevelGroupNameRus) +
                                   (sectype == null ? "" : (isEng ? sectype.NameEng : sectype.Name)), 
                          AbiturientTypeId = App.SecondTypeId,
-
                          IsImported = Commit.IsImported,
                          IsAddedToProtocol = AppInProtocol != null,
-                         CampaignYear = Entry.CampaignYear
+                         CampaignYear = Entry.CampaignYear,
+
+                         HasSeparateObrazPrograms = false,
+                         HasNotSpecifiedInnerPriorities = false,
+                         
                      }).ToList();
                 bool ExistNotSelectedExams = false;
                 foreach (SimpleApplication app in tblAppsMain)
                 {
                     var lst = Util.GetExamList(app.Id);
-                    app.HasExamsForRegistration = lst.Where(x=>x.HasExamTimeTable).Count() > 0;
+                    //есть внутренние приоритеты?
+                    app.HasSeparateObrazPrograms = context.ApplicationDetails.Where(x => x.ApplicationId == app.Id).Count() > 0;
+                    // записи в таблице ApplicationDetails сделаны автоматически, или пользователем?
+                    app.HasNotSpecifiedInnerPriorities = context.ApplicationDetails.Where(x => x.ApplicationId == app.Id && !(x.ByUser ?? true)).Count() > 0;
+                    List<string> sDetails = new List<string>();
+                    var details = (from det in context.ApplicationDetails
+                                   where det.ApplicationId == app.Id
+                                   orderby det.InnerEntryInEntryPriority
+                                   select new
+                                    {
+                                        ObProgram = det.InnerEntryInEntry.SP_ObrazProgram.Name,
+                                        Profile = det.InnerEntryInEntry.SP_Profile.Name
+                                    }).ToList();
+                    // сократим запись насколько возможно
+                    if (details.Where(x=>x.ObProgram != details.First().ObProgram).Count() == 0)
+                        sDetails = details.Select(x => x.Profile).ToList();
+                    else if (details.Where(x=>x.ObProgram!=x.Profile).Count () == 0)
+                        sDetails = details.Select(x => x.Profile).ToList();
+                    else if (details.Where(x=> details.Where(t=>t.ObProgram == x.ObProgram).Count() > 1).Count() == 0)
+                        sDetails = details.Select(x => x.ObProgram).ToList();
+                    else
+                        sDetails = details.Select(x => x.ObProgram + " ("+ x.Profile+")").ToList();
 
+
+                    app.InnerPrioritiesMessage = (app.HasSeparateObrazPrograms ?  (app.HasNotSpecifiedInnerPriorities ?
+                        "<span class='red'>Укажите приоритеты образовательных программ и профилей </span> <a href='/Abiturient/PriorityChangerApplication?AppId='"+app.Id.ToString()+">" :
+                        string.Join(", ", sDetails.ToArray()))
+                        :"");
+
+                    app.HasExamsForRegistration = lst.Where(x=>x.HasExamTimeTable).Count() > 0;
                     app.ManualExam = new List<string>();
 
                     if (lst.Count>0)
                     {
-                        
                         foreach (var x in lst)
                         {
                             if (x.ExamInBlockList.Count > 1)

@@ -115,6 +115,7 @@
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="InnerEntryInEntryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="InnerEntryInEntryPriority" Type="int" Nullable="false" />
+          <Property Name="ByUser" Type="bit" />
         </EntityType>
         <EntityType Name="ApplicationFile">
           <Key>
@@ -1277,6 +1278,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.extPerson' does not have a pri
           <Property Name="AbiturientTypeId" Type="int" Nullable="false" />
           <Property Name="HasTRKI" Type="bit" />
           <Property Name="TRKICertificateNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReturnDocumentTypeId" Type="int" />
+          <Property Name="AddEmail" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'OnlinePriem2015.dbo.qAbiturient' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2657,7 +2660,9 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
     [extPerson].[SNILS] AS [SNILS], 
     [extPerson].[AbiturientTypeId] AS [AbiturientTypeId], 
     [extPerson].[HasTRKI] AS [HasTRKI], 
-    [extPerson].[TRKICertificateNumber] AS [TRKICertificateNumber]
+    [extPerson].[TRKICertificateNumber] AS [TRKICertificateNumber], 
+    [extPerson].[ReturnDocumentTypeId] AS [ReturnDocumentTypeId], 
+    [extPerson].[AddEmail] AS [AddEmail]
     FROM [dbo].[extPerson] AS [extPerson]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="qAbiturient" EntityType="Self.qAbiturient" store:Type="Views" store:Schema="dbo">
@@ -3150,6 +3155,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="InnerEntryInEntryId" Type="Guid" Nullable="false" />
           <Property Name="InnerEntryInEntryPriority" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InnerEntryInEntry" Relationship="OnlinePriem2015Model.FK_ApplicationDetails_ObrazProgramInEntry" FromRole="ApplicationDetails" ToRole="InnerEntryInEntry" />
+          <Property Name="ByUser" Type="Boolean" />
         </EntityType>
         <EntityType Name="ApplicationSelectedExam">
           <Key>
@@ -4231,6 +4237,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="AbiturientTypeId" Type="Int32" Nullable="false" />
           <Property Name="HasTRKI" Type="Boolean" />
           <Property Name="TRKICertificateNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReturnDocumentTypeId" Type="Int32" />
+          <Property Name="AddEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="qAbiturient">
           <Key>
@@ -6048,6 +6056,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="ApplicationDetails">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.ApplicationDetails">
               <MappingFragment StoreEntitySet="ApplicationDetails">
+                <ScalarProperty Name="ByUser" ColumnName="ByUser" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="InnerEntryInEntryId" ColumnName="InnerEntryInEntryId" />
@@ -6944,6 +6953,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="extPerson">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.extPerson">
               <MappingFragment StoreEntitySet="extPerson">
+                <ScalarProperty Name="AddEmail" ColumnName="AddEmail" />
+                <ScalarProperty Name="ReturnDocumentTypeId" ColumnName="ReturnDocumentTypeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Barcode" ColumnName="Barcode" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />

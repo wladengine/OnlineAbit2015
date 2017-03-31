@@ -537,16 +537,17 @@ namespace OnlineAbit2013.Models
         public string SecondTypeName { get; set; }
         public int StudyLevelGroupId { get; set; }
         public string StudyLevelGroupName { get; set; }
-        public bool HasSeparateObrazPrograms { get; set; }
         public DateTime? dateofClose { get; set; }
         public int CampaignYear { get; set; }
-        public Guid? InnerEntryInEntryId { get; set; }
         public List<string> InnerProfiles { get; set; }
 
         public bool IsImported { get; set; }
         public bool IsAddedToProtocol { get; set; }
         public List<string> ApplicationValidationErrors { get; set; }
         public List<string> ApplicationValidationSuccess { get; set; }
+        public bool HasSeparateObrazPrograms { get; set; }
+        public bool HasNotSpecifiedInnerPriorities { get; set; }
+        public string InnerPrioritiesMessage { get; set; }
     }
     public class SimpleApplicationWithExams : SimpleApplication
     {

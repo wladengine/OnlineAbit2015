@@ -307,4 +307,10 @@
   <data name="IsImported" xml:space="preserve">
     <value>In progress</value>
   </data>
+  <data name="AppHasNotSpecifiedExams" xml:space="preserve">
+    <value>For one or more applications, the priorities of educational programs or profiles are not indicated</value>
+  </data>
+  <data name="InnerPriorities" xml:space="preserve">
+    <value>Priorities</value>
+  </data>
 </root>
