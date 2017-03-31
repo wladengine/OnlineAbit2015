@@ -317,6 +317,7 @@
                 },
                 close: function () {
                     allFields.val("").removeClass("ui-state-error");
+                    updateTips('Все поля обязательны для заполнения');
                 }
             });
 
@@ -664,7 +665,7 @@
                         <input type="button" id="create-ege" class="button button-blue" value='<%=GetGlobalResourceObject("PersonalOffice_Step4", "AddMark").ToString()%>'/>
                         </div>
                         <div id="dialog-form">
-                            <p id="validation_info">Все поля обязательны для заполнения</p>
+                            <p id="validation_info" class="validateTips">Все поля обязательны для заполнения</p>
 	                        <hr />
                             <fieldset>
                                <div class="clearfix">
