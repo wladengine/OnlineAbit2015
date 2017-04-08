@@ -194,7 +194,7 @@ namespace OnlineAbit2013.Models
         public string SchoolName { get; set; }
         public string Series { get; set; }
         public string Number { get; set; }
-        public string SchoolNumber { get; set; }
+        //public string SchoolNumber { get; set; }
         public string SchoolCity { get; set; }
         public string SchoolExitYear { get; set; }
         public bool IsExcellent { get; set; }

@@ -452,13 +452,13 @@
                                     <%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationInfo_SchoolName_Message").ToString()%> 
                                 </span>
                             </div>
-                            <div id="_SchoolNumber_<%= i %>" class="clearfix">
+                            <%--<div id="_SchoolNumber_<%= i %>" class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "SchoolNumber").ToString(), new Dictionary<string, object> { { "for", "SchoolNumber_" + i } })%>
                                 <%= Html.TextBox("SchoolNumber_"+ i,  Doc.SchoolNumber, new Dictionary<string, object> { { "id", "SchoolNumber_" + i }, { "onchange", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber+ ")" }, { "onkeyup", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber + ")" }, { "onblur", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber + ")" } })%>
                                 <br /><p></p>
                                 <span id="SchoolNumber_Message_<%= i %>" class="Red" style="display:none">  
                                 </span>
-                            </div>
+                            </div>--%>
 
                             <div id="_CountryEduc_<%= i %>" class="clearfix">
                                 <label id="LabelEducationInfo_CountryCurEducId_<%= i %>" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 
@@ -636,13 +636,13 @@
                                     <%= GetGlobalResourceObject("PersonalOffice_Step4", "EducationInfo_SchoolName_Message").ToString()%> 
                                 </span>
                             </div>
-                            <div id="_SchoolNumber_<%= i %>" class="clearfix">
+                            <%--<div id="_SchoolNumber_<%= i %>" class="clearfix">
                                 <%= Html.Label("", GetGlobalResourceObject("PersonalOffice_Step4", "SchoolNumber").ToString(), new Dictionary<string, object> { { "for", "SchoolNumber_" + i } })%>
                                 <%= Html.TextBox("SchoolNumber_"+ i,  "", new Dictionary<string, object> { { "id", "SchoolNumber_" + i }, { "onchange", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber+ ")" }, { "onkeyup", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber + ")" }, { "onblur", "CheckLength('SchoolNumber_" + i + "', 'SchoolNumber_Message_" + i + "', "+Model.ConstInfo.SchoolNumber + ")" } })%>
                                 <br /><p></p>
                                 <span id="SchoolNumber_Message_<%= i %>" class="Red" style="display:none">  
                                 </span>
-                            </div>
+                            </div>--%>
 
                             <div id="_CountryEduc_<%= i %>" class="clearfix">
                                 <label id="LabelEducationInfo_CountryCurEducId_<%= i %>" title='<asp:Literal runat="server" Text="<%$ Resources:PersonInfo, RequiredField%>"></asp:Literal>'> 

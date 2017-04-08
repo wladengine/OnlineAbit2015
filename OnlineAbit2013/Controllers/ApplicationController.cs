@@ -98,7 +98,7 @@ namespace OnlineAbit2013.Controllers
                         string.Join(", ", sDetails.ToArray()))
                         :"");
 
-                    app.HasExamsForRegistration = lst.Where(x=>x.HasExamTimeTable).Count() > 0;
+                    app.HasExamsForRegistration = lst.Where(x => x.HasExamTimeTable).Count() > 0;
                     app.ManualExam = new List<string>();
 
                     if (lst.Count>0)
@@ -108,10 +108,8 @@ namespace OnlineAbit2013.Controllers
                             if (x.ExamInBlockList.Count > 1)
                                 app.ManualExam.Add(x.ExamInBlockList.Where(e => e.Value.ToString() == x.SelectedExamInBlockId.ToString()).Select(e => e.Text.ToString()).FirstOrDefault());
                         }
-                        if (app.ManualExam.Where(x=>String.IsNullOrEmpty(x)).Count()>0)
-                        {
+                        if (app.ManualExam.Where(x => String.IsNullOrEmpty(x)).Count() > 0)
                             ExistNotSelectedExams = true;
-                        }
                     }
                     app.HasManualExams = app.ManualExam.Count > 0;
                 }
@@ -159,10 +157,10 @@ namespace OnlineAbit2013.Controllers
                     IsPrinted = bIsPrinted,
                     Enabled = true,
                     StudyLevelGroupId = (tblAppsMain.Count == 0) ? 1 : tblAppsMain.First().StudyLevelGroupId,
-                    HasManualExams = tblAppsMain.Where(x=>x.HasManualExams).Count()>0,
-                    HasExamsForRegistration = tblAppsMain.Where(x=>x.HasExamsForRegistration).Count()>0,
+                    HasManualExams = tblAppsMain.Where(x => x.HasManualExams).Count() > 0,
+                    HasExamsForRegistration = tblAppsMain.Where(x => x.HasExamsForRegistration).Count() > 0,
                     HasNotSelectedExams = ExistNotSelectedExams,
-                    AbiturientTypeId = tblAppsMain.Count>0 ? tblAppsMain.Select(x => x.AbiturientTypeId).FirstOrDefault() : 1,
+                    AbiturientTypeId = tblAppsMain.Count > 0 ? tblAppsMain.Select(x => x.AbiturientTypeId).FirstOrDefault() : 1,
                 };
 
                 foreach (SimpleApplication s in tblAppsMain)

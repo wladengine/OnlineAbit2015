@@ -316,7 +316,7 @@ namespace OnlineAbit2013.Controllers
                                               }).ToList().SetValue(EPD.SchoolTypeId.ToString());
 
                         EPD.SchoolName = Server.HtmlDecode(PersonEducationDocument.SchoolName);
-                        EPD.SchoolNumber = Server.HtmlDecode(PersonEducationDocument.SchoolNum);
+                        //EPD.SchoolNumber = Server.HtmlDecode(PersonEducationDocument.SchoolNum);
                         EPD.SchoolExitYear = Server.HtmlDecode(PersonEducationDocument.SchoolExitYear);
                         EPD.SchoolCity = Server.HtmlDecode(PersonEducationDocument.SchoolCity);
                         EPD.AvgMark = PersonEducationDocument.AvgMark.HasValue ? PersonEducationDocument.AvgMark.Value.ToString() : "";
@@ -1044,7 +1044,7 @@ namespace OnlineAbit2013.Controllers
 
                         //----------------------------
                         
-                        string SchoolNumber = Request.Form["SchoolNumber_" + i];
+                        //string SchoolNumber = Request.Form["SchoolNumber_" + i];
                         string SchoolCity = Request.Form["SchoolCity_" + i];
 
                         //----------------------------
@@ -1079,7 +1079,7 @@ namespace OnlineAbit2013.Controllers
                         {
                             ObjectParameter idParam = new ObjectParameter("id", typeof(int));
                             context.PersonEducationDocument_insert(PersonId, iSchoolTypeId, iCountryEducId, iRegionEducId, iSchoolTypeId == 4 ? (int?)iVuzAddTypeId : null,
-                                SchoolCity, SchoolName, SchoolNumber, SchoolExitYear.ToString(),
+                                SchoolCity, SchoolName, "", SchoolExitYear.ToString(),
                                 iSchoolTypeId == 1 ? (int?)iSchoolExitClassId : null, Series, Number, bIsEqual, EqualityDocumentNumber, avgBall, bIsExcellent, idParam);
                             bIns = false;
                             iId = (int)idParam.Value;
@@ -1087,7 +1087,7 @@ namespace OnlineAbit2013.Controllers
                         else
                         {
                             context.PersonEducationDocument_update(PersonId, iSchoolTypeId, iCountryEducId, iRegionEducId, iSchoolTypeId == 4 ? (int?)iVuzAddTypeId : null,
-                                SchoolCity, SchoolName, SchoolNumber, SchoolExitYear.ToString(),
+                                SchoolCity, SchoolName, "", SchoolExitYear.ToString(),
                                 iSchoolTypeId == 1 ? (int?)iSchoolExitClassId : null, Series, Number, bIsEqual, EqualityDocumentNumber, avgBall, bIsExcellent, iId);
                         }
                         #endregion
