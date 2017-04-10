@@ -587,12 +587,21 @@ namespace OnlineAbit2013.Controllers
                          WorkPlace = rw.Field<string>("WorkPlace"),
                          WorkProfession = rw.Field<string>("WorkProfession"),
                          Stage = rw.Field<string>("Stage")
-                     }).FirstOrDefault();
+                     }).ToList();
                 if (work != null)
                 {
+                    double Stage = 0;
+                    string WorkPlace = "";
+                    foreach (var w in work)
+                    {
+                        double s;
+                        if (double.TryParse(w.Stage, out s))
+                            Stage += s;
+                        WorkPlace += w.WorkPlace + " (" + w.WorkProfession + "); ";
+                    }
                     acrFlds.SetField("HasStag", "1");
-                    acrFlds.SetField("WorkPlace", work.WorkPlace + ", " + work.WorkProfession);
-                    acrFlds.SetField("Stag", work.Stage);
+                    acrFlds.SetField("WorkPlace", WorkPlace);
+                    acrFlds.SetField("Stag", Stage.ToString());
                 }
                 else
                     acrFlds.SetField("NoStag", "1");
