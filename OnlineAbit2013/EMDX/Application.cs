@@ -17,8 +17,8 @@ namespace OnlineAbit2013.EMDX
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Application()
         {
-            this.ApplicationSelectedExam = new HashSet<ApplicationSelectedExam>();
             this.PersonChangeStudyFormReason = new HashSet<PersonChangeStudyFormReason>();
+            this.ApplicationSelectedExam = new HashSet<ApplicationSelectedExam>();
         }
     
         public System.Guid Id { get; set; }
@@ -51,8 +51,8 @@ namespace OnlineAbit2013.EMDX
         public virtual C_Entry C_Entry { get; set; }
         public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ApplicationSelectedExam> ApplicationSelectedExam { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonChangeStudyFormReason> PersonChangeStudyFormReason { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ApplicationSelectedExam> ApplicationSelectedExam { get; set; }
     }
 }

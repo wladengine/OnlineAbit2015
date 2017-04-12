@@ -33,7 +33,6 @@ namespace OnlineAbit2013.EMDX
         public virtual DbSet<ApplicationCommitVersion> ApplicationCommitVersion { get; set; }
         public virtual DbSet<ApplicationCommitVersonDetails> ApplicationCommitVersonDetails { get; set; }
         public virtual DbSet<ApplicationDetails> ApplicationDetails { get; set; }
-        public virtual DbSet<ApplicationSelectedExam> ApplicationSelectedExam { get; set; }
         public virtual DbSet<ApplicationVersion> ApplicationVersion { get; set; }
         public virtual DbSet<ApplicationVersionDetails> ApplicationVersionDetails { get; set; }
         public virtual DbSet<Country> Country { get; set; }
@@ -115,6 +114,7 @@ namespace OnlineAbit2013.EMDX
         public virtual DbSet<ExamBaseTimetable> ExamBaseTimetable { get; set; }
         public virtual DbSet<ExamInEntryBlockUnitTimetable> ExamInEntryBlockUnitTimetable { get; set; }
         public virtual DbSet<ApplicationSelectedTimetable> ApplicationSelectedTimetable { get; set; }
+        public virtual DbSet<ApplicationSelectedExam> ApplicationSelectedExam { get; set; }
     
         public virtual int PersonEducationDocument_delete(Nullable<System.Guid> personId, Nullable<int> id)
         {

@@ -18,6 +18,7 @@ namespace OnlineAbit2013.EMDX
         public ExamInEntryBlockUnit()
         {
             this.ExamTimetable = new HashSet<ExamTimetable>();
+            this.ApplicationSelectedExam = new HashSet<ApplicationSelectedExam>();
         }
     
         public System.Guid Id { get; set; }
@@ -28,5 +29,7 @@ namespace OnlineAbit2013.EMDX
         public virtual ExamInEntryBlock ExamInEntryBlock { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExamTimetable> ExamTimetable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ApplicationSelectedExam> ApplicationSelectedExam { get; set; }
     }
 }

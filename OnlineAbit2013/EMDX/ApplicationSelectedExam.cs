@@ -18,11 +18,8 @@ namespace OnlineAbit2013.EMDX
         public System.Guid ExamInEntryBlockUnitId { get; set; }
         public Nullable<int> ExamTimetableId { get; set; }
         public Nullable<System.DateTime> RegistrationDate { get; set; }
-        public Nullable<System.Guid> CommitId { get; set; }
-        public Nullable<int> ExamBaseTimetableId { get; set; }
-        public Nullable<int> ExamId { get; set; }
     
         public virtual Application Application { get; set; }
-        public virtual ExamTimetable ExamTimetable { get; set; }
+        public virtual ExamInEntryBlockUnit ExamInEntryBlockUnit { get; set; }
     }
 }
