@@ -156,6 +156,18 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="ExamInEntryBlockUnitId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ExamTimetableId" Type="int" />
           <Property Name="RegistrationDate" Type="datetime" />
+          <Property Name="CommitId" Type="uniqueidentifier" />
+          <Property Name="ExamBaseTimetableId" Type="int" />
+          <Property Name="ExamId" Type="int" />
+        </EntityType>
+        <EntityType Name="ApplicationSelectedTimetable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommitId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExamBaseTimetableId" Type="int" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="ApplicationVersion">
           <Key>
@@ -236,6 +248,16 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="ExamNameId" Type="int" Nullable="false" />
           <Property Name="IsPortfolio" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="ExamBaseTimetable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExamDate" Type="datetime" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="DateOfClose" Type="datetime" Nullable="false" />
+          <Property Name="ExamId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ExamInEntryBlock">
           <Key>
             <PropertyRef Name="Id" />
@@ -254,6 +276,14 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="ExamId" Type="int" Nullable="false" />
           <Property Name="EgeMin" Type="float" />
         </EntityType>
+        <EntityType Name="ExamInEntryBlockUnitTimetable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExamInEntryBlockUnitId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExamBaseTimetableId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ExamName">
           <Key>
             <PropertyRef Name="Id" />
@@ -271,6 +301,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="Address" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="DateOfClose" Type="datetime" Nullable="false" />
           <Property Name="BaseExamTimeTableId" Type="int" />
+          <Property Name="ExamBaseTimetableId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1060,7 +1091,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
           <Property Name="DateReviewDocs" Type="datetime" />
           <Property Name="SemesterId" Type="int" Nullable="false" />
           <Property Name="IsParallel" Type="bit" Nullable="false" />
-          <Property Name="DateOfClose" Type="datetime" />
+          <Property Name="DateOfClose" Type="smalldatetime" />
           <Property Name="CampaignYear" Type="int" Nullable="false" />
           <Property Name="ObrazProgramNameEng" Type="nvarchar" MaxLength="1000" />
           <Property Name="LicenseProgramNameEng" Type="nvarchar" MaxLength="1000" />
@@ -1090,6 +1121,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
           <Property Name="Surname" Type="nvarchar" MaxLength="150" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" />
           <Property Name="SecondName" Type="nvarchar" MaxLength="150" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="452" />
           <Property Name="Sex" Type="bit" Nullable="false" />
           <Property Name="BirthDate" Type="date" />
         </EntityType>
@@ -1526,32 +1558,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ApplicationSelectedExam_Application">
-          <End Role="Application" Type="Self.Application" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ApplicationSelectedExam" Type="Self.ApplicationSelectedExam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Application">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ApplicationSelectedExam">
-              <PropertyRef Name="ApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ApplicationSelectedExam_ExamTimetable">
-          <End Role="ExamTimetable" Type="Self.ExamTimetable" Multiplicity="0..1" />
-          <End Role="ApplicationSelectedExam" Type="Self.ApplicationSelectedExam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ExamTimetable">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ApplicationSelectedExam">
-              <PropertyRef Name="ExamTimetableId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Country_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="1" />
           <End Role="Country" Type="Self.Country" Multiplicity="*" />
@@ -1749,7 +1755,9 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Olympiads_Person">
-          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Olympiads" Type="Self.Olympiads" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Person">
@@ -2378,6 +2386,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="ApplicationDetails" EntityType="Self.ApplicationDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationFile" EntityType="Self.ApplicationFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationSelectedExam" EntityType="Self.ApplicationSelectedExam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationSelectedTimetable" EntityType="Self.ApplicationSelectedTimetable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationVersion" EntityType="Self.ApplicationVersion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationVersionDetails" EntityType="Self.ApplicationVersionDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comission" EntityType="Self.Comission" Schema="dbo" store:Type="Tables" />
@@ -2386,8 +2395,10 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="EgeExam" EntityType="Self.EgeExam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EgeMark" EntityType="Self.EgeMark" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Exam" EntityType="Self.Exam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamBaseTimetable" EntityType="Self.ExamBaseTimetable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamInEntryBlock" EntityType="Self.ExamInEntryBlock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamInEntryBlockUnit" EntityType="Self.ExamInEntryBlockUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamInEntryBlockUnitTimetable" EntityType="Self.ExamInEntryBlockUnitTimetable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamName" EntityType="Self.ExamName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExamTimetable" EntityType="Self.ExamTimetable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FileType" EntityType="Self.FileType" Schema="dbo" store:Type="Tables" />
@@ -2524,6 +2535,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
     [Abiturient].[Surname] AS [Surname], 
     [Abiturient].[Name] AS [Name], 
     [Abiturient].[SecondName] AS [SecondName], 
+    [Abiturient].[FIO] AS [FIO], 
     [Abiturient].[Sex] AS [Sex], 
     [Abiturient].[BirthDate] AS [BirthDate]
     FROM [dbo].[Abiturient] AS [Abiturient]</DefiningQuery>
@@ -2774,14 +2786,6 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <AssociationSet Name="FK_ApplicationDetails_ObrazProgramInEntry" Association="Self.FK_ApplicationDetails_ObrazProgramInEntry">
             <End Role="InnerEntryInEntry" EntitySet="InnerEntryInEntry" />
             <End Role="ApplicationDetails" EntitySet="ApplicationDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ApplicationSelectedExam_Application" Association="Self.FK_ApplicationSelectedExam_Application">
-            <End Role="Application" EntitySet="Application" />
-            <End Role="ApplicationSelectedExam" EntitySet="ApplicationSelectedExam" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ApplicationSelectedExam_ExamTimetable" Association="Self.FK_ApplicationSelectedExam_ExamTimetable">
-            <End Role="ExamTimetable" EntitySet="ExamTimetable" />
-            <End Role="ApplicationSelectedExam" EntitySet="ApplicationSelectedExam" />
           </AssociationSet>
           <AssociationSet Name="FK_Country_Region" Association="Self.FK_Country_Region">
             <End Role="Region" EntitySet="Region" />
@@ -3168,6 +3172,9 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Application" Relationship="Self.FK_ApplicationSelectedExam_Application" FromRole="ApplicationSelectedExam" ToRole="Application" />
           <NavigationProperty Name="ExamTimetable" Relationship="Self.FK_ApplicationSelectedExam_ExamTimetable" FromRole="ApplicationSelectedExam" ToRole="ExamTimetable" />
+          <Property Name="CommitId" Type="Guid" />
+          <Property Name="ExamBaseTimetableId" Type="Int32" />
+          <Property Name="ExamId" Type="Int32" />
         </EntityType>
         <EntityType Name="ApplicationVersion">
           <Key>
@@ -3290,6 +3297,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <NavigationProperty Name="ApplicationSelectedExam" Relationship="Self.FK_ApplicationSelectedExam_ExamTimetable" FromRole="ExamTimetable" ToRole="ApplicationSelectedExam" />
           <NavigationProperty Name="ExamInEntryBlockUnit" Relationship="Self.FK_ExamTimetable_ExamInEntryBlockUnit" FromRole="ExamTimetable" ToRole="ExamInEntryBlockUnit" />
           <Property Name="BaseExamTimeTableId" Type="Int32" />
+          <Property Name="ExamBaseTimetableId" Type="Int32" />
         </EntityType>
         <EntityType Name="Groups">
           <Key>
@@ -4061,7 +4069,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="DateReviewDocs" Type="DateTime" Precision="3" />
           <Property Name="SemesterId" Type="Int32" Nullable="false" />
           <Property Name="IsParallel" Type="Boolean" Nullable="false" />
-          <Property Name="DateOfClose" Type="DateTime" Precision="3" />
+          <Property Name="DateOfClose" Type="DateTime" Precision="0" />
           <Property Name="CampaignYear" Type="Int32" Nullable="false" />
           <Property Name="ObrazProgramNameEng" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="LicenseProgramNameEng" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -4093,6 +4101,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="SecondName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Sex" Type="Boolean" Nullable="false" />
           <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="FIO" Type="String" MaxLength="452" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Entry">
           <Key>
@@ -5626,6 +5635,9 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="FileType" EntityType="OnlinePriem2015Model.FileType" />
           <EntitySet Name="ApplicationFile" EntityType="OnlinePriem2015Model.ApplicationFile" />
           <EntitySet Name="FZ_152_AgreeLog" EntityType="OnlinePriem2015Model.FZ_152_AgreeLog" />
+          <EntitySet Name="ExamBaseTimetable" EntityType="OnlinePriem2015Model.ExamBaseTimetable" />
+          <EntitySet Name="ExamInEntryBlockUnitTimetable" EntityType="OnlinePriem2015Model.ExamInEntryBlockUnitTimetable" />
+          <EntitySet Name="ApplicationSelectedTimetable" EntityType="OnlinePriem2015Model.ApplicationSelectedTimetable" />
         </EntityContainer>
         <EntityType Name="Comission">
           <Key>
@@ -5948,6 +5960,33 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="Parent_WorkPosition" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Request_Path" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="ExamBaseTimetable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExamDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfClose" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExamId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExamInEntryBlockUnitTimetable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExamInEntryBlockUnitId" Type="Guid" Nullable="false" />
+          <Property Name="ExamBaseTimetableId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ApplicationSelectedTimetable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommitId" Type="Guid" Nullable="false" />
+          <Property Name="ExamBaseTimetableId" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6067,6 +6106,9 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="ApplicationSelectedExam">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.ApplicationSelectedExam">
               <MappingFragment StoreEntitySet="ApplicationSelectedExam">
+                <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+                <ScalarProperty Name="ExamBaseTimetableId" ColumnName="ExamBaseTimetableId" />
+                <ScalarProperty Name="CommitId" ColumnName="CommitId" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="ExamInEntryBlockUnitId" ColumnName="ExamInEntryBlockUnitId" />
                 <ScalarProperty Name="ExamTimetableId" ColumnName="ExamTimetableId" />
@@ -6183,6 +6225,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="ExamTimetable">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.ExamTimetable">
               <MappingFragment StoreEntitySet="ExamTimetable">
+                <ScalarProperty Name="ExamBaseTimetableId" ColumnName="ExamBaseTimetableId" />
                 <ScalarProperty Name="BaseExamTimeTableId" ColumnName="BaseExamTimeTableId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ExamInEntryBlockUnitId" ColumnName="ExamInEntryBlockUnitId" />
@@ -6825,6 +6868,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="Abiturient">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.Abiturient">
               <MappingFragment StoreEntitySet="Abiturient">
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
                 <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="SecondName" ColumnName="SecondName" />
@@ -7290,6 +7334,36 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="OrdId" ColumnName="OrdId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExamBaseTimetable">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.ExamBaseTimetable">
+              <MappingFragment StoreEntitySet="ExamBaseTimetable">
+                <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+                <ScalarProperty Name="DateOfClose" ColumnName="DateOfClose" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ExamDate" ColumnName="ExamDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExamInEntryBlockUnitTimetable">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.ExamInEntryBlockUnitTimetable">
+              <MappingFragment StoreEntitySet="ExamInEntryBlockUnitTimetable">
+                <ScalarProperty Name="ExamBaseTimetableId" ColumnName="ExamBaseTimetableId" />
+                <ScalarProperty Name="ExamInEntryBlockUnitId" ColumnName="ExamInEntryBlockUnitId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationSelectedTimetable">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.ApplicationSelectedTimetable">
+              <MappingFragment StoreEntitySet="ApplicationSelectedTimetable">
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="ExamBaseTimetableId" ColumnName="ExamBaseTimetableId" />
+                <ScalarProperty Name="CommitId" ColumnName="CommitId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

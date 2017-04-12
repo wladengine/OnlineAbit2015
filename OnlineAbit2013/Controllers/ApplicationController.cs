@@ -761,20 +761,7 @@ namespace OnlineAbit2013.Controllers
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                //bool isAg = false;
                 bool? isEnabled = context.Application.Where(x => x.CommitId == CommitId && x.PersonId == PersonId).Select(x => (bool?)x.Enabled).FirstOrDefault();
-
-                //if (!isEnabled.HasValue)
-                //{
-                //    isEnabled = context.AG_Application.Where(x => x.CommitId == CommitId && x.PersonId == PersonId).Select(x => (bool?)x.Enabled).FirstOrDefault();
-                //    if (!isEnabled.HasValue)
-                //    {
-                //        var res = new { IsOk = false, ErrorMessage = "Ошибка при поиске заявления. Попробуйте обновить страницу" };
-                //        return Json(res);
-                //    }
-                //    else
-                //        isAg = true;
-                //}
 
                 if (isEnabled.HasValue && isEnabled.Value == false)
                 {
@@ -789,8 +776,10 @@ namespace OnlineAbit2013.Controllers
                     
                     string query = string.Format("DELETE FROM [Application] WHERE CommitId=@Id");
                     SortedList<string, object> dic = new SortedList<string, object>();
-                    dic.Add("@Id", CommitId);
+                    dic.Add("@Id", CommitId); 
+                    Util.AbitDB.ExecuteQuery(query, dic);
 
+                    query = string.Format("DELETE FROM [ApplicationSelectedTimetable] WHERE CommitId=@Id");
                     Util.AbitDB.ExecuteQuery(query, dic);
 
                     var res = new { IsOk = true, Enabled = false};
@@ -1276,14 +1265,14 @@ namespace OnlineAbit2013.Controllers
             return Json(new { IsOk = true });
         }
 
-        public ActionResult ExamsTimetable(string id)
+       /* public ActionResult ExamsTimetable(string id)
         {
             Guid personId;
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
                 return RedirectToAction("LogOn", "Account");
 
-            Guid ApplicationId = new Guid();
-            if (!Guid.TryParse(id, out ApplicationId))
+            Guid CommitId = new Guid();
+            if (!Guid.TryParse(id, out CommitId))
                 return RedirectToAction("Main", "Abiturient");
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
@@ -1298,7 +1287,7 @@ namespace OnlineAbit2013.Controllers
                             join se in context.ApplicationSelectedExam on new { AppId = app.Id, unitId = un.Id } equals new { AppId = se.ApplicationId, unitId = se.ExamInEntryBlockUnitId } into _se
                             from sexam in _se.DefaultIfEmpty()
 
-                            where app.CommitId == ApplicationId
+                            where app.CommitId == CommitId
                             select new
                             {
                                AppId =  app.Id,
@@ -1331,7 +1320,7 @@ namespace OnlineAbit2013.Controllers
                            }).ToList();
 
                 ApplicationExamsTimeTableModel model = new ApplicationExamsTimeTableModel();
-                model.gCommId = ApplicationId;
+                model.gCommId = CommitId;
                 model.Comment = "";
                 model.lst = lst.Where(x=>x.lstTimeTable.Count>0).Select(x => new AppExamsTimeTable
                            {
@@ -1401,7 +1390,101 @@ namespace OnlineAbit2013.Controllers
                 }
                 return View(model);
             }
+        }*/
+        public ActionResult ExamsTimetable(string id)
+        {
+            Guid personId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out personId))
+                return RedirectToAction("LogOn", "Account");
+
+            Guid CommitId = new Guid();
+            if (!Guid.TryParse(id, out CommitId))
+                return RedirectToAction("Main", "Abiturient");
+
+            using (OnlinePriemEntities context = new OnlinePriemEntities())
+            {
+                var apps = (from app in context.Application
+                            join bl in context.ExamInEntryBlock on app.EntryId equals bl.EntryId
+                            join un in context.ExamInEntryBlockUnit on bl.Id equals un.ExamInEntryBlockId
+
+                            join ex in context.Exam on un.ExamId equals ex.Id
+                            join exn in context.ExamName on ex.ExamNameId equals exn.Id
+
+                            join se in context.ApplicationSelectedExam on new { AppId = app.Id, unitId = un.Id } equals new { AppId = se.ApplicationId, unitId = se.ExamInEntryBlockUnitId } into _se
+                            from sexam in _se.DefaultIfEmpty()
+
+                            where app.CommitId == CommitId
+                            select new
+                            {
+                                AppId = app.Id,
+                                BlockId = bl.Id,
+                                UnitId = un.Id,
+                                ExamId = un.ExamId,
+                                SelExam = (sexam == null) ? false : un.Id == sexam.ExamInEntryBlockUnitId,
+                                ExamName = exn.Name,
+                            }).ToList();
+                // получили список юнитов в блоках 
+
+                var Temp_lst = (from a in apps
+                                group a by a.BlockId into Apps
+                                // если в блоке только 1 юнит (выбирать не из чего) или есть выбранный юнит
+                                where Apps.Count() == 1 || Apps.Where(x => x.SelExam).Count() > 0
+                                select new
+                                {
+                                    UnitId = Apps.Count() == 1 ? Apps.Select(x => x.UnitId).FirstOrDefault() : Apps.Where(x => x.SelExam).Select(x => x.UnitId).FirstOrDefault(),
+                                    ExamId = Apps.Count() == 1 ? Apps.Select(x => x.ExamId).FirstOrDefault() : Apps.Where(x => x.SelExam).Select(x => x.ExamId).FirstOrDefault(),
+                                    ExamName = Apps.Count() == 1 ? Apps.Select(x => x.ExamName).FirstOrDefault() : Apps.Where(x => x.SelExam).Select(x => x.ExamName).FirstOrDefault(),
+                                }).ToList();
+                var lst = (from a in Temp_lst
+                           group a by a.ExamId into _a
+                           select new
+                           {
+                               ExamId = _a.Key,
+                               ExamName = _a.First().ExamName, 
+                               Units = _a.Select(x=>x.UnitId).ToList(),
+                           }).Distinct().ToList();
+
+                ApplicationExamsTimeTableModel model = new ApplicationExamsTimeTableModel();
+                model.gCommId = CommitId;
+                model.Comment = "";
+
+                model.lst = new List<AppExamsTimeTable>();
+                foreach (var ex in lst)
+                {
+                    // все расписание по выбранному экзамену
+                    List<ExamTtable> tt = (from x in context.ExamInEntryBlockUnitTimetable
+                              join un in context.ExamInEntryBlockUnit on x.ExamInEntryBlockUnitId equals un.Id
+                              join bTT in context.ExamBaseTimetable on x.ExamBaseTimetableId equals bTT.Id
+
+                              join se in context.ApplicationSelectedTimetable on
+                                                         new { CommId = CommitId, bTTId = bTT.Id } equals
+                                                         new { CommId = se.CommitId, bTTId = se.ExamBaseTimetableId } into _se
+                              from sexam in _se.DefaultIfEmpty()
+
+                              where ex.ExamId == un.ExamId
+                              && ex.Units.Contains(un.Id)
+                              select new ExamTtable
+                              {
+                                  Id = bTT.Id,
+                                  ExamDate = bTT.ExamDate,
+                                  Address = bTT.Address,
+                                  isSelected = (sexam != null),
+                                  isEnable = true,
+                                  DateOfClose = bTT.DateOfClose,
+                              }).Distinct().ToList();
+
+                    model.lst.Add(new AppExamsTimeTable()
+                        {
+                            ExamId = ex.ExamId,
+                            ExamName = ex.ExamName,
+                            lstTimeTable = tt,
+                        });
+                }
+
+                return View(model);
+            }
         }
+
 
         [HttpPost]
         public ActionResult ExamsTimetableSave(string id)
@@ -1429,6 +1512,7 @@ namespace OnlineAbit2013.Controllers
                                 AppId = app.Id,
                                 BlockId = bl.Id,
                                 UnitId = un.Id,
+                                ExamId = un.ExamId,
                                 SelExam = (sexam == null) ? false : un.Id == sexam.ExamInEntryBlockUnitId,
                                 SelTT = (sexam == null) ? -1 : sexam.ExamTimetableId,
                             }).ToList();
@@ -1438,32 +1522,34 @@ namespace OnlineAbit2013.Controllers
                                 where Apps.Count() == 1 || Apps.Where(x => x.SelExam).Count() > 0
                                 select new
                                 {
-                                    AppId = Apps.Select(x => x.AppId).FirstOrDefault(),
-                                    UnitId = Apps.Count() == 1 ? Apps.Select(x => x.UnitId).FirstOrDefault() : Apps.Where(x => x.SelExam).Select(x => x.UnitId).FirstOrDefault(),
+                                    ExamId = Apps.Count() == 1 ? Apps.Select(x => x.ExamId).FirstOrDefault() : Apps.Where(x => x.SelExam).Select(x => x.ExamId).FirstOrDefault(),
                                     TimeTableId = Apps.Count() == 1 ? Apps.Select(x => x.SelTT).FirstOrDefault() : Apps.Where(x => x.SelExam).Select(x => x.SelTT).FirstOrDefault(),
-                                }).ToList();
+                                }).Distinct().ToList();
 
                 foreach (var ap in Temp_lst)
                 {
-                    string val = (Request.Form["app_" + ap.UnitId.ToString()]);
+                    string val = (Request.Form["app_" + ap.ExamId.ToString()]);
                     int TTid;
                     if (int.TryParse(val, out TTid))
                     {
-                        var SelExam = context.ApplicationSelectedExam.Where(x => x.ApplicationId == ap.AppId && x.ExamInEntryBlockUnitId == ap.UnitId).FirstOrDefault();
+                        ApplicationSelectedTimetable SelExam = (from x in context.ApplicationSelectedTimetable
+                                       join bTT in context.ExamBaseTimetable on x.ExamBaseTimetableId equals bTT.Id
+                                       where x.CommitId == gCommitId && bTT.ExamId == ap.ExamId
+                                       select x).FirstOrDefault();
+
                         bool bExamExists = true;
                         if (SelExam == null)
                         {
                             bExamExists = false;
-                            SelExam = new ApplicationSelectedExam();
-                            SelExam.ApplicationId = ap.AppId;
-                            SelExam.ExamInEntryBlockUnitId = ap.UnitId;
+                            SelExam = new ApplicationSelectedTimetable();
+                            SelExam.CommitId = gCommitId;
                         }
 
-                        SelExam.ExamTimetableId = TTid;
+                        SelExam.ExamBaseTimetableId = TTid;
                         SelExam.RegistrationDate = DateTime.Now;
 
                         if (!bExamExists)
-                            context.ApplicationSelectedExam.Add(SelExam);
+                            context.ApplicationSelectedTimetable.Add(SelExam);
 
                         context.SaveChanges();
                     }
@@ -1485,16 +1571,11 @@ namespace OnlineAbit2013.Controllers
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
-                var apps = (from app in context.Application
-                            join se in context.ApplicationSelectedExam on  app.Id equals se.ApplicationId 
-                            where app.CommitId == gCommitId
+                var apps = (from se in context.ApplicationSelectedTimetable
+                            where se.CommitId == gCommitId
                             select se).ToList();
-                foreach (var exam in apps)
-                {
-                    exam.ExamTimetableId = null;
-                    exam.RegistrationDate = null;
-                    context.SaveChanges();
-                }
+                context.ApplicationSelectedTimetable.RemoveRange(apps);
+                context.SaveChanges();
             }
             return RedirectToAction("ExamsTimetable", new RouteValueDictionary() { { "id", gCommitId.ToString("N") } });
         }

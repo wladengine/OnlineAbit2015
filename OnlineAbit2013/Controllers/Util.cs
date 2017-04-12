@@ -2189,13 +2189,9 @@ ORDER by Semester.Id";
              {
                  var Exams =
                         (from examblock in context.ExamInEntryBlock
-
                          join examunit in context.ExamInEntryBlockUnit on examblock.Id equals examunit.ExamInEntryBlockId
-
                          join exam in context.Exam on examunit.ExamId equals exam.Id
-
                          join examname in context.ExamName on exam.ExamNameId equals examname.Id
-
                          join app in context.Application on examblock.EntryId equals app.EntryId into _App
                          from App in _App.DefaultIfEmpty()
 
@@ -2240,8 +2236,16 @@ ORDER by Semester.Id";
                                 ExamInBlockList = x.ExamInBlockList,
                                 SelectedExamInBlockId = x.SelectedExamInBlockId,
                                 isVisible = x.isVisible,
-                                HasExamTimeTable = context.ExamTimetable.Where(t=>t.ExamInEntryBlockUnitId == x.SelectedExamInBlockId && t.DateOfClose >= DateTime.Now).Count()>0,
+                                HasExamTimeTable = false,
                             }).ToList(); 
+                 foreach (var exBlock in examsblock)
+                 {
+                     exBlock.HasExamTimeTable  = (from x in context.ExamInEntryBlockUnitTimetable
+                                                  join xx in context.ExamBaseTimetable on x.ExamBaseTimetableId equals xx.Id
+                                                  where x.ExamInEntryBlockUnitId == exBlock.SelectedExamInBlockId 
+                                                  && xx.DateOfClose >= DateTime.Now
+                                                  select x).Count()>0;
+                 }
                  return examsblock;
             }
         }

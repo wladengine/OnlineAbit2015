@@ -167,6 +167,9 @@
         <EntityTypeShape EntityType="OnlinePriem2015Model.FileType" Width="1.5" PointX="10.625" PointY="4.75" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationFile" Width="1.5" PointX="23.375" PointY="10.75" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.FZ_152_AgreeLog" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ExamBaseTimetable" Width="1.5" PointX="23.625" PointY="15.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ExamInEntryBlockUnitTimetable" Width="1.5" PointX="24.625" PointY="0.75" />
+        <EntityTypeShape EntityType="OnlinePriem2015Model.ApplicationSelectedTimetable" Width="1.5" PointX="24.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

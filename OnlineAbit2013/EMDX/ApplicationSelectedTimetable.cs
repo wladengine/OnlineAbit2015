@@ -12,17 +12,11 @@ namespace OnlineAbit2013.EMDX
     using System;
     using System.Collections.Generic;
     
-    public partial class ApplicationSelectedExam
+    public partial class ApplicationSelectedTimetable
     {
-        public System.Guid ApplicationId { get; set; }
-        public System.Guid ExamInEntryBlockUnitId { get; set; }
-        public Nullable<int> ExamTimetableId { get; set; }
+        public int Id { get; set; }
+        public System.Guid CommitId { get; set; }
+        public int ExamBaseTimetableId { get; set; }
         public Nullable<System.DateTime> RegistrationDate { get; set; }
-        public Nullable<System.Guid> CommitId { get; set; }
-        public Nullable<int> ExamBaseTimetableId { get; set; }
-        public Nullable<int> ExamId { get; set; }
-    
-        public virtual Application Application { get; set; }
-        public virtual ExamTimetable ExamTimetable { get; set; }
     }
 }

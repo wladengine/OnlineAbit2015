@@ -81,5 +81,6 @@ namespace OnlineAbit2013.EMDX
         public string SecondName { get; set; }
         public bool Sex { get; set; }
         public Nullable<System.DateTime> BirthDate { get; set; }
+        public string FIO { get; set; }
     }
 }

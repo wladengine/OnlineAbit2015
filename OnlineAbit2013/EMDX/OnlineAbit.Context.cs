@@ -112,6 +112,9 @@ namespace OnlineAbit2013.EMDX
         public virtual DbSet<FileType> FileType { get; set; }
         public virtual DbSet<ApplicationFile> ApplicationFile { get; set; }
         public virtual DbSet<FZ_152_AgreeLog> FZ_152_AgreeLog { get; set; }
+        public virtual DbSet<ExamBaseTimetable> ExamBaseTimetable { get; set; }
+        public virtual DbSet<ExamInEntryBlockUnitTimetable> ExamInEntryBlockUnitTimetable { get; set; }
+        public virtual DbSet<ApplicationSelectedTimetable> ApplicationSelectedTimetable { get; set; }
     
         public virtual int PersonEducationDocument_delete(Nullable<System.Guid> personId, Nullable<int> id)
         {

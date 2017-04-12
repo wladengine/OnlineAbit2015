@@ -27,8 +27,10 @@
     }
 </script>
 <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.11.js"></script>
+
+
      <div class="message info">
-         Регистрация на экзамены
+     <a href ="../../Application/Index/<%=Model.gCommId.ToString("N") %>">Заявление</a> >   Регистрация на экзамены
      </div>
     <%if (!string.IsNullOrEmpty(Model.Comment)){ %>
     <div class="message error">
@@ -38,16 +40,20 @@
     <form action="/Application/ExamsTimetableSave?id=<%=Model.gCommId %>" method="post" name ="examssave">
     <% foreach (var app in Model.lst) {%>
         <div>
-        <h4><%=app.ExamInEntryBlockUnitName %></h4>
-        <%foreach (var exam in app.lstTimeTable) { %>
+        <h4><%=app.ExamName %></h4>
+        <%foreach (var bTT in app.lstTimeTable) { %>
         <div class ="info panel" style="margin:6px;">
-            <input type="radio" value="<%=exam.Id%>" name ="app_<%=app.ExamInEntryBockUnitId.ToString()%>" <% if (app.SelectedTimeTableId == exam.Id) { %>checked ="checked"<% }  %>
-              <% if (!exam.isEnable) { %>disabled ="disabled"<% }  %> 
+            <input type="radio" value="<%=bTT.Id%>" name ="app_<%=app.ExamId.ToString()%>" <% if (bTT.isSelected)
+                 { %>checked ="checked"<% }  %>
+              <% if (!bTT.isEnable)
+                 { %>disabled ="disabled"<% }  %> 
                 onclick="Send();" />
-            <% if (!exam.isEnable) { %><span style="opacity: 0.6;"> <%} %>
-            <b><% = exam.ExamDate.ToString("dd.MM.yyyy HH:mm") %></b>
-            <br/> <% = exam.Address%><br/> 
-           <% if (!exam.isEnable) { %></span> <%} %>
+            <% if (!bTT.isEnable)
+               { %><span style="opacity: 0.6;"> <%} %>
+            <b><% = bTT.ExamDate.ToString("dd.MM.yyyy HH:mm") %></b>
+            <br/> <% = bTT.Address%><br/> 
+           <% if (!bTT.isEnable)
+              { %></span> <%} %>
         </div>
         
     <% } %>
