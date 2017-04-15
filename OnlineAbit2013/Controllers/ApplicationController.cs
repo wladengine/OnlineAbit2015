@@ -1423,8 +1423,8 @@ namespace OnlineAbit2013.Controllers
                                 SelExam = (sexam == null) ? false : un.Id == sexam.ExamInEntryBlockUnitId,
                                 ExamName = exn.Name,
                             }).ToList();
-                // получили список юнитов в блоках 
 
+                // получили список юнитов в блоках 
                 var Temp_lst = (from a in apps
                                 group a by a.BlockId into Apps
                                 // если в блоке только 1 юнит (выбирать не из чего) или есть выбранный юнит
@@ -1474,11 +1474,11 @@ namespace OnlineAbit2013.Controllers
                               }).Distinct().ToList();
 
                     model.lst.Add(new AppExamsTimeTable()
-                        {
-                            ExamId = ex.ExamId,
-                            ExamName = ex.ExamName,
-                            lstTimeTable = tt,
-                        });
+                    {
+                        ExamId = ex.ExamId,
+                        ExamName = ex.ExamName,
+                        lstTimeTable = tt,
+                    });
                 }
 
                 return View(model);

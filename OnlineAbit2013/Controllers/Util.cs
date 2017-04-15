@@ -1253,28 +1253,46 @@ namespace OnlineAbit2013.Controllers
             {
                 outCookies["sid"].Value = sid;
                 outCookies["sid"].Path = "/";
-                outCookies["sid"].Expires = !createPersistCookie ? usrTime.AddHours(3) : usrTime.AddYears(2);
+                if (createPersistCookie)
+                    outCookies["sid"].Expires = usrTime.AddYears(2);
             }
             else
-                outCookies.Add(new HttpCookie("sid") { Path = "/", Value = sid, Expires = createPersistCookie ? usrTime.AddHours(3) : usrTime.AddYears(2) });
+            {
+                var cookie = new HttpCookie("sid") { Path = "/", Value = sid };
+                if (createPersistCookie)
+                    cookie.Expires = usrTime.AddYears(2);
+                outCookies.Add(cookie);
+            }
 
             if (outCookies["t"] != null)
             {
                 outCookies["t"].Value = ticket;
                 outCookies["t"].Path = "/";
-                outCookies["t"].Expires = !createPersistCookie ? usrTime.AddHours(3) : usrTime.AddYears(2);
+                if (createPersistCookie)
+                    outCookies["t"].Expires = usrTime.AddYears(2);
             }
             else
-                outCookies.Add(new HttpCookie("t") { Path = "/", Value = ticket, Expires = !createPersistCookie ? usrTime.AddHours(3) : usrTime.AddYears(2) });
+            {
+                var cookie = new HttpCookie("t") { Path = "/", Value = ticket };
+                if (createPersistCookie)
+                    cookie.Expires = usrTime.AddYears(2);
+                outCookies.Add(cookie);
+            }
 
             if (outCookies["uilang"] != null)
             {
                 outCookies["uilang"].Value = GetUILang(userId);
                 outCookies["uilang"].Path = "/";
-                outCookies["uilang"].Expires = !createPersistCookie ? usrTime.AddHours(3) : usrTime.AddYears(2);
+                if (createPersistCookie)
+                    outCookies["uilang"].Expires = usrTime.AddYears(2);
             }
             else
-                outCookies.Add(new HttpCookie("uilang") { Path = "/", Value = ticket, Expires = !createPersistCookie ? usrTime.AddHours(3) : usrTime.AddYears(2) });
+            {
+                var cookie = new HttpCookie("uilang") { Path = "/", Value = ticket };
+                if (createPersistCookie)
+                    cookie.Expires = usrTime.AddYears(2);
+                outCookies.Add(cookie);
+            }
         }
 
         public static bool StrCmp(this string source, string str)

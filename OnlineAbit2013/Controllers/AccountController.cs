@@ -19,7 +19,6 @@ namespace OnlineAbit2013.Controllers
 
         //
         // GET: /Account/LogOn
-
         public ActionResult LogOn()
         {
             if (Request.Url.AbsoluteUri.IndexOf("https://", StringComparison.OrdinalIgnoreCase) == -1 && Util.bUseRedirection &&
@@ -78,9 +77,7 @@ namespace OnlineAbit2013.Controllers
             return View("LogOnForeign");
         }
 
-        //
         // POST: /Account/LogOn
-
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl)
         {
@@ -237,7 +234,6 @@ namespace OnlineAbit2013.Controllers
             return View("LogOnForeign", model);
         }
 
-        //
         // GET: /Account/LogOff
         public ActionResult LogOff()
         {
@@ -284,7 +280,6 @@ namespace OnlineAbit2013.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //
         // GET: /Account/Register
         [OutputCache(Duration = 0, NoStore = false)]
         public ActionResult Register()
@@ -442,11 +437,7 @@ namespace OnlineAbit2013.Controllers
             return View("EmailConfirmation", mdl);
         }
 
-        
-
-        //
         // GET: /Account/ChangePassword
-
         [Authorize]
         public ActionResult ChangePassword()
         {
@@ -454,9 +445,7 @@ namespace OnlineAbit2013.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ChangePassword
-
         [Authorize]
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
@@ -551,9 +540,7 @@ namespace OnlineAbit2013.Controllers
             return View("ChangePasswordSuccess");
         }
 
-        //
         // GET: /Account/ChangePasswordSuccess
-
         public ActionResult ChangePasswordSuccess()
         {
             Util.SetThreadCultureByCookies(Request.Cookies);
