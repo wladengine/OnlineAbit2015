@@ -1539,7 +1539,7 @@ namespace OnlineAbit2013.Controllers
                         ApplicationSelectedTimetable SelExam = (SelExams == null || SelExams.Count == 0) ? new ApplicationSelectedTimetable() : SelExams.First();
                         
                         bool bExamExists = true;
-                        if (SelExams == null)
+                        if (SelExams == null || SelExams.Count == 0)
                         {
                             bExamExists = false;
                             SelExam.CommitId = gCommitId;
