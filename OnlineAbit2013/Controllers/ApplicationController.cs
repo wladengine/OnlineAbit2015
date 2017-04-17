@@ -1536,7 +1536,7 @@ namespace OnlineAbit2013.Controllers
                                        join bTT in context.ExamBaseTimetable on x.ExamBaseTimetableId equals bTT.Id
                                        where x.CommitId == gCommitId && bTT.ExamId == ap.ExamId
                                        select x).ToList();
-                        ApplicationSelectedTimetable SelExam = (SelExams == null) ? new ApplicationSelectedTimetable() : SelExams.First();
+                        ApplicationSelectedTimetable SelExam = (SelExams == null || SelExams.Count == 0) ? new ApplicationSelectedTimetable() : SelExams.First();
                         
                         bool bExamExists = true;
                         if (SelExams == null)
