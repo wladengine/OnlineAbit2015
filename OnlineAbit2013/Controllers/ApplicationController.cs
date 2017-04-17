@@ -1532,21 +1532,24 @@ namespace OnlineAbit2013.Controllers
                     int TTid;
                     if (int.TryParse(val, out TTid))
                     {
-                        ApplicationSelectedTimetable SelExam = (from x in context.ApplicationSelectedTimetable
+                        List<ApplicationSelectedTimetable> SelExams = (from x in context.ApplicationSelectedTimetable
                                        join bTT in context.ExamBaseTimetable on x.ExamBaseTimetableId equals bTT.Id
                                        where x.CommitId == gCommitId && bTT.ExamId == ap.ExamId
-                                       select x).FirstOrDefault();
-
+                                       select x).ToList();
+                        ApplicationSelectedTimetable SelExam = (SelExams == null) ? new ApplicationSelectedTimetable() : SelExams.First();
+                        
                         bool bExamExists = true;
-                        if (SelExam == null)
+                        if (SelExams == null)
                         {
                             bExamExists = false;
-                            SelExam = new ApplicationSelectedTimetable();
                             SelExam.CommitId = gCommitId;
                         }
 
                         SelExam.ExamBaseTimetableId = TTid;
                         SelExam.RegistrationDate = DateTime.Now;
+
+                        if (SelExams != null)
+                            context.ApplicationSelectedTimetable.RemoveRange(SelExams.Where(x => x.Id != SelExam.Id).ToList());
 
                         if (!bExamExists)
                             context.ApplicationSelectedTimetable.Add(SelExam);
