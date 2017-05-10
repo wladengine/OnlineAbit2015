@@ -189,6 +189,7 @@ namespace OnlineAbit2013.Controllers
             return View(model);
         }
 
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult SendMessage(Dialog Model)
         {
@@ -201,7 +202,6 @@ namespace OnlineAbit2013.Controllers
             Guid gDialogId;
             if (!Guid.TryParse(Model.DialogId, out gDialogId))
                 return Json(OK);
-
             
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
@@ -209,14 +209,12 @@ namespace OnlineAbit2013.Controllers
                 if (Dialog == null)
                     return Json(OK);
 
-               
-
                 Guid MessageId = Guid.NewGuid();
                 context.InboxMessage.Add(new InboxMessage()
                 {
                     Id = MessageId,
                     UserId = personId,
-                    Text = Model.NewMessage,
+                    Text = HttpUtility.HtmlEncode(Model.NewMessage),
                     DialogId = gDialogId,
                 });
 
