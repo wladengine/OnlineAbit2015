@@ -12,11 +12,12 @@ namespace OnlineAbit2013.EMDX
     using System;
     using System.Collections.Generic;
     
-    public partial class Groups
+    public partial class InboxDialog
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Decription { get; set; }
-        public string DefaultController { get; set; }
+        public System.Guid Id { get; set; }
+        public string Theme { get; set; }
+        public System.DateTime DateTime { get; set; }
+        public int StatusId { get; set; }
+        public bool HasAnswer { get; set; }
     }
 }

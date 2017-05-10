@@ -50,16 +50,27 @@ namespace OnlineAbit2013.Controllers
             }
             return sSortResult;
         }
+
+        public bool CheckUserGroup(Guid personId)
+        {
+            DataTable tblGroup = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
+                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
+            if (tblGroup.Rows.Count == 0)
+                return false;
+            else
+                return true;
+        }
+
         public ActionResult Index(string sort, string rf)
         {
             Guid personId;
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
                 return RedirectToAction("LogOn", "Account");
-            
-            DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
-                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
-            if (tbl.Rows.Count == 0)
+
+            if (!CheckUserGroup(personId))
                 return RedirectToAction("Main", "Abiturient");
+
+
             List<string> sSortResult = GetSortOrder(sort);
             GlobalCommunicationModelApplicantList model = GetModelList(sSortResult, rf);
             return View(model);
@@ -181,9 +192,7 @@ namespace OnlineAbit2013.Controllers
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
                 return RedirectToAction("LogOn", "Account");
 
-            DataTable tblGroup = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
-                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
-            if (tblGroup.Rows.Count == 0)
+            if (!CheckUserGroup(personId))
                 return RedirectToAction("Main", "Abiturient");
 
             return RedirectToAction("Index");
@@ -196,9 +205,7 @@ namespace OnlineAbit2013.Controllers
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
                 return RedirectToAction("LogOn", "Account");
 
-            DataTable tblGroup = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
-                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
-            if (tblGroup.Rows.Count == 0)
+            if (!CheckUserGroup(personId))
                 return RedirectToAction("Main", "Abiturient");
 
             string sort = Request.Form["SortOrder"];
@@ -896,9 +903,7 @@ WHERE AP.PersonId=@PersonId and FileTypeId=18
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
                 return RedirectToAction("LogOn", "Account");
 
-            DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
-                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
-            if (tbl.Rows.Count == 0)
+            if (!CheckUserGroup(personId))
                 return RedirectToAction("Main", "Abiturient");
 
             List<string> sSortResult = new List<string>();
@@ -946,9 +951,7 @@ WHERE AP.PersonId=@PersonId and FileTypeId=18
             if (!Util.CheckAuthCookies(Request.Cookies, out personId))
                 return RedirectToAction("LogOn", "Account");
 
-            DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
-                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
-            if (tbl.Rows.Count == 0)
+            if (!CheckUserGroup(personId))
                 return RedirectToAction("Main", "Abiturient");
 
             List<string> sSortResult = new List<string>();

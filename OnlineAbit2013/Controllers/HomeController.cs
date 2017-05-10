@@ -21,10 +21,10 @@ namespace OnlineAbit2013.Controllers
                 return RedirectToAction("LogOn", "Account");
             else
             {
-                DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
-                new SortedList<string, object>() { { "@PersonId", g }, { "@GroupId", Util.GlobalCommunicationGroupId } });
+                DataTable tbl = Util.AbitDB.GetDataTable("SELECT top 1 DefaultController FROM dbo.GroupUsers join dbo.Groups on GroupUsers.GroupId=Groups.Id WHERE PersonId=@PersonId",
+                new SortedList<string, object>() { { "@PersonId", g } });
                 if (tbl.Rows.Count > 0)
-                    return RedirectToAction("Index", "Communication");
+                    return RedirectToAction("Index", tbl.Rows[0].Field<string>("DefaultController"));
 
                 return RedirectToAction("Main", "Abiturient");
             }

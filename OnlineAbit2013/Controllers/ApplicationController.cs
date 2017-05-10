@@ -1463,6 +1463,7 @@ namespace OnlineAbit2013.Controllers
 
                               where ex.ExamId == un.ExamId
                               && ex.Units.Contains(un.Id)
+                              && bTT.DateOfClose >=DateTime.Now
                               select new ExamTtable
                               {
                                   Id = bTT.Id,
@@ -1472,13 +1473,15 @@ namespace OnlineAbit2013.Controllers
                                   isEnable = true,
                                   DateOfClose = bTT.DateOfClose,
                               }).Distinct().ToList();
-
-                    model.lst.Add(new AppExamsTimeTable()
+                    if (tt.Count != 0)
                     {
-                        ExamId = ex.ExamId,
-                        ExamName = ex.ExamName,
-                        lstTimeTable = tt,
-                    });
+                        model.lst.Add(new AppExamsTimeTable()
+                        {
+                            ExamId = ex.ExamId,
+                            ExamName = ex.ExamName,
+                            lstTimeTable = tt,
+                        });
+                    }
                 }
 
                 return View(model);

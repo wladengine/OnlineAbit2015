@@ -371,6 +371,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Decription" Type="nvarchar" MaxLength="500" />
+          <Property Name="DefaultController" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="GroupUsers">
           <Key>
@@ -380,6 +381,54 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="GroupId" Type="int" Nullable="false" />
           <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="InboxDialog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Theme" Type="nvarchar" MaxLength="200" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="HasAnswer" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InboxDialogStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="InboxDialogUsers">
+          <Key>
+            <PropertyRef Name="OrdId" />
+          </Key>
+          <Property Name="OrdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DialogId" Type="uniqueidentifier" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="InboxMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DialogId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InboxMessageFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MessageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="FileSize" Type="int" Nullable="false" />
+          <Property Name="FileExtention" Type="nvarchar" MaxLength="50" />
+          <Property Name="LoadDate" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="MimeType" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="InnerEntryInEntry">
           <Key>
@@ -983,6 +1032,21 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="NameRus" Type="nvarchar" MaxLength="50" />
           <Property Name="ClassName" Type="nvarchar" MaxLength="5" />
           <Property Name="Duration" Type="int" />
+        </EntityType>
+        <EntityType Name="SupportOperatorProfile">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="500" />
+          <Property Name="ProfilePhotoId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="SupportProfilePhoto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -2427,6 +2491,11 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="FZ_152_AgreeLog" EntityType="Self.FZ_152_AgreeLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupUsers" EntityType="Self.GroupUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InboxDialog" EntityType="Self.InboxDialog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InboxDialogStatus" EntityType="Self.InboxDialogStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InboxDialogUsers" EntityType="Self.InboxDialogUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InboxMessage" EntityType="Self.InboxMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InboxMessageFile" EntityType="Self.InboxMessageFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InnerEntryInEntry" EntityType="Self.InnerEntryInEntry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LanguageCertificatesType" EntityType="Self.LanguageCertificatesType" Schema="dbo" store:Type="Tables" />
@@ -2475,6 +2544,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySet Name="StudyBasis" EntityType="Self.StudyBasis" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudyForm" EntityType="Self.StudyForm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudyLevel" EntityType="Self.StudyLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupportOperatorProfile" EntityType="Self.SupportOperatorProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupportProfilePhoto" EntityType="Self.SupportProfilePhoto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VuzAdditionalType" EntityType="Self.VuzAdditionalType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationSecondType" EntityType="Self.ApplicationSecondType" store:Type="Tables" store:Schema="dbo">
@@ -3320,6 +3391,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Decription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultController" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="GroupUsers">
           <Key>
@@ -5628,6 +5700,13 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             <End Role="ExamInEntryBlockUnit" EntitySet="ExamInEntryBlockUnit" />
             <End Role="ApplicationSelectedExam" EntitySet="ApplicationSelectedExam" />
           </AssociationSet>
+          <EntitySet Name="InboxDialog" EntityType="OnlinePriem2015Model.InboxDialog" />
+          <EntitySet Name="InboxDialogStatus" EntityType="OnlinePriem2015Model.InboxDialogStatus" />
+          <EntitySet Name="InboxDialogUsers" EntityType="OnlinePriem2015Model.InboxDialogUsers" />
+          <EntitySet Name="InboxMessage" EntityType="OnlinePriem2015Model.InboxMessage" />
+          <EntitySet Name="InboxMessageFile" EntityType="OnlinePriem2015Model.InboxMessageFile" />
+          <EntitySet Name="SupportOperatorProfile" EntityType="OnlinePriem2015Model.SupportOperatorProfile" />
+          <EntitySet Name="SupportProfilePhoto" EntityType="OnlinePriem2015Model.SupportProfilePhoto" />
         </EntityContainer>
         <EntityType Name="Comission">
           <Key>
@@ -6015,6 +6094,69 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="InboxDialog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Theme" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" annotation:StoreGeneratedPattern="None" Nullable="false" />
+          <Property Name="HasAnswer" Type="Boolean" Nullable="false" annotation:StoreGeneratedPattern="None" />
+        </EntityType>
+        <EntityType Name="InboxDialogStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="InboxDialogUsers">
+          <Key>
+            <PropertyRef Name="OrdId" />
+          </Key>
+          <Property Name="OrdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DialogId" Type="Guid" />
+          <Property Name="UserId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="InboxMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="DialogId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" annotation:StoreGeneratedPattern="None" />
+        </EntityType>
+        <EntityType Name="InboxMessageFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="MessageId" Type="Guid" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="FileSize" Type="Int32" Nullable="false" />
+          <Property Name="FileExtention" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoadDate" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="MimeType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SupportOperatorProfile">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="Guid" Nullable="false" />
+          <Property Name="Photo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProfilePhotoId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="SupportProfilePhoto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6252,6 +6394,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="Groups">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.Groups">
               <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="DefaultController" ColumnName="DefaultController" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Decription" ColumnName="Decription" />
@@ -7388,6 +7531,76 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
                 <ScalarProperty Name="ExamTimetableId" ColumnName="ExamTimetableId" />
                 <ScalarProperty Name="ExamInEntryBlockUnitId" ColumnName="ExamInEntryBlockUnitId" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InboxDialog">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.InboxDialog">
+              <MappingFragment StoreEntitySet="InboxDialog">
+                <ScalarProperty Name="HasAnswer" ColumnName="HasAnswer" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Theme" ColumnName="Theme" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InboxDialogStatus">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.InboxDialogStatus">
+              <MappingFragment StoreEntitySet="InboxDialogStatus">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InboxDialogUsers">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.InboxDialogUsers">
+              <MappingFragment StoreEntitySet="InboxDialogUsers">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DialogId" ColumnName="DialogId" />
+                <ScalarProperty Name="OrdId" ColumnName="OrdId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InboxMessage">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.InboxMessage">
+              <MappingFragment StoreEntitySet="InboxMessage">
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DialogId" ColumnName="DialogId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InboxMessageFile">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.InboxMessageFile">
+              <MappingFragment StoreEntitySet="InboxMessageFile">
+                <ScalarProperty Name="MimeType" ColumnName="MimeType" />
+                <ScalarProperty Name="LoadDate" ColumnName="LoadDate" />
+                <ScalarProperty Name="FileExtention" ColumnName="FileExtention" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupportOperatorProfile">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.SupportOperatorProfile">
+              <MappingFragment StoreEntitySet="SupportOperatorProfile">
+                <ScalarProperty Name="ProfilePhotoId" ColumnName="ProfilePhotoId" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupportProfilePhoto">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.SupportProfilePhoto">
+              <MappingFragment StoreEntitySet="SupportProfilePhoto">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -12,11 +12,14 @@ namespace OnlineAbit2013.EMDX
     using System;
     using System.Collections.Generic;
     
-    public partial class Groups
+    public partial class InboxMessageFile
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Decription { get; set; }
-        public string DefaultController { get; set; }
+        public System.Guid Id { get; set; }
+        public System.Guid MessageId { get; set; }
+        public string FileName { get; set; }
+        public int FileSize { get; set; }
+        public string FileExtention { get; set; }
+        public System.DateTime LoadDate { get; set; }
+        public string MimeType { get; set; }
     }
 }

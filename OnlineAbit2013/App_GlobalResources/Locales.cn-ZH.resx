@@ -135,6 +135,9 @@
   <data name="LeftMenuChangePassword" xml:space="preserve">
     <value>Сменить пароль</value>
   </data>
+  <data name="LeftMenuMessages" xml:space="preserve">
+    <value>Inbox</value>
+  </data>
   <data name="LeftMenuNewApplication" xml:space="preserve">
     <value>Подать новое заявление</value>
   </data>

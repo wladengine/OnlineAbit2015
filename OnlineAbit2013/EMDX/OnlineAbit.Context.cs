@@ -115,6 +115,13 @@ namespace OnlineAbit2013.EMDX
         public virtual DbSet<ExamInEntryBlockUnitTimetable> ExamInEntryBlockUnitTimetable { get; set; }
         public virtual DbSet<ApplicationSelectedTimetable> ApplicationSelectedTimetable { get; set; }
         public virtual DbSet<ApplicationSelectedExam> ApplicationSelectedExam { get; set; }
+        public virtual DbSet<InboxDialog> InboxDialog { get; set; }
+        public virtual DbSet<InboxDialogStatus> InboxDialogStatus { get; set; }
+        public virtual DbSet<InboxDialogUsers> InboxDialogUsers { get; set; }
+        public virtual DbSet<InboxMessage> InboxMessage { get; set; }
+        public virtual DbSet<InboxMessageFile> InboxMessageFile { get; set; }
+        public virtual DbSet<SupportOperatorProfile> SupportOperatorProfile { get; set; }
+        public virtual DbSet<SupportProfilePhoto> SupportProfilePhoto { get; set; }
     
         public virtual int PersonEducationDocument_delete(Nullable<System.Guid> personId, Nullable<int> id)
         {

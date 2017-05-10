@@ -25,10 +25,31 @@ namespace OnlineAbit2013.Controllers
         int maxBlockChangeStudyFormBasis = 1;
         int maxBlockRecover = 1;
 
+         
         public ActionResult OpenPersonalAccount()
         {
             Request.Cookies.SetThreadCultureByCookies();
             return View("PersonStartPage");
+        }
+
+        public bool CheckUserSupportGroup(Guid personId)
+        {
+            DataTable tblGroup = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
+                new SortedList<string, object>() { { "@PersonId", personId }, { "@GroupId", Util.SupportOperatorsGroupId } });
+            if (tblGroup.Rows.Count == 0)
+                return false;
+            else
+                return true;
+        }
+        public RedirectToRouteResult Check(ref Guid personId)
+        {
+            if (!Util.CheckAuthCookies(Request.Cookies, out personId))
+                return RedirectToAction("LogOn", "Account");
+
+            if (CheckUserSupportGroup(personId))
+                return RedirectToAction("Index", "Support");
+
+            return null;
         }
 
         [HttpPost]
@@ -85,9 +106,10 @@ namespace OnlineAbit2013.Controllers
 
         public ActionResult Index(string step)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             if (Util.CheckIsNew(PersonId))
                 return RedirectToAction("OpenPersonalAccount");
@@ -1471,9 +1493,10 @@ namespace OnlineAbit2013.Controllers
                 return Redirect(Request.Url.AbsoluteUri.Replace("http://", "https://"));
 
             //Validation
-            Guid PersonID;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonID))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonID = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonID);
+            if (red != null)
+                return red;
 
             if (Util.CheckIsNew(PersonID))
             {
@@ -2218,9 +2241,11 @@ namespace OnlineAbit2013.Controllers
         [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult ChangeApplication(string Id)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
+
             bool NewId = false;
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
@@ -2377,9 +2402,12 @@ namespace OnlineAbit2013.Controllers
                 foreach (string er in errors)
                     ModelState.AddModelError("", er);
             }
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
+
             bool bisEng = Util.GetCurrentThreadLanguageIsEng();
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
@@ -2520,9 +2548,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp()
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             bool isForeign = Util.CheckIsForeign(PersonId);
 
@@ -2643,9 +2672,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_AG(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             bool bIsEng = Util.GetCurrentThreadLanguageIsEng();
 
@@ -2743,9 +2773,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_Mag(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             string sCommitId = Request.Form["CommitId"];
             Guid CommitId;
@@ -2836,9 +2867,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_Asp(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             string sCommitId = Request.Form["CommitId"];
             Guid CommitId;
@@ -2928,9 +2960,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_Ord(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             string sCommitId = Request.Form["CommitId"];
             Guid CommitId;
@@ -3021,9 +3054,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_1kurs(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             //if (DateTime.Now >= new DateTime(2014, 6, 23, 0, 0, 0))
             //    return RedirectToAction("NewApplication_AG", new RouteValueDictionary() { { "errors", "Приём документов в АГ СПбГУ ЗАКРЫТ" } });
@@ -3116,9 +3150,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_SPO(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             string sCommitId = Request.Form["CommitId"];
             Guid CommitId;
@@ -3206,9 +3241,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_Recover(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             string sCommitId = Request.Form["CommitId"];
             Guid CommitId;
@@ -3262,9 +3298,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_Transfer(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             string sCommitId = Request.Form["CommitId"];
             Guid CommitId;
@@ -3315,9 +3352,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_ChangeStudyForm(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             string sCommitId = Request.Form["CommitId"];
             Guid CommitId;
@@ -3383,9 +3421,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_ChangeObrazProgram(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             //if (DateTime.Now >= new DateTime(2014, 6, 23, 0, 0, 0))
             //    return RedirectToAction("NewApplication_AG", new RouteValueDictionary() { { "errors", "Приём документов в АГ СПбГУ ЗАКРЫТ" } });
@@ -3439,9 +3478,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult NewApp_ChangeStudyBasis(Mag_ApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             //if (DateTime.Now >= new DateTime(2014, 6, 23, 0, 0, 0))
             //    return RedirectToAction("NewApplication_AG", new RouteValueDictionary() { { "errors", "Приём документов в АГ СПбГУ ЗАКРЫТ" } });
@@ -3511,9 +3551,10 @@ namespace OnlineAbit2013.Controllers
         #region Priorities&InnerPriorities
         public ActionResult PriorityChanger(string ComId)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             Guid gCommitId;
             if (!Guid.TryParse(ComId, out gCommitId))
@@ -3599,9 +3640,10 @@ namespace OnlineAbit2013.Controllers
         }
         public ActionResult PriorityChangerApplication(string AppId, string V)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             Guid gAppId;
             if (!Guid.TryParse(AppId, out gAppId))
@@ -3623,9 +3665,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult ChangePriority(MotivateMailModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             Guid gCommId;
             if (!Guid.TryParse(model.CommitId, out gCommId))
@@ -3701,9 +3744,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult PriorityChangeApplication(PriorityChangerApplicationModel model)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             Guid gCommId = model.CommitId;
 
@@ -3801,9 +3845,10 @@ namespace OnlineAbit2013.Controllers
 
         public ActionResult ApplicationExams(string ComId)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             Guid gCommitId;
             if (!Guid.TryParse(ComId, out gCommitId))
@@ -3907,9 +3952,10 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult ApplicationExamsSave(Mag_ApplicationExams mdl)
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             Guid gCommitId;
             if (!Guid.TryParse(mdl.CommitId.ToString(), out gCommitId))
@@ -4013,9 +4059,10 @@ end";
         #region Files
         public ActionResult AddFiles()
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             string query = "SELECT Id, FileName, FileSize, Comment FROM PersonFile WHERE PersonId=@PersonId AND IsDeleted=0 order by LoadDate desc";
             DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@PersonId", PersonId } });
@@ -4031,9 +4078,10 @@ end";
 
         public ActionResult AddSharedFiles()
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn", "Account");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
@@ -4051,9 +4099,11 @@ end";
         [HttpPost]
         public ActionResult GetFileList()
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return Json("Ошибка авторизации");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
+
             List<AppendedFile> lstFiles = Util.GetFileList(PersonId);
 
             return Json(new { IsOk = lstFiles.Count() > 0 ? true : false, Data = lstFiles });
@@ -4062,9 +4112,10 @@ end";
         [HttpPost]
         public ActionResult AddSharedFile()
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return Json("Ошибка авторизации");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             if (Request.Files["File"] == null || Request.Files["File"].ContentLength == 0 || string.IsNullOrEmpty(Request.Files["File"].FileName))
                 return Json(Resources.ServerMessages.EmptyFileError);
@@ -4181,9 +4232,10 @@ end";
         [HttpPost]
         public ActionResult AddFile()
         {
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return Json("Ошибка авторизации");
+            Guid PersonId = Guid.Empty;
+            RedirectToRouteResult red = Check(ref PersonId);
+            if (red != null)
+                return red;
 
             if (Request.Files["File"] == null || Request.Files["File"].ContentLength == 0 || string.IsNullOrEmpty(Request.Files["File"].FileName))
                 return Json("Файл не приложен или пуст");

@@ -29,10 +29,10 @@ namespace OnlineAbit2013.Controllers
 
             if (Util.CheckAuthCookies(Request.Cookies, out UserId))
             {
-                DataTable tbl = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
-                new SortedList<string, object>() { { "@PersonId", UserId }, { "@GroupId", Util.GlobalCommunicationGroupId } });
+                DataTable tbl = Util.AbitDB.GetDataTable("SELECT top 1 DefaultController FROM dbo.GroupUsers join dbo.Groups on GroupUsers.GroupId=Groups.Id WHERE PersonId=@PersonId",
+                new SortedList<string, object>() { { "@PersonId", UserId }});
                 if (tbl.Rows.Count > 0)
-                    return RedirectToAction("Index", "Communication");
+                    return RedirectToAction("Index", tbl.Rows[0].Field<string>("DefaultController"));
 
                 return RedirectToAction("Main", "Abiturient");
             }
@@ -145,10 +145,10 @@ namespace OnlineAbit2013.Controllers
                     bool dorms = Usr.IsDormsAccount.HasValue ? Usr.IsDormsAccount.Value : false;
                     if (!dorms)
                     {
-                        DataTable tbl_comm = Util.AbitDB.GetDataTable("SELECT * FROM GroupUsers WHERE PersonId=@PersonId and GroupId=@GroupId",
-                        new SortedList<string, object>() { { "@PersonId", Usr.Id }, { "@GroupId", Util.GlobalCommunicationGroupId } });
-                        if (tbl.Rows.Count > 0)
-                            return RedirectToAction("Index", "Communication");
+                        DataTable tbl_comm = Util.AbitDB.GetDataTable("SELECT top 1 DefaultController FROM dbo.GroupUsers join dbo.Groups on GroupUsers.GroupId=Groups.Id WHERE PersonId=@PersonId",
+                        new SortedList<string, object>() { { "@PersonId", Usr.Id } });
+                        if (tbl_comm.Rows.Count > 0)
+                            return RedirectToAction("Index", tbl_comm.Rows[0].Field<string>("DefaultController"));
 
                         return RedirectToAction("Main", "Abiturient");
                     }
