@@ -61,18 +61,25 @@
             border-bottom: 1px solid white;  
         }
  </style>
-  <script>
-     
-     $(function () {
+  <script> 
+      $(function () {
+         GetCountMessages();
+         setInterval('CheckNewMessages()', 3000);
          var block = document.getElementById("d_dialog");
          block.scrollTop = block.scrollHeight;
-     });
-     function AddFile() {
-         var files = document.getElementById('files').tBodies[0];
-         var p = document.createElement("tr");
-         p.innerHTML = "<td><input id='Files' name='Files' type='file'/></td>";
-         files.appendChild(p);
-     }
+      });
+      function CheckNewMessages() {
+          var param = new Object();
+          param['gId'] = $('#DialogId').val();
+          $.post('/Inbox/CheckNewMessages', param, function (res) {
+              for (i = 0 ; i < res.MyCnt.length; i++) {
+                  var msg = res.MyCnt[i];
+                  NewMsgShow(msg);
+              }
+              if (res.MyCnt.length>0)
+                $.post('/Inbox/SetIsRead', param, function (r) { }, 'json');
+          }, 'json');
+      } 
       function SendMessage()
       { 
           var param = new Object();
@@ -111,16 +118,13 @@
    <div class="dialog_header">
        <h4><%=Model.Theme %></h4>
    </div>
-   
    <div class="message error" id ="derrormsg" style="display:none;"> </div>
-
-   
-
 <div class ="d_dialog" id ="d_dialog"> 
-    <%=Html.Partial("message", Model) %>
+    <%=Html.Partial("~/Views/support/message.aspx", Model.Partial) %>
 </div> 
 <form class="panel form" id="form_mes" action="../../Inbox/SendMessage" method="post" encType="multipart/form-data"  onsubmit="return CheckForm();">
-           <%=Html.Partial("addmessage", Model) %>
+    <%=Html.HiddenFor(x=>x.DialogId) %>
+    <%=Html.Partial("~/Views/support/addmessage.aspx", Model) %>
 </form>
 
 </asp:Content>

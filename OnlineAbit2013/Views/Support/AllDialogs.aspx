@@ -4,8 +4,7 @@
        string Date = d.LastMes.DateToWords(true);
        string HasAnswer = (!d.HasAnswer) ? "Вопрос ожидает обработки." : "Есть ответ.";
        string IsHasAnswer = !d.HasAnswer ? "waiting" : "done";
-       string iPhoto = Model.Photolst.Where(p => p.UserId == d.LastMes.UserId).Select(p => p.imgPhoto).FirstOrDefault();
-       string bPhoto = Model.Photolst.Where(p => p.UserId == d.LastMes.UserId).Select(p => p.bPhoto).FirstOrDefault();
+       string Photo = Model.Photolst.Where(p => p.UserId == d.LastMes.UserId).Select(p => p.Photo).FirstOrDefault();
       %>
 <div class="d_dialog" onclick ="OpenDialog('<%=d.Id.ToString("N")%>')">
     <div class ="<%=IsHasAnswer%>"> 
@@ -13,8 +12,7 @@
                  <tr><td ><b><%=d.Theme %></b></td>
                      <td rowspan ="2" class="td_photo">
                          <div class="d_photo">
-                                    <%if (!String.IsNullOrEmpty(iPhoto)) { %> <img src="../../<%=iPhoto%>" /> <% }
-                                else if (!String.IsNullOrEmpty(bPhoto)) { %> <img src="<% = String.Format("data:image/png;base64,{0}", bPhoto)%>" /> <% }
+                                    <%if (!String.IsNullOrEmpty(Photo)) { %> <img src="<%=Photo%>" /> <% }
                                  else {%> <img src="../../Content/themes/base/images/user_no_photo.png" alt="<%=GetGlobalResourceObject("Communication", "NoPhoto")%>" /><%} %>
                                 </div></td>
                      <td class="td_author"><b><%=d.LastMes.Author%></b></td>

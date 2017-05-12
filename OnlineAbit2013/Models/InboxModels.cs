@@ -32,11 +32,34 @@ namespace OnlineAbit2013.Models
     {
         public string DialogId { get; set; }
         public string Theme { get; set; }
+        public PartialModelNewMessage PartialNewMessage { get; set; }
+        public PartialModelDialog Partial { get; set; }
+        public Dialog()
+        {
+            Partial = new PartialModelDialog();
+            PartialNewMessage = new PartialModelNewMessage();
+        } 
+    }
+    public class PartialModelDialog
+    {
         public List<DialogMessage> Messages { get; set; }
+        public List<OperatorProfilePhoto> Photolst;
+
+        public PartialModelDialog()
+        {
+            Messages = new List<DialogMessage>();
+            Photolst = new List<OperatorProfilePhoto>();
+        }
+    }
+    public class PartialModelNewMessage
+    {
         public string NewMessage { get; set; }
         public List<HttpPostedFileBase> Files { get; set; }
-        public List<OperatorProfilePhoto> Photolst;
+        public PartialModelNewMessage()
+        { Files = new List<HttpPostedFileBase>(); }
     }
+
+
     public class DialogMessage
     {
         public Guid Id { get; set; }
@@ -48,7 +71,6 @@ namespace OnlineAbit2013.Models
         public List<FileInfo> Files { get; set; }
         public bool isRead { get; set; }
         public bool HasFiles { get; set; }
-
         public string DateToWords(bool isShort)
         {
             string s = "";
@@ -76,7 +98,6 @@ namespace OnlineAbit2013.Models
             }
             return s;
         }
-
         public string GetShortMonth(int i)
         {
             switch (i)

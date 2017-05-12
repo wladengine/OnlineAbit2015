@@ -12,8 +12,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
    
-    <style>
-        
+    <style> 
         .td_time {
             width: 120px;
             text-align: right;
@@ -56,15 +55,11 @@
       $(function () {
           GetCountMessages();
           setInterval('GetCountMessages()', 3000);
+          setInterval('CheckNewMessages()', 3000);
           var block = document.getElementById("d_dialog");
           block.scrollTop = block.scrollHeight;
       });
-      function AddFile() {
-          var files = document.getElementById('files').tBodies[0];
-          var p = document.createElement("tr");
-          p.innerHTML = "<td><input id='Files' name='Files' type='file'/></td>";
-          files.appendChild(p);
-      }
+      
       function GetCountMessages()
       {
           $.post('/Support/GetCountMessages', function (res) {
@@ -132,15 +127,15 @@
      <div class="message error" id ="derrormsg" style="display:none;"> </div>
       
     <div class ="d_dialog" id ="d_dialog"> 
-        <%=Html.Partial("message", Model) %>
+        <%=Html.Partial("message", Model.Partial) %>
     </div> 
     <% if (Model.IsNew || Model.IsMine) {%>
-    <%if (Model.IsNew) { %>
+    <% if (Model.IsNew) { %>
                 <input type="button" id="buttonSubmit" class ="button button-green" value ="Принять" onclick ="SubmitQuestion()"/>
            <%} %> 
         <form  id="dialogform" class="panel form" action="../../Support/SendMessage" method="post" encType="multipart/form-data" <% if (Model.IsNew) { %> style="display:none;"<%} %> onsubmit="return CheckForm();">
+            <%=Html.HiddenFor(x=>x.DialogId) %>
             <%=Html.Partial("addmessage", Model) %>
         </form>
       <%} %>
-
 </asp:Content>

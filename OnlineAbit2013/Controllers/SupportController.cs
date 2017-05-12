@@ -76,8 +76,7 @@ namespace OnlineAbit2013.Controllers
                             model.Photolst.Add(new OperatorProfilePhoto()
                             {
                                 UserId = mes.UserId,
-                                bPhoto = InboxSupportFunction.GetPhoto(mes.UserId),
-                                imgPhoto = InboxSupportFunction.GetPhotoProfile(mes.UserId)
+                                Photo = InboxSupportFunction.GetPhoto(mes.UserId),
                             });
                         }
                     }
@@ -112,8 +111,7 @@ namespace OnlineAbit2013.Controllers
                             model.Photolst.Add(new OperatorProfilePhoto()
                             {
                                 UserId = mes.UserId,
-                                bPhoto = InboxSupportFunction.GetPhoto(mes.UserId),
-                                imgPhoto = InboxSupportFunction.GetPhotoProfile(mes.UserId)
+                                Photo = InboxSupportFunction.GetPhoto(mes.UserId),
                             });
                         }
                     }
@@ -140,7 +138,7 @@ namespace OnlineAbit2013.Controllers
                 return RedirectToAction("Index");
 
             SupportDialog model = new SupportDialog();
-            model.Photolst = new List<OperatorProfilePhoto>();
+            model.Partial.Photolst = new List<OperatorProfilePhoto>();
             using (OnlinePriemEntities context = new OnlinePriemEntities())
             {
                 model.IsNew = (context.InboxDialogUsers.Where(x => x.DialogId == gDialogId).Count() == 1);
@@ -148,7 +146,7 @@ namespace OnlineAbit2013.Controllers
                 
                 model.DialogId = gDialogId.ToString();
                 model.Theme = context.InboxDialog.Where(x=>x.Id == gDialogId).Select(x=>x.Theme).FirstOrDefault();
-                model.Messages = (from d in context.InboxDialog
+                model.Partial.Messages = (from d in context.InboxDialog
                               join m in context.InboxMessage on d.Id equals m.DialogId
                               join p in context.Person on m.UserId equals p.Id
                               where d.Id == gDialogId
@@ -161,17 +159,17 @@ namespace OnlineAbit2013.Controllers
                                   Text = m.Text,
                                   time = m.DateTime,
                                   isRead = m.IsRead,
-                              }).OrderByDescending(x=>x.time).ToList(); 
+                              }).OrderByDescending(x=>x.time).ToList();
 
-                foreach (var mes in model.Messages)
+                foreach (var mes in model.Partial.Messages)
                 {
-                    if (model.Photolst.Where(x => x.UserId == mes.UserId).Count() == 0)
+                    if (model.Partial.Photolst.Where(x => x.UserId == mes.UserId).Count() == 0)
                     {
-                        model.Photolst.Add(new OperatorProfilePhoto()
+                        model.Partial.Photolst.Add(new OperatorProfilePhoto()
                         {
                             UserId = mes.UserId,
-                            bPhoto = InboxSupportFunction.GetPhoto(mes.UserId),
-                            imgPhoto = InboxSupportFunction.GetPhotoProfile(mes.UserId)
+                            Photo = InboxSupportFunction.GetPhoto(mes.UserId),
+
                         });
                     }
                     mes.Files = (from f in context.InboxMessageFile 
@@ -216,7 +214,7 @@ namespace OnlineAbit2013.Controllers
                 {
                     Id = MessageId,
                     UserId = personId,
-                    Text = Model.NewMessage,
+                    Text = Model.PartialNewMessage.NewMessage,
                     DialogId = gDialogId,
                 });
 
@@ -224,7 +222,7 @@ namespace OnlineAbit2013.Controllers
                 Dialog.StatusId = 2;
                 context.SaveChanges();
 
-                foreach (var file in Model.Files)
+                foreach (var file in Model.PartialNewMessage.Files)
                 {
                     if (file == null || file.ContentLength == 0)
                         continue;

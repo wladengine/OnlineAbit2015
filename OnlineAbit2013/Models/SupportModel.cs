@@ -13,16 +13,14 @@ namespace OnlineAbit2013.Models
         public List<OperatorProfilePhoto> Photolst;
     }
 
-    public class SupportDialog
+    public class SupportDialog : Dialog
     {
-        public string DialogId { get; set; }
-        public string Theme { get; set; }
         public bool IsNew { get; set; }
         public bool IsMine { get; set; }
-        public List<DialogMessage> Messages { get; set; }
-        public string NewMessage { get; set; }
-        public List<HttpPostedFileBase> Files { get; set; }
-        public List<OperatorProfilePhoto> Photolst;
+
+        public SupportDialog():base()
+        {
+        } 
     }
 
     public class SupportOperator
@@ -34,8 +32,7 @@ namespace OnlineAbit2013.Models
     public class OperatorProfilePhoto
     {
         public Guid UserId { get; set; }
-        public string bPhoto { get; set; }
-        public string imgPhoto { get; set; }
+        public string Photo { get; set; }
     }
     public class ProfilePhotoDictionary
     {

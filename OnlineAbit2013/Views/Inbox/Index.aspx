@@ -84,8 +84,7 @@
        string IsHasAnswer = !d.HasAnswer ? "waiting" : "done";
        Date = d.LastMes.DateToWords(true);
        string IsRead = d.isRead ? "" : "notread";
-       string iPhoto = Model.Photolst.Where(p => p.UserId == d.LastMes.UserId).Select(p => p.imgPhoto).FirstOrDefault();
-       string bPhoto = Model.Photolst.Where(p => p.UserId == d.LastMes.UserId).Select(p => p.bPhoto).FirstOrDefault();
+       string Photo = Model.Photolst.Where(p => p.UserId == d.LastMes.UserId).Select(p => p.Photo).FirstOrDefault();
        string Text = d.LastMes.Text;
        if (String.IsNullOrEmpty(Text) && d.LastMes.HasFiles)
            Text = "<span>документ</span>";
@@ -103,8 +102,7 @@
                      <tr>
                          <td style="width:50px;">
                              <div class="d_photo">
-                                            <%if (!String.IsNullOrEmpty(iPhoto)) { %> <img src="../../<%=iPhoto%>" /> <% }
-                                else if (!String.IsNullOrEmpty(bPhoto)) { %> <img src="<% = String.Format("data:image/png;base64,{0}", bPhoto)%>" /> <% }
+                                            <%if (!String.IsNullOrEmpty(Photo)) { %> <img src="<%=Photo%>" /> <% }
                                  else {%> <img src="../../Content/themes/base/images/user_no_photo.png" alt="<%=GetGlobalResourceObject("Communication", "NoPhoto")%>" /><%} %>
                                         </div>
                          </td>

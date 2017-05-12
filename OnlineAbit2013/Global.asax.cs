@@ -22,10 +22,17 @@ namespace OnlineAbit2013
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "Images", // Route name
+                "images/{sid}", // URL with parameters
+                new { controller = "Inbox", action = "GetPhotoProfile" } // Parameter defaults
+            );
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
+
+            
         }
 
         protected void Application_Start()
