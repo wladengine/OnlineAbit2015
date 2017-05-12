@@ -102,6 +102,7 @@ namespace OnlineAbit2013.Controllers
             return View(model);
         }
 
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult SendQuestion(NewDialog model)
         {
@@ -123,7 +124,7 @@ namespace OnlineAbit2013.Controllers
                     context.InboxDialog.Add(new InboxDialog()
                     {
                         Id = DialogId,
-                        Theme = model.Theme.Trim(),
+                        Theme = HttpUtility.HtmlEncode(model.Theme.Trim()),
                         HasAnswer = false,
                         StatusId = 1,
                     });
@@ -132,7 +133,7 @@ namespace OnlineAbit2013.Controllers
                     context.InboxMessage.Add(new InboxMessage()
                     {
                         Id = MessageId,
-                        Text = model.Text.Trim(),
+                        Text = HttpUtility.HtmlEncode(model.Text.Trim()),
                         UserId = personId,
                         DialogId = DialogId,
                     });
@@ -253,6 +254,7 @@ namespace OnlineAbit2013.Controllers
             return View(model);
         }
 
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult SendMessage(Dialog Model)
         {
@@ -278,7 +280,7 @@ namespace OnlineAbit2013.Controllers
                 {
                     Id = MessageId,
                     UserId = personId,
-                    Text = Model.PartialNewMessage.NewMessage,
+                    Text = HttpUtility.HtmlEncode(Model.PartialNewMessage.NewMessage),
                     DialogId = gDialogId,
                 });
 
