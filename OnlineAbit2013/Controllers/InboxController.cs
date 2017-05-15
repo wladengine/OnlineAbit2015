@@ -510,15 +510,15 @@ namespace OnlineAbit2013.Controllers
         public static string GetPhoto(Guid userid)
         {
             DataTable tbl = Util.AbitDB.GetDataTable(@"
-SELECT top 1 PersonFile.ShortId, FileExtention FROM dbo.PersonFile WHERE PersonId=@PersonId and PersonFileTypeId=14 
+SELECT top 1 PersonFile.ShortId, FileExtention FROM dbo.PersonFile WHERE PersonId=@PersonId and PersonFileTypeId=14 and ISDeleted = 0
 UNION ALL
 SELECT top 1 ApplicationFile.ShortId, FileExtention FROM dbo.ApplicationFile 
 INNER JOIN dbo.Application AP ON AP.Id = ApplicationFile.ApplicationId
-WHERE AP.PersonId=@PersonId and FileTypeId=18
+WHERE AP.PersonId=@PersonId and FileTypeId=18 and ApplicationFile.ISDeleted = 0
 UNION ALL
 SELECT top 1 ApplicationFile.ShortId, FileExtention FROM dbo.ApplicationFile 
 INNER JOIN dbo.Application AP ON AP.CommitId = ApplicationFile.CommitId
-WHERE AP.PersonId=@PersonId and FileTypeId=18 
+WHERE AP.PersonId=@PersonId and FileTypeId=18 and ApplicationFile.ISDeleted = 0
 ",
             new SortedList<string, object>() { { "@PersonId", userid } });
 
@@ -539,7 +539,7 @@ where PersonId = @PersonId", new SortedList<string, object>() { { "@PersonId", u
                 return "../../"+tbl.Rows[0].Field<string>("Name");
             }
             else
-                return "";
+                return "../../Content/themes/base/images/user_no_photo.png";
         }
 
         public ActionResult GetFile(string sid)
