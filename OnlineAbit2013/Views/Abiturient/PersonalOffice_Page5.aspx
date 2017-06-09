@@ -55,11 +55,12 @@
                    else
                    {%> 
                         return CheckLicenseProgramId();
-                 <% }
+            <% }
                }
                else
                { %>
-                    return true;
+                    var ret = CheckCategory();
+                    return ret;
             <% } %>
         }
         function CheckLicenseProgramId() {
@@ -692,8 +693,12 @@
 	                        </fieldset>
                         </div>
                     </div>
-                    <% } %>
                     <hr />
+                    <div >
+                        <%=Html.Partial("PersonSelectManualExam", Model) %>
+                    </div>
+                    <% } %>
+                    
                     <div class="clearfix">
                         <input id="Submit5" class="button button-green" type="submit" value="<%= GetGlobalResourceObject("PersonInfo", "ButtonSubmitText").ToString()%>" />
                     </div>

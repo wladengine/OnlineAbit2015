@@ -122,6 +122,8 @@ namespace OnlineAbit2013.EMDX
         public virtual DbSet<InboxMessageFile> InboxMessageFile { get; set; }
         public virtual DbSet<SupportOperatorProfile> SupportOperatorProfile { get; set; }
         public virtual DbSet<SupportProfilePhoto> SupportProfilePhoto { get; set; }
+        public virtual DbSet<PersonCategoryForManualExams> PersonCategoryForManualExams { get; set; }
+        public virtual DbSet<PersonManualExams> PersonManualExams { get; set; }
     
         public virtual int PersonEducationDocument_delete(Nullable<System.Guid> personId, Nullable<int> id)
         {

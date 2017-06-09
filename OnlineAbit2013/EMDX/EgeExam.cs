@@ -18,6 +18,7 @@ namespace OnlineAbit2013.EMDX
         public EgeExam()
         {
             this.EgeMark = new HashSet<EgeMark>();
+            this.PersonManualExams = new HashSet<PersonManualExams>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace OnlineAbit2013.EMDX
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EgeMark> EgeMark { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonManualExams> PersonManualExams { get; set; }
     }
 }
