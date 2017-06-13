@@ -400,40 +400,16 @@ namespace OnlineAbit2013.Controllers
                     if (AddInfo == null)
                         AddInfo = new PersonAddInfo();
 
-                    var AddEducInfo = new AdditionalEducationInfoPerson();
+                    model.AddEducationInfo = new AdditionalEducationInfoPerson();
 
                     if (model.Messages == null)
                         model.Messages = new List<PersonalMessage>();
-                    AddEducInfo.StartEnglish = AddInfo.StartEnglish;
-                    AddEducInfo.EnglishMark = AddInfo.EnglishMark.ToString();
-                    AddEducInfo.HasTRKI = AddInfo.HasTRKI;
-                    AddEducInfo.TRKICertificateNumber = AddInfo.TRKICertificateNumber;
-                    AddEducInfo.LanguageId = (AddInfo.LanguageId ?? 1).ToString();
-                    AddEducInfo.LanguageList = Util.GetLanguageList();
-
-                    AddEducInfo.ManualExamInfo = new PersonSelectManualExam();
-                    AddEducInfo.ManualExamInfo.PassExamInSpbu = AddInfo.PassExamInSpbu ?? false;
-                    AddEducInfo.ManualExamInfo.PersonManualExamCategoryId = AddInfo.CategoryId;
-                    AddEducInfo.ManualExamInfo.PersonManualExamCategory = context.PersonCategoryForManualExams
-                        .Select(x=>new SelectListItem() { 
-                            Value = x.Id.ToString(),
-                            Text = x.Name,
-                            Selected = (AddInfo.CategoryId.HasValue ? AddInfo.CategoryId.Value == x.Id : false) })
-                        .ToList();
-                    AddEducInfo.ManualExamInfo.EgeManualExam = context.EgeExam.Select(x => new SelectListItem()
-                        {
-                            Value = x.Id.ToString(),
-                            Text = x.Name,
-                            Selected = false,
-                        }).ToList();
-                    AddEducInfo.ManualExamInfo.SelectedEgeManualExam = context.PersonManualExams.Where(x => x.PersonId == PersonId)
-                        .Select(x => new SelectedEgeManualExam()
-                    {
-                        Id = x.Id,
-                        Name = x.EgeExam.Name
-                    }).ToList();
-
-                    model.AddEducationInfo = AddEducInfo;
+                    model.AddEducationInfo.StartEnglish = AddInfo.StartEnglish;
+                    model.AddEducationInfo.EnglishMark = AddInfo.EnglishMark.ToString();
+                    model.AddEducationInfo.HasTRKI = AddInfo.HasTRKI;
+                    model.AddEducationInfo.TRKICertificateNumber = AddInfo.TRKICertificateNumber;
+                    model.AddEducationInfo.LanguageId = (AddInfo.LanguageId ?? 1).ToString();
+                    model.AddEducationInfo.LanguageList = Util.GetLanguageList();
                     
                     model.EducationInfo = new EducationPerson();
                     model.EducationInfo.StudyFormList = Util.GetStudyFormList();
@@ -530,17 +506,24 @@ namespace OnlineAbit2013.Controllers
                     }
                     #endregion
                     #region AddEducationInfo
-                    if (Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 1).Count() > 0)
-                    {
-                        bool HasEge = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 1).Select(x =>
+
+                    //по школьникам
+                    bool HasEge = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 1).Select(x =>
                             new
                             {
                                 ExitClass = x.SchoolExitClassId.HasValue ? (x.Country.IsRussia ?
                                 x.SchoolExitClass.IntValue > 10 :
                                 x.SchoolExitClass.IntValue > 9) : false,
-                            }).ToList().Where(x=>x.ExitClass).Count() >0;
+                            }).ToList().Where(x => x.ExitClass).Count() > 0;
 
-                        model.AddEducationInfo.HasEGE = HasEge;
+                    //
+                    if (!HasEge)
+                        HasEge = Person.PersonEducationDocument.Where(x => x.SchoolTypeId > 1 && (x.VuzAdditionalTypeId == 1 || x.VuzAdditionalTypeId == null)).Count() > 0;
+
+                    model.AddEducationInfo.HasEGE = HasEge;
+
+                    if (HasEge)
+                    {
                         string qEgeMarks = "SELECT EgeMark.Id, EgeCertificate.Number, EgeExam.Name, EgeMark.Value, EgeMark.IsSecondWave, EgeMark.IsInUniversity, EgeCertificate.Year FROM Person " +
                             " INNER JOIN EgeCertificate ON EgeCertificate.PersonId = Person.Id INNER JOIN EgeMark ON EgeMark.EgeCertificateId=EgeCertificate.Id " +
                             " INNER JOIN EgeExam ON EgeExam.Id=EgeMark.EgeExamId WHERE Person.Id=@Id ORDER BY EgeMark.OrdId";
@@ -565,7 +548,35 @@ namespace OnlineAbit2013.Controllers
                         model.EducationInfo.EgeYearList = new List<SelectListItem>();
                         for (int i = DateTime.Now.Year; i > DateTime.Now.AddYears(-4).Year; i--)
                             model.EducationInfo.EgeYearList.Add(new SelectListItem() { Value = i.ToString(), Text = i.ToString(), Selected = (i == DateTime.Now.Year) } );
+
+
+                        model.AddEducationInfo.ManualExamInfo = new PersonSelectManualExam();
+                        model.AddEducationInfo.ManualExamInfo.PassExamInSpbu = AddInfo.PassExamInSpbu ?? false;
+                        model.AddEducationInfo.ManualExamInfo.PersonManualExamCategoryId = AddInfo.CategoryId;
+                        model.AddEducationInfo.ManualExamInfo.PersonManualExamCategory = context.PersonCategoryForManualExams
+                            .Select(x => new SelectListItem()
+                            {
+                                Value = x.Id.ToString(),
+                                Text = x.Name,
+                                Selected = (AddInfo.CategoryId.HasValue ? AddInfo.CategoryId.Value == x.Id : false)
+                            })
+                            .ToList();
+                        model.AddEducationInfo.ManualExamInfo.EgeManualExam = context.EgeExam.Select(x => new SelectListItem()
+                        {
+                            Value = x.Id.ToString(),
+                            Text = x.Name,
+                            Selected = false,
+                        }).ToList();
+                        model.AddEducationInfo.ManualExamInfo.SelectedEgeManualExam = context.PersonManualExams.Where(x => x.PersonId == PersonId)
+                            .Select(x => new SelectedEgeManualExam()
+                            {
+                                Id = x.Id,
+                                Name = x.EgeExam.Name
+                            }).ToList();
                     }
+
+                    
+
                     #endregion
 
                     #region Certificates
