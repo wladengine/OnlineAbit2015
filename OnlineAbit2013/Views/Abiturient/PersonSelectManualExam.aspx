@@ -17,7 +17,10 @@
          $('#dManualExams').toggle();
      }
      function SetEnabled() {
-         $('#AddManualExam').removeAttr('disabled');
+         $('#AddManualExam').removeClass(" button-gray");
+         $('#AddManualExam').addClass("button-blue");
+         $('#AddManualExam').removeAttr("disabled");
+         $('#sManualExamCategory').hide();
      }
      function AddEgeManualExam()
      {
@@ -64,11 +67,14 @@
             <br />
             <% foreach (var item in Model.AddEducationInfo.ManualExamInfo.PersonManualExamCategory)
                { %> 
-                     <input type="radio" name="AddEducationInfo.ManualExamInfo.PersonManualExamCategoryId" value="<%=item.Value%>" <%if (item.Selected) {%>checked="checked" <%} %>/><%=item.Text%>
+                     <input type="radio" name="AddEducationInfo.ManualExamInfo.PersonManualExamCategoryId" onchange="SetEnabled()" value="<%=item.Value%>" <%if (item.Selected) {%>checked="checked" <%} %>/><%=item.Text%>
                      <br /> 
                      <br /> 
-            <% }  %>
-            <div class="message error" style="display:none" id="sManualExamCategory">
+            <% }
+                string span_display = (Model.AddEducationInfo.ManualExamInfo.PassExamInSpbu && !Model.AddEducationInfo.ManualExamInfo.PersonManualExamCategoryId.HasValue) ?
+                    "" : "display:none;";
+            %>
+            <div class="message error" style="<%=span_display%>" id="sManualExamCategory">
                 <span class="Red">
                     Выберите категорию
                 </span>
@@ -79,8 +85,9 @@
             <br />
             <%=Html.LabelFor(x=>Model.AddEducationInfo.ManualExamInfo.EgeExamId, "Предмет:") %>
             <%=Html.DropDownListFor(x=>Model.AddEducationInfo.ManualExamInfo.EgeExamId, Model.AddEducationInfo.ManualExamInfo.EgeManualExam) %>
-            <% string disability = (!Model.AddEducationInfo.ManualExamInfo.PersonManualExamCategoryId.HasValue) ? "disabled=\"disabled\" title=\"Выберите категорию\"" : "";  %>
-                <input type="button" value="Добавить" onclick="AddEgeManualExam()" id="AddManualExam" class="button button-blue"  <%=disability%> />
+            <% string disability = (!Model.AddEducationInfo.ManualExamInfo.PersonManualExamCategoryId.HasValue) ? " disabled title=\"Выберите категорию\"" : "";
+               string buttnclass = (!Model.AddEducationInfo.ManualExamInfo.PersonManualExamCategoryId.HasValue) ? "button-gray" : "button-blue";  %>
+                <input type="button" value="Добавить" onclick="AddEgeManualExam()" id="AddManualExam" class="button <%=buttnclass%>"  <%=disability%> />
         </div>
         <div >
             <% string visibility = (Model.AddEducationInfo.ManualExamInfo.SelectedEgeManualExam.Count == 0) ? "display: none;" : "";%>
