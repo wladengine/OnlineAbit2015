@@ -411,6 +411,28 @@ namespace OnlineAbit2013.Controllers
                     AddEducInfo.LanguageId = (AddInfo.LanguageId ?? 1).ToString();
                     AddEducInfo.LanguageList = Util.GetLanguageList();
 
+                    AddEducInfo.ManualExamInfo = new PersonSelectManualExam();
+                    AddEducInfo.ManualExamInfo.PassExamInSpbu = AddInfo.PassExamInSpbu ?? false;
+                    AddEducInfo.ManualExamInfo.PersonManualExamCategoryId = AddInfo.CategoryId;
+                    AddEducInfo.ManualExamInfo.PersonManualExamCategory = context.PersonCategoryForManualExams
+                        .Select(x=>new SelectListItem() { 
+                            Value = x.Id.ToString(),
+                            Text = x.Name,
+                            Selected = (AddInfo.CategoryId.HasValue ? AddInfo.CategoryId.Value == x.Id : false) })
+                        .ToList();
+                    AddEducInfo.ManualExamInfo.EgeManualExam = context.EgeExam.Select(x => new SelectListItem()
+                        {
+                            Value = x.Id.ToString(),
+                            Text = x.Name,
+                            Selected = false,
+                        }).ToList();
+                    AddEducInfo.ManualExamInfo.SelectedEgeManualExam = context.PersonManualExams.Where(x => x.PersonId == PersonId)
+                        .Select(x => new SelectedEgeManualExam()
+                    {
+                        Id = x.Id,
+                        Name = x.EgeExam.Name
+                    }).ToList();
+
                     model.AddEducationInfo = AddEducInfo;
                     
                     model.EducationInfo = new EducationPerson();
@@ -1193,7 +1215,10 @@ namespace OnlineAbit2013.Controllers
                     PersonAddInfo.StartEnglish = model.AddEducationInfo.StartEnglish;
                     PersonAddInfo.HasTRKI = model.AddEducationInfo.HasTRKI;
                     PersonAddInfo.TRKICertificateNumber = model.AddEducationInfo.TRKICertificateNumber;
-                    
+
+                    PersonAddInfo.PassExamInSpbu = model.AddEducationInfo.ManualExamInfo.PassExamInSpbu;
+                    PersonAddInfo.CategoryId = model.AddEducationInfo.ManualExamInfo.PersonManualExamCategoryId;
+
                     if (bIns)
                         context.PersonAddInfo.Add(PersonAddInfo);
                     #region PersonDisorderInfo
@@ -5376,31 +5401,6 @@ WHERE StudyLevelGroupId=@StudyLevelGroupId AND HLP.CampaignYear=@CampaignYear AN
                 var result = new { IsOk = false, ErrorMessage = "Ошибка при обновлении данных" };
                 return Json(result);
             }
-            //using (AbitDB db = new AbitDB())
-            //{
-            //    PersonScienceWork psw = 
-            //        db.PersonScienceWork.Where(x => x.Id == wrkId && x.PersonId == PersonId).DefaultIfEmpty(null).First();
-
-            //    if (psw == null)
-            //    {
-            //        var result = new { IsOk = false, ErrorMessage = "Запись не найдена" };
-            //        return Json(result);
-            //    }
-
-            //    try
-            //    {
-            //        db.PersonScienceWork.DeleteObject(psw);
-            //        db.SaveChanges();
-            //    }
-            //    catch
-            //    {
-            //        var result = new { IsOk = false, ErrorMessage = "Ошибка при обновлении данных" };
-            //        return Json(result);
-            //    }
-
-            //    var res = new { IsOk = true, ErrorMessage = "" };
-            //    return Json(res);
-            //}
         }
 
         public JsonResult LoadVuzNames(string schoolType)
@@ -5485,27 +5485,103 @@ Order by cnt desc";
                 var result = new { IsOk = false, ErrorMessage = "Ошибка при обновлении" };
                 return Json(result);
             }
-
-            //try
-            //{
-            //    PersonWork pw = Util.ABDB.PersonWork.Where(x => x.Id == workId && x.PersonId == PersonId).DefaultIfEmpty(null).First();
-            //    if (pw == null)
-            //    {
-            //        var result = new { IsOk = false, ErrorMessage = "Запись не найдена" };
-            //        return Json(result);
-            //    }
-            //    Util.ABDB.PersonWork.DeleteObject(pw);
-            //    Util.ABDB.SaveChanges();
-            //    var res = new { IsOk = true, ErrorMessage = "" };
-            //    return Json(res);
-            //}
-            //catch
-            //{
-            //    var result = new { IsOk = false, ErrorMessage = "Ошибка при обновлении" };
-            //    return Json(result);
-            //}
         }
 
+        public ActionResult AddEgeManualExam(string EgeExamId)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+            {
+                var result = new { IsOk = false, ErrorMessage = "Ошибка авторизации" };
+                return Json(result);
+            }
+
+            int iEgeExamId;
+            if (!int.TryParse(EgeExamId, out iEgeExamId))
+            {
+                var result = new { IsOk = false, ErrorMsg = "Некорректный id" };
+                return Json(result);
+            }
+            SortedList<string, object> dic = new SortedList<string, object>();
+            dic.Add("@PersonId", PersonId);
+            dic.Add("@ExamId", iEgeExamId);
+            if ((int)Util.AbitDB.GetValue(@"select count(Id) from dbo.EgeExam where Id=@ExamId", dic) == 0)
+            {
+                var result = new { IsOk = false, ErrorMsg = "Некорректный id" };
+                return Json(result);
+            }
+            if ((int)Util.AbitDB.GetValue(@"select count(Id) from dbo.PersonManualExams where ExamId=@ExamId and PersonId = @PersonId",dic) > 0)
+            {
+                var result = new { IsOk = false, ErrorMsg = "Предмет уже добавлен" };
+                return Json(result);
+            }
+            try
+            {
+                using (OnlinePriemEntities context = new OnlinePriemEntities())
+                {
+                    PersonManualExams PersonalManualExam = new PersonManualExams();
+                    PersonalManualExam.PersonId = PersonId;
+                    PersonalManualExam.ExamId = iEgeExamId;
+                    context.PersonManualExams.Add(PersonalManualExam);
+                    context.SaveChanges(); 
+
+                    var res = new
+                    {
+                        IsOk = true,
+                        Data = new { Id = PersonalManualExam.Id, Name = Util.AbitDB.GetStringValue(@"select Name from dbo.EgeExam where Id = @ExamId", dic) },
+                    };
+                    return Json(res);
+                }
+            }
+            catch
+            {
+                var result = new { IsOk = false, ErrorMessage = "Ошибка при сохранении данных" };
+                return Json(result);
+            }
+            
+        }
+        public ActionResult DeleteEgeManualExam(string id)
+        {
+            Guid PersonId;
+            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+            {
+                var result = new { IsOk = false, ErrorMessage = "Ошибка авторизации" };
+                return Json(result);
+            }
+
+            int iId;
+            if (!int.TryParse(id, out iId))
+            {
+                var result = new { IsOk = false, ErrorMsg = "Некорректный id" };
+                return Json(result);
+            }
+            SortedList<string, object> dic = new SortedList<string, object>();
+            dic.Add("@Id", iId);
+            dic.Add("@PersonId", PersonId); 
+            if ((int)Util.AbitDB.GetValue(@"select count(Id) from dbo.PersonManualExams where Id=@Id and PersonId=@PersonId", dic) == 0)
+            {
+                var result = new { IsOk = false, ErrorMsg = "Некорректный id" };
+                return Json(result);
+            }
+
+            try
+            {
+                string query = @"delete from dbo.PersonManualExams where Id=@Id";
+                Util.AbitDB.ExecuteQuery(query, dic);
+                var res = new
+                {
+                    IsOk = true, 
+                    ErrorMessage = ""
+                };
+                return Json(res);
+            }
+            catch
+            {
+                var result = new { IsOk = false, ErrorMessage = "Ошибка при сохранении данных" };
+                return Json(result);
+            }
+        }
+        
         public ActionResult DeleteMsg(string id)
         {
             if (id == "0")//system messages
@@ -6802,5 +6878,6 @@ Order by cnt desc";
         {
             return View("Error");
         }
+         
     }
 }

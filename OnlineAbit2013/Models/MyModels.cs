@@ -233,6 +233,7 @@ namespace OnlineAbit2013.Models
     /// <summary>
     /// Данные о школьном образовании
     /// </summary>
+    /*
     public class PersonSchoolInfo
     {
         public string SchoolTypeId { get; set; }
@@ -295,7 +296,10 @@ namespace OnlineAbit2013.Models
 
         public bool HasTRKI { get; set; }
         public string TRKICertificateNumber { get; set; }
+
+        
     }
+    */
     
     /// <summary>
     /// Данные о месте текущего обучения (для переводящихся)
@@ -334,6 +338,7 @@ namespace OnlineAbit2013.Models
         public bool IsForIGA { get; set; }
     }
 
+    /*
     public class CurrentSPBUEducation
     {
         public string StudyLevelId { get; set; }
@@ -344,10 +349,13 @@ namespace OnlineAbit2013.Models
         public string SemesterId { get; set; }
         public List<SelectListItem> SemesterList { get; set; }
     }
+    */
+    /*
     public class ChangingAddInfo
     {
         public string Reason { get; set; }
     } 
+    */
     public class CertificatesInfo
     {
         public List<SelectListItem> CertTypeList;
@@ -456,8 +464,24 @@ namespace OnlineAbit2013.Models
         public bool HasEGE { get; set; }
         public bool HasReason { get; set; }
         public bool HasForeignNationality { get; set; }
+
+        public PersonSelectManualExam ManualExamInfo { get; set; }
     }
 
+    public class PersonSelectManualExam
+    {
+        public bool PassExamInSpbu { get; set; }
+        public List<SelectListItem> PersonManualExamCategory { get; set; }
+        public int? PersonManualExamCategoryId { get; set; }
+        public List<SelectedEgeManualExam> SelectedEgeManualExam { get; set; }
+        public int? EgeExamId { get; set; }
+        public List<SelectListItem> EgeManualExam { get; set; }
+    }
+    public class SelectedEgeManualExam
+    {
+        public int Id {get;set;}
+        public string Name {get;set;}
+    }
     public class VisaInfo
     {
         public string CountryId { get; set; }
