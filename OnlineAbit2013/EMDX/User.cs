@@ -31,6 +31,8 @@ namespace OnlineAbit2013.EMDX
         public string UILanguage { get; set; }
         public System.DateTime RegDate { get; set; }
         public int CampaignYear { get; set; }
+        public string Login { get; set; }
+        public bool IsAD { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Person> Person { get; set; }

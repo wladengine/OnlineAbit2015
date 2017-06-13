@@ -28,5 +28,6 @@ namespace OnlineAbit2013.EMDX
         public int PersonFileTypeId { get; set; }
         public bool IsDeleted { get; set; }
         public string FileHash { get; set; }
+        public string Shortid { get; set; }
     }
 }

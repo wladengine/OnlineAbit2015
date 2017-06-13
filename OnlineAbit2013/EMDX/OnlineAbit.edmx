@@ -136,9 +136,10 @@
           <Property Name="FileTypeId" Type="int" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="FileHash" Type="nchar" MaxLength="40" />
+          <Property Name="ShortId" Type="nchar" MaxLength="12" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.ApplicationSecondType" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="ApplicationSecondType">
           <Key>
             <PropertyRef Name="Id" />
@@ -299,8 +300,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ApplicationSecondType' does no
           <Property Name="DateOfClose" Type="datetime" Nullable="false" />
           <Property Name="BaseExamTimeTableId" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="ExamTimeTableOneDayRestriction">
           <Key>
             <PropertyRef Name="ExamTimeTableId1" />
@@ -605,6 +606,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="Parent2_Work" Type="nvarchar" MaxLength="250" />
           <Property Name="Parent2_WorkPosition" Type="nvarchar" MaxLength="250" />
           <Property Name="NeedSpecialConditions" Type="bit" Nullable="false" />
+          <Property Name="UserAD" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PersonChangeStudyFormReason">
           <Key>
@@ -714,6 +716,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="PersonFileTypeId" Type="int" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="FileHash" Type="nchar" MaxLength="40" />
+          <Property Name="Shortid" Type="nchar" MaxLength="12" />
         </EntityType>
         <EntityType Name="PersonFileType">
           <Key>
@@ -1063,6 +1066,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="UILanguage" Type="nvarchar" MaxLength="20" />
           <Property Name="RegDate" Type="datetime" Nullable="false" />
           <Property Name="CampaignYear" Type="int" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="150" />
+          <Property Name="IsAD" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="VuzAdditionalType">
           <Key>
@@ -1073,8 +1078,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.ExamTimeTableOneDayRestriction
           <Property Name="FullName" Type="nvarchar" MaxLength="150" />
           <Property Name="NameEng" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.Abiturient" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Abiturient">
           <Key>
             <PropertyRef Name="Id" />
@@ -1185,8 +1190,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Abiturient' does not have a pr
           <Property Name="Sex" Type="bit" Nullable="false" />
           <Property Name="BirthDate" Type="date" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.Entry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.Entry" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Entry">
           <Key>
             <PropertyRef Name="Id" />
@@ -1262,8 +1267,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.Entry' does not have a primary
           <Property Name="IsForeign" Type="bit" Nullable="false" />
           <Property Name="IsCrimea" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.extApplicationDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.extApplicationDetails" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="extApplicationDetails">
           <Key>
             <PropertyRef Name="Id" />
@@ -1283,8 +1288,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.extApplicationDetails' does no
           <Property Name="InnerEntryInEntryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="InnerEntryInEntryPriority" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.extDefaultEntryDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.extDefaultEntryDetails" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="extDefaultEntryDetails">
           <Key>
             <PropertyRef Name="EntryId" />
@@ -1300,8 +1305,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.extDefaultEntryDetails' does n
           <Property Name="ObrazProgramName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="ProfileName" Type="nvarchar" MaxLength="1000" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.extPerson' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.extPerson" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="extPerson">
           <Key>
             <PropertyRef Name="Id" />
@@ -1373,8 +1378,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.extPerson' does not have a pri
           <Property Name="ReturnDocumentTypeId" Type="int" />
           <Property Name="AddEmail" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.qAbiturient' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.qAbiturient" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="qAbiturient">
           <Key>
             <PropertyRef Name="Id" />
@@ -1461,8 +1466,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qAbiturient' does not have a p
           <Property Name="PersonBarcode" Type="int" Nullable="false" />
           <Property Name="CampaignYear" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.qObrazProgram' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.qObrazProgram" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="qObrazProgram">
           <Key>
             <PropertyRef Name="ObrazProgramId" />
@@ -1474,8 +1479,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.qObrazProgram' does not have a
           <Property Name="ObrazProgramName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="ObrazProgramNameEng" Type="nvarchar" MaxLength="1000" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "OnlinePriem2015.dbo.SchoolType" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="SchoolType">
           <Key>
             <PropertyRef Name="Id" />
@@ -3598,6 +3603,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="Parent2_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Parent2_Work" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Parent2_WorkPosition" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UserAD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PersonChangeStudyFormReason">
           <Key>
@@ -4061,6 +4067,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="RegDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CampaignYear" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Person" Relationship="Self.FK_Person_User" FromRole="User" ToRole="Person" />
+          <Property Name="Login" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IsAD" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="VuzAdditionalType">
           <Key>
@@ -5830,6 +5838,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="PersonFileTypeId" Type="Int32" Nullable="false" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="FileHash" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="Shortid" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="extDefaultEntryDetails">
           <Key>
@@ -5981,6 +5990,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <Property Name="FileTypeId" Type="Int32" Nullable="false" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="FileHash" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="ShortId" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="FZ_152_AgreeLog">
           <Key>
@@ -6545,6 +6555,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="PersonAddInfo">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonAddInfo">
               <MappingFragment StoreEntitySet="PersonAddInfo">
+                <ScalarProperty Name="UserAD" ColumnName="UserAD" />
                 <ScalarProperty Name="Parent2_WorkPosition" ColumnName="Parent2_WorkPosition" />
                 <ScalarProperty Name="Parent2_Work" ColumnName="Parent2_Work" />
                 <ScalarProperty Name="Parent2_Email" ColumnName="Parent2_Email" />
@@ -6989,6 +7000,8 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsAD" ColumnName="IsAD" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
                 <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
@@ -7324,6 +7337,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="PersonFile">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonFile">
               <MappingFragment StoreEntitySet="PersonFile">
+                <ScalarProperty Name="Shortid" ColumnName="Shortid" />
                 <ScalarProperty Name="FileHash" ColumnName="FileHash" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="PersonFileTypeId" ColumnName="PersonFileTypeId" />
@@ -7428,6 +7442,7 @@ warning 6002: The table/view 'OnlinePriem2015.dbo.SchoolType' does not have a pr
           <EntitySetMapping Name="ApplicationFile">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.ApplicationFile">
               <MappingFragment StoreEntitySet="ApplicationFile">
+                <ScalarProperty Name="ShortId" ColumnName="ShortId" />
                 <ScalarProperty Name="FileHash" ColumnName="FileHash" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="FileTypeId" ColumnName="FileTypeId" />

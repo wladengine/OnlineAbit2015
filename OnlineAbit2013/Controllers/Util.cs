@@ -14,6 +14,7 @@ using Recaptcha;
 using System.IO;
 using BDClassLib;
 using OnlineAbit2013.EMDX;
+using System.DirectoryServices.AccountManagement;
 
 namespace OnlineAbit2013.Controllers
 {
@@ -255,6 +256,20 @@ namespace OnlineAbit2013.Controllers
             return res;
         }
 
+        public static bool GetIsValidAccountInActiveDirectory(string username, string password)
+        {
+            bool isValid = false;
+
+            // create a "principal context" - e.g. your domain (could be machine, too)
+            using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "RECTORAT"))
+            {
+                // validate the credentials
+                isValid = pc.ValidateCredentials(username, password);
+            }
+
+            return isValid;
+        }
+
         /// <summary>
         /// Создаёт нового пользователя в базе абитуриентов. Возвращает Guid нового пользователя. Exception в случае проблем при создании.
         /// </summary>
@@ -267,7 +282,7 @@ namespace OnlineAbit2013.Controllers
             string sid = MD5Byte(id.ToByteArray());
             string md5pwd = MD5Str(password);
 
-            string query = "INSERT INTO [User] (Id, Password, SID, Email, IsApproved, EmailTicket) VALUES (@Id, @Password, @SID, @Email, @IsApproved, @EmailTicket)";
+            string query = "INSERT INTO [User] (Id, Password, SID, [Login], Email, IsApproved, EmailTicket) VALUES (@Id, @Password, @SID, @Email, @Email, @IsApproved, @EmailTicket)";
             SortedList<string, object> dic = new SortedList<string, object>()
             {
                 {"@Id", id},
@@ -286,6 +301,57 @@ namespace OnlineAbit2013.Controllers
             AbitDB.ExecuteQuery(query, dic);
 
             return id;
+        }
+        public static UserAccountClass CreateNewUserAD(string login, string email)
+        {
+            DataTable tbl = Util.AbitDB.GetDataTable("SELECT Id, SID, IsApproved, Ticket FROM [User] LEFT JOIN AuthTicket ON AuthTicket.UserId=[User].Id WHERE IsAD = 1 AND [Login] = @Login", 
+                new SortedList<string, object>() { { "@Login", login } });
+            if (tbl.Rows.Count > 0)
+            {
+                DataRow rw = tbl.Rows[0];
+                return new UserAccountClass()
+                {
+                    Id = rw.Field<Guid>("Id"),
+                    SID = rw.Field<string>("SID"),
+                    IsApproved = true,
+                    Ticket = rw.Field<string>("Ticket"),
+                    IsForeign = false,
+                    IsDormsAccount = false
+                };
+            }
+
+            Guid id = Guid.NewGuid();
+            string sid = MD5Byte(id.ToByteArray());
+
+            string query = "INSERT INTO [User] (Id, SID, [Login], Email, IsApproved, EmailTicket, IsAD) VALUES (@Id, @SID, @Login, @Email, @IsApproved, @EmailTicket, 1)";
+            SortedList<string, object> dic = new SortedList<string, object>()
+            {
+                {"@Id", id},
+                {"@Login", login},
+                {"@SID", sid},
+                {"@Email", email},
+                {"@IsApproved", true},
+                {"@EmailTicket", Guid.NewGuid().ToString("N")},
+            };
+            AbitDB.ExecuteQuery(query, dic);
+
+            string Ticket = Guid.NewGuid().ToString("N");
+
+            query = "INSERT INTO AuthTicket (UserId, Ticket) VALUES (@UserId, @Ticket)";
+            dic.Clear();
+            dic.Add("@UserId", id);
+            dic.Add("Ticket", Ticket);
+            AbitDB.ExecuteQuery(query, dic);
+
+            return new UserAccountClass()
+            {
+                Id = id,
+                SID = sid,
+                IsApproved = true,
+                Ticket = Ticket,
+                IsForeign = false,
+                IsDormsAccount = false
+            };
         }
         public static bool CreateNewSimpleUser(string password, string email, Guid id)
         {

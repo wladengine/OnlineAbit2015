@@ -94,77 +94,100 @@ namespace OnlineAbit2013.Controllers
                     //при плохо отправленном или не распарсенном времени добавлять 24 часа
                     usrTime = DateTime.Now.AddHours(24);
                 }
-                string email = model.Email;
                 string remixPwd = Util.MD5Str(model.Password);
 
-                string query = "SELECT Id, SID, IsApproved, Ticket, IsForeign, IsDormsAccount FROM [User] LEFT JOIN AuthTicket ON AuthTicket.UserId=[User].Id WHERE Password=@Password AND Email=@Email";
+                string query = "SELECT Id, SID, IsApproved, Ticket, IsForeign, IsDormsAccount FROM [User] LEFT JOIN AuthTicket ON AuthTicket.UserId=[User].Id WHERE Password=@Password AND [Login]=@Email";
                 SortedList<string, object> dic = new SortedList<string, object>();
                 dic.Add("@Password", remixPwd);
-                dic.Add("@Email", email);
+                dic.Add("@Email", model.Email);
                 DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
 
-                var Usr = (from DataRow rw in tbl.Rows
-                           select new
-                           {
-                               Id = rw.Field<Guid>("Id"),
-                               SID = rw.Field<string>("SID"),
-                               IsApproved = rw.Field<bool>("IsApproved"),
-                               Ticket = rw.Field<string>("Ticket"),
-                               IsForeign = rw.Field<bool?>("IsForeign"),
-                               IsDormsAccount = rw.Field<bool?>("IsDormsAccount")
-                           }).FirstOrDefault();
+                UserAccountClass Usr =
+                    (from DataRow rw in tbl.Rows
+                     select new UserAccountClass()
+                     {
+                         Id = rw.Field<Guid>("Id"),
+                         SID = rw.Field<string>("SID"),
+                         IsApproved = rw.Field<bool>("IsApproved"),
+                         Ticket = rw.Field<string>("Ticket"),
+                         IsForeign = rw.Field<bool?>("IsForeign"),
+                         IsDormsAccount = rw.Field<bool?>("IsDormsAccount") ?? false
+                     }).FirstOrDefault();
                 if (Usr != null)
                 {
-                    if (!string.IsNullOrEmpty(Usr.Ticket))
-                    {
-                        dic.Clear();
-                        dic.Add("@Ticket", Util.MD5Str(remixPwd + DateTime.Now.ToString()));
-                        dic.Add("@UserId", Usr.Id);
-                        query = "UPDATE AuthTicket SET Ticket=@Ticket WHERE UserId=@UserId";
-                        Util.AbitDB.ExecuteQuery(query, dic);
-                    }
-                    else
-                    {
-                        dic.Clear();
-                        dic.Add("@Ticket", Util.MD5Str(remixPwd + DateTime.Now.ToString()));
-                        dic.Add("@UserId", Usr.Id);
-                        query = "INSERT INTO AuthTicket (Ticket, UserId) VALUES (@Ticket, @UserId)";
-                        Util.AbitDB.ExecuteQuery(query, dic);
-                    }
-
-                    string sid = Usr.SID;
-                    if (!Usr.IsApproved)
-                    {
-                        ModelState.AddModelError("", Resources.LogOn.ValidationSummaryNotApproved);
-                        ModelState.AddModelError("Email", Resources.LogOn.NotApprovedError);
-                        return View();
-                    }
-
-                    Response.Cookies.SetAuthCookies(Usr.Id, usrTime, model.RememberMe);
-                    FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
-                    bool dorms = Usr.IsDormsAccount.HasValue ? Usr.IsDormsAccount.Value : false;
-                    if (!dorms)
-                    {
-                        DataTable tbl_comm = Util.AbitDB.GetDataTable("SELECT top 1 DefaultController FROM dbo.GroupUsers join dbo.Groups on GroupUsers.GroupId=Groups.Id WHERE PersonId=@PersonId",
-                        new SortedList<string, object>() { { "@PersonId", Usr.Id } });
-                        if (tbl_comm.Rows.Count > 0)
-                            return RedirectToAction("Index", tbl_comm.Rows[0].Field<string>("DefaultController"));
-
-                        return RedirectToAction("Main", "Abiturient");
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Dorms");
-                    }
+                    GoUserLogOn(Usr, model.Email, remixPwd, usrTime, model.RememberMe);
                 }
                 else
                 {
-                    ModelState.AddModelError("", Resources.LogOn.ValidationSummaryWrongUsernamePassword);
+                    //сперва проверяем по AD
+                    if (Util.GetIsValidAccountInActiveDirectory(model.Email, model.Password))
+                    {
+                        try
+                        {
+                            Usr = Util.CreateNewUserAD(model.Email, model.Email + "@student.spbu.ru");
+                        }
+                        catch
+                        {
+                            ModelState.AddModelError("", Resources.ServerMessages.IncorrectGUID);
+                        }
+                        
+                        GoUserLogOn(Usr, model.Email, remixPwd, usrTime, model.RememberMe);
+                    }
+                    else
+                    {
+                        //если не проходит, то ошибка
+                        ModelState.AddModelError("", Resources.LogOn.ValidationSummaryWrongUsernamePassword);
+                    }
                 }
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+        public ActionResult GoUserLogOn(UserAccountClass Usr, string email, string remixPwd, DateTime usrTime, bool RememberMe)
+        {
+            string query = "";
+            SortedList<string, object> dic = new SortedList<string, object>();
+            if (!string.IsNullOrEmpty(Usr.Ticket))
+            {
+                dic.Clear();
+                dic.Add("@Ticket", Util.MD5Str(remixPwd + DateTime.Now.ToString()));
+                dic.Add("@UserId", Usr.Id);
+                query = "UPDATE AuthTicket SET Ticket=@Ticket WHERE UserId=@UserId";
+                Util.AbitDB.ExecuteQuery(query, dic);
+            }
+            else
+            {
+                dic.Clear();
+                dic.Add("@Ticket", Util.MD5Str(remixPwd + DateTime.Now.ToString()));
+                dic.Add("@UserId", Usr.Id);
+                query = "INSERT INTO AuthTicket (Ticket, UserId) VALUES (@Ticket, @UserId)";
+                Util.AbitDB.ExecuteQuery(query, dic);
+            }
+
+            string sid = Usr.SID;
+            if (!Usr.IsApproved)
+            {
+                ModelState.AddModelError("", Resources.LogOn.ValidationSummaryNotApproved);
+                ModelState.AddModelError("Email", Resources.LogOn.NotApprovedError);
+                return View();
+            }
+
+            Response.Cookies.SetAuthCookies(Usr.Id, usrTime, RememberMe);
+            FormsAuthentication.SetAuthCookie(email, RememberMe);
+            if (!Usr.IsDormsAccount)
+            {
+                DataTable tbl_comm = Util.AbitDB.GetDataTable("SELECT top 1 DefaultController FROM dbo.GroupUsers join dbo.Groups on GroupUsers.GroupId=Groups.Id WHERE PersonId=@PersonId",
+                new SortedList<string, object>() { { "@PersonId", Usr.Id } });
+                if (tbl_comm.Rows.Count > 0)
+                    return RedirectToAction("Index", tbl_comm.Rows[0].Field<string>("DefaultController"));
+
+                return RedirectToAction("Main", "Abiturient");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Dorms");
+            }
         }
         [HttpPost]
         public ActionResult LogOnFor(LogOnForeignModel model, string returnUrl)
