@@ -272,8 +272,17 @@ namespace OnlineAbit2013.Controllers
                                   Language = x.PersonAddInfo.Language.Name,
                                   x.PersonAddInfo.HasTRKI,
                                   x.PersonAddInfo.TRKICertificateNumber,
+                                  PassInSPBU = x.PersonAddInfo.PassExamInSpbu ?? false,
+                                  x.PersonAddInfo.CategoryId,
                               }).FirstOrDefault();
-               
+                string CategoryForManualExam = "";
+                List<string>EgeExams = new List<string>();
+                if (person.PassInSPBU && person.CategoryId.HasValue)
+                {
+                    CategoryForManualExam = context.PersonCategoryForManualExams.Where(x=>x.Id == person.CategoryId).Select(x=>x.Name).FirstOrDefault()??"";
+                    EgeExams = context.PersonManualExams.Where(x=>x.PersonId == PersonId).Select(x=>x.EgeExam.Name).ToList();
+                }
+
                 var personEducationList =
                    (from x in context.PersonEducationDocument
                     join hx in context.PersonHighEducationInfo on x.Id equals hx.EducationDocumentId into gj
@@ -444,6 +453,20 @@ namespace OnlineAbit2013.Controllers
                 for (int i = 1; i <= 3; i++)
                     acrFlds.SetField("Address" + i, splitStr[i - 1]);
 
+                if (person.PassInSPBU && person.CategoryId.HasValue)
+                {
+                    acrFlds.SetField("CategoryForManualExam", CategoryForManualExam);
+                    int examid = 1;
+                    foreach (string s in EgeExams)
+                    {
+                        acrFlds.SetField("EgeManual" + examid, s);
+                        examid++;
+                        if (examid == 5)
+                            break;
+                    }
+                }
+
+
                 acrFlds.SetField("EnglishMark", person.EnglishMark.ToString());
                 if (person.StartEnglish)
                     acrFlds.SetField("chbEnglishYes", "1");
@@ -568,7 +591,7 @@ namespace OnlineAbit2013.Controllers
                         acrFlds.SetField("OlympYear" + egeCnt, ex.DocumentDate.HasValue ? ex.DocumentDate.Value.Year.ToString() : "");
                         acrFlds.SetField("OlympDiplom" + egeCnt, (ex.DocumentSeries + " " ?? "") + (ex.DocumentNumber ?? ""));
 
-                        if (egeCnt == 2)
+                        if (egeCnt == 3)
                             break;
                         egeCnt++;
                     }
