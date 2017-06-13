@@ -96,7 +96,10 @@ namespace OnlineAbit2013.Controllers
                 }
                 string remixPwd = Util.MD5Str(model.Password);
 
-                string query = "SELECT Id, SID, IsApproved, Ticket, IsForeign, IsDormsAccount FROM [User] LEFT JOIN AuthTicket ON AuthTicket.UserId=[User].Id WHERE Password=@Password AND [Login]=@Email";
+                string query = @"SELECT Id, SID, IsApproved, Ticket, IsForeign, IsDormsAccount 
+FROM [User] 
+LEFT JOIN AuthTicket ON AuthTicket.UserId=[User].Id 
+WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
                 SortedList<string, object> dic = new SortedList<string, object>();
                 dic.Add("@Password", remixPwd);
                 dic.Add("@Email", model.Email);
@@ -115,7 +118,7 @@ namespace OnlineAbit2013.Controllers
                      }).FirstOrDefault();
                 if (Usr != null)
                 {
-                    GoUserLogOn(Usr, model.Email, remixPwd, usrTime, model.RememberMe);
+                    return GoUserLogOn(Usr, model.Email, remixPwd, usrTime, model.RememberMe);
                 }
                 else
                 {
@@ -130,8 +133,8 @@ namespace OnlineAbit2013.Controllers
                         {
                             ModelState.AddModelError("", Resources.ServerMessages.IncorrectGUID);
                         }
-                        
-                        GoUserLogOn(Usr, model.Email, remixPwd, usrTime, model.RememberMe);
+
+                        return GoUserLogOn(Usr, model.Email, remixPwd, usrTime, model.RememberMe);
                     }
                     else
                     {

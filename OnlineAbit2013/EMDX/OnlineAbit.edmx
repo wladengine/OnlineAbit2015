@@ -607,6 +607,15 @@
           <Property Name="Parent2_WorkPosition" Type="nvarchar" MaxLength="250" />
           <Property Name="NeedSpecialConditions" Type="bit" Nullable="false" />
           <Property Name="UserAD" Type="nvarchar" MaxLength="50" />
+          <Property Name="PassExamInSpbu" Type="bit" />
+          <Property Name="CategoryId" Type="int" />
+        </EntityType>
+        <EntityType Name="PersonCategoryForManualExams">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1500" />
         </EntityType>
         <EntityType Name="PersonChangeStudyFormReason">
           <Key>
@@ -751,6 +760,14 @@
           <Property Name="Number" Type="nvarchar" MaxLength="150" />
           <Property Name="ResultValue" Type="float" />
           <Property Name="ResultBool" Type="bit" />
+        </EntityType>
+        <EntityType Name="PersonManualExams">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonId" Type="uniqueidentifier" />
+          <Property Name="ExamId" Type="int" />
         </EntityType>
         <EntityType Name="PersonOtherPassport">
           <Key>
@@ -2233,6 +2250,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PersonManualExams_EgeExam">
+          <End Role="EgeExam" Type="Self.EgeExam" Multiplicity="0..1" />
+          <End Role="PersonManualExams" Type="Self.PersonManualExams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EgeExam">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonManualExams">
+              <PropertyRef Name="ExamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PersonOtherPassport_PassportType">
           <End Role="PassportType" Type="Self.PassportType" Multiplicity="1" />
           <End Role="PersonOtherPassport" Type="Self.PersonOtherPassport" Multiplicity="*" />
@@ -2514,6 +2543,7 @@
           <EntitySet Name="PassportType" EntityType="Self.PassportType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonAddInfo" EntityType="Self.PersonAddInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonCategoryForManualExams" EntityType="Self.PersonCategoryForManualExams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonChangeStudyFormReason" EntityType="Self.PersonChangeStudyFormReason" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonContacts" EntityType="Self.PersonContacts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonCurrentEducation" EntityType="Self.PersonCurrentEducation" Schema="dbo" store:Type="Tables" />
@@ -2523,6 +2553,7 @@
           <EntitySet Name="PersonFileType" EntityType="Self.PersonFileType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonHighEducationInfo" EntityType="Self.PersonHighEducationInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonLanguageCertificates" EntityType="Self.PersonLanguageCertificates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonManualExams" EntityType="Self.PersonManualExams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonOtherPassport" EntityType="Self.PersonOtherPassport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonSchoolInfo" EntityType="Self.PersonSchoolInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonScienceWork" EntityType="Self.PersonScienceWork" Schema="dbo" store:Type="Tables" />
@@ -3081,6 +3112,10 @@
             <End Role="LanguageCertificatesType" EntitySet="LanguageCertificatesType" />
             <End Role="PersonLanguageCertificates" EntitySet="PersonLanguageCertificates" />
           </AssociationSet>
+          <AssociationSet Name="FK_PersonManualExams_EgeExam" Association="Self.FK_PersonManualExams_EgeExam">
+            <End Role="EgeExam" EntitySet="EgeExam" />
+            <End Role="PersonManualExams" EntitySet="PersonManualExams" />
+          </AssociationSet>
           <AssociationSet Name="FK_PersonOtherPassport_PassportType" Association="Self.FK_PersonOtherPassport_PassportType">
             <End Role="PassportType" EntitySet="PassportType" />
             <End Role="PersonOtherPassport" EntitySet="PersonOtherPassport" />
@@ -3325,6 +3360,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EgeMark" Relationship="Self.FK_EgeMark_EgeExam" FromRole="EgeExam" ToRole="EgeMark" />
+          <NavigationProperty Name="PersonManualExams" Relationship="OnlinePriem2015Model.FK_PersonManualExams_EgeExam" FromRole="EgeExam" ToRole="PersonManualExams" />
         </EntityType>
         <EntityType Name="EgeMark">
           <Key>
@@ -3604,6 +3640,8 @@
           <Property Name="Parent2_Work" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Parent2_WorkPosition" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="UserAD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PassExamInSpbu" Type="Boolean" />
+          <Property Name="CategoryId" Type="Int32" />
         </EntityType>
         <EntityType Name="PersonChangeStudyFormReason">
           <Key>
@@ -5715,6 +5753,12 @@
           <EntitySet Name="InboxMessageFile" EntityType="OnlinePriem2015Model.InboxMessageFile" />
           <EntitySet Name="SupportOperatorProfile" EntityType="OnlinePriem2015Model.SupportOperatorProfile" />
           <EntitySet Name="SupportProfilePhoto" EntityType="OnlinePriem2015Model.SupportProfilePhoto" />
+          <EntitySet Name="PersonCategoryForManualExams" EntityType="OnlinePriem2015Model.PersonCategoryForManualExams" />
+          <EntitySet Name="PersonManualExams" EntityType="OnlinePriem2015Model.PersonManualExams" />
+          <AssociationSet Name="FK_PersonManualExams_EgeExam" Association="OnlinePriem2015Model.FK_PersonManualExams_EgeExam">
+            <End Role="EgeExam" EntitySet="EgeExam" />
+            <End Role="PersonManualExams" EntitySet="PersonManualExams" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Comission">
           <Key>
@@ -6167,6 +6211,34 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="PersonCategoryForManualExams">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PersonManualExams">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonId" Type="Guid" />
+          <Property Name="ExamId" Type="Int32" />
+          <NavigationProperty Name="EgeExam" Relationship="OnlinePriem2015Model.FK_PersonManualExams_EgeExam" FromRole="PersonManualExams" ToRole="EgeExam" />
+        </EntityType>
+        <Association Name="FK_PersonManualExams_EgeExam">
+          <End Type="OnlinePriem2015Model.EgeExam" Role="EgeExam" Multiplicity="0..1" />
+          <End Type="OnlinePriem2015Model.PersonManualExams" Role="PersonManualExams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EgeExam">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonManualExams">
+              <PropertyRef Name="ExamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6555,6 +6627,8 @@
           <EntitySetMapping Name="PersonAddInfo">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonAddInfo">
               <MappingFragment StoreEntitySet="PersonAddInfo">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="PassExamInSpbu" ColumnName="PassExamInSpbu" />
                 <ScalarProperty Name="UserAD" ColumnName="UserAD" />
                 <ScalarProperty Name="Parent2_WorkPosition" ColumnName="Parent2_WorkPosition" />
                 <ScalarProperty Name="Parent2_Work" ColumnName="Parent2_Work" />
@@ -7615,6 +7689,23 @@
             <EntityTypeMapping TypeName="OnlinePriem2015Model.SupportProfilePhoto">
               <MappingFragment StoreEntitySet="SupportProfilePhoto">
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonCategoryForManualExams">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonCategoryForManualExams">
+              <MappingFragment StoreEntitySet="PersonCategoryForManualExams">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonManualExams">
+            <EntityTypeMapping TypeName="OnlinePriem2015Model.PersonManualExams">
+              <MappingFragment StoreEntitySet="PersonManualExams">
+                <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -44,6 +44,8 @@ namespace OnlineAbit2013.EMDX
         public string Parent2_Work { get; set; }
         public string Parent2_WorkPosition { get; set; }
         public string UserAD { get; set; }
+        public Nullable<bool> PassExamInSpbu { get; set; }
+        public Nullable<int> CategoryId { get; set; }
     
         public virtual Language Language { get; set; }
         public virtual Person Person { get; set; }

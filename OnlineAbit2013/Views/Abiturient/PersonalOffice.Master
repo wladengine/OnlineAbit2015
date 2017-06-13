@@ -43,7 +43,7 @@
     </script>
     <script type="text/javascript">
 
-        $(function () {
+<%--        $(function () {
             GetCountMessages();
             setInterval('GetCountMessages()', 3000);
         });
@@ -55,7 +55,7 @@
                 else
                     $('#my').text('<%=GetGlobalResourceObject("Locales", "LeftMenuMessages").ToString()%>' + " (" + res.MyCnt + ")");
             }, 'json');
-        }
+        }--%>
         $(function () {
             // Regular Expression to test whether the value is valid
             $.tools.validator.fn("[type=time]", "Please supply a valid time", function (input, value) {
@@ -190,8 +190,7 @@
                                     <%--<li><%= Html.ActionLink(GetGlobalResourceObject("Locales", "LeftMenuNewApplicationRectorScholarship").ToString(), "NewApplicationRectorScholarship", "Abiturient", null, new SortedList<string, object>() { { "class", "MenuButton" } })%></li>--%>
                                     <li><%= Html.ActionLink(GetGlobalResourceObject("Locales", "LeftMenuAbiturient").ToString(), "Index", "Abiturient", null, new SortedList<string, object>() { { "class", "MenuButton" } })%></li>
                                     <li><%= Html.ActionLink(GetGlobalResourceObject("Locales", "LeftMenuChangePassword").ToString(), "ChangePassword", "Account", null, new SortedList<string, object>() { { "class", "MenuButton" } })%></li>
-                                    <li><%= Html.ActionLink(GetGlobalResourceObject("Locales", "LeftMenuMessages").ToString(), "Index", "Inbox", null, new SortedList<string, object>() { { "class", "MenuButton" }, { "id", "my" }  })%></li>
-
+                                    <%--<li><%= Html.ActionLink(GetGlobalResourceObject("Locales", "LeftMenuMessages").ToString(), "Index", "Inbox", null, new SortedList<string, object>() { { "class", "MenuButton" }, { "id", "my" }  })%></li>--%>
                                 </ul>
                             </div>
                         </div>

@@ -180,6 +180,7 @@
         <EntityTypeShape EntityType="OnlinePriem2015Model.PersonCategoryForManualExams" Width="1.5" PointX="26.375" PointY="6.75" />
         <EntityTypeShape EntityType="OnlinePriem2015Model.PersonManualExams" Width="1.5" PointX="26.375" PointY="16.75" />
         <AssociationConnector Association="OnlinePriem2015Model.FK_PersonManualExams_EgeExam" />
+        <AssociationConnector Association="OnlinePriem2015Model.FK_PersonManualExams_EgeExam" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
