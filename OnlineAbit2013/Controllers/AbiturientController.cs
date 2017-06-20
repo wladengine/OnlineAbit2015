@@ -1227,8 +1227,12 @@ namespace OnlineAbit2013.Controllers
                     PersonAddInfo.HasTRKI = model.AddEducationInfo.HasTRKI;
                     PersonAddInfo.TRKICertificateNumber = model.AddEducationInfo.TRKICertificateNumber;
 
-                    PersonAddInfo.PassExamInSpbu = model.AddEducationInfo.ManualExamInfo.PassExamInSpbu;
-                    PersonAddInfo.CategoryId = model.AddEducationInfo.ManualExamInfo.PersonManualExamCategoryId;
+
+                    if (model.AddEducationInfo.ManualExamInfo != null)
+                    {
+                        PersonAddInfo.PassExamInSpbu = model.AddEducationInfo.ManualExamInfo.PassExamInSpbu;
+                        PersonAddInfo.CategoryId = model.AddEducationInfo.ManualExamInfo.PersonManualExamCategoryId;
+                    }
 
                     if (bIns)
                         context.PersonAddInfo.Add(PersonAddInfo);
