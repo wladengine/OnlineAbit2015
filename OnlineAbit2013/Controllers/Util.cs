@@ -729,7 +729,7 @@ namespace OnlineAbit2013.Controllers
         /// <returns></returns>
         public static string GetMimeFromExtention(string ext)
         {
-            switch (ext)
+            switch (ext.ToLower())
             {
                 case ".323": return "text/h323";
                 case ".3g2": return "video/3gpp2";
