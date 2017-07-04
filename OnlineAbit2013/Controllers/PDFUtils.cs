@@ -568,7 +568,13 @@ namespace OnlineAbit2013.Controllers
 
                     //VSEROS
                     var OlympVseros = context.Olympiads.Where(x => x.PersonId == PersonId && x.OlympType.IsVseross)
-                        .Select(x => new { x.OlympSubject.Name, x.DocumentDate, x.DocumentSeries, x.DocumentNumber }).ToList();
+                        .Select(x => new
+                        {
+                            x.OlympSubject.Name,
+                            x.DocumentDate,
+                            x.DocumentSeries,
+                            x.DocumentNumber
+                        }).ToList();
                     egeCnt = 1;
                     foreach (var ex in OlympVseros)
                     {
@@ -583,7 +589,14 @@ namespace OnlineAbit2013.Controllers
 
                     //OTHEROLYMPS
                     var OlympNoVseros = context.Olympiads.Where(x => x.PersonId == PersonId && !x.OlympType.IsVseross)
-                        .Select(x => new { x.OlympName.Name, OlympSubject = x.OlympSubject.Name, x.DocumentDate, x.DocumentSeries, x.DocumentNumber }).ToList();
+                        .Select(x => new
+                        {
+                            x.OlympName.Name,
+                            OlympSubject = x.OlympSubject.Name,
+                            x.DocumentDate,
+                            x.DocumentSeries,
+                            x.DocumentNumber
+                        }).ToList();
                     egeCnt = 1;
                     foreach (var ex in OlympNoVseros)
                     {
@@ -611,7 +624,7 @@ namespace OnlineAbit2013.Controllers
                          WorkProfession = rw.Field<string>("WorkProfession"),
                          Stage = rw.Field<string>("Stage")
                      }).ToList();
-                if (work != null)
+                if (work != null && work.Count > 0)
                 {
                     double Stage = 0;
                     string WorkPlace = "";

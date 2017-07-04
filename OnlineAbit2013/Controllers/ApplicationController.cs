@@ -149,6 +149,28 @@ namespace OnlineAbit2013.Controllers
 
                 bool bIsPrinted = context.ApplicationCommit.Where(x => x.Id == CommitId).Select(x => x.IsPrinted).DefaultIfEmpty(false).First();
 
+                //заявления, которым требуется портфолио
+                var PortfolioApplicationsInCommit =
+                    (from App in context.Application
+                     join ExinEntBlock in context.ExamInEntryBlock on App.EntryId equals ExinEntBlock.EntryId
+                     join ExUnit in context.ExamInEntryBlockUnit on ExinEntBlock.Id equals ExUnit.ExamInEntryBlockId
+                     join Ex in context.Exam on ExUnit.ExamId equals Ex.Id
+                     where App.CommitId == CommitId && Ex.IsPortfolio == true
+                     select new
+                     {
+                         ApplicationId = App.Id
+                     }).Distinct().ToList();
+
+                foreach (var App in PortfolioApplicationsInCommit)
+                {
+                    int ind = tblAppsMain.FindIndex(x => x.Id == App.ApplicationId);
+                    if (ind >= 0)
+                    {
+                        //проверяем, есть ли файлы (эссе, м.п.) по данному конкурсу
+                        int cntFiles = AllFiles.Where(x => x.FileType)
+                    }
+                }
+
                 ExtApplicationCommitModel model = new ExtApplicationCommitModel()
                 {
                     Id = CommitId,
@@ -175,6 +197,7 @@ namespace OnlineAbit2013.Controllers
                             break;
                         }
                 }
+
                 var AppVers = context.ApplicationCommitVersion.Where(x => x.CommitId == CommitId).Select(x => x.VersionDate).ToList().LastOrDefault();
                 if (AppVers == null)
                 {
