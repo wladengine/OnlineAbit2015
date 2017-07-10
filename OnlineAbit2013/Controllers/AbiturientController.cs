@@ -1572,17 +1572,17 @@ namespace OnlineAbit2013.Controllers
 
                 var Applications = context.Abiturient.Where(x => x.PersonId == PersonID && x.Enabled == true && x.IsCommited == true && x.CampaignYear == Util.iPriemYear)
                     .Select(x => new { x.CommitId, x.StudyLevelGroupNameRus, x.StudyLevelGroupNameEng, x.EntryType, x.SecondTypeId, x.IsApprovedByComission }).Distinct();
+                var Commits = Applications.Select(x => new { x.CommitId, x.StudyLevelGroupNameRus, x.StudyLevelGroupNameEng, x.EntryType, x.SecondTypeId }).Distinct().ToList();
                 var SecondTypeList = context.ApplicationSecondType.Select(x => new { x.Id, Name = bIsEng ? x.NameEng : x.Name });
 
-                foreach (var app in Applications)
+                foreach (var com in Commits)
                 {
                     model.Applications.Add(new SimpleApplicationPackage()
                     {
-                        Id = app.CommitId,
-                        isApproved = app.IsApprovedByComission,
-                        StudyLevel = bIsEng ? app.StudyLevelGroupNameEng : app.StudyLevelGroupNameRus +
-                                     SecondTypeList.Where(x => x.Id == app.SecondTypeId).Select(x => x.Name).FirstOrDefault(),
-
+                        Id = com.CommitId,
+                        isApproved = Applications.Where(x=>x.CommitId == com.CommitId).Where(x=>x.IsApprovedByComission).Count()>0,
+                        StudyLevel = bIsEng ? com.StudyLevelGroupNameEng : com.StudyLevelGroupNameRus +
+                                     SecondTypeList.Where(x => x.Id == com.SecondTypeId).Select(x => x.Name).FirstOrDefault(),
                     });
                 }
 
