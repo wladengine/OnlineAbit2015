@@ -11,6 +11,8 @@ using System.Text;
 using System.Net.Mail;
 using System.Data;
 using Recaptcha;
+using SharpRaven;
+using SharpRaven.Data;
 
 namespace OnlineAbit2013.Controllers
 {
@@ -21,40 +23,48 @@ namespace OnlineAbit2013.Controllers
         // GET: /Account/LogOn
         public ActionResult LogOn()
         {
-            if (Request.Url.AbsoluteUri.IndexOf("https://", StringComparison.OrdinalIgnoreCase) == -1 && Util.bUseRedirection &&
+            try
+            {
+                if (Request.Url.AbsoluteUri.IndexOf("https://", StringComparison.OrdinalIgnoreCase) == -1 && Util.bUseRedirection &&
                 Request.Url.AbsoluteUri.IndexOf("localhost", StringComparison.OrdinalIgnoreCase) == -1)
-                return Redirect(Request.Url.AbsoluteUri.Replace("http://", "https://"));
+                    return Redirect(Request.Url.AbsoluteUri.Replace("http://", "https://"));
 
-            Guid UserId;
+                Guid UserId;
 
-            if (Util.CheckAuthCookies(Request.Cookies, out UserId))
-            {
-                DataTable tbl = Util.AbitDB.GetDataTable("SELECT top 1 DefaultController FROM dbo.GroupUsers join dbo.Groups on GroupUsers.GroupId=Groups.Id WHERE PersonId=@PersonId",
-                new SortedList<string, object>() { { "@PersonId", UserId }});
-                if (tbl.Rows.Count > 0)
-                    return RedirectToAction("Index", tbl.Rows[0].Field<string>("DefaultController"));
-
-                return RedirectToAction("Main", "Abiturient");
-            }
-
-            Util.SetThreadCultureByCookies(Request.Cookies);
-            if (Request.Cookies["sid"] == null || string.IsNullOrEmpty(Request.Cookies["sid"].Value))
-            {
-                FormsAuthentication.SignOut();
-                if (Response.Cookies["sid"] == null)
+                if (Util.CheckAuthCookies(Request.Cookies, out UserId))
                 {
-                    Response.Cookies.Add(new HttpCookie("sid") { Expires = DateTime.Now.AddYears(-20), HttpOnly = true, Value = "", Path = "/" });
-                }
-                else
-                {
-                    Response.Cookies["sid"].Value = "";
-                    Response.Cookies["sid"].HttpOnly = true;
-                    Response.Cookies["sid"].Path = "/";
-                    Response.Cookies["sid"].Expires = DateTime.Now.AddYears(-20);
-                }
-            }
+                    DataTable tbl = Util.AbitDB.GetDataTable("SELECT top 1 DefaultController FROM dbo.GroupUsers join dbo.Groups on GroupUsers.GroupId=Groups.Id WHERE PersonId=@PersonId",
+                    new SortedList<string, object>() { { "@PersonId", UserId } });
+                    if (tbl.Rows.Count > 0)
+                        return RedirectToAction("Index", tbl.Rows[0].Field<string>("DefaultController"));
 
-            return View();
+                    return RedirectToAction("Main", "Abiturient");
+                }
+
+                Util.SetThreadCultureByCookies(Request.Cookies);
+                if (Request.Cookies["sid"] == null || string.IsNullOrEmpty(Request.Cookies["sid"].Value))
+                {
+                    FormsAuthentication.SignOut();
+                    if (Response.Cookies["sid"] == null)
+                    {
+                        Response.Cookies.Add(new HttpCookie("sid") { Expires = DateTime.Now.AddYears(-20), HttpOnly = true, Value = "", Path = "/" });
+                    }
+                    else
+                    {
+                        Response.Cookies["sid"].Value = "";
+                        Response.Cookies["sid"].HttpOnly = true;
+                        Response.Cookies["sid"].Path = "/";
+                        Response.Cookies["sid"].Expires = DateTime.Now.AddYears(-20);
+                    }
+                }
+                return View();
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
         public ActionResult LogOnFor()
         {
@@ -81,115 +91,135 @@ namespace OnlineAbit2013.Controllers
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl)
         {
-            Util.SetThreadCultureByCookies(Request.Cookies);
-            if (ModelState.IsValid)
+            try
             {
-                DateTime usrTime = DateTime.Now;
-                try
+                Util.SetThreadCultureByCookies(Request.Cookies);
+                if (ModelState.IsValid)
                 {
-                    usrTime = Convert.ToDateTime(Request.Form["time"], System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat);
-                }
-                catch 
-                {
-                    //при плохо отправленном или не распарсенном времени добавлять 24 часа
-                    usrTime = DateTime.Now.AddHours(24);
-                }
-                string remixPwd = Util.MD5Str(model.Password);
+                    DateTime usrTime = DateTime.Now;
+                    try
+                    {
+                        usrTime = Convert.ToDateTime(Request.Form["time"], System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat);
+                    }
+                    catch
+                    {
+                        //при плохо отправленном или не распарсенном времени добавлять 24 часа
+                        usrTime = DateTime.Now.AddHours(24);
+                    }
+                    string remixPwd = Util.MD5Str(model.Password);
 
-                string query = @"SELECT Id, SID, IsApproved, Ticket, IsForeign, IsDormsAccount 
+                    string query = @"SELECT Id, SID, IsApproved, Ticket, IsForeign, IsDormsAccount 
 FROM [User] 
 LEFT JOIN AuthTicket ON AuthTicket.UserId=[User].Id 
 WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
-                SortedList<string, object> dic = new SortedList<string, object>();
-                dic.Add("@Password", remixPwd);
-                dic.Add("@Email", model.Email);
-                DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
+                    SortedList<string, object> dic = new SortedList<string, object>();
+                    dic.Add("@Password", remixPwd);
+                    dic.Add("@Email", model.Email);
+                    DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
 
-                UserAccountClass Usr =
-                    (from DataRow rw in tbl.Rows
-                     select new UserAccountClass()
-                     {
-                         Id = rw.Field<Guid>("Id"),
-                         SID = rw.Field<string>("SID"),
-                         IsApproved = rw.Field<bool>("IsApproved"),
-                         Ticket = rw.Field<string>("Ticket"),
-                         IsForeign = rw.Field<bool?>("IsForeign"),
-                         IsDormsAccount = rw.Field<bool?>("IsDormsAccount") ?? false
-                     }).FirstOrDefault();
-                if (Usr != null)
-                {
-                    return GoUserLogOn(Usr, model.Email, remixPwd, usrTime, model.RememberMe);
-                }
-                else
-                {
-                    //сперва проверяем по AD
-                    if (Util.GetIsValidAccountInActiveDirectory(model.Email, model.Password))
+                    UserAccountClass Usr =
+                        (from DataRow rw in tbl.Rows
+                         select new UserAccountClass()
+                         {
+                             Id = rw.Field<Guid>("Id"),
+                             SID = rw.Field<string>("SID"),
+                             IsApproved = rw.Field<bool>("IsApproved"),
+                             Ticket = rw.Field<string>("Ticket"),
+                             IsForeign = rw.Field<bool?>("IsForeign"),
+                             IsDormsAccount = rw.Field<bool?>("IsDormsAccount") ?? false
+                         }).FirstOrDefault();
+                    if (Usr != null)
                     {
-                        try
-                        {
-                            Usr = Util.CreateNewUserAD(model.Email, model.Email + "@student.spbu.ru");
-                        }
-                        catch
-                        {
-                            ModelState.AddModelError("", Resources.ServerMessages.IncorrectGUID);
-                        }
-
                         return GoUserLogOn(Usr, model.Email, remixPwd, usrTime, model.RememberMe);
                     }
                     else
                     {
-                        //если не проходит, то ошибка
-                        ModelState.AddModelError("", Resources.LogOn.ValidationSummaryWrongUsernamePassword);
+                        //сперва проверяем по AD
+                        if (Util.GetIsValidAccountInActiveDirectory(model.Email, model.Password))
+                        {
+                            try
+                            {
+                                Usr = Util.CreateNewUserAD(model.Email, model.Email + "@student.spbu.ru");
+                            }
+                            catch (Exception exception)
+                            {
+                                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                                ravenClient.Capture(new SentryEvent(exception));
+                                ModelState.AddModelError("", Resources.ServerMessages.IncorrectGUID);
+                            }
+
+                            return GoUserLogOn(Usr, model.Email, remixPwd, usrTime, model.RememberMe);
+                        }
+                        else
+                        {
+                            //если не проходит, то ошибка
+                            ModelState.AddModelError("", Resources.LogOn.ValidationSummaryWrongUsernamePassword);
+                        }
                     }
                 }
-            }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                // If we got this far, something failed, redisplay form
+                return View(model);
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
         public ActionResult GoUserLogOn(UserAccountClass Usr, string email, string remixPwd, DateTime usrTime, bool RememberMe)
         {
-            string query = "";
-            SortedList<string, object> dic = new SortedList<string, object>();
-            if (!string.IsNullOrEmpty(Usr.Ticket))
+            try
             {
-                dic.Clear();
-                dic.Add("@Ticket", Util.MD5Str(remixPwd + DateTime.Now.ToString()));
-                dic.Add("@UserId", Usr.Id);
-                query = "UPDATE AuthTicket SET Ticket=@Ticket WHERE UserId=@UserId";
-                Util.AbitDB.ExecuteQuery(query, dic);
-            }
-            else
-            {
-                dic.Clear();
-                dic.Add("@Ticket", Util.MD5Str(remixPwd + DateTime.Now.ToString()));
-                dic.Add("@UserId", Usr.Id);
-                query = "INSERT INTO AuthTicket (Ticket, UserId) VALUES (@Ticket, @UserId)";
-                Util.AbitDB.ExecuteQuery(query, dic);
-            }
+                string query = "";
+                SortedList<string, object> dic = new SortedList<string, object>();
+                if (!string.IsNullOrEmpty(Usr.Ticket))
+                {
+                    dic.Clear();
+                    dic.Add("@Ticket", Util.MD5Str(remixPwd + DateTime.Now.ToString()));
+                    dic.Add("@UserId", Usr.Id);
+                    query = "UPDATE AuthTicket SET Ticket=@Ticket WHERE UserId=@UserId";
+                    Util.AbitDB.ExecuteQuery(query, dic);
+                }
+                else
+                {
+                    dic.Clear();
+                    dic.Add("@Ticket", Util.MD5Str(remixPwd + DateTime.Now.ToString()));
+                    dic.Add("@UserId", Usr.Id);
+                    query = "INSERT INTO AuthTicket (Ticket, UserId) VALUES (@Ticket, @UserId)";
+                    Util.AbitDB.ExecuteQuery(query, dic);
+                }
 
-            string sid = Usr.SID;
-            if (!Usr.IsApproved)
-            {
-                ModelState.AddModelError("", Resources.LogOn.ValidationSummaryNotApproved);
-                ModelState.AddModelError("Email", Resources.LogOn.NotApprovedError);
-                return View();
-            }
+                string sid = Usr.SID;
+                if (!Usr.IsApproved)
+                {
+                    ModelState.AddModelError("", Resources.LogOn.ValidationSummaryNotApproved);
+                    ModelState.AddModelError("Email", Resources.LogOn.NotApprovedError);
+                    return View();
+                }
 
-            Response.Cookies.SetAuthCookies(Usr.Id, usrTime, RememberMe);
-            FormsAuthentication.SetAuthCookie(email, RememberMe);
-            if (!Usr.IsDormsAccount)
-            {
-                DataTable tbl_comm = Util.AbitDB.GetDataTable("SELECT top 1 DefaultController FROM dbo.GroupUsers join dbo.Groups on GroupUsers.GroupId=Groups.Id WHERE PersonId=@PersonId",
-                new SortedList<string, object>() { { "@PersonId", Usr.Id } });
-                if (tbl_comm.Rows.Count > 0)
-                    return RedirectToAction("Index", tbl_comm.Rows[0].Field<string>("DefaultController"));
+                Response.Cookies.SetAuthCookies(Usr.Id, usrTime, RememberMe);
+                FormsAuthentication.SetAuthCookie(email, RememberMe);
+                if (!Usr.IsDormsAccount)
+                {
+                    DataTable tbl_comm = Util.AbitDB.GetDataTable("SELECT top 1 DefaultController FROM dbo.GroupUsers join dbo.Groups on GroupUsers.GroupId=Groups.Id WHERE PersonId=@PersonId",
+                    new SortedList<string, object>() { { "@PersonId", Usr.Id } });
+                    if (tbl_comm.Rows.Count > 0)
+                        return RedirectToAction("Index", tbl_comm.Rows[0].Field<string>("DefaultController"));
 
-                return RedirectToAction("Main", "Abiturient");
+                    return RedirectToAction("Main", "Abiturient");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Dorms");
+                }
             }
-            else
+            catch (Exception exception)
             {
-                return RedirectToAction("Index", "Dorms");
+                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
             }
         }
         [HttpPost]
@@ -263,47 +293,51 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
         // GET: /Account/LogOff
         public ActionResult LogOff()
         {
-            string sid;
-            Guid PersonId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
-                return RedirectToAction("LogOn");
-            else
-                sid = Request.Cookies["sid"].Value;
+            try
+            {
+                string sid;
+                Guid PersonId;
+                if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                    return RedirectToAction("LogOn");
+                else
+                    sid = Request.Cookies["sid"].Value;
 
-            FormsAuthentication.SignOut();
-            if (Response.Cookies["sid"] != null)
-            {
-                Response.Cookies["sid"].Value = "";
-                Response.Cookies["sid"].Path = "/";
-                Response.Cookies["sid"].Expires = DateTime.Now.AddYears(-12);
-            }
-            else
-            {
-                Response.Cookies.Add(new HttpCookie("sid") { Value = "", Path = "/", Expires = DateTime.Now.AddYears(-12) });
-            }
+                FormsAuthentication.SignOut();
+                if (Response.Cookies["sid"] != null)
+                {
+                    Response.Cookies["sid"].Value = "";
+                    Response.Cookies["sid"].Path = "/";
+                    Response.Cookies["sid"].Expires = DateTime.Now.AddYears(-12);
+                }
+                else
+                {
+                    Response.Cookies.Add(new HttpCookie("sid") { Value = "", Path = "/", Expires = DateTime.Now.AddYears(-12) });
+                }
 
-            if (Response.Cookies["t"] != null)
-            {
-                Response.Cookies["t"].Value = "";
-                Response.Cookies["t"].Path = "/";
-                Response.Cookies["t"].Expires = DateTime.Now.AddYears(-12);
-            }
-            else
-            {
-                Response.Cookies.Add(new HttpCookie("t") { Value = "", Path = "/", Expires = DateTime.Now.AddYears(-12) });
-            }
+                if (Response.Cookies["t"] != null)
+                {
+                    Response.Cookies["t"].Value = "";
+                    Response.Cookies["t"].Path = "/";
+                    Response.Cookies["t"].Expires = DateTime.Now.AddYears(-12);
+                }
+                else
+                {
+                    Response.Cookies.Add(new HttpCookie("t") { Value = "", Path = "/", Expires = DateTime.Now.AddYears(-12) });
+                }
 
-            //Изменяем ключ безопасности на какой-нибудь рандомный
-            string newTicket = Guid.NewGuid().ToString("N");
-            Util.AbitDB.ExecuteQuery("UPDATE AuthTicket SET Ticket=@Ticket WHERE UserId=@UserId",
-                new SortedList<string, object>() { { "@Ticket", newTicket }, { "@UserId", PersonId } });
-            //var ticket = Util.ABDB.AuthTicket.Where(x => x.UserId == PersonId).FirstOrDefault();
-            //if (ticket != null)
-            //{
-            //    ticket.Ticket = Guid.NewGuid().ToString("N");
-            //    Util.ABDB.SaveChanges();
-            //}
-            return RedirectToAction("Index", "Home");
+                //Изменяем ключ безопасности на какой-нибудь рандомный
+                string newTicket = Guid.NewGuid().ToString("N");
+                Util.AbitDB.ExecuteQuery("UPDATE AuthTicket SET Ticket=@Ticket WHERE UserId=@UserId",
+                    new SortedList<string, object>() { { "@Ticket", newTicket }, { "@UserId", PersonId } });
+                
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
 
         // GET: /Account/Register
@@ -325,83 +359,96 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
-            Util.SetThreadCultureByCookies(Request.Cookies);
-            string errMsg = "";
-
-            if (model.Password != model.ConfirmPassword)
-            {
-                ModelState.AddModelError("ConfirmPassword", "");
-                return View(model);
-            }
-
-            bool res = Util.CheckCaptcha(Request, out errMsg);
-            if (!res)
-            {
-                ModelState.AddModelError("", errMsg);
-                return View(model);
-            }
-
-            string password = model.Password ?? "";
-            string email = model.Email ?? "";
-
-            List<string> errlist;
-            if (!Util.CheckRegistrationInfo(password, email, out errlist))
-            {
-                foreach (string er in errlist)
-                    ModelState.AddModelError("", er);
-                return View(model);
-            }
-            Guid UserId;
             try
             {
-                UserId = Util.CreateNewUser(model.Password, model.Email);
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError("", e.Message);
-                return View(model);
-            }
-            //string ticket = Util.ABDB.User.Where(x => x.Id == id).Select(x => x.EmailTicket).FirstOrDefault();
-            string query = "SELECT EmailTicket FROM [User] WHERE Id=@Id";
-            string ticket = Util.AbitDB.GetStringValue(query, new SortedList<string, object>() { { "@Id", UserId } });
-            if (string.IsNullOrEmpty(ticket))
-            {
-                ModelState.AddModelError("", "Ошибка при сохранении пользователя. Попробуйте зарегистрироваться ещё раз");
-                return View(model);
-            }
-            EmailConfirmationModel mdl = new EmailConfirmationModel()
-            {
-                RegStatus = EmailConfirmationStatus.FirstEmailSent,
-                Email = email,
-                Link = Util.ServerAddress + Url.Action("EmailConfirmation", "Account", new RouteValueDictionary() { { "email", email }, { "t", ticket } })
-            };
+                Util.SetThreadCultureByCookies(Request.Cookies);
+                string errMsg = "";
 
-            try
-            {
-                MailMessage msg = new MailMessage();
-                msg.To.Add(email);
-                msg.Body =
-                    string.Format
-                    (
-                        Util.GetMailBody
+                if (model.Password != model.ConfirmPassword)
+                {
+                    ModelState.AddModelError("ConfirmPassword", "");
+                    return View(model);
+                }
+
+                bool res = Util.CheckCaptcha(Request, out errMsg);
+                if (!res)
+                {
+                    ModelState.AddModelError("", errMsg);
+                    return View(model);
+                }
+
+                string password = model.Password ?? "";
+                string email = model.Email ?? "";
+
+                List<string> errlist;
+                if (!Util.CheckRegistrationInfo(password, email, out errlist))
+                {
+                    foreach (string er in errlist)
+                        ModelState.AddModelError("", er);
+                    return View(model);
+                }
+                Guid UserId;
+                try
+                {
+                    UserId = Util.CreateNewUser(model.Password, model.Email);
+                }
+                catch (Exception e)
+                {
+                    var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                    ravenClient.Capture(new SentryEvent(e));
+                    ModelState.AddModelError("", e.Message);
+                    return View(model);
+                }
+                
+                string query = "SELECT EmailTicket FROM [User] WHERE Id=@Id";
+                string ticket = Util.AbitDB.GetStringValue(query, new SortedList<string, object>() { { "@Id", UserId } });
+                if (string.IsNullOrEmpty(ticket))
+                {
+                    ModelState.AddModelError("", "Ошибка при сохранении пользователя. Попробуйте зарегистрироваться ещё раз");
+                    return View(model);
+                }
+                EmailConfirmationModel mdl = new EmailConfirmationModel()
+                {
+                    RegStatus = EmailConfirmationStatus.FirstEmailSent,
+                    Email = email,
+                    Link = Util.ServerAddress + Url.Action("EmailConfirmation", "Account", new RouteValueDictionary() { { "email", email }, { "t", ticket } })
+                };
+
+                try
+                {
+                    MailMessage msg = new MailMessage();
+                    msg.To.Add(email);
+                    msg.Body =
+                        string.Format
                         (
-                            Server.MapPath
+                            Util.GetMailBody
                             (
-                            string.Format("~/Templates/EmailBodyConfirm{0}.eml",
-                            System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ? "" : "Foreign")
-                            )
-                        ), mdl.Link, email, model.Password
-                    );
-                msg.Subject = "Регистрация на сайте СПбГУ";
-                SmtpClient client = new SmtpClient();
-                Util.SendMail(client, msg);
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e.Message + ";" + (e.InnerException != null ? e.InnerException.Message : ""));
-            }
+                                Server.MapPath
+                                (
+                                string.Format("~/Templates/EmailBodyConfirm{0}.eml",
+                                System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ? "" : "Foreign")
+                                )
+                            ), mdl.Link, email, model.Password
+                        );
+                    msg.Subject = "Регистрация на сайте СПбГУ";
+                    SmtpClient client = new SmtpClient();
+                    Util.SendMail(client, msg);
+                }
+                catch (Exception e)
+                {
+                    var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                    ravenClient.Capture(new SentryEvent(e));
+                    Util.LogError(e.Message + ";" + (e.InnerException != null ? e.InnerException.Message : ""));
+                }
 
-            return View("EmailConfirmation", mdl);
+                return View("EmailConfirmation", mdl);
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
         [HttpPost]
         public ActionResult RegisterFor(RegisterModel model)
@@ -476,94 +523,109 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
-            Util.SetThreadCultureByCookies(Request.Cookies);
-            string errPwdMismath = System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
-                "Введённые новый пароль и его подтверждение не совпадают" : "The new password and confirmation do not match";
-
-            if (model.NewPassword != model.ConfirmPassword)
+            try
             {
-                ModelState.AddModelError("", errPwdMismath);
-            }
+                Util.SetThreadCultureByCookies(Request.Cookies);
+                string errPwdMismath = System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
+                    "Введённые новый пароль и его подтверждение не совпадают" : "The new password and confirmation do not match";
 
-            string authError = System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
-                "Ошибка при авторизации пользователя. Попробуйте <a href=\"../../Account/LogOn\">войти в систему заново</a> со старым паролем" :
-                "Error in user authentication. Try to <a href=\"../../Account/LogOn\">logon</a> in system with old password";
-
-            Guid UserId;
-            if (!Util.CheckAuthCookies(Request.Cookies, out UserId))//если вдруг ВНЕЗАПНО просрочились куки или зашёл правильный пользователь
-                return View("Error", new AccountErrorModel() { ErrorHtmlString = authError });
-
-            string query = "SELECT Password, Email FROM [User] WHERE Id=@Id";
-            DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@Id", UserId } });
-            if (tbl.Rows.Count == 0)
-                return View("Error", new AccountErrorModel()
+                if (model.NewPassword != model.ConfirmPassword)
                 {
-                    ErrorHtmlString = authError
-                });
-            var User =
-                (from DataRow rw in tbl.Rows
-                 select new { Password = rw.Field<string>("Password"), Email = rw.Field<string>("Email") }).FirstOrDefault();
-            //var User = Util.ABDB.User.Where(x => x.Id == UserId).FirstOrDefault();
-            string remixPwdOld = User.Password;
-            string oldPwdError = System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
-                "Введён неправильный предыдущий пароль" : "Wrong old password";
-            if (Util.MD5Str(model.OldPassword) != remixPwdOld)
-            {
-                ModelState.AddModelError("", oldPwdError);
-                return View();
-            }
+                    ModelState.AddModelError("", errPwdMismath);
+                }
 
-            string remixPwd = Util.MD5Str(model.NewPassword);
-            try//пробуем сохранить новый пароль в базе
-            {
-                query = "UPDATE [User] SET Password=@Password WHERE Id=@Id";
-                Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@Password", remixPwd }, { "@Id", UserId } });
-            }
-            catch//не получилось сохранить
-            {
-                string PwdSaveError = System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
-                "Ошибка при сохранении пароля. Попробуйте <a href=\"../../Account/LogOn\">войти в систему заново</a> со старым паролем" :
-                "Failed to save your password. Try to <a href=\"../../Account/LogOn\">logon</a> again with the old password";
-                ModelState.AddModelError("", PwdSaveError);
-                return View();
-            }
+                string authError = System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
+                    "Ошибка при авторизации пользователя. Попробуйте <a href=\"../../Account/LogOn\">войти в систему заново</a> со старым паролем" :
+                    "Error in user authentication. Try to <a href=\"../../Account/LogOn\">logon</a> in system with old password";
 
-            try//пробуем отправить письмо
-            {
-                MailMessage msg = new MailMessage();
-                msg.To.Add(User.Email);
-                msg.Body = string.Format
-                (
-                    Util.GetMailBody(
-                        Server.MapPath
-                        (
-                            string.Format("~/Templates/EmailBodyChangePassword{0}.eml",
-                            System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ? "" : "Foreign")
-                        )
-                    ),
-                model.NewPassword);
-                msg.Subject =
-                    System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
-                    "Изменение пароля на сайте приёмной комиссии СПбГУ" : "SPbSU Admission Committee site - Changing the password";
-                SmtpClient client = new SmtpClient();
-                Util.SendMail(client, msg);
-            }
-            catch//что-то сломалось при отправке письма - нет уведомления на ящик, след-но откат до старого пароля
-            {
-                try//пробуем откатиться
+                Guid UserId;
+                if (!Util.CheckAuthCookies(Request.Cookies, out UserId))//если вдруг ВНЕЗАПНО просрочились куки или зашёл правильный пользователь
+                    return View("Error", new AccountErrorModel() { ErrorHtmlString = authError });
+
+                string query = "SELECT Password, Email FROM [User] WHERE Id=@Id";
+                DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@Id", UserId } });
+                if (tbl.Rows.Count == 0)
+                    return View("Error", new AccountErrorModel()
+                    {
+                        ErrorHtmlString = authError
+                    });
+                var User =
+                    (from DataRow rw in tbl.Rows
+                     select new { Password = rw.Field<string>("Password"), Email = rw.Field<string>("Email") }).FirstOrDefault();
+                //var User = Util.ABDB.User.Where(x => x.Id == UserId).FirstOrDefault();
+                string remixPwdOld = User.Password;
+                string oldPwdError = System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
+                    "Введён неправильный предыдущий пароль" : "Wrong old password";
+                if (Util.MD5Str(model.OldPassword) != remixPwdOld)
                 {
-                    //User.Password = remixPwdOld;
-                    //Util.ABDB.SaveChanges();
-                    query = "UPDATE [User] SET Password=@Password WHERE Id=@Id";
-                    Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@Password", remixPwd }, { "@Id", UserId } });
-                    ModelState.AddModelError("", System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
-                        "Не удалось отправить письмо на указанный при регистрации e-mail. Возвращён старый пароль" :
-                        "Failed to send an email to address, specified during the registration . Old password saved");
+                    ModelState.AddModelError("", oldPwdError);
                     return View();
                 }
-                catch { }//не удалось откатиться - ну, пусть хоть сохранится новый. Если забыл, то пусть пользуется напоминалкой пароля
+
+                string remixPwd = Util.MD5Str(model.NewPassword);
+                try//пробуем сохранить новый пароль в базе
+                {
+                    query = "UPDATE [User] SET Password=@Password WHERE Id=@Id";
+                    Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@Password", remixPwd }, { "@Id", UserId } });
+                }
+                catch (Exception exception)
+                {
+                    var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                    ravenClient.Capture(new SentryEvent(exception));
+                    string PwdSaveError = System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
+                    "Ошибка при сохранении пароля. Попробуйте <a href=\"../../Account/LogOn\">войти в систему заново</a> со старым паролем" :
+                    "Failed to save your password. Try to <a href=\"../../Account/LogOn\">logon</a> again with the old password";
+                    ModelState.AddModelError("", PwdSaveError);
+                    return View();
+                }
+
+                try//пробуем отправить письмо
+                {
+                    MailMessage msg = new MailMessage();
+                    msg.To.Add(User.Email);
+                    msg.Body = string.Format
+                    (
+                        Util.GetMailBody(
+                            Server.MapPath
+                            (
+                                string.Format("~/Templates/EmailBodyChangePassword{0}.eml",
+                                System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ? "" : "Foreign")
+                            )
+                        ),
+                    model.NewPassword);
+                    msg.Subject =
+                        System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
+                        "Изменение пароля на сайте приёмной комиссии СПбГУ" : "SPbSU Admission Committee site - Changing the password";
+                    SmtpClient client = new SmtpClient();
+                    Util.SendMail(client, msg);
+                }
+                catch//что-то сломалось при отправке письма - нет уведомления на ящик, след-но откат до старого пароля
+                {
+                    try//пробуем откатиться
+                    {
+                        //User.Password = remixPwdOld;
+                        //Util.ABDB.SaveChanges();
+                        query = "UPDATE [User] SET Password=@Password WHERE Id=@Id";
+                        Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@Password", remixPwd }, { "@Id", UserId } });
+                        ModelState.AddModelError("", System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
+                            "Не удалось отправить письмо на указанный при регистрации e-mail. Возвращён старый пароль" :
+                            "Failed to send an email to address, specified during the registration . Old password saved");
+                        return View();
+                    }
+                    catch (Exception exception)
+                    {
+                        var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                        ravenClient.Capture(new SentryEvent(exception));
+                    }//не удалось откатиться - ну, пусть хоть сохранится новый. Если забыл, то пусть пользуется напоминалкой пароля
+                }
+                return View("ChangePasswordSuccess");
             }
-            return View("ChangePasswordSuccess");
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
 
         // GET: /Account/ChangePasswordSuccess
@@ -575,30 +637,39 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
 
         public ActionResult EmailConfirmation(string email, string t)
         {
-            Util.SetThreadCultureByCookies(Request.Cookies);
-            string query = "SELECT Id, IsApproved FROM [User] WHERE Email=@Email AND EmailTicket=@EmailTicket";
-            DataTable tbl = Util.AbitDB.GetDataTable(query,
-                new SortedList<string, object>() { { "@Email", email }, { "@EmailTicket", t } });
-            var usr = (from DataRow rw in tbl.Rows
-                       select new { Id = rw.Field<Guid>("Id"), IsApproved = rw.Field<bool?>("IsApproved") }).FirstOrDefault();
-            if (usr != null)
+            try
             {
-                //User user = usr.First();
-                //user.IsApproved = true;
-                //Util.ABDB.SaveChanges();
-                query = "UPDATE [User] SET IsApproved=@IsApproved WHERE Id=@Id";
-                Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@IsApproved", true }, { "@Id", usr.Id } });
-                return View(new EmailConfirmationModel()
+                Util.SetThreadCultureByCookies(Request.Cookies);
+                string query = "SELECT Id, IsApproved FROM [User] WHERE Email=@Email AND EmailTicket=@EmailTicket";
+                DataTable tbl = Util.AbitDB.GetDataTable(query,
+                    new SortedList<string, object>() { { "@Email", email }, { "@EmailTicket", t } });
+                var usr = (from DataRow rw in tbl.Rows
+                           select new { Id = rw.Field<Guid>("Id"), IsApproved = rw.Field<bool?>("IsApproved") }).FirstOrDefault();
+                if (usr != null)
                 {
-                    RegStatus = EmailConfirmationStatus.Confirmed
-                });
+                    //User user = usr.First();
+                    //user.IsApproved = true;
+                    //Util.ABDB.SaveChanges();
+                    query = "UPDATE [User] SET IsApproved=@IsApproved WHERE Id=@Id";
+                    Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@IsApproved", true }, { "@Id", usr.Id } });
+                    return View(new EmailConfirmationModel()
+                    {
+                        RegStatus = EmailConfirmationStatus.Confirmed
+                    });
+                }
+                else
+                {
+                    return View(new EmailConfirmationModel()
+                    {
+                        RegStatus = EmailConfirmationStatus.WrongTicket
+                    });
+                }
             }
-            else
+            catch (Exception exception)
             {
-                return View(new EmailConfirmationModel()
-                {
-                    RegStatus = EmailConfirmationStatus.WrongTicket
-                });
+                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
             }
         }
 
@@ -652,82 +723,100 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
 
         public JsonResult PasswordRestore(string email)
         {
-            if (string.IsNullOrEmpty(email))
+            try
             {
-                return Json(new { NoEmail = true });
-            }
-            else
-            {
-                string query = "SELECT [User].Id, Person.Surname AS P_SURNAME, Person.BirthDate AS P_BIRTH " +
-                    " FROM [User] LEFT JOIN Person ON Person.Id=[User].Id " +
-                    " WHERE [User].Email=@Email";
-                DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@Email", email } });
-                if (tbl.Rows.Count == 0)
+                if (string.IsNullOrEmpty(email))
+                {
                     return Json(new { NoEmail = true });
+                }
                 else
                 {
-                    string Surname = tbl.Rows[0].Field<string>("P_SURNAME");
-                    DateTime? BirthDate = tbl.Rows[0].Field<DateTime?>("P_BIRTH");
+                    string query = "SELECT [User].Id, Person.Surname AS P_SURNAME, Person.BirthDate AS P_BIRTH " +
+                        " FROM [User] LEFT JOIN Person ON Person.Id=[User].Id " +
+                        " WHERE [User].Email=@Email";
+                    DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@Email", email } });
+                    if (tbl.Rows.Count == 0)
+                        return Json(new { NoEmail = true });
+                    else
+                    {
+                        string Surname = tbl.Rows[0].Field<string>("P_SURNAME");
+                        DateTime? BirthDate = tbl.Rows[0].Field<DateTime?>("P_BIRTH");
 
-                    bool needToApprove = true;
-                    if (string.IsNullOrEmpty(Surname) && !BirthDate.HasValue)
-                        needToApprove = false;
+                        bool needToApprove = true;
+                        if (string.IsNullOrEmpty(Surname) && !BirthDate.HasValue)
+                            needToApprove = false;
 
-                    if (!needToApprove)
-                        return Json(new { IsOk = true });
+                        if (!needToApprove)
+                            return Json(new { IsOk = true });
 
-                    return Json(new { NeedInfo = true });
+                        return Json(new { NeedInfo = true });
+                    }
                 }
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
             }
         }
 
         public ActionResult RestoreByData(string email, string surname, string birthdate, string empty = "1782")
         {
-            if (empty == "1782")
+            try
             {
-                string query = "SELECT [User].Id FROM [User] WHERE [User].Email=@Email";
-                SortedList<string, object> dic = new SortedList<string, object>();
-                dic.AddItem("@Email", email);
-                DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
-                string newPass = System.IO.Path.GetRandomFileName();
-                string remixPwd = Util.MD5Str(newPass);
-
-                if (SendEmail(email, newPass))
+                if (empty == "1782")
                 {
-                    query = "UPDATE [User] SET Password=@Password WHERE Email=@Email";
-                    Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@Password", remixPwd }, { "@Email", email } });
-                    return Json(new { IsOk = true, Email = true });
+                    string query = "SELECT [User].Id FROM [User] WHERE [User].Email=@Email";
+                    SortedList<string, object> dic = new SortedList<string, object>();
+                    dic.AddItem("@Email", email);
+                    DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
+                    string newPass = System.IO.Path.GetRandomFileName();
+                    string remixPwd = Util.MD5Str(newPass);
+
+                    if (SendEmail(email, newPass))
+                    {
+                        query = "UPDATE [User] SET Password=@Password WHERE Email=@Email";
+                        Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@Password", remixPwd }, { "@Email", email } });
+                        return Json(new { IsOk = true, Email = true });
+                    }
+                    else
+                    {
+                        return Json(new { IsOk = false, Email = false });
+                    }
                 }
                 else
                 {
-                    return Json(new { IsOk = false, Email = false });
+                    DateTime BirthDate;
+                    if (!DateTime.TryParse(birthdate, System.Globalization.CultureInfo.GetCultureInfo("en-US"), System.Globalization.DateTimeStyles.None, out BirthDate))
+                        return Json(new { IsOk = false });
+                    string query = "SELECT [User].Id FROM [User] INNER JOIN Person ON Person.Id=[User].Id WHERE [User].Email=@Email AND Surname=@Surname AND BirthDate=@BirthDate";
+                    SortedList<string, object> dic = new SortedList<string, object>();
+                    dic.AddItem("@Email", email);
+                    dic.AddItem("@Surname", surname);
+                    dic.AddItem("@BirthDate", BirthDate);
+                    DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
+
+                    string newPass = System.IO.Path.GetRandomFileName();
+                    string remixPwd = Util.MD5Str(newPass);
+
+                    if (SendEmail(email, newPass))
+                    {
+                        query = "UPDATE [User] SET Password=@Password WHERE Email=@Email";
+                        Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@Password", remixPwd }, { "@Email", email } });
+                        return Json(new { IsOk = true, Email = true });
+                    }
+                    else
+                    {
+                        return Json(new { IsOk = false, Email = false });
+                    }
                 }
             }
-            else
+            catch (Exception exception)
             {
-                DateTime BirthDate;
-                if (!DateTime.TryParse(birthdate, System.Globalization.CultureInfo.GetCultureInfo("en-US"), System.Globalization.DateTimeStyles.None, out BirthDate))
-                    return Json(new { IsOk = false });
-                string query = "SELECT [User].Id FROM [User] INNER JOIN Person ON Person.Id=[User].Id WHERE [User].Email=@Email AND Surname=@Surname AND BirthDate=@BirthDate";
-                SortedList<string, object> dic = new SortedList<string, object>();
-                dic.AddItem("@Email", email);
-                dic.AddItem("@Surname", surname);
-                dic.AddItem("@BirthDate", BirthDate);
-                DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
-                
-                string newPass = System.IO.Path.GetRandomFileName();
-                string remixPwd = Util.MD5Str(newPass);
-
-                if (SendEmail(email, newPass))
-                {
-                    query = "UPDATE [User] SET Password=@Password WHERE Email=@Email";
-                    Util.AbitDB.ExecuteQuery(query, new SortedList<string, object>() { { "@Password", remixPwd }, { "@Email", email } });
-                    return Json(new { IsOk = true, Email = true });
-                }
-                else
-                {
-                    return Json(new { IsOk = false, Email = false });
-                }
+                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
             }
         }
 
@@ -755,8 +844,10 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
                 Util.SendMail(client, msg);
                 return true;
             }
-            catch
+            catch (Exception exception)
             {
+                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                ravenClient.Capture(new SentryEvent(exception));
                 return false;
             }
         }

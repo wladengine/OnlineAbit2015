@@ -167,7 +167,7 @@ namespace OnlineAbit2013.Controllers
                     if (ind >= 0)
                     {
                         //проверяем, есть ли файлы (эссе, м.п.) по данному конкурсу
-                        int cntFiles = AllFiles.Where(x => x.FileType)
+                        //int cntFiles = AllFiles.Where(x => x.FileType)
                     }
                 }
 
