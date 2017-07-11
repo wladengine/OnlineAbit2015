@@ -211,6 +211,6 @@
     <value>There are errors while submit:</value>
   </data>
   <data name="WarningMessagePersonLocked" xml:space="preserve">
-    <value>The data of the user profile are locked in due to the presence the active applications</value>
+    <value>You’ve already entered questionnaire data. In order to change it you can recall formed application or you can contact Admission office. Please, follow the &lt;a href = "https://abiturient.spbu.ru/russkij/admissions-of-foreign-citizens/admissions-of-foreign-citizens/contacts.html"&gt;link for contact information of Admission office&lt;/a&gt; for different fields of study.</value>
   </data>
 </root>
