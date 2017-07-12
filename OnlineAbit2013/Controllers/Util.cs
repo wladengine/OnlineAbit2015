@@ -2147,6 +2147,7 @@ ORDER by Semester.Id";
                                 ApplicationId = s.Id,
                                 ExamInEntryBlockUnitId = inner.ExamInEntryBlockUnitId,
                                 ExamTimetableId = inner.ExamTimetableId,
+                                RegistrationDate = inner.RegistrationDate,
                             });
                      }
                     var innerPriorList =
