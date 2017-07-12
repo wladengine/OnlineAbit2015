@@ -2139,17 +2139,17 @@ ORDER by Semester.Id";
                                         sel.ExamTimetableId,
                                         sel.RegistrationDate,
                                     }).ToList();
-                     foreach (var inner in SelExams)
+                    foreach (var inner in SelExams)
                     {
                         context.ApplicationSelectedExam.Add(
                             new ApplicationSelectedExam()
                             {
-                                ApplicationId = s.Id,
+                                ApplicationId = appId,
                                 ExamInEntryBlockUnitId = inner.ExamInEntryBlockUnitId,
                                 ExamTimetableId = inner.ExamTimetableId,
                                 RegistrationDate = inner.RegistrationDate,
                             });
-                     }
+                    }
                     var innerPriorList =
                         (
                         from appDet in context.ApplicationDetails
