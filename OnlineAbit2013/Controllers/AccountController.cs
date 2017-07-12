@@ -61,7 +61,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -143,7 +143,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
                             }
                             catch (Exception exception)
                             {
-                                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                                var ravenClient = new RavenClient(Util.SentryDSNHost);
                                 ravenClient.Capture(new SentryEvent(exception));
                                 ModelState.AddModelError("", Resources.ServerMessages.IncorrectGUID);
                             }
@@ -163,7 +163,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -217,7 +217,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -334,7 +334,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -394,7 +394,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
                 }
                 catch (Exception e)
                 {
-                    var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                    var ravenClient = new RavenClient(Util.SentryDSNHost);
                     ravenClient.Capture(new SentryEvent(e));
                     ModelState.AddModelError("", e.Message);
                     return View(model);
@@ -436,7 +436,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
                 }
                 catch (Exception e)
                 {
-                    var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                    var ravenClient = new RavenClient(Util.SentryDSNHost);
                     ravenClient.Capture(new SentryEvent(e));
                     Util.LogError(e.Message + ";" + (e.InnerException != null ? e.InnerException.Message : ""));
                 }
@@ -445,7 +445,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -570,7 +570,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
                 }
                 catch (Exception exception)
                 {
-                    var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                    var ravenClient = new RavenClient(Util.SentryDSNHost);
                     ravenClient.Capture(new SentryEvent(exception));
                     string PwdSaveError = System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ru-RU") ?
                     "Ошибка при сохранении пароля. Попробуйте <a href=\"../../Account/LogOn\">войти в систему заново</a> со старым паролем" :
@@ -614,7 +614,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
                     }
                     catch (Exception exception)
                     {
-                        var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                        var ravenClient = new RavenClient(Util.SentryDSNHost);
                         ravenClient.Capture(new SentryEvent(exception));
                     }//не удалось откатиться - ну, пусть хоть сохранится новый. Если забыл, то пусть пользуется напоминалкой пароля
                 }
@@ -622,7 +622,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -667,7 +667,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -755,7 +755,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -814,7 +814,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -846,7 +846,7 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 return false;
             }

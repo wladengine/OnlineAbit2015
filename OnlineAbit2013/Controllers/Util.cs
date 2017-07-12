@@ -97,6 +97,8 @@ namespace OnlineAbit2013.Controllers
 
         #endregion
 
+        public const string SentryDSNHost = "https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226";
+
         //статический конструктор
         static Util()
         {

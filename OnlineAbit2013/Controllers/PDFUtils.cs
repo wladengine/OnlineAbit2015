@@ -666,7 +666,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -716,7 +716,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -756,7 +756,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -802,7 +802,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -836,7 +836,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -869,7 +869,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -935,7 +935,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -987,7 +987,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -1195,7 +1195,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 return System.Text.ASCIIEncoding.UTF8.GetBytes("Еrror");
             }
@@ -1407,7 +1407,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -1648,7 +1648,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -1813,7 +1813,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -1982,7 +1982,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -2149,7 +2149,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -2497,7 +2497,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -2864,7 +2864,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3182,7 +3182,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3482,7 +3482,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3519,7 +3519,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3757,7 +3757,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3809,7 +3809,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3851,7 +3851,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -4040,7 +4040,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -4072,7 +4072,7 @@ order by IndexInAppCard";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -4131,7 +4131,7 @@ order by IndexInAppCard";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -4223,7 +4223,7 @@ order by IndexInAppCard";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -4263,7 +4263,7 @@ order by IndexInAppCard";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
