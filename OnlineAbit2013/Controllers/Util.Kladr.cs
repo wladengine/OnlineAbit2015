@@ -5,13 +5,13 @@ using System.Web;
 using System.Data;
 
 using HibernateKLADR;
+using SharpRaven;
+using SharpRaven.Data;
 
 namespace OnlineAbit2013.Controllers
 {
     public static partial class Util
     {
-        private static List<Kladr> _regions;
-
         //public static Dictionary<string, string> GetCityListByRegion(string sRegionKladrCode)
         //{
         //    Kladr s = null;
@@ -25,7 +25,16 @@ namespace OnlineAbit2013.Controllers
         //}
         public static List<string> GetCityListByRegion(string sRegionCode)
         {
-            return KLADR.KLADR.GetCitiesInRegion(sRegionCode);
+            try
+            {
+                return KLADR.KLADR.GetCitiesInRegion(sRegionCode);
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
 
         //public static Dictionary<string, string> GetStreetListByRegion(string sRegionKladrCode, string sCityName)
@@ -47,7 +56,16 @@ namespace OnlineAbit2013.Controllers
         //}
         public static List<string> GetStreetListByRegion(string sRegionKladrCode, string sCityName)
         {
-            return KLADR.KLADR.GetStreetsInCity(sRegionKladrCode, sCityName);
+            try
+            {
+                return KLADR.KLADR.GetStreetsInCity(sRegionKladrCode, sCityName);
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
 
         //public static List<string> GetHouseListByStreet(string sRegionKladrCode, string sCityName, string sStreetName)
@@ -89,57 +107,64 @@ namespace OnlineAbit2013.Controllers
         //}
         public static List<string> GetHouseListByStreet(string sRegionKladrCode, string sCityName, string sStreetName)
         {
-            return KLADR.KLADR.GetHouses(sRegionKladrCode, sCityName, sStreetName);
+            try
+            {
+                return KLADR.KLADR.GetHouses(sRegionKladrCode, sCityName, sStreetName);
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
 
         public static string GetKladrCodeByAddress(string sRegionKladrCode, string sCityName, string sStreetName, string sHouseName)
         {
-            //string sKladrCode = string.Empty;
-
-            //Kladr klRegion = null;
-            //if (_regions == null)
-            //    _regions = DAOFactory.getInstance().getDAOKladr().getAllRegions().ToList();
-
-            //klRegion = _regions.Where(x => x.Code == sRegionKladrCode).FirstOrDefault();
-
-            //if (klRegion == null)
-            //    return sRegionKladrCode;
-
-            //Kladr klCity = DAOFactory.getInstance().getDAOKladr().getGorodNasPunktByName(klRegion, sCityName).FirstOrDefault();
-            //if (klCity == null)
-            //    return klRegion.Code;
-
-            //Street klStreet = DAOFactory.getInstance().getDAOStreet().getAll(klCity).Where(x => (x.Name + " " + x.Socr + ".") == sStreetName).FirstOrDefault();
-            //if (klStreet == null)
-            //    return klCity.Code;
-
-            //var houses = DAOFactory.getInstance().getDAODoma().getAll(klStreet).Select(x => new { x.Name, x.Code });
-
-            //var house = houses.Where(x => x.Name.IndexOf(sHouseName, 0, StringComparison.OrdinalIgnoreCase) > -1).FirstOrDefault();
-            //if (house == null)
-            //    return klStreet.Code;
-
-            //sKladrCode = house.Code;
-
-            //return sKladrCode;
-
-            return KLADR.KLADR.GetKLADRCode(sRegionKladrCode, sCityName, sStreetName, sHouseName);
+            try
+            {
+                return KLADR.KLADR.GetKLADRCode(sRegionKladrCode, sCityName, sStreetName, sHouseName);
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
         public static string GetPostIndexByAddress(string sRegionKladrCode, string sCityName, string sStreetName, string sHouseName)
         {
-            return KLADR.KLADR.GetPostIndex(sRegionKladrCode, sCityName, sStreetName, sHouseName);
+            try
+            {
+                return KLADR.KLADR.GetPostIndex(sRegionKladrCode, sCityName, sStreetName, sHouseName);
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
 
         public static string GetRegionKladrCodeByRegionId(string regionId)
         {
-            string query = "SELECT KladrCode FROM Region WHERE Id=@Id";
-            int iRegionId = 0;
-            int.TryParse(regionId, out iRegionId);
-            SortedList<string, object> dic = new SortedList<string, object>();
-            dic.Add("@Id", iRegionId);
-            DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
+            try
+            {
+                string query = "SELECT KladrCode FROM Region WHERE Id=@Id";
+                int iRegionId = 0;
+                int.TryParse(regionId, out iRegionId);
+                SortedList<string, object> dic = new SortedList<string, object>();
+                dic.Add("@Id", iRegionId);
+                DataTable tbl = Util.AbitDB.GetDataTable(query, dic);
 
-            return Util.AbitDB.GetStringValue(query, dic);
+                return Util.AbitDB.GetStringValue(query, dic);
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
     }
 }
