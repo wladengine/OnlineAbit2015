@@ -305,7 +305,7 @@ namespace OnlineAbit2013.Controllers
                             x.IsEqual,
                             x.EqualDocumentNumber,
                             ProgramName = (heduc == null ? "" : heduc.ProgramName),
-                            CountryEduc = x.CountryEducId != null ? x.Country.Name : "",
+                            CountryEduc = x.Country.Name,
                             QualificationId = (heduc == null ? -1 : heduc.QualificationId),
                             Qualification = (qual == null ? "" : qual.Name),
                             x.CountryEducId,
@@ -666,7 +666,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -716,7 +716,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -756,7 +756,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -802,7 +802,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -836,7 +836,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -869,7 +869,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -935,7 +935,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -987,7 +987,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -1195,7 +1195,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 return System.Text.ASCIIEncoding.UTF8.GetBytes("Еrror");
             }
@@ -1407,7 +1407,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -1648,7 +1648,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -1813,7 +1813,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -1982,7 +1982,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -2149,7 +2149,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -2497,7 +2497,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -2864,7 +2864,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -2882,6 +2882,7 @@ namespace OnlineAbit2013.Controllers
                                     where x.CommitId == appId
                                     select new
                                     {
+                                        x.Id,
                                         x.PersonId,
                                         x.Barcode,
                                         Faculty = Entry.FacultyName,
@@ -2897,7 +2898,7 @@ namespace OnlineAbit2013.Controllers
                                         CommitIntNumber = Commit.IntNumber,
                                         x.Priority,
                                         x.IsGosLine
-                                    }).ToList();
+                                    }).OrderBy(x => x.Priority).ToList();
 
                     string query = "SELECT Email, IsForeign FROM [User] WHERE Id=@Id";
                     DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@Id", PersonId } });
@@ -2923,7 +2924,6 @@ namespace OnlineAbit2013.Controllers
                                       x.PassportDate,
                                       x.PersonContacts.City,
                                       Region = x.PersonContacts.Region.Name,
-                                      //x.PersonHighEducationInfo.ProgramName,
                                       x.PersonContacts.Code,
                                       x.PersonContacts.Street,
                                       x.PersonContacts.House,
@@ -2933,7 +2933,6 @@ namespace OnlineAbit2013.Controllers
                                       x.PersonContacts.Mobiles,
                                       AddInfo = x.PersonAddInfo.AddInfo,
                                       Parents = x.PersonAddInfo.Parents,
-                                      //Qualification = x.PersonHighEducationInfo.Qualification != null ? x.PersonHighEducationInfo.Qualification.Name : "",
                                       HasPrivileges = x.PersonAddInfo.HasPrivileges ?? false,
                                       x.PersonAddInfo.ReturnDocumentTypeId,
                                       SportQualificationName = x.PersonSportQualification.SportQualification.Name,
@@ -2965,7 +2964,7 @@ namespace OnlineAbit2013.Controllers
                             x.IsEqual,
                             x.EqualDocumentNumber,
                             ProgramName = (heduc == null ? "" : heduc.ProgramName),
-                            CountryEduc = x.CountryEducId != null ? x.Country.Name : "",
+                            CountryEduc = x.Country.Name,
                             QualificationId = (heduc == null ? -1 : heduc.QualificationId),
                             Qualification = (qual == null ? "" : qual.Name),
                             x.CountryEducId,
@@ -2975,10 +2974,30 @@ namespace OnlineAbit2013.Controllers
                         }).ToList();
                     var personEducation = personEducationList.OrderByDescending(x => x.QualificationId).First();
 
+                    //MemoryStream ms = new MemoryStream();
+                    //string dotName = "ApplicationOrd_2015.pdf";
+
+                    //byte[] templateBytes;
+                    //using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
+                    //{
+                    //    templateBytes = new byte[fs.Length];
+                    //    fs.Read(templateBytes, 0, templateBytes.Length);
+                    //}
+
+                    //PdfReader pdfRd = new PdfReader(templateBytes);
+                    //PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
+                    //pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
+                    //AcroFields acrFlds = pdfStm.AcroFields;
+
+                    //acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
+
                     MemoryStream ms = new MemoryStream();
-                    string dotName = "ApplicationOrd_2015.pdf";
+                    string dotName = "ApplicationOrd_page3.pdf";
 
                     byte[] templateBytes;
+
+                    List<byte[]> lstFiles = new List<byte[]>();
+                    List<byte[]> lstAppendixes = new List<byte[]>();
                     using (FileStream fs = new FileStream(dirPath + dotName, FileMode.Open, FileAccess.Read))
                     {
                         templateBytes = new byte[fs.Length];
@@ -2987,10 +3006,59 @@ namespace OnlineAbit2013.Controllers
 
                     PdfReader pdfRd = new PdfReader(templateBytes);
                     PdfStamper pdfStm = new PdfStamper(pdfRd, ms);
-                    pdfStm.SetEncryption(PdfWriter.STRENGTH128BITS, "", "", PdfWriter.ALLOW_SCREENREADERS | PdfWriter.ALLOW_PRINTING | PdfWriter.AllowPrinting);
                     AcroFields acrFlds = pdfStm.AcroFields;
 
-                    acrFlds.SetField("FIO", ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim());
+                    var Version = context.ApplicationCommitVersion.Where(x => x.CommitId == appId).Select(x => new { x.VersionDate, x.Id }).ToList().LastOrDefault();
+                    string sVersion = "";
+                    if (Version != null)
+                        sVersion = "Версия №" + Version.Id + " от " + Version.VersionDate.ToString("dd.MM.yyyy HH:mm");
+                    string FIO = ((person.Surname ?? "") + " " + (person.Name ?? "") + " " + (person.SecondName ?? "")).Trim();
+
+                    List<ShortAppcation> lstApps = abitList
+                        .Select(x => new ShortAppcation()
+                        {
+                            ApplicationId = x.Id,
+                            LicenseProgramName = x.ProfessionCode + " " + x.Profession,
+                            ObrazProgramName = x.ObrazProgram,
+                            ProfileName = x.Specialization,
+                            Priority = x.Priority,
+                            StudyBasisId = x.StudyBasisId,
+                            StudyFormId = x.StudyFormId,
+                            HasInnerPriorities = false,
+                            IsCrimea = false,
+                            IsForeign = false
+                        }).ToList();
+
+                    List<ShortAppcation> lstAppsFirst = new List<ShortAppcation>();
+                    for (int u = 0; u < 3; u++)
+                    {
+                        if (lstApps.Count > u)
+                            lstAppsFirst.Add(lstApps[u]);
+                    }
+
+                    int multiplyer = 3;
+                    string code = ((multiplyer * 1000000) + abitList.First().CommitIntNumber).ToString();
+
+                    //добавляем первый файл
+                    lstFiles.Add(GetApplicationPDF_FirstPage(lstAppsFirst, lstApps, dirPath, "ApplicationOrd_page1.pdf", FIO, sVersion, code, isMag: false));
+                    acrFlds.SetField("Version", sVersion);
+
+                    //остальные - по 4 на новую страницу
+                    int appcount = 3;
+                    while (appcount < lstApps.Count)
+                    {
+                        lstAppsFirst = new List<ShortAppcation>();
+                        for (int u = 0; u < 4; u++)
+                        {
+                            if (lstApps.Count > appcount)
+                                lstAppsFirst.Add(lstApps[appcount]);
+                            else
+                                break;
+                            appcount++;
+                        }
+
+                        lstFiles.Add(GetApplicationPDF_NextPage(lstAppsFirst, lstApps, dirPath, "ApplicationMag_page2.pdf", FIO));
+                    }
 
                     if (person.HostelEduc)
                         acrFlds.SetField("HostelEducYes", "1");
@@ -3142,21 +3210,6 @@ namespace OnlineAbit2013.Controllers
                     else
                         acrFlds.SetField("NoStag", "1");
 
-                    var Comm = context.ApplicationCommit.Where(x => x.Id == appId).FirstOrDefault();
-                    if (Comm != null)
-                    {
-                        int multiplyer = 3;
-                        string code = ((multiplyer * 1000000) + Comm.IntNumber).ToString();
-
-                        //добавляем штрихкод
-                        Barcode128 barcode = new Barcode128();
-                        barcode.Code = code;
-                        PdfContentByte cb = pdfStm.GetOverContent(1);
-                        iTextSharp.text.Image img = barcode.CreateImageWithBarcode(cb, null, null);
-                        img.SetAbsolutePosition(440, 740);
-                        cb.AddImage(img);
-                    }
-
                     int rwInd = 1;
                     foreach (var abit in abitList.OrderBy(x => x.Priority))
                     {
@@ -3177,12 +3230,14 @@ namespace OnlineAbit2013.Controllers
                     pdfStm.Close();
                     pdfRd.Close();
 
-                    return ms.ToArray();
+                    lstFiles.Add(ms.ToArray());
+
+                    return MergePdfFiles(lstFiles.Union(lstAppendixes).ToList());
                 }
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3482,7 +3537,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3519,7 +3574,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3757,7 +3812,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3809,7 +3864,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -3851,7 +3906,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -4040,7 +4095,7 @@ namespace OnlineAbit2013.Controllers
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -4072,7 +4127,7 @@ order by IndexInAppCard";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -4131,7 +4186,7 @@ order by IndexInAppCard";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -4223,7 +4278,7 @@ order by IndexInAppCard";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
@@ -4263,7 +4318,7 @@ order by IndexInAppCard";
             }
             catch (Exception exception)
             {
-                var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
+                var ravenClient = new RavenClient(Util.SentryDSNHost);
                 ravenClient.Capture(new SentryEvent(exception));
                 throw;
             }
