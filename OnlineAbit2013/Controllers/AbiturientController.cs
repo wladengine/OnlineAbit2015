@@ -39,6 +39,7 @@ namespace OnlineAbit2013.Controllers
             {
                 var ravenClient = new RavenClient("https://5709a2df57264fdf8c580de32d3e6633:5dfc926199f44ed69e7b1cddbaa3e0be@sentry.io/190226");
                 ravenClient.Capture(new SentryEvent(exception));
+                
                 throw;
             }
         }
@@ -2470,8 +2471,15 @@ namespace OnlineAbit2013.Controllers
 
                     if (PersonInfo.PersonEducationDocument == null)
                         return RedirectToAction("Index");
-
-                    Guid gComm = Guid.Parse(Id);
+                    Guid gComm;
+                    try
+                    {
+                        gComm = Guid.Parse(Id);
+                    }
+                    catch
+                    {
+                        return new ContentResult();
+                    }
                     bool isPrinted = (bool)Util.AbitDB.GetValue("SELECT IsPrinted FROM ApplicationCommit WHERE Id=@Id ", new SortedList<string, object>() { { "@Id", gComm } });
                     if (isPrinted)
                     {
@@ -3963,9 +3971,11 @@ namespace OnlineAbit2013.Controllers
                              StudyLevelGroupName = (bisEng ? ((String.IsNullOrEmpty(Entry.StudyLevelGroupNameEng)) ? Entry.StudyLevelGroupNameRus : Entry.StudyLevelGroupNameEng) : Entry.StudyLevelGroupNameRus) +
                                         (sectype == null ? "" : (bisEng ? sectype.NameEng : sectype.Name))
                          }).ToList();
-
                     int iVuzAddType = context.PersonEducationDocument.Where(x => x.PersonId == PersonId).Select(x => x.VuzAdditionalTypeId ?? 1).ToList().DefaultIfEmpty(1).Max();
-
+                    if (apps.Count == 0)
+                    {
+                        return RedirectToAction("Main");
+                    }
                     MotivateMailModel mdl = new MotivateMailModel()
                     {
                         CommitId = gComm.ToString(),
@@ -3974,6 +3984,7 @@ namespace OnlineAbit2013.Controllers
                         UILanguage = Util.GetUILang(PersonId),
                         VersionId = VersionId.ToString("N"),
                         StudyLevelGroupId = apps.Select(x => x.StudyLevelGroupId).First(),
+
                         VuzAdditionalType = iVuzAddType
                     };
                     return View(mdl);
