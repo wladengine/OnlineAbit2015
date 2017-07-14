@@ -164,8 +164,8 @@
                 size = fileInput.files[0].size; // Size returned in bytes.
             }
         }
-        if (size > 20*1024*1024) {// 4194304 = 4Mb
-            alert('Too big file for uploading (20Mb - max)');
+        if (size > 30 * 1024 * 1024) {// 30Mb
+            alert('Too big file for uploading (30Mb - max)');
             //Очищаем поле ввода файла
             document.getElementById('fileAttachment').parentNode.innerHTML = document.getElementById('fileAttachment').parentNode.innerHTML;
             $('#fileAttachment').change(ValidateInput);
