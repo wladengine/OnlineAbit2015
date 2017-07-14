@@ -14,6 +14,17 @@ namespace OnlineAbit2013.Controllers
 {
     public class ApplicationController : Controller
     {
+        protected override void OnException(System.Web.Mvc.ExceptionContext filterContext)
+        {
+            var ravenClient = new RavenClient(Util.SentryDSNHost);
+            var sEvent = new SentryEvent(filterContext.Exception);
+            if (filterContext.Exception is System.Data.Entity.Validation.DbEntityValidationException)
+                sEvent.Extra = ((System.Data.Entity.Validation.DbEntityValidationException)filterContext.Exception).EntityValidationErrors;
+
+            ravenClient.Capture(sEvent);
+            
+            base.OnException(filterContext);
+        }
         // GET: /Application/
         public ActionResult Index(string id)
         {
