@@ -241,7 +241,7 @@ namespace OnlineAbit2013.Controllers
             {
                 res = false;
                 errList.Add(//isForeigner ? "User with this email already exists" : 
-                    "Пользователь с данным адресом электронной почты уже существует");
+                    String.Format("Пользователь с данным адресом электронной почты <{0}> уже существует", email));
             }
             if (password.Length < 6)
             {
@@ -252,8 +252,19 @@ namespace OnlineAbit2013.Controllers
             if (!Regex.IsMatch(email, @"^[-a-zA-Z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-zA-Z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-zA-Z][a-zA-Z])$"))
             {
                 res = false;
+                try
+                {
+                    AbitDB.ExecuteQuery(@"Insert into dbo.User_IncorrectEmail (Email, Regdate) values (@email,@regdate)", new SortedList<string, object>() { { "@Email", email }, { "@regdate", DateTime.Now } });
+                }
+                catch (Exception exception)
+                {
+                    var ravenClient = new RavenClient(Util.SentryDSNHost);
+                    ravenClient.Capture(new SentryEvent(exception));
+
+                    throw;
+                }
                 errList.Add(//isForeigner ? "Incorrect email address" : 
-                    "Некорректный адрес электронной почты");
+                    String.Format("Некорректный адрес электронной почты <{0}>", email));
             }
             return res;
         }
