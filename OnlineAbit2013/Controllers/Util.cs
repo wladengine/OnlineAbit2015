@@ -15,6 +15,8 @@ using System.IO;
 using BDClassLib;
 using OnlineAbit2013.EMDX;
 using System.DirectoryServices.AccountManagement;
+using SharpRaven.Data;
+using SharpRaven;
 
 namespace OnlineAbit2013.Controllers
 {
