@@ -58,8 +58,8 @@
                 size = fileInput.files[0].size; // Size returned in bytes.
             }
         }
-        if (size > 1024*11.5*1024) {// = 12Mb
-            alert('To big file for uploading (4Mb - max)');
+        if (size > 1024 * 30 * 1024) {// 30Mb
+            alert('To big file for uploading (30Mb - max)');
             //Очищаем поле ввода файла
             document.getElementById('fileAttachment').parentNode.innerHTML = document.getElementById('fileAttachment').parentNode.innerHTML;
         }
@@ -78,8 +78,8 @@
                 size = fileInput.files[0].size; // Size returned in bytes.
             }
         }
-        if (size > 1024 * 11.5 * 1024) {// 4194304 = 5Mb
-            alert('To big file for uploading (4Mb - max)');
+        if (size > 1024 * 30 * 1024) {// 30Mb
+            alert('To big file for uploading (30Mb - max)');
             //Очищаем поле ввода файла
             document.getElementById('EssayAttachment').parentNode.innerHTML = document.getElementById('EssayAttachment').parentNode.innerHTML;
         }
@@ -98,8 +98,8 @@
                 size = fileInput.files[0].size; // Size returned in bytes.
             }
         }
-        if (size > 1024 * 11.5 * 1024) {// 4194304 = 5Mb
-            alert('To big file for uploading (4Mb - max)');
+        if (size > 1024 * 30 * 1024) {// 30Mb
+            alert('To big file for uploading (30Mb - max)');
             //Очищаем поле ввода файла
             document.getElementById('MotivateAttachment').parentNode.innerHTML = document.getElementById('MotivateAttachment').parentNode.innerHTML;
         }
