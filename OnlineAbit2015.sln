@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.4
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineAbit2015", "OnlineAbit2013\OnlineAbit2015.csproj", "{E083211C-E1CF-45DD-8E88-34449A4657C5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KLADR", "..\KLADR\KLADR\KLADR.csproj", "{73F34AF5-F8F4-4FC8-9364-B14E2C5EC8BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{E083211C-E1CF-45DD-8E88-34449A4657C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E083211C-E1CF-45DD-8E88-34449A4657C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E083211C-E1CF-45DD-8E88-34449A4657C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73F34AF5-F8F4-4FC8-9364-B14E2C5EC8BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73F34AF5-F8F4-4FC8-9364-B14E2C5EC8BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73F34AF5-F8F4-4FC8-9364-B14E2C5EC8BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73F34AF5-F8F4-4FC8-9364-B14E2C5EC8BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
