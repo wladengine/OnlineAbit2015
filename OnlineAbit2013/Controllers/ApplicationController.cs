@@ -275,7 +275,8 @@ namespace OnlineAbit2013.Controllers
                              CommitId = App.CommitId,
                              CommitName = isEng ? (String.IsNullOrEmpty(Entry.StudyLevelNameEng) ? Entry.StudyLevelName : Entry.StudyLevelNameEng) : Entry.StudyLevelName
                          }).FirstOrDefault();
-
+                    if (ApplicationEntity == null)
+                        return RedirectToAction("Main", "Abiturient");
                     string query = "SELECT Id, FileName, FileSize, Comment, IsApproved FROM ApplicationFile WHERE ApplicationId=@ApplicationId and IsDeleted=0";
                     DataTable tbl = Util.AbitDB.GetDataTable(query, new SortedList<string, object>() { { "@ApplicationId", ApplicationId } });
 
