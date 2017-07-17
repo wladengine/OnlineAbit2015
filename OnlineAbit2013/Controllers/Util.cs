@@ -273,16 +273,35 @@ namespace OnlineAbit2013.Controllers
 
         public static bool GetIsValidAccountInActiveDirectory(string username, string password)
         {
-            bool isValid = false;
-
-            // create a "principal context" - e.g. your domain (could be machine, too)
-            using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "RECTORAT"))
+            try
             {
-                // validate the credentials
-                isValid = pc.ValidateCredentials(username, password);
-            }
+                bool isValid = false;
+                try
+                {
+                    // create a "principal context" - e.g. your domain (could be machine, too)
+                    using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "RECTORAT"))
+                    {
+                        // validate the credentials
+                        isValid = pc.ValidateCredentials(username, password);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    var ravenClient = new RavenClient(SentryDSNHost);
+                    ravenClient.Capture(new SentryEvent(exception));
+                }
 
-            return isValid;
+                if (!isValid)
+                    isValid = System.Web.Security.Membership.ValidateUser(username, password);
+
+                return isValid;
+            }
+            catch (Exception exception)
+            {
+                var ravenClient = new RavenClient(SentryDSNHost);
+                ravenClient.Capture(new SentryEvent(exception));
+                throw;
+            }
         }
 
         /// <summary>
