@@ -378,7 +378,8 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
                 }
 
                 string password = model.Password ?? "";
-                string email = model.Email.Replace(" ","").ToString() ?? "";
+                string email = model.Email.ToLower().Replace(" ","").ToString() ?? "";
+                model.Email = email;
 
                 List<string> errlist;
                 if (!Util.CheckRegistrationInfo(password, email, out errlist))
