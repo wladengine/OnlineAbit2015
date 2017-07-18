@@ -715,7 +715,7 @@ namespace OnlineAbit2013.Controllers
                              {
                                  Value = rw.Field<int>("OlympYear").ToString(),
                                  Text = rw.Field<int>("OlympYear").ToString()
-                             }).ToList();
+                             }).OrderByDescending(x=>x.Value).ToList();
 
                         query = "SELECT Id, Name, NameEng FROM OlympValue";
                         _tbl = Util.AbitDB.GetDataTable(query, null);

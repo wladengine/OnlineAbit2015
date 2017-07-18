@@ -124,6 +124,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Превышена максимальная допустимая длина.
+        /// </summary>
+        internal static string MaxLengthLimit {
+            get {
+                return ResourceManager.GetString("MaxLengthLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Максимальная допустимая длина превышена на .
         /// </summary>
         internal static string MaxLengthLimitPart1 {

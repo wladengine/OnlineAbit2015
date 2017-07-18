@@ -138,6 +138,9 @@
   <data name="IsEqualWithRussian" xml:space="preserve">
     <value>Я желаю принимать участие в равном конкурсе с гражданами РФ</value>
   </data>
+  <data name="MaxLengthLimit" xml:space="preserve">
+    <value>Превышена максимальная допустимая длина</value>
+  </data>
   <data name="MaxLengthLimitPart1" xml:space="preserve">
     <value>Максимальная допустимая длина превышена на </value>
   </data>
