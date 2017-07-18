@@ -36,16 +36,30 @@ namespace OnlineAbit2013.Controllers
                                      AppDetails.InnerEntryInEntryPriority,
                                  }).Distinct().ToList();
 
-                var InnerEnts =
-                    (from InnerEnInEntry in context.InnerEntryInEntry
-                     where InnerEnInEntry.EntryId == appl.EntryId
-                     select new StandartObrazProgramInEntryRow()
-                     {
-                         Id = InnerEnInEntry.Id,
-                         Name = isEng ? InnerEnInEntry.SP_ObrazProgram.NameEng : InnerEnInEntry.SP_ObrazProgram.Name,
-                         Priority = InnerEnInEntry.DefaultPriorityValue,
-                         DefaultPriority = InnerEnInEntry.DefaultPriorityValue
-                     }).ToList();
+                if (appl == null)
+                    return new PriorityChangerApplicationModel() { ErrorText = "Не найдено заявления!", lstInnerEntries = new List<KeyValuePair<Guid, InnerEntryInEntrySmallEntity>>(), ApplicationId = gAppId };
+
+                var innEntSrc = (from InnerEnInEntry in context.InnerEntryInEntry
+                                 join OP in context.SP_ObrazProgram on InnerEnInEntry.ObrazProgramId equals OP.Id
+                                 where InnerEnInEntry.EntryId == appl.EntryId
+                                 select new
+                                 {
+                                     Id = InnerEnInEntry.Id,
+                                     Name = isEng ? OP.NameEng : OP.Name,
+                                     Priority = InnerEnInEntry.DefaultPriorityValue,
+                                     DefaultPriority = InnerEnInEntry.DefaultPriorityValue
+                                 }).ToList();
+
+                if (innEntSrc == null || innEntSrc.Count == 0)
+                    return new PriorityChangerApplicationModel() { ErrorText = "Не найдено заявления!" };
+
+                var InnerEnts = innEntSrc.Select(x => new StandartObrazProgramInEntryRow()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Priority = x.Priority,
+                    DefaultPriority = x.DefaultPriority
+                }).ToList();
 
                 var InnerEntryBase = context.InnerEntryInEntry.Where(x => x.EntryId == appl.EntryId)
                     .Select(x => new { x.Id, ObrazProgram = x.SP_ObrazProgram.Name, Profile = x.SP_Profile.Name }).ToList();

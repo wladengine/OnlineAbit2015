@@ -4138,7 +4138,9 @@ namespace OnlineAbit2013.Controllers
                         context.ApplicationVersion.Add(new ApplicationVersion() { Id = model.ApplicationVersionId, ApplicationId = model.ApplicationId, VersionDate = DateTime.Now });
 
                     var s = context.ApplicationDetails.Where(x => x.ApplicationId == model.ApplicationId).Select(x => new { x.Id, x.InnerEntryInEntryId }).ToList();
-                    Guid EntryId = context.Application.Where(x => x.Id == model.ApplicationId).Select(x => x.EntryId).First();
+                    Guid EntryId = context.Application.Where(x => x.Id == model.ApplicationId).Select(x => x.EntryId).DefaultIfEmpty(Guid.Empty).First();
+                    if (EntryId == Guid.Empty)
+                        return Content("Не найдено заявление!");
                     var defaults = context.InnerEntryInEntry.Where(x => x.EntryId == EntryId)
                         .Select(x => new
                         {

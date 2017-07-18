@@ -638,17 +638,17 @@
           <Property Name="Code" Type="nvarchar" MaxLength="10" />
           <Property Name="City" Type="nvarchar" MaxLength="250" />
           <Property Name="Street" Type="nvarchar" MaxLength="250" />
-          <Property Name="House" Type="nvarchar" MaxLength="20" />
-          <Property Name="Korpus" Type="nvarchar" MaxLength="10" />
-          <Property Name="Flat" Type="nvarchar" MaxLength="10" />
+          <Property Name="House" Type="nvarchar" MaxLength="50" />
+          <Property Name="Korpus" Type="nvarchar" MaxLength="50" />
+          <Property Name="Flat" Type="nvarchar" MaxLength="50" />
           <Property Name="CountryRealId" Type="int" />
           <Property Name="RegionRealId" Type="int" />
           <Property Name="CodeReal" Type="nvarchar" MaxLength="10" />
           <Property Name="CityReal" Type="nvarchar" MaxLength="250" />
           <Property Name="StreetReal" Type="nvarchar" MaxLength="250" />
-          <Property Name="HouseReal" Type="nvarchar" MaxLength="20" />
-          <Property Name="KorpusReal" Type="nvarchar" MaxLength="10" />
-          <Property Name="FlatReal" Type="nvarchar" MaxLength="10" />
+          <Property Name="HouseReal" Type="nvarchar" MaxLength="50" />
+          <Property Name="KorpusReal" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlatReal" Type="nvarchar" MaxLength="50" />
           <Property Name="ForeignAddressInfo" Type="nvarchar" MaxLength="1000" />
           <Property Name="KladrCode" Type="nvarchar" MaxLength="50" />
           <Property Name="KladrCodeReal" Type="nvarchar" MaxLength="50" />
@@ -1329,6 +1329,7 @@
             <PropertyRef Name="Id" />
             <PropertyRef Name="Barcode" />
             <PropertyRef Name="SecondName" />
+            <PropertyRef Name="FIO" />
             <PropertyRef Name="Sex" />
             <PropertyRef Name="Email" />
             <PropertyRef Name="ForeignCountryId" />
@@ -1342,6 +1343,7 @@
           <Property Name="Surname" Type="nvarchar" MaxLength="150" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" />
           <Property Name="SecondName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="452" Nullable="false" />
           <Property Name="BirthDate" Type="date" />
           <Property Name="BirthPlace" Type="nvarchar" MaxLength="500" />
           <Property Name="Sex" Type="bit" Nullable="false" />
@@ -2752,6 +2754,7 @@
     [extPerson].[Surname] AS [Surname], 
     [extPerson].[Name] AS [Name], 
     [extPerson].[SecondName] AS [SecondName], 
+    [extPerson].[FIO] AS [FIO], 
     [extPerson].[BirthDate] AS [BirthDate], 
     [extPerson].[BirthPlace] AS [BirthPlace], 
     [extPerson].[Sex] AS [Sex], 
@@ -3667,15 +3670,15 @@
           <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="City" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Street" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="House" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Korpus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Flat" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="House" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Korpus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Flat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CodeReal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="CityReal" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="StreetReal" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="HouseReal" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="KorpusReal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="FlatReal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="HouseReal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="KorpusReal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlatReal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ForeignAddressInfo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="KladrCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Country" Relationship="Self.FK_PersonContacts_Country" FromRole="PersonContacts" ToRole="Country" />
@@ -4322,6 +4325,7 @@
             <PropertyRef Name="RegistrationStage" />
             <PropertyRef Name="IsImported" />
             <PropertyRef Name="AbiturientTypeId" />
+            <PropertyRef Name="FIO" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Barcode" Type="Int32" Nullable="false" />
@@ -4380,6 +4384,7 @@
           <Property Name="TRKICertificateNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ReturnDocumentTypeId" Type="Int32" />
           <Property Name="AddEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FIO" Type="String" Nullable="false" MaxLength="452" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="qAbiturient">
           <Key>
@@ -7241,6 +7246,7 @@
           <EntitySetMapping Name="extPerson">
             <EntityTypeMapping TypeName="OnlinePriem2015Model.extPerson">
               <MappingFragment StoreEntitySet="extPerson">
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
                 <ScalarProperty Name="AddEmail" ColumnName="AddEmail" />
                 <ScalarProperty Name="ReturnDocumentTypeId" ColumnName="ReturnDocumentTypeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

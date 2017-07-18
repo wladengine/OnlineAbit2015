@@ -71,5 +71,6 @@ namespace OnlineAbit2013.EMDX
         public string TRKICertificateNumber { get; set; }
         public Nullable<int> ReturnDocumentTypeId { get; set; }
         public string AddEmail { get; set; }
+        public string FIO { get; set; }
     }
 }
