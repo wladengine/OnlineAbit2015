@@ -17,9 +17,29 @@
 <script type="text/javascript">
     $(function () {
         SetTitle();
+        $("#form").submit(function () {
+            return CheckForm();
+        });
         $('#fileAttachment').change(ValidateInput);
         $('#FileTypeId').change(SetTitle);
+        $('#fileComment').keyup(function () { setTimeout(CheckComment); });
     });
+    function CheckForm() {
+        return CheckComment();
+    }
+    function CheckComment() {
+        var ret = true;
+        if ($('#fileComment').val().length > 900) {
+            ret = false;
+            $('#fileComment').addClass('input-validation-error'); 
+            $('#fileCommentMaxLen').show();
+        }
+        else {
+            $('#fileComment').removeClass('input-validation-error');
+            $('#fileCommentMaxLen').hide();
+        }
+        return ret;
+    } 
     function ValidateInput() {
         var size = 0;
         if ($.browser.msie) {
@@ -99,7 +119,7 @@
 <p class="message info">
     <asp:Literal runat="server" Text="<%$ Resources:AddSharedFiles, HelpMessage_Foreign %>"></asp:Literal>
 </p>
-<form name = "filesform" action="/Abiturient/AddSharedFile" method="post" class="form panel" enctype="multipart/form-data">
+<form name = "filesform" id="form" action="/Abiturient/AddSharedFile" method="post" class="form panel" enctype="multipart/form-data">
     <fieldset>
         <div class="clearfix">
             <label for="fileAttachment"><%= GetGlobalResourceObject("AddSharedFiles", "File") %></label>
@@ -121,6 +141,9 @@
             <label for="fileComment"><%= GetGlobalResourceObject("AddSharedFiles", "Comment") %></label>
             <textarea id="fileComment" cols="60" rows="5" class="noresize" name="Comment" maxlength="1000"></textarea>
         </div>
+        <div>
+            <span id="fileCommentMaxLen" class="Red" style="display:none;"><%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimit").ToString()%></span>
+        </div> 
         <hr />
         <div class="clearfix">
             <input id="btnSubmit" type="submit" class="button button-green" value="<%= GetGlobalResourceObject("AddSharedFiles", "Submit") %>" />

@@ -40,11 +40,31 @@
 <% if (Model.Enabled)
    { %>
     <script type="text/javascript">
-        $(function () { 
+        $(function () {
+            $("#form").submit(function () {
+                return CheckForm();
+            });
             $('#fileAttachment').change(ValidateInput);
             $('#MotivateAttachment').change(ValidateInput_Motivate);
             $('#EssayAttachment').change(ValidateInput_Essay);
-        }); 
+            $('#fileComment').keyup(function () { setTimeout(CheckComment); });
+        });
+        function CheckForm() {
+            return CheckComment();
+        }
+        function CheckComment() {
+            var ret = true;
+            if ($('#fileComment').val().length > 900) {
+                ret = false;
+                $('#fileComment').addClass('input-validation-error');
+                $('#fileCommentMaxLen').show();
+            }
+            else {
+                $('#fileComment').removeClass('input-validation-error');
+                $('#fileCommentMaxLen').hide();
+            }
+            return ret;
+        }
     function ValidateInput() {
         var size = 0;
         if ($.browser.msie) {
@@ -317,7 +337,7 @@
     <div class="panel">
     <h4><%=GetGlobalResourceObject("ApplicationInfo", "HeaderAddFile")%></h4>
     <hr />
-    <form action="/Application/AddFile" method="post" enctype="multipart/form-data" class="form">
+    <form action="/Application/AddFile" method="post" enctype="multipart/form-data" class="form" id ="form">
         <input type="hidden" name="id" value="<%= Model.Id.ToString("N") %>" />
         <div class="clearfix">
             <input id="fileAttachment" type="file" name="File" />
@@ -328,8 +348,11 @@
         <div class="clearfix">
             <textarea id="fileComment" class="noresize" name="Comment" maxlength="1000" cols="80" rows="5"></textarea>
         </div><br />
+         <div>
+            <span id="fileCommentMaxLen" class="Red" style="display:none;"><%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimit").ToString()%></span>
+        </div> 
         <div class="clearfix">
-            <input id="btnSubmit" type="submit" value=<%= GetGlobalResourceObject("NewApplication", "btnSubmit")%> class="button button-gray"/>
+            <input id="btnSubmit" type="submit" value=<%= GetGlobalResourceObject("AddSharedFiles", "Submit")%> class="button button-blue"/>
         </div>
     </form>
     <% } %>

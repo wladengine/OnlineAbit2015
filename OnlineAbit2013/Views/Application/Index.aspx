@@ -18,6 +18,10 @@
 <% } %>
     <script type="text/javascript">
         $(function () {
+            $("#form").submit(function () {
+                return CheckForm();
+            });
+            $('#fileComment').keyup(function () { setTimeout(CheckComment); });
             $('#fileAttachment').change(ValidateInput);
             $("#rejectBtn")
             //.button()
@@ -114,7 +118,22 @@
                    }
                });
         }); 
-
+        function CheckForm() {
+            return CheckComment();
+        }
+        function CheckComment() {
+            var ret = true;
+            if ($('#fileComment').val().length > 900) {
+                ret = false;
+                $('#fileComment').addClass('input-validation-error');
+                $('#fileCommentMaxLen').show();
+            }
+            else {
+                $('#fileComment').removeClass('input-validation-error');
+                $('#fileCommentMaxLen').hide();
+            }
+            return ret;
+        }
         function GetList() {
         var HideSomeFiles = $('#HideSomeFiles').is(':checked');
         $.post('/Application/GetFileList', { id: '<%= Model.Id.ToString("N") %>' }, function (res) {
@@ -435,7 +454,7 @@
     <% if (Model.Files.Count > 0)
         { %>
         <input type="checkbox" id="HideSomeFiles" onClick="GetList();"><%= GetGlobalResourceObject("AddSharedFiles", "HideSomeFiles") %></input>
-        <table id="tblFiles" class="paginate" style="width:99%;">
+        <table id="tblFiles" class="paginate" style="width:100%;">
             <thead>
                 <th></th>
                 <th><%= GetGlobalResourceObject("AddSharedFiles", "FileName").ToString()%></th>
@@ -490,7 +509,7 @@
         <div class="panel">
             <h4><%= GetGlobalResourceObject("ApplicationInfo", "HeaderAddFile").ToString()%></h4>
             <hr />
-            <form action="/Application/AddFileInCommit" method="post" enctype="multipart/form-data" class="form" id="">
+            <form action="/Application/AddFileInCommit" method="post" enctype="multipart/form-data" class="form" id="form">
                 <input type="hidden" name="id" value="<%= Model.Id.ToString("N") %>" />
                 <div class="clearfix">
                     <label for="fileAttachment"><%= GetGlobalResourceObject("AddSharedFiles", "File") %></label>
@@ -505,9 +524,12 @@
                 <div class="clearfix">
                     <label for="fileComment"><%= GetGlobalResourceObject("AddSharedFiles", "Comment") %></label>
                     <textarea id="fileComment" class="noresize" name="Comment" maxlength="1000" cols="80" rows="5"></textarea>
-                </div><br />
+                </div> 
+                <div>
+                    <span id="fileCommentMaxLen" class="Red" style="display:none;"><%= GetGlobalResourceObject("PersonInfo", "MaxLengthLimit").ToString()%></span>
+                </div> <br />
                 <div class="clearfix">
-                    <input id="btnSubmit" type="submit" value=<%= GetGlobalResourceObject("AddSharedFiles", "Submit").ToString()%> class="button button-gray"/>
+                    <input id="btnSubmit" type="submit" value=<%= GetGlobalResourceObject("AddSharedFiles", "Submit").ToString()%> class="button button-blue"/>
                 </div>
             </form>
             <br />
