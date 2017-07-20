@@ -197,6 +197,7 @@
 <br />
 <h4><%= GetGlobalResourceObject("ApplicationInfo", "ApplicationInfoHeader")%></h4>
 <hr />
+ 
 <table class="paginate">
 <% if (Model.Enabled)
    { %>
@@ -225,7 +226,7 @@
         <td width="30%" align="right"><%= GetGlobalResourceObject("NewApplication", "BlockData_StudyBasis")%></td>
         <td align="left"><%= Html.Encode(Model.StudyBasis) %></td>
     </tr>
-</table>
+</table> 
 <br />
 <% if (Model.EntryTypeId != 2 && Model.AbiturientType == OnlineAbit2013.Models.AbitType.FirstCourseBakSpec)
    { %>
@@ -281,6 +282,7 @@
     <hr />
     <% if (Model.Files.Count > 0)
        { %>
+        <div id = "divFiles" style="width: 664px; overflow-x: scroll; ">
         <table class="paginate">
         <tr>
             <th></th>
@@ -330,6 +332,7 @@
     <% } %>
     </tbody>
     </table><br />
+    </div>
     <a class="button button-blue" href="../../Abiturient/FilesList?id=<%= Model.Id.ToString("N") %>" target="_blank"><%=GetGlobalResourceObject("AddSharedFiles", "FileList")%></a><br />
     <% if (Model.Enabled)
        { %>
