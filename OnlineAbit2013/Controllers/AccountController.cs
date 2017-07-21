@@ -139,7 +139,14 @@ WHERE Password=@Password AND ISNULL([Login], [Email])=@Email";
                         {
                             try
                             {
-                                Usr = Util.CreateNewUserAD(model.Email, model.Email + "@student.spbu.ru");
+                                string Login = model.Email;
+                                string Email = model.Email + "@student.spbu.ru";
+                                if (model.Email.EndsWith("@student.spbu.ru"))
+                                {
+                                    Login = model.Email.Replace("@student.spbu.ru", "");
+                                    Email = model.Email;
+                                } 
+                                Usr = Util.CreateNewUserAD(Login, Email);
                             }
                             catch (Exception exception)
                             {
