@@ -346,15 +346,15 @@
           <Property Name="Code" Type="nvarchar" MaxLength="10" />
           <Property Name="City" Type="nvarchar" MaxLength="250" />
           <Property Name="Street" Type="nvarchar" MaxLength="250" />
-          <Property Name="House" Type="nvarchar" MaxLength="20" />
-          <Property Name="Korpus" Type="nvarchar" MaxLength="10" />
-          <Property Name="Flat" Type="nvarchar" MaxLength="10" />
+          <Property Name="House" Type="nvarchar" MaxLength="50" />
+          <Property Name="Korpus" Type="nvarchar" MaxLength="50" />
+          <Property Name="Flat" Type="nvarchar" MaxLength="50" />
           <Property Name="CodeReal" Type="nvarchar" MaxLength="10" />
           <Property Name="CityReal" Type="nvarchar" MaxLength="250" />
           <Property Name="StreetReal" Type="nvarchar" MaxLength="250" />
-          <Property Name="HouseReal" Type="nvarchar" MaxLength="20" />
-          <Property Name="KorpusReal" Type="nvarchar" MaxLength="10" />
-          <Property Name="FlatReal" Type="nvarchar" MaxLength="10" />
+          <Property Name="HouseReal" Type="nvarchar" MaxLength="50" />
+          <Property Name="KorpusReal" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlatReal" Type="nvarchar" MaxLength="50" />
           <Property Name="Parents" Type="nvarchar(max)" />
           <Property Name="AddInfo" Type="nvarchar(max)" />
           <Property Name="Parent_Surname" Type="nvarchar" MaxLength="250" />
@@ -6068,15 +6068,15 @@
           <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="City" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Street" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="House" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Korpus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Flat" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="House" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Korpus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Flat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CodeReal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="CityReal" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="StreetReal" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="HouseReal" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="KorpusReal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="FlatReal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="HouseReal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="KorpusReal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlatReal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Parents" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="AddInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Parent_Surname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
