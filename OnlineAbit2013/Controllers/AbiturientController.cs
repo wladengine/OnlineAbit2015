@@ -1135,7 +1135,7 @@ namespace OnlineAbit2013.Controllers
                             //-----------------------------
                             string sAvgMark = Request.Form["AvgMark_" + i];
                             double avgBall;
-                            double.TryParse(sAvgMark, out avgBall);
+                            double.TryParse(sAvgMark.Replace('.',','), out avgBall);
 
                             //----------------------------
                             string sPersonStudyForm = Request.Form["PersonStudyForm_" + i];
