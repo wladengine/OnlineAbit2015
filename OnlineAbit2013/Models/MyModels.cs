@@ -441,7 +441,7 @@ namespace OnlineAbit2013.Models
         [Required]
         public bool FZ_152Agree { get; set; }
     }
-   
+
     public class AdditionalEducationInfoPerson
     {
         /// <summary>

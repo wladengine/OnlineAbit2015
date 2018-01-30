@@ -504,11 +504,11 @@
             <%= Html.DropDownList("semesterId" + i.ToString(), Model.SemestrList, new SortedList<string, object>() { { "size", "1" }, 
                 { "style", "min-width:450px;" },   { "onchange", "GetProfessions(" + i.ToString() + ")" } })%>
         </p>
-        <%  if (1 == 2)  {%>
+        <%  if (1 == 2)  { %>
         <input type="hidden" name="IsReducedHidden" id="Hidden1" value="0"/>
         <input type="hidden" name="IsParallelHidden" id="Hidden2" value="0"/>
         <input type="hidden" name="IsSecondHidden" id="Hidden3" value="0"/>
-        <%}  %>
+        <% } %>
 
         <p id="Profs<%= i.ToString()%>" style="border-collapse:collapse;width:659px;">
             <span><%= GetGlobalResourceObject("NewApplication", "HeaderProfession")%></span><br />

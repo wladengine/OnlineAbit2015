@@ -15,7 +15,6 @@
     <script type="text/javascript" src="../../Scripts/jquery.validate-vsdoc.js"></script>
 <% } %>
     <script type="text/javascript"> 
-      
         $(function () {
             $('form').submit(function () { 
                 var FZAgree = $('#AddInfo_FZ_152Agree').is(':checked'); 

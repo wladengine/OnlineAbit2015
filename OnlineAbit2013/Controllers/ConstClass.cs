@@ -9,7 +9,7 @@ namespace OnlineAbit2013.Controllers
     {
         //public const string AbitDB = "Data Source=(local);Initial Catalog=OnlinePriem2015;Integrated Security=True;MultipleActiveResultSets=True;Connect Timeout=300;";
         public const string AbitDB = "Data Source=srvpriem1;Initial Catalog=OnlinePriem2015;Integrated Security=False;User ID=OnlinePriemUser;Password=AllYourBaseAreBelongToUs666+;MultipleActiveResultSets=True;";
-        public const string StudDB = "Data Source=srveducation02;Initial Catalog=EducationUR;Integrated Security=False;User ID=faculty;Password=parolfaculty;MultipleActiveResultSets=True;";
+        public const string StudDB = "Data Source=srveducation;Initial Catalog=EducationUR;Integrated Security=False;User ID=faculty;Password=parolfaculty;MultipleActiveResultSets=True;";
         //public const string StudDB = "Data Source=81.89.183.21;Initial Catalog=EducationUR;Integrated Security=True;MultipleActiveResultSets=True;Connect Timeout=300;";
     }
 }

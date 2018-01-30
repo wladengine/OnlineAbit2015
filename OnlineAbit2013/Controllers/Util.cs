@@ -32,7 +32,6 @@ namespace OnlineAbit2013.Controllers
         public static int GlobalCommunicationGroupId_De = 3;
         public static int SupportOperatorsGroupId = 4; 
 
-
         private static SQLClass _abitDB;
         private static SQLClass _studDB;
         //private static SQLClass _priem2012DB;

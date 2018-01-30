@@ -26,7 +26,6 @@ namespace OnlineAbit2013.Controllers
         int maxBlockTransfer = 1;
         int maxBlockChangeStudyFormBasis = 1;
         int maxBlockRecover = 1;
-
          
         public ActionResult OpenPersonalAccount()
         {
@@ -547,7 +546,6 @@ namespace OnlineAbit2013.Controllers
                         }
                         #endregion
                         #region AddEducationInfo
-
                         //по школьникам
                         bool HasEge = Person.PersonEducationDocument.Where(x => x.SchoolTypeId == 1).Select(x =>
                                 new
@@ -615,8 +613,6 @@ namespace OnlineAbit2013.Controllers
                                     Name = x.EgeExam.Name
                                 }).ToList();
                         }
-
-
 
                         #endregion
 
@@ -2225,8 +2221,7 @@ namespace OnlineAbit2013.Controllers
                     foreach (string er in errors)
                         ModelState.AddModelError("", er);
                 }
-                Guid PersonId;
-                if (!Util.CheckAuthCookies(Request.Cookies, out PersonId))
+                if (!Util.CheckAuthCookies(Request.Cookies, out Guid PersonId))
                     return RedirectToAction("LogOn", "Account");
 
                 using (OnlinePriemEntities context = new OnlinePriemEntities())
@@ -2387,9 +2382,9 @@ namespace OnlineAbit2013.Controllers
                     var PersonCurrentEduc = context.PersonCurrentEducation.Where(x => x.PersonId == PersonId).FirstOrDefault();
 
                     if (PersonCurrentEduc == null)
-                        return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
+                        return RedirectToAction("Index", new RouteValueDictionary() { { "step", "5" } });
                     if (!PersonCurrentEduc.ObrazProgramId.HasValue)
-                        return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
+                        return RedirectToAction("Index", new RouteValueDictionary() { { "step", "5" } });
 
                     int ActualSemesterId = Util.GetActualSemester(PersonCurrentEduc.SemesterId);
 
@@ -2416,7 +2411,7 @@ namespace OnlineAbit2013.Controllers
                          }).FirstOrDefault();
 
                     if (EntryList == null)
-                        return RedirectToAction("Index", new RouteValueDictionary() { { "step", "4" } });
+                        return RedirectToAction("Index", new RouteValueDictionary() { { "step", "5" } });
 
                     if (EntryList.DateOfClose.HasValue && EntryList.DateOfClose < DateTime.Now)
                         return RedirectToAction("NewApplication", new RouteValueDictionary() { { "errors", "Приём заявлений уже закрыт" } });
