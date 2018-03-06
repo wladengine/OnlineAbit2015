@@ -805,7 +805,7 @@ namespace OnlineAbit2013.Models
     {
         public bool Enabled { get; set; } // доступно?
         public int iEntry { get; set; }
-        public bool ProjectJuly { get; set; }
+        public bool RecreateCommit { get; set; }
         public int MaxBlocks { get; set; } // макс количество блоков
         public string CommitId { get; set; } // коммит
         public string OldCommitId { get; set; }

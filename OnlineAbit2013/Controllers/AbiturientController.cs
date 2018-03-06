@@ -2521,12 +2521,12 @@ namespace OnlineAbit2013.Controllers
                             model.OldCommitId = CommitId.ToString();
                             gComm = Guid.NewGuid();
                             model.CommitId = gComm.ToString();
-                            model.ProjectJuly = true;
+                            model.RecreateCommit = true;
                             Util.CopyApplicationsInAnotherCommit(CommitId, gComm, PersonId);
                             model.Applications = Util.GetApplicationListInCommit(gComm, PersonId);
                         }
                         else
-                            model.ProjectJuly = false;
+                            model.RecreateCommit = false;
                         switch (EntryTypeId)
                         {
                             case 1: { return View("NewApplication_1kurs", model); }
